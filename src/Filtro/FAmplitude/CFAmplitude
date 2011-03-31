@@ -1,0 +1,9 @@
+#include<TFAmplitude/TFABDoisPicos.h>
+#include<TFAmplitude/TFABEntropiaJohansen.h>
+#include<TFAmplitude/TFABinario.h>
+#include<TFAmplitude/TFABIterativoThrussel.h>
+#include<TFAmplitude/TFABMedia.h>
+#include<TFAmplitude/TFABPixelContorno.h>
+#include<TFAmplitude/TFABVarianciaOtsu.h>
+#include<TFAmplitude/TFACinza.h>
+#include<TFAmplitude/TFAmplitude.h>

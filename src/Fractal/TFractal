@@ -1,0 +1,5 @@
+//=========================================Bibliotecas
+#include<TFractal/TACFraCaixas.h>
+#include<TFractal/TACFractal.h>
+#include<TFractal/TACFraDispor.h>
+#include<TFractal/TACFraFunCov.h>

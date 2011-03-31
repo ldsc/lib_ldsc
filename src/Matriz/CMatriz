@@ -1,0 +1,10 @@
+//=========================================Bibliotecas
+#include<TMatriz/TBaseMatriz.h>
+#include<TMatriz/THistograma.h>
+#include<TMatriz/TImagem3D.h>
+#include<TMatriz/TImagem.h>
+#include<TMatriz/TImagemVirtual.h>
+#include<TMatriz/TImg.h>
+#include<TMatriz/TMatriz2D.h>
+#include<TMatriz/TMatriz3D.h>
+#include<TMatriz/TVetor.h>

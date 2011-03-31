@@ -1,0 +1,1 @@
+add_library(FEEsqueleto CFEEsqueleto.cpp CFEEsqueletoV1.cpp CFEEsqueletoV2.cpp CFEEsqueletoV3.cpp CFEEsqueletoV4.cpp CFEEzhangsuen.cpp)

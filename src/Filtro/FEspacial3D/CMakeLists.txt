@@ -1,0 +1,6 @@
+add_subdirectory(FEConectividade3D)
+add_subdirectory(FEEsqueleto3D)
+add_subdirectory(FEInversao3D)
+add_subdirectory(FEMorfologiaMatematica3D)
+
+add_library(FEspacial3D CFEspacial3D.cpp CFEBorda3D.cpp CFEBSubstitueValor3D.cpp)

@@ -1,0 +1,8 @@
+//=========================================Bibliotecas
+#include<TInterpolacao/TIntBarycentric.h>
+#include<TInterpolacao/TIntCubSpline.h>
+#include<TInterpolacao/TIntEDBarycentric.h>
+#include<TInterpolacao/TInterpolacao.h>
+#include<TInterpolacao/TIntLagrange.h>
+#include<TInterpolacao/TIntNewtonDiff.h>
+#include<TInterpolacao/TIntNewtonDivDiff.h>

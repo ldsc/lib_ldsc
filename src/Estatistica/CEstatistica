@@ -1,0 +1,13 @@
+//=========================================Bibliotecas
+#include<TEstatistica/TEChiQuadrado.h>
+#include<TEstatistica/TECombinacoes.h>
+#include<TEstatistica/TEFatorial.h>
+#include<TEstatistica/TEFSnedecor.h>
+#include<TEstatistica/TEIntervalosConfianca.h>
+#include<TEstatistica/TEMomentos.h>
+#include<TEstatistica/TENormal.h>
+#include<TEstatistica/TERandomico.h>
+#include<TEstatistica/TEstatisticaBasica.h>
+#include<TEstatistica/TEstatistica.h>
+#include<TEstatistica/TETesteMediaDuasAmostras.h>
+#include<TEstatistica/TETStudent.h>

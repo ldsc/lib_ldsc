@@ -1,0 +1,1 @@
+add_library(Funcao CFChebyshev.cpp CFGamma.cpp CFLegendre.cpp CFPolinomio.cpp CFBesselJ.cpp CFCi.cpp CFHermite.cpp CFNaoLinearRzRy.cpp CFSi.cpp CFBesselY.cpp CFEi.cpp CFIterativa.cpp CFPHermite.cpp CFSomatorioCm2RyM.cpp CFBeta.cpp  CFErf.cpp CFLaguerre.cpp CFPHermiteRec.cpp CFuncoesEspeciais.cpp)

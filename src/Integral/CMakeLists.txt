@@ -1,0 +1,1 @@
+add_library(Integral CIGauss.cpp CIGHermiteQuadrature.cpp CIGLegendreQuadrature.cpp CIGChebyshevQuadrature.cpp CIGLaguerreQuadrature.cpp CIntegral.cpp CISimpson.cpp)

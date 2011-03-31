@@ -1,0 +1,5 @@
+//=========================================Bibliotecas
+#include<TRotulador/TRotulador2DCm.h>
+#include<TRotulador/TRotulador2D.h>
+#include<TRotulador/TRotulador3D.h>
+#include<TRotulador/TRotulador.h>

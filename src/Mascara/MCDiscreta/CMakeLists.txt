@@ -1,0 +1,1 @@
+add_library(MCDiscreta CMCDiscreta.cpp CMCdi.cpp CMCd4.cpp  CMCd8.cpp CMCdij.cpp CMCd34.cpp CMCdijk.cpp CMCd5711.cpp  CMCEuclidiana.cpp)

@@ -1,0 +1,1 @@
+add_library(Permeabilidade CPermeabilidade.cpp CPermeabilidadeGrafo.cpp CPermeabilidadeIntrinseca.cpp CPermeabilidadeRelativa.cpp)

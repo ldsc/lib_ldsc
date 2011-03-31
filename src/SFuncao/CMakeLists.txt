@@ -1,0 +1,1 @@
+add_library(SFuncao CSFBissecao.cpp CSFCordas.cpp CSFuncao.cpp CSFNewton.cpp CSFRichmond.cpp)

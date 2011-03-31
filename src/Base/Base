@@ -1,0 +1,7 @@
+/// =========================================Bibliotecas
+#include <Base/_LIB_LMPT_CLASS.h>
+#include <Base/CFuncao.h>
+#include <Base/CMath.h>
+#include <Base/COperacao.h>
+#include <Base/CSimulacao.h>
+#include <Base/CSolver.h>

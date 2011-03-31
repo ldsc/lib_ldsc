@@ -1,0 +1,1 @@
+add_library(Interpolacao2D CInterpolacao2D.cpp CInt2DBilinear.cpp)

@@ -1,0 +1,1 @@
+add_library(FReconstrucao CFReconstrucao.cpp)

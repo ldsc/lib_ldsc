@@ -1,0 +1,3 @@
+//=========================================Bibliotecas
+#include<TFFT/TFFT.h>
+#include<TFFT/TFFTPropriedades.h>

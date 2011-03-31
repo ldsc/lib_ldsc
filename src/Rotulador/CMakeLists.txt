@@ -1,0 +1,1 @@
+add_library(Rotulador CRotulador.cpp CRotulador2D.cpp CRotulador2DCm.cpp CConectividade2D.cpp CRotulador3D.cpp CConectividade3D.cpp)

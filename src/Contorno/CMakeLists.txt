@@ -1,0 +1,1 @@
+add_library(Contorno CContornoCentro.cpp CContorno.cpp)

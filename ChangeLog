@@ -1,0 +1,861 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	Changelog
+Conte�do:		Documento que lista alguns bugs conhecidos da libldsc.
+Autor:			Andr� Duarte Bueno
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que � a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das �ltimas vers�es.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informa��es para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modifica��es da biblioteca.
+COPYING		Descreve as condi��es para c�pia e instala��o da libldsc
+		e a licen�a p�blica da GNU (Vers�o 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+Arquivo:
+	/home/bueno/Documentos/Desenvolvimento-01/libldsc/Changelog
+
+	=========>Objetivo<=========================================
+	Descrever as altera��es da LIB_LMPT -> LIB_LENEP ->LIB_LDSC.
+
+	=========>Documenta��o<=====================================
+	Veja arquivos do diret�rio docs
+
+	=========>Tarefas<==========================================
+	Veja arquivo TODO
+
+	=========>PRINCIPAIS subLIBS<===============================
+	grafo
+	->Biblioteca para determinacao do grafo de imagens tridimensionais
+
+	treconstrucao 
+	->Biblioteca para geracao da imagem reconstruida usando gaussiana truncada
+
+	Simulat
+	->Biblioteca para simulacao da transferencia de calor e umidade em telhas
+
+	anaimp
+	->Programa feito no Windows/OWL	
+	->Biblioteca de filtros para manipulacao de imagens
+
+=========>FORMATO DESTE DOCUMENTO<==========================
+
+XX-XX-20XX GMT Dados do autor do comentário
+	[Principal objetivo]
+	-Detalhes
+	-Detalhes
+	[TESTAR][TESTADO]
+	[BUG][BUG-RESOLVIDO]
+
+07-02-2010 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Atualizado ChangeLog (datas aproximadas).
+	- Classes de src/Correlacao totalmente reescritas (precisa testar).
+	- Correcoes no código do Leandro
+	- Pequenas correcoes em diversas classes
+	- Melhorias documentacao grafo, confeq.
+	
+01-02-2010 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Criado método abertura dilatacao (/test/AberturaDilatacao)
+	(falta dividir em classes e adicionar a lib - Rafael).
+
+15-01-2010 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Criado conjunto de classes para trabalhar com redes neurais (falta testar e adicionar a lib - Eneida)
+
+
+10-01-2010 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Adicionada Grafico/CGnuplot
+
+04-12-2009 GMT Tentativa de rodar a lib_ldsc, e corrigir CCorrelacaoFFT e CCorrelacao
+	Corrigido calculo de CCorrelacaoFFT e CCorrelacao
+	Corrigidos diversos casos de alocacao com int*v=new int (n);
+	Corrigidos diversos casos de delecao com delete v; quando correto é delete[] v;
+	
+
+15-05-2008 GMT Dados do autor do coment�rio
+	Mudado nome do caminho de PATH_LIB_LMPT para PATH_LIB_LDSC.
+	Gerada documenta��o detalhada com doxygen (graficos dot).
+
+19-07-2007 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Renomeados alguns arquivos
+	- CSolverMatriz->CSMatriz, CParametroSolver->CSMParametroSolver
+	- Ampliado o diret�rio test 
+	- (inclui v�rios subdiret�rios com exemplos)
+	- Documentados arquivos .h de v�rios sub-diretorios
+	- Criei novo projeto libdsc, e copiei para dentro dele
+	os arquivos antigos.
+
+16-07-2007 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Inclui documenta��o API com doxigen (arquivo Doxyfile).
+	- Inclui diagramas capturados pelo umbrello e arquivo do umbrello c/ diagramas UML.
+	- Gerei novos arquivos Makefile.am (uniformizados)
+	- Gerei novo autoconf
+
+10-07-2007 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Os novos nomes est�o compilando.
+	- Inclui novos testes (grafo, reconstru��o).
+	- Pode trabalhar no kdevelop
+	- (mas ainda n�o esta todo ativo no kdevelop).
+
+03-07-2007 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- No novo notebook dell Precision M90. Fedora 7. 
+	- Mudei o nome dos arquivos de classe que agora come�am com CNomeClasse
+
+04-04-2007  GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Gerada vers�o compil�vel da biblioteca com g++4.x, fedora 5 ou 6
+	- Procure pelo arquivo:
+	- bibliotecaLDSC-nomesAntigos-v1.1-04-04-2007-FUNCIONANDO.tar.gz
+
+08-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Verifica��es junto as arquivos de teste.
+	- Adicionado diret�rio de dados.
+
+
+06-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Feitas corre��es na vers�o antiga de treconstruct3D de forma que a mesma
+	passou a funcionar no fedora 4 com g++ 4.01.
+	(foram substituidos termos const).
+
+	-No diret�rio de teste, � criado um programa de test geral.
+	-Foi criado o subdiret�rio grafo onde fica o programa de teste do grafo
+
+	-Foi criado o subdiret�rio treconstruct3D onde vai ficar o programa
+	de reconstru��o 3D.
+	- Finaliza��o da organiza��o dos c�digos
+	(identificado que algumas classes foram danificadas, precisa recuperar de vers�es
+	mais antigas ou do treconstru��o 3D).
+	
+05-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)	
+	-Arrumei rapidamente o layout at� TFuncao,
+	falta de TGeometria para frente.
+	-Layout, passei dos2unix
+	-indentei os c�digos
+	-fiz uma arruma��o breve no layout
+	-Criada vers�o da biblioteca lenep
+	A estrutura de diret�rios foi reorganizada.
+	Os arquivos *.h agora est�o com os *.cpp.
+
+	Criado arquivo de compatibilidade do kdevelop.
+	Agora pode modificar c�digos de dentro do kdevelop.
+
+	A compila��o � feita pela linha de comando porque o kdevelop
+	usa vers�es antigas do automake e autoconf.
+	
+	
+04-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Corrigido bug na hora de salvar as imagens em disco
+	precisava setar setw(0) antes de cout << setw(0)<< �P�<<formato
+	
+03-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	
+
+
+02-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Criado o diret�rio demo, o mesmo inclue atualmente dois exemplos de programas
+	que usam as bibliotecas criadas.
+	O primeiro Matriz3D usa uma biblioteca espec�fica a TMatriz.a
+	O segundo TRotulador3D usa a lib_lmpt.a
+	Os programas n�o s�o instalados.
+
+	
+	- Agora a biblioteca lib_lmpt.a � montada diretamente sobre os arquivos *.o
+	e n�o mais sobre as bibliotecas .a, pois estava causando problemas com o ranlib.
+	
+	
+01-11-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Incluida defini��o da macro DIST_SUBDIRS que incle a lista de diret�rios antigos
+	do Imago que foram retirados do pacote. O conte�do de DIST_SUBDIRS � inclu�do
+	na distribui��o mas n�o � instalado.
+ 
+	- Alterado sistema montagem biblioteca, agora usa $(pkgllibdir)
+	
+31-10-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Montagem de sistema que cria bibliotecas individualizadas
+	as bibliotecas s�o instaladas em /usr/local/lib e /usr/local/include/lib_lmpt
+	
+30-10-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- Montado diret�rio SistemaTesteLIBLENEP
+	com imagens P262_K70 size50, size300
+	Berea500 size 100.
+	- Resultado antigo esta ok com novo.
+	- Na nova vers�o do programa lib_lmpt
+	o arquivo input_data/solver.info acrescentou
+	2 linhas novas. A primeira com o tipo de solver
+	a ser utilizado padrao=2, com threads=3. A segunda linha
+	inclue o n�mero de processos.
+
+29-10-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	- No final do dia foi gerada vers�o que funciona
+	com automake e autoconf novos.
+	- Tentativa de atualizar as vers�es dos arquivos  configure.in
+	configure.in-ok-V0.2: Vers�o antiga do configure.in em funcionamento
+	configure.scan: Vers�o gerada pelo autoscan
+	configure.in: Vers�o montada a partir de configure.scan e configure.in-ok-V0.2
+
+	Como o autoscan pesquisou todos os diret�rios, foram incluidos makefiles
+	desnecess�rios. Os mesmos foram movidos para o final de configure.in
+	e colocados em coment�rio.
+	
+28-10-2005 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Corre��es no arquivo ChangeLog de forma a deix�-lo mais compat�vel com o padr�o.
+	-Precisa:
+	-Ler o ChangeLog
+	-Identificar com clareza quais as diferen�as entre a vers�o com e sem thread.
+	(acredito que o melhor � usar a vers�o mais recente, com thread, mas precisa
+	avaliar o trabalho que vai dar).
+	-Varrer as classes e ver como elas est�o
+	-Arrumar o layout de cada classe (recisando o c�digo)
+	-Verificar dicas sobre possibilidades de bugs
+	-Eliminar todas as depend�ncias com Imago
+	-------------------------------------------------------------------------	
+	
+21-2-2003  GMT Andre Bueno (bueno@lenep.uenf.br) 
+	-Inicio de novo algoritimo de conectividade
+	para testar o algoritimo   do Damiani para d6 (n�o terminei)
+
+	-Implementa��o da funcao EliminarRamosMortos
+	Aparentemente elimina os sitios corretamente mas os resultados de
+	permeabilidade est�o diferentes.
+	Para o M4 e M5 precisa deletar tambem os objetos no cmx e cmy.
+
+	-Corre��es no layout da frame.h
+
+	-Na frame, depois de criar o confeq agora passa o nome da imagem
+	a partir da lista
+	-Na frame trocado getradius por getpass
+	-Todo o layout das confeq organizado
+	-Na fun��o Next adicionada sa�da para cout dos dados da simula��o
+	-------------------------------------------------------------------------
+	
+20-2-2003 GMT Andre Bueno (bueno@lenep.uenf.br) 
+	-Na classe TSDrainage as camaras foram invertidas, agora est�o iguais
+	a da camara TSImbibition [TESTAR?]
+	-Na fun��o de invers�o do fluxo, o calculo da idf foi eliminado ?? [TETAR?]
+	-------------------------------------------------------------------------
+
+19-2-2003 GMT Andre Bueno (bueno@lenep.uenf.br) 
+	Corre��es de bugs na interface do imago 	arquivo frame.cpp.
+	-Agora seta imgprototipe voxel size a amplify factor
+	-Agora usa border size
+	-Agora quando realiza simula��es multiplas, solicita o tipo
+	de objeto para calculo das permrel
+	-------------------------------------------------------------------------
+	
+18-2-2003 GMT Andre Bueno (bueno@lenep.uenf.br) 
+	Imago1.0H4.5 + LIB_LMPT
+	com calculo da permeabilidade relativa usando Ske3Dby2D
+	-------------------------------------------------------------------------
+	
+17-2-2003 GMT Andre Bueno (bueno@lenep.uenf.br) 
+	Limpeza simples na LIB_LMPT
+	-------------------------------------------------------------------------
+	
+16-2-2003 GMT Andre Bueno (bueno@lenep.uenf.br) 
+	Imago1.0H4.5 e LIB_LMPT ok
+	-Acrescentada classe     TIConfEq3DSimPermRelEsq3Dby2D
+	para calculo da permeabilidade relativa usando o novo esqueleto.
+	-------------------------------------------------------------------------
+
+20-11-2002 GMT Andre Bueno (bueno@lenep.uenf.br)
+
+	Determina��o da permeabilidade com m�todo do grafo.
+	Foi acrescentada a classe TSMDiagonalDominanteThread 
+	(e TSMDiagonalDominanteThreadExec).
+	O arquivo TTTGrafo tamb�m foi modificado, agora chama TSMDiagonalDominanteThread .
+	Alguns Makefile.am foram modificados (para incluir linkagem com common C++).
+	-------------------------------------------------------------------------
+	
+22-7-2002 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Modifica��o de m�todos do Imago
+	-Inclus�o de m�todo para determina��o da permeabilidade relativa em uma embebi��o realizada ap�s drenagem. 
+	Isto �, realiza a drenagem e depois a embebi��o.
+
+	-Montada fun��o para determinar a histerese de m�ltiplas imagens (N�o abre di�logo).
+
+	-Arrumado o nome do arquivo de sa�da da histerese,agora NomeImagem-TISCDraynage.dat
+
+	-TEMP: na histerese s� esta determinando a permeabilidade na segunda etapa,
+	Drenagem ->Sem permeabilidade
+	Embebi��o->Com permeabilidade
+	-------------------------------------------------------------------------
+	
+21-11-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Renomeei diversas fun��es no Imago, agora tem nome mais claro.
+
+	- Modifica��o da fun��o de visualiza��o do grafo, agora pode:
+	-ver os planos coloridos (j� existia)	
+	-ver os centros de massa em uma img dos planos (nova, testada com Adv4 e Adv6 d�o o mesmo resultado)
+	-ver os centros de massa mas usando visualiza��o 3D (peguei da ViewSkeleton).
+
+	- Inclus�o das fun��es grafo_View
+	Usando modelo 4->Adv4	testado
+	Usando modelo 4b->Adv6	testado
+
+
+	-Dentro da lib_lmpt, link, para arquivos importantes do Imago
+	frmenu.cpp frame.h frame.cpp Makefile
+ 	Agora pode mudar os arquivos do Imago de dentro da LIB_LMPT.
+	-------------------------------------------------------------------------
+	
+16-11-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Criei as classes
+	TSitioLRCM,TSitioEsqLRCM,TSitioDirLRCM
+		Inclue int cx,cy,cz (centros de massa).
+		
+	TGrafo3Dby2D_M6
+		Inclue:
+		CalculoCondutancias-->Chama CalculaCondutancias de Adv3 e 
+		corrige condutancias considerando cx,cy,cz do sitio
+		AdicionarObjetos------>Adiciona objetos do tipo TSitioLRCm e seta cx,cy,cz
+		GetObjetoGrafo-------->retorna um TSitioLRCM
+	-------------------------------------------------------------------------
+	
+13-11-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Na classe TGra3Dby2D acrescentei (temporariamente)->Esta usando no IMAGO
+	int eliminaRamosMortos; 				//TESTE
+	int eliminaConeccoesRepetidas;	//TESTE
+
+	eliminaRamosMortos � usada para controle da execu��o de EliminaRamosMortos v1 ou v2,
+	e eliminaConeccoesRepetidas para controle da execucao da fun��o EliminaCondutanciasRepetidas.
+	(ps: EliminaCondutanciasRepetidas � executa pelo TPermeabilidade depois do calculo 
+	da condutancia).
+
+	-Acr�scimo da fun��o EliminaCondutanciasRepetidas na classe TGra3Dby2D (vazia) e 
+	TGra3Dby2DAdv3 (real).
+	percorre todos os objetos do grafo e elimina condut�ncias repetidas.
+
+	-Acr�scimo da fun��o DeletarConeccoesRepetidas
+	virtual bool DeletarConeccoesRepetidas(); na classe TSitioLR
+
+	-Nova vers�o da fun��o EliminaRamos Mortos
+	A fun��o EliminaRamosMortos1 tem um sistema de recurs�o
+	sobre toda imagem e vai deletando as pontas dos ramos mortos a cada itera��o.
+	� lenta porque s� deleta a ponta e chama a fun��o vector.remove(it+pos)
+	versao 1 - tempo processamento de 14m.52s
+	
+	A fun��o EliminaRamosMortos2 tamb�m tem recurs�o
+	sobre todas a imagem. Mas os objetos e as coneccoes s�o deletadas
+	sem chamar vector.remove, mas sim copiando os objetos v�lidos para o in�cio
+	do vector e depois redimensionando o size do vector.
+	Adicionalmente, a vers�o 2 elimina todo um ramo (ou seja, percorre
+	e deleta todo o ramo).
+	versao 2 - tempo processamento de 12s (muito mais r�pida neste caso espec�fico).
+
+	-Revis�o e documenta��o de alguns c�digos
+	-------------------------------------------------------------------------
+	
+1-11-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Revis�o do LAYOUT da LIB_LMPT
+	-Cria��o do diret�rio LIB_LMPT-api (documenta��o api do doxygen)
+	-Cria��o do diret�rio LIB_LMPT-CodigosIncompletos (c�digos incompletos ou antigos)
+	-Cria��o do diret�rio LLIB_LMPT-Exemplo (exemplos completos)
+	-Cria��o do diret�rio LIB_LMPT-Release (backup .tar.gz das vers�es da LIB_LMPT)
+	-Cria��o do diret�rio LIB_LMPT-testes (testes da lib_lmpt)
+	-Como a documenta��o ficou muito grande e com alguns diagramas errados, 
+	em fun��o de repeti��o de arquivos na lib, foi feita uma remodelagem da LIB_LMPT.
+	-doxygen aprovado para uso (impress�o de parte do manual do usu�rio do doxygen).
+	-teste do uso do doxygen para gera��o da documenta��o api
+	-------------------------------------------------------------------------
+	
+25-10-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Inclus�o de #ifndef...#include #endif, 	para acelera��o da compila��o.
+	-Revis�o da documenta��o interna as classes e metodos
+	-Corre��es no layout da lib_lmpt
+	-------------------------------------------------------------------------
+	
+24-10-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	-Corre��es na hierarquia TObjetoGrafo.
+	1-verificar se a fun��o erase aceita o formato abaixo ??
+	2-fazer um teste com um exemplo 4x4 ?
+	void TSitio::DeletarConeccao(unsigned int link)
+	{
+	vector<TObjetoGrafo*>::iterator  it_link = this->coneccao.begin();
+	this->coneccao.erase( it_link + link ) ;
+	}
+	ok->aceita->correto
+	-------------------------------------------------------------------------
+	
+17-10-2001 GMT Andre Bueno (bueno@lenep.uenf.br)
+	Tarefa:
+	-Nas classes TGrafo eliminar char*-> string (agora todas as classes usam std::string)
+	-------------------------------------------------------------------------
+	
+10-10-2001
+	-Nas classes TMatriz eliminados os char*, agora usa std::string
+	-------------------------------------------------------------------------
+	
+10-9-2001
+	Tentando reativar o uso do cvs, com o cervisia.
+	-Modifica��o 1-dentro do kdevelop..
+	-O arquivo changelog foi modificado com esta linha, dentro do kdevelop.
+	-Com esta linha dentro do cervisia.
+	-E com esta nova linha no cervisia.
+	-------------------------------------------------------------------------
+	
+15-8-2001 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.9
+	Foi criada uma biblioteca grafo.lib onde foram inclu�dos os arquivos
+	relativos ao c�lculo do grafo de conex�o serial.
+
+	Esta lib foi copiada para o windows, onde foi criada a lib
+	dentro do MFC.
+
+	Como alguns arquivos foram corrigidos (por causa do compilador diferente),
+	os mesmos foram copiados de volta para o LINUX, e criei
+	uma segunda grafo.lib no linux.
+	Depois os arquivos da grafo.lib foram copiados para dentro da
+	LIB_LMPT.
+
+	PS: uma manobra absurda e confusa, solu��o:
+	-Criar a LIB_LMPT independente dos programas que a usem.
+	-Criar os programas fora da LIB_LMPT
+	-Usar o CVS, dentro da mercurio.
+	-Compartilhar a mercurio com as m�quinas windows.
+	-Testar acesso ao CVS da merc�rio usando as m�quinas windows.
+	-------------------------------------------------------------------------
+	
+15-5-2001 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.8
+	Compilado no redhat 7.1 na nova m�quina. PIII-2x1000mHz-1000mb ram.
+	Problema:
+	A determina��o das configura��es de equil�brio n�o est�o funcionando.
+	Solu��o:
+	No construtor de TConfiguracoesEquilibrio,
+	deixei da forma que estava na versao mais antiga.
+	TISChamber*  objTISChamber = dynamic_cast <TISChamber*>( chamber );
+	assert(objTISChamber!=NULL);
+	maxRadius = objTISChamber->GetmaxRadius();
+
+	PS: precisa verificar se o c�lculo da histerese vai funcionar ?
+	-------------------------------------------------------------------------
+
+10-4-2001 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.6
+	TAG[tese]->Versao utilizada para gerar resultados da tese da banca
+	Compilei com Damiani o Imago1.06 no mercurio.
+	A seguir fiz backup dos arquivos frame.h, frmenu.h e frame.cpp
+	Copiei as coisas do Andre para dentro do frame.h, frmenu.h e frame.cpp
+	Ao tentar compilar N�o funcionou, diversos arquivos
+	da Imago lib foram modificados e a TConfEq n�o funciona
+	mais. A solu��o adotada foi mandar compilar e para cada erro,
+	fazer as corre��es necess�rias.
+
+9-4-2001  GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.6
+	-Agora n�o l� mais toda imagem do disco, abre a imagem tridimensional a medida 
+	que vai determinando os planos.
+	------------------------------------------------------------------------
+	
+13-3-2001 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.5
+	Corrigido o valor de LastObjectOfSolver no final
+	da fun��o EliminarObjetosReduntantes, como o numero de objetos
+	foi reduzido o ultimo objeto do solver foi
+	modificado, corrige esta modificacao.
+	-------------------------------------------------------------------------
+	
+10-3-2001 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.5
+	Tarefas:-O uso de cmx e cmy na classe criaram uma s�rie de problemas 
+	a necessidade de fun��es adicionais.
+	Montar vers�o com classe TSitioCm
+	que inclue os centros de massa, facilitando tudo.
+	Tarefas:-Eliminar tambem o rotulo que esta sendo usado pelo cmx e cmy
+	e na funcao SetMatrizAB para deslocar os objetos n�o passando
+	pelos objetos dos planos z0 e zn.
+
+	ok-Terminar de implementar elimina ramos mortos
+	ok-Verificar se esta deletando cmx e cmy corretamente
+	ok-Verificar se esta deletando os objetos corretamente
+	ok-Verificar os resultados de permeabilidade
+
+	-Procurar eliminar qualquer referencia ao rotulo dos objetos.
+
+	-Mesmo corrigindo cmx e cmy, corretamente o calculo para o modelo 4 estava dando errado,
+	o motivo era o uso de cmx a partir de 0 e o primeiro rotulo a partir de 1
+	no calculo da condutancia quando usava cmx pegava o rotulo-1
+	agora pega o rotulo.
+
+	-Adicionada fun��o ReorganizarCmxCmy
+	Com a elimina��o de boa parte dos s�tios, precisa corrigir os vetores cmx e cmy
+
+	-Corrigida funcao eliminar ramos mortos
+	estava eliminando diretamente as conec��es, mas objetos do tipo TSitioLR
+	tem adicionalmente uma lista de condutancias que tambem precisam ser deletadas.
+	A solu��o foi criar uma fun��o DeletarConeccao nos objetos TSitio
+	e TSitioLR, assim TSitio elimina somente a conec��o e TSitioLR
+	elimina ainda a condutancia.
+	Desta forma o modelo modelo 3 (sem cmx e cmy) apresenta os mesmos
+	resultados que sem eliminar ramos
+	-------------------------------------------------------------------------
+
+15-12-2000  GMT Andre Bueno (bueno@lenep.uenf.br)  Vers�o 0.1.4   
+	[Agora o nome do arquivo com dados da confeq le o nome da imagem]
+
+	-O Vagner realizava simula��es com diferentes imagens no mesmo
+	diretorio. O arquivo de sa�da das confeq tem o nome baseado
+	no tipo de camara selecionado. Ou seja, cinco imagens
+	simulando imbibicao estavam gerando um �nico
+	arquivo de disco. Depois de criado o objeto de configura��es
+	de equil�brio, deve-se setar o nome da imagem.
+	-Incluir o nome da imagem direto no construtor
+	-------------------------------------------------------------------------
+
+	
+15-12-2000  GMT Andre Bueno (bueno@lenep.uenf.br)  Vers�o 0.1.4   
+	[Alteracao no grafo, possibilitando o reinicio das simulacoes]
+
+	-Como as simula��es na enterprise n�o terminam, porque �la cai quase todo dia.
+	Surge a necessidade de desenvolver uma fun��o que permita o reinicio
+	de simula��es paradas.
+	Para resolver este problema foram criadas as fun��es:
+
+	-No objeto Grafo foram criadas as fun��es
+	bool LeVetorPropriedades();
+	bool SalvaVetorPropriedades();
+	que salvam/L�em  os valores de propriedades em um arquivo de disco.
+
+	-No Objeto TPermeabilidadeGrafo::SolucaoSistema
+	foi acrescentada a chamada a fun��o 	bool SalvaVetorPropriedades();
+	de forma que a cada chamada a SolucaoSistema os dados da simula��o s�o salvos em disco
+
+	-No objeto TTTGrafo, foi acrescentada a fun��o 	
+	bool Permeabilidade_By_ModelX_Decisao(const char* fileName, int modelo, 
+	TMatriz3D* pm3D, ofstream& fout);
+	que � quem decide se a imagem j� foi simulada, se vai ser reiniciada a simula��o
+	ou iniciada do in�cio.
+
+	-Na fun��o Permeabilidade_By_ModelX(const char* fileName, int modelo, 
+	TMatriz3D* pm3D, ofstream& fout);
+	foi acrescentado um flag para reinicio da simula��o, que quando ativo, chama a fun��o
+	bool LeVetorPropriedades();
+	antes de criar o objeto TPermeabilidade.
+
+	-Agora a fun��o All, antes de chamar o calculo da permeabilidade da imagem
+	verifica se a imagem pode ser aberta do disco.
+	-------------------------------------------------------------------------
+
+30-11-2000 	GMT Andre Bueno (bueno@lenep.uenf.br)  Vers�o 0.1.4 
+	[Alteracoes relacionadas a conflito coilib]
+
+	[ok]-RESOLVER CONFLITO MIN,MAX
+	A MELHOR SOLUCAO e:
+	acrescentar std:: antes de min e max no arquivo stl_algobase.
+
+	A partir do momento em que as classes TGrafo
+	foram inclu�das no Imago, ocorreu um bug de indefini��o na chamada a fun��o min e max.
+	Pois havia uma vers�o da COI-LIB e outra da STL.
+	Depois de 3 dias, a solu��o encontrada foi criar um
+	#Define __NAO_INCLUIR_MIN_MAX__
+	e incluir um
+	#ifndef __NAO_INCLUIR_MIN_MAX__
+	#endif no arquivo stl_algobase.h.
+
+	Na realidade estou usando
+	//#Para tentar resolver o conflito com min e max inclui o flag
+	//CXXFLAGS+= -D__ANDRE_STL_ALGOBASE_H__
+	//nos arquivos *.h ou *.cpp pode-se setar o flag acima com
+	#define     __ANDRE_STL_ALGOBASE_H__
+
+	-Compara��o dos resultados do imago e da lib_lmpt est�o em
+	file:/home/andre2/Andre/Desenvolvimento/Imago/Imago1.0-H4-Testes
+	/8-TGrafo/berea-6-10-50
+	-------------------------------------------------------------------------
+
+	
+23-11-2000 	GMT Andre Bueno (bueno@lenep.uenf.br)  Vers�o 0.1.4
+	[Alteracoes para compilacao]
+	-Tentando criar uma liblib_lmpt.a
+	-Releitura do manual do automake
+	Com a op��o abaixo a compila��o da LIB_LMPT + TConEquCOILIB funciona
+	-I~/Andre/Desenvolvimento/LIB_LMPT/lib_lmpt/include/
+	-I/usr/include/imago/
+	-I/usr/include/coi20/
+	-D__LINUX__
+	-D__INTEL__
+	-D__X11__
+	-D__MESA__
+
+	-I~/Andre/Desenvolvimento/LIB_LMPT/lib_lmpt/include/ -I/usr/include/imago/
+	-I/usr/include/coi20/ -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__
+
+	PATH_LIB_COILIB=/usr/include/coi20/
+	PATH_LIB_IMAGO=/usr/include/imago/
+	PATH_LIB_LMPT_INCLUDES=/home/andre2/Andre/Desenvolvimento/LIB_LMPT/lib_lmpt/include/
+
+	Vou eliminar esta op��o, e tentar passar estas op��es
+	via configure.in
+	[ok]-Pegar copia com Damiani
+	[ok]-Criar Imago1.0-H4.2
+	[ok]-Compilar no Linux
+	[ok]-export p3 nx ny nz nc
+	[ok]-Acrescentar as confeq na lib_lmpt
+	[ok]-Compilar Imago com LIB_LMPT
+	[ok]-Monta coi-lib->imagolib->lib_lmpt
+	-------------------------------------------------------------------------
+
+	
+16-11-2000 	GMT Andre Bueno (bueno@lenep.uenf.br)  
+	[alteracoes relacionadas a confeeq]
+
+	-Peguei as confeq do Imago-Linux e acrescentei na LIB_LMPT
+	-Foram criados os diretorios
+	lib_lmpt/include/TLista
+	lib_lmpt/include/TConectividade
+	lib_lmpt/include/TConversaoImago
+	lib_lmpt/include/TConEquCOILIB
+
+	-Primeiro foram criados os diretorios acima, depois os arquivos
+	foram importados, a seguir foram corrigidos os includes,
+	e adotada a nova formata��o da documenta��o da lib_lmpt
+
+	PS: N�o se esquecer que existem duas confeq, e ambas funcionam:
+	---->/include/conequ,
+	contem as configuracoes de equilibrio usando a imagem 2D e 3D da lib_lmpt
+
+	---->/include/TConEquCOILIB
+	contem as configuracoes de equilibrio usando as imagens e processos do imago
+	-------------------------------------------------------------------------
+
+	
+25/10/2000 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.3
+	[alteracoes relacionadas ao grafo]
+	-A classe TGra3Dby2DAdv4 redefine as fun��es virtuais e cria um vetor interno cmx:
+	O vetor cmx armazena a informa��o do centro de massa dos sitios do grafo.
+	� semelhante a Adv3 a �nica diferen�a � no calculo das condutancias
+
+	-->CalculaCondutancias
+	considera um fator de corre��o nas dist�ncias,
+	Depois implementar o calculo correto das distancias
+
+	-Criado no TSolverDiagonalDominante, o conceito de redefini��o
+	automatica do limite de Erro.
+	O usuario chama solver->Go,
+	o sistema de equa��es � resolvido.
+	Se saiu por causa do limiteErro seta o flag SaiuPorCausaLimiteErro,
+	e se o usu�rio setou o flag redefinivel como sendo true,
+	na proxima chamada a Go, o limiteErro
+	e dividido por 10, reduzindo o limite erro e aumentando a precis�o
+	da solu��o do sistema de equa��es.
+	(Este sistema foi temporariamente desativado)
+
+	-Corrigido o modelo Adv4, agora considera cmx e cmy pois estou em 3D.
+	-------------------------------------------------------------------------
+	
+16-11-2000 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.3
+	-Agora o TSMDiagonalDominante tem um atributo dimensaoVetor, e
+	a aloca��o de X � realizada no construtor de dimensaoVetor>0.
+	Quando chama Go verifica se X foi alocado e se tem dimens�o
+	maior que a do vetor passado, se necess�rio aloca ou realoca X.
+	Ficou mais rapido pois nao realoca o vetor toda hora
+
+	-O solver passou a usar o erroMedio como criterio para sa�da.
+	-------------------------------------------------------------------------
+
+	
+25/10/2000 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.2
+	[alteracoes relacionadas ao grafo]
+	-Modificado o calculo do comprimento da imagem  em:
+	void TPermeabilidadeGrafo::DefinicaoValoresIniciais()
+	agora desconta 1 p�xel, pois a press�o � definida como sendo
+	no centro de cada n�, e o comprimento a ser considerado
+	� igual ao comprimento da imagem menos 1 pixel.
+
+	-O calculo das condut�ncias foi movido para as classes TGrafo
+
+	-Descreve-se abaixo as altera��es realizadas com o objetivo
+	de implementar novos modelos para calculo da permeabilidade,
+	considerando a resist�ncia das liga��es.
+	Para o calculo destes novos modelos, surgiu a necessidade
+	de se implementar, novos objetos s�tios:
+	-Criada a classe TSitioLR, TSitioEsqLR, e TSitioDirLR
+	Em TSitioLR � criado um vetor de long doubles para armazenar
+	a condutancia de cada liga��o.
+	
+	Criada a classe TSitioLR
+	Tem um atributo vetor de long double chamado condutancias
+	e usado para armazenar as condutancias das liga��es.
+	Redefinida a fun��o Write que salva adicionalmente a informa��o
+	das condutancias.
+	Redefinida a fun��o Go que calcula as press�es, agora
+	considera as condutancias das liga��es.
+	Redefinida a fun��o fluxo que agora considera a condutancias das liga��es.
+
+	E novas classes herdeiras de TGrafo->Tgra3Dby2D
+	-Criadas as classes
+	TGrafo3Dby2DAdv3
+	Calcula a condut�ncia da liga��o condiderando a regi�o de contato 
+	entre dois s�tios,
+	esta � a condut�ncia a ser considerada no calculo dos fluxos
+	
+	TGrafo3Dby2DAdv4
+	Calcula a condut�ncia baseado no s�tio anterior, o que equivale a ter a
+	press�o na interface de contato.
+	
+	TGrafo3Dby2DAdv5
+	Calcula a condut�ncia da liga��o condiderando a regi�o de contato 
+	entre dois s�tios
+	Tamb�m calcula a condut�ncia de cada s�tio
+	Para o calculo do fluxo, e de Go do s�tio considera uma condutanciaFinal
+	condFinal = (condSitioa + 2*condLig	+ condSitioDir)/4
+	
+	TGrafo3Dby2DAdv6 (n�o implementado)
+	Calcula a condutancia de cada s�tio considerando a IDF
+	e a correla��o com resultados obtidos com o LGFLow(ou m�todos CFD)
+
+	-A classe TGra3Dby2DAdv3 redefine as fun��es virtuais:
+	-->GetObjetoGrafo
+	Para o centro cria TSitioLR, antes criava TSitio
+	-->DeterminarrConeccoesObjetos:
+	Al�m de definir as conec��es dos objetos
+	acrescenta o calculo dos raiosHidraulicos das liga��es
+	-->CalculaCondutancias
+	Na TGrafo calcula as condutancias dos s�tios, aqui
+	calcula as condut�ncias das liga��es.
+	-------------------------------------------------------------------------
+
+	
+1/9/2000  GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.1
+	[alteracoes relacionadas ao grafo]
+
+	-Corre��o do LAYOUT dos arquivos,agora usam o formato descrito em
+	templates/cpp_template e templates/header_template
+
+	-Corre��es diversas nos arquivos
+
+	-Classe TFluido renomeada para TMFluido e movida
+	para diretorio TMaterial.
+	Onde j� existe uma TMaterialFluido e que precisa ser aglutinada.
+	O motivo � que o fluido � um tipo de material,  e estava erroneamente separada.
+
+	-Conjunto de classes (*.h e *.cpp) de bolas de chanfro mudadas
+	de TMascara para TGeometria/TBolas.
+	O motivo � que estas classes geram bolas (sobre matrizes 2D e 3D).
+
+	-Criado TTTGrafo classe para teste do grafo e da permeabilidade
+	-Testado o TGrafoAdvanced, que esta correto
+	-Testando o calculo da permeabilidade
+
+	-Eliminando BUGS
+	-Corrigido bug que criava objetos errados
+	-Processo de calculo aparentemente ok
+	falta verificar a forma de calculo da permeabilidade
+
+	-Na classe TPermeabiliadeGrafo:
+	Foram inclu�dos os atributos necess�rios ao calculo da permeabilidade
+	que estavam na fun��o Go.
+	A fun��o Go agora chama sucessivamente a fun��o Next.
+	A fun��o Next faz duas coisas, chama o solver e a seguir calcula a
+	permeabilidade e o erroPermeabilidade al�m de incrementar o numero
+	de iteracoes.
+	Ou seja, Go chama Next, e Next realiza uma itera��o chamando o solver
+	e calculando a permeabilidade.
+
+	Na fun��o Go foi incluido um teste de erro e de limite de itera��es.
+
+	PS: Observe que agora existem duas itera��es e duas verifica��es de erro.
+	A primeira � realizada no objeto solver. A segunda na fun��o Go
+	do objeto TPermeabilidadeGrafo.
+
+	-Agora usa condutancia m�dia no calculo dos fluxos e das pressoes
+
+	-Criado formato DEBUG,
+	sendo DEBUG declarado da forma
+	#define DEBUG
+	fica f�cil localizar as linhas que ser�o retiradas da vers�o final
+
+	-Modificado o calculo das condutancias agora usa equa��o do link
+	-------------------------------------------------------------------------
+
+1/8/2000   GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.1.0
+	-Ado��o do formato GNU/LINUX
+	-Cria��o dos diret�rios:
+	LIB_LMPT
+	LIB_LMPT\lib_lmpt
+		api
+		docs
+		include
+		source
+		templates
+	-------------------------------------------------------------------------
+
+	
+01/3/1998 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.0.3
+	............
+	............
+	-------------------------------------------------------------------------
+
+01/10/1997 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.0.2
+	-------------------------------------------------------------------------
+	LIB_LMPT Vers�o 0.0.1		6/1997
+	Sub-projeto do ANAIMP ->filtros,matrizes
+	-------------------------------------------------------------------------
+
+01/10/1997 GMT Andre Bueno (bueno@lenep.uenf.br) Vers�o 0.0.0
+	-------------------------------------------------------------------------
+	TAG[start]->Versao que veio do windows
+
+	Biblioteca de classes para trabalhos na area de meios porosos.
+	Desenvolvida utilizando como base programas antigos:
+	-------------------------------------------------------------------------
+
+ANAIMP
+	Programa de analise de imagens desenvolvido no windows com OWL.
+	-------------------------------------------------------------------------
+
+SIMULAT	
+	Simulacao numerica de transferencia de calor e umidade em telhas
+	Desenvolvido no DOS usando interface grafica
+	-------------------------------------------------------------------------
+	
+====================
+Diret�rios Antigos:
+====================
+
+grafo_executavel_antigo
+	Diret�rio de teste do grafo, com imagens.
+	- Criar 3 imagens padr�es, 
+	- Testar simula��o no Imago
+	- Testar simula��es com versoes recentes do grafo
+	- Os resultados devem ser iguais
+
+grafo_executavel_antigo.tar.gz
+	- backup
+Imago
+	- software imago
+Inovacoes.txt
+	- este arquivo
+leiame.txt
+	- informa��es gerais
+LIB_LMPT
+	- link para biblioteca que esta sendo desenvolvida
+
+LIB_LMPT-api
+	- documenta��o api
+
+LIB_LMPT-COMTHREAD
+	- biblioteca com vers�o NOVA, exclu�da parte do Imago
+LIB_LMPT-COMTHREAD-v0.2-28-10-2005.tar.gz
+	- Biblioteca com vers�o antiga 0.2
+	verificar se esta funcionando
+LIB_LMPT-COMTHREAD-v0.2-29-10-2005.tar.gz
+LIB_LMPT-COMTHREAD-v0.3-29-10-2005.tar.gz
+	- Backup da vers�o nova
+LIB_LMPT-gideon-v0.2
+	- versao gerada para gideon (kdevelop 3)
+	melhor desconsiderar e armazenar
+LIB_LMPT-SEMTHREAD-v0.2
+	- vers�o 0.2 sem thread
+	(melhor documentar a vers�o com thread
+	e descartar esta)
+LIB_LMPT-v0.2-COMTHREAD.tar.tz
+	- backup da vers�o 0.2
+Programas.directory
+SEAI
+SEAI.tar.gz
+treconstrucao3d
+VisualParadigm

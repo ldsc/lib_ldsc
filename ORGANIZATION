@@ -1,0 +1,118 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	ORGANIZATION
+Conteudo:		Documento que descreve como modificar a libldsc.
+Autor:			Andre Duarte Bueno
+
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que � a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das �ltimas vers�es.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informa��es para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modifica��es da biblioteca.
+COPYING		Descreve as condi��es para c�pia e instala��o da libldsc
+		e a licen�a p�blica da GNU (Vers�o 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+Sobre a montagem da biblioteca:
+===============================================================================
+A biblioteca � constru�da utilizando o sistema padr�o da GNU.
+O mesmo utiliza os programas autoconf, automake e libtool.
+
+Ao compilar a biblioteca libldsc serao gerados ao mesmo tempo:
+	Um programa chamado libldsc: 
+		O mesmo � usado para testar a biblioteca.
+	
+	Uma biblioteca chamada libldsc.a 
+
+	Um conjunto de pequenas bibliotecas.
+
+Ao instalar a biblioteca ao mesmo tempo:
+	O programa ser� instalado em /usr/local/bin
+
+	As bibliotecas ser�o instaladas em /usr/local/include/libldsc
+
+===============================================================================
+Pequeno Roteiro para adi��o de novas sub-bibliotecas na biblioteca libldsc:
+===============================================================================
+
+
+============================================================================
+Pequeno Roteiro para adi��o de novas sub-bibliotecas na biblioteca libldsc:
+============================================================================
+
+0- Criar NOVO_DIRETORIO para nova sub-biblioteca e 
+adicionar dentro do novo diret�rio um arquivo makefile.am
+(usar arquivo makefile.am com o mesmo padr�o dos demais sub-diret�rios 
+no mesmo n�vel de diret�rio).
+
+
+1- Modificar o arquivo configure.ac 
+localizado em $PATH_LIB_LDSC/src/configure.ac,
+adicionar caminho para makefiles a serem criados dentro de 
+AC_CONFIG_FILES(NOVO_DIRETORIO/Makefile
+
+2- Para informar que a nova sub-biblioteca vai fazer parte da lib_ldsc
+	Dentro de libldsc/src/Makefile.am
+	incluir o nome da biblioteca NOVA em libldsc_LDADD, veja exemplo
+	libldsc_LDADD   = novaBiblioteca/*.o
+
+Lembre-se, a macro AC_CONFIG_FILES cont�m a lista de arquivos Makefile a serem gerados
+automaticamente pelo autoconf/automake/libtool.
+
+3- Modificar o arquivo libldsc/src/Makefile.am
+incluir o nome da biblioteca NOVA em
+libldsc_LDADD   = novaBiblioteca/*.o
+
+seguir o mesmo padrao dos demais diret�rios.
+
+4- Para adicionar os novos objetos binários (*.o) a biblioteca libldsc.a
+
+$.1 Dentro de libldsc/src/Makefile.am corrigir
+libldsc_a_LIBADD = \
+	Base/*.o \
+	Tempo/*.o \
+	.....
+ou
+libldsc_a_LIBADD = 	Base/libBase.a CGrafo/libCGrafo.a CMatriz/libCMatriz.a \
+	....
+
+4.2 Dentro de libldsc/src/Makefile.am corrigir as linhas
+SUBDIRS = \
+	Base ConEqu Contorno Correlacao Estatistica FFT Filtro Funcao \
+	Geometria Geometria Grafico Grafo Integral Interpolacao Mascara \
+	Material Matriz Permeabilidade Reconstrucao Rotulador SFuncao \
+	SMatriz Tempo
+
+5- Para atualizar a biblioteca libldsc.a
+5.1 Dentro de libldsc/src/Makefile.am corrigir as linhas
+DIST_SUBDIRS =  \
+	Base ConEqu Contorno Correlacao Estatistica FFT Filtro Funcao \
+	Geometria Geometria Grafico Grafo Integral Interpolacao Mascara \
+	Material Matriz Permeabilidade Reconstrucao Rotulador SFuncao \
+	SMatriz Tempo
+
+6- Criar os diretorios
+	libldsc/src/NovoDiretorio
+	libldsc/src/NovoDiretorio/NovoSubdiretorio
+
+7- Criar novos arquivos Makefile.am e novas classes
+	libldsc/src/NovoDiretorio/Makefile.am
+	libldsc/src/NovoDiretorio/novaClasse.cpp
+	libldsc/src/NovoDiretorio/novaClasse.h
+
+	libldsc/src/NovoDiretorio/NovoSubdiretorio/Makefile.am
+	libldsc/src/NovoDiretorio/NovoSubdiretorio/novaClasse.cpp
+	libldsc/src/NovoDiretorio/NovoSubdiretorio/novaClasse.h
+
+Usar como exemplo os arquivos existentes.
+

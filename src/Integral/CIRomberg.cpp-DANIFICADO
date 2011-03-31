@@ -1,0 +1,22 @@
+#include <cmath>
+#include <TIntegral/TIRomberg.h>	
+//------------------------------------------------------------------------------//
+TIRomberg::Go(double xA, double xB, double tolerance,//
+                                        int MaxIter, double (*fx)(double),double* area)
+//troquei area por resultado//
+#define INTEGRAL_BAD_RESULT -1.0e+30
+#define MAX_ROMBERG_TABLE 52
+double TIRomberg::Go(double x,double y)
+{ 
+limiteInferior=y; 
+limiteSuperior=x; Dx();
+//inicio variaveis que inclui
+double xA=limiteInferior;
+double xB=limiteSuperior;//fim  
+enum opFlagType 
+{ goOn, converge, reachedMax };  
+enum opFlagType opFlag;  
+double T[MAX_ROMBERG_TABLE];  
+double fnArr[MAX_ROMBERG_TABLE - 2];  
+double fA, h, c1;
+//h=dx  int i, j, nIter, nSteps;  opFlag = goOn;  nIter = 0;  nSteps = 1;  h = xB - xA;  fA = (funcao->Go(xA) + funcao->Go(xB)) / 2;  T[0] = h * fA;  resultado = T[0];  while (opFlag == goOn)// divide the step size by 2  {   nIter++;        h /= 2;         nSteps *= 2;    c1 = T[0];      j = 0;                                 // get new area estimate         i = nSteps - 1;         do {           j++;            fnArr[i - 1] = funcao->Go(xA + i * h);          if (i > 1)                fnArr[i - 2] = fnArr[nSteps / 2 - j - 1];             i -= 2;  } while (i >= 1);       T[0] = fA;      for (i = 1; i <= (nSteps - 1); i++)            T[0] += fnArr[i-1];      T[0] *= h;      for (i = 2; i <= (nIter + 1); i++)// perform Richardson's extrapolation                T[i-1] = T[i - 2] + (T[i - 2] - c1) / (intPow(4, i - 1) - 1);    if (fabs(T[nIter] - resultado) <= limiteErro)   // verify convergence          opFlag = converge;       else if (nIter >= limiteIteracoes)             opFlag = reachedMax;     resultado = T[nIter];  }  //(opFlag == converge) ? true : false;  return  resultado;}double TIRomberg::intPow(int base, int exponent){  double pow = 1;  for (int i = 1; i <= exponent; i++)    pow *= (double)base;  return pow;}

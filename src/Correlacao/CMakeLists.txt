@@ -1,0 +1,1 @@
+add_library(Correlacao CCorrelacao.cpp CCorrelacaoEspacial.cpp CCorrelacaoFFT.cpp)

@@ -1,0 +1,6 @@
+//=========================================Bibliotecas
+#include<TSFuncao/TSBissecao.h>
+#include<TSFuncao/TSCordas.h>
+#include<TSFuncao/TSFuncao.h>
+#include<TSFuncao/TSNewton.h>
+#include<TSFuncao/TSRichmond.h>

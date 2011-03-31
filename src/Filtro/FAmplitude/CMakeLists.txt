@@ -1,0 +1,1 @@
+add_library(FAmplitude CFABDoisPicos.cpp CFABinario.cpp CFABMedia.cpp CFABVarianciaOtsu.cpp CFAmplitude.cpp CFABEntropiaJohansen.cpp CFABIterativoThrussel.cpp CFABPixelContorno.cpp CFACinza.cpp)

@@ -1,0 +1,71 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	NEWS
+Conte�do:		Documento que descreve as novidades da lib_ldsc (vers�es).
+Autor:			Andr� Duarte Bueno
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que � a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das �ltimas vers�es.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informa��es para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modifica��es da biblioteca.
+COPYING		Descreve as condi��es para c�pia e instala��o da libldsc
+		e a licen�a p�blica da GNU (Vers�o 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+
+Na vers�o 1.5
+Bueno:
+	- Correcao da classe CCorrelacao (agora funciona fft).
+	- Correcoes código Leandro
+	- Pequenas correcoes em diversas classes
+	- Melhorias documentacao grafo, confeq.
+	- Criado método abertura dilatacao (/test/AberturaDilatacao)(falta adicionar a lib).
+	- Criado conjunto de classes para trabalhar com redes neurais (falta testar e adicionar a lib)
+	- Adicionada Grafico/CGnuplot
+
+Leandro: 
+	- Corrigiu/modificou classes CMatriz	
+	- Corrigiu/modificou classes CPermeabilidadeIntrinseca	
+	- Corrigiu/modificou classes CPermeabilidadeRelativa
+
+Eneida:
+	- Reorganizou diretório de imagens (simulacoes)
+	- Realizou testes com métodos de binarizacao.		
+		
+Na vers�o 1.4
+	Mudado nome do caminho de PATH_LIB_LMPT para PATH_LIB_LDSC.
+	Gerada documenta��o detalhada com doxygen (graficos dot).
+ 
+
+Na vers�o 1.3
+	Foram revisador os arquivos de documenta��o.
+	Foi feita limpeza nos diret�rios (cvs e old).
+	autoconf atualizado.
+	Inclui diagramas capturados pelo umbrello.
+	Pode trabalhar no kdevelop.
+	
+
+Na vers�o 1.2
+	Inclui novos testes (grafo, reconstru��o).
+	Inclui documenta��o API (doxygen).
+
+Na Vers�o 1.1
+	Nomes novos (TNome-> CNome).
+	Compila.
+
+???
+Informa��es sobre vers�es antigas,
+ver ChangeLog.
+
+Precisa criar destri��o das vers�es antigas.

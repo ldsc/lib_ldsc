@@ -1,0 +1,132 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	HOWTO
+Conteúdo:		Documento que descreve como usar a libldsc.
+Autor:			André Duarte Bueno
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informações para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificações da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+Requisitos para uso da biblioteca:
+===============================================================================
+- Você deve utilizar um ambiente de desenvolvimento que suporte ANSI C++
+
+- Requer a instalação das bibliotecas:
+	- Common C++ (http://www.gnu.org/software) 
+
+Nota: a biblioteca Common C++ pode ser obtida no DVD_GRUPO_LDSC/PROGRAMAS/bibliotecas...
+
+- Veja detalhes da instalação da libldsc no arquivo INSTALL
+
+===============================================================================
+Como usar a libldsc
+===============================================================================
+
+1- Instale a libldsc (veja o arquivo INSTALL)
+
+2- Inclua a path da biblioteca no seu projeto.
+    Ou seja, o seu ambiente de desenvolvimento tem de saber onde estão
+    os arquivos inlude da biblioteca.
+   	No GNU/Linux, abra o arquivo ~/.bash_profile ou /etc/profile 
+	e inclua a linha abaixo.
+	Exemplo:
+	export PATH_LIB_LDSC=/usr/include/libldsc/
+	export LIB_LDSC=/usr/local/lib/libldsc/
+
+3- Verifique se o arquivo libldsc.a foi instalado em
+	/usr/lib/libldsc/libldsc.a
+	ou em 
+	/usr/local/lib/libldsc/libldsc.a
+
+4- No seu programa inclua os Header's (arquivos *.h) que contém a descrição
+	da classe que pretende utilizar. Cada arquivo *.h descreve uma classe, 
+	e tem toda a documentação necessária a sua utilização.
+
+	Exemplo:
+	#include <Matriz/CMatriz2D>
+
+	Obs: 
+	Pode-se não incluir a libldsc.a e sim todos os arquivos *.h e *.cpp
+	que serão utilizados. A desvantagem é uma maior demora na compilação 
+	e a necessidade	de se verificar todas as dependências entre os 
+	arquivos.
+
+5- Exemplo:
+
+	Apresenta-se a seguir um exemplo bastante simples e genérico.
+	Veja exemplo real no diretório demo
+	e exemplos mais detalhados no diretório test.
+	
+	//--------------------------------------------------------------Código
+	#include <iostream>
+	#include "Rotulador/CRotulador2D.h"
+	#include "Matriz/CImagem2D.h"
+
+	class MeuPrograma
+	{
+	// Atributos
+	// Ponteiro para uma imagem
+	CImagem * imagem;					
+	// Ponteiro para um rotulador
+	CRotulador2D* rotulador;	
+
+	// Métodos
+	// Construtor carrega imagem do disco
+	MeuPrograma(char* img)	{ imagem = NULL; imagem = new CImagem(img);};		
+	// Destrutor deleta a imagem
+	~MeuPrograma()		{ if imagem; delete imagem;}
+	virtual void Go();
+	};
+
+	void MeuPrograma::Go()
+	{
+  	// Cria objeto rotulador e passa a imagem
+	rotulador = new CRotulador2D(imagem);	
+	// rotula a imagem
+	rotulador->Go();			
+	// salva imagem rotulada em disco
+	rotulador->Write("imagemRotulada.dat");	
+	delete rotulador;
+	}
+
+	int main(int argc, char* argv[])
+	{
+	MeuPrograma prog(argv[1]);
+	prog.Go();
+	return 0;
+	}
+
+	//-----------------------------------------------------------------Uso
+	# Basta executar o programa passando o nome da imagem a ser rotulada
+	# Tem como saida o arquivo nomeimagem.dat
+	NomePrograma.exe nomeimagem.img
+	ou
+	./NomePrograma nomeimagem.img	
+
+6- Para compilar
+	você deve incluir a path/caminho para os arquivos include da biblioteca, 
+	e para a biblioteca em sí.
+	
+	Exemplo:
+	export PATH_LIB_LDSC=/usr/include/libldsc/src
+	export LIB_LDSC=/usr/local/lib/libldsc/
+	g++ NomePrograma.cpp -o NomePrograma -I($PATH_LIB_LDSC) -L($LIB_LDSC)  -lldsc
+	
+	ou
+	g++ NomePrograma.cpp -o NomePrograma -I/usr/include/libldsc/src -l/usr/local/lib/libldsc/libldsc.a
+

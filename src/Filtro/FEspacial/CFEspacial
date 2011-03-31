@@ -1,0 +1,15 @@
+#include<TFEspacial/TFEBartlet.h>
+#include<TFEspacial/TFEBorda.h>
+#include<TFEspacial/TFEBSubstitueValor.h>
+#include<TFEspacial/TFEDeteccaoContornoMasc.h>
+#include<TFEspacial/TFEEliminaBorda.h>
+#include<TFEspacial/TFEEmboss.h>
+#include<TFEspacial/TFEGaussiano.h>
+#include<TFEspacial/TFELaplaciano.h>
+#include<TFEspacial/TFEPassaAlta2.h>
+#include<TFEspacial/TFEPassaAlta.h>
+#include<TFEspacial/TFEPassaBaixa.h>
+#include<TFEspacial/TFERotacaoVerticalEDiferenca.h>
+#include<TFEspacial/TFESobel.h>
+#include<TFEspacial/TFEspacial.h>
+#include<TFEspacial/TFiltroEspacial.h>

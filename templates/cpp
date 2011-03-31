@@ -1,0 +1,22 @@
+/*
+=========================================================================
+PROJETO:    Biblioteca libldsc $MODULE$
+=========================================================================
+Desenvolvido por:	
+            LDSC - Laboratorio de Desenvolvimento de Software Científico 
+@author     $AUTHOR$
+@begin      $YEAR$
+@copyright  (C) $YEAR$ by $AUTHOR$
+@email      <$EMAIL$>
+@file 	  $MODULE$.cpp
+@license    GNU General Public License - version 2
+            see  $LICENSEFILE$ for the full license text.
+*/
+
+// -----------------------------------------------------------------------
+// Bibliotecas C/C++
+// -----------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
+// Bibliotecas libldsc
+// -----------------------------------------------------------------------

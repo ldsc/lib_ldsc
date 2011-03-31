@@ -1,0 +1,3 @@
+//=========================================Bibliotecas
+#include<TTempo/IProcessTime.h>
+#include<TTempo/TTime.h>

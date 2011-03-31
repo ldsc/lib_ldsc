@@ -1,0 +1,2 @@
+add_subdirectory(BCDiscreta)
+add_subdirectory(BCDiscreta3D)

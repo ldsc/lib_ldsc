@@ -1,0 +1,13 @@
+//=========================================Bibliotecas
+#include<TMascara/TMascara3D.h>
+#include<TMascara/TMascara.h>
+#include<TMascara/TMBartlet.h>
+#include<TMascara/TMDeteccaoContorno.h>
+#include<TMascara/TMEmboss.h>
+#include<TMascara/TMGaussiano.h>
+#include<TMascara/TMLaplaciano.h>
+#include<TMascara/TMPassaAlta2.h>
+#include<TMascara/TMPassaAlta.h>
+#include<TMascara/TMPassaBaixa3D.h>
+#include<TMascara/TMPassaBaixa.h>
+#include<TMascara/TMRotacaoVerticaleDiferenca.h>

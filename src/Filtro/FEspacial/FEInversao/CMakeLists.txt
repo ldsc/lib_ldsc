@@ -1,0 +1,1 @@
+add_library(FEInversao CFEInversao.cpp)

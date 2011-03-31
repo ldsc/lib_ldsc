@@ -1,0 +1,170 @@
+
+O que é o gnuplot?
+	Programa multiplataforma (Windows, GNU/Linux, Mac OS X) utilizado 
+	por cientistas e pesquisadores para montar gráficos avancados em 2D e 3D.
+
+Onde obter o gnuplot?
+	Você pode baixar o gnuplot para GNU/Linux em:
+
+	Você pode baixar o gnuplot para Windows em:
+
+	Você pode baixar o gnuplot para Mac Os X em:
+	
+
+Onde obter maiores informações sobre o gnuplot e sobre C++?
+	Tem uma aula sobre o gnuplot no site da disciplina de Software Livre
+	https://www.lenep.uenf.br/~bueno/DisciplinaSL/
+	http://www.lenep.uenf.br/~bueno/DisciplinaSL/aula_13.pdf
+
+	Outras informações do gnuplot podem ser obtidas em
+	http://www.gnuplot.info/
+
+	Tem material sobre C++ no site da disciplina de C++
+	https://www.lenep.uenf.br/~bueno/DisciplinaCpp/
+
+O que é a classe CGnuplot?
+	A classe CGnuplot fornece acesso direto ao programa gnuplot.
+
+	Com a classe CGnuplot você pode montar um programa em C++
+	que faz gráficos avancados, fazendo chamadas diretas ao gnuplot.
+
+	Ou seja, o seu programa em C++ vai poder gerar gráficos avancados
+	em 2D e 3D utilizando o programa externo gnuplot.
+
+	A vantagem em relação ao uso de <pstream.h>, apresentado na aula
+	https://www.lenep.uenf.br/~bueno/DisciplinaCpp/Aulas/aula_23.pdf, seção
+	"Executando e enviando comandos para outros programas"(pg56),
+	é que o terminal fica "liberado", assim, podemos abrir vários
+	gráficos do gnuplot ao mesmo tempo.
+
+	Outra vantagem é que você não precisa aprender os comandos internos 
+	do gnuplot. Somente os métodos da classe CGnuplot.
+
+	Resumo: a classe ﻿CGnuplot que pode ser incluida em seus programas em C++,
+	para fazer chamadas diretas ao programa externo gnuplot para fazer
+	gráficos avançados.
+
+
+Quais os arquivos deste pacote?
+	O presente diretório contem 4 arquivos:
+	CGnuplot.h		Declara e define uma classe de acesso ao programa gnuplot.
+	CGnuplot.cpp		Define métodos da classe CGnuplot.
+	leiame.txt		Este arquivo
+
+	Você deve encontrar um teste da classe CGnuplot dentro do diretório
+	test/Grafico/Gnuplot/
+
+Como faço para usar a classe CGnuplot?
+	Para aprender a usar a classe CGnuplot, faça o seguinte:
+
+	1- Crie um diretório CGnuplot, e a seguir salve nele os arquivos abaixo.
+	CGnuplot.h, CGnuplot.cpp, CGnuplot.teste.cpp,	exemploBemSimples.cpp, leiame.txt.
+
+	2- Leia o arquivo CGnuplot.h
+
+	3- A seguir, compile o programa exemplo (arquivo CGnuplot.teste.cpp)
+	No GNU/Linux abra um terminal, vá para o diretório criado usando "cd caminho", e, 
+	a seguir digite:
+	g++ CGnuplot.cpp CGnuplot.teste.cpp
+
+	Rode o programa criado e veja os diferentes tipos de gráfico que podem ser gerados.
+	./a.out
+	
+	PS:
+	No terminal, pressione enter para gerar o próximo gráfico. 
+	Note que podemos ter mais de um gráfico do gnuplot ao mesmo tempo.
+
+	4- Para usar a classe CGnuplot, basta copiar para seu programa as linhas
+	de código de seu interesse existentes no arquivo CGnuplot.teste.cpp
+
+	5- Abaixo um exemplo simples, que usa a classe CGnuplot
+	#include <iostream>
+	#include "CGnuplot.h" 
+
+	int main(int argc, char* argv[])
+	{
+      	Gnuplot g2d = Gnuplot("lines"); // Construtor, cria o gráfico
+      	g2d.Title("Titulo do grafico"); // Titulo do grafico
+      	g2d.XLabel("rotulo eixo x");    // Rotulo eixo x
+      	g2d.YLabel("rotulo eixo y");    // Rotulo eixo y
+      	g2d.XRange(-10,10);             // Seta intervalo do eixo x.
+      	g2d.PlotEquation( "x*x*sin(x)");// Plota uma determinada equacao
+
+	std::cout << "Pressione enter para encerrar." << std::endl;
+      	std::cin.get();
+	return 0;
+	}
+
+
+	Para compilar
+	g++ CGnuplot.cpp exemploBemSimples.cpp -o exemploBemSimples
+
+	Para rodar
+	./exemploBemSimples
+
+
+
+﻿--------------------﻿--------------------﻿--------------------
+Instruções para uso do pacote CGnuplot.tar.gz:
+--------------------﻿--------------------﻿--------------------
+O pacote CGnuplot.tar.gz
+é um pacote independente da lib_ldsc, 
+e é utilizado em parte da disciplina de C++.
+
+
+1 - Descompactar o arquivo em anexo
+Abra um terminal, vá para o diretório onde armazenou o arquivo e digite
+	tar -xvzf CGnuplot.tar.gz
+
+2- Vá para o diretório criado
+	cd CGnuplot
+
+3- Compile o programa de teste completo usando o makefile fornecido
+﻿	 make    
+ou compile o programa de teste minimo
+	make   CGnuplot.testemin
+	
+ou compile diretamente os arquivos cpp (gera a.out)
+	g++ CGnuplot.cpp CGnuplot.teste.cpp
+
+4- Rode o programa de teste, 
+	./CGnuplot.teste
+ou
+﻿	 ./CGnuplot.testemin
+ou
+	./a.out
+
+O programa vai gerar um gráfico, para gerar outros modelos de gráficos
+basta ir pressionando enter.
+
+Observe que o programa de teste
+esta gerando diferentes tipos de gráficos.
+
+5- Agora que já compilou, rodou, e viu os diferentes tipos de gráficos (2D e 3D no exemplo completo), esta na hora de entender o código.
+
+5.1 Use seu navegador para abrir o arquivo
+	firefox CGnuplot/doc/html/index.html
+leia as descrições dos métodos.
+
+5.2 Abra o arquivo CGnuplot.testemin
+e veja como o programa de teste esta criando um objeto da classe CGnuplot, e acessando seus métodos para plotar e setar parâmetros dos gráficos do gnuplot.
+
+5.3 Modifique o arquivo CGnuplot.testemin.cpp,
+compile novamente Make ﻿CGnuplot.testemin,
+rode ./﻿CGnuplot.testemin e veja como ficou a saída após suas modificações.
+
+5.4 Abra o arquivo com o teste completo, arquivo ﻿CGnuplot.teste.cpp
+numa janela e a seguir rode o programa
+./﻿CGnuplot.teste.
+
+Leia o código em ﻿CGnuplot.teste.cpp e veja como fica a saída correspondente. 
+Pressione enter para gerar o novo gráfico e verifique o código
+que gerou o gráfico. Desta forma você vê, passo a passo,
+o código e a saída gerada.
+
+6. Pronto, você já pode utilizar a classe CGnuplot
+em seus programas.
+
+boa sorte!
+
+

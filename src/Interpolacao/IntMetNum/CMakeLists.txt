@@ -1,0 +1,1 @@
+add_library(IntMetNum CIntMetNum.cpp CIMNDiferencasCentrais.cpp CIMNExata.cpp CIMNUpwind.cpp CIMNWuds.cpp)

@@ -1,0 +1,1 @@
+add_library(Base CSolver.cpp CSimulacao.cpp COperacao.cpp CMath.cpp CFuncao.cpp)

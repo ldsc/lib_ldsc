@@ -1,0 +1,1 @@
+add_library(BCDiscreta CBCdi.cpp CBCdj.cpp CBCdij.cpp CBCdijk.cpp CBCd4.cpp CBCd8.cpp CBCd34.cpp CBCd5711.cpp CBCDiscreta.cpp CBCEuclidiana.cpp)

@@ -1,0 +1,9 @@
+//=========================================Bibliotecas
+#include<TIntegral/TIGauss.h>
+#include<TIntegral/TIGChebyshevQuadrature.h>
+#include<TIntegral/TIGHermiteQuadrature.h>
+#include<TIntegral/TIGLaguerreQuadrature.h>
+#include<TIntegral/TIGLegendreQuadrature.h>
+#include<TIntegral/TIntegral.h>
+#include<TIntegral/TIRomberg.h>
+#include<TIntegral/TISimpson.h>

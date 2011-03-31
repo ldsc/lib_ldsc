@@ -1,0 +1,1 @@
+add_library(Estatistica CERandomico.cpp CEstatistica.cpp CEFatorial.cpp CECombinacoes.cpp CEMomentos.cpp CENormal.cpp CETStudent.cpp CEChiQuadrado.cpp CEFSnedecor.cpp CEIntervalosConfianca.cpp CETesteMediaDuasAmostras.cpp)

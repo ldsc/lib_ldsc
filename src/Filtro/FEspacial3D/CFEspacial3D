@@ -1,0 +1,3 @@
+#include<TFEspacial3D/TFEBorda3D.h>
+#include<TFEspacial3D/TFEBSubstitueValor3D.h>
+#include<TFEspacial3D/TFEspacial3D.h>

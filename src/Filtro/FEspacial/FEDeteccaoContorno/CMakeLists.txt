@@ -1,0 +1,1 @@
+add_library(FEDeteccaoContorno CFEDCCanny.cpp CFEDCMarrHildreth.cpp CFEDCShenCastan.cpp CFEDeteccaoContorno.cpp)

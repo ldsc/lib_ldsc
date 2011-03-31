@@ -1,0 +1,166 @@
+/*
+=========================================================================
+PROJETO:          Biblioteca LIB_LMPT
+                  Ramo: TPadrao_ramo
+=========================================================================
+
+Desenvolvido por:	Laboratorio de Meios Porosos
+                  e Propriedades Termofisicas	[LMPT].
+@author:          André Duarte Bueno
+File:             TSMDiagonalDominanteThreads.cpp
+begin:            Sat Sep 16 2000
+copyright:        (C) 2000 by André Duarte Bueno
+email:            andre@lmpt.ufsc.br
+*/
+//-----------------------------------------------------------------------
+//Bibliotecas C/C++.
+//------------------------.-----------------------------------------------
+#include <cmath>
+#include <cassert>
+#include <fstream>
+#include <iomanip>
+
+//-----------------------------------------------------------------------
+//Bibliotecas LIB_LMPT
+//-----------------------------------------------------------------------
+#include <Base/TOperacao.h>
+#include <TSMatriz/TSMDiagonal/TSMDiagonalDominanteThreads.h>
+using namespace std;
+using namespace ost;     //common C++
+
+//-----------------------------------------------------------------------
+Mutex TSMDiagonalDominanteThreadsExec::mutex_erro;
+int TSMDiagonalDominanteThreadsExec::nproc = 0;
+long double* TSMDiagonalDominanteThreadsExec::X;
+vector < CSMParametroSolver * >* TSMDiagonalDominanteThreadsExec::objeto;
+long double TSMDiagonalDominanteThreadsExec::erroMedio;
+long double TSMDiagonalDominanteThreadsExec::limiteErro;
+long double TSMDiagonalDominanteThreadsExec::limiteIteracoes;
+
+//-----------------------------------------------------------------------
+//Sobrecarga streans
+//-----------------------------------------------------------------------
+ostream & operator<< (ostream & os, const TSMDiagonalDominanteThreadsThread & obj)
+{
+  return os;
+}
+
+//-----------------------------------------------------------------------
+//Funcao Go
+//-----------------------------------------------------------------------
+double TSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto, int nproc)
+{
+  obj = objeto;
+  if (X == NULL || dimensaoVetor < obj->size ())
+    {				
+      delete X;
+      X = NULL;
+      X = new long double[obj->size ()];	
+      assert (X);
+    }
+
+  //Passa atributos estaticos
+  TSMDiagonalDominanteThreadsExec::nproc = nproc;
+  TSMDiagonalDominanteThreadsExec::objeto = objeto;
+  TSMDiagonalDominanteThreadsExec::X = X;
+  //TSMDiagonalDominanteThreadsExec::erroMedio;
+  TSMDiagonalDominanteThreadsExec::limiteErro = limiteErro ;
+  TSMDiagonalDominanteThreadsExec::limiteIteracoes = limiteIteracoes;
+
+  //Cria objetos thread e executa
+  TSMDiagonalDominanteThreadsExec* pthread = 0;
+  vector <TSMDiagonalDominanteThreadsExec*> vthread;
+  for (int  p = 0 ; p < nproc ; p++ )
+    {
+      pthread = new TSMDiagonalDominanteThreadsExec(p);
+      vthread.push_back( pthread );
+      vthread[p]->start();
+    }
+
+  for (int  p = 0 ; p < nproc ; p++ )
+    while(vthread[p]->isRunning())
+      Thread::sleep(100);
+
+  return erro;
+}
+
+//*********************TSMDiagonalDominanteThreads inicio
+
+void TSMDiagonalDominanteThreadsExec::run ()
+{
+  //Valor de x para objeto k no instante anterior
+  long double xk0;		
+  long double erroPontual = 10000000;
+  unsigned long int numeroObjetosUsados = 0;
+  //Número de iteracões (desta thread) ???
+  //iteracoes = 0;		
+  int iteracoes = 0;		
+
+  //Cada passagem pelo laço do, equivale a um passo de tempo ou uma iteração
+  do
+    {
+      mutex_erro->enterMutex();
+        erro = 10000000;
+      mutex_erro->leaveMutex();
+  //Resolve o sistema para um dado passo de tempo ou iteração
+  for ( k = iproc; k < obj->size (); k+=nproc)	
+	{
+	  xk0 = (long double) (*((*obj)[k]));	//valor de x[k] no instante anterior
+
+	  //AtualizaX (k);		//atualiza vetor X
+    X[k] = ((*obj)[k])->Go();			
+    X[k] = fatorRelaxacao * X[k] + fatorRelaxacaoC * (    (long double)(*((*obj)[k]))   );
+
+	  //O erro é a diferença entre X atual X[k] dividido por xk0
+	  //(valor absoluto)
+	  if ((X[k] - xk0) != 0)	
+	    {
+	      erroPontual = xk0 > X[k] ? xk0 - X[k] : X[k] - xk0;
+	      erroPontual /= xk0;	//erro*100 = percentual
+	    }
+      mutex_erro->enterMutex();
+	    if (erro > erroPontual)
+	      erro = erroPontual;	
+      mutex_erro->leaveMutex();
+  	}
+    //AtualizaObjFinal ();	//Atualiza valores finais nos objeto
+    *((*obj)[k]) = X[k];
+
+      iteracoes++;		
+      RunningView ();
+    //Sincronizar
+    }
+  while (erroMedio > limiteErro &&	
+	 iteracoes < limiteIteracoes || iteracoes < 100	
+	 );
+}
+
+void TSMDiagonalDominanteThreadsExec::RunningView ()
+{
+  static int p = 0;
+  switch (p)
+    {
+    case 0:
+    case 4:
+      cout << "\b|" << flush;
+      break;
+    case 1:
+    case 5:
+      cout << "\b/" << flush;
+      break;
+    case 2:
+    case 6:
+      cout << "\b-" << flush;
+      break;
+    case 3:
+    case 7:
+      cout << "\b\\" << flush;
+      break;
+    }
+  p++;
+  if (p >= 7)
+    p = 0;
+}
+
+//*********************TSMDiagonalDominanteThreads fim
+

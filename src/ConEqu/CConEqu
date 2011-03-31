@@ -1,0 +1,6 @@
+//=========================================Bibliotecas
+#include<ConEqu/CCamara2D.h>
+#include<ConEqu/CCamara3D.h>
+#include<ConEqu/CCamara.h>
+#include<ConEqu/CConfiguracoesEquilibrio2D.h>
+#include<ConEqu/CConfiguracoesEquilibrio3D.h>

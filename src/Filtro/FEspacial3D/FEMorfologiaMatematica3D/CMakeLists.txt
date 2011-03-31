@@ -1,0 +1,1 @@
+add_library(FEMorfologiaMatematica3D CFEMMIDF3D.cpp CFEMMIDFd3453D.cpp CFEMMIDFdijk3D.cpp CFEMMIDFeuclidiana3D.cpp CFEMorfologiaMatematica3D.cpp)

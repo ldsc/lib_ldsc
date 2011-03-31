@@ -1,0 +1,1 @@
+add_library(SMComum CSMCGaussJordan.cpp CSMCGaussSeidel.cpp CSMCLu.cpp)

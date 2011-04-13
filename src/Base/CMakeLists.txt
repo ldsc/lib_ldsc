@@ -1,1 +1,1 @@
-add_library(Base CSolver.cpp CSimulacao.cpp COperacao.cpp CMath.cpp CFuncao.cpp)
+add_library(Base STATIC CSolver.cpp CSimulacao.cpp COperacao.cpp CMath.cpp CFuncao.cpp)

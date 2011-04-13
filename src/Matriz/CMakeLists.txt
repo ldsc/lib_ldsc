@@ -1,1 +1,1 @@
-add_library(Matriz CImg.cpp CImagem3D.cpp CImagem.cpp CHistograma.cpp CVetor.cpp CMatriz3D.cpp CMatriz2D.cpp CBaseMatriz.cpp )
+add_library(Matriz CImg.cpp CImagem3D.cpp CImagem.cpp CHistograma.cpp CVetor.cpp CMatriz3D.cpp CMatriz2D.cpp CBaseMatriz.cpp)

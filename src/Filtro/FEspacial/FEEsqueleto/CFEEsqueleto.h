@@ -22,7 +22,7 @@ PROJETO:		Bibliotecas LDSC
 		       	Biblioteca para manipulacao de imagens
 ----------------------------------------------------------------------------
 
-Desenvolvido por:      	Laboratorio de Desenvolvimento de Software Cientifico 
+Desenvolvido por:      	Laboratorio de Desenvolvimento de Software Cientifico
        			dos Materiais.
 Programadores:         Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
     			Liang Zirong,
@@ -50,16 +50,15 @@ protected:
 // Métodos
 public:			/// Construtor
   CFEEsqueleto (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0)
-	: CFEspacial (matriz, _tamanhoMascara), 
-		      valorEsqueleto (1), valorObjeto    (0)
+	: CFEspacial (matriz, _tamanhoMascara), valorEsqueleto (1), valorObjeto (0)
   {
   }
 
   /// Destrutor
    ~CFEEsqueleto ()
   {
-  }			
-  
+  }
+
   /// Seta valorEsqueleto
   void ValorEsqueleto (int ve)
   {
@@ -71,21 +70,21 @@ public:			/// Construtor
   {
     return valorEsqueleto;
   }
- 
+
   /// Seta valorObjeto
   void ValorObjeto (int vo)
   {
     valorObjeto = vo;
   }
-  
+
  /// Obtêm valorEsqueleto
   int ValorObjeto () const
   {
     return valorObjeto;
   }
 
-  
+
   /// Método usado para eliminar pés de galinha (ramos mortos).
-  virtual void EliminaPeGalinha (CMatriz2D * imagem);	// 
+  virtual void EliminaPeGalinha (CMatriz2D * imagem);	//
 };
 #endif //  CFEEZhangSuen_h

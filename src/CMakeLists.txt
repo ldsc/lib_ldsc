@@ -1,6 +1,6 @@
 #add_subdirectory(Base) add_subdirectory(ConEqu) add_subdirectory(Contorno) add_subdirectory(Correlacao) add_subdirectory(Estatistica) add_subdirectory(FFT) add_subdirectory(Filtro) add_subdirectory(Funcao) add_subdirectory(Geometria) add_subdirectory(Grafico) add_subdirectory(Grafo) add_subdirectory(Integral) add_subdirectory(Interpolacao) add_subdirectory(Mascara) add_subdirectory(Material) add_subdirectory(Matriz) add_subdirectory(Permeabilidade) add_subdirectory(Reconstrucao) add_subdirectory(Rotulador) add_subdirectory(SFuncao) add_subdirectory(SMatriz) add_subdirectory(Tempo)
 
-add_library (ldsc STATIC 
+add_library (ldsc STATIC
   Base/CSolver.cpp
   Base/CSimulacao.cpp
   Base/COperacao.cpp
@@ -16,7 +16,7 @@ add_library (ldsc STATIC
   Correlacao/CCorrelacao.cpp
   Correlacao/CCorrelacaoEspacial.cpp
   Correlacao/CCorrelacaoFFT.cpp
-  Estatistica/CERandomico.cpp 
+  Estatistica/CERandomico.cpp
   Estatistica/CEstatistica.cpp
   Estatistica/CEFatorial.cpp
   Estatistica/CECombinacoes.cpp
@@ -32,13 +32,13 @@ add_library (ldsc STATIC
   Filtro/CFiltro.cpp
   Filtro/CFiltro3D.cpp
   Filtro/FAmplitude/CFABDoisPicos.cpp
-  Filtro/FAmplitude/CFABinario.cpp 
-  Filtro/FAmplitude/CFABMedia.cpp 
-  Filtro/FAmplitude/CFABVarianciaOtsu.cpp 
-  Filtro/FAmplitude/CFAmplitude.cpp 
-  Filtro/FAmplitude/CFABEntropiaJohansen.cpp 
-  Filtro/FAmplitude/CFABIterativoThrussel.cpp 
-  Filtro/FAmplitude/CFABPixelContorno.cpp 
+  Filtro/FAmplitude/CFABinario.cpp
+  Filtro/FAmplitude/CFABMedia.cpp
+  Filtro/FAmplitude/CFABVarianciaOtsu.cpp
+  Filtro/FAmplitude/CFAmplitude.cpp
+  Filtro/FAmplitude/CFABEntropiaJohansen.cpp
+  Filtro/FAmplitude/CFABIterativoThrussel.cpp
+  Filtro/FAmplitude/CFABPixelContorno.cpp
   Filtro/FAmplitude/CFACinza.cpp
   Filtro/FEspacial/CFEspacial.cpp
   Filtro/FEspacial/CFEBartlet.cpp
@@ -46,178 +46,178 @@ add_library (ldsc STATIC
   Filtro/FEspacial/CFEGaussiano.cpp
   Filtro/FEspacial/CFEPassaAlta.cpp
   Filtro/FEspacial/CFEBorda.cpp
-  Filtro/FEspacial/CFEEliminaBorda.cpp 
-  Filtro/FEspacial/CFELaplaciano.cpp 
-  Filtro/FEspacial/CFEPassaBaixa.cpp 
-  Filtro/FEspacial/CFEBSubstitueValor.cpp 
-  Filtro/FEspacial/CFEEmboss.cpp 
-  Filtro/FEspacial/CFEPassaAlta2.cpp 
+  Filtro/FEspacial/CFEEliminaBorda.cpp
+  Filtro/FEspacial/CFELaplaciano.cpp
+  Filtro/FEspacial/CFEPassaBaixa.cpp
+  Filtro/FEspacial/CFEBSubstitueValor.cpp
+  Filtro/FEspacial/CFEEmboss.cpp
+  Filtro/FEspacial/CFEPassaAlta2.cpp
   Filtro/FEspacial/CFERotacaoVerticalEDiferenca.cpp
-  Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.cpp 
-  Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.cpp 
-  Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.cpp 
+  Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.cpp
+  Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.cpp
+  Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.cpp
-  Filtro/FEspacial/FEEsqueleto/CFEEsqueleto.cpp 
-  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV1.cpp 
-  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV2.cpp 
-  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV3.cpp 
-  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.cpp 
+  Filtro/FEspacial/FEEsqueleto/CFEEsqueleto.cpp
+  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV1.cpp
+  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV2.cpp
+  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV3.cpp
+  Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.cpp
   Filtro/FEspacial/FEEsqueleto/CFEEzhangsuen.cpp
   Filtro/FEspacial/FEInversao/CFEInversao.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdeuclidiana.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp 
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.cpp 
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdeuclidiana.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp
   Filtro/FEspacial3D/CFEspacial3D.cpp
-  Filtro/FEspacial3D/CFEBorda3D.cpp 
+  Filtro/FEspacial3D/CFEBorda3D.cpp
   Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp
   Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.cpp
   Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.cpp 
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.cpp 
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFeuclidiana3D.cpp 
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.cpp
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.cpp
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFeuclidiana3D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.cpp
   Filtro/FReconstrucao/CFReconstrucao.cpp
-  Funcao/CFChebyshev.cpp 
-  Funcao/CFGamma.cpp 
-  Funcao/CFLegendre.cpp 
-  Funcao/CFPolinomio.cpp 
-  Funcao/CFBesselJ.cpp 
-  Funcao/CFCi.cpp 
-  Funcao/CFHermite.cpp 
-  Funcao/CFNaoLinearRzRy.cpp 
-  Funcao/CFSi.cpp 
-  Funcao/CFBesselY.cpp 
-  Funcao/CFEi.cpp 
-  Funcao/CFIterativa.cpp 
-  Funcao/CFPHermite.cpp 
-  Funcao/CFSomatorioCm2RyM.cpp 
-  Funcao/CFBeta.cpp  
-  Funcao/CFErf.cpp 
-  Funcao/CFLaguerre.cpp 
-  Funcao/CFPHermiteRec.cpp 
+  Funcao/CFChebyshev.cpp
+  Funcao/CFGamma.cpp
+  Funcao/CFLegendre.cpp
+  Funcao/CFPolinomio.cpp
+  Funcao/CFBesselJ.cpp
+  Funcao/CFCi.cpp
+  Funcao/CFHermite.cpp
+  Funcao/CFNaoLinearRzRy.cpp
+  Funcao/CFSi.cpp
+  Funcao/CFBesselY.cpp
+  Funcao/CFEi.cpp
+  Funcao/CFIterativa.cpp
+  Funcao/CFPHermite.cpp
+  Funcao/CFSomatorioCm2RyM.cpp
+  Funcao/CFBeta.cpp
+  Funcao/CFErf.cpp
+  Funcao/CFLaguerre.cpp
+  Funcao/CFPHermiteRec.cpp
   Funcao/CFuncoesEspeciais.cpp
-  Geometria/Bola/BCDiscreta/CBCdi.cpp 
-  Geometria/Bola/BCDiscreta/CBCdj.cpp 
-  Geometria/Bola/BCDiscreta/CBCdij.cpp 
-  Geometria/Bola/BCDiscreta/CBCdijk.cpp 
-  Geometria/Bola/BCDiscreta/CBCd4.cpp 
-  Geometria/Bola/BCDiscreta/CBCd8.cpp 
-  Geometria/Bola/BCDiscreta/CBCd34.cpp 
-  Geometria/Bola/BCDiscreta/CBCd5711.cpp 
-  Geometria/Bola/BCDiscreta/CBCDiscreta.cpp 
+  Geometria/Bola/BCDiscreta/CBCdi.cpp
+  Geometria/Bola/BCDiscreta/CBCdj.cpp
+  Geometria/Bola/BCDiscreta/CBCdij.cpp
+  Geometria/Bola/BCDiscreta/CBCdijk.cpp
+  Geometria/Bola/BCDiscreta/CBCd4.cpp
+  Geometria/Bola/BCDiscreta/CBCd8.cpp
+  Geometria/Bola/BCDiscreta/CBCd34.cpp
+  Geometria/Bola/BCDiscreta/CBCd5711.cpp
+  Geometria/Bola/BCDiscreta/CBCDiscreta.cpp
   Geometria/Bola/BCDiscreta/CBCEuclidiana.cpp
-  Geometria/Bola/BCDiscreta3D/CBCd3453D.cpp 
-  Geometria/Bola/BCDiscreta3D/CBCdijk3D.cpp 
-  Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.cpp 
+  Geometria/Bola/BCDiscreta3D/CBCd3453D.cpp
+  Geometria/Bola/BCDiscreta3D/CBCdijk3D.cpp
+  Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.cpp
   Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.cpp
   Grafico/Gnuplot/CGnuplot.cpp
-  Grafo/CObjetoGrafo.cpp 
-  Grafo/COGComponenteGrafo.cpp 
-  Grafo/COGLigacao.cpp 
-  Grafo/COGSitio.cpp 
-  Grafo/COGSitioDireita.cpp 
-  Grafo/COGSitioDirLRCM.cpp 
-  Grafo/COGSitioEsquerda.cpp 
-  Grafo/COGSitioEsqLR.cpp 
-  Grafo/COGSitioEsqLRCM.cpp 
-  Grafo/COGSitioLR.cpp 
-  Grafo/COGSitioDirLR.cpp 
-  Grafo/COGSitioLRCM.cpp 
-  Grafo/CGrafo.cpp 
-  Grafo/CGrafoContorno.cpp 
-  Grafo/CGra3Dby2D_M2.cpp 
-  Grafo/CGra3Dby2D_M3.cpp 
-  Grafo/CGra3Dby2D_M6.cpp 
-  Grafo/CGra3Dby2D_M4.cpp    
-  Grafo/CGra3Dby2D.cpp 
-  Grafo/CGra3Dby2D_M5.cpp 
+  Grafo/CObjetoGrafo.cpp
+  Grafo/COGComponenteGrafo.cpp
+  Grafo/COGLigacao.cpp
+  Grafo/COGSitio.cpp
+  Grafo/COGSitioDireita.cpp
+  Grafo/COGSitioDirLRCM.cpp
+  Grafo/COGSitioEsquerda.cpp
+  Grafo/COGSitioEsqLR.cpp
+  Grafo/COGSitioEsqLRCM.cpp
+  Grafo/COGSitioLR.cpp
+  Grafo/COGSitioDirLR.cpp
+  Grafo/COGSitioLRCM.cpp
+  Grafo/CGrafo.cpp
+  Grafo/CGrafoContorno.cpp
+  Grafo/CGra3Dby2D_M2.cpp
+  Grafo/CGra3Dby2D_M3.cpp
+  Grafo/CGra3Dby2D_M6.cpp
+  Grafo/CGra3Dby2D_M4.cpp
+  Grafo/CGra3Dby2D.cpp
+  Grafo/CGra3Dby2D_M5.cpp
   Grafo/CGra3Dby2D_M1.cpp
-  Integral/CIGauss.cpp 
-  Integral/CIGHermiteQuadrature.cpp 
-  Integral/CIGLegendreQuadrature.cpp 
-  Integral/CIGChebyshevQuadrature.cpp 
-  Integral/CIGLaguerreQuadrature.cpp 
-  Integral/CIntegral.cpp 
+  Integral/CIGauss.cpp
+  Integral/CIGHermiteQuadrature.cpp
+  Integral/CIGLegendreQuadrature.cpp
+  Integral/CIGChebyshevQuadrature.cpp
+  Integral/CIGLaguerreQuadrature.cpp
+  Integral/CIntegral.cpp
   Integral/CISimpson.cpp
-  Interpolacao/CIntLagrange.cpp 
-  Interpolacao/CINewtonDiff.cpp 
-  Interpolacao/CINewtonDivDiff.cpp 
-  Interpolacao/CIntBarycentric.cpp 
-  Interpolacao/CIntCubSpline.cpp  
-  Interpolacao/CIntEDBarycentric.cpp 
+  Interpolacao/CIntLagrange.cpp
+  Interpolacao/CINewtonDiff.cpp
+  Interpolacao/CINewtonDivDiff.cpp
+  Interpolacao/CIntBarycentric.cpp
+  Interpolacao/CIntCubSpline.cpp
+  Interpolacao/CIntEDBarycentric.cpp
   Interpolacao/CInterpolacao.cpp
-  Interpolacao/IntMetNum/CIntMetNum.cpp 
-  Interpolacao/IntMetNum/CIMNDiferencasCentrais.cpp 
-  Interpolacao/IntMetNum/CIMNExata.cpp 
-  Interpolacao/IntMetNum/CIMNUpwind.cpp 
+  Interpolacao/IntMetNum/CIntMetNum.cpp
+  Interpolacao/IntMetNum/CIMNDiferencasCentrais.cpp
+  Interpolacao/IntMetNum/CIMNExata.cpp
+  Interpolacao/IntMetNum/CIMNUpwind.cpp
   Interpolacao/IntMetNum/CIMNWuds.cpp
-  Interpolacao/Interpolacao2D/CInterpolacao2D.cpp 
+  Interpolacao/Interpolacao2D/CInterpolacao2D.cpp
   Interpolacao/Interpolacao2D/CInt2DBilinear.cpp
-  Mascara/CMascara.cpp 
-  Mascara/CMPassaBaixa.cpp 
-  Mascara/CMPAssaAlta.cpp 
-  Mascara/CMBartlet.cpp 
-  Mascara/CMEmboss.cpp 
-  Mascara/CMLaplaciano.cpp 
-  Mascara/CMDeteccaoContorno.cpp 
-  Mascara/CMGaussiano.cpp 
-  Mascara/CMPassaAlta2.cpp 
-  Mascara/CMRotacaoVerticaleDiferenca.cpp 
-  Mascara/CMascara3D.cpp 
+  Mascara/CMascara.cpp
+  Mascara/CMPassaBaixa.cpp
+  Mascara/CMPAssaAlta.cpp
+  Mascara/CMBartlet.cpp
+  Mascara/CMEmboss.cpp
+  Mascara/CMLaplaciano.cpp
+  Mascara/CMDeteccaoContorno.cpp
+  Mascara/CMGaussiano.cpp
+  Mascara/CMPassaAlta2.cpp
+  Mascara/CMRotacaoVerticaleDiferenca.cpp
+  Mascara/CMascara3D.cpp
   Mascara/CMPassaBaixa3d.cpp
-  Mascara/MCDiscreta/CMCDiscreta.cpp 
-  Mascara/MCDiscreta/CMCdi.cpp 
-  Mascara/MCDiscreta/CMCd4.cpp  
-  Mascara/MCDiscreta/CMCd8.cpp 
-  Mascara/MCDiscreta/CMCdij.cpp 
-  Mascara/MCDiscreta/CMCd34.cpp 
-  Mascara/MCDiscreta/CMCdijk.cpp 
-  Mascara/MCDiscreta/CMCd5711.cpp  
+  Mascara/MCDiscreta/CMCDiscreta.cpp
+  Mascara/MCDiscreta/CMCdi.cpp
+  Mascara/MCDiscreta/CMCd4.cpp
+  Mascara/MCDiscreta/CMCd8.cpp
+  Mascara/MCDiscreta/CMCdij.cpp
+  Mascara/MCDiscreta/CMCd34.cpp
+  Mascara/MCDiscreta/CMCdijk.cpp
+  Mascara/MCDiscreta/CMCd5711.cpp
   Mascara/MCDiscreta/CMCEuclidiana.cpp
   Material/CMFluido.cpp
-  Matriz/CImg.cpp 
-  Matriz/CImagem3D.cpp 
-  Matriz/CImagem.cpp 
-  Matriz/CHistograma.cpp 
-  Matriz/CVetor.cpp 
-  Matriz/CMatriz3D.cpp 
-  Matriz/CMatriz2D.cpp 
+  Matriz/CImg.cpp
+  Matriz/CImagem3D.cpp
+  Matriz/CImagem.cpp
+  Matriz/CHistograma.cpp
+  Matriz/CVetor.cpp
+  Matriz/CMatriz3D.cpp
+  Matriz/CMatriz2D.cpp
   Matriz/CBaseMatriz.cpp
-  Permeabilidade/CPermeabilidade.cpp 
-  Permeabilidade/CPermeabilidadeGrafo.cpp 
-  Permeabilidade/CPermeabilidadeIntrinseca.cpp 
+  Permeabilidade/CPermeabilidade.cpp
+  Permeabilidade/CPermeabilidadeGrafo.cpp
+  Permeabilidade/CPermeabilidadeIntrinseca.cpp
   Permeabilidade/CPermeabilidadeRelativa.cpp
-  Reconstrucao/CReconstrucao.cpp 
-  Reconstrucao/CReconstrucaoBueno.cpp 
-  Reconstrucao/CReconstrucaoEsferas.cpp 
+  Reconstrucao/CReconstrucao.cpp
+  Reconstrucao/CReconstrucaoBueno.cpp
+  Reconstrucao/CReconstrucaoEsferas.cpp
   Reconstrucao/CReconstrucaoZhirong.cpp
-  Rotulador/CRotulador.cpp 
-  Rotulador/CRotulador2D.cpp 
-  Rotulador/CRotulador2DCm.cpp 
-  Rotulador/CConectividade2D.cpp 
-  Rotulador/CRotulador3D.cpp 
+  Rotulador/CRotulador.cpp
+  Rotulador/CRotulador2D.cpp
+  Rotulador/CRotulador2DCm.cpp
+  Rotulador/CConectividade2D.cpp
+  Rotulador/CRotulador3D.cpp
   Rotulador/CConectividade3D.cpp
-  SFuncao/CSFBissecao.cpp 
-  SFuncao/CSFCordas.cpp 
-  SFuncao/CSFuncao.cpp 
-  SFuncao/CSFNewton.cpp 
+  SFuncao/CSFBissecao.cpp
+  SFuncao/CSFCordas.cpp
+  SFuncao/CSFuncao.cpp
+  SFuncao/CSFNewton.cpp
   SFuncao/CSFRichmond.cpp
   SMatriz/CSMatriz.cpp
   SMatriz/CSMParametroSolver.cpp
-  SMatriz/SMDiagonal/CSMDGaussSeidel.cpp 
-  SMatriz/SMDiagonal/CSMDSOR.cpp 
-  SMatriz/SMDiagonal/CSMDiagonalDominante.cpp 
-  SMatriz/SMDiagonal/CSMDJacobi.cpp 
+  SMatriz/SMDiagonal/CSMDGaussSeidel.cpp
+  SMatriz/SMDiagonal/CSMDSOR.cpp
+  SMatriz/SMDiagonal/CSMDiagonalDominante.cpp
+  SMatriz/SMDiagonal/CSMDJacobi.cpp
   SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.cpp
   Tempo/CTime.cpp
 )

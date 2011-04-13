@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 project (LIBLDSC)
 
 # The version number.
-set (${PROJECT_NAME}_VERSION_MAJOR 2011) 
+set (${PROJECT_NAME}_VERSION_MAJOR 2011)
 set (${PROJECT_NAME}_VERSION_MINOR 03)
 set (${PROJECT_NAME}_PATCH_LEVEL 30)
 
@@ -19,5 +19,7 @@ set (CMAKE_BUILD_TYPE Release)
 #set(LIBRARY_OUTPUT_DIRECTORY lib)
 #message(FATAL_ERROR \${CMAKE_BUILD_TYPE}=${CMAKE_BUILD_TYPE})
 add_subdirectory (src)
+#add_subdirectory(demo)
+#add_subdirectory(test)
 
 add_executable(libldsc src/libldsc.cpp)

@@ -1,0 +1,4 @@
+Dimensoes da imagem
+609   458
+
+A dimensão da imagem 320220.img é 40*40*40

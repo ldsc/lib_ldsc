@@ -1,0 +1,22 @@
+
+Plano  490
+NumeroObjetosDeletados=377
+NumeroObjetosDeletados=25
+NumeroObjetosDeletados=2
+NumeroObjetosDeletados=0
+
+Tempo processamento função  EliminarObjetosRedundantes=  0s
+NumeroTotal de links deletados= 132
+|
+Its[13567] LEs[1.00000000000000004e-10] Es[8.30060671788570672e-10] Emedio[9.99846613373274964e-11]
+
+Informações do SOLVER das permeabilidades
+ limIt[50] limErro[5]
+Informações do SOLVER das pressões
+ limIt[100000] limErro[1.00000000000000004e-10]
+Chamando SoluçãoSistema (solver->Go)...
+-
+Its[6649] LEs[1.00000000000000004e-10] Es[4.42592724825310385e-11] Emedio[9.9998904493084292e-11]
+ QE=2.333e-14 QD=-2.347e-14 p(mD)=74.4981936051846736 Ep=0.570785439568894329%  Itp=1
+
+

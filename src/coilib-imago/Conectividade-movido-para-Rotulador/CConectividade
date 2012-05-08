@@ -1,0 +1,6 @@
+//=========================================Bibliotecas
+#include<TConectividade/TFEConectividade2D-confeq-liblmpt.h>
+#include<TConectividade/TFEConectividade3D-confeql-iblmpt.h>
+
+// Versao do imago
+##include<TConectividade/TFEConectividade3d.h>

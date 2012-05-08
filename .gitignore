@@ -1,0 +1,8 @@
+.svn*
+*~
+.kdev4
+cvs
+libldsc.a
+CMakeFiles
+libldsc
+Makefile

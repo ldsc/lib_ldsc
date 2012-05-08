@@ -1,0 +1,6 @@
+nomeArquivo:correlacao.cor
+fator de amplificacao:2
+numero de pontos a serem lidos do arquivo de disco:10
+dimensao nx:50
+dimensao ny:50
+dimensao nz:50

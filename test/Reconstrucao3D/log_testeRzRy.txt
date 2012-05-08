@@ -1,0 +1,19 @@
+
+Criando objeto CENormal para calculo de yc ... ...objeto CNormal criado.porosidade = 0.2
+yc=normal->GoInv(0.2)=-0.841621...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.3
+yc=normal->GoInv(0.3)=-0.524401...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.4
+yc=normal->GoInv(0.4)=-0.253347...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.5
+yc=normal->GoInv(0.5)=0...ok.
+
+Cz....ok..Ry....ok
+
+objeto normal deletado.

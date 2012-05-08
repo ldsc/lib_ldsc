@@ -1,0 +1,10 @@
+
+NX=620
+NY=460
+NX*NY=285200Forward fft ...
+done.
+Calculo de R = R * R  + I * I, e I = 0
+done.
+Inverse fft ...
+done.
+fmin = 0.0268899

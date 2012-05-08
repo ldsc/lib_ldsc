@@ -1,0 +1,21 @@
+
+Lendo arquivo com valores de Cz do disco ......Cz ok.
+Criando objeto CENormal para calculo de yc ... ...objeto CENormal criado.
+Calculando yc=normal->GoInv(0.221427)=-0.767383...ok.
+objeto normal deletado.
+Calculando   Ry1D ......Ry1D ok.
+Calculando   Ry3D_de_1D ......Ry3D_de_1D ok.
+Criando objeto TFFT_Properties para calculo das transformadas ... ...objeto TFFT_Properties criado.
+Calculando   |Y.^2|=FFT(Ry3D) ......|Y.^2| ok.
+Calculando   |Y.|=sqrt Y.^2 ......|Y.| ok.
+Calculando   Y. de |Y.|+angulo de fase ...... Y. ok.
+Calculando   Y=FFT-1(Y.) ... ...Y ok.
+Conferindo a media e a covariancia...  media=0.0335872 covariancia=2.23559
+CUIDADO!	Valores de média e covariância ruins
+Favor checar a função correlação de entrada e os parâmetros de entrada.
+
+Calculando normalizacao da parte real ......normalizacao ok.
+Conferindo a media e a covariancia depois da normalização...  media=6.91811e-16 covariancia=1
+Calculando   filtro nao linear ... ...filtro nao linear ok.
+Salvando imagem reconstruída em disco... ...ok.
+Fim da função CReconstrucaoZhirong::Go.

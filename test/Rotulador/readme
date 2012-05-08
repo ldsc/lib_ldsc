@@ -1,0 +1,21 @@
+
+Diretório demo:
+Arquivo: README
+
+Diretório com exemplos de programas que usam ou a biblioteca lib_ldsc (antiga lib_lmpt) inteira ou uma de suas partes.
+
+Matriz3D:
+=========
+O programa Matriz3D usa a biblioteca libTMatriz.a
+O programa abre a imagem P262_K70-2-45-50-lp.pm3 e a seguir
+salva em disco com o nome saida.pm3
+Se funcionar é porque a biblioteca libTMatriz.a 
+esta funcionando.
+
+Rotulador3D:
+============
+O programa Rotulador3D realiza a rotulagem de uma imagem 3D.
+O programa abre uma imagem passada como parâmetro,
+realiza sua rotulagem e a seguir salva a imagem rotulada em disco.
+Se funcionar é porque a biblioteca liblib_lmpt.a aparentemente
+esta funcionando.

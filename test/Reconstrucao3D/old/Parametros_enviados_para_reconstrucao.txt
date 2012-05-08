@@ -1,0 +1,6 @@
+nomeArquivo:320220.cor
+fator de amplificacao:3
+numero de pontos a serem lidos do arquivo de disco:10
+dimensao nx:20
+dimensao ny:20
+dimensao nz:20

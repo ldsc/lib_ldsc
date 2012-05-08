@@ -1,0 +1,29 @@
+Sequencia utilizada para testar programas do Liang:
+
+1- Abri o berea500 no anaimp, e gerei o arquivo
+berea.ma2 no formato ASCII (pbm)
+	
+d2
+620 460
+...dados...
+
+2- Eliminei o cabeçalho
+d2
+620 460
+
+e salvei como imagem.dat
+
+3-Executei a determinação da função correlação,
+e comparei com o resultado do imago.
+
+4-Executei a determinação da reconstrução
+e comparei com o resultado do imago.
+
+5-Executei a determinação do esqueleto
+e comparei com o resultado do imago.
+
+6-Executei a determinação do grafo
+e comparei com o resultado do imago.
+
+7-Executei a determinação da permeabilidade
+e comparei com o resultado do imago.

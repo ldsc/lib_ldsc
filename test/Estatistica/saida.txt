@@ -1,0 +1,40 @@
+
+
+-------->Valores de area em função de z.
+normal.Go(-3)    = 0.0013499
+normal.Go(-2.5)    = 0.00620967
+normal.Go(-2)    = 0.0227501
+normal.Go(-1.5)    = 0.0668072
+normal.Go(-1)    = 0.158655
+normal.Go(-0.5)    = 0.308538
+normal.Go(0)    = 0.5
+normal.Go(0.5)    = 0.691462
+normal.Go(1)    = 0.841345
+normal.Go(1.5)    = 0.933193
+normal.Go(2)    = 0.97725
+normal.Go(2.5)    = 0.99379
+normal.Go(3)    = 0.99865
+
+
+-------->Valores de z em função da area.
+normal.GoInv(-1) = -5.19934
+normal.GoInv(-0.9) = -5.19934
+normal.GoInv(-0.8) = -5.19934
+normal.GoInv(-0.7) = -5.19934
+normal.GoInv(-0.6) = -5.19934
+normal.GoInv(-0.5) = -5.19934
+normal.GoInv(-0.4) = -5.19934
+normal.GoInv(-0.3) = -5.19934
+normal.GoInv(-0.2) = -5.19934
+normal.GoInv(-0.1) = -5.19934
+normal.GoInv(-1.38778e-16) = -5.19934
+normal.GoInv(0.1) = -1.28155
+normal.GoInv(0.2) = -0.841621
+normal.GoInv(0.3) = -0.524401
+normal.GoInv(0.4) = -0.253347
+normal.GoInv(0.5) = -2.78292e-16
+normal.GoInv(0.6) = 0.253347
+normal.GoInv(0.7) = 0.524401
+normal.GoInv(0.8) = 0.841621
+normal.GoInv(0.9) = 1.28155
+normal.GoInv(1) = 8.11451

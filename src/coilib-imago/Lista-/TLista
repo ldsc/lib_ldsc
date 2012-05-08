@@ -1,0 +1,3 @@
+//=========================================Bibliotecas
+#include<TLista/IListPixel.h>
+#include<TLista/IListPixelRotuled.h>

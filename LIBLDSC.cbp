@@ -1,0 +1,1082 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="LIBLDSC" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\share\;CMake Files\..\..\..\..\usr\share\cmake\;CMake Files\..\..\..\..\usr\share\cmake\Modules\;CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\;CMake Files\..\..\..\..\usr\share\cmake\Modules\Compiler\;CMake Files\src\;CMake Files\test\;CMake Files\test\AberturaDilatacao\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/puerari/desenv/libldsc" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="libldsc">
+         <Option output="/home/puerari/desenv/libldsc/libldsc" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 libldsc" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="libldsc/fast">
+         <Option output="/home/puerari/desenv/libldsc/libldsc" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 libldsc/fast" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/puerari/desenv/libldsc" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="ldsc">
+         <Option output="/home/puerari/desenv/libldsc/src/libldsc.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc/src" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 ldsc" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="ldsc/fast">
+         <Option output="/home/puerari/desenv/libldsc/src/libldsc.a" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc/src" />
+         <Option object_output="./" />
+         <Option type="2" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 ldsc/fast" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/src/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="abertura_dilatacao">
+         <Option output="/home/puerari/desenv/libldsc/test/AberturaDilatacao/abertura_dilatacao" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc/test/AberturaDilatacao" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 abertura_dilatacao" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="abertura_dilatacao/fast">
+         <Option output="/home/puerari/desenv/libldsc/test/AberturaDilatacao/abertura_dilatacao" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/puerari/desenv/libldsc/test/AberturaDilatacao" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/puerari/desenv/libldsc/src" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 abertura_dilatacao/fast" />
+            <CompileFile command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/gmake -f &quot;/home/puerari/desenv/libldsc/test/AberturaDilatacao/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CFuncao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CMath.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/COperacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CSimulacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CSolver.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CConfiguracoesEquilibrio2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CConfiguracoesEquilibrio3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Contorno/CContorno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Contorno/CContornoCentro.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacao3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacaoEspacial.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacaoFFT.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CBaseDistribuicao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CDistribuicao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CDistribuicao3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEChiQuadrado.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CECombinacoes.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEFSnedecor.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEFatorial.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEIntervalosConfianca.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEMomentos.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CENormal.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CERandomico.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CETStudent.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CETesteMediaDuasAmostras.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEstatistica.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/FFT/CFFT.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/FFT/CFFTPropriedades.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/CFiltro.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/CFiltro3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABDoisPicos.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABEntropiaJohansen.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABIterativoThrussel.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABMedia.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABPixelContorno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABVarianciaOtsu.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABinario.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFACinza.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFAmplitude.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBSubstitueValor.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBartlet.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBorda.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEDeteccaoContornoMasc.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEEliminaBorda.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEEmboss.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEGaussiano.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFELaplaciano.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaAlta.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaAlta2.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaBaixa.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFERotacaoVerticalEDiferenca.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEspacial.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueleto.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV1.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV2.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV3.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEzhangsuen.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEInversao/CFEInversao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEBorda3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEspacial3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FReconstrucao/CFReconstrucao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBesselJ.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBesselY.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBeta.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFChebyshev.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFCi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFEi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFErf.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFGamma.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFHermite.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFIterativa.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFLaguerre.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFLegendre.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFNaoLinearRzRy.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPHermite.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPHermiteRec.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPolinomio.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFSi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFSomatorioCm2RyM.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFuncoesEspeciais.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCDiscreta.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCEuclidiana.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd34.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd4.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd5711.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd8.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdij.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdijk.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdj.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCd3453D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCdijk3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafico/Gnuplot/CGnuplot.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M1.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M2.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M3.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M4.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M5.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M6.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGrafo.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGrafoContorno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGComponenteGrafo.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGLigacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitio.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDirLR.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDirLRCM.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDireita.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsqLR.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsqLRCM.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsquerda.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioLR.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioLRCM.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CObjetoGrafo.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGChebyshevQuadrature.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGHermiteQuadrature.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGLaguerreQuadrature.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGLegendreQuadrature.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGauss.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CISimpson.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIntegral.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CINewtonDiff.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CINewtonDivDiff.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntBarycentric.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntCubSpline.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntEDBarycentric.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntLagrange.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CInterpolacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNDiferencasCentrais.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNExata.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNUpwind.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNWuds.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIntMetNum.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/Interpolacao2D/CInt2DBilinear.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/Interpolacao2D/CInterpolacao2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMBartlet.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMDeteccaoContorno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMEmboss.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMGaussiano.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMLaplaciano.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPAssaAlta.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPassaAlta2.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPassaBaixa.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPassaBaixa3d.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMRotacaoVerticaleDiferenca.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMascara.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMascara3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCDiscreta.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCEuclidiana.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd34.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd4.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd5711.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd8.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdij.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdijk.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Material/CMFluido.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CBaseMatriz.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CHistograma.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImagem.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImagem3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImg.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CMatriz2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CMatriz3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CVetor.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidade.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeGrafo.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeIntrinseca.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeRelativa.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoBueno.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoEsferas.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoZhirong.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CConectividade2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CConectividade3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador2D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador2DCm.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador3D.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFBissecao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFCordas.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFNewton.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFRichmond.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFuncao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/CSMParametroSolver.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/CSMatriz.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDGaussSeidel.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDJacobi.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDSOR.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDiagonalDominante.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Tempo/CTime.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/libldsc.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CAberturaDilatacao.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CAberturaDilatacao.teste.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CObjetoImagem.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CUtil.cpp">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CFuncao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CMath.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/COperacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CSimulacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Base/CSolver.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CCamara3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CConfiguracoesEquilibrio2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/ConEqu/CConfiguracoesEquilibrio3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Contorno/CContorno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Contorno/CContornoCentro.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacao3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacaoEspacial.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Correlacao/CCorrelacaoFFT.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CBaseDistribuicao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CDistribuicao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Distribuicao/CDistribuicao3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEChiQuadrado.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CECombinacoes.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEFSnedecor.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEFatorial.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEIntervalosConfianca.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEMomentos.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CENormal.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CERandomico.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CETStudent.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CETesteMediaDuasAmostras.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Estatistica/CEstatistica.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/FFT/CFFT.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/FFT/CFFTPropriedades.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/CFiltro.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/CFiltro3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABDoisPicos.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABEntropiaJohansen.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABIterativoThrussel.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABMedia.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABPixelContorno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABVarianciaOtsu.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFABinario.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFACinza.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FAmplitude/CFAmplitude.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBSubstitueValor.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBartlet.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEBorda.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEDeteccaoContornoMasc.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEEliminaBorda.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEEmboss.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEGaussiano.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFELaplaciano.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaAlta.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaAlta2.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEPassaBaixa.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFERotacaoVerticalEDiferenca.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/CFEspacial.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueleto.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV1.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV2.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV3.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEInversao/CFEInversao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEBSubstitueValor3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEBorda3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/CFEspacial3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Filtro/FReconstrucao/CFReconstrucao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBesselJ.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBesselY.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFBeta.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFChebyshev.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFCi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFEi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFErf.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFGamma.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFHermite.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFIterativa.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFLaguerre.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFLegendre.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFNaoLinearRzRy.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPHermite.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPHermiteRec.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFPolinomio.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFSi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFSomatorioCm2RyM.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Funcao/CFuncoesEspeciais.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCDiscreta.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCEuclidiana.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd34.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd4.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd5711.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCd8.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdij.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdijk.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta/CBCdj.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCd3453D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Geometria/Bola/BCDiscreta3D/CBCdijk3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafico/Gnuplot/CGnuplot.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M1.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M2.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M3.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M4.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M5.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGra3Dby2D_M6.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGrafo.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CGrafoContorno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGComponenteGrafo.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGLigacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitio.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDirLR.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDirLRCM.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioDireita.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsqLR.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsqLRCM.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioEsquerda.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioLR.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/COGSitioLRCM.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Grafo/CObjetoGrafo.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGChebyshevQuadrature.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGHermiteQuadrature.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGLaguerreQuadrature.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGLegendreQuadrature.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIGauss.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CISimpson.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Integral/CIntegral.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntBarycentric.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntCubSpline.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntEDBarycentric.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CIntLagrange.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/CInterpolacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNDiferencasCentrais.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNExata.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNUpwind.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIMNWuds.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/IntMetNum/CIntMetNum.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/Interpolacao2D/CInt2DBilinear.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Interpolacao/Interpolacao2D/CInterpolacao2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMBartlet.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMDeteccaoContorno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMEmboss.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMGaussiano.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMLaplaciano.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPassaAlta2.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMPassaBaixa.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMRotacaoVerticaleDiferenca.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMascara.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/CMascara3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCDiscreta.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCEuclidiana.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd34.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd4.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd5711.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCd8.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdij.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Mascara/MCDiscreta/CMCdijk.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Material/CMFluido.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CBaseMatriz.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CHistograma.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImagem.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImagem3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CImg.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CMatriz2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CMatriz3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Matriz/CVetor.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidade.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeGrafo.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeIntrinseca.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Permeabilidade/CPermeabilidadeRelativa.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoBueno.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoEsferas.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Reconstrucao/CReconstrucaoZhirong.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CConectividade2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CConectividade3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador2D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador2DCm.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Rotulador/CRotulador3D.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFBissecao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFCordas.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFNewton.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFRichmond.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SFuncao/CSFuncao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/CSMParametroSolver.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/CSMatriz.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDGaussSeidel.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDJacobi.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDSOR.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDiagonalDominante.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/Tempo/CTime.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CAberturaDilatacao.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CObjetoImagem.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CUtil.h">
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeGenericSystem.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeCInformation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeCXXInformation.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/Linux.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/UnixPaths.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/Linux-GNU-C.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/Linux-GNU.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Platform/Linux-GNU.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Platform\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Compiler/GNU-C.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Compiler\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Compiler/GNU.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Compiler\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Compiler/GNU-CXX.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Compiler\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/../../../../usr/share/cmake/Modules/Compiler/GNU.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\share\cmake\Modules\Compiler\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\test\" />
+      </Unit>
+      <Unit filename="/home/puerari/desenv/libldsc/test/AberturaDilatacao/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\test\AberturaDilatacao\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

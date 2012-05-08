@@ -1,0 +1,27 @@
+
+Criando objeto TNormal para calculo de yc ... ...objeto TNormal criado.porosidade = 0
+yc=normal->GoInv(0)=-5.19934...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.1
+yc=normal->GoInv(0.1)=-1.28155...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.2
+yc=normal->GoInv(0.2)=-0.841621...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.3
+yc=normal->GoInv(0.3)=-0.524401...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.4
+yc=normal->GoInv(0.4)=-0.253347...ok.
+
+Cz....ok..Ry....ok
+porosidade = 0.5
+yc=normal->GoInv(0.5)=0...ok.
+
+Cz....ok..Ry....ok
+
+objeto normal deletado.

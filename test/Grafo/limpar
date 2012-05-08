@@ -1,0 +1,6 @@
+rm *mod*
+rm *fim
+rm *meio*
+rm Grafo_inicial.txt
+rm fatorCorrecao.txt
+

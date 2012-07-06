@@ -17,5 +17,19 @@ Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFEuclidiana3D.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.h"	// Classe base
+#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.h" // Classe base
 
+#include "Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.h"
+
+/*
+==================================================================================
+Documentacao 		CriaMascara
+==================================================================================
+Descrição:      Funcao que cria a mascara de chanfro adequada.
+*/
+
+void CFEMMIDFEuclidiana3D::CriaMascara (unsigned int _tamanhoMascara) {
+  if (mask)
+    delete mask;
+  mask = new CBCEuclidiana3D (_tamanhoMascara);	//  valores mi,mj,rb definidos pelo construtor de CBCEuclidiana
+}

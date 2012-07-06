@@ -5,7 +5,7 @@ PROJETO:		Anaimp
 			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
@@ -42,84 +42,84 @@ Programador:      Andre Duarte Bueno
 // Mascara dijk  comparando coma d5711 fica da forma:
 // mi=5 mj=7 mk=11    0<= raioBase <= 5-1, raiobase fica entre 0 e 4, sendo o default=2
 CBCdijk3D::CBCdijk3D (unsigned int tm, int i, int j, int k, int rb)
-: CMCdijk (i, j, k, rb), CBCDiscreta3D (tm) // no lugar de tm rb ??? verificar
+        : CMCdijk (i, j, k, rb), CBCDiscreta3D (tm) // no lugar de tm rb ??? verificar
 {
-  unsigned int dist;		// distancia calculada
+    unsigned int dist;		// distancia calculada
 
-  unsigned int raio = RaioX ();	// Como a bola é cúbica uso raio=raioX=raioY=raioZ
+    unsigned int raio = RaioX ();	// Como a bola é cúbica uso raio=raioX=raioY=raioZ
 
-  // calculo raio bola inclusa e tangente
+    // calculo raio bola inclusa e tangente
 
-  raioBolaInclusa = mi * (raio);	// 
+    raioBolaInclusa = mi * (raio);	//
 
-  raioBolaTangente = mi * (raio + 1);	// 
+    raioBolaTangente = mi * (raio + 1);	//
 
-  // variaveis otimizacao, usadas calculo simetria
+    // variaveis otimizacao, usadas calculo simetria
 
-  unsigned int posxe, posxd;	// x esquerda e x direita
+    unsigned int posxe, posxd;	// x esquerda e x direita
 
-  unsigned int posys, posyn;	// y sul e y norte
+    unsigned int posys, posyn;	// y sul e y norte
 
-  unsigned int poszf, poszb;	// z front , e z back
+    unsigned int poszf, poszb;	// z front , e z back
 
-  unsigned int miXraio = mi * raio;	// otimização
+    unsigned int miXraio = mi * raio;	// otimização
 
-  for (unsigned int xx = 0; xx <= raio; xx++)	// Usa xx, metade da bola
+    for (unsigned int xx = 0; xx <= raio; xx++)	// Usa xx, metade da bola
     {
 
-      posxe = raio - xx;
+        posxe = raio - xx;
 
-      posxd = raio + xx;
+        posxd = raio + xx;
 
-      for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola por ser simétrica
-	{			// calculo da distancia, Falta generalizar (valores 3 e 4), e o uso do raio base
+        for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola por ser simétrica
+        {			// calculo da distancia, Falta generalizar (valores 3 e 4), e o uso do raio base
 
-	  posys = raio - yy;
+            posys = raio - yy;
 
-	  posyn = raio + yy;
+            posyn = raio + yy;
 
-	  for (unsigned int zz = 0; zz <= raio; zz++)	// calcula distancias
-	    {
-	      poszf = raio + zz;
+            for (unsigned int zz = 0; zz <= raio; zz++)	// calcula distancias
+            {
+                poszf = raio + zz;
 
-	      poszb = raio - zz;
+                poszb = raio - zz;
 
-	      if ((xx >= yy) && (xx >= zz))
-		dist = mi * xx + yy + zz;	// dist=3*x+y+z;
-	      else if ((yy >= zz) && (yy > xx))
-		dist = mi * yy + zz + xx;	// dist=3*y+z+x;
-	      else
-		dist = mi * zz + xx + yy;	// dist=3*z+x+y;
+                if ((xx >= yy) && (xx >= zz))
+                    dist = mi * xx + yy + zz;	// dist=3*x+y+z;
+                else if ((yy >= zz) && (yy > xx))
+                    dist = mi * yy + zz + xx;	// dist=3*y+z+x;
+                else
+                    dist = mi * zz + xx + yy;	// dist=3*z+x+y;
 
-	      if (dist <= miXraio)
-		{
-		  data3D[posxe][posyn][poszf] = data3D[posxe][posys][poszf] =
-		    data3D[posxd][posyn][poszf] =
-		    data3D[posxd][posys][poszf] =
-		    data3D[posxe][posyn][poszb] =
-		    data3D[posxe][posys][poszb] =
-		    data3D[posxd][posyn][poszb] =
-		    data3D[posxd][posys][poszb] = dist;
-		}
-	      else
-		{
-		  data3D[posxe][posyn][poszf] = data3D[posxe][posys][poszf] =
-		    data3D[posxd][posyn][poszf] =
-		    data3D[posxd][posys][poszf] =
-		    data3D[posxe][posyn][poszb] =
-		    data3D[posxe][posys][poszb] =
-		    data3D[posxd][posyn][poszb] =
-		    data3D[posxd][posys][poszb] = 0;
+                if (dist <= miXraio)
+                {
+                    data3D[posxe][posyn][poszf] = data3D[posxe][posys][poszf] =
+                                                      data3D[posxd][posyn][poszf] =
+                                                          data3D[posxd][posys][poszf] =
+                                                              data3D[posxe][posyn][poszb] =
+                                                                  data3D[posxe][posys][poszb] =
+                                                                      data3D[posxd][posyn][poszb] =
+                                                                          data3D[posxd][posys][poszb] = dist;
+                }
+                else
+                {
+                    data3D[posxe][posyn][poszf] = data3D[posxe][posys][poszf] =
+                                                      data3D[posxd][posyn][poszf] =
+                                                          data3D[posxd][posys][poszf] =
+                                                              data3D[posxe][posyn][poszb] =
+                                                                  data3D[posxe][posys][poszb] =
+                                                                      data3D[posxd][posyn][poszb] =
+                                                                          data3D[posxd][posys][poszb] = 0;
 
-		}
+                }
 
-	    }
+            }
 
-	}
+        }
 
     }
 
-  data3D[raio][raio][raio] = 1;
+    data3D[raio][raio][raio] = 1;
 
 }
 

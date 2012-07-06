@@ -44,9 +44,8 @@ protected:
 
 public:
 		/// Construtor
-  CFEMMIDFdijk (CMatriz2D * &matriz, unsigned int _mi, unsigned int _mj,
-		unsigned int _mk, unsigned int _rb):CFEMMIDF (matriz),
-    CMCdijk (_mi, _mj, _mk, _rb)
+  CFEMMIDFdijk (CMatriz2D * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
+     :CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdijk (_mi, _mj, _mk, _rb)
   {
   }
 

@@ -8,7 +8,7 @@ PROJETO:		Anaimp
 			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
@@ -49,16 +49,16 @@ class CBCdi: /*public  TMCdi, */ public CBCDiscreta	/*,public CMascara */
 {
 
 public:
-	
+
 /// Construtor
-  CBCdi (unsigned int tm, int mi, int raioBase);	
+    CBCdi (unsigned int tm, int mi, int raioBase);
 
-  ///   Destrutor      
+    ///   Destrutor
     virtual ~ CBCdi ()
-  {
-  }	
+    {
+    }
 
-  // virtual void CalculaRaioBola();
+    // virtual void CalculaRaioBola();
 
 };
 #endif //  CBCdi_h

@@ -2,7 +2,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp.
-			Analise de Imagens de Meios Porosos.
+   Analise de Imagens de Meios Porosos.
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -14,31 +14,24 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ----------------------------------------------------------------------------
-			BIBLIOTECAS
+   BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
 #include <Mascara/CMPassaBaixa.h>
-
-//         1       1       1
-//         1       1       1
-//         1       1       1
-
 /*
-
 ==================================================================================
 Documentacao      PreencheMascara
 ==================================================================================
 Descrição:      Preenche a mascara com os valores adequados
-		Para a mascara passa baixa, todos os valores são unitários
+  Para a mascara passa baixa, todos os valores são unitários
 Programador:    Andre Duarte Bueno
 */
-
-void
-CMPassaBaixa::PreencheMascara ()
-{
-  for (unsigned int i = 0; i < NX (); i++)
-    for (unsigned int j = 0; j < NY (); j++)
-      data2D[i][j] = 1;
-  //     CalculaPeso ();		//   calcula o peso da mascara e
-  peso = NX() * NY();  //   armazena no atributo peso
+// 1  1  1
+// 1  1  1
+// 1  1  1
+void CMPassaBaixa::PreencheMascara () {
+   for (unsigned int i = 0; i < NX (); i++)
+      for (unsigned int j = 0; j < NY (); j++)
+         data2D[i][j] = 1;
+   peso = NX() * NY();  //   armazena no atributo peso
 }

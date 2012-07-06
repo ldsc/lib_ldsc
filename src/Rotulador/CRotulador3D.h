@@ -27,7 +27,6 @@
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-
 #ifndef CRotulador_h
 #include <Rotulador/CRotulador.h>
 #endif
@@ -45,88 +44,84 @@
 class CRotulador3D : public CMatriz3D, public CRotulador
 {
 
-  // --------------------------------------------------------------Atributos
- public:
-  /// Se ativo usa rotulagem 3D, se inativo usa 3D a partir de 2D
-  bool direto;
+   // --------------------------------------------------------------Atributos
+public:
+   /// Se ativo usa rotulagem 3D, se inativo usa 3D a partir de 2D
+   bool direto;
 
-  /// Ponteiro para a imagem recebida no construtor ou em Go
-  CMatriz3D *pm;
+   /// Ponteiro para a imagem recebida no construtor ou em Go
+   CMatriz3D *pm;
 
-  // -------------------------------------------------------------Construtor
-  /// Construtor, recebe ponteiro para imagem 3D usado para setar nx,ny,nz
-  CRotulador3D (CMatriz3D * _pm)
-    : CMatriz3D (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
-    , CRotulador (), direto (true), pm (_pm)     // Seta atributos
-  {
-  	path = _pm-> path;
-  }
+   // -------------------------------------------------------------Construtor
+   /// Construtor, recebe ponteiro para imagem 3D usado para setar nx,ny,nz
+   CRotulador3D (CMatriz3D * _pm, int _indice=1, int _fundo=0)
+      : CMatriz3D (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
+      , CRotulador ( _indice, _fundo), direto (true), pm (_pm)  {    // Seta atributos
+      path = _pm-> path;
+   }
 
-  /// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-  CRotulador3D (std::string fileName)
-	:CMatriz3D (fileName), CRotulador (), direto (true),pm (NULL)
-      {
-      }
+   /// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
+   CRotulador3D (std::string fileName)
+      :CMatriz3D (fileName), CRotulador (), direto (true),pm (NULL) {
+   }
 
-  /// Recebe a informação das dimensoes da imagem
-  CRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
-	:CMatriz3D (nx, ny, nz), CRotulador (), direto (true), pm (NULL)
-    {
-    }
+   /// Recebe a informação das dimensoes da imagem
+   CRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
+      :CMatriz3D (nx, ny, nz), CRotulador (), direto (true), pm (NULL) {
+   }
 
-  // --------------------------------------------------------------Destrutor
-    /// Destrutor
-    virtual ~ CRotulador3D ()
-    {
-    }
+   // --------------------------------------------------------------Destrutor
+   /// Destrutor
+   virtual ~ CRotulador3D () {
+   }
 
-  // ----------------------------------------------------------------Metodos
- protected:
+   // ----------------------------------------------------------------Metodos
+protected:
 
-  // Verifica se a imagem recebida tem as mesmas dimensoes do rotulador
-  // se diferente, realoca o rotulador
-  virtual bool PreparaImagem (CMatriz3D * matriz);
+   // Verifica se a imagem recebida tem as mesmas dimensoes do rotulador
+   // se diferente, realoca o rotulador
+   virtual bool PreparaImagem (CMatriz3D * matriz);
 
-  /// 1a passagem, identifica pixeis válidos
-  virtual void IdentificaObjetos ();
+   /// 1a passagem, identifica pixeis válidos
+   virtual void IdentificaObjetos ();
 
-  /// 2a passagem, rotula a imagem
-  virtual void RotulaImagem ( /*int _rotuloInicial=0 */ );
+   /// 2a passagem, rotula a imagem
+   virtual void RotulaImagem ( /*int _rotuloInicial=0 */ );
 
-  // virtual void IdentificaObjetos_3D();  // Executa 1a passagem diretamente em 3D
-  // virtual void IdentificaObjetos_3D_Usando2D();// Executa 1a passagem utilizando rotulagem 2D
-  // Metodos antigos, podem ser descartados
-  // virtual void FuncaoRotulaImagemAntiga()
-  //{cout<<"\n FuncaoRotulaImagemAntiga Inativa para objeto 3D";};
-  // virtual       void FuncaoRotulaImagemSequencialAntiga()
-  //{cout<<"\nFuncaoRotulaImagemSequencialAntiga Inativa para objeto 3D";};
+   // virtual void IdentificaObjetos_3D();  // Executa 1a passagem diretamente em 3D
+   // virtual void IdentificaObjetos_3D_Usando2D();// Executa 1a passagem utilizando rotulagem 2D
+   // Metodos antigos, podem ser descartados
+   // virtual void FuncaoRotulaImagemAntiga()
+   //{cout<<"\n FuncaoRotulaImagemAntiga Inativa para objeto 3D";};
+   // virtual       void FuncaoRotulaImagemSequencialAntiga()
+   //{cout<<"\nFuncaoRotulaImagemSequencialAntiga Inativa para objeto 3D";};
 
- public:
-  /// Define o flag direto
-  void SetDireto (bool flag)
-  {
-    direto = flag;
-  }
+public:
+   /// Define o flag direto
+   void SetDireto (bool flag)
+   {
+      direto = flag;
+   }
 
-  // Metodos herdados virtuais
-  /// Determina a area dos objetos
-  virtual void CalculaAreaObjetos ();
+   // Metodos herdados virtuais
+   /// Determina a area dos objetos
+   virtual void CalculaAreaObjetos ();
 
-  /// Determina o perimetro dos objetos
-  virtual void CalculaPerimetroObjetos ();
+   /// Determina o perimetro dos objetos
+   virtual void CalculaPerimetroObjetos ();
 
-  // Metodos utilizados na rotulagem, redefinidos aqui
-  /// Executa toda a sequencia de rotulagem
-  virtual bool Go (CMatriz3D * matriz /*, int rotuloInicial=0 */ );
+   // Metodos utilizados na rotulagem, redefinidos aqui
+   /// Executa toda a sequencia de rotulagem
+   virtual bool Go (CMatriz3D * matriz /*, int rotuloInicial=0 */ );
 
 
-  // --------------------------------------------------------------------Get
-  // unsigned int Rotulo (i,j,k)
-  //{return data3D[i][j][k]       + rotuloInicial;};
-  // --------------------------------------------------------------------Set
-  // -----------------------------------------------------------------Friend
-  //       friend ostream& operator<< (ostream& os, CRotulador3D& obj);
-  //       friend istream& operator>> (istream& is, CRotulador3D& obj);
+   // --------------------------------------------------------------------Get
+   // unsigned int Rotulo (i,j,k)
+   //{return data3D[i][j][k]       + rotuloInicial;};
+   // --------------------------------------------------------------------Set
+   // -----------------------------------------------------------------Friend
+   //       friend ostream& operator<< (ostream& os, CRotulador3D& obj);
+   //       friend istream& operator>> (istream& is, CRotulador3D& obj);
 };
 
 // -----------------------------------------------------------------Friend

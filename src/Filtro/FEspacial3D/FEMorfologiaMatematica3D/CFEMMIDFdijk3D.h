@@ -1,11 +1,11 @@
 // ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFdijk3D_h)
+#ifndef CFEMMIDFdijk3D_h
 #define CFEMMIDFdijk3D_h
 
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp
-			Analise de Imagens de Meios Porosos
+   Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -45,34 +45,35 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Classe:       CFEMMIDFdijk3D
 // ----------------------------------------------------------------------------
+/**
+ * @brief  Matriz IDF de uma imagem usando mascara de chanfro dijk.
+ */
 class CFEMMIDFdijk3D : public CFEMMIDF3D, public CMCdijk
 {
 protected:
 
-  virtual void CriaMascara (unsigned int _tamanhoMascara);	// redefinida
+   virtual void CriaMascara (unsigned int _tamanhoMascara);	// redefinida
 
 protected:
-
-    virtual unsigned int Mi ()
-  {
-    return mi;
-  }		  	// redefinida, herdada de CFEMMIDF
+   virtual unsigned int Mi () {
+      return mi; // redefinida, herdada de CFEMMIDF3D
+   }
 
 public:
-  // Construtor:
-  // ponteiro para matriz imagem, tamanho da mascara a ser criada,raio máximo a ser usado
-CFEMMIDFdijk3D (CMatriz3D * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb)
-:CFEMMIDF3D (matriz), CMCdijk (_mi, _mj, _mk, _rb)
-  {
-  }
+   /// Construtor:
+   /// Recebe ponteiro para matriz imagem, métrica da mascara a ser criada, raio máximo a ser usado, identificação de índice e fundo
+   CFEMMIDFdijk3D (CMatriz3D * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
+      :CFEMMIDF3D (matriz, 3, 32000, _indice, _fundo), CMCdijk (_mi, _mj, _mk, _rb)
+   {
+   }
 
-  virtual ~ CFEMMIDFdijk3D ()
-  {
-  }				// Destrutor
+   /// Destrutor
+   virtual ~ CFEMMIDFdijk3D ()
+   {
+   }
 
-  virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0);
+   virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0);
 	// redefinida
 
-public:
 };
 #endif // CFEMMIDFd345_h

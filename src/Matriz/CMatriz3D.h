@@ -248,7 +248,7 @@ public:
   }
 
   	/// Retorna data3D
-  inline int ***GetData3D () const
+  inline int ***Data3D () const
   {
     return data3D;
   }

@@ -20,12 +20,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ==================================================================================
 Documentacao CLASSE:		CBCDiscreta3D
 ==================================================================================
-Assunto:             Mascaras e filtros
-Superclasse:         CMascara
-Descrição:           Implementa a classe CBCDiscreta3D.  E' derivada da classe CMascara.
+Assunto: Mascaras e filtros
+Superclasse: CMascara
+Descrição: Implementa a classe CBCDiscreta3D. É derivada da classe CMascara.
 		     Acrescenta o conceito de mascara discreta.
-                     Acrescenta atributos raioBolaInclusa e raioBolaTangente
-Acesso:              import
+           Acrescenta atributos raioBolaInclusa e raioBolaTangente
+Acesso: import
 Cardinalidade:
 Abstrata/Concreta:
 Arquivo de documentacao auxiliar:
@@ -41,59 +41,49 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 /**
  * @brief Representa uma bola discreta 3D.
- * E' derivada da classe base CMascara3D.
+ * É derivada da classe base CMascara3D.
  */
 class CBCDiscreta3D : public CMascara3D
 {
 
-// Atributos 
+// Atributos
 protected:
 
-  unsigned int raioBolaInclusa;	///< Valor do raio da bola inclusa
+    unsigned int raioBolaInclusa;	///< Valor do raio da bola inclusa
 
-  unsigned int raioBolaTangente;	///< Valor do raio da  bola tangente
+    unsigned int raioBolaTangente;	///< Valor do raio da  bola tangente
 
 // Metodos
 public:
-	
-	/// Construtor
-    CBCDiscreta3D (int rb) : CMascara3D (rb)
-  {
-  }			
 
-  /// Destrutor
-  virtual ~ CBCDiscreta3D ()
-  {
-  }
+    /// Construtor
+    CBCDiscreta3D (int rb) : CMascara3D (rb) {
+    }
+
+    /// Destrutor
+    virtual ~ CBCDiscreta3D () {
+    }
 public:
 
-	/// Retorna raio da bola inclusa
-	inline unsigned int RaioBolaInclusa () const
-	{
-		return raioBolaInclusa;
-	}
+    /// Retorna raio da bola inclusa
+    inline unsigned int RaioBolaInclusa () const {
+        return raioBolaInclusa;
+    }
 
-  /// Recebe raio da bola inclusa
-	inline void RaioBolaInclusa (int rbi)
-	{
-		raioBolaInclusa = rbi;
-	}
+    /// Recebe raio da bola inclusa
+    inline void RaioBolaInclusa (int rbi) {
+        raioBolaInclusa = rbi;
+    }
 
-  /// Retorna raio da bola tangente
-	inline unsigned int RaioBolaTangente () const
-	{
-		return raioBolaTangente;
-	}
+    /// Retorna raio da bola tangente
+    inline unsigned int RaioBolaTangente () const {
+        return raioBolaTangente;
+    }
 
-  /// Recebe raio da bola tangente
-	inline void RaioBolaTangente (int rbt)
-	{
-		raioBolaTangente = rbt;
-	}
+    /// Recebe raio da bola tangente
+    inline void RaioBolaTangente (int rbt) {
+        raioBolaTangente = rbt;
+    }
 
-protected:
-  virtual void CalculaRaioBola ()
-  {
-  }				// calcula o raio da bola inclusa e tangente
 };
 #endif // TMascMascDiscreta

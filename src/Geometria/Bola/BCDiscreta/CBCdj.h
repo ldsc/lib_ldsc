@@ -1,5 +1,5 @@
 // ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CBCdj_h
+#ifndef CBCdj_h
 #define CBCdj_h
 
 /*
@@ -37,10 +37,6 @@ Arquivo de documentacao auxiliar:
 
 #include <Geometria/Bola/BCDiscreta/CBCDiscreta.h>
 
-// #include "CMascara\CMascara.h"
-
-// #include "CMascara\TMCDiscreta\TMCDi.h"
-
 // ----------------------------------------------------------------------------
 // Classe:       TGDd8
 // ----------------------------------------------------------------------------
@@ -48,17 +44,17 @@ Arquivo de documentacao auxiliar:
  * @brief Representa uma bola discreta gerada usando métrica dj.
  * E' derivada da classe base CBCDiscreta.
  */
-class CBCdj: /*public  TMCdi, *//*public CMascara, */ public CBCDiscreta
+class CBCdj: public CBCDiscreta
 {
 public:
 /// Construtor
-  CBCdj (unsigned int tm, int mj, int raioBase);	
+    CBCdj (unsigned int tm, int mj, int raioBase);
 
-  /// Destrutor
+    /// Destrutor
     virtual ~ CBCdj ()
-  {
-  }	
-  // virtual void CalculaRaioBola();
-  
+    {
+    }
+    // virtual void CalculaRaioBola();
+
 };
 #endif //  CBCdj_h

@@ -6,8 +6,8 @@
 PROJETO:    Biblioteca LIB_LDSC
             Assunto/Ramo: CMatriz2D...
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       CMatriz2D.h
@@ -51,11 +51,11 @@ using namespace std;
  * Para acessar o conteudo da matriz use data2D
  * CMatriz2D.data2D[i][j]=33;
  * int x=CMatriz2D.data2D[i][j];
- * 
+ *
  * PS: Observe que com as funções AlocaMatriz2D, pode-se alocar uma estrutura de dados 2D
  * diretamente, sem criar um objeto matriz.
  * Ex: 	int **m2D = CMatriz2D::AlocaMatriz2D(nx,ny);
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see		Veja assunto
 */
 class CMatriz2D : public CBaseMatriz
@@ -115,12 +115,12 @@ protected:
   // COLOQUEI APENAS ENQUANTO NAO TROCO NO ANAIMP CBaseMatriz POR TIMAGEM
   /// Le os dados separados por " "
   void LeDados (std::ifstream & fin);
-  
+
   /// Le os dados, colados 010111001
   void LeDadosColados (std::ifstream & fin);
 
 public:
-  
+
   /// Salva dados do cabecalho
   virtual void SalvaCabecalho (std::ofstream & fout) const;
 
@@ -132,7 +132,7 @@ public:
 
   /// lê o plano z, de uma matriz 3D
   bool LePlanoZ (std::string fileName, int planoZ, bool separado = true);
-  
+
   /// Redimensiona a matriz
   virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
   {
@@ -168,7 +168,7 @@ public:
 
   /// Retorna o menor valor da matriz
   virtual int MenorValor () const;
-  
+
   /// Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
   virtual int MenorValorNzero () const;
 
@@ -201,7 +201,10 @@ public:
 
   /// Salva imagem 2D no disco, usa vetor de dados
   static bool Write2D (std::string inputFile,  float * _redata, int _nx,  int _ny);
- 
+
+  /// rotaciona a imagem 90 graus a direita
+  bool Rotacionar90 ();
+
 // -----------------------------------------------------------------------Sobrecarga de operador
   /// Sobrecarga +
   CMatriz2D & operator+ (CMatriz2D & pm2);
@@ -212,7 +215,7 @@ public:
   /// Sobrecarga =
   CMatriz2D & operator= (CMatriz2D & pm2);
 
-  // CMatriz2D* operator*(CMatriz2D*& m2);                 
+  // CMatriz2D* operator*(CMatriz2D*& m2);
   // Sobrecarga *
 
   /// Sobrecarga ==

@@ -48,16 +48,16 @@ class CBCd8 : public CBCdj
 
 public:
 
-	/// Construtor
-CBCd8 (unsigned int tm, int rb = 1):CBCdj (tm, 1, rb)
-  {
-  }	
+    /// Construtor
+    CBCd8 (unsigned int tm, int rb = 1):CBCdj (tm, 1, rb)
+    {
+    }
 
 /// Destrutor
- virtual ~ CBCd8 ()
-  {
-  }
-  
-  // virtual void CalculaRaioBola(){};
+    virtual ~ CBCd8 ()
+    {
+    }
+
+    // virtual void CalculaRaioBola(){};
 };
 #endif //  CBCd8_h

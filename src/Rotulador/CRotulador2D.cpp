@@ -33,31 +33,23 @@
   @param  : void
   @return : void
 */
-void
-CRotulador2D::CalculaAreaObjetos ()
-{
-  // só procede o calculo se a matriz rótulo já foi determinada    
-  if (!rotulado)
-    Go (pm);			// Calcula a matriz rotulo                                                                  
+void CRotulador2D::CalculaAreaObjetos () {
+   // só procede o calculo se a matriz rótulo já foi determinada
+   if (!rotulado)
+      Go (pm);			// Calcula a matriz rotulo
 
-  if (rotulado)			// Só procede o calculo se a matriz rótulo foi determinada
-    {
+   if (rotulado) {			// Só procede o calculo se a matriz rótulo foi determinada
       if (areaObjetos)		// Se o vetor areaObjetos já existe, apaga
-	delete areaObjetos;
+         delete areaObjetos;
       areaObjetos = new CVetor (numeroObjetos);	// Cria vetor área dos objetos
 
-      if (areaObjetos)		// Se alocado corretamente
-	{
-	  areaObjetos->Constante (0);	// Zera o vetor área dos objetos
-	  for (unsigned int i = 0; i < NX (); i++)	// Percorre direcao x
-	    for (unsigned int j = 0; j < NY (); j++)	// Percorre direcao y
-	      areaObjetos->data1D[data2D[i][j]]++;	// Incrementa vetor
-
-	  //  abaixo considerando rotuloInicial
-	  //  areaObjetos->data1D[ data2D[i][j] - rotuloInicial ] ++;       // incrementa vetor
-	  //  Fazer FUNDO = rotuloInicial
-	}
-    }
+      if (areaObjetos) {		// Se alocado corretamente
+         areaObjetos->Constante (0);	// Zera o vetor área dos objetos
+         for (unsigned int i = 0; i < NX (); i++)	// Percorre direcao x
+            for (unsigned int j = 0; j < NY (); j++)	// Percorre direcao y
+               areaObjetos->data1D[data2D[i][j]]++;	// Incrementa vetor
+      }
+   }
 }
 
 /*
@@ -68,11 +60,11 @@ CRotulador2D::CalculaAreaObjetos ()
   -Calcula o perimetroObjetos
   -Primeiro calcula a matrizRotulo.
   -Depois percorre todos os pontos válidos da matrizRotulo, e verifica se tem um ponto
-  vizinho=0,se o ponto vizinho for =0 é contabilizado o perímetro.
+  vizinho=FUNDO,se o ponto vizinho for = FUNDO é contabilizado o perímetro.
   -Observe que primeiro percorre a região central da matrizRotulo, depois as bordas.
 
   ---------------------
-  Da forma como esta não calcula o perímetro do objeto de rótulo=0 (o fundo).
+  Da forma como esta não calcula o perímetro do objeto de rótulo=FUNDO (o fundo).
   Como calcular o perimetro do objeto 0:
   1- Pegar a imagem binaria (0 e 1)
   2- Calcular o perimetro do objeto com rotulo =1 na imagem binaria
@@ -88,165 +80,149 @@ CRotulador2D::CalculaAreaObjetos ()
   esta função, vai acessar ilegalmente pm.
   Excessões:        tipos de excessoes
 */
-void
-CRotulador2D::CalculaPerimetroObjetos ()
-{
-  if (!rotulado)		// só procede o calculo se a matriz rótulo já foi determinada
-    Go (pm);			// Cria e calcula a matriz rotulo
-  // BUG: se pm tiver sido deletado, trocar por Go(this)?
+void CRotulador2D::CalculaPerimetroObjetos () {
+   if (!rotulado)		// só procede o calculo se a matriz rótulo já foi determinada
+      Go (pm);			// Cria e calcula a matriz rotulo
+   // BUG: se pm tiver sido deletado, trocar por Go(this)?
 
-  if (rotulado)			// só procede o calculo se a matriz rótulo foi determinada
-    {
+   if (rotulado) {			// só procede o calculo se a matriz rótulo foi determinada
       if (perimetroObjetos)	// Cria vetor perimetroObjetos
-	delete perimetroObjetos;
+         delete perimetroObjetos;
       perimetroObjetos = new CVetor (numeroObjetos);
 
-      if (perimetroObjetos)	// testa se o vetor perimetro foi criado
-	{
-	  perimetroObjetos->Constante (0);	// zera os perrimetros como sendo 0
-	  perimetroObjetos->data1D[0] = 1;	// Objeto 0 assume perimetro 1 (erro assumido)
+      if (perimetroObjetos) {	// testa se o vetor perimetro foi criado
+         perimetroObjetos->Constante (0);	// zera os perrimetros como sendo 0
+         perimetroObjetos->data1D[0] = 1;	// Objeto 0 assume perimetro 1 (erro assumido)
+         perimetroObjetos->data1D[1] = 1;	// Objeto 1 assume perimetro 1 (erro assumido)
+         //agora o fundo é representado ou pelo objeto 0 ou pelo objeto 1 dependendo do valor de FUNDO setado no contrutor.
 
-	  unsigned int i, j;	// Variaveis auxiliares para loop's
+         unsigned int i, j;	// Variaveis auxiliares para loop's
 
-	  // --------------------------------
-	  // Região central, fora as bordas
-	  for (i = 1; i < NX () - 1; i++)	// Percorre direcao x, fora bordas
-	    for (j = 1; j < NY () - 1; j++)	// Percorre direcao y, fora bordas
-	      {
-		if (data2D[i][j] != FUNDO)
-		  {
-		    if (data2D[i - 1][j] == FUNDO)	// esquerdo
-		      perimetroObjetos->data1D[data2D[i][j]]++;
-		    if (data2D[i + 1][j] == FUNDO)	// direito
-		      perimetroObjetos->data1D[data2D[i][j]]++;
-		    if (data2D[i][j - 1] == FUNDO)	// acima
-		      perimetroObjetos->data1D[data2D[i][j]]++;
-		    if (data2D[i][j + 1] == FUNDO)	// abaixo
-		      perimetroObjetos->data1D[data2D[i][j]]++;
-		  }
-	      }
-	  // --------------------------------
-	  // Borda esquerda
-	  i = 0;
-	  for (j = 1; j < NY () - 1; j++)	// Percorre direcao y,
-	    {
-	      if (data2D[i][j] != FUNDO)
-		{
-		  perimetroObjetos->data1D[data2D[i][j]]++;	// considera esquerdo como perímetro [novo]
-		  if (data2D[i + 1][j] == FUNDO)	// direito
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j - 1] == FUNDO)	// acima
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j + 1] == FUNDO)	// abaixo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		}
-	    }
-	  // --------------------------------
-	  // Borda direita
-	  i = NX () - 1;
-	  for (j = 1; j < NY () - 1; j++)	// Percorre direcao y,
-	    {
-	      if (data2D[i][j] != FUNDO)
-		{
-		  perimetroObjetos->data1D[data2D[i][j]]++;	// considera direito como perímetro [novo]
-		  if (data2D[i - 1][j] == FUNDO)	// esquerdo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j - 1] == FUNDO)	// acima
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j + 1] == FUNDO)	// abaixo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		}
-	    }
-	  // --------------------------------
-	  // Borda superior
-	  j = 0;
-	  for (i = 1; i < NX () - 1; i++)	// Percorre direcao x,
-	    {
-	      if (data2D[i][j] != FUNDO)
-		{
-		  perimetroObjetos->data1D[data2D[i][j]]++;	// considera superior como perímetro [novo]
-		  if (data2D[i - 1][j] == FUNDO)	// esquerdo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i + 1][j] == FUNDO)	// direito
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j + 1] == FUNDO)	// abaixo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		}
-	    }
-	  // --------------------------------
-	  // Borda inferior
-	  j = NY () - 1;
-	  for (i = 1; i < NX () - 1; i++)	// Percorre direcao x,
-	    {
-	      if (data2D[i][j] != FUNDO)
-		// if(data2D[i][j]>0)
-		{
-		  perimetroObjetos->data1D[data2D[i][j]]++;	// considera inferior como perímetro [novo]
-		  if (data2D[i - 1][j] == FUNDO)	// esquerdo
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i + 1][j] == FUNDO)	// direito
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		  if (data2D[i][j - 1] == FUNDO)	// acima
-		    perimetroObjetos->data1D[data2D[i][j]]++;
-		}
-	    }
+         // --------------------------------
+         // Região central, fora as bordas
+         for (i = 1; i < NX () - 1; i++)	// Percorre direcao x, fora bordas
+            for (j = 1; j < NY () - 1; j++) {	// Percorre direcao y, fora bordas
+               if (data2D[i][j] != FUNDO) {
+                  if (data2D[i - 1][j] == FUNDO)	// esquerdo
+                     perimetroObjetos->data1D[data2D[i][j]]++;
+                  if (data2D[i + 1][j] == FUNDO)	// direito
+                     perimetroObjetos->data1D[data2D[i][j]]++;
+                  if (data2D[i][j - 1] == FUNDO)	// acima
+                     perimetroObjetos->data1D[data2D[i][j]]++;
+                  if (data2D[i][j + 1] == FUNDO)	// abaixo
+                     perimetroObjetos->data1D[data2D[i][j]]++;
+               }
+            }
+         // --------------------------------
+         // Borda esquerda
+         i = 0;
+         for (j = 1; j < NY () - 1; j++) { // Percorre direcao y,
+            if (data2D[i][j] != FUNDO) {
+               perimetroObjetos->data1D[data2D[i][j]]++;	// considera esquerdo como perímetro [novo]
+               if (data2D[i + 1][j] == FUNDO)	// direito
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j - 1] == FUNDO)	// acima
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j + 1] == FUNDO)	// abaixo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+            }
+         }
+         // --------------------------------
+         // Borda direita
+         i = NX () - 1;
+         for (j = 1; j < NY () - 1; j++) {	// Percorre direcao y,
+            if (data2D[i][j] != FUNDO) {
+               perimetroObjetos->data1D[data2D[i][j]]++;	// considera direito como perímetro [novo]
+               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j - 1] == FUNDO)	// acima
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j + 1] == FUNDO)	// abaixo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+            }
+         }
+         // --------------------------------
+         // Borda superior
+         j = 0;
+         for (i = 1; i < NX () - 1; i++) {	// Percorre direcao x,
+            if (data2D[i][j] != FUNDO) {
+               perimetroObjetos->data1D[data2D[i][j]]++;	// considera superior como perímetro [novo]
+               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i + 1][j] == FUNDO)	// direito
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j + 1] == FUNDO)	// abaixo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+            }
+         }
+         // --------------------------------
+         // Borda inferior
+         j = NY () - 1;
+         for (i = 1; i < NX () - 1; i++) {	// Percorre direcao x,
+            if (data2D[i][j] != FUNDO) {
+               // if(data2D[i][j]>0)
+               perimetroObjetos->data1D[data2D[i][j]]++;	// considera inferior como perímetro [novo]
+               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i + 1][j] == FUNDO)	// direito
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+               if (data2D[i][j - 1] == FUNDO)	// acima
+                  perimetroObjetos->data1D[data2D[i][j]]++;
+            }
+         }
 
-	  // --------------------------------
-	  // 4 cantos (incluído na versão 7)
-	  // Falta considerar os 4 pontos dos 4 cantos da imagem
-	  // Canto superior esquerdo
-	  i = 0;
-	  j = 0;
-	  if (data2D[i][j] != FUNDO)
-	    {
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
-	      if (data2D[i + 1][j] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	      if (data2D[i][j + 1] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	    }
+         // --------------------------------
+         // 4 cantos (incluído na versão 7)
+         // Falta considerar os 4 pontos dos 4 cantos da imagem
+         // Canto superior esquerdo
+         i = 0;
+         j = 0;
+         if (data2D[i][j] != FUNDO) {
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
+            if (data2D[i + 1][j] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+            if (data2D[i][j + 1] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+         }
 
-	  // Canto superior direito
-	  i = NX () - 1;
-	  j = 0;
-	  if (data2D[i][j] != FUNDO)
-	    {
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
-	      if (data2D[i - 1][j] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	      if (data2D[i][j + 1] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	    }
-	  // Canto inferior esquerdo
-	  i = 0;
-	  j = NY () - 1;
-	  if (data2D[i][j] != FUNDO)
-	    {
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
-	      if (data2D[i][j - 1] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	      if (data2D[i + 1][j] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	    }
+         // Canto superior direito
+         i = NX () - 1;
+         j = 0;
+         if (data2D[i][j] != FUNDO) {
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
+            if (data2D[i - 1][j] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+            if (data2D[i][j + 1] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+         }
+         // Canto inferior esquerdo
+         i = 0;
+         j = NY () - 1;
+         if (data2D[i][j] != FUNDO) {
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
+            if (data2D[i][j - 1] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+            if (data2D[i + 1][j] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+         }
 
-	  // Canto inferior direito
-	  i = NX () - 1;
-	  j = NY () - 1;
-	  if (data2D[i][j] != FUNDO)
-	    {
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
-	      perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
-	      if (data2D[i - 1][j] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	      if (data2D[i][j - 1] == FUNDO)
-		perimetroObjetos->data1D[data2D[i][j]]++;
-	    }
-	  // Salvar(perimetroObjetos,"perimetroObjetos.peo");
-	}			// fim do if(perimetroObjetos)
-    }				// fim do  if(matrizRotulo!=NULL)
+         // Canto inferior direito
+         i = NX () - 1;
+         j = NY () - 1;
+         if (data2D[i][j] != FUNDO) {
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
+            perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
+            if (data2D[i - 1][j] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+            if (data2D[i][j - 1] == FUNDO)
+               perimetroObjetos->data1D[data2D[i][j]]++;
+         }
+         // Salvar(perimetroObjetos,"perimetroObjetos.peo");
+      }			// fim do if(perimetroObjetos)
+   }				// fim do  if(matrizRotulo!=NULL)
 }
 
 /*
@@ -261,44 +237,42 @@ CRotulador2D::CalculaPerimetroObjetos ()
 */
 // Pende em mudar para void*, que será formatado na função PreparaImagem
 // bool CRotulador2D::Go(void* matriz)
-bool
-CRotulador2D::Go (CMatriz2D * matriz)
-{
-  // this->rotuloInicial=rotuloInicial;
+bool CRotulador2D::Go (CMatriz2D * matriz) {
+   // this->rotuloInicial=rotuloInicial;
 
-  // Verifica a imagem
-  if (PreparaImagem (matriz) == false)
-    return false;
+   // Verifica a imagem
+   if (PreparaImagem (matriz) == false)
+      return false;
 
-  // debug
-  // {IProcessTime wait("IdentificaObjetos.tempo.txt");
-  // IdentificaObjetos();}
-  // vConversao->Write("1-VetorConversaoDepoisIdentificaObjetos.txt");
-  // IdentificaObjetos(rotuloInicial);
-  IdentificaObjetos ();
+   // debug
+   // {IProcessTime wait("IdentificaObjetos.tempo.txt");
+   // IdentificaObjetos();}
+   // vConversao->Write("1-VetorConversaoDepoisIdentificaObjetos.txt");
+   // IdentificaObjetos(rotuloInicial);
+   IdentificaObjetos ();
 
-  // debug
-  // {IProcessTime wait("PesquisaRotulosValidosEOrdena.tempo.txt");
-  // PesquisaRotulosValidosEOrdena();}
-  // vConversao->Write("2-VetorConversaoDepoisPesquisaRotulosValidosEOrdena.txt");
-  PesquisaRotulosValidosEOrdena ();
+   // debug
+   // {IProcessTime wait("PesquisaRotulosValidosEOrdena.tempo.txt");
+   // PesquisaRotulosValidosEOrdena();}
+   // vConversao->Write("2-VetorConversaoDepoisPesquisaRotulosValidosEOrdena.txt");
+   PesquisaRotulosValidosEOrdena ();
 
-  // debug
-  // {IProcessTime wait("UniformizaTabelaRotulos.tempo.txt");
-  // UniformizaTabelaRotulos();}
-  // vConversao->Write("3-VetorConversaoDepoisUniformizaTabelaRotulos.txt");
-  UniformizaTabelaRotulos ();
+   // debug
+   // {IProcessTime wait("UniformizaTabelaRotulos.tempo.txt");
+   // UniformizaTabelaRotulos();}
+   // vConversao->Write("3-VetorConversaoDepoisUniformizaTabelaRotulos.txt");
+   UniformizaTabelaRotulos ();
 
-  // debug
-  // {IProcessTime wait("RotulaImagem.txt");
-  // RotulaImagem();}
-  RotulaImagem ( /*_rotuloInicial*/ );
+   // debug
+   // {IProcessTime wait("RotulaImagem.txt");
+   // RotulaImagem();}
+   RotulaImagem ( /*_rotuloInicial*/ );
 
-  // Define que a imagem já foi rotulada
-  rotulado = true;
+   // Define que a imagem já foi rotulada
+   rotulado = true;
 
-  // Retorna true indicando que ocorreu tudo bem
-  return true;
+   // Retorna true indicando que ocorreu tudo bem
+   return true;
 };
 
 
@@ -319,54 +293,52 @@ CRotulador2D::Go (CMatriz2D * matriz)
   @return :
 */
 // bool CRotulador2D::PreparaImagem(void* matriz)
-bool CRotulador2D::PreparaImagem (CMatriz2D * matriz)
-{
-  pm = matriz;			// armazena endereço matriz
-  if (pm == NULL)		// Se for nulo após igualar, sai
-    return false;
+bool CRotulador2D::PreparaImagem (CMatriz2D * matriz) {
+   pm = matriz;			// armazena endereço matriz
+   if (pm == NULL)		// Se for nulo após igualar, sai
+      return false;
 
-  // 1)Verifica se a matriz tem as mesmas dimensoes do rotulador
-  // se tiver dimensões diferentes redimensiona a matriz do rotulador
-  // 2) Se foi usado o construtor sem parâmetros, data2D não foi alocada
-  // nx=ny=0 e o numero objetos=0, ou seja, data2D não pode ser acessada,
-  // mas esta responsabilidade é do programador, pois ao criar uma matriz
-  // sem passar as dimensoes nx, e ny, este sabe que a mesma não foi alocada,
-  // e não pode ser utilizada.
-  // Se data2D==NULL (não alocada), a mesma vai ser alocada abaixo.
-  if (this->nx != matriz->NX () || this->ny != matriz->NY ())
-    {
+   // 1)Verifica se a matriz tem as mesmas dimensoes do rotulador
+   // se tiver dimensões diferentes redimensiona a matriz do rotulador
+   // 2) Se foi usado o construtor sem parâmetros, data2D não foi alocada
+   // nx=ny=0 e o numero objetos=0, ou seja, data2D não pode ser acessada,
+   // mas esta responsabilidade é do programador, pois ao criar uma matriz
+   // sem passar as dimensoes nx, e ny, este sabe que a mesma não foi alocada,
+   // e não pode ser utilizada.
+   // Se data2D==NULL (não alocada), a mesma vai ser alocada abaixo.
+   if (this->nx != matriz->NX () || this->ny != matriz->NY ()) {
       Desaloca ();		// desaloca a matriz existende e depois
       this->nx = matriz->NX ();	// define novo tamanho
       this->ny = matriz->NY ();
       Aloca ();			// aloca de acordo com novo tamanho
-    }
-  // Agora tenho de armazenar valores de pm na idf
+   }
+   // Agora tenho de armazenar valores de pm na idf
 
-  // Tarefa:
-  // Abaixopassa tudo para 0 e 1.
-  // Verificar o que precisa ser alterado para realizar corretamente a rotulagem
-  // sem passar tudo para 0 e 1.
-  // Ou seja eliminar a necessidade do código abaixo
-  for (unsigned int j = 0; j < ny; j++)
-    for (unsigned int i = 0; i < nx; i++)
-      if (matriz->data2D[i][j] != 0)	// como a imagem recebida pode ser uma outra idf
-	this->data2D[i][j] = 1;	// define this com 0 e 1
-      else
-	this->data2D[i][j] = FUNDO;	// Garante FUNDO = 0 // v7
-  // this->data2D[i][j] = 0; // Garante FUNDO = 0
+   // Tarefa:
+   // Abaixopassa tudo para 0 e 1.
+   // Verificar o que precisa ser alterado para realizar corretamente a rotulagem
+   // sem passar tudo para 0 e 1.
+   // Ou seja eliminar a necessidade do código abaixo
+   for (unsigned int j = 0; j < ny; j++)
+      for (unsigned int i = 0; i < nx; i++)
+         //LP - if (matriz->data2D[i][j] != 0)	// como a imagem recebida pode ser uma outra idf
+         if (matriz->data2D[i][j] == INDICE)	// como a imagem recebida pode ser uma outra idf
+            this->data2D[i][j] = INDICE;	// define this com 0 e 1
+         else
+            this->data2D[i][j] = FUNDO;	// Garante FUNDO = 0 // v7
 
-  // Como pode chamar Go mais de uma vez, preciso apagar os vetores area e perimetro
-  // que foram alocados na chamada anterior a Go (Versão 7)
-  if (areaObjetos)
-    delete areaObjetos;
-  areaObjetos = NULL;
+   // Como pode chamar Go mais de uma vez, preciso apagar os vetores area e perimetro
+   // que foram alocados na chamada anterior a Go (Versão 7)
+   if (areaObjetos)
+      delete areaObjetos;
+   areaObjetos = NULL;
 
-  if (perimetroObjetos)
-    delete perimetroObjetos;
-  perimetroObjetos = NULL;
-  return true;
+   if (perimetroObjetos)
+      delete perimetroObjetos;
+   perimetroObjetos = NULL;
+   return true;
 
-  // Write("PreparaImagem.txt");
+   // Write("PreparaImagem.txt");
 }
 
 /*
@@ -420,91 +392,83 @@ bool CRotulador2D::PreparaImagem (CMatriz2D * matriz)
   @param  :void
   @return :void
 */
-void
-CRotulador2D::IdentificaObjetos ()
-{
-  // i,j mesmo tipo da matriz ou seja Tipo
-  // Usados nos for
-  unsigned long int i, j;
+void CRotulador2D::IdentificaObjetos () {
+   // i,j mesmo tipo da matriz ou seja Tipo
+   // Usados nos for
+   unsigned long int i, j;
 
-  // Valores dos pixel's acima e a esquerda        
-  int acima, esquerda;
+   // Valores dos pixel's acima e a esquerda
+   int acima, esquerda;
 
-  // índice do rotulo atual
-  unsigned long int rotuloAtual = 0;
+   // índice do rotulo atual
+   // LP - unsigned long int rotuloAtual = 0;
+   unsigned long int rotuloAtual = 2; //Irá rotular a partir de 2 para poder utilizar 1 como fundo
 
-  // Necessario pois Go pode ser chamada diretamente + de uma vez,
-  // no final de Go o numeroObjetos é o encontrado na imagem
-  // e pode ser menor na segunda chamada de Go provocando estouro da pilha.
-  rotuloMaximoUtilizado = numeroObjetos = NX () * NY () / 2;
+   // Necessario pois Go pode ser chamada diretamente + de uma vez,
+   // no final de Go o numeroObjetos é o encontrado na imagem
+   // e pode ser menor na segunda chamada de Go provocando estouro da pilha.
+   rotuloMaximoUtilizado = numeroObjetos = NX () * NY () / 2;
 
-  // Cria vetor de conversão vConversao
-  if (vConversao != NULL)
-    delete vConversao;
-  vConversao = new CVetor (numeroObjetos);
+   // Cria vetor de conversão vConversao
+   if (vConversao != NULL)
+      delete vConversao;
+   vConversao = new CVetor (numeroObjetos);
 
-  // se vConversao[i]>=0 indica um rotulo valido
-  // se vConversao[i]<0 indica uma referencia indireta na vConversao
-  // Os valores do vetor de conversao sao pre definidos
-  // a ser uma sequencia 0->0,1->1,2->2,3->3,...
-  for (i = 0; i < vConversao->NX (); i++)
-    vConversao->data1D[i] = i;
+   // se vConversao[i]>=0 indica um rotulo valido
+   // se vConversao[i]<0 indica uma referencia indireta na vConversao
+   // Os valores do vetor de conversao sao pre definidos
+   // a ser uma sequencia 0->0,1->1,2->2,3->3,...
+   for (i = 0; i < vConversao->NX (); i++)
+      vConversao->data1D[i] = i;
 
-  // ---------------------------------------------
-  // PONTO 0 0
-  // ---------------------------------------------
-  // FAZ pixel[0][0]=1, ou seja objeto 0 com rotulo 0
-  // assume o valor 1
-  if (data2D[0][0] != FUNDO)
-    data2D[0][0] = ++rotuloAtual;
+   // ---------------------------------------------
+   // PONTO 0 0
+   // ---------------------------------------------
+   // FAZ pixel[0][0]=1, ou seja objeto 0 com rotulo 0
+   // assume o valor 1
+   if (data2D[0][0] != FUNDO)
+      data2D[0][0] = ++rotuloAtual;
 
-  // ---------------------------------------------
-  // PRIMEIRA LINHA [i][0]
-  // ---------------------------------------------
-  for (i = 1; i < NX (); i++)
-    if (data2D[i][0] != FUNDO)	// se for poro (preto)
-      if (data2D[i - 1][0] != FUNDO)	// e se o anterior for preto
-	data2D[i][0] = rotuloAtual;	// usa rotulo atual (igual ao do ponto a esquerda)
-      else
-	data2D[i][0] = ++rotuloAtual;	// incrementa rotulo e usa
+   // ---------------------------------------------
+   // PRIMEIRA LINHA [i][0]
+   // ---------------------------------------------
+   for (i = 1; i < NX (); i++)
+      if (data2D[i][0] != FUNDO)	// se for poro (preto)
+         if (data2D[i - 1][0] != FUNDO)	// e se o anterior for preto
+            data2D[i][0] = rotuloAtual;	// usa rotulo atual (igual ao do ponto a esquerda)
+         else
+            data2D[i][0] = ++rotuloAtual;	// incrementa rotulo e usa
 
-  // ---------------------------------------------
-  // TODAS AS DEMAIS LINHAS E COLUNAS [i][j]
-  // ---------------------------------------------
-  for (j = 1; j < NY (); j++)	// Varre as colunas y=j
-    {				// ---------------------------------------------
+   // ---------------------------------------------
+   // TODAS AS DEMAIS LINHAS E COLUNAS [i][j]
+   // ---------------------------------------------
+   for (j = 1; j < NY (); j++) {	// Varre as colunas y=j
       // PRIMEIRA COLUNA
-      if (data2D[0][j] != FUNDO)	// se for poro (preto)
-	{
-	  data2D[0][j] = ++rotuloAtual;	// incrementa o rotulo e usa
-	  acima = data2D[0][j - 1];	// armazena valor do ponto acima
-	  VerificaContorno (acima, rotuloAtual);	// rotulo atual de forma indireta.
-	}
+      if (data2D[0][j] != FUNDO) {	// se for poro (preto)
+         data2D[0][j] = ++rotuloAtual;	// incrementa o rotulo e usa
+         acima = data2D[0][j - 1];	// armazena valor do ponto acima
+         VerificaContorno (acima, rotuloAtual);	// rotulo atual de forma indireta.
+      }
       // ---------------------------------------------
       // ABAIXO PONTOS [i][j]
       // ABAIXO TENTATIVA DE ALTERACAO PARA FICAR MAIS CLARO
-      for (i = 1; i < NX (); i++)	// Varre as linhas x=i
-	{
-	  if (data2D[i][j] != FUNDO)	// se for poro (preto)
-	    {
-	      acima = data2D[i][j - 1];	// armazena informação do ponto acima
-	      esquerda = data2D[i - 1][j];	// e da esquerda
-	      if (esquerda != FUNDO)	// se a esquerda e acima forem != FUNDO
-		{
-		  data2D[i][j] = rotuloAtual;	// fica com o rotulo atual
-		  VerificaContorno (acima, rotuloAtual);
-		}
-	      else		// esquerda==FUNDO
-		{
-		  data2D[i][j] = ++rotuloAtual;	// incrementa rotulo e usa
-		  VerificaContorno (acima, rotuloAtual);
-		}
-	    }			// fim if
-	}			// fim  do              for i
-    }				// fim do       for j
+      for (i = 1; i < NX (); i++) {	// Varre as linhas x=i
+         if (data2D[i][j] != FUNDO) {	// se for poro (preto)
+            acima = data2D[i][j - 1];	// armazena informação do ponto acima
+            esquerda = data2D[i - 1][j];	// e da esquerda
+            if (esquerda != FUNDO) {	// se a esquerda e acima forem != FUNDO
+               data2D[i][j] = rotuloAtual;	// fica com o rotulo atual
+               VerificaContorno (acima, rotuloAtual);
+            } else {		// esquerda==FUNDO
+               data2D[i][j] = ++rotuloAtual;	// incrementa rotulo e usa
+               VerificaContorno (acima, rotuloAtual);
+            }
+         }			// fim if
+      }			// fim  do              for i
+   }				// fim do       for j
 
-  rotuloMaximoUtilizado = rotuloAtual;	// necessario, define o maior rotulo utilizado
-  // Write("identificaObjetos.ma2.txt");
+   rotuloMaximoUtilizado = rotuloAtual;	// necessario, define o maior rotulo utilizado
+   // Write("identificaObjetos.ma2.txt");
 }
 
 /*
@@ -542,28 +506,28 @@ CRotulador2D::IdentificaObjetos ()
   @return :void
 */
 // void CRotulador2D::RotulaImagem(/*unsigned int _rotuloInicial*/)
-void
-CRotulador2D::RotulaImagem ()
-{
-  // O numero de objetos é calculado na função PesquisaRotulosValidosEOrdena()
-  // rotuloFinal    =  rotuloInicial  +   numeroObjetos - 1; // Versão 6
+void CRotulador2D::RotulaImagem () {
+   // O numero de objetos é calculado na função PesquisaRotulosValidosEOrdena()
+   // rotuloFinal    =  rotuloInicial  +   numeroObjetos - 1; // Versão 6
 
-  // Corrigir os rótulos da imagem usando o vetor de conversão
-  for (unsigned int i = 0; i < NX (); i++)
-    for (unsigned int j = 0; j < NY (); j++)
-      // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]; formato antigo
-      // Com o+rotuloInicial, faz uma translação dos rotulos
-      // mas também esta transladando o rotulo = 0 do fundo
-      // por isso preciso de if's adicionais na função Area e perimetro
-      // if( data2D[i][j] != 0)
-      if (data2D[i][j] != FUNDO)	// Este if é desnecessario, pois o vconversao[0] aponta para 0 (ou rotuloInicial)
-	data2D[i][j] = vConversao->data1D[data2D[i][j]];
-  // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]  + rotuloInicial;
+   // Corrigir os rótulos da imagem usando o vetor de conversão
+   for (unsigned int i = 0; i < NX (); i++)
+      for (unsigned int j = 0; j < NY (); j++)
+         // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]; formato antigo
+         // Com o+rotuloInicial, faz uma translação dos rotulos
+         // mas também esta transladando o rotulo = 0 do fundo
+         // por isso preciso de if's adicionais na função Area e perimetro
+         // if( data2D[i][j] != 0)
+         if (data2D[i][j] != FUNDO)	// Este if é desnecessario, pois o vconversao[0] aponta para 0 (ou rotuloInicial)
+            data2D[i][j] = vConversao->data1D[data2D[i][j]];
+   // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]  + rotuloInicial;
 
-  if (vConversao != NULL)
-    delete vConversao;		// Não preciso mais do vetor de conversão (é deletado porque é grande)
-  vConversao = NULL;		// novo
-  // Write("rotulaImagem.ma2.txt");
+   if (vConversao != NULL)
+      delete vConversao;		// Não preciso mais do vetor de conversão (é deletado porque é grande)
+   vConversao = NULL;		// novo
+
+   rotulado = true;		// Define que o objeto ja esta rotulado
+   // Write("rotulaImagem.ma2.txt");
 }
 
 /*
@@ -714,7 +678,7 @@ rotulado=1;							// define que o objeto ja esta rotulado
 }
 */
 
- /*
+/*
    -------------------------------------------------------------------------
    Função: FuncaoRotulaImagemSequencialAntiga
    -------------------------------------------------------------------------
@@ -734,7 +698,7 @@ rotulado=1;							// define que o objeto ja esta rotulado
    @param  :
    @return :
  */
- /*
+/*
    void CRotulador2D::FuncaoRotulaImagemSequencialAntiga()
    {
    CVetor objetoAtivo(numeroObjetos);	// cria vetor dos objetos ativos

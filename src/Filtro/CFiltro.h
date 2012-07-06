@@ -11,9 +11,9 @@ PROJETO:		Bibliotecas LDSC
 			Biblioteca para manipulacao de mascaras
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
-Programadores:   	Andre D.Bueno, Celso P.Fernandez, 
+Programadores:   	Andre D.Bueno, Celso P.Fernandez,
 Fabio S.Magnani, Liang Zirong,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
@@ -31,7 +31,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * a ser tratada.
  * Ou seja um filtro tem um ponteiro para a imagem podendo atuar sobre éla.
  * Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
- * 
+ *
  * Tarefas de um filtro:
  * -Funcao CanGo () informa se a operacao pode ser realizada
  * -Funcao Go realiza a filtragem da imagem
@@ -41,27 +41,27 @@ class CFiltro
 {
 protected:
 
-  CMatriz2D * pm;	///< é um ponteiro para a imagem a ser filtrada
+    CMatriz2D * pm;	///< é um ponteiro para a imagem a ser filtrada
 
 public:
 /// Construtor, recebe o endereço da matriz a ser processada
-  CFiltro (CMatriz2D * &matriz)
-  {
-    pm = matriz;
-  }
+    CFiltro (CMatriz2D * &matriz)
+    {
+        pm = matriz;
+    }
 
-	/// Destrutor
-  ~CFiltro ()
-  {
-  }
+    /// Destrutor
+    ~CFiltro ()
+    {
+    }
 
-  /**
-   * @brief Realiza o processamento da filtragem
-   * @param matriz ponteiro para imagem a ser processada
-   * @param _tamanhoMascara  dimensão da mascara a ser utilizada
-   * @return ponteiro para imagem processada
-   */
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0) = 0;
+    /**
+     * @brief Realiza o processamento da filtragem
+     * @param matriz ponteiro para imagem a ser processada
+     * @param _tamanhoMascara  dimensão da mascara a ser utilizada
+     * @return ponteiro para imagem processada
+     */
+    virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
 #endif //   CFiltro_h

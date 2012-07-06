@@ -23,19 +23,19 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 Documentacao      Construtor .
 ==================================================================================
 Descrição:        Passa atributo tamanhoMascara para classe base CMatriz2D,
-		  observe que o tamanhoMascara é passado para as dimensoes x e y
-                  da matriz.
-                  Define-se ainda o peso da mascara como sendo 1.
-                  Em algumas mascaras o peso=1, nao sendo necessário chamar a funcao
-                  de calculo do peso.
+		observe que o tamanhoMascara é passado para as dimensoes x e y
+				da matriz.
+				Define-se ainda o peso da mascara como sendo 1.
+				Em algumas mascaras o peso=1, nao sendo necessário chamar a funcao
+				de calculo do peso.
 Programador:      Andre Duarte Bueno
 */
 CMascara::CMascara (unsigned int tamanhoMascara)
-  : CMatriz2D (tamanhoMascara, tamanhoMascara),  peso (1.0)
+        : CMatriz2D (tamanhoMascara, tamanhoMascara),  peso (1.0)
 {
 
-//   As herdeiras da CMascara devem preencher a mascara chamando a funcao
-//   NomeClasse::PreencheMascara(); nos seus construtores
+    //   As herdeiras da CMascara devem preencher a mascara chamando a funcao
+    //   NomeClasse::PreencheMascara(); nos seus construtores
 }
 
 /*
@@ -63,21 +63,20 @@ void CMascara::PreencheMascara()
 Documentacao      CalculaPeso
 ==================================================================================
 Descrição:
-       	Existem dois tipos de mascaras, uma com peso=1 e outras com peso>1
-       	Se a mascara tiver peso maior que 1 esta funcao deve ser chamada
-       	Ou o peso deve ser calculado diretamente na funcao de preenchimento da mascara
+		Existem dois tipos de mascaras, uma com peso=1 e outras com peso>1
+		Se a mascara tiver peso maior que 1 esta funcao deve ser chamada
+		Ou o peso deve ser calculado diretamente na funcao de preenchimento da mascara
 Programador:   Andre Duarte Bueno
 */
-float
-CMascara::CalculaPeso ()
-{
-  peso = 0;
-  for (unsigned int i = 0; i < NX (); i++)	//   percorre a mascara
-    for (unsigned int j = 0; j < NY (); j++)
-      {
-	peso += data2D[i][j];	//   calcula peso acumulado
-      }
-  if (peso == 0)
-    peso = 1;			//   o peso é utilizado no filtro numa divisao
-  return peso;			//   e nao pode assumir o valor 0
+float CMascara::CalculaPeso () {
+    peso = 0;
+    for (unsigned int i = 0; i < NX (); i++) {	//   percorre a mascara
+        for (unsigned int j = 0; j < NY (); j++) {
+            peso += data2D[i][j];	//   calcula peso acumulado
+        }
+    }
+    if (peso == 0) {
+        peso = 1;			//   o peso é utilizado no filtro numa divisao
+	}
+    return peso;			//   e nao pode assumir o valor 0
 }

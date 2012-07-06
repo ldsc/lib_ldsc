@@ -1,12 +1,11 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-
-#if !defined(TIDFd8_h)
+#ifndef CFEMMIDFd8_h
 #define CFEMMIDFd8_h
 
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
@@ -29,18 +28,19 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro d8.
  */
-class CFEMMIDFd8:public CFEMMIDFdj
+class CFEMMIDFd8 : public CFEMMIDFdj
 {
-public:			//  mj,rb
-		/// Construtor
-  CFEMMIDFd8 (CMatriz2D * &matriz):CFEMMIDFdj (matriz, 1, 1)
-  {
-  }
+public:
+   /// Construtor
+   CFEMMIDFd8 (CMatriz2D * &matriz, int _indice=1, int _fundo=0)
+      : CFEMMIDFdj (matriz, 1, 1, _indice, _fundo)
+   {
+   }
 
-  ///  Destrutor
-  virtual ~ CFEMMIDFd8 ()
-  {
-  }				
+   ///  Destrutor
+   virtual ~ CFEMMIDFd8 ()
+   {
+   }
 
 };
 #endif //  CFEMMIDFd8_h

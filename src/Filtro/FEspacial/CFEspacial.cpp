@@ -14,7 +14,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ----------------------------------------------------------------------------
-			BIBLIOTECAS
+   BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
 #include "Filtro/FEspacial/CFEspacial.h"
@@ -29,13 +29,10 @@ Descrição: 	Se a mascara ja existe deve ser eliminada
 Programador:    Andre Duarte Bueno
 */
 
-void
-CFEspacial::CriaMascara (unsigned int _tamanhoMascara)
-{
-  if (mask)
-    delete mask;
-
-  mask = new CMPassaBaixa (_tamanhoMascara);	// CMPAssaBaixa é a default, faz a média
+void CFEspacial::CriaMascara (unsigned int _tamanhoMascara) {
+    if (mask)
+        delete mask;
+    mask = new CMPassaBaixa (_tamanhoMascara);	// CMPAssaBaixa é a default, faz a média
 }
 
 /*
@@ -48,46 +45,44 @@ Programador:      Andre Duarte Bueno
 
 /*CMatriz2D *CFEspacial::Go( CMatriz2D *& matriz, unsigned int _tamanhoMascara )
 {
-	tamanhoMascara=_tamanhoMascara;
+ tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 } */
 
-CMatriz2D *
-CFEspacial::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
-{
-  tamanhoMascara = _tamanhoMascara;
-  CriaMascara (tamanhoMascara);	// Cria a mascara adequada
+CMatriz2D * CFEspacial::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara) {
+    tamanhoMascara = _tamanhoMascara;
+    CriaMascara (tamanhoMascara);	// Cria a mascara adequada
 
-  // A funcao de preenchimento da mascara já calculada o peso da mascara
-  pm = matriz;
-  CMatriz2D *rImg = new CMatriz2D (*pm);	// rImg é uma matriz cópia da matriz pm passada
+    // A funcao de preenchimento da mascara já calculada o peso da mascara
+    pm = matriz;
+    CMatriz2D *rImg = new CMatriz2D (*pm);	// rImg é uma matriz cópia da matriz pm passada
 
-  unsigned int i, j, k, l;			// variáveis auxiliares
+    unsigned int i, j, k, l;			// variáveis auxiliares
 
-  int raioMascaraX = mask->RaioX ();		// temporaria aumenta performance
-  int raioMascaraY = mask->RaioY ();
-  float soma;
+    int raioMascaraX = mask->RaioX ();		// temporaria aumenta performance
+    int raioMascaraY = mask->RaioY ();
+    float soma;
 
-  // Percorre a matriz imagem, exceto a borda
-  for (i = (raioMascaraX); i < (pm->NX () - raioMascaraX); i++)
-    for (j = (raioMascaraY); j < (pm->NY () - raioMascaraY); j++)
-      {
-	soma = 0.0;
-	for (k = 0; k < mask->NX (); k++)	// percorre a mascara
-	  for (l = 0; l < mask->NY (); l++)
-	    {			// realiza convolução da mascara com a imagem
-	      soma += mask->data2D[k][l] * rImg->data2D[i + k - raioMascaraX][j + l - raioMascaraY];
-	    }
-	// devo garantir que nao seja valor negativo
-	// (cor nao realizavel)
-	// o fator de peso da mascara ou é 1 ou
-	// um numero maior que 1
-	if (soma > 0)
-	  pm->data2D[i][j] = soma / mask->Peso ();
-	else
-	  pm->data2D[i][j] = 0;
-      }
-  delete rImg;  // deleta objeto matriz auxiliar
-  return pm;
+    // Percorre a matriz imagem, exceto a borda
+    for (i = (raioMascaraX); i < (pm->NX () - raioMascaraX); i++) {
+        for (j = (raioMascaraY); j < (pm->NY () - raioMascaraY); j++) {
+            soma = 0.0;
+            for (k = 0; k < mask->NX (); k++) {	// percorre a mascara
+                for (l = 0; l < mask->NY (); l++) {	// realiza convolução da mascara com a imagem
+                    soma += mask->data2D[k][l] * rImg->data2D[i + k - raioMascaraX][j + l - raioMascaraY];
+                }
+            }
+            // devo garantir que nao seja valor negativo
+            // (cor nao realizavel)
+            // o fator de peso da mascara ou é 1 ou
+            // um numero maior que 1
+            if (soma > 0)
+                pm->data2D[i][j] = soma / mask->Peso ();
+            else
+                pm->data2D[i][j] = 0;
+        }
+    }
+    delete rImg;  // deleta objeto matriz auxiliar
+    return pm;
 }
 

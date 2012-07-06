@@ -47,7 +47,7 @@ protected:
   float CalculaPeso ();	
 
   ///   Preenche a mascara com os valores adequados, deve ser redefinida nas classes filhas
-  virtual void PreencheMascara ()  {  };
+  virtual void PreencheMascara () {  }
 	
 public:
 	/// Construtor, recebe a dimensao da mascara

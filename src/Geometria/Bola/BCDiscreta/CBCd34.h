@@ -8,9 +8,9 @@ PROJETO:		Anaimp
        			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico  
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
  dos Materiais.
-Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, 
+Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
 Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CBCd34.h
@@ -34,16 +34,16 @@ class CBCd34 : public CBCdij
 {
 
 public:
-	/// Construtor, 
-CBCd34 (unsigned int tm, int rb = 1):CBCdij (tm, 3, 4, rb)
-  {
-  }
-  
-  /// Destrutor
-  virtual ~ CBCd34 ()
-  {
-  }	
+    /// Construtor,
+    CBCd34 (unsigned int tm, int rb = 1):CBCdij (tm, 3, 4, rb)
+    {
+    }
 
-  // virtual void CalculaRaioBola(){};
+    /// Destrutor
+    virtual ~ CBCd34 ()
+    {
+    }
+
+    // virtual void CalculaRaioBola(){};
 };
 #endif //  CBCd34

@@ -1,5 +1,5 @@
 // ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CBCdij_h
+#ifndef CBCdij_h
 #define CBCdij_h
 
 /*
@@ -8,7 +8,7 @@ PROJETO:		Anaimp
 			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
@@ -37,14 +37,14 @@ class CBCdij: /*public  TMCdij, *//* public CMascara, */ public CBCDiscreta
 {
 
 public:
-	/// Construtor
-  CBCdij (unsigned int tm, int mi, int mj, int raioBase);
+    /// Construtor
+    CBCdij (unsigned int tm, int mi, int mj, int raioBase);
 
 /// Destrutor
     virtual ~ CBCdij ()
-  {
-  }	
+    {
+    }
 
-  // virtual void CalculaRaioBola();
+    // virtual void CalculaRaioBola();
 };
 #endif //  CBCdij

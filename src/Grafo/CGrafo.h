@@ -234,7 +234,7 @@ class  CGrafo
     // 	bool SetMatrizAVetorB (CMatriz2D* &A, CVetor*& B)const ;	// GMRES
 	
     /// Retorna o nome do arquivo de disco
-    const std::string FileName() const {return fileName;} ;
+    const std::string FileName() const {return fileName;}
 	
     /**
      * @brief Movida de CPermeabilidadeGrafo para cá.
@@ -257,8 +257,7 @@ class  CGrafo
      * e ir realizando a determinacao do grafo com a leitura dos planos.
     */
     virtual CGrafo* Go( std::string fileName,
-			unsigned long int _tamanhoMascara = 0)
-    {
+         unsigned long int _tamanhoMascara = 0) {
       CMatriz3D * img3D = new CMatriz3D (fileName);
       assert(img3D);
       img3D->Constante(0);

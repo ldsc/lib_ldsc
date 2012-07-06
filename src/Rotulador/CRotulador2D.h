@@ -57,24 +57,24 @@ class CRotulador2D : public CRotulador, public CMatriz2D
    * Copia ponteiro para imagem recebida,
    * na funcão prepara imagem copia os dados
   */
-  CRotulador2D (CMatriz2D * _pm):CRotulador(), CMatriz2D(_pm->NX(), _pm->NY()), pm(_pm)
-  {
+  CRotulador2D (CMatriz2D * _pm, int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), CMatriz2D(_pm->NX(), _pm->NY()), pm(_pm) {
   	CMatriz2D::Path( _pm->Path() );
   }
 
   /// Construtor, abre imagem do disco
-  CRotulador2D (std::string fileName):CRotulador(), CMatriz2D(fileName), pm(NULL)
-  {
+  CRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), CMatriz2D(fileName), pm(NULL) {
   }
 
   /// Construtor, recebe dimensões da imagem
-  CRotulador2D (int nx, int ny):CRotulador(), CMatriz2D(nx, ny), pm(NULL)
-  {
+  CRotulador2D (int nx, int ny, int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), CMatriz2D(nx, ny), pm(NULL) {
   }
 
   /** data2D deve ser alocado posteriormente*/
-  CRotulador2D ():CRotulador(), CMatriz2D(), pm(NULL)
-  {
+  CRotulador2D (int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), CMatriz2D(), pm(NULL) {
   }
 
   //--------------------------------------------------------------Destrutor

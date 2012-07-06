@@ -3,7 +3,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp
-				Analise de Imagens de Meios Porosos
+    Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -38,17 +38,14 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 
-void
-CFEMMIDFdijk::CriaMascara (unsigned int _tamanhoMascara)
-{
-  if (mask)			//   se existe uma mascara
-    {
+void CFEMMIDFdijk::CriaMascara (unsigned int _tamanhoMascara) {
+   if (mask) { //   se existe uma mascara
       if (mask->NX () == _tamanhoMascara)	//   e é do mesmo  tamanho
-	return;			//   sai
+         return;			//   sai
       delete mask;		//   se  nao é do mesmo tamanho apaga objeto mask
-    }				//   e abaixo cria uma nova
-  //   se nao existe a mascara, cria uma nova
-  mask = new CBCdijk (_tamanhoMascara, mi, mj, mk, raioBase);
+   }				//   e abaixo cria uma nova
+   //   se nao existe a mascara, cria uma nova
+   mask = new CBCdijk (_tamanhoMascara, mi, mj, mk, raioBase);
 }
 
 /*
@@ -74,75 +71,78 @@ Ou seja desconsidera-se os pontos da borda da imagem.
 */
 
 //   CMatriz2D * CFEMMIDFdijk::Go( CMatriz2D *& matriz)
-CMatriz2D *
-CFEMMIDFdijk::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
-{
-  int x, y;			//   Indices para percorrer a matriz
-  ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
+CMatriz2D * CFEMMIDFdijk::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+   int x, y;			//   Indices para percorrer a matriz
+   ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 
-  //   Como esta mascara tem raio 2, abaixo nao calcula a idf para pontos nos planos 0 e 1
-  //   observe o for iniciar de 2, deixando de fora 0 e 1.
-  //   A funcao abaixo considera os planos 0
-//    IDFNosPlanosDeContornoIDA(mi);
-  //   Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faço a seguir
-  //   por simplificacao faço ponto igual a 5, posteriormente calcular corretamente
-  for (y = 1; y < ny - 1; y++)
-    if (data2D[1][y] != 0)	//   percorre linha x=1
-      data2D[1][y] = mi;
-  for (x = 2; x < nx - 1; x++)
-    if (data2D[x][1] != 0)	//   percorre linha y=1
-      data2D[x][1] = mi;
+   //adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
+   InverterSeNecessario();
 
-  //   deve considerar adicionalmente a segunda linha, pois abaixo a mesma nao é verificada.
+   //   Como esta mascara tem raio 2, abaixo nao calcula a idf para pontos nos planos 0 e 1
+   //   observe o for iniciar de 2, deixando de fora 0 e 1.
+   //   A funcao abaixo considera os planos 0
+   //    IDFNosPlanosDeContornoIDA(mi);
+   //   Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faço a seguir
+   //   por simplificacao faço ponto igual a 5, posteriormente calcular corretamente
+   for (y = 1; y < ny - 1; y++)
+      if (data2D[1][y] != 0)	//   percorre linha x=1
+         data2D[1][y] = mi;
+   for (x = 2; x < nx - 1; x++)
+      if (data2D[x][1] != 0)	//   percorre linha y=1
+         data2D[x][1] = mi;
 
-  //   ida   MinimoIda
-  //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-  for (y = 2; y < ny - 2; y++)	//   NY() é igual a ny, ny da matriz idf
-    for (x = 2; x < nx - 2; x++)
-      if (data2D[x][y] != 0)	//   Testa a imagem, se nao for solido entra
-	{			//   
-	  minimo = raioMaximo;	//   usa 32000
-	  //   -------------------------------------------------------------
-	  min (data2D[x - 1][y] + mi);	/*ponto [x][y] */
-	  min (data2D[x - 2][y - 1] + mk);
-	  min (data2D[x - 1][y - 1] + mj);
-	  min (data2D[x][y - 1] + mi);
-	  min (data2D[x + 1][y - 1] + mj);
-	  min (data2D[x + 2][y - 1] + mk);
-	  min (data2D[x - 1][y - 2] + mk);
-	  min (data2D[x + 1][y - 2] + mk);
-	  //   -------------------------------------------------------------
-	  data2D[x][y] = minimo;
-	}
+   //   deve considerar adicionalmente a segunda linha, pois abaixo a mesma nao é verificada.
 
-//   volta    MinimoVolta
-//    IDFNosPlanosDeContornoVOLTA(mi);
-  //   for (y=2; y < ny-1 ;y++)
-  for (y = ny - 2; y > 1; y--)
-    if (data2D[nx - 2][y] != 0)	//   percorre linha x=nx-2
-      data2D[nx - 2][y] = mi;
-  //   for (x=2; x < nx-2 ;x++)
-  for (x = nx - 3; x > 1; x--)
-    if (data2D[x][ny - 2] != 0)	//   percorre linha y=ny-2
-      data2D[x][ny - 2] = mi;
+   //   ida   MinimoIda
+   //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+   for (y = 2; y < ny - 2; y++) {	//   NY() é igual a ny, ny da matriz idf
+      for (x = 2; x < nx - 2; x++) {
+         if (data2D[x][y] != 0) {	//   Testa a imagem, se nao for solido entra
+            minimo = raioMaximo;	//   usa 32000
+            //   -------------------------------------------------------------
+            min (data2D[x - 1][y] + mi);	/*ponto [x][y] */
+            min (data2D[x - 2][y - 1] + mk);
+            min (data2D[x - 1][y - 1] + mj);
+            min (data2D[x][y - 1] + mi);
+            min (data2D[x + 1][y - 1] + mj);
+            min (data2D[x + 2][y - 1] + mk);
+            min (data2D[x - 1][y - 2] + mk);
+            min (data2D[x + 1][y - 2] + mk);
+            //   -------------------------------------------------------------
+            data2D[x][y] = minimo;
+         }
+      }
+   }
 
-  //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-  for (y = ny - 3; y > 1; y--)	//   -2 pois começa do zero e a mascara tem tamanho 1
-    for (x = nx - 3; x > 1; x--)
-      if (data2D[x][y] != 0)	//   Se nao for solido
-	{
-	  minimo = data2D[x][y];	//   Armazena valor minimo da ida
-	  //   -------------------------------------------------------------
-	  min (data2D[x - 1][y + 2] + mk);
-	  min (data2D[x + 1][y + 2] + mk);
-	  min (data2D[x - 2][y + 1] + mk);
-	  min (data2D[x - 1][y + 1] + mj);
-	  min (data2D[x][y + 1] + mi);
-	  min (data2D[x + 1][y + 1] + mj);
-	  min (data2D[x + 2][y + 1] + mk);
-	  /*ponto [x][y] */ min (data2D[x + 1][y] + mi);
-	  //   -------------------------------------------------------------
-	  data2D[x][y] = minimo;
-	}
-  return pm;
+   //   volta    MinimoVolta
+   //    IDFNosPlanosDeContornoVOLTA(mi);
+   //   for (y=2; y < ny-1 ;y++)
+   for (y = ny - 2; y > 1; y--)
+      if (data2D[nx - 2][y] != 0)	//   percorre linha x=nx-2
+         data2D[nx - 2][y] = mi;
+   //   for (x=2; x < nx-2 ;x++)
+   for (x = nx - 3; x > 1; x--)
+      if (data2D[x][ny - 2] != 0)	//   percorre linha y=ny-2
+         data2D[x][ny - 2] = mi;
+
+   //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+   for (y = ny - 3; y > 1; y--) {	//   -2 pois começa do zero e a mascara tem tamanho 1
+      for (x = nx - 3; x > 1; x--) {
+         if (data2D[x][y] != 0) {	//   Se nao for solido
+            minimo = data2D[x][y];	//   Armazena valor minimo da ida
+            //   -------------------------------------------------------------
+            min (data2D[x - 1][y + 2] + mk);
+            min (data2D[x + 1][y + 2] + mk);
+            min (data2D[x - 2][y + 1] + mk);
+            min (data2D[x - 1][y + 1] + mj);
+            min (data2D[x][y + 1] + mi);
+            min (data2D[x + 1][y + 1] + mj);
+            min (data2D[x + 2][y + 1] + mk);
+            /*ponto [x][y] */ min (data2D[x + 1][y] + mi);
+            //   -------------------------------------------------------------
+            data2D[x][y] = minimo;
+         }
+      }
+   }
+   return pm;
 }

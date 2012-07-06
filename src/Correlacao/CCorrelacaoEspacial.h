@@ -1,22 +1,12 @@
 #ifndef CCorrelacaoEspacial_h
 #define CCorrelacaoEspacial_h
 
-// #include <cstring>
-// #include <string>
-// #include <cstdlib>
-// #include <fstream>
-// #include <iostream>
-// #include <cassert>
-
 #include <Correlacao/CCorrelacao.h>
 #include <Matriz/CMatriz2D.h>
 
 /**
- * @brief Recebe uma imagem bidimensional e determina a função autocorrelação através do método do deslocamento.
- * 
- * Recebe uma imagem bidimensional e determina através do método do deslocamento da imagem sobre ela mesma, a função autocorrelação.
- * 
- * O objeto tem as dimensões da imagem NX, NY, os vetores para as imagens (Re_data e Im_data), 
+ * @brief Recebe uma imagem bidimensional e determina através do método do deslocamento da imagem sobre ela mesma, a função autocorrelação.
+ * O objeto tem as dimensões da imagem NX, NY, os vetores para as imagens (Re_data e Im_data),
  * uma matriz para a imagem (pm2d) e um vetor float * para a função autocorrelação.
 */
 
@@ -29,14 +19,12 @@ class CCorrelacaoEspacial : public CCorrelacao
 	/// Destrutor
 	virtual ~ CCorrelacaoEspacial ();
   	
-	/// Determina a função autocorrelação. Recebe ponteiro para vetor imagem e as dimensões da imagem
-	virtual bool Go (float *Re_data, int NX, int NY);
-  	
-  	/// Determina a função autocorrelação. Recebe ponteiro para CMatriz2D.
-	virtual bool Go (CMatriz2D *img);
-	
-	/// Salva em disco os dados de correlação (extensao .cor).
-	// virtual bool Write (std::string fileName);
+   /// Determina a função autocorrelação. Recebe ponteiro para vetor imagem, as dimensões da imagem e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
+   virtual bool Go (float *Re_data, int NX, int NY, int indice=1);
+
+   /// Determina a função autocorrelação. Recebe ponteiro para CMatriz2D e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
+   virtual bool Go (CMatriz2D *img, int indice=1);
+
 };
 
 #endif

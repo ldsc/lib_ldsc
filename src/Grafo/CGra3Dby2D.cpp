@@ -5,7 +5,7 @@ PROJETO:          Biblioteca LIB_LDSC
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
+   [LDSC].
 @author:          André Duarte Bueno
 File:             CGra3Dby2D.cpp
 begin:            Sat Sep 16 2000
@@ -47,96 +47,94 @@ using namespace std;
 template <class T>
 void ImprimeDeque(const deque<T> & dequeRef, ofstream& eob);
 
-	// copia de volta
-	eob << "Copiando da lista para deque" << endl ;
-	list<unsigned int>::iterator it = lista.begin();
-	for(int i = 0; i < listaObjetosEliminados.size() ;   i++)
-		{
-		listaObjetosEliminados[i] = *it;
-		it++;
-		}
+ // copia de volta
+ eob << "Copiando da lista para deque" << endl ;
+ list<unsigned int>::iterator it = lista.begin();
+ for(int i = 0; i < listaObjetosEliminados.size() ;   i++)
+  {
+  listaObjetosEliminados[i] = *it;
+  it++;
+  }
 */
 
 /**Determina o grafo lendo os planos da imagem diretamente do disco
 O atributo plano e utilizado para armazenar no objeto criado
 a informacao do plano a que pertence. Sera usado para estimacao
 da pressao inicial.*/
-CGrafo *
-CGra3Dby2D::Go (string fileName, unsigned long int funcao)
-{
-  unsigned long int i, j, k;
-  maiorRotuloUtilizado = 0;
+CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao) {
+   unsigned long int i, j, k;
+   maiorRotuloUtilizado = 0;
 
-  ifstream fin (fileName.c_str ());
-  if (fin.bad ())
-    {
+   ifstream fin (fileName.c_str ());
+   if (fin.bad ())
+   {
       cerr << "Nao conseguiu abrir o arquivo " << fileName.c_str ();
       return 0;
-    }
+   }
 
-  // Leitura do cabecalho do arquivo de disco
-  char d3[55];
-  unsigned int numeroCores;
-  unsigned int valor;
-  fin >> d3 >> nx >> ny >> nz >> numeroCores;
+   // Leitura do cabecalho do arquivo de disco
+   char d3[55];
+   unsigned int numeroCores;
+   unsigned int valor;
+   fin >> d3 >> nx >> ny >> nz >> numeroCores;
 
-  // Criacao dos objetos ra,rp img2D
-  ra = new CRotulador2DCm (nx, ny);
-  assert (ra);
-  rp = new CRotulador2DCm (nx, ny);
-  assert (rp);
-  img2D = new CMatriz2D (nx, ny);
-  assert (img2D);
-  CRotulador2DCm *rtemp;
+   // Criacao dos objetos ra,rp img2D
+   ra = new CRotulador2DCm (nx, ny);
+   assert (ra);
+   rp = new CRotulador2DCm (nx, ny);
+   assert (rp);
+   img2D = new CMatriz2D (nx, ny);
+   assert (img2D);
+   CRotulador2DCm *rtemp;
 
-  // ------------
-  // PLANO 0
-  // ------------
-  // Le dados do plano 0
-  plano = k = 0;
-  cout << "\n plano = " << plano << flush;
-  for (j = 0; j < ny; j++)
-    for (i = 0; i < nx; i++)
+   // ------------
+   // PLANO 0
+   // ------------
+   // Le dados do plano 0
+   plano = k = 0;
+   cout << "\n plano = " << plano << flush;
+   for (j = 0; j < ny; j++)
+      for (i = 0; i < nx; i++)
       {
-	fin >> valor;
-	img2D->data2D[i][j] = valor;
+         fin >> valor;
+         img2D->data2D[i][j] = valor;
       }
 
-  // Rotula plano 0
-  ra->Go (img2D);
+   // Rotula plano 0
+   ra->Go (img2D);
 
-  // Determina  raio hidraulico dos objetos
-  ra->CalculaRaioHidraulicoObjetos ();
+   // Determina  raio hidraulico dos objetos
+   ra->CalculaRaioHidraulicoObjetos ();
 
-  // Define o contorno como sendo da face WEST
-  tipoContornoObjeto = CContorno::WEST;
+   // Define o contorno como sendo da face WEST
+   tipoContornoObjeto = CContorno::WEST;
 
-  // Adciona ao grafo os objetos do plano 0
-  AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
+   // Adciona ao grafo os objetos do plano 0
+   AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
 
 
 
-  // Determina o primeiro objeto do solver
-  // verificar retorno de ra->RotuloFinal() = último rótulo utilizado
-  firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
+   // Determina o primeiro objeto do solver
+   // verificar retorno de ra->RotuloFinal() = último rótulo utilizado
+   firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
 
-  // ------------
-  // PLANO i
-  // ------------
-  tipoContornoObjeto = CContorno::CENTER;
-  // Le dados do plano ij
-  for (k = 1; k < nz; k++)
-    {
+   // ------------
+   // PLANO i
+   // ------------
+   tipoContornoObjeto = CContorno::CENTER;
+   // Le dados do plano ij
+   for (k = 1; k < nz; k++)
+   {
       plano = k;
-// cout << "  "<<plano<<flush;
+      // cout << "  "<<plano<<flush;
       cout << "\rPlano  " << plano << flush;
 
       for (j = 0; j < ny; j++)
-	for (i = 0; i < nx; i++)
-	  {
-	    fin >> valor;
-	    img2D->data2D[i][j] = valor;
-	  }
+         for (i = 0; i < nx; i++)
+         {
+            fin >> valor;
+            img2D->data2D[i][j] = valor;
+         }
       // Rotula
       rp->Go (img2D);
 
@@ -145,14 +143,14 @@ CGra3Dby2D::Go (string fileName, unsigned long int funcao)
 
       // Se for o ultimo plano, redefine o contorno
       if (k == (nz - 1))
-	{
-	  tipoContornoObjeto = CContorno::EST;
-	  lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
-	}
+      {
+         tipoContornoObjeto = CContorno::EST;
+         lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
+      }
 
       // Adiciona objetos do plano ij atual
       AdicionarObjetos (rp, maiorRotuloUtilizado + ra->RotuloFinal (),
-			tipoContornoObjeto);
+                        tipoContornoObjeto);
 
       // Estabelece os links entre os objetos
       DeterminarConeccoesObjetos (maiorRotuloUtilizado);
@@ -164,22 +162,22 @@ CGra3Dby2D::Go (string fileName, unsigned long int funcao)
       rtemp = ra;
       ra = rp;
       rp = rtemp;
-    }
+   }
 
-  // Fecha o arquivo de disco
-  fin.close ();
+   // Fecha o arquivo de disco
+   fin.close ();
 
-  cout << endl;
-  // Elimina sítios com 0 links
-  {
-    CTime *t =
-      new CTime ("Tempo processamento função  EliminarObjetosRedundantes= ",
-		 &cout);
-    EliminarObjetosRedundantes ();
-    delete t; // objeto
-  }
+   cout << endl;
+   // Elimina sítios com 0 links
+   {
+      CTime *t =
+            new CTime ("Tempo processamento função  EliminarObjetosRedundantes= ",
+                       &cout);
+      EliminarObjetosRedundantes ();
+      delete t; // objeto
+   }
 
-  return this;
+   return this;
 }
 
 
@@ -187,91 +185,88 @@ CGra3Dby2D::Go (string fileName, unsigned long int funcao)
 /**
 @short  :Cria os objetos de rotulagem ra,rp,
          Cria a imagem 2D auxiliar
-	 Copia o plano 3D para a imagem 2D
-	 Realiza a rotulagem
-	 AdicionarObjetos
-	 DeterminarConeccoesObjetos
-	 EliminarObjetosRedundantes
+  Copia o plano 3D para a imagem 2D
+  Realiza a rotulagem
+  AdicionarObjetos
+  DeterminarConeccoesObjetos
+  EliminarObjetosRedundantes
  @author :	André Duarte Bueno
 @see    :	Grafos, rotulagem
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
-CGrafo *
-CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao)
-{
+CGrafo * CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao) {
 
-  // Armazena a informacao das dimensoes da imagem
-  nx = _img3D->NX ();
-  ny = _img3D->NY ();
-  nz = _img3D->NZ ();
+   // Armazena a informacao das dimensoes da imagem
+   nx = _img3D->NX ();
+   ny = _img3D->NY ();
+   nz = _img3D->NZ ();
 
-  // Usados para percorrer  a imagem
-  unsigned long int i, j, k;
+   // Usados para percorrer  a imagem
+   unsigned long int i, j, k;
 
+   maiorRotuloUtilizado = 0;
 
-  maiorRotuloUtilizado = 0;
+   // Cria 2 objetos de rotulagem 2D
+   // Rotulador para imagem anterior
+   ra = new CRotulador2DCm (nx, ny);
+   assert (ra);
 
-  // Cria 2 objetos de rotulagem 2D
-  // Rotulador para imagem anterior
-  ra = new CRotulador2DCm (nx, ny);
-  assert (ra);
+   // Rotulador para imagem posterior
+   rp = new CRotulador2DCm (nx, ny);
+   assert (rp);
 
-  // Rotulador para imagem posterior
-  rp = new CRotulador2DCm (nx, ny);
-  assert (rp);
+   // Ponteiro temporário para troca dos planos de rotulagem
+   CRotulador2DCm *rt;
 
-  // Ponteiro temporário para troca dos planos de rotulagem
-  CRotulador2DCm *rt;
+   // Matriz imagem bidimensional passada para rotulador->Go(matriz)
+   // Contém uma copia do plano3D a ser analisado
+   img2D = new CMatriz2D (nx, ny);
+   assert (img2D);
 
-  // Matriz imagem bidimensional passada para rotulador->Go(matriz)
-  // Contém uma copia do plano3D a ser analisado
-  img2D = new CMatriz2D (nx, ny);
-  assert (img2D);
+   // ------------
+   // PLANO 0
+   // ------------
+   plano = k = 0;
+   cout << "\nplano " << plano << " " <<flush;
+   for (i = 0; i < nx; i++)
+      for (j = 0; j < ny; j++)
+         img2D->data2D[i][j] = _img3D->data3D[i][j][k];
 
-  // ------------
-  // PLANO 0
-  // ------------
-  plano = k = 0;
-  cout << "\nplano " << plano << " " <<flush;
-  for (i = 0; i < nx; i++)
-    for (j = 0; j < ny; j++)
-      img2D->data2D[i][j] = _img3D->data3D[i][j][k];
+   // Rotula plano 0
+   ra->Go (img2D);
 
-  // Rotula plano 0
-  ra->Go (img2D);
+   // Calcula os vetores area e perimetro do plano 0
+   ra->CalculaRaioHidraulicoObjetos ();
 
-  // Calcula os vetores area e perimetro do plano 0
-  ra->CalculaRaioHidraulicoObjetos ();
+   // Chama função que adiciona objetos rotulados (ra) ao vetor de objetos,
+   // Passa o tipo do contorno (WEST)
+   tipoContornoObjeto = CContorno::WEST;
 
-  // Chama função que adiciona objetos rotulados (ra) ao vetor de objetos,
-  // Passa o tipo do contorno (WEST)
-  tipoContornoObjeto = CContorno::WEST;
+   // Adiciona objetos no grafo
+   AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
 
-  // Adiciona objetos no grafo
-  AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
+   // Determina o primeiro objeto do solver
+   firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
 
-  // Determina o primeiro objeto do solver
-  firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
+   // ----------------------------------------------------------------------------
+   // Percorre todos os demais planos
+   // ----------------------------------------------------------------------------
+   // Define o tipo de contorno como sendo de objeto central
+   // (não é contorno esquerdo nem direito)
+   tipoContornoObjeto = CContorno::CENTER;
 
-  // ----------------------------------------------------------------------------
-  // Percorre todos os demais planos
-  // ----------------------------------------------------------------------------
-  // Define o tipo de contorno como sendo de objeto central
-  // (não é contorno esquerdo nem direito)
-  tipoContornoObjeto = CContorno::CENTER;
-
-  // k é o indice da direcao z
-  for (k = 1; k < nz; k++)
-    {
+   // k é o indice da direcao z
+   for (k = 1; k < nz; k++)
+   {
       // Seta o plano
       plano = k;
       cout << "\rPlano " << plano << " " << flush;
 
       for (i = 0; i < nx; i++)
-		for (j = 0; j < ny; j++)
-	  		// Copia plano k para img2D      
-	 		 img2D->data2D[i][j] = _img3D->data3D[i][j][k];
+         for (j = 0; j < ny; j++)
+            // Copia plano k para img2D
+            img2D->data2D[i][j] = _img3D->data3D[i][j][k];
 
       // Realiza a rotulagem do  plano k
 
@@ -284,15 +279,15 @@ CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao)
       // Se for o último plano muda o tipo de contorno,
       // de forma a criar um CObjetoGrafo situado na face direita
       if (k == (nz - 1))
-	{
-	  tipoContornoObjeto = CContorno::EST;
-	  // novo nesta posicao
-	  lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
-	}
+      {
+         tipoContornoObjeto = CContorno::EST;
+         // novo nesta posicao
+         lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
+      }
 
       // Adiciona os sítios, a lista de sítios
       AdicionarObjetos (rp, maiorRotuloUtilizado + ra->RotuloFinal (),
-			tipoContornoObjeto);
+                        tipoContornoObjeto);
 
       // Compara as imagens ra e rp definindo as conexões entre sítios
       DeterminarConeccoesObjetos (maiorRotuloUtilizado);
@@ -309,18 +304,18 @@ CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao)
       rt = ra;
       ra = rp;
       rp = rt;
-    }
-  cout << endl;
+   }
+   cout << endl;
 
-  // Elimina sítios com 0 links
-  {
-    CTime *t =
-      new CTime ("Tempo processamento função  EliminarObjetosRedundantes= ",
-		 &cout);
-    EliminarObjetosRedundantes ();
-    delete t; // objeto
-  }
-  return this;
+   // Elimina sítios com 0 links
+   {
+      CTime *t =
+            new CTime ("Tempo processamento função  EliminarObjetosRedundantes= ",
+                       &cout);
+      EliminarObjetosRedundantes ();
+      delete t; // objeto
+   }
+   return this;
 }
 
 // -------------------------------------------------------------------------
@@ -328,31 +323,22 @@ CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao)
 // -------------------------------------------------------------------------
 /**
 @short  :	Função que adiciona a lista de objetos do grafo,
-					os objetos identificados em rotulador.
+     os objetos identificados em rotulador.
 @author :	André Duarte Bueno
 @see    :
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
-	  o número do ultimo rótulo utilizado e o
-	  tipo de contorno (identifica o objeto a ser criado:
-	  COGSitioEsquerda = 0, COGSitioCentro = 1,  COGSitioDireita = 2)
+   o número do ultimo rótulo utilizado e o
+   tipo de contorno (identifica o objeto a ser criado:
+   COGSitioEsquerda = 0, COGSitioCentro = 1,  COGSitioDireita = 2)
 @return : void
 */
-void
-CGra3Dby2D::AdicionarObjetos
-  (CRotulador2DCm * rotulador,
-   unsigned long int ultimoRotuloUtilizado,
-   CContorno::ETipoContorno tipoContornoObjeto)
-{
-  // Ponteiro para objeto a ser criado
-  CObjetoGrafo *
-    data;
+void CGra3Dby2D::AdicionarObjetos (CRotulador2DCm * rotulador, unsigned long int ultimoRotuloUtilizado, CContorno::ETipoContorno tipoContornoObjeto) {
+   // Ponteiro para objeto a ser criado
+   CObjetoGrafo * data;
 
-  // Não deve considerar o objeto 0 que é o fundo.
-  // inclue o rotulo final, o objeto final, ok
-  for (unsigned long int rotulo = 1;
-       rotulo <= rotulador->RotuloFinal (); rotulo++)
-
-    {
+   // Não deve considerar o objeto 0 que é o fundo.
+   // inclue o rotulo final, o objeto final, ok
+   for (unsigned long int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++) {
 
       // Obtem um sítio novo passando o tipo
       data = GetObjetoGrafo (tipoContornoObjeto);
@@ -371,7 +357,7 @@ CGra3Dby2D::AdicionarObjetos
 
       // Insere o objeto criado a lista de objetos do grafo
       objeto.push_back (data);
-    }
+   }
 }
 
 // -----------------------------------------------------------------------------
@@ -390,7 +376,7 @@ Abaixo resultado sem a funcao EliminarObjetosRedundantes (a ordem esta Rotulo Co
    0    1   26 1.50737e+08
    0    2   32 1.10932e+09   32 1.10932e+09
    0    5   30 8.08313e+08   34 2.352e+08   21 4.7694e+07   34 2.352e+08   20 1.50737e+08
-	...
+ ...
    2    1 1801 2.83958e+09
    2    2 1800 1.41374e+09 1802 2.97751e+07
 
@@ -408,116 +394,107 @@ Abaixo resultado com a funcao EliminarObjetosRedundantes (a ordem esta Rotulos C
    2    1 1801 2.83958e+09
    2    2 1800 1802 1.41374e+09 2.97751e+07
 */
-void
-CGra3Dby2D::EliminarObjetosRedundantes_1 ()
-{
-  // Definição de variáveis internas
-  // Ponteiro para o sitio atual (1)
+void CGra3Dby2D::EliminarObjetosRedundantes_1 () {
+   // Definição de variáveis internas
+   // Ponteiro para o sitio atual (1)
 
-  COGSitio *objetoSitio1;
-  // e aquele que aponta para 1 (2)
+   COGSitio *objetoSitio1;
+   // e aquele que aponta para 1 (2)
 
-  COGSitio *objetoSitio2;
+   COGSitio *objetoSitio2;
 
-  // Número total de passagens realizadas
-  unsigned long int numeroPassagens = 0;
+   // Número total de passagens realizadas
+   unsigned long int numeroPassagens = 0;
 
-  // Numero de objetos deletados em cada passagem e numero total de objetos deletados
-  unsigned long int numeroObjetosDeletados;
-  unsigned long int numeroTotalObjetosDeletados = 0;
+   // Numero de objetos deletados em cada passagem e numero total de objetos deletados
+   unsigned long int numeroObjetosDeletados;
+   unsigned long int numeroTotalObjetosDeletados = 0;
 
-  // Número de links do objeto 1 e 2
-  unsigned long int numeroLinks1;
-  unsigned long int numeroLinks2;
+   // Número de links do objeto 1 e 2
+   unsigned long int numeroLinks1;
+   unsigned long int numeroLinks2;
 
-  // Rotulo do objeto 1 em análise
-  unsigned long int rotulo;
+   // Rotulo do objeto 1 em análise
+   unsigned long int rotulo;
 
-  // Cria-se um vetor com o rotulo dos objetos eliminados
-  // permitindo a fácil identificação dos objetos que precisam,
-  // ser deletados no vetor cmx e cmy
-  deque < unsigned int >listaObjetosEliminados;
+   // Cria-se um vetor com o rotulo dos objetos eliminados
+   // permitindo a fácil identificação dos objetos que precisam,
+   // ser deletados no vetor cmx e cmy
+   deque < unsigned int >listaObjetosEliminados;
 
-  // O numero de objetos no ultimo plano é o numero total de objetos
-  // menos o indice do ultimo objeto do solver
-  unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
+   // O numero de objetos no ultimo plano é o numero total de objetos
+   // menos o indice do ultimo objeto do solver
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
 
-  do
-    {
+   do {
       numeroObjetosDeletados = 0;
 
       // Percorre todos os objetos do grafo
-      for (long int i = firstObjectOfSolver;
-	   i < (objeto.size () - numeroObjetosNoPlanoZn); i++)
+      for (long int i = firstObjectOfSolver; i < (objeto.size () - numeroObjetosNoPlanoZn); i++) {
+         rotulo = objeto[i]->rotulo;	// =i+1
 
-	{
-	  rotulo = objeto[i]->rotulo;	// =i+1
+         // Um objeto[i] é um ponteiro para um CObjetoGrafo,
 
-	  // Um objeto[i] é um ponteiro para um CObjetoGrafo,
+         // aqui sempre trabalho com objetos do tipo COGSitio,
+         // preciso fazer um dynamic_cast
+         // para poder acessar o vetor das conecções
+         objetoSitio1 = dynamic_cast < COGSitio * >(objeto[i]);
 
-	  // aqui sempre trabalho com objetos do tipo COGSitio,
-	  // preciso fazer um dynamic_cast
-	  // para poder acessar o vetor das conecções
-	  objetoSitio1 = dynamic_cast < COGSitio * >(objeto[i]);
+         // Pega o número de coneccoes do objeto 1
+         numeroLinks1 = objetoSitio1->coneccao.size ();
 
-	  // Pega o número de coneccoes do objeto 1
-	  numeroLinks1 = objetoSitio1->coneccao.size ();
+         // Se numeroLinks== 0 ligações,
+         if (numeroLinks1 == 0) {
+            // Adiciona a lista de objetos eliminados o rotulo do objeto atual
+            listaObjetosEliminados.push_back (rotulo);
 
-	  // Se numeroLinks== 0 ligações,
-	  if (numeroLinks1 == 0)
-	    {
-	      // Adiciona a lista de objetos eliminados o rotulo do objeto atual
-	      listaObjetosEliminados.push_back (rotulo);
+            // Deleta o objeto i
+            delete objeto[i];
+            // Aponta para zero
+            objeto[i] = NULL;
 
-	      // Deleta o objeto i
-	      delete objeto[i];
-	      // Aponta para zero
-	      objeto[i] = NULL;
+            // Incrementa o numero de objetos deletados
+            numeroObjetosDeletados++;
+         }
+         // Se numeroLinks ==  1 ligação, pode eliminar este sítio,
+         // mas deve eliminar os links dos outros para ele
+         else if (numeroLinks1 == 1) {
+            // --------------------
+            // INICIO FUNCAO DELETAROBJETO (objeto 1)
+            // Ponteiro para o objeto 2
+            objetoSitio2 =
+                  dynamic_cast < COGSitio * >(objetoSitio1->coneccao[0]);
 
-	      // Incrementa o numero de objetos deletados
-	      numeroObjetosDeletados++;
-	    }
+            // Verifica o numero de conecções de quem estou conectado (de 2)
+            numeroLinks2 = objetoSitio2->coneccao.size ();
 
-	  // Se numeroLinks ==  1 ligação, pode eliminar este sítio,      
-	  // mas deve eliminar os links dos outros para ele
-	  else if (numeroLinks1 == 1)
-	    {
-	      // --------------------
-	      // INICIO FUNCAO DELETAROBJETO (objeto 1)
-	      // Ponteiro para o objeto 2
-	      objetoSitio2 =
-		dynamic_cast < COGSitio * >(objetoSitio1->coneccao[0]);
+            // Percorre todas as conecções de 2 e procura aquelas que apontam para 1
+            // percorre de tras para frente
+            for (long int link = (numeroLinks2 - 1); link >= 0; link--)
+            {
+               // se o link em 2 aponta para 1
 
-	      // Verifica o numero de conecções de quem estou conectado (de 2)
-	      numeroLinks2 = objetoSitio2->coneccao.size ();
+               if (objetoSitio2->coneccao[link] == objetoSitio1)
+               {
+                  // Se for COGSitio deleta somente a conecção (modelos 1 e 2)
+                  // Se for COGSitioLR deleta a conecção e a condutancia (modelos 3,4,5,..)
+                  objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitioLR
 
-	      // Percorre todas as conecções de 2 e procura aquelas que apontam para 1
-	      // percorre de tras para frente
-	      for (long int link = (numeroLinks2 - 1); link >= 0; link--)
-		{
-		  // se o link em 2 aponta para 1
+                  // Mesmo depois de deletar a primeira ligação, deve verificar as demais
+                  // pois pode haver mais de uma ligação entre dois objetos (como no modelo1).
+               }
 
-		  if (objetoSitio2->coneccao[link] == objetoSitio1)
-		    {
-		      // Se for COGSitio deleta somente a conecção (modelos 1 e 2)
-		      // Se for COGSitioLR deleta a conecção e a condutancia (modelos 3,4,5,..)
-		      objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitioLR
+            }
+            // Fim funcao deletar OBJETO
+            // --------------------
 
-		      // Mesmo depois de deletar a primeira ligação, deve verificar as demais
-		      // pois pode haver mais de uma ligação entre dois objetos (como no modelo1).
-		    }
-
-		}
-	      // Fim funcao deletar OBJETO
-	      // --------------------
-
-	      // Agora deleta o proprio objeto 1
-	      listaObjetosEliminados.push_back (rotulo);
-	      delete objeto[i];
-	      objeto[i] = NULL;
-	      numeroObjetosDeletados++;
-	    }
-	}			// for objeto.size()
+            // Agora deleta o proprio objeto 1
+            listaObjetosEliminados.push_back (rotulo);
+            delete objeto[i];
+            objeto[i] = NULL;
+            numeroObjetosDeletados++;
+         }
+      }			// for objeto.size()
 
       // Mudar: Criar novo vetor, copiar objetos validos e então deletar vetor velho.
       // vai ficar mais rápido
@@ -526,31 +503,31 @@ CGra3Dby2D::EliminarObjetosRedundantes_1 ()
       // Para facilitar a deleção dos objetos deleta do ultimo para o primeiro
       // for(int j = objeto.size()-1; j > 0 ;  j--)
       for (int j = objeto.size () - 1; j >= 0; j--)	// novo>=0
-	if (objeto[j] == NULL)
-	  {
-	    objeto.erase (it + j);
-	  }
+         if (objeto[j] == NULL)
+         {
+            objeto.erase (it + j);
+         }
 
       numeroTotalObjetosDeletados += numeroObjetosDeletados;
       cout << "numeroObjetosDeletados=" << numeroObjetosDeletados 
-      	 << " numeroTotalObjetosDeletados =" << numeroTotalObjetosDeletados << endl;
-    }
-  while (numeroObjetosDeletados > 0);
+           << " numeroTotalObjetosDeletados =" << numeroTotalObjetosDeletados << endl;
+   }
+   while (numeroObjetosDeletados > 0);
 
-  // Chama função que reorganiza os valores de cmx e cmy
-  // visto que boa parte dos objetos do grafo foram eliminados
-  // e preciso corrigir isto nos vetores de cmx e cmy
-  // Chamar antes de reorganizar os rótulos
-  ReorganizarCmxCmy ();
+   // Chama função que reorganiza os valores de cmx e cmy
+   // visto que boa parte dos objetos do grafo foram eliminados
+   // e preciso corrigir isto nos vetores de cmx e cmy
+   // Chamar antes de reorganizar os rótulos
+   ReorganizarCmxCmy ();
 
-  // Após deletar todos os objetos válidos e chamar ReorganizarCmxCmy
-  // Pesquisa todos os objetos e faz rotulos sequenciais
-  // se o rotulo do objeto e seu indice, nao precisa armazenar o rotulo ?
-  for (unsigned long int i = 0; i < objeto.size (); i++)
-    objeto[i]->rotulo = i;
-  // O numero do ultimo objeto do solver precisa ser corrigido.
-  // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
-  lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;
+   // Após deletar todos os objetos válidos e chamar ReorganizarCmxCmy
+   // Pesquisa todos os objetos e faz rotulos sequenciais
+   // se o rotulo do objeto e seu indice, nao precisa armazenar o rotulo ?
+   for (unsigned long int i = 0; i < objeto.size (); i++)
+      objeto[i]->rotulo = i;
+   // O numero do ultimo objeto do solver precisa ser corrigido.
+   // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
+   lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;
 }
 
 // -----------------------------------------------------------------------------
@@ -574,94 +551,91 @@ Comparação:
 Elimina ramos mortos old:  img 300 demorou 14min41seg
 Elimina ramos mortos nova: img 300 demorou 12seg
 */
-void
-CGra3Dby2D::EliminarObjetosRedundantes_2 ()
-{
-  // O numero de objetos no ultimo plano é o numero total de objetos
-  // menos o indice do ultimo objeto do solver
-  unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
+void CGra3Dby2D::EliminarObjetosRedundantes_2 () {
+   // O numero de objetos no ultimo plano é o numero total de objetos
+   // menos o indice do ultimo objeto do solver
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
 
-  unsigned long int numeroObjetosDeletados;
-  unsigned long int numeroTotalObjetosDeletados = 0;
+   unsigned long int numeroObjetosDeletados;
+   unsigned long int numeroTotalObjetosDeletados = 0;
 
-  do
-    {
+   do {
       int deletado = objeto.size ();
       numeroObjetosDeletados = 0;
       // ------------------------------------------------
       // Marcar para deleção cada objeto do grafo
       // Chama Deletar objeto para todos os objetos do grafo
       for (int i = 0; i < objeto.size (); i++)
-	{
-	  MarcarParaDelecaoObjeto (i);
-	}
+      {
+         MarcarParaDelecaoObjeto (i);
+      }
 
       // ------------------------------------------------
       // Marcar para deleção cada link invalidado
       // Para todos os objetos
       for (int i = 0; i < objeto.size (); i++)
-	{
-	  COGSitio *obj = dynamic_cast < COGSitio * >(objeto[i]);
-	  assert (obj);
-	  obj->DeletarConeccoesInvalidadas (deletado);
-	  // no objeto COGSitio tem função nova:     
-	  // virtual bool DeletarConeccoesInvalidadas(int deletado);
-	}
+      {
+         COGSitio *obj = dynamic_cast < COGSitio * >(objeto[i]);
+         assert (obj);
+         obj->DeletarConeccoesInvalidadas (deletado);
+         // no objeto COGSitio tem função nova:
+         // virtual bool DeletarConeccoesInvalidadas(int deletado);
+      }
 
       // ------------------------------------------------
       // Reorganizar efetivamente o vetor dos objetos
       int cont = 0;
       // Percorre todos os objetos
       for (int i = 0; i < objeto.size (); i++)
-	// Se o objeto para quem aponta não foi deletado, armazena no vetor dos objetos
-	// Se foi deletado vai ser pulado.
-	if (objeto[i]->rotulo != deletado)
-	  {
-	    objeto[cont++] = objeto[i];
-	  }
+         // Se o objeto para quem aponta não foi deletado, armazena no vetor dos objetos
+         // Se foi deletado vai ser pulado.
+         if (objeto[i]->rotulo != deletado)
+         {
+            objeto[cont++] = objeto[i];
+         }
       // Redimensiona o vetor das coneccoes.  (as que apontam para objetos deletados são eliminadas)
       objeto.resize (cont);
 
       numeroObjetosDeletados = deletado - objeto.size ();
       cout << "NumeroObjetosDeletados=" << numeroObjetosDeletados << endl;
-    }
-  while (numeroObjetosDeletados > 0);
+   }
+   while (numeroObjetosDeletados > 0);
 
-  // Chama função que reorganiza os valores de cmx e cmy
-  // visto que boa parte dos objetos do grafo foram eliminados
-  // é preciso corrigir isto nos vetores de cmx e cmy
-  // Chamar antes de reorganizar os rótulos
-  ReorganizarCmxCmy ();
+   // Chama função que reorganiza os valores de cmx e cmy
+   // visto que boa parte dos objetos do grafo foram eliminados
+   // é preciso corrigir isto nos vetores de cmx e cmy
+   // Chamar antes de reorganizar os rótulos
+   ReorganizarCmxCmy ();
 
-  // Reorganizar os rótulos
-  // Após deletar todos os objetos válidos e chamar ReorganizarCmxCmy
-  // Pesquisa todos os objetos e faz rotulos sequenciais
-  // se o rotulo do objeto e seu indice, nao precisa armazenar o rotulo ?
-  for (unsigned long int i = 0; i < objeto.size (); i++)
-    objeto[i]->rotulo = i;
+   // Reorganizar os rótulos
+   // Após deletar todos os objetos válidos e chamar ReorganizarCmxCmy
+   // Pesquisa todos os objetos e faz rotulos sequenciais
+   // se o rotulo do objeto e seu indice, nao precisa armazenar o rotulo ?
+   for (unsigned long int i = 0; i < objeto.size (); i++)
+      objeto[i]->rotulo = i;
 
 
-  // O numero do ultimo objeto do solver precisa ser corrigido.
-  // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
-  lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;	// VERIFICAR AQUI
+   // O numero do ultimo objeto do solver precisa ser corrigido.
+   // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
+   lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;	// VERIFICAR AQUI
 }
 
 bool
 CGra3Dby2D::MarcarParaDelecaoObjeto (int i)
 {
-  // -------------------------------------------------
-  // Anota a informação dos objetos deletados
-  int deletado = objeto.size ();
+   // -------------------------------------------------
+   // Anota a informação dos objetos deletados
+   int deletado = objeto.size ();
 
-  // -------------------------------------------------
-  if (				// Se o objeto ja foi deletado, o indice i que recebi pode ser == a deletado
-       i != deletado		// sempre primeiro a verificar
-       &&
-       // Se o objeto já  foi deletado
-       objeto[i]->rotulo != deletado &&
-       // e      esta no centro, vai verificar
-       objeto[i]->Contorno () == CContorno::CENTER)
-    {
+   // -------------------------------------------------
+   if (				// Se o objeto ja foi deletado, o indice i que recebi pode ser == a deletado
+                  i != deletado		// sempre primeiro a verificar
+                  &&
+                  // Se o objeto já  foi deletado
+                  objeto[i]->rotulo != deletado &&
+                  // e      esta no centro, vai verificar
+                  objeto[i]->Contorno () == CContorno::CENTER)
+   {
       COGSitio *obj = dynamic_cast < COGSitio * >(objeto[i]);
       assert (obj);
 
@@ -672,44 +646,44 @@ CGra3Dby2D::MarcarParaDelecaoObjeto (int i)
       // ........*.........
       // Se 0 links, marca para deleção
       if (nlinks == 0)
-	obj->rotulo = deletado;
+         obj->rotulo = deletado;
 
       // -------------------------------------------------
       // ........*------->*........               // se um link (ramo curto), marca para deleção
       // ........*------->*----->*-------->*...   // se um link (aponta para ramo maior), marca para deleção
       else if (nlinks == 1)
-	{
-	  obj->rotulo = deletado;
+      {
+         obj->rotulo = deletado;
 
-	  // Verifica o sítio a quem estou conectado (marca para deleção)
-	  MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
-	}
+         // Verifica o sítio a quem estou conectado (marca para deleção)
+         MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
+      }
       // -------------------------------------------------
       // se dois links
       // ou esta no meio de um ramo válido, ou esta entre dois sítios dos quais um já foi deletado
       else if (nlinks == 2)
-	{
-	  // Aconeccao[0] se refere a objeto já deletado
+      {
+         // Aconeccao[0] se refere a objeto já deletado
 
-	  if (obj->coneccao[0]->rotulo == deletado)
-	    {
-	      // Deleta i
-	      obj->rotulo = deletado;
-	      // Solicita deleção da coneccao 1.
-	      MarcarParaDelecaoObjeto (obj->coneccao[1]->rotulo);
-	    }
-	  // Aconeccao[1] se refere a objeto já deletado
-	  if (obj->coneccao[1]->rotulo == deletado)
-	    {
-	      // Deleta i
-	      obj->rotulo = deletado;
-	      // Solicita deleção da coneccao 0.
-	      MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
-	    }
-	}
-    }
+         if (obj->coneccao[0]->rotulo == deletado)
+         {
+            // Deleta i
+            obj->rotulo = deletado;
+            // Solicita deleção da coneccao 1.
+            MarcarParaDelecaoObjeto (obj->coneccao[1]->rotulo);
+         }
+         // Aconeccao[1] se refere a objeto já deletado
+         if (obj->coneccao[1]->rotulo == deletado)
+         {
+            // Deleta i
+            obj->rotulo = deletado;
+            // Solicita deleção da coneccao 0.
+            MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
+         }
+      }
+   }
 
-  return 1;
+   return 1;
 }
 
 // -------------------------------------------------------------------------
@@ -718,47 +692,47 @@ CGra3Dby2D::MarcarParaDelecaoObjeto (int i)
 /**
 @short  :	Deleta objeto do grafo que tem a rotulo passada,
         e depois deleta todas as referencias a este objeto.
-	Ou seja, um objeto A pode ter uma ligação para um objeto B, sem que B
-	tenha uma ligação com A. Ao deletar o objeto B, precisa eliminar  a ligação A->B.
-	
-	Outros objeto do grafo podem apontar para o objeto deletado.
-	Preciso percorrer todos os objetos do grafo
-	e as ligações de cada objeto para eliminar qualquer referencia ao objeto
-	que vai ser deletado???
-	se algum objeto aponta para o objeto a ser deletado
-	isto significa que ele tem conecção e que não deveria ser deletado???
-	(Para o CGrafo3Dby2Deste caso não deveria ocorrer)
-	
+ Ou seja, um objeto A pode ter uma ligação para um objeto B, sem que B
+ tenha uma ligação com A. Ao deletar o objeto B, precisa eliminar  a ligação A->B.
+
+ Outros objeto do grafo podem apontar para o objeto deletado.
+ Preciso percorrer todos os objetos do grafo
+ e as ligações de cada objeto para eliminar qualquer referencia ao objeto
+ que vai ser deletado???
+ se algum objeto aponta para o objeto a ser deletado
+ isto significa que ele tem conecção e que não deveria ser deletado???
+ (Para o CGrafo3Dby2Deste caso não deveria ocorrer)
+
         objeto[i]->coneccao[link]  // retorna ponteiro para objeto
         objeto[i]		 // retorna ponteiro para objeto
 
         Versão 1:
-	Na primeira versão a informação dos links era armazenada, guardando-se
-	o rotulo dos objetos.
+ Na primeira versão a informação dos links era armazenada, guardando-se
+ o rotulo dos objetos.
         Ao eliminar um objeto do vector, o vector é todo reordenado
         e os endereços todos trocados, de forma que o rótulo estaria apontando para
-	o objeto errado. Veja abaixo.
+ o objeto errado. Veja abaixo.
 
         Antes de deletar qualquer objeto
         	vector<> objeto  = 0,1,2,3,4,5,6,7,8...
 
         Depois de deletar o objeto 4
-	        vector<> objeto  = 0,1,2,3,5->4,6->5,7->6,8->7...
+         vector<> objeto  = 0,1,2,3,5->4,6->5,7->6,8->7...
         Observe que o rotulo 5 apontava para o objeto 5 e agora aponta para o objeto 4.
 
         Na versão 2:
-	Os objetos apontam diretamente parar os outros objetos.
-	A lista das coneccoes não armazena mais o rótulo
+ Os objetos apontam diretamente parar os outros objetos.
+ A lista das coneccoes não armazena mais o rótulo
         do objeto, e sim um ponteiro para o proprio objeto.
         Usava algo como: objeto[objeto[i]->rotulo]
         Agora os vetores coneccao armazenam o endereço do objeto
         e não o rótulo do objeto, de forma que a localização do objeto
         é feita diretamente.
-				
 
-	Antes de deletar um objeto, devo verificar seu endereço e deletar
-	todos os links a ele, somente depois de todas as ligações ao objeto
-	terem sido eliminadas é que posso deletar o próprio objeto.
+
+ Antes de deletar um objeto, devo verificar seu endereço e deletar
+ todos os links a ele, somente depois de todas as ligações ao objeto
+ terem sido eliminadas é que posso deletar o próprio objeto.
 
 @author :	André Duarte Bueno
 @see    : grafos
@@ -777,17 +751,17 @@ CGra3Dby2D::MarcarParaDelecaoObjeto (int i)
 bool CGra3Dby2D::DeletarObjeto(unsigned long int rotulo) // ou rotulo
 
 {
-	// Ponteiro para o objeto
+ // Ponteiro para o objeto
   COGSitio* obj_i =	dynamic_cast<COGSitio*>(objeto[rotulo]);
   // bug pois não deve acessar objeto usando rotulo
   assert( obj_i );
-	
-	// Percorre os links que devem ser 0 ou 1
+
+ // Percorre os links que devem ser 0 ou 1
   for ( unsigned long int  link = 0; link < obj_i->coneccao.size() ; link++ )
-	  if(obj_i->coneccao[link] == objeto[rotulo->bug])nao deve acessar objeto[rotulo]
+   if(obj_i->coneccao[link] == objeto[rotulo->bug])nao deve acessar objeto[rotulo]
        {
-			  vector<CObjetoGrafo*>::iterator  it_link = obj_i->coneccao.begin();
-	 	    obj_i->coneccao.erase(it_link + link);
+     vector<CObjetoGrafo*>::iterator  it_link = obj_i->coneccao.begin();
+       obj_i->coneccao.erase(it_link + link);
        }
    vector<CObjetoGrafo*>::iterator  it = objeto.begin();
 

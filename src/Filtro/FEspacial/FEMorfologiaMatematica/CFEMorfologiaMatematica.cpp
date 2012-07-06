@@ -3,6 +3,7 @@
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h"
 
 #include "Geometria/Bola/BCDiscreta/CBCEuclidiana.h"
+#include "Geometria/Bola/BCDiscreta/CBCd5711.h"
 
 /*
   ==================================================================================
@@ -17,66 +18,58 @@
   Programador:      Andre Duarte Bueno
 */
 
-void
-CFEMorfologiaMatematica::CriaMascara (unsigned int _tamanhoMascara)
-{
-  //  Abaixo dependendo do flag chama função de criação dos elementos estruturantes
-  //  b1 e b2
-  if (EEHitMiss1)
-    {
-      CriaEEB1 (_tamanhoMascara);
+void CFEMorfologiaMatematica::CriaMascara ( unsigned int _tamanhoMascara ) {
+   //  Abaixo dependendo do flag chama função de criação dos elementos estruturantes
+   //  b1 e b2
+   if ( EEHitMiss1 ) {
+      CriaEEB1 ( _tamanhoMascara );
       return;
-    }
-  else if (EEHitMiss2)
-    {
-      CriaEEB2 (_tamanhoMascara);
+   } else if ( EEHitMiss2 ) {
+      CriaEEB2 ( _tamanhoMascara );
       return;
-    }
+   }
 
-  if (mask)			//  se existe uma mascara
-    {
-      if (mask->NX () == _tamanhoMascara)	//  e é do mesmo  tamanho
-	return;			//  sai
+   if ( mask ) {		//  se existe uma mascara
+      if ( mask->NX () == _tamanhoMascara )	//  e é do mesmo  tamanho
+         return;			//  sai
       delete mask;		//  se  não é do mesmo tamanho apaga objeto mask
       mask = NULL;
-    }				//  e abaixo cria uma nova
-  // 2007 ->VERIFICAR abaixo (deve criar uma bola CBCEuclidianae não CBCEuclidiana
-  mask = new CBCEuclidiana (_tamanhoMascara);	//  se não existe a mascara, cria uma nova
+   }				//  e abaixo cria uma nova
+   // 2007 ->VERIFICAR abaixo (deve criar uma bola CBCEuclidianae não CBCEuclidiana
+   //mask = new CBCEuclidiana ( _tamanhoMascara );	//  se não existe a mascara, cria uma nova
+   //mudei para testar...
+   mask = new CBCd5711 ( _tamanhoMascara );	//  se não existe a mascara, cria uma nova
 }
 
 //  obs: b1 e b2 poderiam ser lidos do disco
 void
-CFEMorfologiaMatematica::CriaEEB1 (unsigned int /*_tamanhoMascara*/ )
-{				//  parametro nao usado
-  delete mask; 			//  apaga objeto mask
-  mask = NULL;
-  mask = new CBCEuclidiana (3);
-  if (mask)
-    {
-      mask->Constante (0);
+CFEMorfologiaMatematica::CriaEEB1 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
+   delete mask; 			//  apaga objeto mask
+   mask = NULL;
+   mask = new CBCEuclidiana ( 3 );
+   if ( mask ) {
+      mask->Constante ( 0 );
       mask->data2D[1][1] = 1;
       mask->data2D[0][2] = 1;
       mask->data2D[1][2] = 1;
       mask->data2D[2][2] = 1;
-    }
-  EEHitMiss1 = EEHitMiss2 = false;
+   }
+   EEHitMiss1 = EEHitMiss2 = false;
 }
 
 //  obs: b1 e b2 poderiam ser lidos do disco
 void
-CFEMorfologiaMatematica::CriaEEB2 (unsigned int /*_tamanhoMascara*/ )
-{				//  parametro nao usado
-  delete mask; 			//  apaga objeto mask
-  mask = NULL;
-  mask = new CBCEuclidiana (3);
-  if (mask)
-    {
-      mask->Constante (0);
+CFEMorfologiaMatematica::CriaEEB2 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
+   delete mask; 			//  apaga objeto mask
+   mask = NULL;
+   mask = new CBCEuclidiana ( 3 );
+   if ( mask ) {
+      mask->Constante ( 0 );
       mask->data2D[0][0] = 1;
       mask->data2D[1][0] = 1;
       mask->data2D[2][0] = 1;
-    }
-  EEHitMiss1 = EEHitMiss2 = false;
+   }
+   EEHitMiss1 = EEHitMiss2 = false;
 }
 
 /*
@@ -90,183 +83,190 @@ CFEMorfologiaMatematica::CriaEEB2 (unsigned int /*_tamanhoMascara*/ )
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFEMorfologiaMatematica::Erosao (CMatriz2D * &matriz, unsigned int _RaioBola)
-{
-  pm = matriz;
+CMatriz2D * CFEMorfologiaMatematica::Erosao ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+   pm = matriz;
+   tamanhoMascara = ( 2 * _RaioBola ) + 1;
+   if ( tamanhoMascara > pm->NX() || tamanhoMascara > pm->NY() ) {
+      cerr << "Erro em CFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
+      return NULL;
+   }
 
-  tamanhoMascara = 2 * _RaioBola + 1;
+   CriaMascara ( tamanhoMascara );	//  Se o tamanho da mascara foi alterado vai criar nova mascara
+   CMatriz2D rImg ( *pm );		//  Cria uma copia da imagem
 
-  CriaMascara (tamanhoMascara);	//  Se o tamanho da mascara foi alterado vai criar nova mascara
+   unsigned int i, j, k, l;	//  variaveis auxiliares
+   unsigned int raioMascaraX = mask->RaioX ();
+   unsigned int raioMascaraY = mask->RaioY ();
+   unsigned int maskNX = mask->NX();
+   unsigned int maskNY = mask->NY();
 
-  CMatriz2D rImg (*pm);		//  Cria uma copia da imagem
+   unsigned int pmNX = pm->NX();
+   unsigned int pmNY = pm->NY();
 
-  unsigned int i, j, k, l;	//  variaveis auxiliares
-  unsigned int raioMascaraX = mask->RaioX ();
-  unsigned int raioMascaraY = mask->RaioY ();
+   /*
+     	// Implementada para usar simetria na mascara, mas aparentemente não está mais rápida. fazer testes usando time...
+       unsigned int incK = 0;
+     	unsigned int incL = 0;
+     // Procede a operação de erosão desconsiderando a borda
+     for (i = raioMascaraX; i < pmNX - raioMascaraX; i++) {
+      for (j = raioMascaraY; j < pmNY - raioMascaraY; j++) {
+       if (rImg.data2D[i][j] != FUNDO)	{ //  se o ponto é poro >0, verifica se é para erodir
+        for (k = 0; k < raioMascaraX+1; k++) { //Usando simetria para percorrer somente 1/4 da mascara.
+                        for (l = 0; l < raioMascaraY+1; l++) {//  Se um ponto da mascara estiver ativo e na imagem inativo, erodir o ponto central.
+          incK = maskNX-1-k;
+          incL = maskNY-1-l;
+          if (mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO)	{
+           pm->data2D[i][j] = FUNDO;
+           goto PulaForMask1;
+          } else if (mask->data2D[incK][l] > 0 && rImg.data2D[i + incK - raioMascaraX][j + l - raioMascaraY] == FUNDO) {
+           pm->data2D[i][j] = FUNDO;
+           goto PulaForMask1;
+          } else if (mask->data2D[k][incL] > 0 && rImg.data2D[i + k - raioMascaraX][j + incL - raioMascaraY] == FUNDO) {
+           pm->data2D[i][j] = FUNDO;
+           goto PulaForMask1;
+          } else if (mask->data2D[incK][incL] > 0 && rImg.data2D[i + incK - raioMascaraX][j + incL - raioMascaraY] == FUNDO) {
+           pm->data2D[i][j] = FUNDO;
+           goto PulaForMask1;
+          }
+         }
+        }
+       }
+       PulaForMask1: NULL;
+      }
+     }
+    */
 
-  //  Procede a operação de erosão desconsiderando a borda
-  //  Normal, centro da imagem
-  for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
-    for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)	//  se o ponto é poro >0, verifica se é para erodir
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      //  Se um ponto da mascara estiver ativo
-	      //  e na imagem inativo, erodir o ponto central
-	      if (mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == 0)	//  <1
-		{		//  o mesmo que if( !rImg->data2D[i+k-rX][j+l-rY])
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask1;
-		}
-      PulaForMask1:
-	NULL;
+   //  Procede a operação de erosão desconsiderando a borda
+   //  Normal, centro da imagem
+   for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
+      for ( j = raioMascaraY; j < pmNY - raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )	//  se o ponto é poro >0, verifica se é para erodir
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  //  Se um ponto da mascara estiver ativo
+                  //  e na imagem inativo, erodir o ponto central
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {	//  <1
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask1;
+                  }
+PulaForMask1:
+         NULL;
       }
 
-  //  Percorre a Borda superior
-  for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask2;
-		}
-      PulaForMask2:
-	NULL;
+   //  Percorre a Borda superior
+   for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
+      for ( j = 0; j < raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask2;
+                  }
+PulaForMask2:
+         NULL;
       }
 
-  //  Percorre a Borda inferior
-  for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask3;
-		}
-      PulaForMask3:
-	NULL;
+   //  Percorre a Borda inferior
+   for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY + pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask3;
+                  }
+PulaForMask3:
+         NULL;
       }
 
-  //  Percorre a Borda esquerda
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask4;
-		}
-      PulaForMask4:
-	NULL;
+   //  Percorre a Borda esquerda
+   for ( i = 0; i < raioMascaraX; i++ )
+      for ( j = raioMascaraY; j < pmNY - raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask4;
+                  }
+PulaForMask4:
+         NULL;
       }
 
-  //  Percorre a Borda direita
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask5;
-		}
-      PulaForMask5:
-	NULL;
+   //  Percorre a Borda direita
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = raioMascaraY; j < pmNY-raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask5;
+                  }
+PulaForMask5:
+         NULL;
       }
 
-  //  Percorre o Canto superior  esquerdo
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask6;
-		}
-      PulaForMask6:
-	NULL;
+   //  Percorre o Canto superior  esquerdo
+   for ( i = 0; i <= raioMascaraX; i++ )
+      for ( j = 0; j <= raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask6;
+                  }
+PulaForMask6:
+         NULL;
       }
 
-  //  Percorre o Canto superior   direito
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask7;
-		}
-      PulaForMask7:
-	NULL;
+   //  Percorre o Canto superior direito
+   //for (i = pmNX - raioMascaraX; i < pmNX; i++)
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = 0; j <= raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask7;
+                  }
+PulaForMask7:
+         NULL;
       }
 
-  //  Percorre o Canto  inferior esquerdo
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask8;
-		}
-      PulaForMask8:
-	NULL;
+   //  Percorre o Canto  inferior esquerdo
+   for ( i = 0; i <= raioMascaraX; i++ )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY + pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask8;
+                  }
+PulaForMask8:
+         NULL;
       }
-  //  Percorre o Canto inferior   direito
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] > 0)
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l] > 0
-		  && rImg.data2D[i + k - raioMascaraX][j + l -
-						       raioMascaraY] == 0)
-		{
-		  pm->data2D[i][j] = 0;
-		  goto PulaForMask9;
-		}
-      PulaForMask9:
-	NULL;
+
+   //  Percorre o Canto inferior direito
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] != FUNDO )
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY + pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] == FUNDO ) {
+                     pm->data2D[i][j] = FUNDO;
+                     goto PulaForMask9;
+                  }
+PulaForMask9:
+         NULL;
       }
-  return pm;
+
+   return pm;
 }
 
 /*
@@ -285,15 +285,15 @@ CFEMorfologiaMatematica::Erosao (CMatriz2D * &matriz, unsigned int _RaioBola)
 //                 Esquerda***     *** Direita
 //                         ***     ***
 //                         ...*****...
-//                                Inferior
+//                          Inferior
 //  c)Procede a operação de erosão nos cantos da imagem
-//        Canto Superior esquerdo         Canto superior direito
+//Canto Superior esquerdo   Canto superior direito
 //                  ***.....***
 //                  ...     ...
 //                  ...     ...
 //                  ...     ...
 //                  ***.....***
-//  Canto inferior esquerdo               canto inferior direito
+//Canto inferior esquerdo   canto inferior direito
 //  Valores dos intervalos a serem percorridos
 //  Normal, centro da imagem
 /*
@@ -317,190 +317,158 @@ dilatacao classica, percorre a imagem com o EE e compara.
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFEMorfologiaMatematica::Dilatacao (CMatriz2D * &matriz,
-				    unsigned int _RaioBola)
-{
-  pm = matriz;
+CMatriz2D * CFEMorfologiaMatematica::Dilatacao ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+   pm = matriz;
+   tamanhoMascara = ( 2 * _RaioBola ) + 1;
+	if ( tamanhoMascara > pm->NX() || tamanhoMascara > pm->NY() ) {
+		cerr << "Erro em CFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
+		return NULL;
+	}
+   CriaMascara ( tamanhoMascara );	//  criada na classe TFMorfologicos
+   unsigned int i, j, k, l;	//  variaveis auxiliares
 
-  tamanhoMascara = _RaioBola * 2 + 1;
+   CMatriz2D rImg ( *pm );		//  copia a imagem
 
-  CriaMascara (tamanhoMascara);	//  criada na classe TFMorfologicos
+   unsigned int raioMascaraX = mask->RaioX ();	//  variavel auxiliar para acelerar processo
+   unsigned int raioMascaraY = mask->RaioY ();
+   unsigned int maskNX = mask->NX();
+   unsigned int maskNY = mask->NY();
 
-  unsigned int i, j, k, l;	//  variaveis auxiliares
+   unsigned int pmNX = pm->NX();
+   unsigned int pmNY = pm->NY();
 
-  CMatriz2D rImg (*pm);		//  copia a imagem
-
-  unsigned int raioMascaraX = mask->RaioX ();	//  variavel auxiliar para acelerar processo
-  unsigned int raioMascaraY = mask->RaioY ();
-  //  percorre a matriz imagem, exceto a borda
-  for (i = raioMascaraX; i < (pm->NX () - raioMascaraX); i++)
-    for (j = raioMascaraY; j < (pm->NY () - raioMascaraY); j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      //  se houver a interseccao de um ponto da bola
-	      //  com a imagem, o ponto i,j da imagem é dilatado
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask1;
-		}
-      PulaForMask1:
-	NULL;
+   //  percorre a matriz imagem, exceto a borda
+   for ( i = raioMascaraX; i < ( pmNX - raioMascaraX ); i++ )
+      for ( j = raioMascaraY; j < ( pmNY - raioMascaraY ); j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for fundo da imagem, pode ser dilatado
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  //  se houver a interseccao de um ponto da bola
+                  //  com a imagem, o ponto i,j da imagem é dilatado
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask1;
+                  }
+PulaForMask1:
+         NULL;
       }
 
-  //  Percorre a Borda superior
-  //  o y da imagem vai de 0 até raioMascaraY
-  //  o y da mascara começa de  raioMascaraY vai até  mask->NY()
-  //  ou seja, somente a borda superior
-  for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask2;
-		}
-      PulaForMask2:
-	NULL;
+   //  Percorre a Borda superior
+   //  o y da imagem vai de 0 até raioMascaraY
+   //  o y da mascara começa de  raioMascaraY vai até  mask->NY()
+   //  ou seja, somente a borda superior
+   for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
+      for ( j = 0; j < raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask2;
+                  }
+PulaForMask2:
+         NULL;
       }
 
-  //  Percorre a Borda inferior
-  for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask3;
-		}
-      PulaForMask3:
-	NULL;
+   //  Percorre a Borda inferior
+   for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = 0; k < maskNX; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY+pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask3;
+                  }
+PulaForMask3:
+         NULL;
       }
 
-  //  Percorre a Borda esquerda
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask4;
-		}
-      PulaForMask4:
-	NULL;
+   //  Percorre a Borda esquerda
+   for ( i = 0; i < raioMascaraX; i++ )
+      for ( j = raioMascaraY; j < pmNY - raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask4;
+                  }
+PulaForMask4:
+         NULL;
       }
 
-  //  Percorre a Borda direita
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = 0; l < mask->NY (); l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask5;
-		}
-      PulaForMask5:
-	NULL;
+   //  Percorre a Borda direita
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = raioMascaraY; j < pmNY - raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = 0; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask5;
+                  }
+PulaForMask5:
+         NULL;
       }
 
-  //  Percorre o Canto superior  esquerdo
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask6;
-		}
-      PulaForMask6:
-	NULL;
+   //  Percorre o Canto superior esquerdo
+   for ( i = 0; i <= raioMascaraX; i++ )
+      for ( j = 0; j <= raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask6;
+                  }
+PulaForMask6:
+         NULL;
       }
-  //  Percorre o Canto superior   direito
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = 0; j < raioMascaraY; j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = raioMascaraY; l < mask->NY (); l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask7;
-		}
-      PulaForMask7:
-	NULL;
+   //  Percorre o Canto superior direito
+   //for (i = pmNX - raioMascaraX; i < pmNX; i++)
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = 0; j <= raioMascaraY; j++ ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = raioMascaraY-j; l < maskNY; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask7;
+                  }
+PulaForMask7:
+         NULL;
       }
 
-  //  Percorre o Canto  inferior esquerdo
-  for (i = 0; i < raioMascaraX; i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = raioMascaraX; k < mask->NX (); k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask8;
-		}
-      PulaForMask8:
-	NULL;
+   //  Percorre o Canto  inferior esquerdo
+   for ( i = 0; i <= raioMascaraX; i++ )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = raioMascaraX-i; k < maskNX; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY + pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask8;
+                  }
+PulaForMask8:
+         NULL;
       }
 
-  //  Percorre o Canto inferior   direito
-  for (i = pm->NX () - raioMascaraX; i < pm->NX (); i++)
-    for (j = pm->NY () - raioMascaraY; j < pm->NY (); j++)
-      {
-	if (rImg.data2D[i][j] == 0)	//  se o ponto for solido(branco), pode ser dilatado
-	  for (k = 0; k < mask->NX () - raioMascaraX; k++)
-	    for (l = 0; l < mask->NY () - raioMascaraY; l++)
-	      if (mask->data2D[k][l]
-		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
-		  0)
-		{
-		  pm->data2D[i][j] = 1;
-		  goto PulaForMask9;
-		}
-      PulaForMask9:
-	NULL;
+   //  Percorre o Canto inferior direito
+   for ( i = pmNX-1; i >= pmNX-raioMascaraX; i-- )
+      for ( j = pmNY-1; j >= pmNY-raioMascaraY; j-- ) {
+         if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for solido(branco), pode ser dilatado
+            for ( k = 0; k < maskNX-raioMascaraX+pmNX-i-1; k++ )
+               for ( l = 0; l < maskNY-raioMascaraY + pmNY-j-1; l++ )
+                  if ( mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
+                     pm->data2D[i][j] = INDICE;
+                     goto PulaForMask9;
+                  }
+PulaForMask9:
+         NULL;
       }
 
-  //  delete rImg;
-  return pm;
+   return pm;
 }
 
 /*
@@ -513,15 +481,15 @@ CFEMorfologiaMatematica::Dilatacao (CMatriz2D * &matriz,
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFEMorfologiaMatematica::Fechamento (CMatriz2D * &matriz,
-				     unsigned int _RaioBola)
-{
-  //  dilatacao
-  Dilatacao (matriz, _RaioBola);
-  //  erosao
-  Erosao (matriz, _RaioBola);
-  return matriz;
+CMatriz2D * CFEMorfologiaMatematica::Fechamento ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+   //  dilatacao
+   if ( Dilatacao( matriz, _RaioBola ) == NULL )
+		return NULL;
+   //  erosao
+   if ( Erosao ( matriz, _RaioBola ) == NULL )
+		return NULL;
+	// dilatou e erodiu
+   return matriz;
 }
 
 /*
@@ -542,23 +510,21 @@ CFEMorfologiaMatematica::Fechamento (CMatriz2D * &matriz,
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFEMorfologiaMatematica::Abertura (CMatriz2D * &matriz,
-				   unsigned int _RaioBola)
-{
-  //  erosao
-  Erosao (matriz, _RaioBola);
-  //  dilatacao
-  Dilatacao (matriz, _RaioBola);
-  return matriz;
+CMatriz2D * CFEMorfologiaMatematica::Abertura ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+   //  erosao
+   if ( Erosao ( matriz, _RaioBola ) == NULL )
+		return NULL;
+   //  dilatacao
+   if ( Dilatacao ( matriz, _RaioBola ) == NULL )
+		return NULL;
+	// erodiu e dilatou
+	return matriz;
 }
 
 // Não implementada
 CMatriz2D *
-CFEMorfologiaMatematica::DeteccaoContorno (CMatriz2D * &matriz,
-					   unsigned int /*_RaioBola*/ )
-{
-  return matriz;
+CFEMorfologiaMatematica::DeteccaoContorno ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+   return matriz;
 }
 
 /*
@@ -575,49 +541,41 @@ CFEMorfologiaMatematica::DeteccaoContorno (CMatriz2D * &matriz,
 */
 
 CMatriz2D *
-CFEMorfologiaMatematica::HitMiss (CMatriz2D * &matriz,
-				  unsigned int /*_RaioBola*/ )
-{
-  /*        CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
-     matriz2->Inverter();                   //  e transforma na complementar
-     EEHitMiss1=true;                       //  ativa criação da mascara para bi
-     CFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
-     EEHitMiss2=true;                       //  ativa criação da mascara para be
-     CFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
-     matriz->Intersecao(matriz2);                              //  intersecção entre matriz e matriz2
-     delete matriz2; // apaga objeto imagem
-   */
-  return matriz;
+CFEMorfologiaMatematica::HitMiss ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+   /*        CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
+       matriz2->Inverter();                   //  e transforma na complementar
+       EEHitMiss1=true;                       //  ativa criação da mascara para bi
+       CFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
+       EEHitMiss2=true;                       //  ativa criação da mascara para be
+       CFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
+       matriz->Intersecao(matriz2);                              //  intersecção entre matriz e matriz2
+       delete matriz2; // apaga objeto imagem
+     */
+   return matriz;
 }
 
 CMatriz2D *
-CFEMorfologiaMatematica::Afinamento (CMatriz2D * &matriz,
-				     unsigned int /*_RaioBola*/ )
-{
-  /*
-     CMatriz2D* matriz2=new CMatriz2D(matriz);      //  Cria copia da matriz
-     HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
-     matriz2->Inverter();                         //  o mesmo que matriz2->Complementar();
-     matriz->Intersecao(matriz2);               //  intersecção entre matriz e matriz2
-	delete matriz2; // apaga objeto imagem*/
-  return matriz;
+CFEMorfologiaMatematica::Afinamento ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+   /*
+       CMatriz2D* matriz2=new CMatriz2D(matriz);      //  Cria copia da matriz
+       HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
+       matriz2->Inverter();                         //  o mesmo que matriz2->Complementar();
+       matriz->Intersecao(matriz2);               //  intersecção entre matriz e matriz2
+      delete matriz2; // apaga objeto imagem*/
+   return matriz;
 }
 
 CMatriz2D *
-CFEMorfologiaMatematica::Espessamento (CMatriz2D * &matriz,
-				       unsigned int /*_RaioBola*/ )
-{				/*
-				   CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
-				   HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
-				   matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
-					delete matriz2; // apaga objeto imagem */
-  return matriz;
+CFEMorfologiaMatematica::Espessamento ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {				/*
+       CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
+       HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
+       matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
+     delete matriz2; // apaga objeto imagem */
+   return matriz;
 }
 
 // Implementar
 CMatriz2D *
-CFEMorfologiaMatematica::Esqueleto (CMatriz2D * &matriz,
-				    unsigned int /*_RaioBola*/ )
-{
-  return matriz;
+CFEMorfologiaMatematica::Esqueleto ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+   return matriz;
 }

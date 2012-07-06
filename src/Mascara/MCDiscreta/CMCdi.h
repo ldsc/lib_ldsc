@@ -6,7 +6,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
@@ -37,31 +37,25 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 class CMCdi : public CMCDiscreta
 {
 protected:
-  int mi; ///< Atributo mi
+    int mi; ///< Atributo mi
 
 public:
-				///  Construtor
-    CMCdi (int ii, int rb):CMCDiscreta (rb), mi (ii)
-  {
-  }
+    ///  Construtor
+    CMCdi (int _mi, int rb):CMCDiscreta (rb), mi (_mi) { }
 
-				///  Destrutor
-  virtual ~ CMCdi ()
-  {
-  }
+    ///  Destrutor
+    virtual ~ CMCdi () { }
 
 public:
 	/// Seta mi
-  void Mi (int ii)
-  {
-    mi = ii;
-  }
+    void Mi (int _mi) {
+        mi = _mi;
+    }
 
-  /// Obtêm mi
-  int Mi () const
-  {
-    return mi;
-  }
+    /// Obtêm mi
+    int Mi () const {
+        return mi;
+    }
 };
 
 #endif //   CMCdi_h

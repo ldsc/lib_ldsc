@@ -8,7 +8,7 @@ PROJETO:		Anaimp
 			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico  
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
@@ -48,17 +48,17 @@ Arquivo de documentacao auxiliar:
 class CBCd3453D : public CBCdijk3D
 {
 
-public:			
-	/// Construtor
-CBCd3453D (unsigned int tamanhoMascara, unsigned int rb = 1)
-  :CBCdijk3D (tamanhoMascara, 3, 4, 5, rb)
-  {
-  }
+public:
+    /// Construtor
+    CBCd3453D (unsigned int tamanhoMascara, unsigned int rb = 1)
+            :CBCdijk3D (tamanhoMascara, 3, 4, 5, rb)
+    {
+    }
 
-  /// Destrutor
-  virtual ~ CBCd3453D ()
-  {
-  }				
+    /// Destrutor
+    virtual ~ CBCd3453D ()
+    {
+    }
 
 };
 #endif //  CBCd3453D

@@ -1,12 +1,12 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFdij_h)
+#ifndef CFEMMIDFdij_h
 #define CFEMMIDFdij_h
 
 
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
@@ -34,27 +34,26 @@ class CFEMMIDFdij : public CFEMMIDF, public CMCdij
 {
 protected:
 
-  virtual void CriaMascara (unsigned int _tamanhoMascara);
+   virtual void CriaMascara (unsigned int _tamanhoMascara);
 
 public:
-  ///  Retorna mi (Redefinida, herdada de CFEMMIDF).
-  virtual unsigned int Mi ()
-  {
-    return mi;
-  }				
+   ///  Retorna mi (Redefinida, herdada de CFEMMIDF).
+   virtual unsigned int Mi () {
+      return mi;
+   }
 
-  /// Construtor
-  CFEMMIDFdij (CMatriz2D * &matriz, unsigned int _mi, unsigned int _mj,
-	       unsigned int _rb):CFEMMIDF (matriz), CMCdij (_mi, _mj, _rb)
-  {
-  }
+   /// Construtor
+   CFEMMIDFdij (CMatriz2D * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
+      :CFEMMIDF (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb)
+   {
+   }
 
-  ///  Destrutor
-  virtual ~ CFEMMIDFdij ()
-  {
-  }				
+   ///  Destrutor
+   virtual ~ CFEMMIDFdij ()
+   {
+   }
 
-  /// Processa determinação da idf.
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
+   /// Processa determinação da idf.
+   virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
 };
 #endif //  CFEMMIDFdij_h

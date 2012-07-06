@@ -8,9 +8,9 @@ PROJETO:		Anaimp
 			Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
-Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, 
+Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
 Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CBCdijk3D.h
@@ -56,12 +56,12 @@ class CBCdijk3D  : public CMCdijk , /*public CMascara , */ public CBCDiscreta3D
 public:
 
 /// Construtor
-  CBCdijk3D (unsigned int tm, int i, int j, int k, int rb);	
+    CBCdijk3D (unsigned int tm, int i, int j, int k, int rb);
 
-  /// Destrutor
+    /// Destrutor
     virtual ~ CBCdijk3D ()
-  {
-  }	
-  // virtual void CalculaRaioBola();
+    {
+    }
+    // virtual void CalculaRaioBola();
 };
 #endif //  CBCdijk3D_h

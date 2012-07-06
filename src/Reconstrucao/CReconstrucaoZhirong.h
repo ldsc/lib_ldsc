@@ -28,9 +28,9 @@ class CReconstrucaoZhirong:public CReconstrucao
 {
 // Atributos
 public:
-	double *Re_data;///<  ponteiros para matrizes parte real 
+	double *Re_data;///<  ponteiros para matrizes parte real
 	double *Im_data;///<  ponteiros para matrizes parte imaginaria
-	  
+
 protected:
     CFFTPropriedades * objetoFourier;	///< objeto FFT, realiza Operacoes da Transformada de Fourier
 
@@ -62,40 +62,40 @@ protected:
 // Metodos
 protected:
 	/// leitura dos dados iniciais da linha de comando
-  void Entrada_dados (int argc, char **argv);	
+  void Entrada_dados (int argc, char **argv);
   // void Calculo_yc();// Calcula yc
   /// lê valores do arquivo Cz
-  void LeituraArquivoCz ();	
-  
+  void LeituraArquivoCz ();
+
   /// Calcula Ry1D
   virtual void Calculo_Ry1D ();
-  	
+
   	/// Calcula Ry3D
   void Calcula_Ry3D_de_1D ();
-  
+
   /// Determina Raiz Quadrada De Y2
   void RaizQuadradaDeY2 ();
-  
+
   /// Resolve filtro nao linear
-  void filtro_nao_linear ();	
-  
+  void filtro_nao_linear ();
+
   /// salva imagem reconstruida em disco
-  virtual void SalvarImagemEmDisco (std::string);	
+  virtual bool SalvarImagemEmDisco (std::string);
 
 public:
 	/// Construtor
 	CReconstrucaoZhirong (std::string nomeArquivo = "entrada.cor", int fatorAmp = 3, int npcz = 30, double sp = 2.5, int nx = 100, int ny = 100, int nz = 100);
 
 	/// Destrutor
-    virtual ~ CReconstrucaoZhirong ();	
-    
+    virtual ~ CReconstrucaoZhirong ();
+
      /// Executa a reconstrucao
-    virtual int Go ();		
-     
+    virtual int Go ();
+
       /// Calcula e salva o covariograma
-    void Covariograma ();	
+    void Covariograma ();
     // void MediaECovariancia();   // Verifica media e covariancia
-    
+
     /// Retorna o nome do arquivo (.dbm) reconstruido.
     inline std::string getFileName() { return fileName; }
 };

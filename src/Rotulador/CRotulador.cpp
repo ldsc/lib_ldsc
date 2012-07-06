@@ -32,50 +32,46 @@ using namespace std;
   @param  :
   @return :
 */
-CRotulador::CRotulador ()
-{
-  //Zera ponteiro para vetor conversão
-  vConversao = NULL;
-  //importante evita uso vetor área e perímetro sem rotular a imagem
-  rotuloMaximoUtilizado = numeroObjetos = 0;
-  //Vetor com a area dos objetos
-  areaObjetos = NULL;
-  //Vetor com os perimetros dos objetos
-  perimetroObjetos = NULL;
-  //Vetor com os raios hidraulicos
-  //raioHidraulicoObjetos = NULL;         
-  //a matriz de dados ainda não foi rotulada
-  rotulado = false;
-  //Valor default para o fundo    
-  FUNDO = 0;
-  //rotuloInicial =0;
-  //rotuloFinal = 0;
+CRotulador::CRotulador ( int _indice, int _fundo ) : INDICE(_indice), FUNDO(_fundo) {
+   //Zera ponteiro para vetor conversão
+   vConversao = NULL;
+   //importante evita uso vetor área e perímetro sem rotular a imagem
+   rotuloMaximoUtilizado = numeroObjetos = 0;
+   //Vetor com a area dos objetos
+   areaObjetos = NULL;
+   //Vetor com os perimetros dos objetos
+   perimetroObjetos = NULL;
+   //Vetor com os raios hidraulicos
+   //raioHidraulicoObjetos = NULL;
+   //a matriz de dados ainda não foi rotulada
+   rotulado = false;
+   //rotuloInicial =0;
+   //rotuloFinal = 0;
 }
 
 /*
   -------------------------------------------------------------------------
   Função:
   -------------------------------------------------------------------------
-  @short  :Destrói objetos alocados dinamicamente	
+  @short  :Destrói objetos alocados dinamicamente
   @author :André Duarte Bueno
   @see    :
   @param  :
   @return :
 */
-CRotulador::~CRotulador ()
-{
-  if (areaObjetos != NULL)
-	  delete areaObjetos; // objeto
+CRotulador::~CRotulador () {
+   if (areaObjetos != NULL)
+      delete areaObjetos; // objeto
 
-  if (perimetroObjetos != NULL)
-	  delete perimetroObjetos;// objeto
-  //if(raioHidraulicoObjetos!=NULL)
-  //   delete          raioHidraulicoObjetos;// objeto
+   if (perimetroObjetos != NULL)
+      delete perimetroObjetos;// objeto
+   //if(raioHidraulicoObjetos!=NULL)
+   //   delete          raioHidraulicoObjetos;// objeto
 
-  //if(vConversao!=NULL)
-  //   delete  vConversao;     //deletado na função de rotulagem // objeto
-  //temporario
-  //fout.close();
+   //if(vConversao!=NULL)
+   //   delete  vConversao;     //deletado na função de rotulagem // objeto
+   //temporario
+   //fout.close();
 }
 
 /*
@@ -93,19 +89,19 @@ CRotulador::~CRotulador ()
   @return :
 */
 
-void CRotulador::PesquisaRotulosValidosEOrdena()
-{
+void CRotulador::PesquisaRotulosValidosEOrdena() {
 
-  int contador = 1;		//0 sempre aponta para 0
-  for (int i = 1; i <= rotuloMaximoUtilizado; i++)	//Percorre o vetor vConversao até o maior rotulo utilizado
-    if (vConversao->data1D[i] > 0)	//se for positivo é um rotulo válido
-      vConversao->data1D[i] = contador++;	//Primeiro iguala depois incrementa
-  	 //vConversao->data1D[0] = 0
-  	 //vConversao->data1D[1] = 3
-  	 //vConversao->data1D[2] = 3
-  	 //..
-    	 //vConversao->data1D[contador] = 3
-  numeroObjetos = contador;	//Já considera o elemento 0
+   int contador = 1;		//0 sempre aponta para 0
+   //LP-iniciando de 2 pois fundo pode ser 0 ou 1. for (int i = 1; i <= rotuloMaximoUtilizado; i++)	//Percorre o vetor vConversao até o maior rotulo utilizado
+   for (int i = 2; i <= rotuloMaximoUtilizado; i++)	//Percorre o vetor vConversao até o maior rotulo utilizado
+      if (vConversao->data1D[i] > 0)	//se for positivo é um rotulo válido
+         vConversao->data1D[i] = contador++;	//Primeiro iguala depois incrementa
+   //vConversao->data1D[0] = 0
+   //vConversao->data1D[1] = 3
+   //vConversao->data1D[2] = 3
+   //..
+   //vConversao->data1D[contador] = 3
+   numeroObjetos = contador;	//Já considera o elemento 0
 }
 
 /*
@@ -139,36 +135,22 @@ void CRotulador::PesquisaRotulosValidosEOrdena()
   @return :
 */
 
-void
-CRotulador::UniformizaTabelaRotulos ()
-{
-  //Percorre o vetor de rotulos
-  int aux;
-  for (int cont = 0; cont <= rotuloMaximoUtilizado; cont++)
-    {
+void CRotulador::UniformizaTabelaRotulos () {
+   //Percorre o vetor de rotulos
+   int aux;
+   for (int cont = 0; cont <= rotuloMaximoUtilizado; cont++) {
       aux = vConversao->data1D[cont];
-      if (aux < 0)
-	{
-	  //Enquanto o rotulo for negativo (indireto),    
-	  while (aux < 0)
-	    //Procurar um valor positivo a ser utilizado (direto)
-	    aux = vConversao->data1D[-aux];
-	  //Fica com rótulo válido (direto)
-	  vConversao->data1D[cont] = aux;
-	}
-    }
+      if (aux < 0) {
+         //Enquanto o rotulo for negativo (indireto),
+         while (aux < 0)
+            //Procurar um valor positivo a ser utilizado (direto)
+            aux = vConversao->data1D[-aux];
+         //Fica com rótulo válido (direto)
+         vConversao->data1D[cont] = aux;
+      }
+   }
 }
 
-/*
-  -------------------------------------------------------------------------
-  Função:
-  -------------------------------------------------------------------------
-  @short  :
-  @author :André Duarte Bueno
-  @see    :
-  @param  :
-  @return :
-*/
 
 /*
   ==================================================================================
@@ -177,20 +159,17 @@ CRotulador::UniformizaTabelaRotulos ()
   Descrição: Chama as funções de cálculo da área e do perímetro
 */
 
-void
-CRotulador::CalculaRaioHidraulicoObjetos ()
-{
-  //TWaitCursor w;                                                                                                        
-  //Cria cursor de espera
-  //Se ainda não determinada,              calcula a área dos objetos             
-  if (areaObjetos == NULL)
+void CRotulador::CalculaRaioHidraulicoObjetos () {
+   //TWaitCursor w;
+   //Cria cursor de espera
+   //Se ainda não determinada,              calcula a área dos objetos
+   if (areaObjetos == NULL)
+      CalculaAreaObjetos ();
 
-    CalculaAreaObjetos ();
-
-  //Se ainda não determinada,      calcula o perimetro dos objetos
-  if (perimetroObjetos == NULL)
-    CalculaPerimetroObjetos ();
-  //só procede o calculo se a matriz rótulo foi determinada
+   //Se ainda não determinada,      calcula o perimetro dos objetos
+   if (perimetroObjetos == NULL)
+      CalculaPerimetroObjetos ();
+   //só procede o calculo se a matriz rótulo foi determinada
 }
 
 /*
@@ -203,12 +182,10 @@ CRotulador::CalculaRaioHidraulicoObjetos ()
   @param  :
   @return :
 */
-double
-CRotulador::RaioHidraulicoObjetos (int k) const 
-{
-  if (k < (numeroObjetos))
-    return areaObjetos->data1D[k] / (double) perimetroObjetos->data1D[k];	//quando o BC trava aparece esta linha???
-  return 0.0;
+double CRotulador::RaioHidraulicoObjetos (int k) const {
+   if (k < (numeroObjetos))
+      return areaObjetos->data1D[k] / (double) perimetroObjetos->data1D[k];	//quando o BC trava aparece esta linha???
+   return 0.0;
 }
 
 /*
@@ -221,14 +198,12 @@ CRotulador::RaioHidraulicoObjetos (int k) const
   @param  :
   @return :
 */
-int
-CRotulador::AreaObjetos (int k) const 
-{
-  if (k < (numeroObjetos) && areaObjetos != NULL)
-    //return areaObjetos[k - rotuloInicial];
-    return areaObjetos->data1D[k];
-  return 0;
-};
+int CRotulador::AreaObjetos (int k) const {
+   if (k < (numeroObjetos) && areaObjetos != NULL)
+      //return areaObjetos[k - rotuloInicial];
+      return areaObjetos->data1D[k];
+   return 0;
+}
 
 /*
   -------------------------------------------------------------------------
@@ -240,16 +215,13 @@ CRotulador::AreaObjetos (int k) const
   @param  :
   @return :
 */
-int
-CRotulador::PerimetroObjetos (int k) const 
-{
-  if (k < (numeroObjetos) && perimetroObjetos != NULL)
-
-    return perimetroObjetos->data1D[k];
-  //return perimetroObjetos[k - rotuloInicial];
-  return 1;			//Evita bug chamada a GetraioHidraulicoObjetos
-  //arrumar posteriormente
-};
+int CRotulador::PerimetroObjetos (int k) const {
+   if (k < (numeroObjetos) && perimetroObjetos != NULL)
+      return perimetroObjetos->data1D[k];
+   //return perimetroObjetos[k - rotuloInicial];
+   return 1;			//Evita bug chamada a GetraioHidraulicoObjetos
+   //arrumar posteriormente
+}
 
 
 /*
@@ -275,29 +247,23 @@ CRotulador::PerimetroObjetos (int k) const
 */
 
 //void CRotulador::VerificaContorno( int contorno,  int  rotuloAtual)
-void
-CRotulador::VerificaContorno (int contorno, int rotuloAtual)
-{
-  //variável estatica criada uma única vez
-  static int aux;
-
-  //se o contorno não for FUNDO, deve ser verificado
-  if (contorno != FUNDO)
-    {
+void CRotulador::VerificaContorno (int contorno, int rotuloAtual) {
+   //variável estatica criada uma única vez
+   static int aux;
+   //se o contorno não for FUNDO, deve ser verificado
+   if (contorno != FUNDO) {
       //armazena rotulo anterior do contorno
       aux = vConversao->data1D[contorno];
       //verifica se é válido, se não for,
-      while (aux < 0)
-	//localiza rótulo válido.       
-	aux = vConversao->data1D[-aux];
-
+      while (aux < 0) //localiza rótulo válido.
+         aux = vConversao->data1D[-aux];
       //o contorno aponta para o rotulo atual
       vConversao->data1D[contorno] = -rotuloAtual;
       //se forem diferentes, então
       //o antigo rótulo do contorno aponta para o rotulo atual
       if (aux != rotuloAtual)
-	vConversao->data1D[aux] = -rotuloAtual;
-    }
+         vConversao->data1D[aux] = -rotuloAtual;
+   }
 }
 
 /*
@@ -474,9 +440,9 @@ CRotulador::VerificaContorno (int contorno, int rotuloAtual)
   {
   if(raioHidraulicoObjetos)
   delete raioHidraulicoObjetos;//cria vetor raio hidraulico
-   
+
   raioHidraulicoObjetos = new TVetor (numeroObjetos);//(areaObjetos->GetNX() );
-   
+
   if(raioHidraulicoObjetos)//Calculo do RAIO HIDRAULICO
   {
   raioHidraulicoObjetos->Constante(0);

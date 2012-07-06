@@ -29,7 +29,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * 
  * Considerações gerais:
  *    Obs: O resultado da expressão (nx-1)/2 para diferentes n:
- *    Observe que arredonta 1/2=0.5=0. arredonda 0.5 para zero.
+ *    Observe que arredonda 1/2=0.5=0. arredonda 0.5 para zero.
  *      n=      0           1       2       3       4       5       6
  *    (nx-1)/2= 0           0       0       1       1       2       2
  *    (nx-2)/2= -1(!!??)    0       0       0       1       1       2
@@ -46,7 +46,7 @@ protected:
   float CalculaPeso ();	
   
   /// Preenche a mascara com os valores adequados, deve ser redefinida nas classes filhas.
-  virtual void PreencheMascara () = 0;	
+  virtual void PreencheMascara () { }
 public:
 	/// Construtor, recebe a dimensao da mascara
     CMascara (unsigned int tamanhoMascara);

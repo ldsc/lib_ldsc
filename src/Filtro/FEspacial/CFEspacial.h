@@ -17,7 +17,7 @@ PROJETO:		Bibliotecas LDSC
 				Biblioteca para manipulacao de mascaras
 ----------------------------------------------------------------------------
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong,
@@ -30,10 +30,10 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Classe básica para os filtros espaciais.
- * 
+ *
  * Representa a superclasse para os filtros que atuam sobre
  * o espaço discreto da imagem.
- * 
+ *
  * Ou seja atua sobre o espaço geométrico da imagem,
  * enquanto os filtros de amplitude atuam sobre o espaço de cor.
  * em uma variável inteira que define o tamanho da mascara a ser utilizada
@@ -48,47 +48,46 @@ class CFEspacial : public CFiltro
 {
 // Atributos
 protected:
-  unsigned int tamanhoMascara; ///< Tamanho da macara
+    unsigned int tamanhoMascara; ///< Tamanho da macara
 
 public:
     CMascara * mask;	///< Ponteiro para mascara
 
 // Métodos
-public:	
+public:
 
-	/// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
-    CFEspacial (CMatriz2D * &matriz, unsigned int _tamanhoMascara)	
-  : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)	
-  {
-    mask = NULL;
-  }
+    /// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
+    CFEspacial (CMatriz2D * &matriz, unsigned int _tamanhoMascara) : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)
+    {
+        mask = NULL;
+    }
 
-  /// Destrutor
-   ~CFEspacial ()
-  {
-    if (mask)
-      delete mask;
-  }		
-  		
-  /// Obtem tamanhoMascara.
-  virtual unsigned int TamanhoMascara () const
-  {
-    return tamanhoMascara;
-  }
+    /// Destrutor
+    ~CFEspacial ()
+    {
+        if (mask)
+            delete mask;
+    }
 
-  /// Seta o tamanhoMascara.
-  virtual void TamanhoMascara (unsigned int _tamanhoMascara)
-  {
-    tamanhoMascara = _tamanhoMascara;
-  }
+    /// Obtem tamanhoMascara.
+    virtual unsigned int TamanhoMascara () const
+    {
+        return tamanhoMascara;
+    }
 
-  /// Realiza o processamento da filtragem
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara =0);
+    /// Seta o tamanhoMascara.
+    virtual void TamanhoMascara (unsigned int _tamanhoMascara)
+    {
+        tamanhoMascara = _tamanhoMascara;
+    }
 
-    
+    /// Realiza o processamento da filtragem
+    virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara =0);
+
+
 protected:
-  /// Cria a mascara adequada
-	virtual void CriaMascara (unsigned int _tamanhoMascara);	
-  
+    /// Cria a mascara adequada
+    virtual void CriaMascara (unsigned int _tamanhoMascara);
+
 };
 #endif // CFEspacial_h

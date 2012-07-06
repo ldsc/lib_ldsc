@@ -7,136 +7,73 @@ using namespace std;
 // Construtor:
 // -----------------------------------------------------------------------
 CCorrelacaoEspacial::CCorrelacaoEspacial ( int dimensao_vetor_correlacao ) 
-	:  CCorrelacao ( dimensao_vetor_correlacao ) 
-{
+	:  CCorrelacao ( dimensao_vetor_correlacao ) {
 }
 
 // -----------------------------------------------------------------------
 // Destrutor:
 // -----------------------------------------------------------------------
-CCorrelacaoEspacial::~CCorrelacaoEspacial () 
-{
+CCorrelacaoEspacial::~CCorrelacaoEspacial () {
 }
 
 // Calculo da correlacao sobre uma imagem float.
 // O ponteiro _Re_data representa uma matriz que pode ser acessada usando:
 // #define MatrizReal(x,y)	Re_data [(y)*NX + (x)]
 // #define MatrizImag(x,y)	Im_data [(y)*NX + (x)]
-bool CCorrelacaoEspacial::Go (float *Re_data, int NX, int NY) 
-{
-	// Definicao do intervalo de calculo da correlacao (deslocamento u) como sendo NX / 2 
-	// futuramente considerar extensao/reflexao da imagem
-	// Se a dimensao da imagem mudou, muda a dimensao do vetor correlacao e realoca o vetor.
-	// Se a dimensão não mudou apenas zera o vetor correlacao.
-	if ( size() != ( NX / 2 ) )
-		{
-		// Novo size()
-		deslocamentoMaximo = ( NX / 2 );
-
-		// Destroe correlacao existente e aloca nova
-		if ( correlacao ) 
-			{
-			delete [] correlacao;
-			correlacao = NULL;
-			}
-	
-		// Aloca vetor, bug usava new float (deslocamentoMaximo)
-		correlacao = new float [deslocamentoMaximo];
-		if ( ! correlacao ) 
-			{
-			cerr << "Erro alocacao de correlacao - bool CCorrelacaoEspacial::Go (float *_Re_data, int _nx, int _ny)." ;
-			return 0;
-			}
-		}
-
-	// zera ->usar memset()	
-	for (int i = 0; i < size(); i++)
-		correlacao[i] = 0;
-
+bool CCorrelacaoEspacial::Go (float *Re_data, int NX, int NY, int indice) {
+   if ( ! AlocarOuRealocarCorrelacaoSeNecessarioEZerar(NX/2) ){
+      return false;
+   }
 	// Soma o número de poros para calcular a porosidade (primeiro ponto do vetor autocorrelacao).
 	for ( int i = 0; i < NX; i++)
 		for ( int j = 0; j < NY; j++)
-			if( MatrizReal(i, j) == 1 ) // == faseAtiva no lugar de 1
+         if( MatrizReal(i, j) == indice ) // == indice no lugar de 1
 				correlacao[0]++;
 	correlacao[0] = correlacao[0] / (NX * NY);
 
-	for (int deslocamento = 1; deslocamento < size(); deslocamento++) 
-	{
+   for (int deslocamento = 1; deslocamento < size; deslocamento++) {
 		// cout << "->deslocamento = " << deslocamento << endl;
-		for (int i = 1; i < (NX - deslocamento); i++)
-		{
-			for (int j = 0; j < NY; j++) 
-			{
-				if ( (MatrizReal(i, j) == 1) && (MatrizReal( i + deslocamento, j) == 1) ) 
-				{
+      for (int i = 1; i < (NX - deslocamento); i++) {
+         for (int j = 0; j < NY; j++) {
+            if ( (MatrizReal(i, j) == indice) && (MatrizReal( i + deslocamento, j) == indice) ) {
 					correlacao[ deslocamento ]++;
 				}
 			}
 		}
-	// Divide o numero de pixeis acumulados pela área considerada
-	correlacao[deslocamento] =  correlacao[deslocamento] / ( (NX - deslocamento) * NY ) ;
+      // Divide o numero de pixeis acumulados pela área considerada
+      correlacao[deslocamento] =  correlacao[deslocamento] / ( (NX - deslocamento) * NY ) ;
 	}
-	return 1;
+   return true;
 }
 
-bool CCorrelacaoEspacial::Go (CMatriz2D * img) 
-{	
+bool CCorrelacaoEspacial::Go(CMatriz2D *img, int indice) {
 	if ( ! img ) 
 		return false;
 
 	int NX = img->NX();
 	int NY = img->NY();
-	
-	// Definicao do intervalo de calculo da correlacao (deslocamento u) como sendo NX / 2 
-	// futuramente considerar extensao/reflexao da imagem
-	// Se a dimensao da imagem mudou, muda a dimensao do vetor correlacao e realoca o vetor.
-	// Se a dimensão não mudou apenas zera o vetor correlacao.
-	if ( size() != ( NX / 2 ) )
-	{
-		// Novo size()
-		deslocamentoMaximo = ( NX / 2 );
 
-		// Destroe correlacao existente e aloca nova
-		if ( correlacao ) 
-		{
-			delete [] correlacao;
-			correlacao = NULL;
-		}
-	
-		// Aloca vetor, bug usava new float (deslocamentoMaximo)
-		correlacao = new float [deslocamentoMaximo];
-		if ( ! correlacao ) 
-		{
-			cerr << "Erro alocacao de correlacao - bool CCorrelacaoEspacial::Go (float *_Re_data, int _nx, int _ny)." ;
-			return 0;
-		}
-	}
-
-	// zera ->usar memset()	
-	for (int i = 0; i < size(); i++)
-		correlacao[i] = 0.0;
+   if ( ! AlocarOuRealocarCorrelacaoSeNecessarioEZerar(NX/2) ){
+      return false;
+   }
 
 	// soma o número de poros para calcular a porosidade.
 	for ( int i = 0; i < NX; i++)
 		for ( int j = 0; j < NY; j++)
-			if( img->data2D[i][j] == 1 )
+         if( img->data2D[i][j] == indice )
 				correlacao[0]++;
 	correlacao[0] = correlacao[0] / (NX * NY);
 
-	for (int deslocamento = 1; deslocamento < size(); deslocamento++) 
-	{
-		for (int i = 1; i < (NX - deslocamento) ; i++) 
-		{
- 			for (int j = 0; j < NY; j++) 
-			{
- 				if ( (img->data2D[i][j] == 1) && (img->data2D[ i + deslocamento ][j] == 1) ) 
-				{
+   for (int deslocamento = 1; deslocamento < size; deslocamento++) {
+      for (int i = 1; i < (NX - deslocamento) ; i++) {
+         for (int j = 0; j < NY; j++) {
+            if ( (img->data2D[i][j] == indice) && (img->data2D[ i + deslocamento ][j] == indice) ) {
 					correlacao[ deslocamento ]++;
 				}
 			}
 		}
-	// Divide o numero de pixeis acumulados pela área considerada
-	correlacao[deslocamento] =  correlacao[deslocamento] / ( (NX - deslocamento)*NY ) ;
+      // Divide o numero de pixeis acumulados pela área considerada
+      correlacao[deslocamento] =  correlacao[deslocamento] / ( (NX - deslocamento)*NY ) ;
 	}
 	return true;
 }
@@ -152,7 +89,7 @@ bool CCorrelacaoEspacial::Go (CMatriz2D * img)
 // 		return false;
 // 
 // 	// Escreve o vetor correlacao em disco
-// 	for (int deslocamento = 0; deslocamento < (deslocamentoMaximo); deslocamento++)
+// 	for (int deslocamento = 0; deslocamento < (size); deslocamento++)
 // 		fcor << deslocamento << "\t" <<  correlacao[deslocamento]  << "\n";
 // 
 // 	fcor.close (); 						// Fecha o arquivo de disco

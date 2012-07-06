@@ -3,7 +3,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp.
-			Analise de Imagens de Meios Porosos.
+   Analise de Imagens de Meios Porosos.
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -16,7 +16,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ----------------------------------------------------------------------------
-			BIBLIOTECAS
+   BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
 #include "Filtro/FEspacial/CFEPassaBaixa.h"
@@ -26,18 +26,16 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ==================================================================================
 Documentacao      CriaMascara
 ==================================================================================
-Descrição:	Se a mascara ja existe deve ser eliminada
-	        O construtor da mascara chama a funcao de preenchimento da
-		mascara e de calculo do peso da mascara
+Descrição:	Se a mascara ja existe deve ser eliminada o construtor da mascara chama
+a funcao de preenchimento da mascara e de calculo do peso da mascara
 Programador:    Andre Duarte Bueno
 */
 
 void
-CFEPassaBaixa::CriaMascara (unsigned int _tamanhoMascara)
-{
-  tamanhoMascara = _tamanhoMascara;
-  if (mask)
-    delete mask;
-  mask = new CMPassaBaixa (_tamanhoMascara);
+CFEPassaBaixa::CriaMascara (unsigned int _tamanhoMascara) {
+   tamanhoMascara = _tamanhoMascara;
+   if (mask)
+      delete mask;
+   mask = new CMPassaBaixa (_tamanhoMascara);
 }
 

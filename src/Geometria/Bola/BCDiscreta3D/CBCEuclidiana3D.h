@@ -53,19 +53,19 @@ class CBCEuclidiana3D : public CBCdijk3D	//  public CMascara
 // Metodos
 public:
 
-	/// Construtor, chama PreencheMascara
-  CBCEuclidiana3D (unsigned int tamanhoMascara);	
+    /// Construtor, chama PreencheMascara
+    CBCEuclidiana3D (unsigned int tamanhoMascara);
 
-  /// Destrutor
+    /// Destrutor
     virtual ~ CBCEuclidiana3D ()
-  {
-  }				
-  // Métodos virtuais herdados
+    {
+    }
+    // Métodos virtuais herdados
 
 protected:
 
-	/// Calcula o raio da bola
-  virtual void CalculaRaioBola ();
+    /// Calcula o raio da bola
+    virtual void CalculaRaioBola ();
 
 };
 #endif

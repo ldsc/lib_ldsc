@@ -33,17 +33,17 @@ class CBCd5711 : public CBCdijk
 
 public:
 
-	/// Construtor
-CBCd5711 (unsigned int tm, int rb = 2)
-	:CBCdijk (tm, 5, 7, 11, rb)
-  {
-  }	
+    /// Construtor
+    CBCd5711 (unsigned int tm, int rb = 2)
+            :CBCdijk (tm, 5, 7, 11, rb)
+    {
+    }
 
-  /// Destrutor
-  virtual ~ CBCd5711 ()
-  {
-  }	
+    /// Destrutor
+    virtual ~ CBCd5711 ()
+    {
+    }
 
-  // virtual void CalculaRaioBola(){};
+    // virtual void CalculaRaioBola(){};
 };
 #endif //  CBCd5711_h

@@ -12,7 +12,7 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	  CPermeabilidadeRelativa.h
+@file 	   CPermeabilidadeRelativa.h
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
@@ -38,20 +38,21 @@ Desenvolvido por:
 #include <Permeabilidade/CPermeabilidadeIntrinseca.h>
 #endif
 
-/*
-#ifndef CFEConectividade3D_h
-#include <Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h>
+
+#ifndef CImagem3D_h
+#include <Matriz/CImagem3D.h>
 #endif
-*/
+
 #include <sstream>
 
 using namespace std;
 /**
  * @brief Determina as curvas de permeabilidade relativa a partir de uma imagem 3D.
  * 
- * Para cada passo de pressão aplicado na determinação das configurações de equilíbrio de uma imagem tridimensional, 
- * obtem-se as fases molhante (ex: agua) e não molhante (ex: óleo), determina-se a permeabilidade intrínseca de cada fase 
- * e a seguir grava em arquivo (.rpc) as curvas de permeabilidade relativa.
+ * Para cada passo de pressão aplicado na determinação das configurações de equilíbrio
+ * de uma imagem tridimensional, obtem-se as fases molhante (ex: agua) e não molhante
+ * (ex: óleo), determina-se a permeabilidade intrínseca de cada fase e a seguir grava
+ * em arquivo (.rpc) as curvas de permeabilidade relativa.
  * 
 */
 
@@ -120,7 +121,7 @@ public:
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um o path de uma imagem 3D (.dbm).
 	bool Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0 );
 
-
+// --------------------------------------------------------------------Set
 	void LimiteIteracoes ( unsigned long int li ) { 
 		limiteIteracoes = li;	
 	}
@@ -129,7 +130,6 @@ public:
 		limiteErro = le;  
 	}
 // --------------------------------------------------------------------Get
-// --------------------------------------------------------------------Set
 // -------------------------------------------------------------Sobrecarga
 // -----------------------------------------------------------------Friend
 };

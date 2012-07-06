@@ -1,5 +1,5 @@
 // ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CBCEuclidiana_h
+#ifndef CBCEuclidiana_h
 #define CBCEuclidiana_h
 
 /*
@@ -52,14 +52,14 @@ class CBCEuclidiana:public CBCdij	//  public CMascara
 // Metodos
 public:
 
-	/// Construtor, chama PreencheMascara
-  CBCEuclidiana (unsigned int tm);
-  	
-  /// Destrutor
-    virtual ~ CBCEuclidiana ()
-  {
-  }				
+    /// Construtor, chama PreencheMascara
+    CBCEuclidiana (unsigned int tm);
 
-   //   virtual unsigned int CalculaRaioBola();
+    /// Destrutor
+    virtual ~ CBCEuclidiana ()
+    {
+    }
+
+    //   virtual unsigned int CalculaRaioBola();
 };
 #endif

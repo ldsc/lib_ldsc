@@ -32,10 +32,10 @@ public:
   virtual int Go ()
   {
     return 1;
-  }	
-  
-  //  Incluida para atender CReconstrucaoBueno 
-  virtual void Calculo_Ry1D (){} 
-  virtual void SalvarImagemEmDisco (std::string) {}
+  }
+
+  //  Incluida para atender CReconstrucaoBueno
+  virtual void Calculo_Ry1D (){}
+  virtual bool SalvarImagemEmDisco (std::string) { return false; }
 };
 #endif

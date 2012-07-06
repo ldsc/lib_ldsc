@@ -45,7 +45,7 @@ int * CVetor::AlocaVetor (int nx)
 {
 // TESTE PARA EXCESSOES
 //       try
-//       {                                                       
+//       {
 
   // STEP 1: aloca eixo x.
   int *dat = new int[nx];
@@ -197,7 +197,7 @@ CVetor* CVetor::operator+(CVetor* v)
 
  for (  int i = 0; i < min; i++)
 	   // Soma membro a membro
-	   this->data1D[i]+= v->data1D[i];  		
+	   this->data1D[i]+= v->data1D[i];
  return this;
 }
 */
@@ -291,7 +291,7 @@ bool CVetor::operator==(CVetor* v)const
 return 1;
 }
 */
-bool CVetor::operator== (CVetor & v) const 
+bool CVetor::operator== (CVetor & v) const
 {
   //if(this->nx!=v->nx)      // se as dimensoes forem diferentes, retorna  0
   //return 0;                // se incluir esta linha, tem de mudar operador !=
@@ -314,7 +314,7 @@ o atributo formatoSalvamento.
 @param  :
 @return :
 */
-bool CVetor::operator!= (CVetor & v) const 
+bool CVetor::operator!= (CVetor & v) const
 {
   return !(CVetor::operator== (v));
 }
@@ -353,7 +353,7 @@ Funcao: SalvaCabecalho
 @param  :
 @return :
 */
-void CVetor::SalvaCabecalho (ofstream & fout) const 
+void CVetor::SalvaCabecalho (ofstream & fout) const
 {
   if (fout.good ()) // Testa abertura do arquivo
     { 	// fout << setw (0) << 'V' << left << formatoSalvamento << '\n' << nx;
@@ -387,7 +387,7 @@ Salva dados "colados" sem espaço
 @param  :
 @return :
 */
-void CVetor::SalvaDadosColados (ofstream & fout) const 
+void CVetor::SalvaDadosColados (ofstream & fout) const
 {
   for (int i = 0; i < nx; i++)
     fout << data1D[i];
@@ -404,7 +404,7 @@ Salva dados com um espaco " "
 @param  :
 @return :
 */
-void CVetor::SalvaDados (ofstream & fout) const 
+void CVetor::SalvaDados (ofstream & fout) const
 {
   for (int i = 0; i < nx; i++)
   {
@@ -469,7 +469,7 @@ retorna o maior valor do vetor
 @param  :
 @return :
 */
-int CVetor::MaiorValor () const 
+int CVetor::MaiorValor () const
 {
   int maximo = data1D[0];
   for (int i = 1; i < nx; i++)
@@ -489,7 +489,7 @@ retorna o menor valor do vetor
 @param  :
 @return :
 */
-int CVetor::MenorValor () const 
+int CVetor::MenorValor () const
 {
   int minimo = data1D[0];
   for (int i = 1; i < nx; i++)
@@ -504,7 +504,7 @@ Funcao:   MenorValorNzero
 @short  :MenorValorNzero retorna o menor valor da matriz diferente de zero
 @author :Leandro Puerari
 */
-int CVetor::MenorValorNzero () const 
+int CVetor::MenorValorNzero () const
 {
   int menor = 9999999;
   for (int i = 0; i < nx; i++)
@@ -523,7 +523,7 @@ pair<int,int> CVetor::MaiorMenorValorNzero() const
 {
   	pair<int,int> maiorMenor;
   	maiorMenor.first = data1D[0];
-  	maiorMenor.second = 9999999999;
+  	maiorMenor.second = 999999999;
   	for (int i = 0; i < nx; i++){
 		if (data1D[i] < maiorMenor.second && data1D[i] != 0)
 			maiorMenor.second = data1D[i];
@@ -543,7 +543,7 @@ Funcao:  Media
 @return :
 */
 double
-CVetor::Media () const 
+CVetor::Media () const
 {
   double media = 0.0;
   for (int i = 1; i < nx; i++)
@@ -573,7 +573,7 @@ int CVetor::Replace (int i, int j)
  	 // acumula o numero de trocas realizadas
 	 contador++;
     }
-  // Retorna o numero de trocas realizadas                
+  // Retorna o numero de trocas realizadas
   return contador;
 }
 
@@ -587,7 +587,7 @@ Funcao:
 @param  :
 @return :
 */
-void CVetor::Propriedades (ofstream & os) const 
+void CVetor::Propriedades (ofstream & os) const
 {
   CBaseMatriz::Propriedades (os);
   os << "\nDimensoes: nx=" << nx << endl;
@@ -604,7 +604,7 @@ Funcao:
 @return :
 */
 bool CVetor::Read (string fileName, bool separado)
-{  	
+{
 	ifstream fin;									// Ponteiro para arquivo de disco
 	CBaseMatriz::AbreArquivo (fin, fileName); 			// Abre o arquivo de disco no formato correto
 	int pos;										// posição de leitura do arquivo.
@@ -720,16 +720,22 @@ Funcao: LeDadosColados
 @param  :
 @return :
 */
-void CVetor::LeDadosColados (ifstream & fin)
-{
-  char *nome = "1 ";		// char nome[2];
-  char ch;
-  for (int i = 0; i < nx; i++)
-  {
-    fin.get (ch);
-    nome[0] = ch;
-    data1D[i] = atoi (nome);
-  }
+void CVetor::LeDadosColados (ifstream & fin) {
+    char ch;
+    char matrizChar[30] = " ";
+    for (int i = 0; i < nx; i++) {
+        if (!fin.eof ()) {
+            cin.get (ch); 				// Pega o caracter
+            if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->9
+                matrizChar[0] = ch;		// copia para string
+                data1D[i] = atoi (matrizChar); // e da string para o inteiro
+            } else { // se for um \n ou ' ' desconsidera, e retorna contador ????
+                i--;
+            }
+        } else { // se chegou ao fim do arquivo, preenche com zeros
+            data1D[i] = 0;
+        }
+    }
 }
 
 /*

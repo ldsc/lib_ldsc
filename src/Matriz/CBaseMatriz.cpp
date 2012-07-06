@@ -32,70 +32,43 @@ using namespace std;
 //  Largura do campo de salvamento dos dados em disco (2)
 int CBaseMatriz::larguraCampo = 2;	// BUG
 
-/**	Armazena matriz em disco, recebe o nome do arquivo de disco.
-	No arquivo header detalhes dos formatos de salvamento em disco.
-	@author : André Duarte Bueno
-	@see    :
-	@param  :
-	@return :
-*/
+// Armazena matriz em disco, recebe o nome do arquivo de disco.
+// No arquivo header detalhes dos formatos de salvamento em disco.
 bool CBaseMatriz::Write(string fileName, int separado) const {
-  //  try
-  //        {                            
-  //  Abre arquivo disco
-  ofstream fout;
-  string fullFileName = path + fileName;
-  if ( (formatoSalvamento > 3 && formatoSalvamento < 7) 
-  || (formatoSalvamento > 9 && formatoSalvamento < 13) 
-  || (formatoSalvamento > 15 && formatoSalvamento < 19) ) 	// Formato de salvamento binario
- 	fout.open (fullFileName.c_str (), ios::binary);			//  Abre arquivo de disco  formato Binario
-  else											//  Senão
-    fout.open (fullFileName.c_str ());					//  Abre arquivo de disco  formato ASCII
-  if (fout.good ()) {								//  Testa abertura do arquivo
-      fout.width (larguraCampo);						//  Define a largura do campo
+   //  Abre arquivo disco
+   ofstream fout;
+   string fullFileName = path + fileName;
+   if ( (formatoSalvamento > 3 && formatoSalvamento < 7) ||
+        (formatoSalvamento > 9 && formatoSalvamento < 13) ||
+        (formatoSalvamento > 15 && formatoSalvamento < 19) ) { // Formato de salvamento binario
+      fout.open (fullFileName.c_str (), ios::binary); // Abre arquivo de disco  formato Binario
+   } else {
+      fout.open (fullFileName.c_str ()); // Abre arquivo de disco  formato ASCII
+   }
+   if (fout.good ()) { //  Testa abertura do arquivo
+      fout.width (larguraCampo); // Define a largura do campo
       fout.setf (ios::left);
-      fout.fill (' ');								// possivel erro na saida de P 2???
-      //  Salva cabecalho
-      //  Se for só para salvar os dados pula o salvamento do cabecalho
-	// LP - comentei o if para trabalhar apenas com arquivos com cabeçalho definido.
-	//if (formatoSalvamento != WRITEFORM_ASCII_DATA && formatoSalvamento != WRITEFORM_BINARY_DATA) {
-		SalvaCabecalho (fout);	//  (virtual) Salva dados do cabecalho:
-	  	//  CVetor ->  ("V1 \n nx")    ou
-	  	//  CMatriz2D->("P1 \n nx ny") ou
-	  	//  CMatriz3D->("D1 \n nx ny nz")
-	  	//if (formatoSalvamento == WRITEFORM_ASCII_PI_N_256_DATA || formatoSalvamento == WRITEFORM_BINARY_PI_N_256_DATA)
-	 	//	  fout << "\n" << 256 << '\n';
-		//  fout << '\n' << numeric_limits< unsigned char>::max() << '\n';
-	  	//else 
-	  	
-	  	SalvaCores(fout);
-	  	/* //substituí por SalvaCores (Leandro Puerari 03/12/2009).
-	  	if ( formatoSalvamento > 1 && formatoSalvamento != 4 && formatoSalvamento != 7 && formatoSalvamento != 10 && formatoSalvamento != 13 && formatoSalvamento != 16 && formatoSalvamento < 19 )
-	 		fout << "\n" << numCores << '\n';
-			//  fout << '\n' <<  numeric_limits< unsigned short int >::max() << '\n';
-	  	else
-	    		fout << '\n';
-	    	*/	
-	    
-	//}
-     //  Salva os dados
-     if (separado)
-		SalvaDados (fout);			//  (virtual) Salva dados com um espaco " " 1 0 0 1
-     else
-		SalvaDadosColados (fout);	//  (virtual) Salva dados "colados" sem espaço 1001
-     fout.close ();
-     return true;					//  sucesso
-  } else
-	return false;
+      fout.fill (' '); // possivel erro na saida de P 2???
+
+      SalvaCabecalho (fout);	// (virtual) Salva dados do cabecalho:
+      SalvaCores(fout);
+
+      if (separado)
+         SalvaDados (fout); // (virtual) Salva dados com um espaco " " 1 0 0 1
+      else
+         SalvaDadosColados (fout); // (virtual) Salva dados "colados" sem espaço 1001
+      fout.close ();
+      return true;
+   } else
+      return false;
 }
 
-bool CBaseMatriz::SalvaCores (ofstream & fout) const 
-{
+bool CBaseMatriz::SalvaCores (ofstream & fout) const {
 	if (fout) { // testa abertura do arquivo
 	  	if ( formatoSalvamento > 1 && formatoSalvamento != 4 && formatoSalvamento != 7 && formatoSalvamento != 10 && formatoSalvamento != 13 && formatoSalvamento != 16 && formatoSalvamento < 19 )
 	 		fout << "\n" << numCores << '\n';
 	  	else
-	    		fout << '\n';
+         fout << '\n';
 	}
 }
 
@@ -264,34 +237,28 @@ return 0;
   @return :
 */
 
-bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) //  Abre arquivo formato correto
-{
+bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquivo formato correto
 	fin.open (fileName.c_str ());	
   	//  char aux[50];
   	string aux;
-  	if (fin.good ())		//  Se carregou corretamente o arquivo
-    	{
+   if (fin.good ()) { // Se carregou corretamente o arquivo
      	fin >> aux;		//  Lê a primeira string ( Pi ou Di ou Vi -> P1,P2,...D1,D5...V1,V3...)
-      	if (aux[0] == 'V' || aux[0] == 'P' || aux[0] == 'D') //se for arquivo de matriz válida.
-      	{
-			if ( aux.at(1) == '1' || aux.at(1) == '2' || aux.at(1) == '3' ) // se o formato do dados for ASCII
-			{	
+      if (aux[0] == 'V' || aux[0] == 'P' || aux[0] == 'D') { //se for arquivo de matriz válida.
+         if ( aux.at(1) == '1' || aux.at(1) == '2' || aux.at(1) == '3' ) { // se o formato do dados for ASCII
 				fin.seekg (0, ios::beg);	//  vai para posicao 0, a partir do inicio do arquivo
 				return true;
-			} //  Não é formato ASCII
-			else	if ( aux.at(1) == '4' || aux.at(1) == '5' || aux.at(1) == '6') // Verifica se o formato é BINÁRIO
-			{
-				fin.close ();							//  Fecha o arquivo e
-				fin.open (fileName.c_str (), ios::binary);	//  Reabre como binario
+         } else if ( aux.at(1) == '4' || aux.at(1) == '5' || aux.at(1) == '6') { // Verifica se o formato é BINÁRIO
+            fin.close (); //  Fecha o arquivo e
+            fin.open (fileName.c_str (), ios::binary); // Reabre como binario
 				if (fin.good ())
 					return true;
 				else
 					return false;
 			}
 		}
-    		fin.close (); 		// Arquivo inválido. Fechar...
-    	}
-    	return false;			//  nao abriu corretamente retorna erro
+      fin.close (); 		// Arquivo inválido. Fechar...
+   }
+   return false;			//  nao abriu corretamente retorna erro
 }
 
 /*
@@ -305,26 +272,22 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) //  Abre arquivo
   @return :
 
 */
-int CBaseMatriz::VerificaFormato (ifstream & fin)
-{
-  if (fin.good ())		//  Se abriu corretamente o arquivo
-  {
+int CBaseMatriz::VerificaFormato (ifstream & fin) {
+   if (fin.good ()) { //  Se abriu corretamente o arquivo
       char aux[255];
       //  fin >> aux;            //  Lê a primeira string ( Pi ou Di ou Vi ou um numero. ->P1,P2,...D1,D5..)
       fin.getline (aux, 255);
       //  0123456789
       /*if (aux[0]>= 48 && aux[0] <=57 )                            //  Se for um número, então só são dados
-	{                                      //  deve receber nx,ny,nz como parametros.
-	formatoSalvamento=WRITEFORM_ASCII_DATA;//  Preciso recolocar ponteiro de leitura no inicio do arquivo
-	fin.seekg(0,ios::beg);                     //  reposiciona inicio arquivo
-	return formatoSalvamento;
-	}
-	else */ //retorna o formato de salvamento
-    switch (aux[0])
-    {
+ {                                      //  deve receber nx,ny,nz como parametros.
+ formatoSalvamento=WRITEFORM_ASCII_DATA;//  Preciso recolocar ponteiro de leitura no inicio do arquivo
+ fin.seekg(0,ios::beg);                     //  reposiciona inicio arquivo
+ return formatoSalvamento;
+ }
+ else */ //retorna o formato de salvamento
+      switch (aux[0]) {
       case 'V':
-		switch (aux[1])
-		{
+         switch (aux[1]) {
 			case '1':
 				return formatoSalvamento = WRITEFORM_VI_X_ASCII;
 			case '2':
@@ -339,10 +302,9 @@ int CBaseMatriz::VerificaFormato (ifstream & fin)
 				return formatoSalvamento = WRITEFORM_VI_X_COLOR_BINARY;
 			default:
 				return formatoSalvamento = WRITEFORM_ERROR;
-		}
+         }
       case 'P':
-		switch (aux[1])
-		{
+         switch (aux[1]) {
 			case '1':
 				return formatoSalvamento = WRITEFORM_PI_X_Y_ASCII;
 			case '2':
@@ -357,10 +319,9 @@ int CBaseMatriz::VerificaFormato (ifstream & fin)
 				return formatoSalvamento = WRITEFORM_PI_X_Y_COLOR_BINARY;
 			default:
 				return formatoSalvamento = WRITEFORM_ERROR;
-		}
+         }
       case 'D':
-		switch (aux[1])
-		{
+         switch (aux[1]) {
 			case '1':
 				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_ASCII;
 			case '2':
@@ -375,11 +336,11 @@ int CBaseMatriz::VerificaFormato (ifstream & fin)
 				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_COLOR_BINARY;
 			default:
 				return formatoSalvamento = WRITEFORM_ERROR;
-		}
+         }
       default:
-	 	return formatoSalvamento = WRITEFORM_ERROR;
-    }
-  } else
+         return formatoSalvamento = WRITEFORM_ERROR;
+      }
+   } else
       return formatoSalvamento = WRITEFORM_ERROR;
 }
 
@@ -393,13 +354,11 @@ int CBaseMatriz::VerificaFormato (ifstream & fin)
   @param  :
   @return :
 */
-void
-CBaseMatriz::Propriedades (ofstream & os) const 
-{
-  os << "\nPropriedades objeto :"
-     << "\nDimensao da Matriz=" << DimensaoMatriz ()
-     << "\nMaior valor=" << MaiorValor ()
-     << "\nMenor valor=" << MenorValor ()
-     << "\nMedia=" << Media ()
-     << "\nFormato de salvamento=" << formatoSalvamento << endl;
+void CBaseMatriz::Propriedades (ofstream & os) const {
+   os << "\nPropriedades objeto :"
+      << "\nDimensao da Matriz=" << DimensaoMatriz ()
+      << "\nMaior valor=" << MaiorValor ()
+      << "\nMenor valor=" << MenorValor ()
+      << "\nMedia=" << Media ()
+      << "\nFormato de salvamento=" << formatoSalvamento << endl;
 }

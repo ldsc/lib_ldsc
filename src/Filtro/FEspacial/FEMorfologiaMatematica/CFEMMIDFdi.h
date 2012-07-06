@@ -5,7 +5,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -31,32 +31,32 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  */
 class CFEMMIDFdi : public CFEMMIDF, public CMCdi
 {
-  //  unsigned int mi, rb;   //  parametros passados para criacao da bola
+   //  unsigned int mi, rb;   //  parametros passados para criacao da bola
 
 protected:
 	
 	///  Redefinida, herdada de CFEMMIDF
-  virtual unsigned int Mi ()
-  {
-    return mi;
-  }				
+   virtual unsigned int Mi ()
+   {
+      return mi;
+   }
 
 public:
-		/// Construtor.
-    CFEMMIDFdi (CMatriz2D * &matriz, unsigned int _mi,
-		unsigned int _rb):CFEMMIDF (matriz), CMCdi (_mi, _rb)
-  {
-  }
+   /// Construtor.
+   CFEMMIDFdi (CMatriz2D * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
+      :CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mi, _rb)
+   {
+   }
 
-  ///  Destrutor.
-  virtual ~ CFEMMIDFdi ()
-  {
-  }				
+   ///  Destrutor.
+   virtual ~ CFEMMIDFdi ()
+   {
+   }
 
-  /// Cria a mascara.
-  virtual void CriaMascara (unsigned int _tamanhoMascara);	
-  
-  /// Realiza processamento da imagem.
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara =	 0);
+   /// Cria a mascara.
+   virtual void CriaMascara (unsigned int _tamanhoMascara);
+
+   /// Realiza processamento da imagem.
+   virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara =	 0);
 };
 #endif //  CFEMMIDFdi_h

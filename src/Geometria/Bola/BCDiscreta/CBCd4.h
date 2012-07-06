@@ -33,16 +33,16 @@ class CBCd4:public CBCdi
 
 public:
 /// Construtor
-CBCd4 (unsigned int tm, int rb = 1):CBCdi (tm, 1, rb)
-  {
-  }	
-  
-  /// Destrutor
-  virtual ~ CBCd4 ()
-  {
-  }				
+    CBCd4 (unsigned int tm, int rb = 1):CBCdi (tm, 1, rb)
+    {
+    }
 
-  // virtual void CalculaRaioBola(){};
+    /// Destrutor
+    virtual ~ CBCd4 ()
+    {
+    }
+
+    // virtual void CalculaRaioBola(){};
 
 };
 #endif //  CBCd4_h

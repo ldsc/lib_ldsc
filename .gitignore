@@ -6,3 +6,9 @@ libldsc.a
 CMakeFiles
 libldsc
 Makefile
+cmake_install.cmake
+docs
+autom4te.cache
+pullToGithub
+pushToGithub
+CMakeLists.txt.user

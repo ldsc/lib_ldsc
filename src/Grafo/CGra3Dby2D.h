@@ -39,14 +39,14 @@
 // ===============================================================================
 /**
  * @brief Determina o grafo a partir de imagens tridimensionais.
- * 
+ *
  * Gera o grafo a partir de imagens tridimensionais.
  * Gera a estrutura de sítios baseado na avaliação
  * de cada plano da imagem tridimensional (planos bidimensionais).
  * Vai ter mais de uma herdeira.
  * Observe que da forma como esta, sempre usa sítios (CSitio e herdeiros)
  * e nunca COGLigacao ou COGComponenteGrafo.
- * 
+ *
  * Lista dos herdeiros:
  * -CGra3Dby2_M1	Modelo_1
  * Para cada pixel uma ligação
@@ -55,27 +55,27 @@
  * -CGra3Dby2_M2	Modelo_2
  * Para cada objeto uma ligação
  * Condutancia média entre os dois objetos
- * 
+ *
  * -CGra3Dby2_M3	Modelo_3
- * Para cada objeto uma ligação 	
+ * Para cada objeto uma ligação
  * Condutancia calculada sobre a area da intersecção
- * 
+ *
  * -CGra3Dby2_M4	Modelo_4
  * Para cada objeto uma ligação.
  * Condutancia calculada sobre a área da intersecção
  * Adicionalmente calcula as distâncias entre
  * os objetos, para correção das condutâncias.
- * 
+ *
  * -CGra3Dby2_M5	Modelo_5
  * -# sub ítem do modelo 5
  * -# sub ítem do modelo 5
- * 
+ *
  * -CGra3Dby2_M6	Modelo_6
  * Para cada objeto uma ligação.
  * A condutância é corrigida levando em conta as distâncias
  * dos centros de massa, que aqui são armazenados no próprio sítio.
- * 
- * @author	André Duarte Bueno	
+ *
+ * @author	André Duarte Bueno
  * @see		Grafo
 */
 class CGra3Dby2D : public CGrafoContorno
@@ -119,13 +119,13 @@ class CGra3Dby2D : public CGrafoContorno
    * Em cada plano, os rótulos iniciam em 0 (o fundo), 1 o primeiro objeto,...n
    * A variável maior RotuloUtilizado vai acumulando o número de objetos do grafo.
   */
-  unsigned long int maiorRotuloUtilizado;	
+  unsigned long int maiorRotuloUtilizado;
 
  public:
 
   // -------------------------------------------------------------Construtor
 /// Construtor, recebe um nome de arquivo
-  CGra3Dby2D (std::string _fileName) : CGrafoContorno (_fileName), eliminaRamosMortos (2), eliminaConeccoesRepetidas (1)	
+  CGra3Dby2D (std::string _fileName) : CGrafoContorno (_fileName), eliminaRamosMortos (2), eliminaConeccoesRepetidas (1)
   {
   }
 
@@ -139,14 +139,14 @@ class CGra3Dby2D : public CGrafoContorno
 		if (rp) {
 			delete rp; 			// deleta objeto
 		}
-	
+
 		if (img2D) {
 			delete img2D; 			// deleta objeto
 		}
      }
 
     // ----------------------------------------------------------------Métodos
-    /**	
+    /**
      * @brief 	Função Go, realiza a determinação de todo o grafo
      * @param 	Recebe uma imagem tridimensional (ou seja toda a imagem 3D)
      * @return Retorna um ponteiro para this
@@ -172,7 +172,7 @@ class CGra3Dby2D : public CGrafoContorno
     // FUNÇÕES AUXILIARES
     /**
     * @brief Função que cria os objetos e os adiciona a lista de objetos.
-     * Recebe como parâmetros um objeto rotulador (com os objetos a 
+     * Recebe como parâmetros um objeto rotulador (com os objetos a
      * serem adicionados) o valor do maior rotulo utilizado
      * o tipo de objeto a ser criado*/
     virtual void AdicionarObjetos (CRotulador2DCm * rotulador, unsigned long int rotuloAtual, CContorno::ETipoContorno tipo);
@@ -201,10 +201,10 @@ class CGra3Dby2D : public CGrafoContorno
 	  break;
 	}
     }
-    
+
     /// Elimina objetos redundantes, versão 1
     void EliminarObjetosRedundantes_1 ();
-    
+
         /// Elimina objetos redundantes, versão 2
     void EliminarObjetosRedundantes_2 ();
 
@@ -231,7 +231,7 @@ class CGra3Dby2D : public CGrafoContorno
     // virtual bool DeletarObjeto(int ri) {return 0;};
 
     /**
-     * @brief Função que marca um objeto do grafo para deleção é deletado 
+     * @brief Função que marca um objeto do grafo para deleção é deletado
      * efeticamente por EliminarObjetosRedundantes_2
     */
     virtual bool MarcarParaDelecaoObjeto (int i);
@@ -251,16 +251,16 @@ class CGra3Dby2D : public CGrafoContorno
 
     	 /// Elimina ramos mortos
     int GeteliminaRamosMortos() { return eliminaRamosMortos;    }
-    
+
     /// Elimina conecções repetidas
     int GeteliminaConeccoesRepetidas() {  return eliminaConeccoesRepetidas;}
 
     // --------------------------------------------------------------------Set
     /// Seta elimina ramos mortos
-    int SeteliminaRamosMortos (int _e) { eliminaRamosMortos = _e; }
-    
+    void SeteliminaRamosMortos (int _e) { eliminaRamosMortos = _e; }
+
     /// Seta conecções repetidas
-    int SeteliminaConeccoesRepetidas (int _r) { eliminaConeccoesRepetidas = _r;}
+    void SeteliminaConeccoesRepetidas (int _r) { eliminaConeccoesRepetidas = _r;}
 
     // -----------------------------------------------------------------Friend
     //       friend ostream& operator<< (ostream& os, CGra3Dby2D& obj);

@@ -14,8 +14,12 @@ add_library (ldsc STATIC
   Contorno/CContornoCentro.cpp
   Contorno/CContorno.cpp
   Correlacao/CCorrelacao.cpp
+  Correlacao/CCorrelacao3D.cpp
   Correlacao/CCorrelacaoEspacial.cpp
   Correlacao/CCorrelacaoFFT.cpp
+  Distribuicao/CBaseDistribuicao.cpp
+  Distribuicao/CDistribuicao.cpp
+  Distribuicao/CDistribuicao3D.cpp
   Estatistica/CERandomico.cpp
   Estatistica/CEstatistica.cpp
   Estatistica/CEFatorial.cpp
@@ -70,7 +74,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdeuclidiana.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.cpp
   Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp
@@ -84,7 +88,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFeuclidiana3D.cpp
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.cpp
   Filtro/FReconstrucao/CFReconstrucao.cpp
   Funcao/CFChebyshev.cpp

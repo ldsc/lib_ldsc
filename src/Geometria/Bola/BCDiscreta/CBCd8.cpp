@@ -60,11 +60,11 @@ CBCd8::CBCd8(unsigned int  tamanhoMascara):CBCDiscreta(tamanhoMascara)
       for (unsigned int yy=0; yy <= raio; yy++) // só percorre meia bola
 	{                                      // por ser simétrica
 	  // calculo das distancias
-	  if 	  (xx==yy)	
+	  if 	  (xx==yy)
 	    dist=xx;	// calcula valores de distância
-	  else if (xx>yy) 	
+	  else if (xx>yy)
 	    dist=xx;//  + yy;// 1*x+y;
-	  else 					
+	  else
 	    dist=yy;//  + xx;		// 1*y+x;
 	  posyb=raio + yy;
 	  posya=raio - yy;

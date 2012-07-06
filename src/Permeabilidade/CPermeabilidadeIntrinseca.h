@@ -12,7 +12,7 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	  CPermeabilidadeIntrinseca.h
+@file 	   CPermeabilidadeIntrinseca.h
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */

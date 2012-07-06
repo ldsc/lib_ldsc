@@ -33,8 +33,8 @@
 #endif
 
 /**
- * @brief   Representa um objeto rotulador.
- * Descendente do CRotulador e de uma matriz 2D.
+ * @brief   Representa um objeto rotulador com método para cálculo do centro de massa.
+ * Descendente de CRotulador2D que descende de CRotulador e de uma matriz 2D.
  * Rotula imagens bidimensionais.
  * @author 	André Duarte Bueno	
  * @see		Rotulador
@@ -66,7 +66,7 @@ class CRotulador2DCm : public CRotulador2D
   }
 
     /// Construtor, recebe nx e ny
-  CRotulador2DCm (int nx, int ny) : CRotulador2D (nx, ny)
+  CRotulador2DCm (int nx, int ny) : CRotulador2D (nx, ny, 1, 0)
     // CRotulador2DCm( int nx,int ny) : CRotulador2D(nx,ny),cmx(NULL),cmy(NULL)
     {
     }
@@ -79,8 +79,7 @@ class CRotulador2DCm : public CRotulador2D
 
   // --------------------------------------------------------------Destrutor
    /// Destrutor
-    virtual ~ CRotulador2DCm ()
-    {
+    virtual ~ CRotulador2DCm () {
       // if(cmx)       delete [] cmx;
       // if(cmy)       delete [] cmy;
     }

@@ -5,12 +5,12 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Bibliotecas LDSC
-			Biblioteca para manipulacao de mascaras
+   Biblioteca para manipulacao de mascaras
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong,
-			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
+   Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CMPassaBaixa.h
 Nome da classe:      CMPassaBaixa
@@ -30,19 +30,16 @@ class CMPassaBaixa : public CMascara
 {
 public:
 	/// Construtor
-	CMPassaBaixa (unsigned int tamanhoMascara):CMascara (tamanhoMascara)
-  {
-    CMPassaBaixa::PreencheMascara ();
-  }
+   CMPassaBaixa (unsigned int tamanhoMascara):CMascara (tamanhoMascara) {
+      CMPassaBaixa::PreencheMascara ();
+   }
 
-  /// Destrutor
-  ~CMPassaBaixa ()
-  {
-  }
+   /// Destrutor
+   ~CMPassaBaixa () { }
 
 protected:
 	/// Preenche a mascara com valores adequados.
-  virtual void PreencheMascara ();
+   virtual void PreencheMascara ();
 
 };
-#endif //    CMPassaBaixa_h
+#endif // CMPassaBaixa_h

@@ -57,19 +57,19 @@ CBCd5711::CBCd5711(unsigned int  tamanhoMascara):CBCDiscreta (tamanhoMascara)
       for (unsigned int yy=0; yy <= raio; yy++) 	// só percorre meia bola
 	{ // por ser simétrica
 	  // calculo da distancia
-     	  if (xx>2*yy)		        	
+     	  if (xx>2*yy)
 	    dist=5*xx+yy;		// 6
-	  else if (xx==2*yy)            
+	  else if (xx==2*yy)
 	    dist=11*yy;       // 11
-	  else if (xx>yy)               
+	  else if (xx>yy)
 	    dist=4*xx+3*yy;   // 7
-	  else if (xx==yy)				   
+	  else if (xx==yy)
 	    dist=7*xx;        // 7
-	  else if (2*xx>yy)					
+	  else if (2*xx>yy)
 	    dist=4*yy+3*xx;   // 7
-	  else if (2*xx==yy)    		  	
+	  else if (2*xx==yy)
 	    dist=11*xx;       // 11
-	  else if (2*xx<yy)         		
+	  else if (2*xx<yy)
 	    dist=5*yy+xx;     // 6
 
 	  posyb=raio + yy;

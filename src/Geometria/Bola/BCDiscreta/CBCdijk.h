@@ -35,14 +35,14 @@ class CBCdijk: /*public  TMCdijk, *//*public CMascara , */ public CBCDiscreta
 
 public:
 
-	/// Construtor
-  CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase);	
+    /// Construtor
+    CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase);
 
 /// Destrutor
     virtual ~ CBCdijk ()
-  {
-  }			
+    {
+    }
 
-  // virtual void CalculaRaioBola();
+    // virtual void CalculaRaioBola();
 };
 #endif //  CBCdijk_h

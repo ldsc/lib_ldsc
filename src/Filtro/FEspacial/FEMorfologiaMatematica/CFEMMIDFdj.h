@@ -5,7 +5,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -29,34 +29,33 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro dj.
  */
-class CFEMMIDFdj:public CFEMMIDF, public CMCdi
+class CFEMMIDFdj : public CFEMMIDF, public CMCdi
 {
-  //  unsigned int mj, rb;   //  parametros passados para criacao da bola
+   //  unsigned int mj, rb;   //  parametros passados para criacao da bola
 protected:
 
 	///  Redefinida, herdada de CFEMMIDF
-  virtual unsigned int Mi ()
-  {
-    return mi;
-  }				
+   virtual unsigned int Mi ()
+   {
+      return mi;
+   }
 
 public:
-		/// Construtor
-    CFEMMIDFdj (CMatriz2D * &matriz, unsigned int _mj,	unsigned int _rb)
-	:    CFEMMIDF (matriz), CMCdi (_mj, _rb)
-  {
-  }
+   /// Construtor
+   CFEMMIDFdj (CMatriz2D * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
+      : CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mj, _rb)
+   {
+   }
 
-  ///  Destrutor
-  virtual ~ CFEMMIDFdj ()
-  {
-  }				
+   ///  Destrutor
+   virtual ~ CFEMMIDFdj ()
+   {
+   }
 
-  ///  Redefinida, cria a mascara.
-  virtual void CriaMascara (unsigned int _tamanhoMascara);	
+   ///  Redefinida, cria a mascara.
+   virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-  /// Processa idf.
-  virtual CMatriz2D *Go (CMatriz2D * &matriz,
-			 unsigned int _tamanhoMascara = 0);
+   /// Processa idf.
+   virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
 };
 #endif //  CFEMMIDFdj_h

@@ -10,12 +10,12 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Bibliotecas LDSC
-			Biblioteca para manipulacao de mascaras
+   Biblioteca para manipulacao de mascaras
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong,
-			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
+   Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CFEMorfologiaMatematica3D.h
 Nome da classe:      CFEMorfologiaMatematica3D
@@ -28,7 +28,7 @@ Documentacao CLASSE:    CFEMorfologiaMatematica3D
 Assunto:             Classe básica para os filtros da morfologia matemática
 Superclasse:         TFiltro
 Descrição:           Tem a função cria mascara, que cria uma máscara,
-							euclidiana (uma bola) que é utilizada como elemento
+       euclidiana (uma bola) que é utilizada como elemento
                      estruturante nas operações de filtragem.
                      Obs: para funcionamento do afinamento e espessamento
                      foram acrescentados dois flags e duas funções
@@ -54,32 +54,35 @@ Arquivo de documentacao auxiliar:
 */
 class CFEMorfologiaMatematica3D : public CFEspacial3D
 {
-  // unsigned int RaioBola;      // vai ser armazenada no filtro
-  bool EEHitMiss1;	/// Flag de controle de criação da mascara (Na função cria mascara, se ativos, alteram a mascara criada. O default é estarem desativados)
-  bool EEHitMiss2;	/// Flag de controle de criação da mascara
-  
+   // unsigned int RaioBola;      // vai ser armazenada no filtro
+   bool EEHitMiss1;	/// Flag de controle de criação da mascara (Na função cria mascara, se ativos, alteram a mascara criada. O default é estarem desativados)
+   bool EEHitMiss2;	/// Flag de controle de criação da mascara
+
+public:
+   int INDICE;
+   int FUNDO;
 
 public:
 	///Construtor
-  	CFEMorfologiaMatematica3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara)
-     : CFEspacial3D (matriz,  _tamanhoMascara), EEHitMiss1 (false), EEHitMiss2 (false)
-     { }
+   CFEMorfologiaMatematica3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
+      : CFEspacial3D (matriz,  _tamanhoMascara), EEHitMiss1 (false), EEHitMiss2 (false), INDICE ( _indice ), FUNDO ( _fundo )
+   { }
 
   	// Abaixo a função Go que é reescrita aqui, vazia, para inibir o
   	// calculo da convolução realizado na classe CFEspacial
   	// As operações da morfologia matemática são diferentes.
-   	/**
-   	* Abaixo a funcao Go que é reescrita aqui, vazia, para inibir o
-   	* calculo da convolucao realizado na classe CFEspacial
-   	* As operacaes da morfologia matematica sao diferentes.
-   	* @param matriz 
-   	* @param _tamanhoMascara 
-   	* @return 
-	*/
+   /**
+    * Abaixo a funcao Go que é reescrita aqui, vazia, para inibir o
+    * calculo da convolucao realizado na classe CFEspacial
+    * As operacaes da morfologia matematica sao diferentes.
+    * @param matriz
+    * @param _tamanhoMascara
+    * @return
+ */
 	virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0)
   	{
-    		_tamanhoMascara = _tamanhoMascara; // evitar warning
-    		return matriz;
+      _tamanhoMascara = _tamanhoMascara; // evitar warning
+      return matriz;
   	}
 
 	///  Cria mascara recebe o tamanho da mascara. Cria a mascara adequada.

@@ -6,8 +6,8 @@
 PROJETO:    Biblioteca LIB_LDSC
             Assunto/Ramo: Solver...
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       CSMParametroSolver.h
@@ -32,42 +32,42 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao CLASSE: CSMParametroSolver
 // ===============================================================================
-/** 
- * @brief 
+/**
+ * @brief
  * Classe que representa as propriedades e funções que um objeto deve ter
  * para poder ser resolvido por um objeto solver (do tipo TSDiagonalDominante).
- * 
- * Basicamente, quando voce utiliza um solver voce quer resolver um 
+ *
+ * Basicamente, quando voce utiliza um solver voce quer resolver um
  * sistema de equações.
- * 
+ *
  * Se o seu objeto for um volume de controle e voce estiver resolvendo
  * um problema de transferencia de calor, a variável a ser resolvida é a
  * temperatura. Neste caso, você terá um nó com os diferentes coeficientes Ai.
  * Você cria um objeto solver, e passa para ele a matriz (ou vetor)
  * de objetos volumes de controle. Estes objetos vão ser acessados e utilizados
  * pelo solver, através das funções virtuais declaradas nesta classe.
- * 
+ *
  * Exemplo: (algo como:)
  * TNo* no = new TNo[nx][ny][nz];...
  * solver->Go(no);...
- * 
+ *
  * Obs: Se um solver tradicional trabalha sobre um vetor, basta
  * fazer com que esta classe se comporte como um CVetor, criando um vetor
  * de CSMParametroSolver e passando para o objeto solver.
- * 
+ *
  * Observe que na classe  CSMParametroSolver
  * sao criadas sobrecargas para operações básicas como
  * igualar o objeto a um double, igualar um double ao objeto,
  * comparar e igualar dois objetos.
- * 
- * A função Go tem uma utilidade especial, éla é utilizada para calcularo 
+ *
+ * A função Go tem uma utilidade especial, éla é utilizada para calcularo
  * valor da variável no instante de tempo atual.
  * Assim Go calcula a propriedade de interesse no instante de tempo atual,
  * com base no tempo anterior, mas sem alterar o valor da propriedade.
  * Voce deve criar objetos herdeiros de  CSMParametroSolver e acrescentar,
  * os atributos e métodos necessários para o calculo da  propriedade
  * no instante de tempo anterior e atual.
- * 
+ *
  * Exemplo:
  * Cria 10 objetos do tipo CSMParametroSolver
  * CSMParametroSolver* obj=new CSMParametroSolver(10);
@@ -83,10 +83,10 @@ Desenvolvido por:
  * // armazena 5.333 na propriedade do objeto
  * obj[i]=5.333;
  * }
- * 
+ *
  * OBS: Pensar em transformar o CSMParametroSolver em uma função.
  * Ou seja herdeiro da TFuncao. Go(x,y)?
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see		SMatriz
 */
 class CSMParametroSolver
@@ -111,22 +111,22 @@ public:
 // ----------------------------------------------------------------Métodos
 public:
  /**
-  * @brief A função Go, deve utilizar o parametro d para calcular 
-  * uma nova estimativa do valor da variável, mas Go não deve 
+  * @brief A função Go, deve utilizar o parametro d para calcular
+  * uma nova estimativa do valor da variável, mas Go não deve
   * alterar o valor da variável.
-  * 
+  *
   * Ou seja dado ti posso calcular ti+1 mas não altero ti.
   * Se o usuário desejar alterar o valor da variável deverá fazer:
   * obj = obj->Go(d);
 */
   virtual long double Go (long double d = 0)
   {
-    return x;
+    return d;
   }
 
 // -------------------------------------------------------------Sobrecarga
   // Operadores sobrecarregados
- /// Sobrecarga operador de Comparação obj_a == obj_b 
+ /// Sobrecarga operador de Comparação obj_a == obj_b
   virtual bool operator== (const CSMParametroSolver & par)
   {
     return this->x == par.x;
@@ -163,7 +163,7 @@ public:
    /// Sobrecarga do operador <<
   friend std::ostream & operator<< (std::ostream & os,
 				    const CSMParametroSolver & obj);
-  
+
      /// Sobrecarga do operador >>
   friend std::istream & operator>> (std::istream & is,
 				    CSMParametroSolver & obj);

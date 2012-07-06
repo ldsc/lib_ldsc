@@ -3,7 +3,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-		Analise de Imagens de Meios Porosos
+  Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -36,17 +36,14 @@ Tamanho(bits):
 Comentarios:
 Programador:      Andre Duarte Bueno
 */
-void
-CFEMMIDFdi::CriaMascara (unsigned int _tamanhoMascara)
-{
-  if (mask)			//  se existe uma mascara
-    {
-      if (mask->NX () == _tamanhoMascara)	//  e é do mesmo  tamanho
-	return;			//  sai
+void CFEMMIDFdi::CriaMascara (unsigned int _tamanhoMascara) {
+   if (mask) {			//  se existe uma mascara
+      if (mask->NX () == _tamanhoMascara) {	//  e é do mesmo  tamanho
+         return;			//  sai
+      }
       delete mask;		//  se  não é do mesmo tamanho apaga objeto mask
-    }				//  e abaixo cria uma nova
-
-  mask = new CBCdi (_tamanhoMascara, mi, raioBase);	//  se não existe a mascara, cria uma nova
+   }				//  e abaixo cria uma nova
+   mask = new CBCdi (_tamanhoMascara, mi, raioBase);	//  se não existe a mascara, cria uma nova
 }
 
 //  Mascara de chanfro d4
@@ -55,49 +52,44 @@ CFEMMIDFdi::CriaMascara (unsigned int _tamanhoMascara)
 //      1
 //  CMatriz2D * CFEMMIDFdi::Go( CMatriz2D *& matriz)
 //  Obs
-CMatriz2D *
-CFEMMIDFdi::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara */ )
-{
-  ExecutadaPorGo (matriz);	//  verifica a matriz e copia dados para data2D
-
-  //  IDFNosPlanosDeContorno(mi);                          //  verifica planos de contorno
-
-
-  //  ida    MinimoIda
-//         IDFNosPlanosDeContornoIDA(mi);                 //  verifica planos de contorno
-  int y_1;			//  otimizacao
-  int x, y;			//  ,i;           //  Indices para percorrer a matriz
-  for (y = 1; y < ny - 1; y++)	//  NY() é igual a ny, ny da matriz idf
-    {
+CMatriz2D * CFEMMIDFdi::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara */ ) {
+   ExecutadaPorGo (matriz); //  verifica a matriz e copia dados para data2D
+   //  IDFNosPlanosDeContorno(mi); //  verifica planos de contorno
+   //  ida    MinimoIda
+   //  IDFNosPlanosDeContornoIDA(mi); //  verifica planos de contorno
+   InverterSeNecessario();
+   int x, y; //  Indices para percorrer a matriz
+   for (y = 1; y < ny - 1; y++)	//  NY() é igual a ny, ny da matriz idf
+   {
       //  y_1=y-1;
       for (x = 1; x < nx - 1; x++)
-	if (data2D[x][y] != 0)	//  Testa a imagem, se nao for solido entra
-	  {			//  
-	    minimo = raioMaximo;	//  64000 aqui 65536
-	    //  -----------------------------------------------------------
-	    min (data2D[x - 1][y] + mi);	/*ponto[x][y] */
-	    min (data2D[x][y - 1] + mi);
-	    //  -----------------------------------------------------------
-	    data2D[x][y] = minimo;
-	  }
-    }
-  //  volta  MinimoVolta
-  //       IDFNosPlanosDeContornoVOLTA(mi);
-  //  int ym1;                              //  otimizacao
-  for (y = ny - 2; y > 0; y--)	//  -2 pois começa do zero e a mascara tem tamanho 1
-    {				//  ym1=y+1;
+         if (data2D[x][y] != 0)	//  Testa a imagem, se nao for solido entra
+         {			//
+            minimo = raioMaximo;	//  64000 aqui 65536
+            //  -----------------------------------------------------------
+            min (data2D[x - 1][y] + mi);	/*ponto[x][y] */
+            min (data2D[x][y - 1] + mi);
+            //  -----------------------------------------------------------
+            data2D[x][y] = minimo;
+         }
+   }
+   //  volta  MinimoVolta
+   //       IDFNosPlanosDeContornoVOLTA(mi);
+   //  int ym1;                              //  otimizacao
+   for (y = ny - 2; y > 0; y--)	//  -2 pois começa do zero e a mascara tem tamanho 1
+   {				//  ym1=y+1;
       for (x = nx - 2; x > 0; x--)
-	if (data2D[x][y] != 0)	//  Se nao for solido, entra
-	  {
-	    minimo = data2D[x][y];	//  armazena valor minimo ida
-	    //  -----------------------------------------------------------
+         if (data2D[x][y] != 0)	//  Se nao for solido, entra
+         {
+            minimo = data2D[x][y];	//  armazena valor minimo ida
+            //  -----------------------------------------------------------
 
-	    min (data2D[x][y + 1] + mi);
-	    /*ponto[x][y] */ min (data2D[x + 1][y] + mi);
+            min (data2D[x][y + 1] + mi);
+            /*ponto[x][y] */ min (data2D[x + 1][y] + mi);
 
-	    //  -----------------------------------------------------------
-	    data2D[x][y] = minimo;
-	  }
-    }
-  return pm;
+            //  -----------------------------------------------------------
+            data2D[x][y] = minimo;
+         }
+   }
+   return pm;
 }

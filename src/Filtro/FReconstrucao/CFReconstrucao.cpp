@@ -34,12 +34,12 @@ CMatriz3D * CFReconstrucao::Go (CMatriz2D * matriz2D, Eeixo _eixo) {
 				for ( j = 0; j < nxyz; j++ ) {
 					for ( k = 0; k < nxyz; k++ ) { // [k][i] - [j][k] - [i][k] - [j][i]
 						//if ( (i >= umterco && i <= ( 2 * umterco)) || (k >= umterco && k <= ( 2 * umterco)) )
-							if ( (matriz2D->data2D[k][j] == 1 || matriz2D->data2D[i][j] == 1) ){
-								pm3D->data3D[i][j][k] = 1;
-								pm3D->data3D[nxyz - i - 1][j][k] = 1;
-								//pm3D->data3D[i][nxyz - j - 1][k] = 1;
-								pm3D->data3D[i][j][nxyz - k - 1] = 1;
-							}
+                        if ( (matriz2D->data2D[k][j] == 1 || matriz2D->data2D[i][j] == 1) ){
+                            pm3D->data3D[i][j][k] = 1;
+                            pm3D->data3D[nxyz - i - 1][j][k] = 1;
+                            //pm3D->data3D[i][nxyz - j - 1][k] = 1;
+                            pm3D->data3D[i][j][nxyz - k - 1] = 1;
+                        }
 					}
 				}
 			}

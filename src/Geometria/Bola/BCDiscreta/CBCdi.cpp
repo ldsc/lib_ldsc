@@ -37,60 +37,60 @@
 
 // CBCdi::CBCdi(unsigned int  tamanhoMascara)            :CBCDiscreta(tamanhoMascara)
 CBCdi::CBCdi (unsigned int tm, int mi, int /*raioBase */ )
-  :
-CBCDiscreta (tm)		/*TMCdi(i,rb), */
+        :
+        CBCDiscreta (tm)		/*TMCdi(i,rb), */
 {
 
-  // Uso de raioBase
+    // Uso de raioBase
 
-  unsigned int dist;		// distancia calculada
+    unsigned int dist;		// distancia calculada
 
-  unsigned int raio = RaioX ();	// Como a bola é quadrada uso raio=raioX=raioY
+    unsigned int raio = RaioX ();	// Como a bola é quadrada uso raio=raioX=raioY
 
-  raioBolaInclusa = (raio);	// virtual void CBCdi::CalculaRaioBolaECondicao()
+    raioBolaInclusa = (raio);	// virtual void CBCdi::CalculaRaioBolaECondicao()
 
-  raioBolaTangente = (raio) + 1;
+    raioBolaTangente = (raio) + 1;
 
-  // variaveis otimizacao, usadas calculo simetria
+    // variaveis otimizacao, usadas calculo simetria
 
-  unsigned int posxe, posxd;	// x esquerda e x direita
+    unsigned int posxe, posxd;	// x esquerda e x direita
 
-  unsigned int posys, posyn;	// y sul e y norte
+    unsigned int posys, posyn;	// y sul e y norte
 
-  for (unsigned int xx = 0; xx <= raio; xx++)	// xx, percorre metade da bola (usa simtria)
+    for (unsigned int xx = 0; xx <= raio; xx++)	// xx, percorre metade da bola (usa simtria)
     {
 
-      posxe = raio - xx;
+        posxe = raio - xx;
 
-      posxd = raio + xx;
+        posxd = raio + xx;
 
-      for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola (usa simetria)
-	{			// virtual void CBCdi::CalculaDistancia()
+        for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola (usa simetria)
+        {			// virtual void CBCdi::CalculaDistancia()
 
-	  if (xx == yy)
-	    dist = xx + yy;	// calcula valores de distância
-	  else if (xx > yy)
-	    dist = mi * xx + yy;	// 1*x+y;        raioBase*xx + yy
-	  else
-	    dist = mi * yy + xx;	// 1*y+x;        raioBase*yy + xx
+            if (xx == yy)
+                dist = xx + yy;	// calcula valores de distância
+            else if (xx > yy)
+                dist = mi * xx + yy;	// 1*x+y;        raioBase*xx + yy
+            else
+                dist = mi * yy + xx;	// 1*y+x;        raioBase*yy + xx
 
 
-	  posys = raio - yy;
+            posys = raio - yy;
 
-	  posyn = raio + yy;
+            posyn = raio + yy;
 
-	  if (dist <= raioBolaInclusa)
-	    data2D[posxe][posyn] = data2D[posxe][posys] =
-	      data2D[posxd][posyn] = data2D[posxd][posys] = dist;
-	  else
-	    data2D[posxe][posyn] = data2D[posxe][posys] =
-	      data2D[posxd][posyn] = data2D[posxd][posys] = 0;
+            if (dist <= raioBolaInclusa)
+                data2D[posxe][posyn] = data2D[posxe][posys] =
+                                           data2D[posxd][posyn] = data2D[posxd][posys] = dist;
+            else
+                data2D[posxe][posyn] = data2D[posxe][posys] =
+                                           data2D[posxd][posyn] = data2D[posxd][posys] = 0;
 
-	}
+        }
 
     }
 
-  data2D[raio][raio] = 1;
+    data2D[raio][raio] = 1;
 
 }
 
@@ -113,11 +113,11 @@ CBCDiscreta (tm)		/*TMCdi(i,rb), */
 void CBCdi::CalculaDistancia()
 {
   // CalculaDistancias
-  if 	  (xx==yy)	
+  if 	  (xx==yy)
    dist=xx + yy; 	 	// calcula valores de distância
-  else if (xx>yy) 	
+  else if (xx>yy)
    dist=xx + yy; 		// 1*x+y;
-  else 					
+  else
    dist=yy + xx; 		// 1*y+x;
 }
 */

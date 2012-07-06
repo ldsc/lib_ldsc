@@ -1,5 +1,5 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFEuclidiana_h)
+#ifndef CFEMMIDFEuclidiana_h
 #define CFEMMIDFEuclidiana_h
 
 /*
@@ -53,8 +53,8 @@ class CFEMMIDFEuclidiana:public CFEMMIDFdij
 {
 public:			//  mi,  mj,               rb
 		/// Construtor
-  CFEMMIDFEuclidiana (CMatriz2D * &matriz)
-    : CFEMMIDFdij (matriz, 100,	(int)CMath::MSQRT2 * 100,100)
+  CFEMMIDFEuclidiana (CMatriz2D * &matriz, int _indice=1, int _fundo=0)
+    : CFEMMIDFdij (matriz, 100,	(int)CMath::MSQRT2 * 100, 100, _indice, _fundo)
   {
   }
 

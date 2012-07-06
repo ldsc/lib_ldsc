@@ -5,7 +5,7 @@
 PROJETO:	LIB_LDSC
 		Bibliotecas de Objetos
 ----------------------------------------------------------------------------
-Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico e Propriedades 
+Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
 Termofisicas  dos Materiais.
 Programadores:   Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi,
@@ -32,46 +32,46 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Declara a classe CFEConectividade3D.
- * 
+ *
  * A classe CFEConectividade3D representa conceitos geométricos.
- * 
- * A classe  CFEConectividade3D é filha da classe CRotulador3D. 
- * De forma que recebe uma imagem  no construtor e processa a 
+ *
+ * A classe  CFEConectividade3D é filha da classe CRotulador3D.
+ * De forma que recebe uma imagem  no construtor e processa a
  * rotulagem através da função Go (da mesma forma que na classe pai).
- * 
+ *
  * Acrecenta entretanto a função GetImagemConectada, que retorna os objetos da
  * imagem que tiverem conectividade entre a primeira e última camada.
- * 
+ *
 */
 
 using namespace std;
 
 class CFEConectividade3D : public CRotulador3D
 {
-// Atributos
-protected:
-  int INDICE;
-
 public:
   /// Construtor (recebe CImagem3D)
-  CFEConectividade3D ( CImagem3D * imagem, int indice = 1, int fundo = 0 ) : CRotulador3D ( dynamic_cast<CMatriz3D *>(imagem) ), INDICE(indice) { FUNDO = fundo; }
-  
+  CFEConectividade3D ( CImagem3D * imagem, int indice = 1, int fundo = 0 )
+     : CRotulador3D ( dynamic_cast<CMatriz3D *>(imagem), indice, fundo ) {
+  }
+
   /// Construtor (recebe CMatriz3D)
-  CFEConectividade3D ( CMatriz3D * imagem, int indice = 1, int fundo = 0 ) : CRotulador3D ( imagem ), INDICE(indice) { FUNDO = fundo; }
-  
+  CFEConectividade3D ( CMatriz3D * imagem, int indice = 1, int fundo = 0 )
+     : CRotulador3D ( imagem, indice, fundo ) {
+  }
+
   /// Destrutor
   virtual ~ CFEConectividade3D () { }
-  
-// Métodos  
+
+// Métodos
   /// Retorna a lista de objetos conectados.
   set<int> GetObjetosConectados ( CImagem3D * pmOrig);
-  
+
   /// Retorna a lista de objetos conectados.
   set<int> GetObjetosConectados ( CMatriz3D * pmOrig);
-  
+
   /// Verifica se a imagem possui conectividade no eixo Y.
   bool isConnected ( CImagem3D * pmOrig);
-  
+
   /// Verifica se a matriz possui conectividade no eixo Y.
   bool isConnected ( CMatriz3D * pmOrig);
 
@@ -83,24 +83,11 @@ public:
 
   /// Altera Imagem 3D retornando Imagem 3D conectada.
   bool Go (CImagem3D * pmCon);
-  
+
   /// Altera Matriz 3D retornando matriz 3D conectada.
   bool Go (CMatriz3D * pmCon);
-  
-  /// Seta valores de INDICE E FUNDO
-  void IndiceFundo (int _indice, int _fundo) {
-  	INDICE = _indice;
-  	FUNDO = _fundo;
-  }
-  /// Retorna valor de INDICE
-  int Indice ( ) {
-  	return INDICE;
-  }
 
-  /// Retorna valor de FUNDO
-  int Fundo ( ) {
-  	return FUNDO;
-  }
+
 
 };
 

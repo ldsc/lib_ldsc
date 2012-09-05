@@ -3,7 +3,7 @@
 CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
 	if ( ! imagem ) return NULL;
 	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != WRITEFORM_DI_X_Y_Z_ASCII ) return NULL;
+	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII ) return NULL;
 	
 	CImagem3D * pi3Dinv = NULL;
 	pi3Dinv = new CImagem3D( *imagem);
@@ -20,7 +20,7 @@ CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
 CMatriz3D * CFEInversao3D::Go ( CMatriz3D * imagem ) {
 	if ( ! imagem ) return NULL;
 	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != WRITEFORM_DI_X_Y_Z_ASCII ) return NULL;
+	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII ) return NULL;
 	
 	CMatriz3D * pi3Dinv = NULL;
 	pi3Dinv = new CMatriz3D( *imagem);

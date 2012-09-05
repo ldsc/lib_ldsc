@@ -228,12 +228,12 @@ void CPermeabilidadeRelativa::SalvarImagens( ) {
 	static int cont = 1;
 	ostringstream outA;
 	outA	<< "imagemA-"<< setw(0) << cont << ".dbm";
-	imagemA->WriteFormat(WRITEFORM_DI_X_Y_Z_ASCII);
+	imagemA->WriteFormat(D1_X_Y_Z_ASCII);
    	imagemA->Write (outA.str());
 
 	ostringstream outB;
 	outB	<< "imagemB-"<< setw(0) << cont << ".dbm";
-	imagemB->WriteFormat(WRITEFORM_DI_X_Y_Z_ASCII);
+	imagemB->WriteFormat(D1_X_Y_Z_ASCII);
    	imagemB->Write (outB.str());
    	cont++;
 }

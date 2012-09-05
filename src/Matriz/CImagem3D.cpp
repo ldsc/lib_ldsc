@@ -111,22 +111,23 @@ bool CImagem3D::LeInformacoesRecontrucao (string fileName)
 }
 
 bool CImagem3D::Write(string fileName, int separado) {
-    ofstream fout;
+		ofstream fout; //  Abre arquivo disco
     string fullFileName = path + fileName;
-    if ( (formatoSalvamento > 3 && formatoSalvamento < 7)
-      || (formatoSalvamento > 9 && formatoSalvamento < 13)
-      || (formatoSalvamento > 15 && formatoSalvamento < 19) ) 	// Formato de salvamento binario
-        fout.open (fullFileName.c_str (), ios::binary);			//  Abre arquivo de disco  formato Binario
-    else											//  Senão
-        fout.open (fullFileName.c_str ());			//  Abre arquivo de disco  formato ASCII
+		fout.open (fullFileName.c_str ());			//  Abre arquivo de disco  formato ASCII
     if (fout.good ()) {								//  Testa abertura do arquivo
         fout.width (larguraCampo);						//  Define a largura do campo
         fout.setf (ios::left);
         fout.fill (' ');								// possivel erro na saida de P 2???
-        SalvaCabecalho (fout);	//  (virtual) Salva dados do cabecalho:
+
+				SalvaCabecalho (fout);	//  (virtual) Salva dados do cabecalho:
         SalvaInformacoesRecontrucao(fout);
         SalvaCores(fout);
-        if (separado)
+
+				if ( formatoSalvamento > 15 && formatoSalvamento < 19 ) {	// Formato de salvamento binario
+						fout.close(); //fecha o arquivo e abre no formato binario.
+						fout.open (fullFileName.c_str (), ios::binary | ios::app); // Abre arquivo de disco no formato Binario
+				}
+				if (separado)
             SalvaDados (fout);			//  (virtual) Salva dados com um espaco " " 1 0 0 1
         else
             SalvaDadosColados (fout);	//  (virtual) Salva dados "colados" sem espaço 1001

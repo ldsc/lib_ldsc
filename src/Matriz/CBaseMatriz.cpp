@@ -35,16 +35,9 @@ int CBaseMatriz::larguraCampo = 2;	// BUG
 // Armazena matriz em disco, recebe o nome do arquivo de disco.
 // No arquivo header detalhes dos formatos de salvamento em disco.
 bool CBaseMatriz::Write(string fileName, int separado) const {
-   //  Abre arquivo disco
-   ofstream fout;
+	 ofstream fout; //  Abre arquivo disco
    string fullFileName = path + fileName;
-   if ( (formatoSalvamento > 3 && formatoSalvamento < 7) ||
-        (formatoSalvamento > 9 && formatoSalvamento < 13) ||
-        (formatoSalvamento > 15 && formatoSalvamento < 19) ) { // Formato de salvamento binario
-      fout.open (fullFileName.c_str (), ios::binary); // Abre arquivo de disco  formato Binario
-   } else {
-      fout.open (fullFileName.c_str ()); // Abre arquivo de disco  formato ASCII
-   }
+   fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII para salvar cabeçalho e cores
    if (fout.good ()) { //  Testa abertura do arquivo
       fout.width (larguraCampo); // Define a largura do campo
       fout.setf (ios::left);
@@ -53,11 +46,18 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
       SalvaCabecalho (fout);	// (virtual) Salva dados do cabecalho:
       SalvaCores(fout);
 
+       // Verifica se o formato de salvamento eh binario
+      if ( (formatoSalvamento > 3 && formatoSalvamento < 7) ||
+           (formatoSalvamento > 9 && formatoSalvamento < 13) ||
+           (formatoSalvamento > 15 && formatoSalvamento < 19) ) {
+          fout.close(); //fecha o arquivo e abre no formato binario.
+          fout.open (fullFileName.c_str (), ios::binary | ios::app); // Abre arquivo de disco no formato Binario
+      }
       if (separado)
          SalvaDados (fout); // (virtual) Salva dados com um espaco " " 1 0 0 1
       else
          SalvaDadosColados (fout); // (virtual) Salva dados "colados" sem espaço 1001
-      fout.close ();
+      fout.close();
       return true;
    } else
       return false;
@@ -272,7 +272,7 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquiv
   @return :
 
 */
-int CBaseMatriz::VerificaFormato (ifstream & fin) {
+EImageType CBaseMatriz::VerificaFormato(ifstream & fin) {
    if (fin.good ()) { //  Se abriu corretamente o arquivo
       char aux[255];
       //  fin >> aux;            //  Lê a primeira string ( Pi ou Di ou Vi ou um numero. ->P1,P2,...D1,D5..)
@@ -289,59 +289,59 @@ int CBaseMatriz::VerificaFormato (ifstream & fin) {
       case 'V':
          switch (aux[1]) {
 			case '1':
-				return formatoSalvamento = WRITEFORM_VI_X_ASCII;
+				return formatoSalvamento = V1_X_ASCII;
 			case '2':
-				return formatoSalvamento = WRITEFORM_VI_X_GRAY_ASCII;
+				return formatoSalvamento = V2_X_GRAY_ASCII;
 			case '3':
-				return formatoSalvamento = WRITEFORM_VI_X_COLOR_ASCII;
+				return formatoSalvamento = V3_X_COLOR_ASCII;
 			case '4':
-				return formatoSalvamento = WRITEFORM_VI_X_BINARY;
+				return formatoSalvamento = V4_X_BINARY;
 			case '5':
-				return formatoSalvamento = WRITEFORM_VI_X_GRAY_BINARY;
+				return formatoSalvamento = V5_X_GRAY_BINARY;
 			case '6':
-				return formatoSalvamento = WRITEFORM_VI_X_COLOR_BINARY;
+				return formatoSalvamento = V6_X_COLOR_BINARY;
 			default:
-				return formatoSalvamento = WRITEFORM_ERROR;
+				return formatoSalvamento = INVALID_IMAGE_TYPE;
          }
       case 'P':
          switch (aux[1]) {
 			case '1':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_ASCII;
+				return formatoSalvamento = P1_X_Y_ASCII;
 			case '2':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_GRAY_ASCII;
+				return formatoSalvamento = P2_X_Y_GRAY_ASCII;
 			case '3':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_COLOR_ASCII;
+				return formatoSalvamento = P3_X_Y_COLOR_ASCII;
 			case '4':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_BINARY;
+				return formatoSalvamento = P4_X_Y_BINARY;
 			case '5':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_GRAY_BINARY;
+				return formatoSalvamento = P5_X_Y_GRAY_BINARY;
 			case '6':
-				return formatoSalvamento = WRITEFORM_PI_X_Y_COLOR_BINARY;
+				return formatoSalvamento = P6_X_Y_COLOR_BINARY;
 			default:
-				return formatoSalvamento = WRITEFORM_ERROR;
+				return formatoSalvamento = INVALID_IMAGE_TYPE;
          }
       case 'D':
          switch (aux[1]) {
 			case '1':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_ASCII;
+				return formatoSalvamento = D1_X_Y_Z_ASCII;
 			case '2':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_GRAY_ASCII;
+				return formatoSalvamento = D2_X_Y_Z_GRAY_ASCII;
 			case '3':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_COLOR_ASCII;
+				return formatoSalvamento = D3_X_Y_Z_COLOR_ASCII;
 			case '4':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_BINARY;
+				return formatoSalvamento = D4_X_Y_Z_BINARY;
 			case '5':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_GRAY_BINARY;
+				return formatoSalvamento = D5_X_Y_Z_GRAY_BINARY;
 			case '6':
-				return formatoSalvamento = WRITEFORM_DI_X_Y_Z_COLOR_BINARY;
+				return formatoSalvamento = D6_X_Y_Z_COLOR_BINARY;
 			default:
-				return formatoSalvamento = WRITEFORM_ERROR;
+				return formatoSalvamento = INVALID_IMAGE_TYPE;
          }
       default:
-         return formatoSalvamento = WRITEFORM_ERROR;
+				 return formatoSalvamento = INVALID_IMAGE_TYPE;
       }
    } else
-      return formatoSalvamento = WRITEFORM_ERROR;
+			return formatoSalvamento = INVALID_IMAGE_TYPE;
 }
 
 /*

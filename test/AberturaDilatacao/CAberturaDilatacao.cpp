@@ -342,7 +342,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
 // Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
     CMatriz2D* MatrizSitiosLigacoes = new CMatriz2D( pm->NX(), pm->NY()  ); // cópia da matriz inicial
     MatrizSitiosLigacoes->Constante( 0 );
-    MatrizSitiosLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MatrizSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
 
 // 	Copia da matrizInicial
@@ -569,20 +569,20 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
     cout << "Criando e inicializando MPoros..." << endl;
     CMatriz2D* MPoros = new CMatriz2D(pm->NX(), pm->NY());
     MPoros->Constante(0);
-    MPoros->WriteFormat(  WRITEFORM_PI_X_Y_ASCII );
+		MPoros->WriteFormat( P1_X_Y_ASCII );
     //MPoros->Write("MPoros_inicial.pbm");
 
 // Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
     cout << "Criando e inicializando MSitios..." << endl;
     CMatriz2D* MSitios  = new CMatriz2D( *pm );
-    MSitios->WriteFormat(  WRITEFORM_PI_X_Y_ASCII );
+		MSitios->WriteFormat( P1_X_Y_ASCII );
     //MSitios->Write("MSitios_inicial.pbm");
 
 // Cria MLigacoes e deixa vazia
     cout << "Criando e inicializando MLigacoes..." << endl;
     CMatriz2D* MLigacoes   = new CMatriz2D(pm->NX(), pm->NY());
     MLigacoes->Constante(0);
-    MLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_ASCII );
+		MLigacoes->WriteFormat( P1_X_Y_ASCII );
     //MLigacoes->Write("MLigacoes_inicial.pbm");
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -591,7 +591,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
     RotulaImagemSequencial(0);
 
     CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
-    MInicialRotulada->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write("MInicialRotulada.pgm");
 
@@ -796,7 +796,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     cout << "Criando e inicializando MLigacoes..." << endl;
     CMatriz2D* MSitiosLigacoes   = new CMatriz2D( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
-    MSitiosLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -808,7 +808,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
     CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
-    MInicialRotulada->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
 
     if ( salvarResultadosParciais )
@@ -1126,7 +1126,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-    MSitiosLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     // Como obter maior valor de uma enumeração ??
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
     MSitiosLigacoes->Write( os.str() );
@@ -1141,7 +1141,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-    MInicialRotulada->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write( os.str() );
 
@@ -1218,7 +1218,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     cout << "Criando e inicializando MLigacoes..." << endl;
     CMatriz2D* MSitiosLigacoes   = new CMatriz2D( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
-    MSitiosLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -1230,7 +1230,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
     CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
-    MInicialRotulada->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     if ( salvarResultadosParciais )
     {
@@ -1386,7 +1386,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
             os << "MatrizAberturaComplementar_" << raioElemen << ".pbm";
             cout << "-->Salvando imagem " << os.str().c_str() << endl ;
             //pm->NumCores ( numeroObjetos );
-            pm->WriteFormat(  WRITEFORM_PI_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
+						pm->WriteFormat( P1_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
             pm->Write(os.str());
         }
 
@@ -1585,7 +1585,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-    MSitiosLigacoes->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     // Como obter maior valor de uma enumeração ??
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
     MSitiosLigacoes->Write( os.str() );
@@ -1609,7 +1609,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-    MInicialRotulada->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write( os.str() );
 
@@ -1694,7 +1694,7 @@ void CAberturaDilatacao::SequenciaAberturaTonsCinza()
             break;
     }
 
-    MAbertura->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+		MAbertura->WriteFormat( P2_X_Y_GRAY_ASCII );
     MAbertura->NumCores ( MAbertura->MaiorValor() + 1 );
     MAbertura->Write("MAbertura.pgm");
 

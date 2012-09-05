@@ -185,7 +185,7 @@ CMatriz2D::CMatriz2D ()
    nx = 0;
    ny = 0;
    data2D = NULL;
-   formatoSalvamento = WRITEFORM_PI_X_Y_GRAY_ASCII;
+	 formatoSalvamento = P2_X_Y_GRAY_ASCII;
    numCores = 65535;
 }
 
@@ -299,7 +299,7 @@ CMatriz2D::CMatriz2D (int NX, int NY)
 {
    nx = NX;			// define valores
    ny = NY;
-   formatoSalvamento = WRITEFORM_PI_X_Y_GRAY_ASCII;
+	 formatoSalvamento = P2_X_Y_GRAY_ASCII;
    numCores = 65535;
    data2D = AlocaMatriz2D (nx, ny);	// aloca data2D
 }

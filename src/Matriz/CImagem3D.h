@@ -62,9 +62,9 @@ class CImagem3D : public CMatriz3D//, public CImg //comentei para poder fazer dy
 // --------------------------------------------------------------Atributos
 public:
     int x0, y0, z0; 				/// Coordenada z0 da imagem 3D
-    unsigned int fatorAmplificacao; 	/// Fator de amplificação utilizado na recontrução da imagem
-    double sizePixel; 			/// Resolução utilizada na obtenção da imagem pelo microscópio
-    unsigned int numeroPixelsBorda; 	/// Número de pixels que representam a borda da imagem (normalmente = 0).
+    unsigned int fatorAmplificacao; /// Fator de amplificação utilizado na recontrução da imagem
+    double sizePixel;               /// Resolução utilizada na obtenção da imagem pelo microscópio
+    unsigned int numeroPixelsBorda; /// Número de pixels que representam a borda da imagem (normalmente = 0).
 
 
 // -------------------------------------------------------------Construtor

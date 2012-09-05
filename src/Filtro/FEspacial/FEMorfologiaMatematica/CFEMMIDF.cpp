@@ -344,7 +344,7 @@ void CFEMMIDF::CorrigeAbertura ( CMatriz2D * &matriz, int &regiao ) {
    //grava em disco a IDF da imagem abertura.
    static int contAbertura = 1;
    sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
-   idfAbertura->WriteFormat ( WRITEFORM_PI_X_Y_GRAY_ASCII );
+	 idfAbertura->WriteFormat ( P2_X_Y_GRAY_ASCII );
    idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
    idfAbertura->Write ( fileName );
 

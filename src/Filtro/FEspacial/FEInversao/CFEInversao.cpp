@@ -4,7 +4,7 @@ CImagem * CFEInversao::Go ( CImagem * imagem ) {
 	// a imagem deve ser passada no construtor.
 	if ( ! imagem ) return NULL;
 	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != WRITEFORM_PI_X_Y_ASCII ) return NULL;
+	if ( imagem->GetFormat() != P1_X_Y_ASCII ) return NULL;
 	
 	CImagem * piInv = NULL;
 	piInv = new CImagem( *imagem );
@@ -21,7 +21,7 @@ CMatriz2D * CFEInversao::Go ( CMatriz2D * imagem ) {
 	// a imagem deve ser passada no construtor.
 	if ( ! imagem ) return NULL;
 	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != WRITEFORM_PI_X_Y_ASCII ) return NULL;
+	if ( imagem->GetFormat() != P1_X_Y_ASCII ) return NULL;
 	
 	CMatriz2D * pmInv = NULL;
 	pmInv = new CMatriz2D( *imagem );

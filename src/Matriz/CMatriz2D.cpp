@@ -1,7 +1,7 @@
 /**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+									Ramo: TPadrao_ramo
 ===============================================================================
 
 Desenvolvido por:
@@ -55,30 +55,30 @@ ponteiro para ponteiro
 */
 int **CMatriz2D::AlocaMatriz2D (int nx, int ny)
 {
-   int i;			//
-   int **dat = NULL;		// Cria ponteiro nulo
-   dat = new int *[nx];		// Passo 1: aloca eixo x
-   if (dat)			// se alocou dat corretamente
-   {
-      for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
-         dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
-      for (i = 0; i < nx; i++)
-      {
-         dat[i] = new int[ny];	// Passo 2: aloca linhas y
-         if (dat[i] == NULL)	// Se a linha nao foi corretamente alocada
-         {			// Para evitar vazamento de memoria
-            CMatriz2D::DesalocaMatriz2D (dat, nx, ny);
-            return 0;
-         }
-         // Desaloca toda a matriz ja alocada dat=null,nx=ny=0 e retorna.
-      }	// O que nao foi alocado esta com NULL e pode ser deletado
-      return dat;
-   }
-   else // se nao alocou corretamente dat=0
-   {
-      nx = ny = 0;		// ou verifica data2D ou faz nx=ny=0
-      return 0;			// informa retornando 0
-   }
+	int i;			//
+	int **dat = NULL;		// Cria ponteiro nulo
+	dat = new int *[nx];		// Passo 1: aloca eixo x
+	if (dat)			// se alocou dat corretamente
+	{
+		for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
+			dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
+		for (i = 0; i < nx; i++)
+		{
+			dat[i] = new int[ny];	// Passo 2: aloca linhas y
+			if (dat[i] == NULL)	// Se a linha nao foi corretamente alocada
+			{			// Para evitar vazamento de memoria
+				CMatriz2D::DesalocaMatriz2D (dat, nx, ny);
+				return 0;
+			}
+			// Desaloca toda a matriz ja alocada dat=null,nx=ny=0 e retorna.
+		}	// O que nao foi alocado esta com NULL e pode ser deletado
+		return dat;
+	}
+	else // se nao alocou corretamente dat=0
+	{
+		nx = ny = 0;		// ou verifica data2D ou faz nx=ny=0
+		return 0;			// informa retornando 0
+	}
 }
 
 /**
@@ -95,17 +95,17 @@ int** ptr=CMatriz2D::Aloca(nx,ny);.....;CMatriz2D::Desaloca(ptr,nx);
 */
 bool CMatriz2D::DesalocaMatriz2D (int **&dat, int nx, int ny)
 {
-   if (dat != NULL)
-   {
-      for (int i = 0; i < nx; i++)
-         if ( dat[i] )
-            delete [] dat[i];	//  Passo 1: apaga linhas y
-      delete [] dat;				//  Passo 2: apaga eixo x
-      dat = NULL;
-      nx = ny = 0;				// opcional, evita uso indevido de data2D
-      return 1;
-   }
-   return 0;
+	if (dat != NULL)
+	{
+		for (int i = 0; i < nx; i++)
+			if ( dat[i] )
+				delete [] dat[i];	//  Passo 1: apaga linhas y
+		delete [] dat;				//  Passo 2: apaga eixo x
+		dat = NULL;
+		nx = ny = 0;				// opcional, evita uso indevido de data2D
+		return 1;
+	}
+	return 0;
 }
 
 
@@ -126,21 +126,21 @@ bool CMatriz2D::DesalocaMatriz2D (int **&dat, int nx, int ny)
 //bool CMatriz2D::Read2D (std::string inputFile, float * _reData, int _nx, int _ny);
 bool CMatriz2D::Read2D (std::string inputFile, float* & _reData, int _nx, int _ny)
 {
-   // Abre arquivo disco
-   ifstream fin (inputFile.c_str ());
-   if (fin.fail ())
-      return 0;
-   // Lê imagem do disco
-   int aux;
-   for (int cy = 0; cy < (_ny); cy++)
-      for (int cx = 0; cx < (_nx); cx++)
-      {
-         fin >> aux;
-         // Real_E1(cx,cy) = aux;
-         _reData[(cy) * _nx + (cx)] = aux;
-      }
-   fin.close ();
-   return 1;
+	// Abre arquivo disco
+	ifstream fin (inputFile.c_str ());
+	if (fin.fail ())
+		return 0;
+	// Lê imagem do disco
+	int aux;
+	for (int cy = 0; cy < (_ny); cy++)
+		for (int cx = 0; cx < (_nx); cx++)
+		{
+			fin >> aux;
+			// Real_E1(cx,cy) = aux;
+			_reData[(cy) * _nx + (cx)] = aux;
+		}
+	fin.close ();
+	return 1;
 }
 
 /**
@@ -154,19 +154,19 @@ bool CMatriz2D::Read2D (std::string inputFile, float* & _reData, int _nx, int _n
 // @return : true/false
 */
 bool CMatriz2D::Write2D (std::string inputFile, float * _reData, int _nx, int _ny) {
-   // Abre arquivo disco
-   ofstream fout (inputFile.c_str ());
-   if ( fout.fail() )
-      return false;
-   // Lê imagem do disco
-   for (int cy = 0; cy < (_ny); cy++) {
-      for (int cx = 0; cx < (_nx); cx++) {
-         fout << _reData[(cy) * _nx + (cx)];
-      }
-      fout << "\n";
-   }
-   fout.close ();
-   return true;
+	// Abre arquivo disco
+	ofstream fout (inputFile.c_str ());
+	if ( fout.fail() )
+		return false;
+	// Lê imagem do disco
+	for (int cy = 0; cy < (_ny); cy++) {
+		for (int cx = 0; cx < (_nx); cx++) {
+			fout << _reData[(cy) * _nx + (cx)];
+		}
+		fout << "\n";
+	}
+	fout.close ();
+	return true;
 }
 
 
@@ -182,11 +182,11 @@ Funcao: Construtor
 */
 CMatriz2D::CMatriz2D ()
 {
-   nx = 0;
-   ny = 0;
-   data2D = NULL;
-	 formatoSalvamento = P2_X_Y_GRAY_ASCII;
-   numCores = 65535;
+	nx = 0;
+	ny = 0;
+	data2D = NULL;
+	formatoSalvamento = P2_X_Y_GRAY_ASCII;
+	numCores = 65535;
 }
 
 /**
@@ -202,12 +202,12 @@ Funcao: construtor
 */
 CMatriz2D::CMatriz2D (string fileName)
 {
-   nx = ny = 0;
-   data2D = NULL;
-   CMatriz2D::Read(fileName);
-   size_t pos = fileName.rfind("/");
-   if (pos!=string::npos)
-      path = fileName.substr(0, pos+1);
+	nx = ny = 0;
+	data2D = NULL;
+	CMatriz2D::Read(fileName);
+	size_t pos = fileName.rfind("/");
+	if (pos!=string::npos)
+		path = fileName.substr(0, pos+1);
 }
 
 /**
@@ -222,12 +222,12 @@ Funcao: construtor
 */
 CMatriz2D::CMatriz2D (string fileName, int planoZ)
 {
-   nx = ny = 0;
-   data2D = NULL;
-   CMatriz2D::LePlanoZ (fileName, planoZ);
-   size_t pos = fileName.rfind("/");
-   if (pos!=string::npos)
-      path = fileName.substr(0, pos+1);
+	nx = ny = 0;
+	data2D = NULL;
+	CMatriz2D::LePlanoZ (fileName, planoZ);
+	size_t pos = fileName.rfind("/");
+	if (pos!=string::npos)
+		path = fileName.substr(0, pos+1);
 }
 
 /**
@@ -243,15 +243,15 @@ Deve alocar nx+borda,ny+borda depois copiar a matriz para a regiao central
 */
 CMatriz2D::CMatriz2D (CMatriz2D & matriz, unsigned int borda)
 {
-   nx = matriz.nx + borda;			// Define dimensoes
-   ny = matriz.ny + borda;
-   data2D = AlocaMatriz2D (nx, ny);	// Aloca data2D
-   path = matriz.path;
+	nx = matriz.nx + borda;			// Define dimensoes
+	ny = matriz.ny + borda;
+	data2D = AlocaMatriz2D (nx, ny);	// Aloca data2D
+	path = matriz.path;
 
-   Constante(0); // Zera a imagem criada // posteriormente otimizar, zerando somente as bordas
-   for (int i = borda; i < nx - borda; i++)	// Copia região central
-      for (int j = borda; j < ny - borda; j++)
-         this->data2D[i][j] = matriz.data2D[i][j];
+	Constante(0); // Zera a imagem criada // posteriormente otimizar, zerando somente as bordas
+	for (int i = borda; i < nx - borda; i++)	// Copia região central
+		for (int j = borda; j < ny - borda; j++)
+			this->data2D[i][j] = matriz.data2D[i][j];
 }
 
 /**
@@ -266,13 +266,13 @@ Funcao:
 */
 CMatriz2D::CMatriz2D (CMatriz2D & matriz)
 {
-   nx = matriz.nx;			// Define dimensoes
-   ny = matriz.ny;
-   data2D = AlocaMatriz2D (nx, ny);	// Aloca data2D
-   path = matriz.path;
-   for (int i = 0; i < nx; i++)	// Copia membro a membro
-      for (int j = 0; j < ny; j++)
-         this->data2D[i][j] = matriz.data2D[i][j];
+	nx = matriz.nx;			// Define dimensoes
+	ny = matriz.ny;
+	data2D = AlocaMatriz2D (nx, ny);	// Aloca data2D
+	path = matriz.path;
+	for (int i = 0; i < nx; i++)	// Copia membro a membro
+		for (int j = 0; j < ny; j++)
+			this->data2D[i][j] = matriz.data2D[i][j];
 }
 /*CMatriz2D::CMatriz2D(CMatriz2D* matriz)
 {
@@ -282,7 +282,7 @@ CMatriz2D::CMatriz2D (CMatriz2D & matriz)
 
  for (  int i = 0; i < nx; i++)  	// Copia membro a membro
  for (  int j = 0; j < ny; j++)
-    this->data2D[i][j] = matriz->data2D[i][j];
+		this->data2D[i][j] = matriz->data2D[i][j];
 }
 */
 /**
@@ -297,11 +297,11 @@ Funcao:
 */
 CMatriz2D::CMatriz2D (int NX, int NY)
 {
-   nx = NX;			// define valores
-   ny = NY;
-	 formatoSalvamento = P2_X_Y_GRAY_ASCII;
-   numCores = 65535;
-   data2D = AlocaMatriz2D (nx, ny);	// aloca data2D
+	nx = NX;			// define valores
+	ny = NY;
+	formatoSalvamento = P2_X_Y_GRAY_ASCII;
+	numCores = 65535;
+	data2D = AlocaMatriz2D (nx, ny);	// aloca data2D
 }
 
 /**
@@ -316,23 +316,23 @@ Funcao:
 */
 CMatriz2D & CMatriz2D::operator+ (CMatriz2D & matriz)
 {
-   int minx = std::min (this->nx, matriz.nx);
-   int miny = std::min (this->ny, matriz.ny);
-   for (int i = 0; i < minx; i++)
-      for (int j = 0; j < miny; j++)
-         this->data2D[i][j] += matriz.data2D[i][j];
-   return *this;
+	int minx = std::min (this->nx, matriz.nx);
+	int miny = std::min (this->ny, matriz.ny);
+	for (int i = 0; i < minx; i++)
+		for (int j = 0; j < miny; j++)
+			this->data2D[i][j] += matriz.data2D[i][j];
+	return *this;
 }
 
 /*
 CMatriz2D* CMatriz2D::operator+(CMatriz2D* matriz)
 {
-   int minx = std::min(this->nx,matriz->nx);
-   int miny = std::min(this->ny,matriz->ny);
+	 int minx = std::min(this->nx,matriz->nx);
+	 int miny = std::min(this->ny,matriz->ny);
 
  for (  int i = 0; i < minx; i++)
-  for (  int j = 0; j < miny; j++)
-     this->data2D[i][j] +=  matriz->data2D[i][j];
+	for (  int j = 0; j < miny; j++)
+		 this->data2D[i][j] +=  matriz->data2D[i][j];
  return this;
 }
 */
@@ -350,24 +350,24 @@ Funcao:
 /*
 CMatriz2D* CMatriz2D::operator-(CMatriz2D* matriz)
 {
-   int minx = std::min(this->nx,matriz->nx);
-   int miny = std::min(this->ny,matriz->ny);
+	 int minx = std::min(this->nx,matriz->nx);
+	 int miny = std::min(this->ny,matriz->ny);
 
  for (  int i = 0; i < minx; i++)
-    for (  int j = 0; j < miny; j++)
-         this->data2D[i][j] -= matriz->data2D[i][j];
+		for (  int j = 0; j < miny; j++)
+				 this->data2D[i][j] -= matriz->data2D[i][j];
 
  return this;
 }
 */
 CMatriz2D & CMatriz2D::operator- (CMatriz2D & matriz)
 {
-   int minx = std::min (this->nx, matriz.nx);
-   int miny = std::min (this->ny, matriz.ny);
-   for (int i = 0; i < minx; i++)
-      for (int j = 0; j < miny; j++)
-         this->data2D[i][j] -= matriz.data2D[i][j];
-   return *this;
+	int minx = std::min (this->nx, matriz.nx);
+	int miny = std::min (this->ny, matriz.ny);
+	for (int i = 0; i < minx; i++)
+		for (int j = 0; j < miny; j++)
+			this->data2D[i][j] -= matriz.data2D[i][j];
+	return *this;
 }
 
 /*
@@ -383,24 +383,24 @@ Funcao:
 /*
 CMatriz2D* CMatriz2D::operator=(CMatriz2D* matriz)
 {
-   int minx = std::min(this->nx,matriz->nx);
-   int miny = std::min(this->ny,matriz->ny);
+	 int minx = std::min(this->nx,matriz->nx);
+	 int miny = std::min(this->ny,matriz->ny);
 
  for (  int i = 0; i < minx; i++)
-   for (  int j = 0; j < miny; j++)
-     this->data2D[i][j] = matriz->data2D[i][j];     // deve igualar membro a membro
+	 for (  int j = 0; j < miny; j++)
+		 this->data2D[i][j] = matriz->data2D[i][j];     // deve igualar membro a membro
 
  return this;
 }
 */
 CMatriz2D & CMatriz2D::operator= (CMatriz2D & matriz)
 {
-   int minx = std::min (this->nx, matriz.nx);
-   int miny = std::min (this->ny, matriz.ny);
-   for (int i = 0; i < minx; i++)
-      for (int j = 0; j < miny; j++)
-         this->data2D[i][j] = matriz.data2D[i][j];	// deve igualar membro a membro
-   return *this;
+	int minx = std::min (this->nx, matriz.nx);
+	int miny = std::min (this->ny, matriz.ny);
+	for (int i = 0; i < minx; i++)
+		for (int j = 0; j < miny; j++)
+			this->data2D[i][j] = matriz.data2D[i][j];	// deve igualar membro a membro
+	return *this;
 }
 
 /*
@@ -418,24 +418,24 @@ Funcao:
 /*
 bool CMatriz2D::operator==(CMatriz2D* pmatriz)
 {
-   int minx = std::min(this->nx,pmatriz->nx);
-   int miny = std::min(this->ny,pmatriz->ny);
+	 int minx = std::min(this->nx,pmatriz->nx);
+	 int miny = std::min(this->ny,pmatriz->ny);
  for (  int i = 0; i < minx; i++)// percorre as matrizes
-  for (  int j = 0; j < miny; j++)
-  if(this->data2D[i][j] != pmatriz->data2D[i][i])// se houver algum diferente
-   return 0;// retorna false
+	for (  int j = 0; j < miny; j++)
+	if(this->data2D[i][j] != pmatriz->data2D[i][i])// se houver algum diferente
+	 return 0;// retorna false
 return 1;// senao retorna true
 }
 */
 bool CMatriz2D::operator== (CMatriz2D & pmatriz)
 {
-   int minx = std::min (this->nx, pmatriz.nx);
-   int miny = std::min (this->ny, pmatriz.ny);
-   for (int i = 0; i < minx; i++)	// percorre as matrizes
-      for (int j = 0; j < miny; j++)
-         if (this->data2D[i][j] != pmatriz.data2D[i][i])	// se houver algum diferente
-            return 0;		// retorna false
-   return 1;			// senao retorna true
+	int minx = std::min (this->nx, pmatriz.nx);
+	int miny = std::min (this->ny, pmatriz.ny);
+	for (int i = 0; i < minx; i++)	// percorre as matrizes
+		for (int j = 0; j < miny; j++)
+			if (this->data2D[i][j] != pmatriz.data2D[i][i])	// se houver algum diferente
+				return 0;		// retorna false
+	return 1;			// senao retorna true
 }
 
 /*
@@ -452,7 +452,7 @@ Funcao:
 */
 bool CMatriz2D::operator!= (CMatriz2D & pmatriz)
 {
-   return !(CMatriz2D::operator== (pmatriz));
+	return !(CMatriz2D::operator== (pmatriz));
 }
 
 /*
@@ -474,77 +474,77 @@ Deve sair os dados da mesma forma que o CVetor , e CMatriz3D
 */
 ostream & operator<< (ostream & os, const CMatriz2D & pm)
 {
-   /*
-      os<<"\n- y! --------------------------------------------------------------------";
-      for (int j = pm.NY()-1; j >=0 ; j--)
-        {
-       os<<"\n| ";
-        os.width(pm.larguraCampo);
-        os << j <<" |";
+	/*
+			os<<"\n- y! --------------------------------------------------------------------";
+			for (int j = pm.NY()-1; j >=0 ; j--)
+				{
+			 os<<"\n| ";
+				os.width(pm.larguraCampo);
+				os << j <<" |";
 
-       for (int i = 0; i < pm.NX(); i++)
-       {
-       os.width(pm.larguraCampo);      // só tem sentido para saida formatada
-       os << pm.data2D[i][j] << " ";// ' ';
-       }
-       // os<<'\n';
-       }
-      os<<"\n|   y |------------------------------ x-> --------------------------------------\n      |";
-      for (int i = 0; i < pm.NX(); i++)
-      {
-      os.width(pm.larguraCampo);
-      os<<i<<" ";
-      }
-     os << "\n-------------------------------------------------------------------------------";
-     return os;
-    */
-   /*
-      os<<"\n- y! --------------------------------------------------------------------";
-      for (int j = pm->NY()-1; j >=0 ; j--)
-        {
-       os<<"\n| ";
-        os.width(pm->larguraCampo);
-        os << j <<" |";
-       for (  int i = 0; i < pm->NX(); i++)
-       {
-       os.width(pm->larguraCampo);      // só tem sentido para saida formatada
-       os << pm->data2D[i][j] << " ";// ' ';
-       }
-       // os<<'\n';
-       }
-      os<<"\n|   y |------------------------------ x-> --------------------------------------\n      |";
-      for (  int i = 0; i < pm->NX(); i++)
-      {
-      os.width(pm->larguraCampo);
-      os<<i<<" ";
-      }
-     os << "\n-------------------------------------------------------------------------------";
-     return os;
-    */
-   os <<
-         "\n- y! --------------------------------------------------------------------";
-   for (int j = pm.NY () - 1; j >= 0; j--)
-   {
-      os << "\n| ";
-      os.width (pm.larguraCampo);
-      os << j << " |";
-      for (int i = 0; i < pm.NX (); i++)
-      {
-         os.width (pm.larguraCampo);	// só tem sentido para saida formatada
-         os << pm.data2D[i][j] << " ";	// ' ';
-      }
-      // os<<'\n';
-   }
-   os <<
-         "\n|   y |------------------------------ x-> --------------------------------------\n      |";
-   for (int i = 0; i < pm.NX (); i++)
-   {
-      os.width (pm.larguraCampo);
-      os << i << " ";
-   }
-   os <<
-         "\n-------------------------------------------------------------------------------";
-   return os;
+			 for (int i = 0; i < pm.NX(); i++)
+			 {
+			 os.width(pm.larguraCampo);      // só tem sentido para saida formatada
+			 os << pm.data2D[i][j] << " ";// ' ';
+			 }
+			 // os<<'\n';
+			 }
+			os<<"\n|   y |------------------------------ x-> --------------------------------------\n      |";
+			for (int i = 0; i < pm.NX(); i++)
+			{
+			os.width(pm.larguraCampo);
+			os<<i<<" ";
+			}
+		 os << "\n-------------------------------------------------------------------------------";
+		 return os;
+		*/
+	/*
+			os<<"\n- y! --------------------------------------------------------------------";
+			for (int j = pm->NY()-1; j >=0 ; j--)
+				{
+			 os<<"\n| ";
+				os.width(pm->larguraCampo);
+				os << j <<" |";
+			 for (  int i = 0; i < pm->NX(); i++)
+			 {
+			 os.width(pm->larguraCampo);      // só tem sentido para saida formatada
+			 os << pm->data2D[i][j] << " ";// ' ';
+			 }
+			 // os<<'\n';
+			 }
+			os<<"\n|   y |------------------------------ x-> --------------------------------------\n      |";
+			for (  int i = 0; i < pm->NX(); i++)
+			{
+			os.width(pm->larguraCampo);
+			os<<i<<" ";
+			}
+		 os << "\n-------------------------------------------------------------------------------";
+		 return os;
+		*/
+	os <<
+				"\n- y! --------------------------------------------------------------------";
+	for (int j = pm.NY () - 1; j >= 0; j--)
+	{
+		os << "\n| ";
+		os.width (pm.larguraCampo);
+		os << j << " |";
+		for (int i = 0; i < pm.NX (); i++)
+		{
+			os.width (pm.larguraCampo);	// só tem sentido para saida formatada
+			os << pm.data2D[i][j] << " ";	// ' ';
+		}
+		// os<<'\n';
+	}
+	os <<
+				"\n|   y |------------------------------ x-> --------------------------------------\n      |";
+	for (int i = 0; i < pm.NX (); i++)
+	{
+		os.width (pm.larguraCampo);
+		os << i << " ";
+	}
+	os <<
+				"\n-------------------------------------------------------------------------------";
+	return os;
 }
 
 /*
@@ -558,90 +558,90 @@ Funcao:
 @return :
 */
 void CMatriz2D::SalvaCabecalho (ofstream & fout) const {
-   if (fout) {	// testa abertura do arquivo
-      //fout << setw (0) << 'P' << left << formatoSalvamento << '\n' << nx << ' ' << ny;
-      switch (formatoSalvamento) {
-      case 7:
-         fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
-         break;
-      case 8:
-         fout << setw (0) << "P2"  << '\n' << nx << ' ' << ny;
-         break;
-      case 9:
-         fout << setw (0) << "P3" << '\n' << nx << ' ' << ny;
-         break;
-      case 10:
-         fout << setw (0) << "P4" << '\n' << nx << ' ' << ny;
-         break;
-      case 11:
-         fout << setw (0) << "P5" << '\n' << nx << ' ' << ny;
-         break;
-      case 12:
-         fout << setw (0) << "P6" << '\n' << nx << ' ' << ny;
-         break;
-      default:
-         fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
-         break;
-      }
-      // Valor de nCores é salva em CBaseMatriz, depois de chamar SalvaCabecalho.
-   }
+	if (fout) {	// testa abertura do arquivo
+		//fout << setw (0) << 'P' << left << formatoSalvamento << '\n' << nx << ' ' << ny;
+		switch (formatoSalvamento) {
+			case 7:
+				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
+				break;
+			case 8:
+				fout << setw (0) << "P2"  << '\n' << nx << ' ' << ny;
+				break;
+			case 9:
+				fout << setw (0) << "P3" << '\n' << nx << ' ' << ny;
+				break;
+			case 10:
+				fout << setw (0) << "P4" << '\n' << nx << ' ' << ny;
+				break;
+			case 11:
+				fout << setw (0) << "P5" << '\n' << nx << ' ' << ny;
+				break;
+			case 12:
+				fout << setw (0) << "P6" << '\n' << nx << ' ' << ny;
+				break;
+			default:
+				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
+				break;
+		}
+		// Valor de nCores é salva em CBaseMatriz, depois de chamar SalvaCabecalho.
+	}
 }
-
-/*
-void CMatriz2D::SalvaCabecalho(ofstream& fout)const
-{
- if(fout)	// testa abertura do arquivo
-  {
-   fout.width(larguraCampo);
- fout.setf(ios::left);fout.fill(' ');
-
- // Armazena dados cabecalho
- // Duas cores                    	 // para 3D usa D no lugar de P e acrescenta nz
-   if(formatoSalvamento!=WRITEFORM_ASCII_DATA || formatoSalvamento!=WRITEFORM_ASCII_DATA)
-   if(formatoSalvamento==WRITEFORM_ASCII_PI_N_DATA)
-  {fout<<"P1"<<'\n'<<nx<<" "<<ny<<'\n';}
- else if(formatoSalvamento==WRITEFORM_ASCII_PI_N_256_DATA)
-  {fout<<"P2"<<'\n'<<nx<<" "<<ny<<" "<<256<<'\n';}
- else if(formatoSalvamento==WRITEFORM_ASCII_PI_N_MAXCOLOR_DATA)
-  {fout<<"P3"<<'\n'<<nx<<" "<<ny<<" "<<65000<<'\n';}
- else if(formatoSalvamento==WRITEFORM_BINARY_PI_N_DATA)
-  {fout<<"P4"<<'\n'<<nx<<" "<<ny<<'\n';}
- else if(formatoSalvamento==WRITEFORM_BINARY_PI_N_256_DATA)
-  {fout<<"P5"<<'\n'<<nx<<" "<<ny<<" "<<256<<'\n';}
- else if(formatoSalvamento==WRITEFORM_BINARY_PI_N_MAXCOLOR_DATA)
-  {fout<<"P6"<<'\n'<<nx<<" "<<ny<<" "<<65000<<'\n';}
-   else // Se formato desconecido salva no formato padrao
-  {fout<<"P2"<<'\n'<<nx<<" "<<ny<<" "<<256<<'\n';}
-  }// if(fout)
-// 	}
-//  catch(xmsg)
-// 	{
- // cout << "Nao conseguiu abrir arquivo de disco.";
- // cin.get();// exit(-1);
-// 	}
-}
-*/
 
 // Salva dados "colados" sem espaço (ex.: 00110011110111101010)
 void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
-   for (int j = 0; j < ny; j++) {
-      for (int i = 0; i < nx; i++) {
-         fout << data2D[i][j];
-      }
-      fout << '\n';
-   }
+	switch(formatoSalvamento){
+		case P1_X_Y_ASCII:
+		case P2_X_Y_GRAY_ASCII:
+		case P3_X_Y_COLOR_ASCII:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fout << data2D[i][j];
+				}
+				fout << '\n';
+			}
+			break;
+		case P4_X_Y_BINARY:
+		case P5_X_Y_GRAY_BINARY:
+		case P6_X_Y_COLOR_BINARY:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fout.write( reinterpret_cast< const char * >(& data2D[i][j]), sizeof( data2D[i][j] ) );
+				}
+			}
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDadosColados" << endl;
+	}
 }
 
 // Salva dados com um espaco (ex.: 0 0 1 1 0 0 1 1 1 1 0 1 1 1 1 0 1 0 1 0)
 void CMatriz2D::SalvaDados (ofstream & fout) const {
-   for (int j = 0; j < ny; j++) {
-      for (int i = 0; i < nx; i++) {
-         // fout.width (larguraCampo);
-         fout << data2D[i][j] << ' ';
-      }
-      fout << '\n';
-   }
+	//int tmp;
+	switch(formatoSalvamento){
+		case P1_X_Y_ASCII:
+		case P2_X_Y_GRAY_ASCII:
+		case P3_X_Y_COLOR_ASCII:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fout << data2D[i][j] << ' ';
+				}
+				fout << '\n';
+			}
+			break;
+		case P4_X_Y_BINARY:
+		case P5_X_Y_GRAY_BINARY:
+		case P6_X_Y_COLOR_BINARY:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					//tmp = data2D[i][j];
+					//fout.write( reinterpret_cast< const char * >(& tmp ), sizeof( tmp ) );
+					fout.write( reinterpret_cast< const char * >(& data2D[i][j]), sizeof( data2D[i][j] ) );
+				}
+			}
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDados" << endl;
+	}
 }
+
 
 /*
 -------------------------------------------------------------------------
@@ -654,137 +654,131 @@ Funcao:
 @return :
 */
 bool CMatriz2D::Read (string fileName, int separado) {
-   ifstream fin; // Ponteiro para arquivo de disco.
-   CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
-   int pos;			// posição de leitura do arquivo.
-   char aux;			// auxiliar.
-   char linha[256];
-   //	string str;
-   if (fin.good ()) { // Se o arquivo foi corretamente aberto
-      // Obtem o formato de salvamento
-      formatoSalvamento = CBaseMatriz::VerificaFormato(fin);
-      // Em funcao do formato de salvamento
-      // lê os dados do cabecalho
-      switch (formatoSalvamento) {
-      case 7:
-      case 10:
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         fin >> nx;
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         fin >> ny;
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         /* // este bloco deve funcionar, mas precisa ser testado.
-            pos = fin.tellg();			//guarda a posição de leitura no arquivo.
-            fin.getline(linha, 256);	  	//pega a linha.
-            str = linha;
-            fin.seekg(pos, ios::beg);	//reposiciona a leitura.
-            if( str.find(" ") != string::npos ) //se encontrou espaço " " na linha, LeDados.
-             separado = 1;
-            else							 //não encontrou espaço " " na linha, LeDadosColados.
-             separado = 0;
-            */
-         break;
-      case 8:
-      case 9:
-      case 11:
-      case 12:
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         fin >> nx;
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         fin >> ny;
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         fin >> numCores;			// pega o número de cores do arquivo.
-         do {
-            pos = fin.tellg();		//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;	//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 		// enquanto encontrar comentário, fica no loop.
-         break;
-      default:
-         return 0;
-      }
-      // Aloca a matriz de dados
-      data2D = AlocaMatriz2D (nx, ny);
-      // Leitura dos dados da matriz
-      if (separado != 0) // Lê os dados separados
-         CMatriz2D::LeDados (fin);
-      else // Lê os dados colados
-         CMatriz2D::LeDadosColados (fin);
-      return 1;
-   } else
-      return 0;
+	ifstream fin; // Ponteiro para arquivo de disco.
+	//CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
+	fin.open(fileName.c_str());
+	int pos;			// posição de leitura do arquivo.
+	char aux;			// auxiliar.
+	char linha[256];
+	//	string str;
+	if (fin.good ()) { // Se o arquivo foi corretamente aberto
+		formatoSalvamento = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
+		//pega os valore de nx e ny ignorando os comentários
+		do {
+			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+			if(aux == '#'){
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura
+				fin.getline(linha, 256);	  	//vai para a próxima linha
+			}else{
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+			}
+		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+		fin >> nx;
+		do {
+			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+			if(aux == '#'){
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura
+				fin.getline(linha, 256);	  	//vai para a próxima linha
+			}else{
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+			}
+		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+		fin >> ny;
+		do {
+			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+			if(aux == '#'){
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura
+				fin.getline(linha, 256);	  	//vai para a próxima linha
+			}else{
+				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+			}
+		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+
+		switch (formatoSalvamento)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
+			case P2_X_Y_GRAY_ASCII:
+			case P3_X_Y_COLOR_ASCII:
+			case P5_X_Y_GRAY_BINARY:
+			case P6_X_Y_COLOR_BINARY:
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				//enquanto encontrar comentário, fica no loop.
+				fin >> numCores;					//pega o número de cores do arquivo.
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				break;
+			case INVALID_IMAGE_TYPE:
+				return false;
+		}
+		switch (formatoSalvamento)	{	// Verifica a necessidade de reabrir o arquivo em formato binário
+			case P4_X_Y_BINARY:
+			case P5_X_Y_GRAY_BINARY:
+			case P6_X_Y_COLOR_BINARY:
+				fin.close();
+				fin.open (fileName.c_str (), ios::binary);		// Abre o arquivo de disco no formato ascii
+				if ( fin.good ())
+					fin.seekg(pos, ios::beg); //reposiciona o ponteiro de leitura
+				else
+					return false;
+			case INVALID_IMAGE_TYPE:
+				return false;
+		}
+		data2D = AlocaMatriz2D (nx, ny);			// Aloca a matriz de dados
+		if (separado != 0)							// Leitura dos dados da matriz
+			CMatriz2D::LeDados (fin);				// Lê os dados separados
+		else
+			CMatriz2D::LeDadosColados (fin);			// Lê os dados colados
+		return true;
+	}
+	else
+		return false;
 }
 
 // Lê os dados de um arquivo de disco
 // Os dados estao separados por um " "
 void CMatriz2D::LeDados (ifstream & fin) {
-   for (int j = 0; j < ny; j++)
-      for (int i = 0; i < nx; i++)
-      {
-         if (!fin.eof ()) 		// se nãO chegou ao fim do arquivo sai
-            fin >> data2D[i][j];
-         else 				// preenche com zeros
-            data2D[i][j] = 0;
-      }
+	switch(formatoSalvamento){
+		case P1_X_Y_ASCII:
+		case P2_X_Y_GRAY_ASCII:
+		case P3_X_Y_COLOR_ASCII:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
+						fin >> data2D[i][j];
+					} else {
+						data2D[i][j] = 0;	// preenche com zeros
+					}
+				}
+			}
+			break;
+		case P4_X_Y_BINARY:
+		case P5_X_Y_GRAY_BINARY:
+		case P6_X_Y_COLOR_BINARY:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fin.read( reinterpret_cast< char * >(&data2D[i][j]), sizeof(data2D[i][j]) );
+				}
+			}
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz2D::LeDados" << endl;
+	}
 }
 
 /*
@@ -800,32 +794,42 @@ Ex: 00011101000101
 @return :
 */
 void CMatriz2D::LeDadosColados (ifstream & fin) {
-   char ch;
-   char matrizChar[30] = " ";
-   for (int j = 0; j < ny; j++) {
-      for (int i = 0; i < nx; i++) {
-         if (!fin.eof ()) {
-            cin.get (ch); 				// Pega o caracter
-            if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->9
-               matrizChar[0] = ch;		// copia para string
-               data2D[i][j] = atoi (matrizChar); // e da string para o inteiro
-            } else { // se for um \n ou ' ' desconsidera, e retorna contador ????
-               i--;
-            }
-         } else { // se chegou ao fim do arquivo, preenche com zeros
-            data2D[i][j] = 0;
-         }
-      }
-   }
+	char ch = 0;
+	char matrizChar[30] = " ";
+	switch(formatoSalvamento) {
+		case P1_X_Y_ASCII:
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {	// leitura arquivos 00111101010101
+					if (!fin.eof ()) {
+						cin.get (ch);	// pega o caracter
+						if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->1
+							matrizChar[0] = ch;	// copia para string
+							data2D[i][j] = atoi (matrizChar);	// e da string para o inteiro
+						} else {
+							i--;		// se for um \n ou ' ' desconsidera, e retorna contador
+						}
+					} else {
+						data2D[i][j] = 0;	// se chegou ao fim do arquivo, preenche com zeros
+					}
+				}
+			}
+			break;
+		case P4_X_Y_BINARY:
+		case P5_X_Y_GRAY_BINARY:
+		case P6_X_Y_COLOR_BINARY:
+			LeDados(fin);
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz2D::LeDadosColados" << endl;
+	}
 }
 
 /*     if     (ch=='0')
-       imagem->data2D[i][j]=0;
-       else if(ch=='1')
-       imagem->data2D[i][j]=1;
-       else
-       i--;// se for um caracter invalido, desconsiderar na contagem
-       cout.put(ch);
+			 imagem->data2D[i][j]=0;
+			 else if(ch=='1')
+			 imagem->data2D[i][j]=1;
+			 else
+			 i--;// se for um caracter invalido, desconsiderar na contagem
+			 cout.put(ch);
 */
 
 /*
@@ -848,148 +852,148 @@ Se nz=1, uma plano na direcao z, plano 0.
 @return :
 */
 bool CMatriz2D::LePlanoZ (string fileName, int planoZ, bool separado) {
-   int nz;
-   ifstream fin;							// Ponteiro para arquivo de disco
-   CBaseMatriz::AbreArquivo (fin, fileName);	// Abre o arquivo de disco no formato correto
-   int pos;								// posição de leitura do arquivo.
-   char aux;								// auxiliar.
-   char linha[256];
-   if (fin.good ()) {						// Se o arquivo foi corretamente aberto
-      // Obtem o formato de salvamento
-      formatoSalvamento = CBaseMatriz::VerificaFormato(fin);
-      switch (formatoSalvamento)	{				// Em funcao do formato de salvamento lê os dados do cabecalho
-      case 13:
-      case 16:
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> nx;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> ny;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> nz;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         break;
-      case 14:
-      case 15:
-      case 17:
-      case 18:
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> nx;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> ny;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> nz;
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         fin >> numCores;					// pega o número de cores do arquivo.
-         do {
-            pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-            fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-            if (aux == '#') {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura
-               fin.getline(linha, 256);	  	//vai para a próxima linha
-            } else {
-               fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-            }
-         } while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-         break;
-      default:
-         return 0;
-      }
-      data2D = AlocaMatriz2D (nx, ny);				// Aloca a matriz de dados
-      int i, j, k, temp;
-      if (planoZ > nz - 1)						// O plano a ser lido nao pode ser maior que nz-1
-         planoZ = nz - 1;						// se nz=5 (0,1,2,3,4) planoZ <= 4
-      if (separado) {
-         for (k = 0; k < planoZ; k++)				// Aqui posiciona o ponteiro
-            for (j = 0; j < ny; j++)				// devo ler os elementos desnecessarios
-               for (i = 0; i < nx; i++)			// ate encontrar o plano desejado.
-                  fin >> temp;				// armazena em temp, depois
-         CMatriz2D::LeDados (fin);				// Lê os dados do plano Z selecionado
-      } else {
-         char ch;
-         for (k = 0; k < planoZ; k++)				// Aqui posiciona o ponteiro
-            for (j = 0; j < ny; j++)				// devo ler os elementos desnecessarios
-               for (i = 0; i < nx; i++) {			// ate encontrar o plano desejado.
-                  cin.get (ch);
-                  if (ch == ' ' || ch == '\n')	// Precisa considerar '\n' e ' '
-                     cin.get (ch);			// testar
-               }
-         CMatriz2D::LeDadosColados (fin);			// Lê os dados como colados
-      }
-      return true;								// sucesso
-   }
-   return false;									// falha
+	int nz;
+	ifstream fin;							// Ponteiro para arquivo de disco
+	CBaseMatriz::AbreArquivo (fin, fileName);	// Abre o arquivo de disco no formato correto
+	int pos;								// posição de leitura do arquivo.
+	char aux;								// auxiliar.
+	char linha[256];
+	if (fin.good ()) {						// Se o arquivo foi corretamente aberto
+		// Obtem o formato de salvamento
+		formatoSalvamento = CBaseMatriz::VerificaFormato(fin);
+		switch (formatoSalvamento)	{				// Em funcao do formato de salvamento lê os dados do cabecalho
+			case 13:
+			case 16:
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nx;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> ny;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nz;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				break;
+			case 14:
+			case 15:
+			case 17:
+			case 18:
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nx;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> ny;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nz;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> numCores;					// pega o número de cores do arquivo.
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if (aux == '#') {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					} else {
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while (aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				break;
+			default:
+				return 0;
+		}
+		data2D = AlocaMatriz2D (nx, ny);				// Aloca a matriz de dados
+		int i, j, k, temp;
+		if (planoZ > nz - 1)						// O plano a ser lido nao pode ser maior que nz-1
+			planoZ = nz - 1;						// se nz=5 (0,1,2,3,4) planoZ <= 4
+		if (separado) {
+			for (k = 0; k < planoZ; k++)				// Aqui posiciona o ponteiro
+				for (j = 0; j < ny; j++)				// devo ler os elementos desnecessarios
+					for (i = 0; i < nx; i++)			// ate encontrar o plano desejado.
+						fin >> temp;				// armazena em temp, depois
+			CMatriz2D::LeDados (fin);				// Lê os dados do plano Z selecionado
+		} else {
+			char ch;
+			for (k = 0; k < planoZ; k++)				// Aqui posiciona o ponteiro
+				for (j = 0; j < ny; j++)				// devo ler os elementos desnecessarios
+					for (i = 0; i < nx; i++) {			// ate encontrar o plano desejado.
+						cin.get (ch);
+						if (ch == ' ' || ch == '\n')	// Precisa considerar '\n' e ' '
+							cin.get (ch);			// testar
+					}
+			CMatriz2D::LeDadosColados (fin);			// Lê os dados como colados
+		}
+		return true;								// sucesso
+	}
+	return false;									// falha
 }
 
 /*
@@ -1003,9 +1007,9 @@ Funcao:
 @return :
 */
 void CMatriz2D::Constante (int cte) {
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++)
-         data2D[i][j] = cte;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			data2D[i][j] = cte;
 }
 
 /*
@@ -1021,12 +1025,12 @@ de tmatriz por timagem
 @return :
 */
 void CMatriz2D::Inverter () {
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++)
-         if (data2D[i][j] == 0)
-            data2D[i][j] = 1;
-         else
-            data2D[i][j] = 0;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			if (data2D[i][j] == 0)
+				data2D[i][j] = 1;
+			else
+				data2D[i][j] = 0;
 }
 
 /*
@@ -1040,11 +1044,11 @@ Funcao:
 @return :
 */
 double CMatriz2D::Media () const {
-   double media = 0.0;
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++)
-         media += data2D[i][j];
-   return media /= (nx * ny);
+	double media = 0.0;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			media += data2D[i][j];
+	return media /= (nx * ny);
 }
 
 /*
@@ -1058,12 +1062,12 @@ Funcao:   MaiorValor
 @return :
 */
 int CMatriz2D::MaiorValor () const {
-   int maior = data2D[0][0];
-   for (int i = 0; i < nx; i++)	// percorre a matriz de dados
-      for (int j = 0; j < ny; j++)
-         if (data2D[i][j] > maior)	// se o valor de data2D for maior
-            maior = data2D[i][j];	// fazer maior=data2D
-   return maior;
+	int maior = data2D[0][0];
+	for (int i = 0; i < nx; i++)	// percorre a matriz de dados
+		for (int j = 0; j < ny; j++)
+			if (data2D[i][j] > maior)	// se o valor de data2D for maior
+				maior = data2D[i][j];	// fazer maior=data2D
+	return maior;
 }
 
 /*
@@ -1077,12 +1081,12 @@ Funcao:   MenorValor
 @return :
 */
 int CMatriz2D::MenorValor () const {
-   int menor = data2D[0][0];
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++)
-         if (data2D[i][j] < menor)
-            menor = data2D[i][j];
-   return menor;
+	int menor = data2D[0][0];
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			if (data2D[i][j] < menor)
+				menor = data2D[i][j];
+	return menor;
 }
 
 /*
@@ -1093,12 +1097,12 @@ Funcao:   MenorValorNzero
 @author :Leandro Puerari
 */
 int CMatriz2D::MenorValorNzero () const {
-   int menor = 9999999;
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++)
-         if (data2D[i][j] < menor && data2D[i][j] != 0)
-            menor = data2D[i][j];
-   return menor;
+	int menor = 9999999;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			if (data2D[i][j] < menor && data2D[i][j] != 0)
+				menor = data2D[i][j];
+	return menor;
 }
 /*
 -------------------------------------------------------------------------
@@ -1108,19 +1112,19 @@ Funcao:   MaiorMenorValorNzero
 @author :Leandro Puerari
 */
 pair<int,int> CMatriz2D::MaiorMenorValorNzero() const {
-   //int menor = 9999999999;
-   //int maior = data2D[0][0];
-   pair<int,int> maiorMenor;
-   maiorMenor.first = data2D[0][0];
-   maiorMenor.second = 999999999;
-   for (int i = 0; i < nx; i++)
-      for (int j = 0; j < ny; j++) {
-         if (data2D[i][j] < maiorMenor.second && data2D[i][j] != 0)
-            maiorMenor.second = data2D[i][j];
-         if (data2D[i][j] > maiorMenor.first)
-            maiorMenor.first = data2D[i][j];
-      }
-   return maiorMenor;
+	//int menor = 9999999999;
+	//int maior = data2D[0][0];
+	pair<int,int> maiorMenor;
+	maiorMenor.first = data2D[0][0];
+	maiorMenor.second = 999999999;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++) {
+			if (data2D[i][j] < maiorMenor.second && data2D[i][j] != 0)
+				maiorMenor.second = data2D[i][j];
+			if (data2D[i][j] > maiorMenor.first)
+				maiorMenor.first = data2D[i][j];
+		}
+	return maiorMenor;
 }
 
 /*
@@ -1134,36 +1138,36 @@ Funcao:  Replace
 @return :
 */
 int CMatriz2D::Replace (int i, int j) {
-   int contador = 0;
-   for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
-      for (int l = 0; l < ny; l++)
-         if (data2D[k][l] == i)	// se existe algum valor i
-         {
-            data2D[k][l] = j;	// trocar por j
-            contador++;		// acumula o numero de trocas realizadas
-         }
-   return contador;		// retorna o numero de trocas realizadas
+	int contador = 0;
+	for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
+		for (int l = 0; l < ny; l++)
+			if (data2D[k][l] == i)	// se existe algum valor i
+			{
+				data2D[k][l] = j;	// trocar por j
+				contador++;		// acumula o numero de trocas realizadas
+			}
+	return contador;		// retorna o numero de trocas realizadas
 
 }
 
 bool CMatriz2D::Rotacionar90 () {
-   CMatriz2D * pmtmp = NULL;
-   pmtmp = new CMatriz2D( *this );
-   if ( ! pmtmp )
+	CMatriz2D * pmtmp = NULL;
+	pmtmp = new CMatriz2D( *this );
+	if ( ! pmtmp )
 		return false;
-   int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
-   int _ny = ny;
-   if (nx != ny) {
-      if ( ! Redimensiona(ny, nx) )
+	int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
+	int _ny = ny;
+	if (nx != ny) {
+		if ( ! Redimensiona(ny, nx) )
 			return false ;
-   }
-   for (int i = 0; i < _nx; i++) {
-      for (int j = 0; j < _ny; j++) {
+	}
+	for (int i = 0; i < _nx; i++) {
+		for (int j = 0; j < _ny; j++) {
 			data2D[_ny-1-j][i] = pmtmp->data2D[i][j];
-      }
-   }
-   delete pmtmp;
-   return true;
+		}
+	}
+	delete pmtmp;
+	return true;
 }
 
 /*
@@ -1177,6 +1181,6 @@ Funcao:   Propriedades
 @return :
 */
 void CMatriz2D::Propriedades (ofstream & os) const {
-   CBaseMatriz::Propriedades (os);
-   os << "\nDimensoes: nx=" << nx << " ny=" << ny << endl;
+	CBaseMatriz::Propriedades (os);
+	os << "\nDimensoes: nx=" << nx << " ny=" << ny << endl;
 }

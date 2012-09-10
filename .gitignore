@@ -1,5 +1,6 @@
 .svn*
 *~
+*.o
 .kdev4
 cvs
 libldsc.a

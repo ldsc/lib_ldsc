@@ -110,30 +110,18 @@ bool CImagem3D::LeInformacoesRecontrucao (string fileName)
     return false;
 }
 
-bool CImagem3D::Write(string fileName, int separado) {
-		ofstream fout; //  Abre arquivo disco
-    string fullFileName = path + fileName;
-		fout.open (fullFileName.c_str ());			//  Abre arquivo de disco  formato ASCII
-    if (fout.good ()) {								//  Testa abertura do arquivo
-        fout.width (larguraCampo);						//  Define a largura do campo
-        fout.setf (ios::left);
-        fout.fill (' ');								// possivel erro na saida de P 2???
-
-				SalvaCabecalho (fout);	//  (virtual) Salva dados do cabecalho:
-        SalvaInformacoesRecontrucao(fout);
-        SalvaCores(fout);
-
-				if ( formatoSalvamento > 15 && formatoSalvamento < 19 ) {	// Formato de salvamento binario
-						fout.close(); //fecha o arquivo e abre no formato binario.
-						fout.open (fullFileName.c_str (), ios::binary | ios::app); // Abre arquivo de disco no formato Binario
-				}
-				if (separado)
-            SalvaDados (fout);			//  (virtual) Salva dados com um espaco " " 1 0 0 1
-        else
-            SalvaDadosColados (fout);	//  (virtual) Salva dados "colados" sem espaço 1001
-        fout.close ();
-        return true;					//  sucesso
-    } else
-        return false;
+/*
+-------------------------------------------------------------------------
+Funcao:
+-------------------------------------------------------------------------
+@short  : Salva dados do cabecalho
+@author : Andre Duarte Bueno, modificada por: Leandro Puerari
+@see    :
+@param  :
+@return :
+*/
+void CImagem3D::SalvaCabecalho (ofstream & fout) {
+	CMatriz3D::SalvaCabecalho (fout);
+	SalvaInformacoesRecontrucao(fout);
 }
 

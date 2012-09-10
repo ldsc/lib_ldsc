@@ -121,7 +121,8 @@ public:
     /// Lê de arquivo .dbm as informações de reconstrução da imagem. Recebe o nome do arquivo.
     bool LeInformacoesRecontrucao (string fileName);
 
-    bool Write(string fileName, int separado = 1);
+		/// Salva dados do cabecalho
+		virtual void SalvaCabecalho (std::ofstream & fout);
 
 
 // --------------------------------------------------------------------Get

@@ -494,19 +494,26 @@ void CMatriz3D::SalvaCabecalho (ofstream & fout) const
 {
 	if (fout) { // testa abertura do arquivo
 		switch ( formatoSalvamento ) {
-			case 13: fout << setw (0) << "D1" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D1_X_Y_Z_ASCII:
+				fout << setw (0) << "D1" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			case 14: fout << setw (0) << "D2" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D2_X_Y_Z_GRAY_ASCII:
+				fout << setw (0) << "D2" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			case 15: fout << setw (0) << "D3" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D3_X_Y_Z_COLOR_ASCII:
+				fout << setw (0) << "D3" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			case 16: fout << setw (0) << "D4" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D4_X_Y_Z_BINARY:
+				fout << setw (0) << "D4" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			case 17: fout << setw (0) << "D5" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D5_X_Y_Z_GRAY_BINARY:
+				fout << setw (0) << "D5" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			case 18: fout << setw (0) << "D6" << '\n' << nx << ' ' << ny << ' ' << nz;
+			case D6_X_Y_Z_COLOR_BINARY:
+				fout << setw (0) << "D6" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-			default: fout << setw (0) << "D2" << '\n' << nx << ' ' << ny << ' ' << nz;
+			default:
+				fout << setw (0) << "D2" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
 		}
 	}
@@ -546,9 +553,7 @@ void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
 					for (int i = 0; i < nx; i++) {
 						fout.write( reinterpret_cast< const char * >(&data3D[i][j][k]), sizeof(data3D[i][j][k]) );
 					}
-					fout << '\n';
 				}
-				fout << '\n';
 			}
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;
@@ -589,9 +594,7 @@ void CMatriz3D::SalvaDados (ofstream & fout) const {
 					for (int i = 0; i < nx; i++) {
 						fout.write( reinterpret_cast< const char * >(&data3D[i][j][k]), sizeof(data3D[i][j][k]) );
 					}
-					fout << '\n';
 				}
-				fout << '\n';
 			}
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;

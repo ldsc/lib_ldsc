@@ -113,7 +113,7 @@ public:
     inline bool Contem (int i, int j, int k) const;
 
     /// Armazena no arquivo .dbm, em forma de comentário, as informações de reconstrução da imagem. Deve ser chamado após CMatriz3D::SalvaCabecalho().
-    void SalvaInformacoesRecontrucao (ofstream & fout);
+		void SalvaInformacoesRecontrucao (ofstream & fout) const;
 
     /// Lê de arquivo .dbm as informações de reconstrução da imagem. Recebe ponteiro para arquivo.
     bool LeInformacoesRecontrucao (ifstream & fin);
@@ -122,7 +122,7 @@ public:
     bool LeInformacoesRecontrucao (string fileName);
 
 		/// Salva dados do cabecalho
-		virtual void SalvaCabecalho (std::ofstream & fout);
+		virtual void SalvaCabecalho (std::ofstream & fout) const;
 
 
 // --------------------------------------------------------------------Get

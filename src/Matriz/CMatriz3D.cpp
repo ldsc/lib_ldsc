@@ -519,6 +519,55 @@ void CMatriz3D::SalvaCabecalho (ofstream & fout) const
 	}
 }
 
+// Salva dados no formato binario
+void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
+	int x, bit;
+	unsigned char c = 0;
+	if (fout) {
+		switch(formatoSalvamento){
+			case D4_X_Y_Z_BINARY: // 1 bite por pixel
+				for (int k = 0; k < nz; k++) {
+					for (int j = 0; j < ny; j++) {
+						for (int i = 0; i < nx; i++) {
+							x = 7 - i%8;
+							bit = (data3D[i][j][k])%2;
+							c = c | (bit << x);
+							if ( (i+1)%8 == 0 || i == (nx-1) ) {
+								//fout.write( &c, 1 );
+								fout << c;
+								c = 0;
+							}
+						}
+					}
+				}				break;
+			case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+				for (int k = 0; k < nz; k++) {
+					for (int j = 0; j < ny; j++) {
+						for (int i = 0; i < nx; i++) {
+							fout << (unsigned char) data3D[i][j][k];
+						}
+					}
+				}
+				break;
+			case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
+				cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em CMatriz3D::SalvaDadosBinarios" << endl;
+				/* falta implementar matrizes para as cores RGB
+				for (int k = 0; k < nz; k++) {
+					for (int j = 0; j < ny; j++) {
+						for (int i = 0; i < nx; i++) {
+							fout << (unsigned char) data3Dr[i][j][k];
+							fout << (unsigned char) data3Dg[i][j][k];
+							fout << (unsigned char) data3Db[i][j][k];
+						}
+					}
+				}
+				*/
+				break;
+			default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDadosBinarios" << endl;
+		}
+	}
+}
+
 /*
 -------------------------------------------------------------------------
 Funcao:
@@ -865,13 +914,7 @@ void CMatriz3D::LeDados (ifstream & fin) {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			for (int k = 0; k < nz; k++) {
-				for (int j = 0; j < ny; j++) {
-					for (int i = 0; i < nx; i++) {
-						fin.read( reinterpret_cast< char * >(&data3D[i][j][k]), sizeof(data3D[i][j][k]) );
-					}
-				}
-			}
+			CMatriz3D::LeDadosBinarios(fin);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDados" << endl;
 	}
@@ -903,28 +946,67 @@ void CMatriz3D::LeDadosColados (ifstream & fin) {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			LeDados(fin);
+			CMatriz3D::LeDadosBinarios(fin);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDadosColados" << endl;
 	}
 }
 
-	/*
-Formato antigo
-if(!fin.eof())                     // se NAO chegou ao fim do arquivo continua lendo
-{
-fin.get(ch);
-if(ch=='0')                    // se for zero
-data3D[i][j][k]=0;           // assume valor 0
-else if(ch!='\n' && ch!=' ')  // se nao for fim de linha nem espaço
-data3D[i][j][k]=1;           // assume valor 1
+// Lê os dados de um arquivo de disco
+// Os dados estao separados por um " "
+void CMatriz3D::LeDadosBinarios (ifstream & fin) {
+	char c;
+	unsigned char c2;
+	int x, bit;
+	switch(formatoSalvamento){
+		case D4_X_Y_Z_BINARY: // 1 bite por pixel
+			cerr << "Entrou em CMatriz3D::LeDadosBinarios como D4_X_Y_Z_BINARY" << endl;
+			for (int k = 0; k < nz; k++) {
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						if ( i%8 == 0 ){
+							fin.read(&c, 1);
+							c2 = (unsigned char) c;
+						}
+						x = 7 -i%8;
+						bit = (c2 >> x)%2;
+						data3D[i][j][k] = bit;
+					}
+				}
+			}
+			break;
+		case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+			for (int k = 0; k < nz; k++) {
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fin.read(&c, 1);
+						data3D[i][j][k] = (unsigned char) c;
+					}
+				}
+			}
+			break;
+		case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
+			cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em CMatriz3D::LeDadosBinarios" << endl;
+			/* falta implementar matrizes para as cores RGB
+			for (int k = 0; k < nz; k++) {
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fin.read(&c, 1);
+						data3Dr[i][j][k] = (unsigned char) c;
+						fin.read(&c, 1);
+						data3Dg[i][j][k] = (unsigned char) c;
+						fin.read(&c, 1);
+						data3Db[i][j][k] = (unsigned char) c;
+					}
+				}
+			}
+			*/
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDados" << endl;
+	}
 }
-else
-data3D[i][j][k]=0;             // preenche com zeros
 
-*/
-
-	/*
+/*
 -------------------------------------------------------------------------
 
 
@@ -936,15 +1018,15 @@ Funcao: Constante
 @param  :
 @return :
 */
-	void CMatriz3D::Constante (int cte)
-	{
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					data3D[i][j][k] = cte;
-	}
+void CMatriz3D::Constante (int cte)
+{
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				data3D[i][j][k] = cte;
+}
 
-	/*
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -956,18 +1038,18 @@ de tmatriz por timagem
 @param  :
 @return :
 */
-	void CMatriz3D::Inverter ()
-	{
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					if (data3D[i][j][k] == 0)
-						data3D[i][j][k] = 1;
-					else
-						data3D[i][j][k] = 0;
-	}
+void CMatriz3D::Inverter ()
+{
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				if (data3D[i][j][k] == 0)
+					data3D[i][j][k] = 1;
+				else
+					data3D[i][j][k] = 0;
+}
 
-	/*
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -977,17 +1059,17 @@ Funcao:
 @param  :
 @return :
 */
-	double CMatriz3D::Media () const
-	{
-		double media = 0.0;
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					media += data3D[i][j][k];
-		return media /= (nx * ny * nz);
-	}
+double CMatriz3D::Media () const
+{
+	double media = 0.0;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				media += data3D[i][j][k];
+	return media /= (nx * ny * nz);
+}
 
-	/*
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -998,18 +1080,18 @@ MaiorValor retorna o maior valor da matriz
 @param  :
 @return :
 */
-	int CMatriz3D::MaiorValor () const
-	{
-		int maior = data3D[0][0][0];
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					if (data3D[i][j][k] > maior)	// se o valor de data2D for maior
-						maior = data3D[i][j][k];	// fazer maior=data2D
-		return maior;
-	}
+int CMatriz3D::MaiorValor () const
+{
+	int maior = data3D[0][0][0];
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				if (data3D[i][j][k] > maior)	// se o valor de data2D for maior
+					maior = data3D[i][j][k];	// fazer maior=data2D
+	return maior;
+}
 
-	/*
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -1020,58 +1102,58 @@ MenorValor retorna o menor valor da matriz
 @param  :
 @return :
 */
-	int CMatriz3D::MenorValor () const
-	{
-		int menor = data3D[0][0][0];
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					if (data3D[i][j][k] < menor)
-						menor = data3D[i][j][k];
-		return menor;
-	}
-	/*
+int CMatriz3D::MenorValor () const
+{
+	int menor = data3D[0][0][0];
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				if (data3D[i][j][k] < menor)
+					menor = data3D[i][j][k];
+	return menor;
+}
+/*
 -------------------------------------------------------------------------
 Funcao:   MenorValorNzero
 -------------------------------------------------------------------------
 @short  :MenorValorNzero retorna o menor valor da matriz diferente de zero
 @author :Leandro Puerari
 */
-	int CMatriz3D::MenorValorNzero () const
-	{
-		int menor = 9999999;
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
-					if (data3D[i][j][k] < menor && data3D[i][j][k] != 0)
-						menor = data3D[i][j][k];
-		return menor;
-	}
-	/*
+int CMatriz3D::MenorValorNzero () const
+{
+	int menor = 9999999;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++)
+				if (data3D[i][j][k] < menor && data3D[i][j][k] != 0)
+					menor = data3D[i][j][k];
+	return menor;
+}
+/*
 -------------------------------------------------------------------------
 Funcao:   MaiorMenorValorNzero
 -------------------------------------------------------------------------
 @short  :MaiorMenorValorNzero retorna um par correspondente ao maior e menor valor (respectivamente) da matriz diferente de zero
 @author :Leandro Puerari
 */
-	pair<int,int> CMatriz3D::MaiorMenorValorNzero() const
-	{
-		//int menor = 9999999999;
-		//int maior = data2D[0][0];
-		pair<int,int> maiorMenor;
-		maiorMenor.first = data3D[0][0][0];
-		maiorMenor.second = 999999999;
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++) {
-					if (data3D[i][j][k] < maiorMenor.second && data3D[i][j][k] != 0)
-						maiorMenor.second = data3D[i][j][k];
-					if (data3D[i][j][k] > maiorMenor.first)
-						maiorMenor.first = data3D[i][j][k];
-				}
-		return maiorMenor;
-	}
-	/*
+pair<int,int> CMatriz3D::MaiorMenorValorNzero() const
+{
+	//int menor = 9999999999;
+	//int maior = data2D[0][0];
+	pair<int,int> maiorMenor;
+	maiorMenor.first = data3D[0][0][0];
+	maiorMenor.second = 999999999;
+	for (int i = 0; i < nx; i++)
+		for (int j = 0; j < ny; j++)
+			for (int k = 0; k < nz; k++) {
+				if (data3D[i][j][k] < maiorMenor.second && data3D[i][j][k] != 0)
+					maiorMenor.second = data3D[i][j][k];
+				if (data3D[i][j][k] > maiorMenor.first)
+					maiorMenor.first = data3D[i][j][k];
+			}
+	return maiorMenor;
+}
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -1081,21 +1163,21 @@ Funcao:
 @param  :
 @return :
 */
-	int CMatriz3D::Replace (int i, int j)
-	{
-		int contador = 0;
-		for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
-			for (int l = 0; l < ny; l++)
-				for (int m = 0; m < nz; m++)
-					if (data3D[k][l][m] == i)	// se existe algum valor i
-					{
-						data3D[k][l][m] = j;	// trocar por j
-						contador++;		// acumula o numero de trocas realizadas
-					}
-		return contador;		// retorna o numero de trocas realizadas
-	}
+int CMatriz3D::Replace (int i, int j)
+{
+	int contador = 0;
+	for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
+		for (int l = 0; l < ny; l++)
+			for (int m = 0; m < nz; m++)
+				if (data3D[k][l][m] == i)	// se existe algum valor i
+				{
+					data3D[k][l][m] = j;	// trocar por j
+					contador++;		// acumula o numero de trocas realizadas
+				}
+	return contador;		// retorna o numero de trocas realizadas
+}
 
-	/*
+/*
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
@@ -1105,8 +1187,8 @@ Funcao:
 @param  :
 @return :
 */
-	void CMatriz3D::Propriedades (ofstream & os) const
-	{
-		CBaseMatriz::Propriedades (os);
-		os << "\nDimensoes: nx=" << nx << " ny=" << ny << " nz=" << nz;
-	}
+void CMatriz3D::Propriedades (ofstream & os) const
+{
+	CBaseMatriz::Propriedades (os);
+	os << "\nDimensoes: nx=" << nx << " ny=" << ny << " nz=" << nz;
+}

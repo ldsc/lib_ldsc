@@ -21,7 +21,8 @@ CMatriz2D * CFEInversao::Go ( CMatriz2D * imagem ) {
 	// a imagem deve ser passada no construtor.
 	if ( ! imagem ) return NULL;
 	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != P1_X_Y_ASCII ) return NULL;
+	if ( imagem->GetFormat() != P1_X_Y_ASCII && imagem->GetFormat() != P4_X_Y_BINARY)
+		return NULL;
 	
 	CMatriz2D * pmInv = NULL;
 	pmInv = new CMatriz2D( *imagem );

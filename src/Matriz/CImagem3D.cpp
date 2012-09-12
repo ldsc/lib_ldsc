@@ -50,7 +50,7 @@ bool CImagem3D::Contem (int i, int j, int k) const
         return 0;
 };
 
-void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout)
+void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const
 {
     if (fout) {
         fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
@@ -120,7 +120,7 @@ Funcao:
 @param  :
 @return :
 */
-void CImagem3D::SalvaCabecalho (ofstream & fout) {
+void CImagem3D::SalvaCabecalho (ofstream & fout) const {
 	CMatriz3D::SalvaCabecalho (fout);
 	SalvaInformacoesRecontrucao(fout);
 }

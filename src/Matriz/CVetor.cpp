@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+									Ramo: TPadrao_ramo
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
@@ -43,26 +43,26 @@ data1D é um ponteiro para um array de numeros inteiros.
 */
 int * CVetor::AlocaVetor (int nx)
 {
-// TESTE PARA EXCESSOES
-//       try
-//       {
+	// TESTE PARA EXCESSOES
+	//       try
+	//       {
 
-  // STEP 1: aloca eixo x.
-  int *dat = new int[nx];
-  if (dat != NULL)
-    return dat;
-  else
-  {
-    nx = 0;
-    return 0;
-  }
-//       }
-//       catch (xalloc)
-//               {
-//               return 0;// exit(-1);
-//               cerr << "Nao conseguiu alocar o Vetor. Tchau ...";
-//               }
-// return 1;
+	// STEP 1: aloca eixo x.
+	int *dat = new int[nx];
+	if (dat != NULL)
+		return dat;
+	else
+	{
+		nx = 0;
+		return 0;
+	}
+	//       }
+	//       catch (xalloc)
+	//               {
+	//               return 0;// exit(-1);
+	//               cerr << "Nao conseguiu alocar o Vetor. Tchau ...";
+	//               }
+	// return 1;
 }
 
 /*
@@ -77,16 +77,16 @@ Funcao:   DesalocaVetor
 */
 bool CVetor::DesalocaVetor (int *dat, int nx)
 {
-  if (dat != NULL)
-  {
-     // Passo 1: apaga eixo x
-     delete [] dat;
-     dat = NULL;
-     // opcional, evita uso do vetor sem verificacao
-     nx = 0;
-     return 1;
-  }
-  return 0;
+	if (dat != NULL)
+	{
+		// Passo 1: apaga eixo x
+		delete [] dat;
+		dat = NULL;
+		// opcional, evita uso do vetor sem verificacao
+		nx = 0;
+		return 1;
+	}
+	return 0;
 }
 
 /*
@@ -101,8 +101,8 @@ Funcao:  Construtor vazio
 */
 CVetor::CVetor ()
 {
-  nx = 0;
-  data1D = NULL;
+	nx = 0;
+	data1D = NULL;
 }
 
 /*
@@ -120,10 +120,10 @@ Se dim=1 vetor, se dim=2 matriz, se dim=3 matriz 3D.
 */
 CVetor::CVetor (string fileName)
 {
-  nx = 0;
-  data1D = NULL;
-  // A funcao Read aloca o vetor e armazena dados do arquivo de disco no vetor
-  CVetor::Read (fileName);
+	nx = 0;
+	data1D = NULL;
+	// A funcao Read aloca o vetor e armazena dados do arquivo de disco no vetor
+	CVetor::Read (fileName);
 }
 
 /*
@@ -140,13 +140,13 @@ Vetor e entao copiar membro a membro
 */
 CVetor::CVetor (CVetor & v)
 {
-  // Define dimensoes
-  nx = v.nx;
-  // aloca data1D
-  data1D = AlocaVetor (nx);
-  // copia membro a membro
-  for (int i = 0; i < nx; i++)
-    this->data1D[i] = v.data1D[i];
+	// Define dimensoes
+	nx = v.nx;
+	// aloca data1D
+	data1D = AlocaVetor (nx);
+	// copia membro a membro
+	for (int i = 0; i < nx; i++)
+		this->data1D[i] = v.data1D[i];
 }
 
 /*
@@ -163,8 +163,8 @@ Copia nx, aloca o Vetor e preenche com zeros
 */
 CVetor::CVetor (int NX)
 {
-  this->nx = NX;			// define valores
-  data1D = AlocaVetor (nx);	// aloca data1D
+	this->nx = NX;			// define valores
+	data1D = AlocaVetor (nx);	// aloca data1D
 }
 
 /*
@@ -185,19 +185,19 @@ pelo programa que chamou???
 */
 CVetor & CVetor::operator+ (CVetor & v)
 {
-  int minx = this->nx > v.nx ? v.nx : this->nx;
-  for (int i = 0; i < minx; i++)
-    this->data1D[i] += v.data1D[i]; // Soma membro a membro
-  return *this;
+	int minx = this->nx > v.nx ? v.nx : this->nx;
+	for (int i = 0; i < minx; i++)
+		this->data1D[i] += v.data1D[i]; // Soma membro a membro
+	return *this;
 }
 /*
 CVetor* CVetor::operator+(CVetor* v)
 {
-   int min = std::min(this->nx, v->nx);
+	 int min = std::min(this->nx, v->nx);
 
  for (  int i = 0; i < min; i++)
-	   // Soma membro a membro
-	   this->data1D[i]+= v->data1D[i];
+		 // Soma membro a membro
+		 this->data1D[i]+= v->data1D[i];
  return this;
 }
 */
@@ -216,20 +216,20 @@ GetMenorValor retorna o menor valor da matriz
 */
 CVetor & CVetor::operator- (CVetor & v)
 {
-  //int minx = min( this->nx ,  v.nx);
-  int minx = this->nx > v.nx ? v.nx : this->nx;
-  for (int i = 0; i < minx; i++)
-    this->data1D[i] -= v.data1D[i]; // subtrai membro a membro
-  return *this;
+	//int minx = min( this->nx ,  v.nx);
+	int minx = this->nx > v.nx ? v.nx : this->nx;
+	for (int i = 0; i < minx; i++)
+		this->data1D[i] -= v.data1D[i]; // subtrai membro a membro
+	return *this;
 }
 /*
 CVetor* CVetor::operator-(CVetor* v)
 {
-   int minx = menor(this->nx, v->nx);
+	 int minx = menor(this->nx, v->nx);
 
  for (  int i = 0; i < minx; i++)
-	  // subtrai membro a membro
-	  this->data1D[i]-= v->data1D[i];
+		// subtrai membro a membro
+		this->data1D[i]-= v->data1D[i];
 
  return this;
 }
@@ -250,18 +250,18 @@ Excessões:        No caso dos vetores terem dimensoes diferentes.
 */
 CVetor & CVetor::operator= (CVetor & v)
 {
-  //int minx = min(this->nx, v.nx);
-  int minx = this->nx > v.nx ? v.nx : this->nx;
-  for (int i = 0; i < minx; i++)
-    this->data1D[i] = v.data1D[i];
-  return *this;
+	//int minx = min(this->nx, v.nx);
+	int minx = this->nx > v.nx ? v.nx : this->nx;
+	for (int i = 0; i < minx; i++)
+		this->data1D[i] = v.data1D[i];
+	return *this;
 }
 /*
 CVetor* CVetor::operator=(CVetor* v)
 {
-   int min = std::min(this->nx, v->nx);
+	 int min = std::min(this->nx, v->nx);
 	for (  int i = 0; i < min; i++)
-	  this->data1D[i] = v->data1D[i];
+		this->data1D[i] = v->data1D[i];
  return this;
 }
 */
@@ -283,24 +283,24 @@ bool CVetor::operator==(CVetor* v)const
 // if(this->nx!=v->nx)			// se as dimensoes forem diferentes, retorna  0
 //    return 0;                // se incluir esta linha, tem de mudar operador !=
 
-	  int minx = std::min(this->nx, v->nx);
+		int minx = std::min(this->nx, v->nx);
 
 	for (  int i = 0; i < minx; i++)
-   	if(this->data1D[i] != v->data1D[i])
-               return 0;
+		if(this->data1D[i] != v->data1D[i])
+							 return 0;
 return 1;
 }
 */
 bool CVetor::operator== (CVetor & v) const
 {
-  //if(this->nx!=v->nx)      // se as dimensoes forem diferentes, retorna  0
-  //return 0;                // se incluir esta linha, tem de mudar operador !=
-  //int minx = min(this->nx, v.nx);
-  int minx = this->nx > v.nx ? v.nx : this->nx;
-  for (int i = 0; i < minx; i++)
-    if (this->data1D[i] != v.data1D[i])
-      return 0;
-  return 1;
+	//if(this->nx!=v->nx)      // se as dimensoes forem diferentes, retorna  0
+	//return 0;                // se incluir esta linha, tem de mudar operador !=
+	//int minx = min(this->nx, v.nx);
+	int minx = this->nx > v.nx ? v.nx : this->nx;
+	for (int i = 0; i < minx; i++)
+		if (this->data1D[i] != v.data1D[i])
+			return 0;
+	return 1;
 }
 /*
 -------------------------------------------------------------------------
@@ -316,7 +316,7 @@ o atributo formatoSalvamento.
 */
 bool CVetor::operator!= (CVetor & v) const
 {
-  return !(CVetor::operator== (v));
+	return !(CVetor::operator== (v));
 }
 /*
 bool CVetor::operator!=(CVetor* v)const
@@ -338,9 +338,9 @@ Despacha os valores do vetor para a ostream
 */
 ostream & operator<< (ostream & os, CVetor & v)
 {
-  for (int i = 0; i < v.NX (); i++)
-    os << v.data1D[i] << endl;
-  return os;
+	for (int i = 0; i < v.NX (); i++)
+		os << v.data1D[i] << endl;
+	return os;
 }
 
 /*
@@ -355,25 +355,64 @@ Funcao: SalvaCabecalho
 */
 void CVetor::SalvaCabecalho (ofstream & fout) const
 {
-  if (fout.good ()) // Testa abertura do arquivo
-    { 	// fout << setw (0) << 'V' << left << formatoSalvamento << '\n' << nx;
-      	switch (formatoSalvamento){
-      		case 1:	fout << setw (0) << "V1" << '\n' << nx;
-      		break;
-      		case 2:	fout << setw (0) << "V2" << '\n' << nx;
-      		break;
-      		case 3:	fout << setw (0) << "V3" << '\n' << nx;
-      		break;
-      		case 4:	fout << setw (0) << "V4" << '\n' << nx;
-      		break;
-      		case 5:	fout << setw (0) << "V5" << '\n' << nx;
-      		break;
-      		case 6:	fout << setw (0) << "V6" << '\n' << nx;
-      		break;
-      		default: fout << setw (0) << "V2" << '\n' << nx;
-      		break;
-      	}
-    }
+	if (fout.good ()) // Testa abertura do arquivo
+	{ 	// fout << setw (0) << 'V' << left << formatoSalvamento << '\n' << nx;
+		switch (formatoSalvamento){
+			case 1:	fout << setw (0) << "V1" << '\n' << nx;
+				break;
+			case 2:	fout << setw (0) << "V2" << '\n' << nx;
+				break;
+			case 3:	fout << setw (0) << "V3" << '\n' << nx;
+				break;
+			case 4:	fout << setw (0) << "V4" << '\n' << nx;
+				break;
+			case 5:	fout << setw (0) << "V5" << '\n' << nx;
+				break;
+			case 6:	fout << setw (0) << "V6" << '\n' << nx;
+				break;
+			default: fout << setw (0) << "V2" << '\n' << nx;
+				break;
+		}
+	}
+}
+
+// Salva dados no formato binario
+void CVetor::SalvaDadosBinarios (ofstream & fout) const {
+	int x, bit;
+	unsigned char c = 0;
+	if (fout) {
+		switch(formatoSalvamento){
+			case V4_X_BINARY: // 1 bite por pixel
+				for (int i = 0; i < nx; i++) {
+					x = 7 - i%8;
+					bit = (data1D[i])%2;
+					c = c | (bit << x);
+					if ( (i+1)%8 == 0 || i == (nx-1) ) {
+						//fout.write( &c, 1 );
+						fout << c;
+						c = 0;
+					}
+				}
+				break;
+			case V5_X_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+				for (int i = 0; i < nx; i++) {
+					c = data1D[i];
+					fout << c;
+				}
+				break;
+			case V6_X_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
+				cerr << "Formato de arquivo V6_X_COLOR_BINARY não implementado em CMatriz2D::SalvaDadosBinarios" << endl;
+				/* falta implementar vetores para as cores RGB
+				for (int i = 0; i < nx; i++) {
+					fout << (unsigned char) data1Dr[i];
+					fout << (unsigned char) data1Dg[i];
+					fout << (unsigned char) data1Db[i];
+				}
+				*/
+				break;
+			default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDadosBinarios" << endl;
+		}
+	}
 }
 
 /*
@@ -389,8 +428,8 @@ Salva dados "colados" sem espaço
 */
 void CVetor::SalvaDadosColados (ofstream & fout) const
 {
-  for (int i = 0; i < nx; i++)
-    fout << data1D[i];
+	for (int i = 0; i < nx; i++)
+		fout << data1D[i];
 }
 
 /*
@@ -406,11 +445,11 @@ Salva dados com um espaco " "
 */
 void CVetor::SalvaDados (ofstream & fout) const
 {
-  for (int i = 0; i < nx; i++)
-  {
-     // fout.width(larguraCampo);
-     fout << data1D[i] << '\n';
-  }
+	for (int i = 0; i < nx; i++)
+	{
+		// fout.width(larguraCampo);
+		fout << data1D[i] << '\n';
+	}
 }
 
 /*
@@ -425,14 +464,14 @@ Funcao: Constante
 */
 void CVetor::Constante (int cte)
 { // Versao mais lenta
-  // for (int i = 0; i < nx; i++)
-  //   data1D[i] = cte;
-  int *p = data1D;
-  for (int i = 0; i < nx; i++)
-  {
-    *p = cte;			//  PERFORMANCE USAR MEMCPY
-    p++;
-  }
+	// for (int i = 0; i < nx; i++)
+	//   data1D[i] = cte;
+	int *p = data1D;
+	for (int i = 0; i < nx; i++)
+	{
+		*p = cte;			//  PERFORMANCE USAR MEMCPY
+		p++;
+	}
 }
 
 /*
@@ -450,11 +489,11 @@ de tmatriz por timagem
 */
 void CVetor::Inverter ()
 {
-  for (int i = 0; i < nx; i++)
-    if (data1D[i] == 0)
-      data1D[i] = 1;
-    else
-      data1D[i] = 0;
+	for (int i = 0; i < nx; i++)
+		if (data1D[i] == 0)
+			data1D[i] = 1;
+		else
+			data1D[i] = 0;
 }
 
 /*
@@ -471,11 +510,11 @@ retorna o maior valor do vetor
 */
 int CVetor::MaiorValor () const
 {
-  int maximo = data1D[0];
-  for (int i = 1; i < nx; i++)
-    if (data1D[i] > maximo)
-      maximo = data1D[i];
-  return maximo;
+	int maximo = data1D[0];
+	for (int i = 1; i < nx; i++)
+		if (data1D[i] > maximo)
+			maximo = data1D[i];
+	return maximo;
 }
 
 /*
@@ -491,11 +530,11 @@ retorna o menor valor do vetor
 */
 int CVetor::MenorValor () const
 {
-  int minimo = data1D[0];
-  for (int i = 1; i < nx; i++)
-    if (data1D[i] < minimo)
-      minimo = data1D[i];
-  return minimo;
+	int minimo = data1D[0];
+	for (int i = 1; i < nx; i++)
+		if (data1D[i] < minimo)
+			minimo = data1D[i];
+	return minimo;
 }
 /*
 -------------------------------------------------------------------------
@@ -506,11 +545,11 @@ Funcao:   MenorValorNzero
 */
 int CVetor::MenorValorNzero () const
 {
-  int menor = 9999999;
-  for (int i = 0; i < nx; i++)
-    if (data1D[i] < menor && data1D[i] != 0)
-		menor = data1D[i];
-  return menor;
+	int menor = 9999999;
+	for (int i = 0; i < nx; i++)
+		if (data1D[i] < menor && data1D[i] != 0)
+			menor = data1D[i];
+	return menor;
 }
 /*
 -------------------------------------------------------------------------
@@ -521,16 +560,16 @@ Funcao:   MaiorMenorValorNzero
 */
 pair<int,int> CVetor::MaiorMenorValorNzero() const
 {
-  	pair<int,int> maiorMenor;
-  	maiorMenor.first = data1D[0];
-  	maiorMenor.second = 999999999;
-  	for (int i = 0; i < nx; i++){
+	pair<int,int> maiorMenor;
+	maiorMenor.first = data1D[0];
+	maiorMenor.second = 999999999;
+	for (int i = 0; i < nx; i++){
 		if (data1D[i] < maiorMenor.second && data1D[i] != 0)
 			maiorMenor.second = data1D[i];
 		if (data1D[i] > maiorMenor.first)
 			maiorMenor.first = data1D[i];
 	}
-  	return maiorMenor;
+	return maiorMenor;
 }
 /*
 -------------------------------------------------------------------------
@@ -545,10 +584,10 @@ Funcao:  Media
 double
 CVetor::Media () const
 {
-  double media = 0.0;
-  for (int i = 1; i < nx; i++)
-    media += data1D[i];
-  return media /= nx;
+	double media = 0.0;
+	for (int i = 1; i < nx; i++)
+		media += data1D[i];
+	return media /= nx;
 }
 
 /*
@@ -564,17 +603,17 @@ A funcao Replace, troca todos os valores i no vetor por j
 */
 int CVetor::Replace (int i, int j)
 {
-  int contador = 0;
-  // Pesquisa todo o vetor a procura de i se existe algum valor i
-  for (int k = 0; k < nx; k++)
-    if (data1D[k] == i)
-    { // Trocar por j
-	 data1D[k] = j;
- 	 // acumula o numero de trocas realizadas
-	 contador++;
-    }
-  // Retorna o numero de trocas realizadas
-  return contador;
+	int contador = 0;
+	// Pesquisa todo o vetor a procura de i se existe algum valor i
+	for (int k = 0; k < nx; k++)
+		if (data1D[k] == i)
+		{ // Trocar por j
+			data1D[k] = j;
+			// acumula o numero de trocas realizadas
+			contador++;
+		}
+	// Retorna o numero de trocas realizadas
+	return contador;
 }
 
 /*
@@ -589,8 +628,8 @@ Funcao:
 */
 void CVetor::Propriedades (ofstream & os) const
 {
-  CBaseMatriz::Propriedades (os);
-  os << "\nDimensoes: nx=" << nx << endl;
+	CBaseMatriz::Propriedades (os);
+	os << "\nDimensoes: nx=" << nx << endl;
 }
 
 /*
@@ -617,77 +656,77 @@ bool CVetor::Read (string fileName, bool separado)
 		{
 			case 1:
 			case 4:
-	  			do {
-	  				pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-	  				fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-	  				if(aux == '#'){
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura
-	  					fin.getline(linha, 256);	  	//vai para a próxima linha
-	  				}else{
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-	  				}
-	  			} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-	  			fin >> nx;
-	  			do {
-	  				pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-	  				fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-	  				if(aux == '#'){
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura
-	  					fin.getline(linha, 256);	  	//vai para a próxima linha
-	  				}else{
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-	  				}
-	  			} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-	  			break;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nx;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				break;
 			case 2:
 			case 3:
 			case 5:
 			case 6:
-	  			do {
-	  				pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-	  				fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-	  				if(aux == '#'){
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura
-	  					fin.getline(linha, 256);	  	//vai para a próxima linha
-	  				}else{
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-	  				}
-	  			} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-	  			fin >> nx;
-	  			do {
-	  				pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-	  				fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-	  				if(aux == '#'){
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura
-	  					fin.getline(linha, 256);	  	//vai para a próxima linha
-	  				}else{
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-	  				}
-	  			} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-	  			fin >> numCores;					// pega o número de cores do arquivo.
-	  			do {
-	  				pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-	  				fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-	  				if(aux == '#'){
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura
-	  					fin.getline(linha, 256);	  	//vai para a próxima linha
-	  				}else{
-	  					fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-	  				}
-	  			} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-	  			break;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> nx;
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				fin >> numCores;					// pega o número de cores do arquivo.
+				do {
+					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
+					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
+					if(aux == '#'){
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura
+						fin.getline(linha, 256);	  	//vai para a próxima linha
+					}else{
+						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+					}
+				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				break;
 			default:
-	  			return 0;
+				return 0;
 		}
 		data1D = AlocaVetor (nx);					// Aloca o vetor de dados
-      	if (separado)								// Leitura dos dados da matriz
+		if (separado)								// Leitura dos dados da matriz
 			CVetor::LeDados (fin);					// Lê os dados separados
-      	else
+		else
 			CVetor::LeDadosColados (fin);				// Lê os dados colados
 		return 1;
-    }
-    else
-    		return 0;
+	}
+	else
+		return 0;
 }
 
 /*
@@ -702,11 +741,11 @@ Funcao:   LeDados
 */
 void CVetor::LeDados (ifstream & fin)
 {
-  for (int i = 0; i < nx; i++)
-    if (!fin.eof ())		// se NAO chegou ao fim do arquivo,
-      fin >> data1D[i];		// lê dado do arquivo e armazena em data1D.
-    else
-      data1D[i] = 0;		// Senão, preenche com zeros
+	for (int i = 0; i < nx; i++)
+		if (!fin.eof ())		// se NAO chegou ao fim do arquivo,
+			fin >> data1D[i];		// lê dado do arquivo e armazena em data1D.
+		else
+			data1D[i] = 0;		// Senão, preenche com zeros
 }
 
 /*
@@ -721,21 +760,21 @@ Funcao: LeDadosColados
 @return :
 */
 void CVetor::LeDadosColados (ifstream & fin) {
-    char ch;
-    char matrizChar[30] = " ";
-    for (int i = 0; i < nx; i++) {
-        if (!fin.eof ()) {
-            cin.get (ch); 				// Pega o caracter
-            if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->9
-                matrizChar[0] = ch;		// copia para string
-                data1D[i] = atoi (matrizChar); // e da string para o inteiro
-            } else { // se for um \n ou ' ' desconsidera, e retorna contador ????
-                i--;
-            }
-        } else { // se chegou ao fim do arquivo, preenche com zeros
-            data1D[i] = 0;
-        }
-    }
+	char ch;
+	char matrizChar[30] = " ";
+	for (int i = 0; i < nx; i++) {
+		if (!fin.eof ()) {
+			cin.get (ch); 				// Pega o caracter
+			if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->9
+				matrizChar[0] = ch;		// copia para string
+				data1D[i] = atoi (matrizChar); // e da string para o inteiro
+			} else { // se for um \n ou ' ' desconsidera, e retorna contador ????
+				i--;
+			}
+		} else { // se chegou ao fim do arquivo, preenche com zeros
+			data1D[i] = 0;
+		}
+	}
 }
 
 /*

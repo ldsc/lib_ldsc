@@ -122,6 +122,9 @@ protected:
   /// Salva dados do cabecalho
   virtual void SalvaCabecalho (std::ofstream & fout) const;
 
+	/// Salva dados em formato binario
+	virtual void SalvaDadosBinarios (std::ofstream & fout) const;
+
   /// Salva dados "colados" sem espaço
   virtual void SalvaDadosColados (std::ofstream & fout) const;
 

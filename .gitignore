@@ -1,6 +1,7 @@
 .svn*
 *~
 *.o
+*.cpp.o
 .kdev4
 cvs
 libldsc.a
@@ -13,3 +14,4 @@ autom4te.cache
 pullToGithub
 pushToGithub
 CMakeLists.txt.user
+abertura_dilatacao

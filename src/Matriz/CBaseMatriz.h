@@ -144,6 +144,11 @@ class CBaseMatriz
 		virtual void SalvaCabecalho (std::ofstream & fout) const = 0;
 
 		/**
+	* @brief	Salva dados em formato binario
+	*/
+		virtual void SalvaDadosBinarios (std::ofstream & fout) const = 0;
+
+		/**
 	* @brief	Salva dados "colados" sem espaço 01100010101.
 	*/
 		virtual void SalvaDadosColados (std::ofstream & fout) const = 0;

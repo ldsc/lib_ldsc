@@ -53,29 +53,23 @@ ponteiro para ponteiro
 @param  :
 @return :
 */
-int **CMatriz2D::AlocaMatriz2D (int nx, int ny)
-{
+int **CMatriz2D::AlocaMatriz2D (int nx, int ny) {
 	int i;			//
 	int **dat = NULL;		// Cria ponteiro nulo
 	dat = new int *[nx];		// Passo 1: aloca eixo x
-	if (dat)			// se alocou dat corretamente
-	{
+	if (dat) {			// se alocou dat corretamente
 		for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
 			dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
-		for (i = 0; i < nx; i++)
-		{
+		for (i = 0; i < nx; i++) {
 			dat[i] = new int[ny];	// Passo 2: aloca linhas y
-			if (dat[i] == NULL)	// Se a linha nao foi corretamente alocada
-			{			// Para evitar vazamento de memoria
-				CMatriz2D::DesalocaMatriz2D (dat, nx, ny);
+			if (dat[i] == NULL) {	// Se a linha nao foi corretamente alocada
+				CMatriz2D::DesalocaMatriz2D (dat, nx, ny); // Para evitar vazamento de memoria
 				return 0;
 			}
 			// Desaloca toda a matriz ja alocada dat=null,nx=ny=0 e retorna.
 		}	// O que nao foi alocado esta com NULL e pode ser deletado
 		return dat;
-	}
-	else // se nao alocou corretamente dat=0
-	{
+	} else { // se nao alocou corretamente dat=0
 		nx = ny = 0;		// ou verifica data2D ou faz nx=ny=0
 		return 0;			// informa retornando 0
 	}
@@ -587,6 +581,50 @@ void CMatriz2D::SalvaCabecalho (ofstream & fout) const {
 	}
 }
 
+// Salva dados no formato binario
+void CMatriz2D::SalvaDadosBinarios (ofstream & fout) const {
+	int x, bit;
+	unsigned char c = 0;
+	if (fout) {
+		switch(formatoSalvamento){
+			case P4_X_Y_BINARY: // 1 bite por pixel
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						x = 7 - i%8;
+						bit = (data2D[i][j])%2;
+						c = c | (bit << x);
+						if ( (i+1)%8 == 0 || i == (nx-1) ) {
+							//fout.write( &c, 1 );
+							fout << c;
+							c = 0;
+						}
+					}
+				}
+				break;
+			case P5_X_Y_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fout << (unsigned char) data2D[i][j];
+					}
+				}
+				break;
+			case P6_X_Y_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
+				cerr << "Formato de arquivo P6_X_Y_COLOR_BINARY não implementado em CMatriz2D::SalvaDadosBinarios" << endl;
+				/* falta implementar matrizes para as cores RGB
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fout << (unsigned char) data2Dr[i][j];
+						fout << (unsigned char) data2Dg[i][j];
+						fout << (unsigned char) data2Db[i][j];
+					}
+				}
+				*/
+				break;
+			default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDadosBinarios" << endl;
+		}
+	}
+}
+
 // Salva dados "colados" sem espaço (ex.: 00110011110111101010)
 void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
 	switch(formatoSalvamento){
@@ -601,13 +639,11 @@ void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
 			}
 			break;
 		case P4_X_Y_BINARY:
+			SalvaDadosBinarios(fout);
+			break;
 		case P5_X_Y_GRAY_BINARY:
 		case P6_X_Y_COLOR_BINARY:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					fout.write( reinterpret_cast< const char * >(& data2D[i][j]), sizeof( data2D[i][j] ) );
-				}
-			}
+			SalvaDadosBinarios(fout);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDadosColados" << endl;
 	}
@@ -615,7 +651,6 @@ void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
 
 // Salva dados com um espaco (ex.: 0 0 1 1 0 0 1 1 1 1 0 1 1 1 1 0 1 0 1 0)
 void CMatriz2D::SalvaDados (ofstream & fout) const {
-	//int tmp;
 	switch(formatoSalvamento){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
@@ -628,15 +663,11 @@ void CMatriz2D::SalvaDados (ofstream & fout) const {
 			}
 			break;
 		case P4_X_Y_BINARY:
+			SalvaDadosBinarios(fout);
+			break;
 		case P5_X_Y_GRAY_BINARY:
 		case P6_X_Y_COLOR_BINARY:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					//tmp = data2D[i][j];
-					//fout.write( reinterpret_cast< const char * >(& tmp ), sizeof( tmp ) );
-					fout.write( reinterpret_cast< const char * >(& data2D[i][j]), sizeof( data2D[i][j] ) );
-				}
-			}
+			SalvaDadosBinarios(fout);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz2D::SalvaDados" << endl;
 	}
@@ -655,8 +686,8 @@ Funcao:
 */
 bool CMatriz2D::Read (string fileName, int separado) {
 	ifstream fin; // Ponteiro para arquivo de disco.
-	//CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
-	fin.open(fileName.c_str());
+	CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
+	//fin.open(fileName.c_str());
 	int pos;			// posição de leitura do arquivo.
 	char aux;			// auxiliar.
 	char linha[256];
@@ -726,7 +757,7 @@ bool CMatriz2D::Read (string fileName, int separado) {
 				break;
 			case INVALID_IMAGE_TYPE:
 				return false;
-		}
+		}/*
 		switch (formatoSalvamento)	{	// Verifica a necessidade de reabrir o arquivo em formato binário
 			case P4_X_Y_BINARY:
 			case P5_X_Y_GRAY_BINARY:
@@ -739,7 +770,7 @@ bool CMatriz2D::Read (string fileName, int separado) {
 					return false;
 			case INVALID_IMAGE_TYPE:
 				return false;
-		}
+		}*/
 		data2D = AlocaMatriz2D (nx, ny);			// Aloca a matriz de dados
 		if (separado != 0)							// Leitura dos dados da matriz
 			CMatriz2D::LeDados (fin);				// Lê os dados separados
@@ -757,7 +788,7 @@ void CMatriz2D::LeDados (ifstream & fin) {
 	switch(formatoSalvamento){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
-		case P3_X_Y_COLOR_ASCII:
+			cerr << "Entrou em CMatriz2D::LeDados como P1_X_Y_ASCII" << endl;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
 					if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
@@ -771,11 +802,7 @@ void CMatriz2D::LeDados (ifstream & fin) {
 		case P4_X_Y_BINARY:
 		case P5_X_Y_GRAY_BINARY:
 		case P6_X_Y_COLOR_BINARY:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					fin.read( reinterpret_cast< char * >(&data2D[i][j]), sizeof(data2D[i][j]) );
-				}
-			}
+			CMatriz2D::LeDadosBinarios(fin);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz2D::LeDados" << endl;
 	}
@@ -798,6 +825,7 @@ void CMatriz2D::LeDadosColados (ifstream & fin) {
 	char matrizChar[30] = " ";
 	switch(formatoSalvamento) {
 		case P1_X_Y_ASCII:
+			cerr << "Entrou em CMatriz2D::LeDadosColados como P1_X_Y_ASCII" << endl;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {	// leitura arquivos 00111101010101
 					if (!fin.eof ()) {
@@ -817,20 +845,59 @@ void CMatriz2D::LeDadosColados (ifstream & fin) {
 		case P4_X_Y_BINARY:
 		case P5_X_Y_GRAY_BINARY:
 		case P6_X_Y_COLOR_BINARY:
-			LeDados(fin);
+			CMatriz2D::LeDadosBinarios(fin);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz2D::LeDadosColados" << endl;
 	}
 }
 
-/*     if     (ch=='0')
-			 imagem->data2D[i][j]=0;
-			 else if(ch=='1')
-			 imagem->data2D[i][j]=1;
-			 else
-			 i--;// se for um caracter invalido, desconsiderar na contagem
-			 cout.put(ch);
-*/
+// Lê os dados de um arquivo de disco
+// Os dados estao separados por um " "
+void CMatriz2D::LeDadosBinarios (ifstream & fin) {
+	char c;
+	unsigned char c2;
+	int x, bit;
+	switch(formatoSalvamento){
+		case P4_X_Y_BINARY: // 1 bit por pixel
+			cerr << "Entrou em CMatriz2D::LeDadosBinarios como P4_X_Y_BINARY" << endl;
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					if ( i%8 == 0 ){
+						fin.read(&c, 1);
+						c2 = (unsigned char) c;
+					}
+					x = 7 -i%8;
+					bit = (c2 >> x)%2;
+					data2D[i][j] = bit;
+				}
+			}
+			break;
+		case P5_X_Y_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fin.read(&c, 1);
+					data2D[i][j] = (unsigned char) c;
+				}
+			}
+			break;
+		case P6_X_Y_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
+			cerr << "Formato de arquivo P6_X_Y_COLOR_BINARY não implementado em CMatriz2D::LeDadosBinarios" << endl;
+			/* falta implementar matrizes para as cores RGB
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					fin.read(&c, 1);
+					data2Dr[i][j] = (unsigned char) c;
+					fin.read(&c, 1);
+					data2Dg[i][j] = (unsigned char) c;
+					fin.read(&c, 1);
+					data2Db[i][j] = (unsigned char) c;
+				}
+			}
+			*/
+			break;
+		default: cerr << "Formato de arquivo inválido em CMatriz2D::LeDados" << endl;
+	}
+}
 
 /*
 -------------------------------------------------------------------------

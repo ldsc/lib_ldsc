@@ -55,7 +55,7 @@ void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const
     if (fout) {
         fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
         fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
-        fout << setw (0) << "# numeroPixelsBorda: " << numeroPixelsBorda << "\n";
+				fout << setw (0) << "# numeroPixelsBorda: " << numeroPixelsBorda;
     }
 }
 

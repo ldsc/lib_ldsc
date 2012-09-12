@@ -45,44 +45,32 @@ Funcao: Aloca
 @param  :
 @return :
 */
-int *** CMatriz3D::AlocaMatriz3D (int nx, int ny, int nz)
-{
+int *** CMatriz3D::AlocaMatriz3D (int nx, int ny, int nz) {
 	int i, j;			//
 	int ***dat = NULL;		// Cria ponteiro*** nulo
 	dat = new int **[nx];		// Passo 1: aloca eixo x.
-	if (dat)			// se alocou dat corretamente
-	{
+	if (dat) {			// se alocou dat corretamente
 		for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
 			dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
-		for (i = 0; i < nx; i++)
-		{			//
+		for (i = 0; i < nx; i++) {			//
 			dat[i] = new int *[ny];	// Passo 2: aloca linhas y
-			// dat[i]=CMatriz2D::Aloca(ny,nz);
-			// Desaloca toda a matriz ja alocada dat=null,nx=ny=0 e retorna
-			if (dat[i])		// se alocou corretamente
-			{
+			if (dat[i]) {		// se alocou corretamente
 				for (j = 0; j < ny; j++)	// Zera todos os ponteiros dat[i][j]
 					dat[i][j] = NULL;	// porque se a alocacao der errado vai chamar desaloca
-				for (j = 0; j < ny; j++)
-				{
+				for (j = 0; j < ny; j++) {
 					dat[i][j] = new int[nz];	// STEP 3: aloca matriz de dados 3D.
-					if (dat[i][j] == NULL)
-					{
+					if (dat[i][j] == NULL) {
 						CMatriz3D::DesalocaMatriz3D (dat, nx, ny, nz);
-						return dat;
+						return 0;
 					}
 				}
-			}
-			else
-			{
+			} else {
 				CMatriz3D::DesalocaMatriz3D (dat, nx, ny, nz);
-				return dat;
+				return 0;
 			}
-		}			// o que nao foi alocado esta com NULL e pode ser deletado
+		}
 		return dat;
-	}
-	else				// se nao alocou corretamente dat=0
-	{
+	} else {				// se nao alocou corretamente dat=0
 		nx = ny = nz = 0;		// ou o usuario verifica dat ou faz nx=ny=0
 		return 0;			// informa retornando 0
 	}
@@ -513,9 +501,9 @@ void CMatriz3D::SalvaCabecalho (ofstream & fout) const
 				fout << setw (0) << "D6" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
 			default:
-				fout << setw (0) << "D2" << '\n' << nx << ' ' << ny << ' ' << nz;
+				fout << setw (0) << "D1" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
-		}
+		} // Valor de nCores é salva em CBaseMatriz, depois de chamar SalvaCabecalho.
 	}
 }
 
@@ -539,7 +527,8 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 							}
 						}
 					}
-				}				break;
+				}
+				break;
 			case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
 				for (int k = 0; k < nz; k++) {
 					for (int j = 0; j < ny; j++) {
@@ -568,16 +557,7 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 	}
 }
 
-/*
--------------------------------------------------------------------------
-Funcao:
--------------------------------------------------------------------------
-@short  : Salva dados "colados" sem espaço
-@author : Andre Duarte Bueno
-@see    :
-@param  :
-@return :
-*/
+// Salva dados "colados" sem espaço (ex.: 00110011110111101010) ou em formato binário
 void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
 	switch(formatoSalvamento){
 		case D1_X_Y_Z_ASCII:
@@ -586,7 +566,6 @@ void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
-						//fout.width (larguraCampo);
 						fout << data3D[i][j][k];
 					}
 					fout << '\n';
@@ -597,13 +576,7 @@ void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			for (int k = 0; k < nz; k++) {
-				for (int j = 0; j < ny; j++) {
-					for (int i = 0; i < nx; i++) {
-						fout.write( reinterpret_cast< const char * >(&data3D[i][j][k]), sizeof(data3D[i][j][k]) );
-					}
-				}
-			}
+			SalvaDadosBinarios(fout);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;
 	}
@@ -627,7 +600,6 @@ void CMatriz3D::SalvaDados (ofstream & fout) const {
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
-						//fout.width (larguraCampo);
 						fout << data3D[i][j][k] << ' ';
 					}
 					fout << '\n';
@@ -638,13 +610,7 @@ void CMatriz3D::SalvaDados (ofstream & fout) const {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			for (int k = 0; k < nz; k++) {
-				for (int j = 0; j < ny; j++) {
-					for (int i = 0; i < nx; i++) {
-						fout.write( reinterpret_cast< const char * >(&data3D[i][j][k]), sizeof(data3D[i][j][k]) );
-					}
-				}
-			}
+			SalvaDadosBinarios(fout);
 			break;
 		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;
 	}
@@ -662,107 +628,41 @@ Funcao:
 */
 bool CMatriz3D::Read (string fileName, int separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
-	//CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
-	fin.open (fileName.c_str ());		// Abre o arquivo de disco no formato ascii
-	int pos;										// posição de leitura do arquivo.
-	char aux;										// auxiliar.
-	char linha[256];
+	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
+	//fin.open (fileName.c_str ());		// Abre o arquivo de disco no formato ascii
 	if (fin.good ()) { 								// Se o arquivo foi corretamente aberto
 		formatoSalvamento = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		//pega os valore de nx, ny e nz ignorando os comentários
-		do {
-			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-			if(aux == '#'){
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura
-				fin.getline(linha, 256);	  	//vai para a próxima linha
-			}else{
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-			}
-		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+		CBaseMatriz::LeComentarios(fin);
 		fin >> nx;
-		do {
-			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-			if(aux == '#'){
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura
-				fin.getline(linha, 256);	  	//vai para a próxima linha
-			}else{
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-			}
-		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+		CBaseMatriz::LeComentarios(fin);
 		fin >> ny;
-		do {
-			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-			if(aux == '#'){
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura
-				fin.getline(linha, 256);	  	//vai para a próxima linha
-			}else{
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-			}
-		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+		CBaseMatriz::LeComentarios(fin);
 		fin >> nz;
-		do {
-			pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-			fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-			if(aux == '#'){
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura
-				fin.getline(linha, 256);	  	//vai para a próxima linha
-			}else{
-				fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-			}
-		} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
-
+		CBaseMatriz::LeComentarios(fin);
 		switch (formatoSalvamento)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case D2_X_Y_Z_GRAY_ASCII:
 			case D3_X_Y_Z_COLOR_ASCII:
 			case D5_X_Y_Z_GRAY_BINARY:
 			case D6_X_Y_Z_COLOR_BINARY:
-				do {
-					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-					if(aux == '#'){
-						fin.seekg(pos, ios::beg);	//reposiciona a leitura
-						fin.getline(linha, 256);	  	//vai para a próxima linha
-					}else{
-						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-					}
-				} while(aux == '#'); 				//enquanto encontrar comentário, fica no loop.
+				CBaseMatriz::LeComentarios(fin);
 				fin >> numCores;					//pega o número de cores do arquivo.
-				do {
-					pos = fin.tellg();				//guarda a posição de leitura no arquivo.
-					fin >> skipws >> aux;			//pega o primeiro caracter ignorando possíveis espaços
-					if(aux == '#'){
-						fin.seekg(pos, ios::beg);	//reposiciona a leitura
-						fin.getline(linha, 256);	  	//vai para a próxima linha
-					}else{
-						fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-					}
-				} while(aux == '#'); 				// enquanto encontrar comentário, fica no loop.
+				CBaseMatriz::LeComentarios(fin);
 				break;
 			case INVALID_IMAGE_TYPE:
+				cerr << "Formato de arquivo inválido em  CMatriz3D::Read" << endl;
 				return false;
 		}
-		switch (formatoSalvamento)	{	// Verifica a necessidade de reabrir o arquivo em formato binário
-			case D4_X_Y_Z_BINARY:
-			case D5_X_Y_Z_GRAY_BINARY:
-			case D6_X_Y_Z_COLOR_BINARY:
-				fin.close();
-				fin.open (fileName.c_str (), ios::binary);		// Abre o arquivo de disco no formato ascii
-				if ( fin.good ())
-					fin.seekg(pos, ios::beg); //reposiciona o ponteiro de leitura
-				else
-					return false;
-			case INVALID_IMAGE_TYPE:
-				return false;
+		if ( data3D = AlocaMatriz3D (nx, ny, nz) ) {	// Aloca a matriz de dados
+			if (separado != 0)							// Leitura dos dados da matriz
+				CMatriz3D::LeDados (fin);				// Lê os dados separados
+			else
+				CMatriz3D::LeDadosColados (fin);			// Lê os dados colados
+			fin.close();
+			return true;
 		}
-		data3D = AlocaMatriz3D (nx, ny, nz);			// Aloca a matriz de dados
-		if (separado != 0)							// Leitura dos dados da matriz
-			CMatriz3D::LeDados (fin);				// Lê os dados separados
-		else
-			CMatriz3D::LeDadosColados (fin);			// Lê os dados colados
-		return true;
+		fin.close();
+		return false;
 	}
 	else
 		return false;
@@ -778,14 +678,6 @@ CMatriz2D* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
 
 	if ( ! pm2D )
 		return NULL;
-	/*
- if (planoZ > nz - 1)			// O plano a ser lido nao pode ser maior que nz-1
-	planoZ = nz - 1;
-
- for (int i = 0; i < nx; i++)
-	for (int j = 0; j < ny; j++)
-	pm2D->data2D[i][j] = data3D[i][j][planoZ];
- */
 	if ( LePlano( pm2D, planoZ, direcao) )
 		return pm2D;
 	else
@@ -898,7 +790,6 @@ void CMatriz3D::LeDados (ifstream & fin) {
 	switch(formatoSalvamento){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
-		case D3_X_Y_Z_COLOR_ASCII:
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
@@ -920,6 +811,8 @@ void CMatriz3D::LeDados (ifstream & fin) {
 	}
 }
 
+// Lê os dados de um arquivo de disco, Os dados estao "colados"
+// Ex: 00011101000101
 void CMatriz3D::LeDadosColados (ifstream & fin) {
 	char ch = 0;
 	char matrizChar[30] = " ";

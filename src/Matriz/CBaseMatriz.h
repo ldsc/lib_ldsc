@@ -158,6 +158,12 @@ class CBaseMatriz
 	*/
 		virtual void SalvaDados (std::ofstream & fout) const = 0;
 
+		/**
+		* @brief	Lê os comentários do arquivo para avançar o ponteiro de leitura
+		*/
+		void LeComentarios( std::ifstream & fin);
+
+
 		// Operacoes com arquivos
 		/**
 	 * @brief A funcao Write salva a matriz no disco.

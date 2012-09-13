@@ -52,9 +52,9 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
 		fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII
 	}
 	if (fout.good ()) { //  Testa abertura do arquivo
-		fout.width (larguraCampo); // Define a largura do campo
-		fout.setf (ios::left);
-		fout.fill (' '); // possivel erro na saida de P 2???
+		//fout.width (larguraCampo); // Define a largura do campo
+		//fout.setf (ios::left);
+		//fout.fill (' '); // possivel erro na saida de P 2???
 
 		SalvaCabecalho (fout);	// (virtual) Salva dados do cabecalho:
 		SalvaCores(fout);
@@ -83,12 +83,12 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	char aux;
 	char linha[256];
 	do {
-		pos = fin.tellg();					//guarda a posição de leitura no arquivo.
-		fin >> skipws >> aux;				//pega o primeiro caracter ignorando possíveis espaços
+		fin >> skipws >> aux;				//pega o próximo caracter ignorando possíveis espaços
 		if(aux == '#'){
-			fin.seekg(pos, ios::beg);	//reposiciona a leitura
 			fin.getline(linha, 256);	//vai para a próxima linha
 		}else{
+			pos = fin.tellg();					//armazena a posição de leitura após o caracter
+			pos--;
 			fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
 		}
 	} while(aux == '#');					// enquanto encontrar comentário, fica no loop.

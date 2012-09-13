@@ -521,7 +521,6 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 							bit = (data3D[i][j][k])%2;
 							c = c | (bit << x);
 							if ( (i+1)%8 == 0 || i == (nx-1) ) {
-								//fout.write( &c, 1 );
 								fout << c;
 								c = 0;
 							}
@@ -853,7 +852,6 @@ void CMatriz3D::LeDadosBinarios (ifstream & fin) {
 	int x, bit;
 	switch(formatoSalvamento){
 		case D4_X_Y_Z_BINARY: // 1 bite por pixel
-			cerr << "Entrou em CMatriz3D::LeDadosBinarios como D4_X_Y_Z_BINARY" << endl;
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {

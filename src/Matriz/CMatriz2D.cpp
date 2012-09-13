@@ -180,7 +180,7 @@ CMatriz2D::CMatriz2D ()
 	ny = 0;
 	data2D = NULL;
 	formatoSalvamento = P2_X_Y_GRAY_ASCII;
-	numCores = 65535;
+	numCores = 255;
 }
 
 /**
@@ -294,7 +294,7 @@ CMatriz2D::CMatriz2D (int NX, int NY)
 	nx = NX;			// define valores
 	ny = NY;
 	formatoSalvamento = P2_X_Y_GRAY_ASCII;
-	numCores = 65535;
+	numCores = 255;
 	data2D = AlocaMatriz2D (nx, ny);	// aloca data2D
 }
 
@@ -581,21 +581,17 @@ void CMatriz2D::SalvaCabecalho (ofstream & fout) const {
 
 // Salva dados no formato binario
 void CMatriz2D::SalvaDadosBinarios (ofstream & fout) const {
-	int x, bit;
-	unsigned char c = 0;
 	if (fout) {
+		int x, bit;
+		unsigned char c = 0;
 		switch(formatoSalvamento){
 			case P4_X_Y_BINARY: // 1 bite por pixel
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
 						x = 7 - i%8;
-							cerr << "x=" << x << endl;
 						bit = (data2D[i][j])%2;
-							cerr << "bit=" << bit << endl;
 						c = c | (bit << x);
-							cerr << "c=" << c << endl;
 						if ( (i+1)%8 == 0 || i == (nx-1) ) {
-							//fout.write( &c, 1 );
 							fout << c;
 							c = 0;
 						}
@@ -698,7 +694,6 @@ bool CMatriz2D::Read (string fileName, int separado) {
 			case P3_X_Y_COLOR_ASCII:
 			case P5_X_Y_GRAY_BINARY:
 			case P6_X_Y_COLOR_BINARY:
-				CBaseMatriz::LeComentarios(fin);
 				fin >> numCores;					//pega o número de cores do arquivo.
 				CBaseMatriz::LeComentarios(fin);
 				break;
@@ -727,7 +722,6 @@ void CMatriz2D::LeDados (ifstream & fin) {
 	switch(formatoSalvamento){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
-			cerr << "Entrou em CMatriz2D::LeDados como P1_X_Y_ASCII" << endl;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
 					if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
@@ -754,7 +748,6 @@ void CMatriz2D::LeDadosColados (ifstream & fin) {
 	char matrizChar[30] = " ";
 	switch(formatoSalvamento) {
 		case P1_X_Y_ASCII:
-			cerr << "Entrou em CMatriz2D::LeDadosColados como P1_X_Y_ASCII" << endl;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {	// leitura arquivos 00111101010101
 					if (!fin.eof ()) {
@@ -788,7 +781,6 @@ void CMatriz2D::LeDadosBinarios (ifstream & fin) {
 	int x, bit;
 	switch(formatoSalvamento){
 		case P4_X_Y_BINARY: // 1 bit por pixel
-			cerr << "Entrou em CMatriz2D::LeDadosBinarios como P4_X_Y_BINARY" << endl;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
 					if ( i%8 == 0 ){

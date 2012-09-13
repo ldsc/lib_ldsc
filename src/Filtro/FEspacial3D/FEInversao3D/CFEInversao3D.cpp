@@ -1,13 +1,16 @@
 #include <Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.h>
 
 CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
-	if ( ! imagem ) return NULL;
-	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII ) return NULL;
+	if ( ! imagem )
+		return NULL;
+	// só aceita imagens P&B
+	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII && imagem->GetFormat() != D4_X_Y_Z_BINARY)
+		return NULL;
 	
 	CImagem3D * pi3Dinv = NULL;
 	pi3Dinv = new CImagem3D( *imagem);
-	if ( ! pi3Dinv ) return NULL;
+	if ( ! pi3Dinv )
+		return NULL;
 	
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < pi3Dinv->NX(); i++ )
@@ -18,13 +21,16 @@ CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
 }
 
 CMatriz3D * CFEInversao3D::Go ( CMatriz3D * imagem ) {
-	if ( ! imagem ) return NULL;
-	// só aceita imagens ASCII P&B
-	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII ) return NULL;
+	if ( ! imagem )
+		return NULL;
+	// só aceita imagens P&B
+	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII && imagem->GetFormat() != D4_X_Y_Z_BINARY)
+		return NULL;
 	
 	CMatriz3D * pi3Dinv = NULL;
 	pi3Dinv = new CMatriz3D( *imagem);
-	if ( ! pi3Dinv ) return NULL;
+	if ( ! pi3Dinv )
+		return NULL;
 	
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < pi3Dinv->NX(); i++ )

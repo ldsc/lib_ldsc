@@ -71,10 +71,13 @@ class CMatriz2D : public CBaseMatriz
 		/// Construtor default, data2D=NULL nx=ny=0;
 		CMatriz2D ();
 
-		/// Construtor le CMatriz2D do disco sempre testar se data2D!=NULL
+		/// Construtor le CMatriz2D do disco.
 		CMatriz2D (std::string fileName);
 
-		/// Lê plano de uma matriz 3D o primeiro plano é o z=0
+		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY) da imagem.
+		CMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
+
+		/// Construtor le plano de uma matriz 3D o primeiro plano é o z=0
 		CMatriz2D (std::string fileName, int planoZ);
 
 		/// Construtor cria copia CMatriz2D
@@ -197,8 +200,11 @@ class CMatriz2D : public CBaseMatriz
 			return (NX >= 0 && NX < nx && NY >= 0 && NY < ny) ? 1 : 0;
 		}
 
-		/// Como é chamada pelo construtor nao pode ser virtual
-		bool Read (std::string fileName, int separado = 1);
+		/// Lê arquivo do tipo PNM (PBM, PGM, PPM). Caso seja arquivo PBM sem espaço entre os valores, o segundo parâmetro deverá ser 0 (zero).
+		bool Read (std::string fileName, int separado = 1); // Como é chamada pelo construtor nao pode ser virtual
+
+		/// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY).
+		bool ReadRAW (std::string fileName, int _nx, int _ny, EImageType tipo = P4_X_Y_BINARY); // Como é chamada pelo construtor nao pode ser virtual
 
 		// Novidade trazida para cá de COperacao
 		/// Lê imagem 2D do disco, usa vetor de dados

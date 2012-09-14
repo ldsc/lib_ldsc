@@ -38,15 +38,15 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
 	ofstream fout; //  Abre arquivo disco
 	string fullFileName = path + fileName;
 	//fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII para salvar cabeçalho e cores
-	if ( formatoSalvamento == V4_X_BINARY ||
-			 formatoSalvamento == V5_X_GRAY_BINARY ||
-			 formatoSalvamento == V6_X_COLOR_BINARY ||
-			 formatoSalvamento == P4_X_Y_BINARY ||
-			 formatoSalvamento == P5_X_Y_GRAY_BINARY ||
-			 formatoSalvamento == P6_X_Y_COLOR_BINARY ||
-			 formatoSalvamento == D4_X_Y_Z_BINARY ||
-			 formatoSalvamento == D5_X_Y_Z_GRAY_BINARY ||
-			 formatoSalvamento == D6_X_Y_Z_COLOR_BINARY ) {
+	if ( formatoImagem == V4_X_BINARY ||
+			 formatoImagem == V5_X_GRAY_BINARY ||
+			 formatoImagem == V6_X_COLOR_BINARY ||
+			 formatoImagem == P4_X_Y_BINARY ||
+			 formatoImagem == P5_X_Y_GRAY_BINARY ||
+			 formatoImagem == P6_X_Y_COLOR_BINARY ||
+			 formatoImagem == D4_X_Y_Z_BINARY ||
+			 formatoImagem == D5_X_Y_Z_GRAY_BINARY ||
+			 formatoImagem == D6_X_Y_Z_COLOR_BINARY ) {
 		fout.open (fullFileName.c_str (), ios::binary ); // Abre arquivo de disco no formato Binario
 	} else {
 		fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII
@@ -72,7 +72,7 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
 
 bool CBaseMatriz::SalvaCores (ofstream & fout) const {
 	if (fout) { // testa abertura do arquivo
-		if ( formatoSalvamento > 1 && formatoSalvamento != 4 && formatoSalvamento != 7 && formatoSalvamento != 10 && formatoSalvamento != 13 && formatoSalvamento != 16 && formatoSalvamento < 19 )
+		if ( formatoImagem > 1 && formatoImagem != 4 && formatoImagem != 7 && formatoImagem != 10 && formatoImagem != 13 && formatoImagem != 16 && formatoImagem < 19 )
 			fout << "\n" << numCores;
 	}
 }
@@ -101,7 +101,7 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	As classes derivadas chamam esta funcao passando os parametros fin,nx,ny,nz.
 	1- Lê o formato
 	2- Lê nx,[ny],[nz]
-	3- ^Define o formatoSalvamento e [lê numeroCores]
+	3- ^Define o formatoImagem e [lê numeroCores]
 */
 /*
 	void CBaseMatriz::LeEfetivamenteCabecalho(ifstream& fin, unsigned int& nx,
@@ -124,12 +124,12 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	{fin>>nx;	fin>>ny; fin>>nz;}
 	else if (formato[0]>= 48 || formato[0] <=57 )		//  Se for um número, então só são dados
 	{                                               //  deve receber nx,ny,nz como parametros.
-	formatoSalvamento=WRITEFORM_ASCII_DATA;       //  Preciso recolocar ponteiro de leitura no inicio do arquivo
+	formatoImagem=WRITEFORM_ASCII_DATA;       //  Preciso recolocar ponteiro de leitura no inicio do arquivo
 	fin.seekg(0,ios::beg);               						//  reposiciona inicio arquivo
 	}
 	else
 	{
-	formatoSalvamento=WRITEFORM_ERROR;
+	formatoImagem=WRITEFORM_ERROR;
 	nx=ny=nz=0;                                   //  zera para evitar acesso a dados errados
 	return;
 	}
@@ -138,25 +138,25 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	switch (formato[1])
 	{
 	//  Leitura ASCII
-	case '1':       formatoSalvamento=WRITEFORM_ASCII_PI_N_DATA;
+	case '1':       formatoImagem=WRITEFORM_ASCII_PI_N_DATA;
 	break;
-	case '2':       formatoSalvamento=WRITEFORM_ASCII_PI_N_256_DATA;
+	case '2':       formatoImagem=WRITEFORM_ASCII_PI_N_256_DATA;
 	fin>>numeroCores;
 	break;
-	case '3':       formatoSalvamento=WRITEFORM_ASCII_PI_N_MAXCOLOR_DATA;
+	case '3':       formatoImagem=WRITEFORM_ASCII_PI_N_MAXCOLOR_DATA;
 	fin>>numeroCores; 									//  exceto uchar
 	break;
 	//  Leitura Binaria
-	case '4':       formatoSalvamento=WRITEFORM_BINARY_PI_N_DATA;
+	case '4':       formatoImagem=WRITEFORM_BINARY_PI_N_DATA;
 	break;
-	case '5':       formatoSalvamento=WRITEFORM_BINARY_PI_N_256_DATA;
+	case '5':       formatoImagem=WRITEFORM_BINARY_PI_N_256_DATA;
 	fin>>numeroCores;
 	break;
-	case '6':       formatoSalvamento=WRITEFORM_BINARY_PI_N_MAXCOLOR_DATA;
+	case '6':       formatoImagem=WRITEFORM_BINARY_PI_N_MAXCOLOR_DATA;
 	fin>>numeroCores;                //  exceto uchar
 	break;
 	default:        //  ='2'
-	formatoSalvamento=WRITEFORM_ASCII_PI_N_256_DATA;
+	formatoImagem=WRITEFORM_ASCII_PI_N_256_DATA;
 	fin>>numeroCores;
 	break;
 	}
@@ -198,8 +198,8 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	//  if(	aux[0]!='V' && aux[0]!='v' &&   //  Se nao é um vetor
 	//   		aux[0]!='P' && aux[0]!='p' &&   //  Se nao é uma matriz 2D
 	//         aux[0]!='D' && aux[0]!='d' )//  && //  Se nao é uma matriz 3D
-	//  formatoSalvamento != WRITEFORM_ASCII_DATA && //  e se nao sao somente dados
-	//  formatoSalvamento!=WRITEFORM_BINARY_DATA)
+	//  formatoImagem != WRITEFORM_ASCII_DATA && //  e se nao sao somente dados
+	//  formatoImagem!=WRITEFORM_BINARY_DATA)
 	//   return 0;                      //  entao sai
 
 	//  Aqui verifica a correcao, um vetor lendo um vetor, uma matriz2D lendo uma matriz2D,..
@@ -302,68 +302,68 @@ EImageType CBaseMatriz::VerificaFormato(ifstream & fin) {
 		//  0123456789
 		/*if (aux[0]>= 48 && aux[0] <=57 )                            //  Se for um número, então só são dados
  {                                      //  deve receber nx,ny,nz como parametros.
- formatoSalvamento=WRITEFORM_ASCII_DATA;//  Preciso recolocar ponteiro de leitura no inicio do arquivo
+ formatoImagem=WRITEFORM_ASCII_DATA;//  Preciso recolocar ponteiro de leitura no inicio do arquivo
  fin.seekg(0,ios::beg);                     //  reposiciona inicio arquivo
- return formatoSalvamento;
+ return formatoImagem;
  }
  else */ //retorna o formato de salvamento
 		switch (aux[0]) {
 			case 'V':
 				switch (aux[1]) {
 					case '1':
-						return formatoSalvamento = V1_X_ASCII;
+						return formatoImagem = V1_X_ASCII;
 					case '2':
-						return formatoSalvamento = V2_X_GRAY_ASCII;
+						return formatoImagem = V2_X_GRAY_ASCII;
 					case '3':
-						return formatoSalvamento = V3_X_COLOR_ASCII;
+						return formatoImagem = V3_X_COLOR_ASCII;
 					case '4':
-						return formatoSalvamento = V4_X_BINARY;
+						return formatoImagem = V4_X_BINARY;
 					case '5':
-						return formatoSalvamento = V5_X_GRAY_BINARY;
+						return formatoImagem = V5_X_GRAY_BINARY;
 					case '6':
-						return formatoSalvamento = V6_X_COLOR_BINARY;
+						return formatoImagem = V6_X_COLOR_BINARY;
 					default:
-						return formatoSalvamento = INVALID_IMAGE_TYPE;
+						return formatoImagem = INVALID_IMAGE_TYPE;
 				}
 			case 'P':
 				switch (aux[1]) {
 					case '1':
-						return formatoSalvamento = P1_X_Y_ASCII;
+						return formatoImagem = P1_X_Y_ASCII;
 					case '2':
-						return formatoSalvamento = P2_X_Y_GRAY_ASCII;
+						return formatoImagem = P2_X_Y_GRAY_ASCII;
 					case '3':
-						return formatoSalvamento = P3_X_Y_COLOR_ASCII;
+						return formatoImagem = P3_X_Y_COLOR_ASCII;
 					case '4':
-						return formatoSalvamento = P4_X_Y_BINARY;
+						return formatoImagem = P4_X_Y_BINARY;
 					case '5':
-						return formatoSalvamento = P5_X_Y_GRAY_BINARY;
+						return formatoImagem = P5_X_Y_GRAY_BINARY;
 					case '6':
-						return formatoSalvamento = P6_X_Y_COLOR_BINARY;
+						return formatoImagem = P6_X_Y_COLOR_BINARY;
 					default:
-						return formatoSalvamento = INVALID_IMAGE_TYPE;
+						return formatoImagem = INVALID_IMAGE_TYPE;
 				}
 			case 'D':
 				switch (aux[1]) {
 					case '1':
-						return formatoSalvamento = D1_X_Y_Z_ASCII;
+						return formatoImagem = D1_X_Y_Z_ASCII;
 					case '2':
-						return formatoSalvamento = D2_X_Y_Z_GRAY_ASCII;
+						return formatoImagem = D2_X_Y_Z_GRAY_ASCII;
 					case '3':
-						return formatoSalvamento = D3_X_Y_Z_COLOR_ASCII;
+						return formatoImagem = D3_X_Y_Z_COLOR_ASCII;
 					case '4':
-						return formatoSalvamento = D4_X_Y_Z_BINARY;
+						return formatoImagem = D4_X_Y_Z_BINARY;
 					case '5':
-						return formatoSalvamento = D5_X_Y_Z_GRAY_BINARY;
+						return formatoImagem = D5_X_Y_Z_GRAY_BINARY;
 					case '6':
-						return formatoSalvamento = D6_X_Y_Z_COLOR_BINARY;
+						return formatoImagem = D6_X_Y_Z_COLOR_BINARY;
 					default:
-						return formatoSalvamento = INVALID_IMAGE_TYPE;
+						return formatoImagem = INVALID_IMAGE_TYPE;
 				}
 			default:
-				return formatoSalvamento = INVALID_IMAGE_TYPE;
+				return formatoImagem = INVALID_IMAGE_TYPE;
 		}
 	} else
-		return formatoSalvamento = INVALID_IMAGE_TYPE;
+		return formatoImagem = INVALID_IMAGE_TYPE;
 }
 
 /*
@@ -382,5 +382,5 @@ void CBaseMatriz::Propriedades (ofstream & os) const {
 		 << "\nMaior valor=" << MaiorValor ()
 		 << "\nMenor valor=" << MenorValor ()
 		 << "\nMedia=" << Media ()
-		 << "\nFormato de salvamento=" << formatoSalvamento << endl;
+		 << "\nFormato de salvamento=" << formatoImagem << endl;
 }

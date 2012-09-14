@@ -79,10 +79,8 @@ int **CMatriz2D::AlocaMatriz2D (int nx, int ny) {
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
-@short  :desaloca a matriz
-Exemplo uso externo:
-int** ptr=CMatriz2D::Aloca(nx,ny);.....;CMatriz2D::Desaloca(ptr,nx);
-@author :Andre Duarte Bueno
+@short  : desaloca a matriz. Exemplo uso externo: int** ptr=CMatriz2D::Aloca(nx,ny);.....;CMatriz2D::Desaloca(ptr,nx);
+@author : Andre Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -169,7 +167,7 @@ bool CMatriz2D::Write2D (std::string inputFile, float * _reData, int _nx, int _n
 Funcao: Construtor
 -------------------------------------------------------------------------
 @short  : constroe objeto vazio
-@author :Andre Duarte Bueno
+@author : Andre Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -179,7 +177,7 @@ CMatriz2D::CMatriz2D ()
 	nx = 0;
 	ny = 0;
 	data2D = NULL;
-	formatoSalvamento = P2_X_Y_GRAY_ASCII;
+	formatoImagem = P2_X_Y_GRAY_ASCII;
 	numCores = 255;
 }
 
@@ -194,8 +192,7 @@ Funcao: construtor
 @param  :
 @return :
 */
-CMatriz2D::CMatriz2D (string fileName)
-{
+CMatriz2D::CMatriz2D (string fileName) {
 	nx = ny = 0;
 	data2D = NULL;
 	CMatriz2D::Read(fileName);
@@ -208,8 +205,28 @@ CMatriz2D::CMatriz2D (string fileName)
 -------------------------------------------------------------------------
 Funcao: construtor
 -------------------------------------------------------------------------
-@short  : recebe o nome do arquivo de disco e o número do plano a ser lido
-@author :Andre Duarte Bueno
+@short  : Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo da imagem.
+@author : Leandro Puerari (puerari@gmail.com)
+@see    :
+@param  :
+@return :
+*/
+CMatriz2D::CMatriz2D(string fileRAW, int _nx, int _ny, EImageType tipo) {
+	nx = 0;					// será setado em ReadRAW()
+	ny = 0;					// será setado em ReadRAW()
+	data2D = NULL;	// será setado em ReadRAW()
+	CMatriz2D::ReadRAW(fileRAW, _nx, _ny, tipo);
+	size_t pos = fileRAW.rfind("/");
+	if (pos!=string::npos)
+		path = fileRAW.substr(0, pos+1);
+}
+
+/**
+-------------------------------------------------------------------------
+Funcao: construtor
+-------------------------------------------------------------------------
+@short  : Recebe o nome do arquivo de disco e o número do plano a ser lido
+@author : Andre Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -293,7 +310,7 @@ CMatriz2D::CMatriz2D (int NX, int NY)
 {
 	nx = NX;			// define valores
 	ny = NY;
-	formatoSalvamento = P2_X_Y_GRAY_ASCII;
+	formatoImagem = P2_X_Y_GRAY_ASCII;
 	numCores = 255;
 	data2D = AlocaMatriz2D (nx, ny);	// aloca data2D
 }
@@ -553,7 +570,7 @@ Funcao:
 */
 void CMatriz2D::SalvaCabecalho (ofstream & fout) const {
 	if (fout) {	// testa abertura do arquivo
-		switch (formatoSalvamento) {
+		switch (formatoImagem) {
 			case P1_X_Y_ASCII:
 				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
 				break;
@@ -584,7 +601,7 @@ void CMatriz2D::SalvaDadosBinarios (ofstream & fout) const {
 	if (fout) {
 		int x, bit;
 		unsigned char c = 0;
-		switch(formatoSalvamento){
+		switch(formatoImagem){
 			case P4_X_Y_BINARY: // 1 bite por pixel
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
@@ -624,7 +641,7 @@ void CMatriz2D::SalvaDadosBinarios (ofstream & fout) const {
 
 // Salva dados "colados" sem espaço (ex.: 00110011110111101010) ou em formato binário
 void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
 		case P3_X_Y_COLOR_ASCII:
@@ -646,7 +663,7 @@ void CMatriz2D::SalvaDadosColados (ofstream & fout) const {
 
 // Salva dados com um espaco (ex.: 0 0 1 1 0 0 1 1 1 1 0 1 1 1 1 0 1 0 1 0) ou em formato binário
 void CMatriz2D::SalvaDados (ofstream & fout) const {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
 		case P3_X_Y_COLOR_ASCII:
@@ -682,14 +699,14 @@ bool CMatriz2D::Read (string fileName, int separado) {
 	CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
 	//fin.open(fileName.c_str());
 	if (fin.good ()) { // Se o arquivo foi corretamente aberto
-		formatoSalvamento = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
+		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		//pega os valore de nx e ny ignorando os comentários
 		CBaseMatriz::LeComentarios(fin);
 		fin >> nx;
 		CBaseMatriz::LeComentarios(fin);
 		fin >> ny;
 		CBaseMatriz::LeComentarios(fin);
-		switch (formatoSalvamento)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
+		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case P2_X_Y_GRAY_ASCII:
 			case P3_X_Y_COLOR_ASCII:
 			case P5_X_Y_GRAY_BINARY:
@@ -711,15 +728,38 @@ bool CMatriz2D::Read (string fileName, int separado) {
 		}
 		fin.close();
 		return false;
-	}
-	else
+	} else {
 		return false;
+	}
+}
+
+// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY).
+bool CMatriz2D::ReadRAW(string fileName, int _nx, int _ny, EImageType tipo) {
+	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
+	if (fin.good ()) { // Se o arquivo foi corretamente aberto
+		nx = _nx;
+		ny = _ny;
+		if ( data2D = AlocaMatriz2D (nx, ny) ) {	// Aloca a matriz de dados
+			formatoImagem = P5_X_Y_GRAY_BINARY;			// força leitura como tons de cinza
+			CMatriz2D::LeDadosBinarios (fin);				// Lê os dados separados
+			formatoImagem = tipo;										// seta o real formato da imagem
+			fin.close();
+			return true;
+		} else {
+			nx = ny = 0;
+			formatoImagem = INVALID_IMAGE_TYPE;
+			fin.close();
+			return false;
+		}
+	} else {
+		return false;
+	}
 }
 
 // Lê os dados de um arquivo de disco
 // Os dados estao separados por um " "
 void CMatriz2D::LeDados (ifstream & fin) {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
 			for (int j = 0; j < ny; j++) {
@@ -746,7 +786,7 @@ void CMatriz2D::LeDados (ifstream & fin) {
 void CMatriz2D::LeDadosColados (ifstream & fin) {
 	char ch = 0;
 	char matrizChar[30] = " ";
-	switch(formatoSalvamento) {
+	switch(formatoImagem) {
 		case P1_X_Y_ASCII:
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {	// leitura arquivos 00111101010101
@@ -779,7 +819,7 @@ void CMatriz2D::LeDadosBinarios (ifstream & fin) {
 	char c;
 	unsigned char c2;
 	int x, bit;
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case P4_X_Y_BINARY: // 1 bit por pixel
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
@@ -845,8 +885,8 @@ bool CMatriz2D::LePlanoZ (string fileName, int planoZ, bool separado) {
 	CBaseMatriz::AbreArquivo (fin, fileName);	// Abre o arquivo de disco no formato correto
 	if (fin.good ()) {						// Se o arquivo foi corretamente aberto
 		// Obtem o formato de salvamento
-		formatoSalvamento = CBaseMatriz::VerificaFormato(fin);
-		switch (formatoSalvamento)	{				// Em funcao do formato de salvamento lê os dados do cabecalho
+		formatoImagem = CBaseMatriz::VerificaFormato(fin);
+		switch (formatoImagem)	{				// Em funcao do formato de salvamento lê os dados do cabecalho
 			case D1_X_Y_Z_ASCII:
 			case D4_X_Y_Z_BINARY:
 				CBaseMatriz::LeComentarios(fin);

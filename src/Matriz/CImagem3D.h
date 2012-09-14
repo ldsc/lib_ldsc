@@ -61,7 +61,7 @@ class CImagem3D : public CMatriz3D//, public CImg //comentei para poder fazer dy
 
 // --------------------------------------------------------------Atributos
 public:
-    int x0, y0, z0; 				/// Coordenada z0 da imagem 3D
+		int x0, y0, z0;									/// Coordenadas x0, y0 e z0 da imagem 3D
     unsigned int fatorAmplificacao; /// Fator de amplificação utilizado na recontrução da imagem
     double sizePixel;               /// Resolução utilizada na obtenção da imagem pelo microscópio
     unsigned int numeroPixelsBorda; /// Número de pixels que representam a borda da imagem (normalmente = 0).
@@ -79,7 +79,13 @@ public:
         LeInformacoesRecontrucao(fileName);
     }
 
-    /*  CImagem3D(CImagem3D* img)
+		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
+		CImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
+			:CMatriz3D(fileRAW, _nx, _ny, _nz, tipo), z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
+		{
+		}
+
+		/*  CImagem3D(CImagem3D* img)
     	:CMatriz3D(dynamic_cast< CMatriz3D* > (img)),z0(0)	{}; */
 
     /// Construtor de cópia

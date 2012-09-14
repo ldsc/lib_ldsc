@@ -116,16 +116,14 @@ Documentacao  Construtor (vazio) CMatriz3D
 ==================================================================================
 Descrição: Faz data3D apontar para NULL, e valores nx = ny = nz = 0;
 */
-CMatriz3D::CMatriz3D ()
-{
+CMatriz3D::CMatriz3D () {
 	nx = ny = nz = 0;
 	data3D = NULL;
-	formatoSalvamento = D1_X_Y_Z_ASCII;
+	formatoImagem = D1_X_Y_Z_ASCII;
 	numCores = 65535;
 }
 
-CMatriz3D::CMatriz3D (string fileName)
-{
+CMatriz3D::CMatriz3D (string fileName) {
 	nx = ny = nz = 0;
 	data3D = NULL;
 	CMatriz3D::Read (fileName);
@@ -134,19 +132,23 @@ CMatriz3D::CMatriz3D (string fileName)
 		path = fileName.substr(0, pos+1);
 }
 
-/*
--------------------------------------------------------------------------
-Funcao:
--------------------------------------------------------------------------
-@short  : Cria copia deve copiar nx,ny,nz, depois alocar a matriz e entao copiar membro a membro
-@author : Andre Duarte Bueno
-@see    :
-@param  :
-@return :
-*/
+// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
+CMatriz3D::CMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType tipo) {
+	nx = 0;					// será setado em ReadRAW()
+	ny = 0;					// será setado em ReadRAW()
+	nz = 0;					// será setado em ReadRAW()
+	data3D = NULL;	// será setado em ReadRAW()
+	CMatriz3D::ReadRAW(fileRAW, _nx, _ny, _nz, tipo);
+	size_t pos = fileRAW.rfind("/");
+	if (pos!=string::npos)
+		path = fileRAW.substr(0, pos+1);
+
+}
+
+// Cria copia deve copiar nx,ny,nz, depois alocar a matriz e entao copiar membro a membro
 CMatriz3D::CMatriz3D (CMatriz3D & matriz)
 {
-	formatoSalvamento = matriz.formatoSalvamento;
+	formatoImagem = matriz.formatoImagem;
 	nx = matriz.nx;
 	ny = matriz.ny;
 	nz = matriz.nz;
@@ -161,10 +163,11 @@ CMatriz3D::CMatriz3D (CMatriz3D & matriz)
 				for (int k = 0; k < nz; k++)
 					data3D[i][j][k] = matriz.data3D[i][j][k];
 }
+
 /*
 CMatriz3D::CMatriz3D(CMatriz3D* matriz)		// : CMatriz2D()
 {
- formatoSalvamento = matriz->formatoSalvamento;
+ formatoImagem = matriz->formatoImagem;
  nx = matriz->nx; 			   // Define dimensoes
  ny = matriz->ny;
  nz = matriz->nz;
@@ -195,7 +198,7 @@ CMatriz3D::CMatriz3D (int NX, int NY, int NZ)
 	nx = NX;			// define valores
 	ny = NY;			// em aloca garante que sejam positivos
 	nz = NZ;
-	formatoSalvamento = D1_X_Y_Z_ASCII;
+	formatoImagem = D1_X_Y_Z_ASCII;
 	numCores = 65535;
 	data3D = CMatriz3D::AlocaMatriz3D (nx, ny, nz);	// aloca data3D
 }
@@ -481,7 +484,7 @@ Funcao:
 void CMatriz3D::SalvaCabecalho (ofstream & fout) const
 {
 	if (fout) { // testa abertura do arquivo
-		switch ( formatoSalvamento ) {
+		switch ( formatoImagem ) {
 			case D1_X_Y_Z_ASCII:
 				fout << setw (0) << "D1" << '\n' << nx << ' ' << ny << ' ' << nz;
 				break;
@@ -512,7 +515,7 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 	int x, bit;
 	unsigned char c = 0;
 	if (fout) {
-		switch(formatoSalvamento){
+		switch(formatoImagem){
 			case D4_X_Y_Z_BINARY: // 1 bite por pixel
 				for (int k = 0; k < nz; k++) {
 					for (int j = 0; j < ny; j++) {
@@ -558,7 +561,7 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 
 // Salva dados "colados" sem espaço (ex.: 00110011110111101010) ou em formato binário
 void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
 		case D3_X_Y_Z_COLOR_ASCII:
@@ -592,7 +595,7 @@ Funcao:
 @return :
 */
 void CMatriz3D::SalvaDados (ofstream & fout) const {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
 		case D3_X_Y_Z_COLOR_ASCII:
@@ -630,7 +633,7 @@ bool CMatriz3D::Read (string fileName, int separado) {
 	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
 	//fin.open (fileName.c_str ());		// Abre o arquivo de disco no formato ascii
 	if (fin.good ()) { 								// Se o arquivo foi corretamente aberto
-		formatoSalvamento = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
+		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		//pega os valore de nx, ny e nz ignorando os comentários
 		CBaseMatriz::LeComentarios(fin);
 		fin >> nx;
@@ -639,7 +642,7 @@ bool CMatriz3D::Read (string fileName, int separado) {
 		CBaseMatriz::LeComentarios(fin);
 		fin >> nz;
 		CBaseMatriz::LeComentarios(fin);
-		switch (formatoSalvamento)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
+		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case D2_X_Y_Z_GRAY_ASCII:
 			case D3_X_Y_Z_COLOR_ASCII:
 			case D5_X_Y_Z_GRAY_BINARY:
@@ -665,6 +668,30 @@ bool CMatriz3D::Read (string fileName, int separado) {
 	}
 	else
 		return false;
+}
+
+bool CMatriz3D::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType tipo) {
+	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
+	if (fin.good ()) { // Se o arquivo foi corretamente aberto
+		nx = _nx;
+		ny = _ny;
+		nz = _nz;
+		if ( data3D = AlocaMatriz3D(nx, ny, nz) ) {			// Aloca a matriz de dados
+			formatoImagem = D5_X_Y_Z_GRAY_BINARY; // força leitura como tons de cinza
+			CMatriz3D::LeDadosBinarios (fin);			// Lê os dados separados
+			formatoImagem = tipo;									// seta o real formato da imagem
+			fin.close();
+			return true;
+		} else {
+			nx = ny = nz = 0;
+			formatoImagem = INVALID_IMAGE_TYPE;
+			fin.close();
+			return false;
+		}
+	} else {
+		return false;
+	}
+
 }
 
 CMatriz2D* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
@@ -786,7 +813,7 @@ bool CMatriz3D::Rotacionar90 (E_eixo axis){
 }
 
 void CMatriz3D::LeDados (ifstream & fin) {
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
 			for (int k = 0; k < nz; k++) {
@@ -815,7 +842,7 @@ void CMatriz3D::LeDados (ifstream & fin) {
 void CMatriz3D::LeDadosColados (ifstream & fin) {
 	char ch = 0;
 	char matrizChar[30] = " ";
-	switch(formatoSalvamento) {
+	switch(formatoImagem) {
 		case D1_X_Y_Z_ASCII:
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
@@ -850,7 +877,7 @@ void CMatriz3D::LeDadosBinarios (ifstream & fin) {
 	char c;
 	unsigned char c2;
 	int x, bit;
-	switch(formatoSalvamento){
+	switch(formatoImagem){
 		case D4_X_Y_Z_BINARY: // 1 bite por pixel
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {

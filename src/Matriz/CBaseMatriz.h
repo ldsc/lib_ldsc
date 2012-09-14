@@ -32,7 +32,7 @@ Desenvolvido por:
 /**
  * @brief EImageType enumera os tipos de imagens aceitas.
  * Quando o arquivo é lido/salvo em disco o mesmo obedece um
- * determinado formato, definido pelo parâmetro formatoSalvamento
+ * determinado formato, definido pelo parâmetro formatoImagem
  * que pode assumir um dos valores abaixo
  **/
 enum EImageType {
@@ -89,7 +89,7 @@ class CBaseMatriz
 	 * @brief Define como os dados serão salvos.
 	 * Quando realiza leitura do arquivo, verifica o formato.
 	*/
-		EImageType formatoSalvamento;
+		EImageType formatoImagem;
 
 		/**
 	 * @brief Define a faixa de tons de cinza ou de cores.
@@ -112,7 +112,7 @@ class CBaseMatriz
 		// -------------------------------------------------------------Construtor
 		/// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
 		//CBaseMatriz (int _formatoSalvamento = WRITEFORM_ASCII_PI_N_256_DATA)
-		CBaseMatriz (EImageType _formatoSalvamento = P1_X_Y_ASCII, string _path="./") :formatoSalvamento (_formatoSalvamento), path(_path)
+		CBaseMatriz (EImageType _formatoSalvamento = P1_X_Y_ASCII, string _path="./") :formatoImagem (_formatoSalvamento), path(_path)
 		{
 		}
 		// --------------------------------------------------------------Destrutor
@@ -198,13 +198,13 @@ class CBaseMatriz
 		// old = WRITEFORM_ASCII_PI_N_MAXCOLOR_DATA
 		void WriteFormat (EImageType _formato = P2_X_Y_GRAY_ASCII)
 		{
-			formatoSalvamento = _formato;
+			formatoImagem = _formato;
 		}
 
 		/**
 	 * @brief Retona o valor da variável de formato de salvamente (e leitura) de dados
 	*/
-		inline EImageType GetFormat () const { return formatoSalvamento; }
+		inline EImageType GetFormat () const { return formatoImagem; }
 
 		/**
 	 * @brief Define a variável que informa o número de tons de cores ou de cinza

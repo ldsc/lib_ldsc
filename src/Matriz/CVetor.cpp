@@ -272,7 +272,7 @@ Funcao: operator==
 -------------------------------------------------------------------------
 @short  :
 Obs: Para considerar igual considerar somente os dados, desconsidera
-o atributo formatoSalvamento@author :Andre Duarte Bueno
+o atributo formatoImagem@author :Andre Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -308,7 +308,7 @@ Funcao:  operator!=
 -------------------------------------------------------------------------
 @short  :
 Obs: Para considerar igual considerar somente os dados, desconsidera
-o atributo formatoSalvamento.
+o atributo formatoImagem.
 @author :Andre Duarte Bueno
 @see    :
 @param  :
@@ -356,8 +356,8 @@ Funcao: SalvaCabecalho
 void CVetor::SalvaCabecalho (ofstream & fout) const
 {
 	if (fout.good ()) // Testa abertura do arquivo
-	{ 	// fout << setw (0) << 'V' << left << formatoSalvamento << '\n' << nx;
-		switch (formatoSalvamento){
+	{ 	// fout << setw (0) << 'V' << left << formatoImagem << '\n' << nx;
+		switch (formatoImagem){
 			case 1:	fout << setw (0) << "V1" << '\n' << nx;
 				break;
 			case 2:	fout << setw (0) << "V2" << '\n' << nx;
@@ -381,7 +381,7 @@ void CVetor::SalvaDadosBinarios (ofstream & fout) const {
 	int x, bit;
 	unsigned char c = 0;
 	if (fout) {
-		switch(formatoSalvamento){
+		switch(formatoImagem){
 			case V4_X_BINARY: // 1 bite por pixel
 				for (int i = 0; i < nx; i++) {
 					x = 7 - i%8;
@@ -651,8 +651,8 @@ bool CVetor::Read (string fileName, bool separado)
 	char linha[256];
 	if (fin.good ()) 								// Se o arquivo foi corretamente aberto
 	{											// Obtem o formato de salvamento
-		formatoSalvamento = CBaseMatriz::VerificaFormato(fin);
-		switch (formatoSalvamento)					// Em funcao do formato de salvamento lê os dados do cabecalho
+		formatoImagem = CBaseMatriz::VerificaFormato(fin);
+		switch (formatoImagem)					// Em funcao do formato de salvamento lê os dados do cabecalho
 		{
 			case 1:
 			case 4:

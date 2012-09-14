@@ -240,7 +240,7 @@ class CMatriz2D : public CBaseMatriz
 		inline int &operator  () (int x, int y) const
 		{
 			return data2D[x][y];
-		};
+		}
 
 		/// Poderia criar um SetColuna[y], ai teria data2D[x][coluna]
 		inline int &operator[] (int x) const

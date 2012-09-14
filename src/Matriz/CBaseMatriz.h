@@ -60,12 +60,66 @@ enum EImageType {
 	D6_X_Y_Z_COLOR_BINARY	// 18 -DPM 3D BINARY
 };
 
+//struct sbit0 {
+//		bool b : 1;
+//};
+//struct sbit1 {
+//		bool : 1;
+//		bool b : 1;
+//};
+//struct sbit2 {
+//		bool : 2;
+//		bool b : 1;
+//};
+//struct sbit3 {
+//		bool : 3;
+//		bool b : 1;
+//};
+//struct sbit4 {
+//		bool : 4;
+//		bool b : 1;
+//};
+//struct sbit5 {
+//		bool : 5;
+//		bool b : 1;
+//};
+//struct sbit6 {
+//		bool : 6;
+//		bool b : 1;
+//};
+//struct sbit7 {
+//		bool : 7;
+//		bool b : 1;
+//};
+//struct sbyte {
+//		sbit0 b0;
+//		sbit1 b1;
+//		sbit2 b2;
+//		sbit3 b3;
+//		sbit4 b4;
+//		sbit5 b5;
+//		sbit6 b6;
+//		sbit7 b7;
+//		bool operator[](int n) { // sbyte[i]
+//			switch ( n ) {
+//				case 0: return  b0.b; break;
+//				case 1: return  b1.b; break;
+//				case 2: return  b2.b; break;
+//				case 3: return  b3.b; break;
+//				case 4: return  b4.b; break;
+//				case 5: return  b5.b; break;
+//				case 6: return  b6.b; break;
+//				case 7: return  b7.b; break;
+//			}
+//		}
+//};
+
 using namespace std;
 
 // ===============================================================================
 // Documentacao CLASSE: CBaseMatriz
 // ===============================================================================
-/** 
+/**
  * @brief Classe base para as classes CVetor, CMatriz2D e CMatriz3D.
  *   Inclue as definições em comum.
  *

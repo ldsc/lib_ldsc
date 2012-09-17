@@ -3,6 +3,7 @@
 *.o
 *.cpp.o
 .kdev4
+*.cbp
 cvs
 libldsc.a
 CMakeFiles
@@ -15,3 +16,4 @@ pullToGithub
 pushToGithub
 CMakeLists.txt.user
 abertura_dilatacao
+CMakeCache.txt

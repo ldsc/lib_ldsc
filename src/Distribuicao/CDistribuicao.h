@@ -11,7 +11,7 @@
 #ifndef CDistribuicao_h
 #define CDistribuicao_h
 
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 #include <Distribuicao/CBaseDistribuicao.h>
 
 /**
@@ -35,7 +35,7 @@ public:
    };
 private:
    /// Ponteiro para matriz bidimensional (imagem)
-   CMatriz2D * pm;
+   TMatriz2D< int > * pm;
 
    // Construtores / Destrutor
 public:
@@ -43,8 +43,8 @@ public:
    CDistribuicao () : CBaseDistribuicao( ), pm( NULL ) {
 	}
 
-	/// Construtor (recebe CMatriz2D)
-   CDistribuicao ( CMatriz2D * _pm ) : CBaseDistribuicao( ), pm(_pm) {
+	/// Construtor (recebe TMatriz2D< int >)
+   CDistribuicao ( TMatriz2D< int > * _pm ) : CBaseDistribuicao( ), pm(_pm) {
 	}
 
 	/// Destrutor
@@ -56,7 +56,7 @@ public:
    bool Go( Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
 
    /// Calcula a distribuição de tamanho dos objetos em uma imagem 2D binária. Recebe como parâmetros: Ponteiro para Matriz 2D, Tipo, Metrica, indice e fundo.
-   bool Go( CMatriz2D * _pm, Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
+   bool Go( TMatriz2D< int > * _pm, Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
 
 };
 

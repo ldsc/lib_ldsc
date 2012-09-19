@@ -1,16 +1,16 @@
-#ifndef CMatriz2D_h
-#define CMatriz2D_h
+#ifndef TMatriz2D_h
+#define TMatriz2D_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-						Assunto/Ramo: CMatriz2D...
+						Assunto/Ramo: TMatriz2D...
 ===============================================================================
 Desenvolvido por:
 						Laboratorio de Desenvolvimento de Software Cientifico
 						[LDSC].
 @author     André Duarte Bueno
-@file       CMatriz2D.h
+@file       TMatriz2D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 
@@ -39,26 +39,27 @@ using namespace std;
  * A alocacao e feita dinamicamente
  * Tem tres construtores:
  * 1 - Para criar uma matriz toda nova use
- * CMatriz2D(NX,NY),cria matriz, aloca data2D, zera valores
+ * TMatriz2D(NX,NY),cria matriz, aloca data2D, zera valores
  * 2 - Para criar uma copia no programa use
- * CMatriz2D(CMatriz2D), cria uma copia
- * CMatriz2D=CMatriz2D;
+ * TMatriz2D(TMatriz2D), cria uma copia
+ * TMatriz2D=TMatriz2D;
  * 3 - Para abrir uma matriz do disco use
- * CMatriz2D("nomearquivo")
- * CMatriz2D.Read("nomearquivo")
+ * TMatriz2D("nomearquivo")
+ * TMatriz2D.Read("nomearquivo")
  * Para salvar a matriz em disco use
- * CMatriz2D.Write(std::string fileName)
+ * TMatriz2D.Write(std::string fileName)
  * Para acessar o conteudo da matriz use data2D
- * CMatriz2D.data2D[i][j]=33;
- * int x=CMatriz2D.data2D[i][j];
+ * TMatriz2D.data2D[i][j]=33;
+ * int x=TMatriz2D.data2D[i][j];
  *
  * PS: Observe que com as funções AlocaMatriz2D, pode-se alocar uma estrutura de dados 2D
  * diretamente, sem criar um objeto matriz.
- * Ex: 	int **m2D = CMatriz2D::AlocaMatriz2D(nx,ny);
+ * Ex: 	int **m2D = TMatriz2D::AlocaMatriz2D(nx,ny);
  * @author 	André Duarte Bueno
  * @see		Veja assunto
 */
-class CMatriz2D : public CBaseMatriz
+template< typename T >
+class TMatriz2D : public CBaseMatriz
 {
 		// --------------------------------------------------------------Atributos
 	protected:
@@ -66,36 +67,36 @@ class CMatriz2D : public CBaseMatriz
 		int nx;   	/// Dimensão nx
 
 	public:
-		int **data2D; /// Ponteiro para matriz 2D de inteiros
+		T **data2D; /// Ponteiro para matriz 2D de inteiros
 		// -------------------------------------------------------------Construtor
 		/// Construtor default, data2D=NULL nx=ny=0;
-		CMatriz2D ();
+		TMatriz2D ();
 
-		/// Construtor le CMatriz2D do disco.
-		CMatriz2D (std::string fileName);
+		/// Construtor le TMatriz2D do disco.
+		TMatriz2D (std::string fileName);
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY) da imagem.
-		CMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
+		TMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
 
 		/// Construtor le plano de uma matriz 3D o primeiro plano é o z=0
-		CMatriz2D (std::string fileName, int planoZ);
+		TMatriz2D (std::string fileName, int planoZ);
 
-		/// Construtor cria copia CMatriz2D
-		CMatriz2D (CMatriz2D &);
+		/// Construtor cria copia TMatriz2D
+		TMatriz2D (TMatriz2D &);
 
 		/// Construtor cria matriz extendida, com borda extra. Copia matriz na parte central
 		// util pois cria uma borda extra, zerada.
-		CMatriz2D ( CMatriz2D & matriz, unsigned int borda );
+		TMatriz2D ( TMatriz2D & matriz, unsigned int borda );
 
-		/// Construtor cria nova CMatriz2D dados=lixo, para zerar Constante(0);
-		CMatriz2D (int _nx, int _ny);
+		/// Construtor cria nova TMatriz2D dados=lixo, para zerar Constante(0);
+		TMatriz2D (int _nx, int _ny);
 
 		// --------------------------------------------------------------Destrutor
 
 		/// Destrutor, chama Desaloca
-		virtual ~ CMatriz2D ()
+		virtual ~ TMatriz2D ()
 		{
-			CMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+			TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 		}
 
 		// ----------------------------------------------------------------Métodos
@@ -103,14 +104,14 @@ class CMatriz2D : public CBaseMatriz
 		/// Alocacao
 		virtual bool Aloca ()
 		{
-			data2D = CMatriz2D::AlocaMatriz2D (nx, ny);
+			data2D = TMatriz2D::AlocaMatriz2D (nx, ny);
 			return data2D ? 1 : 0;
 		}
 
 		/// Desalocacao
 		virtual bool Desaloca ()
 		{
-			CMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+			TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 			return data2D ? 0 : 1;
 		}
 
@@ -146,24 +147,24 @@ class CMatriz2D : public CBaseMatriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
 		{
 			if( nx != NX || ny != NY ) {
-				CMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+				TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 				nx = NX;
 				ny = NY;
 				NZ = 0; // evitar warning
-				data2D = CMatriz2D::AlocaMatriz2D (nx, ny);
+				data2D = TMatriz2D::AlocaMatriz2D (nx, ny);
 				return data2D ? 1 : 0;
 			}
 			return true; // não precisou redimensionar...
 		}
 
 		/// Aloca uma matriz de dados 2D qualquer.
-		static int **AlocaMatriz2D (int nx, int ny);
+		static T** AlocaMatriz2D(int nx, int ny);
 
 		/// Desaloca dat
-		static bool DesalocaMatriz2D (int **&dat, int nx, int ny);
+		static bool DesalocaMatriz2D (T **&dat, int nx, int ny);
 
 		/// Preenche com valor constante
-		virtual void Constante (int cte);
+		virtual void Constante (T cte);
 
 		/// Inverte valores (0)-->(1)  (>0)-->(0)
 		virtual void Inverter ();
@@ -173,16 +174,16 @@ class CMatriz2D : public CBaseMatriz
 		// virtual void        Propriedades(std::ostream& os)const;
 
 		/// Retorna o maior valor da matriz
-		virtual int MaiorValor () const;
+		virtual int MaiorValor() const;
 
 		/// Retorna o menor valor da matriz
-		virtual int MenorValor () const;
+		virtual int MenorValor() const;
 
 		/// Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
-		virtual int MenorValorNzero () const;
+		virtual T MenorValorNzero() const;
 
 		/// Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
-		virtual pair<int,int> MaiorMenorValorNzero () const;
+		virtual pair<T, T> MaiorMenorValorNzero() const;
 
 		/// Calcula e retorna a média
 		virtual double Media () const;
@@ -209,41 +210,41 @@ class CMatriz2D : public CBaseMatriz
 		// Novidade trazida para cá de COperacao
 		/// Lê imagem 2D do disco, usa vetor de dados
 		//  static bool Read2D (std::string inputFile, BUG float * _reDdata, int _nx,  int _ny);
-		static bool Read2D (std::string inputFile, float * & _reDdata, int _nx,  int _ny);
+		static bool Read2D (std::string inputFile, T * &_reData, int _nx,  int _ny);
 
 		/// Salva imagem 2D no disco, usa vetor de dados
-		static bool Write2D (std::string inputFile,  float * _redata, int _nx,  int _ny);
+		static bool Write2D (std::string inputFile,  T *_redata, int _nx,  int _ny);
 
 		/// rotaciona a imagem 90 graus a direita
 		bool Rotacionar90 ();
 
 		// -----------------------------------------------------------------------Sobrecarga de operador
 		/// Sobrecarga +
-		CMatriz2D & operator+ (CMatriz2D & pm2);
+		TMatriz2D< T > & operator+ (TMatriz2D< T > & pm2);
 
 		/// Sobrecarga -
-		CMatriz2D & operator- (CMatriz2D & pm2);
+		TMatriz2D< T > & operator- (TMatriz2D< T > & pm2);
 
 		/// Sobrecarga =
-		CMatriz2D & operator= (CMatriz2D & pm2);
+		TMatriz2D< T > & operator= (TMatriz2D< T > & pm2);
 
-		// CMatriz2D* operator*(CMatriz2D*& m2);
+		// TMatriz2D* operator*(TMatriz2D*& m2);
 		// Sobrecarga *
 
 		/// Sobrecarga ==
-		bool operator== (CMatriz2D & pm2);
+		bool operator== (TMatriz2D< T > & pm2);
 
 		/// Sobrecarga !=
-		bool operator!= (CMatriz2D & pm2);
+		bool operator!= (TMatriz2D< T > & pm2);
 
 		/// Aceita matriz(x,y)
-		inline int &operator  () (int x, int y) const
+		inline T &operator  () (int x, int y) const
 		{
 			return data2D[x][y];
 		}
 
 		/// Poderia criar um SetColuna[y], ai teria data2D[x][coluna]
-		inline int &operator[] (int x) const
+		inline T &operator[] (int x) const
 		{
 			return data2D[x][0];
 		}
@@ -262,7 +263,7 @@ class CMatriz2D : public CBaseMatriz
 		}
 
 		/// Retorna data2D
-		inline int **Data2D () const
+		inline T **Data2D () const
 		{
 			return data2D;
 		}
@@ -281,20 +282,10 @@ class CMatriz2D : public CBaseMatriz
 		}
 
 		// -----------------------------------------------------------------Friend
-		//       friend ostream& operator<< (ostream& os, CMatriz2D& obj);
-		//       friend istream& operator>> (istream& is, CMatriz2D& obj);
-		// -----------------------------------------------------------------Friend
-		// Declaração de Funções Friend
 		/// Sobrecarga operador<<.
-		friend std::ostream& operator<< (std::ostream& os, const CMatriz2D& obj);
+		friend ostream& operator<< (ostream& os, const TMatriz2D<T> & pm);
 
 		/// Sobrecarga operador>>.
-		friend std::istream& operator>> (std::istream& is, CMatriz2D& obj);
-
+		friend istream& operator>> (istream& is, TMatriz2D<T> & pm);
 };
-
-//std::ostream& operator<< (std::ostream& os, const CMatriz2D& obj);
-
-//std::istream& operator>> (std::istream& is, CMatriz2D& obj);
-
 #endif

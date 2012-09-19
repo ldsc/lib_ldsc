@@ -33,11 +33,11 @@ Descricao:      Tres vetores 2D representam um objeto com 3 cores
 		Onde pm aponta para cor red, pm+1 para green e pm+2 para blue
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFACinza::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFACinza::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
-  CMatriz2D *ptr[3];
+  TMatriz2D< int > *ptr[3];
   ptr[0] = pm;
   ptr[1] = pm + 1;
   ptr[2] = pm + 2;

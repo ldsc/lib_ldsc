@@ -204,7 +204,7 @@ public:
     /// Sobrecarga operador=
   CVetor & operator= (CVetor & v);
 
-  // CMatriz2D* operator*(CMatriz2D*& m2);
+  // TMatriz2D< int >* operator*(TMatriz2D< int >*& m2);
     /// Sobrecarga operador==
   bool operator== (CVetor & v) const;
   

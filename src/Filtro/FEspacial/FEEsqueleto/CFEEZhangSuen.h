@@ -55,7 +55,7 @@ protected:
 // Métodos
 public:			
 	/// Construtor
-  CFEEZhangSuen (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz,
+  CFEEZhangSuen (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz,
 		_tamanhoMascara)
   {
   }
@@ -66,45 +66,45 @@ public:
   }				
 
   /// Processa determinação do esqueleto.
-  virtual CMatriz2D *Go (CMatriz2D * &matriz,
+  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz,
 			 unsigned int _tamanhoMascara = 0);
 
 protected:
 
 	/// Método auxiliar thnz
-  void thnz (CMatriz2D * im);
+  void thnz (TMatriz2D< int > * im);
 
 	/// Método auxiliar nays8
-  int nays8 (CMatriz2D * im, int r, int c);
+  int nays8 (TMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar Connectivity
-  int Connectivity (CMatriz2D * im, int r, int c);
+  int Connectivity (TMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar Delete
-  void Delete (CMatriz2D * im, CMatriz2D * tmp);
+  void Delete (TMatriz2D< int > * im, TMatriz2D< int > * tmp);
 
   	/// Método auxiliar check
   void check (int v1, int v2, int v3);
 
   	/// Método auxiliar edge
-  int edge (CMatriz2D * im, int r, int c);
+  int edge (TMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar stair
-  void stair (CMatriz2D * im, CMatriz2D * tmp, int dir);
+  void stair (TMatriz2D< int > * im, TMatriz2D< int > * tmp, int dir);
 
   	/// Método auxiliar Yokoi
-  int Yokoi (CMatriz2D * im, int r, int c);
+  int Yokoi (TMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar pre_smooth
-  void pre_smooth (CMatriz2D * im);
+  void pre_smooth (TMatriz2D< int > * im);
 
   	/// Método auxiliar match_du
-  void match_du (CMatriz2D * im, int r, int c, int k);
+  void match_du (TMatriz2D< int > * im, int r, int c, int k);
 
   	/// Método auxiliar aae
-  void aae (CMatriz2D * image);
+  void aae (TMatriz2D< int > * image);
 
   	/// Método auxiliar snays
-  int snays (CMatriz2D * im, int r, int c);
+  int snays (TMatriz2D< int > * im, int r, int c);
 };
 #endif //  CFEEZhangSuen_h

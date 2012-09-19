@@ -195,7 +195,7 @@ add_library (ldsc STATIC
   Matriz/CHistograma.cpp
   Matriz/CVetor.cpp
   Matriz/CMatriz3D.cpp
-  Matriz/CMatriz2D.cpp
+  Matriz/TMatriz2D.cpp
   Matriz/CBaseMatriz.cpp
   Permeabilidade/CPermeabilidade.cpp
   Permeabilidade/CPermeabilidadeGrafo.cpp

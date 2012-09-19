@@ -18,7 +18,7 @@ Nome da classe:         CMascara
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
-#include  <Matriz/CMatriz2D.h>
+#include  <Matriz/TMatriz2D.h>
 
 /**
  * @brief Representa uma mascara, é herdeira da matriz 2D, ou seja
@@ -36,7 +36,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
 
-class CMascara : public CMatriz2D
+class CMascara : public TMatriz2D< int >
 {
 protected:
   float peso;	///< Peso usado para que a mascara tenha Somatorio/peso=1

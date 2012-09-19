@@ -46,7 +46,7 @@ bool CCorrelacaoEspacial::Go (float *Re_data, int NX, int NY, int indice) {
    return true;
 }
 
-bool CCorrelacaoEspacial::Go(CMatriz2D *img, int indice) {
+bool CCorrelacaoEspacial::Go(TMatriz2D< int > *img, int indice) {
 	if ( ! img ) 
 		return false;
 

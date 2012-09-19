@@ -42,7 +42,7 @@ class CFABDoisPicos : public CFABinario
 public:
 
 	/// Construtor			
-  CFABDoisPicos (CMatriz2D * &_pm):CFABinario (_pm)
+  CFABDoisPicos (TMatriz2D< int > * &_pm):CFABinario (_pm)
   {
   }			
 
@@ -52,7 +52,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
   /// Função que determina o nivel de corte a partir do histograma da imagem
   unsigned int determinaNivelCorte (CHistograma * &hist); 

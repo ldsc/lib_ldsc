@@ -12,14 +12,14 @@
 #include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h>
 #endif
 
-bool CDistribuicao::Go( CMatriz2D * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
+bool CDistribuicao::Go( TMatriz2D< int > * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    pm = _pm;
    Go ( _tipo, _metrica, indice, fundo );
 }
 
 bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    if ( ! pm ) { // se o ponteiro para a matriz não estiver definido rotorna false
-      cerr << "Erro em CDistribuicao::Go! Ponteiro para CMatriz2D não definido!" << endl;
+      cerr << "Erro em CDistribuicao::Go! Ponteiro para TMatriz2D< int > não definido!" << endl;
       return false;
    }
    tipo = _tipo; //seta o tipo pois será utilizado em Write;
@@ -34,10 +34,10 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    double acumulada = 0.0;
    distribuicao.clear();
 
-   CMatriz2D * matriz = NULL;
-   matriz = new CMatriz2D(nx, ny); // faz uma cópia da matriz
+   TMatriz2D< int > * matriz = NULL;
+   matriz = new TMatriz2D< int >(nx, ny); // faz uma cópia da matriz
    if ( ! matriz ) { // se a matriz não foi criada corretamente rotorna false
-      cerr << "Erro em CDistribuicao::Go! Cópia de CMatriz2D não foi criada!" << endl;
+      cerr << "Erro em CDistribuicao::Go! Cópia de TMatriz2D< int > não foi criada!" << endl;
       return false;
    }
 
@@ -78,7 +78,7 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    //calcula a imagem idf.
    while (obj != 0.0) {
       lastobj = obj;
-      *matriz=*pm; //faz uma cópia da matriz utilizando a sobrecarga de operador de CMatriz2D
+      *matriz=*pm; //faz uma cópia da matriz utilizando a sobrecarga de operador de TMatriz2D< int >
       // calula a idf da imagem
       filtro->Go(matriz, raio);
       // aplica a abertura na imagem

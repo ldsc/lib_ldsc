@@ -14,7 +14,7 @@ Nome da classe:     CFReconstrucao
 ----------------------------------------------------------------------------
 */
 #include <Matriz/CMatriz3D.h>
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 
 /**
  * @brief A classe CFReconstrucao cria uma imagem 3D a partir da rotação dos planos de uma imagem 2D
@@ -36,7 +36,7 @@ public:
   virtual ~ CFReconstrucao () { }
 
   /// Executa a reconstrução e retorna a imagem 3D reconstruída.
-  CMatriz3D * Go ( CMatriz2D * matriz2D, Eeixo _eixo=E_EIXO_X );
+  CMatriz3D * Go ( TMatriz2D< int > * matriz2D, Eeixo _eixo=E_EIXO_X );
   
   /// Executa a reconstrução e retorna a imagem 3D reconstruída.
   CMatriz3D * Go ( string arquivo, Eeixo _eixo=E_EIXO_X );

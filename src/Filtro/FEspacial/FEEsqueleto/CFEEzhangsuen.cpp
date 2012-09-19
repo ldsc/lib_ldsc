@@ -55,19 +55,19 @@ Programador:      Andre Duarte Bueno
 // thining best
 */
 
-/*CMatriz2D *CFEEZhangSuen::Go( CMatriz2D *& matriz, unsigned int _tamanhoMascara )
+/*TMatriz2D< int > *CFEEZhangSuen::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 	tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 }  */
 
-CMatriz2D *
-CFEEZhangSuen::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
+TMatriz2D< int > *
+CFEEZhangSuen::Go (TMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ )
 {
   // CriaMascara(tamanhoMascara);
   pm = matriz;			// pm é a matriz passada
 
-  CMatriz2D *imAux;		// imAux é uma matriz auxiliar
+  TMatriz2D< int > *imAux;		// imAux é uma matriz auxiliar
 
   unsigned int i, j;		// contadores
 
@@ -75,7 +75,7 @@ CFEEZhangSuen::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
   // Pega a imagem passada, a pm e cria uma imagem imAux maior que pm
   // imAux acrescenta pontos nas bordas
   // imAux = newimage (pm->NX()+2, pm->NY()+2);
-  imAux = new CMatriz2D (pm->NX () + 2, pm->NY () + 2);	// cria imagem auxiliar, maior
+  imAux = new TMatriz2D< int > (pm->NX () + 2, pm->NY () + 2);	// cria imagem auxiliar, maior
 
   for (i = 0; i < pm->NX (); i++)
     for (j = 0; j < pm->NY (); j++)
@@ -117,16 +117,16 @@ CFEEZhangSuen::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
 
 //       Zhang-Suen with Holt's staircase removal
 void
-CFEEZhangSuen::thnz (CMatriz2D * imAux)
+CFEEZhangSuen::thnz (TMatriz2D< int > * imAux)
 {
   unsigned int i, j;		// era int i,j;
 
   int k, again = 1;
 
-  CMatriz2D *tmp;
+  TMatriz2D< int > *tmp;
 
   // tmp = newimage (imAux->NX(), imAux->NY());
-  tmp = new CMatriz2D (imAux->NX (), imAux->NY ());
+  tmp = new TMatriz2D< int > (imAux->NX (), imAux->NY ());
 
 //  BLACK = 1, WHITE = 0.
   for (i = 0; i < imAux->NX (); i++)
@@ -217,7 +217,7 @@ CFEEZhangSuen::thnz (CMatriz2D * imAux)
 
 //       Delete any pixel in IM corresponding to a 1 in TMP
 void
-CFEEZhangSuen::Delete (CMatriz2D * imAux, CMatriz2D * tmp)
+CFEEZhangSuen::Delete (TMatriz2D< int > * imAux, TMatriz2D< int > * tmp)
 {
   // Delete pixels that are marked
   for (unsigned int i = 1; i < imAux->NX () - 1; i++)
@@ -231,7 +231,7 @@ CFEEZhangSuen::Delete (CMatriz2D * imAux, CMatriz2D * tmp)
 
 //       Number of neighboring 1 pixels
 int
-CFEEZhangSuen::nays8 (CMatriz2D * imAux, int r, int c)
+CFEEZhangSuen::nays8 (TMatriz2D< int > * imAux, int r, int c)
 {
   int i, j, k = 0;
 
@@ -245,7 +245,7 @@ CFEEZhangSuen::nays8 (CMatriz2D * imAux, int r, int c)
 
 //       Number of neighboring 0 pixels
 int
-CFEEZhangSuen::snays (CMatriz2D * imAux, int r, int c)
+CFEEZhangSuen::snays (TMatriz2D< int > * imAux, int r, int c)
 {
   int i, j, k = 0;
 
@@ -260,7 +260,7 @@ CFEEZhangSuen::snays (CMatriz2D * imAux, int r, int c)
 //       Connectivity by counting black-white transitions on the boundary
 // NumeroConexoes
 int
-CFEEZhangSuen::Connectivity (CMatriz2D * imAux, int r, int c)
+CFEEZhangSuen::Connectivity (TMatriz2D< int > * imAux, int r, int c)
 {
   // int i, N=0;
   int N = 0;
@@ -287,7 +287,7 @@ CFEEZhangSuen::Connectivity (CMatriz2D * imAux, int r, int c)
 
 //       Stentiford's boundary smoothing method
 void
-CFEEZhangSuen::pre_smooth (CMatriz2D * imAux)
+CFEEZhangSuen::pre_smooth (TMatriz2D< int > * imAux)
 {
   int i, j;
 
@@ -305,7 +305,7 @@ CFEEZhangSuen::pre_smooth (CMatriz2D * imAux)
 
 //       Stentiford's Acute Angle Emphasis
 void
-CFEEZhangSuen::aae (CMatriz2D * imAux)
+CFEEZhangSuen::aae (TMatriz2D< int > * imAux)
 {
   int i, j, again, k;
 
@@ -332,7 +332,7 @@ CFEEZhangSuen::aae (CMatriz2D * imAux)
 
 //       Template matches for acute angle emphasis
 void
-CFEEZhangSuen::match_du (CMatriz2D * imAux, int r, int c, int k)
+CFEEZhangSuen::match_du (TMatriz2D< int > * imAux, int r, int c, int k)
 {
 
 //  D1
@@ -554,7 +554,7 @@ CFEEZhangSuen::match_du (CMatriz2D * imAux, int r, int c, int k)
 
 //       Yokoi's connectivity measure
 int
-CFEEZhangSuen::Yokoi (CMatriz2D * imAux, int r, int c)
+CFEEZhangSuen::Yokoi (TMatriz2D< int > * imAux, int r, int c)
 {
   int N[9];
   int i, k, i1, i2;		// j
@@ -600,7 +600,7 @@ CFEEZhangSuen::check (int v1, int v2, int v3)
 }
 
 int
-CFEEZhangSuen::edge (CMatriz2D * imAux, int r, int c)
+CFEEZhangSuen::edge (TMatriz2D< int > * imAux, int r, int c)
 {
   if (imAux->data2D[r][c] == 0)
     return 0;
@@ -627,7 +627,7 @@ CFEEZhangSuen::edge (CMatriz2D * imAux, int r, int c)
 }
 
 void
-CFEEZhangSuen::stair (CMatriz2D * imAux, CMatriz2D * tmp, int dir)
+CFEEZhangSuen::stair (TMatriz2D< int > * imAux, TMatriz2D< int > * tmp, int dir)
 {
   int i, j;
 

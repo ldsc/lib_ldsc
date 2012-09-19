@@ -34,7 +34,7 @@ class CFEMMIDFd5711:public CFEMMIDFdijk
 {
 public:			//  mi mj mk rb
 		/// Construtor
-  CFEMMIDFd5711 (CMatriz2D * &matriz, int _indice=1, int _fundo=0)
+  CFEMMIDFd5711 (TMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
      : CFEMMIDFdijk (matriz, 5, 7, 11, 2, _indice, _fundo)
   {
   }

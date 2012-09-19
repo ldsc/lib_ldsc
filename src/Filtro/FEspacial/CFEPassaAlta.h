@@ -35,7 +35,7 @@ class CFEPassaAlta : public CFEspacial
 {
 public:
 		/// Construtor
-  CFEPassaAlta (CMatriz2D * &matriz, unsigned int _tamanhoMascara)	
+  CFEPassaAlta (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
   : CFEspacial (matriz, _tamanhoMascara)
   {
   }

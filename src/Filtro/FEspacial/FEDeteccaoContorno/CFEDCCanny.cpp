@@ -36,14 +36,14 @@ Programador:      Andre Duarte Bueno
 */
 
 /*
-CMatriz2D* CFEDCCanny::Go( CMatriz2D *& matriz, unsigned int _tamanhoMascara )
+TMatriz2D< int >* CFEDCCanny::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 	tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 } */
 
-CMatriz2D *
-CFEDCCanny::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFEDCCanny::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   // CriaMascara(tamanhoMascara);
   pm = matriz;
@@ -94,7 +94,7 @@ CFEDCCanny::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
   // im->Write("canny.m2");
   // fim do codigo do filtro novo
   // delete pm;                    // apaga objeto matriz inicial
-  // pm=dynamic_cast< CMatriz2D* > (im);   // converte a imagem para CMatriz2D
+  // pm=dynamic_cast< TMatriz2D< int >* > (im);   // converte a imagem para TMatriz2D< int >
   // funciona porque im é maior que pm
   // 
   for (j = 0; j < im->NY (); j++)
@@ -134,11 +134,11 @@ CFEDCCanny::canny (float s, CImagem * im, CImagem * mag, CImagem * ori)
 
   float **smx, **smy;
 
-  // CMatriz2D*smx,smy;
+  // TMatriz2D< int >*smx,smy;
 
   float **dx, **dy;
 
-  // CMatriz2D*dx,dy;
+  // TMatriz2D< int >*dx,dy;
 
   int i, j;			// ,k;
 
@@ -163,7 +163,7 @@ CFEDCCanny::canny (float s, CImagem * im, CImagem * mag, CImagem * ori)
 
   smx = f2d (im->NX (), im->NY ());
 
-  // CMatriz2D*smx=new CMatriz2D(nr,nc);
+  // TMatriz2D< int >*smx=new TMatriz2D< int >(nr,nc);
   smy = f2d (im->NX (), im->NY ());
 
 /* Convolution of source image with a Gaussian in X and Y directions  */
@@ -326,7 +326,7 @@ CFEDCCanny::trace (int i, int j, int low, CImagem * im, CImagem * mag,
 void
 CFEDCCanny::seperable_convolution (CImagem * im, float *gau, int width,
 				   float **smx, float **smy)
-      //  CMatriz2D*smx,CMatriz2D*smy)
+      //  TMatriz2D< int >*smx,TMatriz2D< int >*smy)
 {
   int i, j, k, I1, I2, nr, nc;
 

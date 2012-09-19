@@ -45,7 +45,7 @@ protected:
 
 public:
 	/// Construtor
-  CFEBorda (int vB = 0, CMatriz2D * matriz = 0, unsigned int _tamanhoMascara = 0)
+  CFEBorda (int vB = 0, TMatriz2D< int > * matriz = 0, unsigned int _tamanhoMascara = 0)
     :CFEspacial (matriz, _tamanhoMascara),    valorBorda (vB)
   {
   }
@@ -56,7 +56,7 @@ public:
   }
 
     /// Processa o filtro da borda.
-  virtual CMatriz2D *Go (CMatriz2D * &imagem, unsigned int espessura = 1);
+  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &imagem, unsigned int espessura = 1);
 
   /// Seta o valor da borda
   void ValorBorda (int v)

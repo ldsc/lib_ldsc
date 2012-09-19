@@ -25,7 +25,7 @@ Bibliotecas
 
 #include "Filtro/FAmplitude/CFABPixelContorno.h"
 #include "Matriz/CHistograma.h"	// objetos usados aqui
-#include "Matriz/CMatriz2D.h"	
+#include "Matriz/TMatriz2D.h"
 #include "Filtro/FEspacial/CFELaplaciano.h"
 #include "Filtro/FAmplitude/CFABDoisPicos.h"
 
@@ -37,13 +37,13 @@ Descrição:        Calcula o valor médio do nível de corte e depois processa 
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFABPixelContorno::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABPixelContorno::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   // unsigned int i,j;
   int i, j;
   pm = matriz;
-  CMatriz2D *lap = new CMatriz2D (*pm);	// 0-Cria matriz laplaciano, copia de pm
+  TMatriz2D< int > *lap = new TMatriz2D< int > (*pm);	// 0-Cria matriz laplaciano, copia de pm
 
   // 1-Calcula o laplaciano da imagem
   CFELaplaciano filtroLaplaciano (lap, 3);	// tamanho da mascara=3

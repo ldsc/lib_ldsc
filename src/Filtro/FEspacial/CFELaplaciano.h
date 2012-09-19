@@ -36,7 +36,7 @@ class CFELaplaciano : public CFEspacial
 {
 public:
 	/// Construtor
-  CFELaplaciano (CMatriz2D * &matriz, unsigned int _tamanhoMascara)	
+  CFELaplaciano (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
   : CFEspacial (matriz, _tamanhoMascara)
   {
   }

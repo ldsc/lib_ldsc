@@ -23,7 +23,7 @@ Bibliotecas
 */
 
 #include "Filtro/FAmplitude/CFABMedia.h"
-#include "Matriz/CMatriz2D.h"
+#include "Matriz/TMatriz2D.h"
 
 /*
 ==================================================================================
@@ -33,8 +33,8 @@ Descrição:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFABMedia::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABMedia::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
 

@@ -45,8 +45,8 @@
 #include <Grafo/COGSitioDireita.h>
 #endif
 
-#ifndef CMatriz2D_h
-#include <Matriz/CMatriz2D.h>
+#ifndef TMatriz2D_h
+#include <Matriz/TMatriz2D.h>
 #endif
 
 #ifndef CVetor_h
@@ -89,7 +89,7 @@ using namespace std;
 					
     @author : André Duarte Bueno
     @see    : TPermabilidade
-    @param  : viscosidade, dimensão do pixel e fator de amplificaçào do pixel
+    @param  : viscosidade, dimensão do pixel e fator de amplificaç� o do pixel
     @return : void
 */
 void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
@@ -312,7 +312,7 @@ ostream & operator<< (ostream & os, CGrafo & grafo)
     @param  :
     @return :	bool indicando sucesso da operação.
 */
-bool CGrafo::SetMatrizAVetorB (CMatriz2D * &A, CVetor * &B) const
+bool CGrafo::SetMatrizAVetorB (TMatriz2D< int > * &A, CVetor * &B) const
 {
   // vector< vector<float> > A;
   // vector<float> B;
@@ -422,7 +422,7 @@ bool CGrafo::SetMatrizAVetorB (CMatriz2D * &A, CVetor * &B) const
 }
 
 /*ANTIGA, FUNCIONA, USA
-bool CGrafo::SetMatrizAVetorB(CMatriz2D* &A, CVetor* &B) const
+bool CGrafo::SetMatrizAVetorB(TMatriz2D< int >* &A, CVetor* &B) const
 {
   // Passo 0: Definição de variáveis auxiliares
   // índice i da matriz A (ou vetor B)

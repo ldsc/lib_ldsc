@@ -120,7 +120,7 @@ using namespace std;
 // Documentacao CLASSE: CBaseMatriz
 // ===============================================================================
 /**
- * @brief Classe base para as classes CVetor, CMatriz2D e CMatriz3D.
+ * @brief Classe base para as classes CVetor, TMatriz2D< int > e CMatriz3D.
  *   Inclue as definições em comum.
  *
  * Obs:
@@ -343,15 +343,15 @@ class CBaseMatriz
 	*/
 		virtual int MenorValor () const = 0;
 
-		/**
-	 *   @brief Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
-	*/
-		virtual int MenorValorNzero () const = 0;
+		//		/**
+		//	 *   @brief Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
+		//	*/
+		//		virtual int MenorValorNzero () const = 0;
 
-		/**
-	 *   @brief Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
-	*/
-		virtual pair<int,int> MaiorMenorValorNzero () const = 0;
+		//		/**
+		//	 *   @brief Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
+		//	*/
+		//		virtual pair<int,int> MaiorMenorValorNzero () const = 0;
 
 		/**
 	 *   @brief Retorna a dimensão da matriz

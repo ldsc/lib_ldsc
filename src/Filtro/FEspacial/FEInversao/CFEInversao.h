@@ -13,7 +13,7 @@ Nome da classe:     CFEInversao
 */
 
 #include <Matriz/CImagem.h>
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 
 
 /**
@@ -42,8 +42,8 @@ public:
   	/// Recebe CImagem, executa a inversão e retornar ponteiro para a imagem 3D invertida.
   	CImagem * Go ( CImagem * imagem );
   	
-  	/// Recebe CMatriz2D, executa a inversão e retornar ponteiro para a imagem 3D invertida.
-  	CMatriz2D * Go ( CMatriz2D * imagem );
+  	/// Recebe TMatriz2D< int >, executa a inversão e retornar ponteiro para a imagem 3D invertida.
+  	TMatriz2D< int > * Go ( TMatriz2D< int > * imagem );
 };
 
 #endif

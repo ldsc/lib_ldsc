@@ -151,7 +151,7 @@ protected:
 public:
 
     ///  Construtor Default, recebe uma ostream, para a qual enviará a saída.
-    CConfiguracoesEquilibrio3D ( /*CMatriz2D* imagem */ ostream & out = std::cout);
+    CConfiguracoesEquilibrio3D ( /*TMatriz2D< int >* imagem */ ostream & out = std::cout);
 
     ///  Destrutor
     virtual ~ CConfiguracoesEquilibrio3D ();

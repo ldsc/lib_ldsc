@@ -50,7 +50,7 @@ protected:
 // Métodos
 public:			
 	/// Construtor
-CFEEsqueletoV3 (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz, _tamanhoMascara),  idf(0)
+CFEEsqueletoV3 (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz, _tamanhoMascara),  idf(0)
   {
   }
   
@@ -62,7 +62,7 @@ CFEEsqueletoV3 (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0):CFEEsquel
   }				
 
   /// Processa determinação do esqueleto.
-virtual CMatriz2D *Go (CMatriz2D * &matriz,
+virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz,
 		       unsigned int _tamanhoMascara = 0);
 };
 #endif //  CFEEsqueletoV3_h

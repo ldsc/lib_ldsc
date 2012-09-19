@@ -98,7 +98,7 @@ class CGra3Dby2D : public CGrafoContorno
   CRotulador2DCm *rp;
 
   /// Imagem usada internamente para copiar planos ra, rp e plano intermediário
-  CMatriz2D *img2D;
+  TMatriz2D< int > *img2D;
 
   /**
    * @brief Informa o plano que esta sendo avaliado.

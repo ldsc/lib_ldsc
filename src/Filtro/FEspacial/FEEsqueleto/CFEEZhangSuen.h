@@ -55,7 +55,7 @@ protected:
 // Métodos
 public:			
 	/// Construtor
-  CFEEZhangSuen (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz,
+  CFEEZhangSuen (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0):CFEEsqueleto (matriz,
 		_tamanhoMascara)
   {
   }
@@ -66,45 +66,45 @@ public:
   }				
 
   /// Processa determinação do esqueleto.
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz,
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz,
 			 unsigned int _tamanhoMascara = 0);
 
 protected:
 
 	/// Método auxiliar thnz
-  void thnz (TMatriz2D< int > * im);
+  void thnz (TCMatriz2D< int > * im);
 
 	/// Método auxiliar nays8
-  int nays8 (TMatriz2D< int > * im, int r, int c);
+  int nays8 (TCMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar Connectivity
-  int Connectivity (TMatriz2D< int > * im, int r, int c);
+  int Connectivity (TCMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar Delete
-  void Delete (TMatriz2D< int > * im, TMatriz2D< int > * tmp);
+  void Delete (TCMatriz2D< int > * im, TCMatriz2D< int > * tmp);
 
   	/// Método auxiliar check
   void check (int v1, int v2, int v3);
 
   	/// Método auxiliar edge
-  int edge (TMatriz2D< int > * im, int r, int c);
+  int edge (TCMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar stair
-  void stair (TMatriz2D< int > * im, TMatriz2D< int > * tmp, int dir);
+  void stair (TCMatriz2D< int > * im, TCMatriz2D< int > * tmp, int dir);
 
   	/// Método auxiliar Yokoi
-  int Yokoi (TMatriz2D< int > * im, int r, int c);
+  int Yokoi (TCMatriz2D< int > * im, int r, int c);
 
   	/// Método auxiliar pre_smooth
-  void pre_smooth (TMatriz2D< int > * im);
+  void pre_smooth (TCMatriz2D< int > * im);
 
   	/// Método auxiliar match_du
-  void match_du (TMatriz2D< int > * im, int r, int c, int k);
+  void match_du (TCMatriz2D< int > * im, int r, int c, int k);
 
   	/// Método auxiliar aae
-  void aae (TMatriz2D< int > * image);
+  void aae (TCMatriz2D< int > * image);
 
   	/// Método auxiliar snays
-  int snays (TMatriz2D< int > * im, int r, int c);
+  int snays (TCMatriz2D< int > * im, int r, int c);
 };
 #endif //  CFEEZhangSuen_h

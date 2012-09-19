@@ -237,7 +237,7 @@ void CRotulador2D::CalculaPerimetroObjetos () {
 */
 // Pende em mudar para void*, que será formatado na função PreparaImagem
 // bool CRotulador2D::Go(void* matriz)
-bool CRotulador2D::Go (TMatriz2D< int > * matriz) {
+bool CRotulador2D::Go (TCMatriz2D< int > * matriz) {
    // this->rotuloInicial=rotuloInicial;
 
    // Verifica a imagem
@@ -293,7 +293,7 @@ bool CRotulador2D::Go (TMatriz2D< int > * matriz) {
   @return :
 */
 // bool CRotulador2D::PreparaImagem(void* matriz)
-bool CRotulador2D::PreparaImagem (TMatriz2D< int > * matriz) {
+bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
    pm = matriz;			// armazena endereço matriz
    if (pm == NULL)		// Se for nulo após igualar, sai
       return false;

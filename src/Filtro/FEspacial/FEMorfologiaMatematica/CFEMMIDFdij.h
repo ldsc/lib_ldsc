@@ -43,7 +43,7 @@ public:
    }
 
    /// Construtor
-   CFEMMIDFdij (TMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
+   CFEMMIDFdij (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
       :CFEMMIDF (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb)
    {
    }
@@ -54,6 +54,6 @@ public:
    }
 
    /// Processa determinação da idf.
-   virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+   virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 };
 #endif //  CFEMMIDFdij_h

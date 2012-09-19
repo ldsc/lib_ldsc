@@ -35,7 +35,7 @@ class CFABEntropiaJohansen : public CFABinario
 {
 public:			/// Construtor
 
-  CFABEntropiaJohansen (TMatriz2D< int > * &_pm):CFABinario (_pm)
+  CFABEntropiaJohansen (TCMatriz2D< int > * &_pm):CFABinario (_pm)
   {
   }
 
@@ -45,7 +45,7 @@ public:			/// Construtor
   }
 
   /// Realiza o processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
 
 protected:
 

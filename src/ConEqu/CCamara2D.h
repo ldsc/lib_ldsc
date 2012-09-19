@@ -21,15 +21,15 @@
 #include <ConEqu/CCamara.h>
 #endif
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 /**
  * @brief Representa uma camara (bidimensional) de um porosimetro a mercúrio.
  * 
  * As dimensões adotadas para a camara são aquelas do algorítimo de Magnani.
- * Esta classe é herdeira da classe TMatriz2D< int >, ou seja, uma camara é uma imagem
+ * Esta classe é herdeira da classe TCMatriz2D< int >, ou seja, uma camara é uma imagem
  * (uma matriz de dados) e é herdeira de CCamara.
  * 
  * Enquanto CCamara é uma classe abstrata, CCamara2D e CCamara3D são concretas.
@@ -59,7 +59,7 @@
  * Cria camara utilizando tamanhos default para as paredes a imagem é carregada do arquivo de disco
  * CCamara2D * camara = new CCamara2D( fileName );	
 */
-class CCamara2D : public CCamara, public TMatriz2D< int >
+class CCamara2D : public CCamara, public TCMatriz2D< int >
 {
   //  Métodos
   public:
@@ -68,14 +68,14 @@ class CCamara2D : public CCamara, public TMatriz2D< int >
   CCamara2D( int raioMaximo = 10 )  : CCamara ( raioMaximo ){ }
   
   // Construtor sobrecarregado, cria camara assumindo dimensões padrões.
-  //  CCamara2D (TMatriz2D< int >*& img,int raioMaximo=10):CCamara(raioMaximo)
+  //  CCamara2D (TCMatriz2D< int >*& img,int raioMaximo=10):CCamara(raioMaximo)
   //  {
   //   CCamara2D::CriaCamara(img);
   //  }
   //  Construtor sobrecarregado, cria camara assumindo dimensões padrões e lendo a imagem do disco
   //  CCamara2D (std::string fileName,int raioMaximo=10):CCamara(raioMaximo)
   //  {
-  //   TMatriz2D< int > imagem(fileName);
+  //   TCMatriz2D< int > imagem(fileName);
   //   CCamara2D::CriaCamara(&imagem);
   //  }
   
@@ -86,15 +86,15 @@ class CCamara2D : public CCamara, public TMatriz2D< int >
   //  { if (this == &aCCamara2D) return *this;  };
   //  Operator== operador igualdade
   //  int operator== (const CCamara2D& aCCamara2D)
-  //  { return (  (TMatriz2D< int >2D::operator== (aCCamara2D))   );  };
+  //  { return (  (TCMatriz2D< int >2D::operator== (aCCamara2D))   );  };
   
   ///  Diálogo para entrada de dados das dimensões da camara
   virtual void setDimensoesParedesCamara(){ }
   
   ///  Cria a camara a partir das dimensões da imagem e das paredes 
-  virtual TMatriz2D< int > * CriaCamara ( TMatriz2D< int > * &img );	//  ,int raioMaximo=10);
+  virtual TCMatriz2D< int > * CriaCamara ( TCMatriz2D< int > * &img );	//  ,int raioMaximo=10);
   
-  //  virtual TMatriz2D< int >* CriaCamara(const TMatriz2D< int >*& const img);
+  //  virtual TCMatriz2D< int >* CriaCamara(const TCMatriz2D< int >*& const img);
   // Preenchimento das paredes da camara com o valor dado pelo indice = FUNDO ( PRETO = 0 )
   // que efetivamente pintam os pixel's das "paredes" na camara
   
@@ -120,7 +120,7 @@ class CCamara2D : public CCamara, public TMatriz2D< int >
   /// Copia os pixeis da imagem para a camara, pode ser chamada para alterar a imagem no centro da camara,
   /// desde que tenham as mesmas dimensoes.
   /// Se a imagem tiver outras dimensoes e necessario redefinir a camara chamando CriaCamara novamente
-  virtual void DefineImagem (TMatriz2D< int > * &img);
+  virtual void DefineImagem (TCMatriz2D< int > * &img);
 };
 
 /*

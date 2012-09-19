@@ -64,7 +64,7 @@ class CConfiguracoesEquilibrio2D	//  :CFiltroEspacial
      * para deixar igual ao codigo do Fabio (e diferente do artigo).
      * @param imagem
      */
-    void DiferencaEmRelacaoArtigo (TMatriz2D< int > * &imagem);
+    void DiferencaEmRelacaoArtigo (TCMatriz2D< int > * &imagem);
 
     std::string fileName;	/// Nome do(s) arquivo(s) de disco
 
@@ -129,7 +129,7 @@ protected:
 
     void DefineAtributos ();							/// Define os valores de cor das regiões e demais atributos
 
-    void CriaCamara (TMatriz2D< int > * &imagem);					/// Cria a camara a partir de imagem 2D
+    void CriaCamara (TCMatriz2D< int > * &imagem);					/// Cria a camara a partir de imagem 2D
 
     void CriaIDF ();								/// Cria imagem idf
 
@@ -143,11 +143,11 @@ protected:
 
     void ConectividadeKwbG__U_KGB0B0 ();						/// Determina a Conectividade KwbG__U_KGB0B0
 
-    void SolucaoOmega (int &indiceRegiaoB, TMatriz2D< int > * &imagem);			/// Determina a SolucaoOmega
+    void SolucaoOmega (int &indiceRegiaoB, TCMatriz2D< int > * &imagem);			/// Determina a SolucaoOmega
 
-    void CorrecaocaxYi (TMatriz2D< int > * &imagem);					/// Determina a CorrecaocaxYi
+    void CorrecaocaxYi (TCMatriz2D< int > * &imagem);					/// Determina a CorrecaocaxYi
 
-    void SolucaoFinal (TMatriz2D< int > * &imagem); 					/// Determina a SolucaoFinal
+    void SolucaoFinal (TCMatriz2D< int > * &imagem); 					/// Determina a SolucaoFinal
 
     void RestabeleceIDFPositiva ();		 				/// Restabelece IDF Positiva
 
@@ -156,12 +156,12 @@ protected:
      * @param imagem
      * @param msg
      */
-    void Salvar (TMatriz2D< int > * &imagem, std::string msg);
+    void Salvar (TCMatriz2D< int > * &imagem, std::string msg);
 
 public:
 
     /// Construtor default, recebe uma ostream
-    CConfiguracoesEquilibrio2D ( /*TMatriz2D< int >* imagem */ std::ostream & out = std::cout);
+    CConfiguracoesEquilibrio2D ( /*TCMatriz2D< int >* imagem */ std::ostream & out = std::cout);
 
     /// Destrutor
     virtual ~ CConfiguracoesEquilibrio2D ();
@@ -183,21 +183,21 @@ public:
     }
 
     ///  Executa passo-a-passo a determinação das configurações de equilíbrio.
-    virtual bool Next (TMatriz2D< int > * &imagem);
+    virtual bool Next (TCMatriz2D< int > * &imagem);
 
     ///  Executa toda a determinação das configurações de equilíbrio.
-    virtual void Go (TMatriz2D< int > * &imagem);
+    virtual void Go (TCMatriz2D< int > * &imagem);
 
-    /// Aloca uma TMatriz2D< int > e preenche a mesma com 1 se a cor da região informada equivale a cor extraída da câmara.
+    /// Aloca uma TCMatriz2D< int > e preenche a mesma com 1 se a cor da região informada equivale a cor extraída da câmara.
     /// Deve ser chamada após Next ou Go.
     /// A imagem alocada deve ser destruida por quem a receber.
     // ou seja, retorna imagem da região informada.
-    TMatriz2D< int > * GetImagem ( const int regiao ) const;
+    TCMatriz2D< int > * GetImagem ( const int regiao ) const;
 
     /// Preenche a matriz com 1 se a cor da região informada equivale a cor extraída da câmara.
     /// Deve ser chamada após Next ou Go.
     // ou seja, retorna imagem da região informada.
-    TMatriz2D< int > * GetImagem( TMatriz2D< int >* imagem, const int regiao ) const;
+    TCMatriz2D< int > * GetImagem( TCMatriz2D< int >* imagem, const int regiao ) const;
 
     ///  Define o fluido A
     void FluidoA (CMFluido * &fa)

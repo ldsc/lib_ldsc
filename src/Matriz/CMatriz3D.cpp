@@ -165,7 +165,7 @@ CMatriz3D::CMatriz3D (CMatriz3D & matriz)
 }
 
 /*
-CMatriz3D::CMatriz3D(CMatriz3D* matriz)		// : TMatriz2D< int >()
+CMatriz3D::CMatriz3D(CMatriz3D* matriz)		// : TCMatriz2D< int >()
 {
  formatoImagem = matriz->formatoImagem;
  nx = matriz->nx; 			   // Define dimensoes
@@ -694,13 +694,13 @@ bool CMatriz3D::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType t
 
 }
 
-TMatriz2D< int >* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
+TCMatriz2D< int >* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
 {
 	if ( ! data3D )
 		return NULL;
 
-	TMatriz2D< int > *pm2D = NULL;
-	pm2D = new TMatriz2D< int > (nx, ny);	// Aloca a matriz de dados
+	TCMatriz2D< int > *pm2D = NULL;
+	pm2D = new TCMatriz2D< int > (nx, ny);	// Aloca a matriz de dados
 
 	if ( ! pm2D )
 		return NULL;
@@ -710,7 +710,7 @@ TMatriz2D< int >* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
 		return NULL;
 }
 
-bool CMatriz3D::LePlano (TMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao)
+bool CMatriz3D::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao)
 {
 	if ( ! data3D || ! pm2D)
 		return false;

@@ -29,9 +29,9 @@ Termofisicas  dos Materiais.
 //  	   1
 //   1  p  1
 //      1
-//  TMatriz2D< int > * CFEMMIDFd4::Go( TMatriz2D< int > *& matriz)
+//  TCMatriz2D< int > * CFEMMIDFd4::Go( TCMatriz2D< int > *& matriz)
 //  Obs
-TMatriz2D< int > *CFEMMIDFd4::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+TCMatriz2D< int > *CFEMMIDFd4::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 ExecutadaPorGo(matriz);//  ,_tamanhoMascara);
 IDFNosPlanosDeContorno(mi);

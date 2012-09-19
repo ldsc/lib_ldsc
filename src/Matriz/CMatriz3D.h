@@ -31,7 +31,7 @@ Desenvolvido por:
 #include <Matriz/CBaseMatriz.h>
 #endif
 
-#include <Matriz/TMatriz2D.h>
+#include <Matriz/TCMatriz2D.h>
 
 /**
  * @brief Representa uma matriz 3D.
@@ -175,10 +175,10 @@ class CMatriz3D : public CBaseMatriz
 		bool ReadRAW (std::string fileName, int _nx, int _ny, int _nz, EImageType tipo = D4_X_Y_Z_BINARY); // Como é chamada pelo construtor nao pode ser virtual
 
 		/// lê o plano z da matriz 3D e retona a matriz 2D correspondente ao plano lido.
-		TMatriz2D< int >* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);
+		TCMatriz2D< int >* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);
 
 		/// lê a matriz 3D na direção e plano informados e seta na matriz 2D passada como parametro. As direções podem ser: x, y, z ou X, Y, Z ou i, j, k ou I, J, K.
-		bool LePlano (TMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao = EIXO_Z);
+		bool LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao = EIXO_Z);
 
 		/// rotaciona a imagem 3D, 90 graus a direita no eixo informado
 		bool Rotacionar90 (E_eixo axis = EIXO_Z);
@@ -219,7 +219,7 @@ class CMatriz3D : public CBaseMatriz
 
 		/// Sobrecarga operator+=
 		CMatriz3D & operator= (CMatriz3D & pm3);
-		// TMatriz2D< int >* operator*(TMatriz2D< int >*& m2);
+		// TCMatriz2D< int >* operator*(TCMatriz2D< int >*& m2);
 
 		/// Sobrecarga operator==
 		bool operator== (CMatriz3D & pm3);

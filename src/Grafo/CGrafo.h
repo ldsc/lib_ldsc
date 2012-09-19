@@ -38,8 +38,8 @@
 #include <Matriz/CMatriz3D.h>
 #endif	
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif	
 
 #ifndef CVetor_h
@@ -230,8 +230,8 @@ class  CGrafo
   
   public:
     /// Seta a matriz A e o vetor B, a serem utilizados por um solver externo
-    virtual bool SetMatrizAVetorB (TMatriz2D< int >* &A, CVetor*& B)const ;
-    // 	bool SetMatrizAVetorB (TMatriz2D< int >* &A, CVetor*& B)const ;	// GMRES
+    virtual bool SetMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;
+    // 	bool SetMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;	// GMRES
 	
     /// Retorna o nome do arquivo de disco
     const std::string FileName() const {return fileName;}

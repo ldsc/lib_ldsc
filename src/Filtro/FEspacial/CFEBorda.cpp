@@ -22,10 +22,10 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
 #include "Filtro/FEspacial/CFEBorda.h"
-// virtual TMatriz2D< int >* Go(TMatriz2D< int >* imagem, int _espessura=1);
+// virtual TCMatriz2D< int >* Go(TCMatriz2D< int >* imagem, int _espessura=1);
 
-TMatriz2D< int > *
-CFEBorda::Go (TMatriz2D< int > * &imagem, unsigned int espessura)
+TCMatriz2D< int > *
+CFEBorda::Go (TCMatriz2D< int > * &imagem, unsigned int espessura)
 {
   int nx = imagem->NX ();
   int ny = imagem->NY ();
@@ -34,7 +34,7 @@ CFEBorda::Go (TMatriz2D< int > * &imagem, unsigned int espessura)
   int desloc;
 
 // Teste acesso aos dados da imagem diretamente:
-// Na TMatriz2D< int > inline int   ** GetData2D() const    {return data2D;};       // RETORNA data2D
+// Na TCMatriz2D< int > inline int   ** GetData2D() const    {return data2D;};       // RETORNA data2D
   int **img = imagem->Data2D ();
 
   for (desloc = 0; desloc < espessura; desloc++)

@@ -39,7 +39,7 @@ class CFABVarianciaOtsu : public CFABinario
 {
 public:			
 	/// Construtor
-  CFABVarianciaOtsu (TMatriz2D< int > * &_pm):CFABinario (_pm)
+  CFABVarianciaOtsu (TCMatriz2D< int > * &_pm):CFABinario (_pm)
   {
   }
 
@@ -49,7 +49,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
 protected:
   /// Funções auxiliares

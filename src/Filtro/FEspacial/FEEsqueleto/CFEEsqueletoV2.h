@@ -49,7 +49,7 @@ protected:
 // Métodos
 public:			
 	/// Construtor
-CFEEsqueletoV2 (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
+CFEEsqueletoV2 (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
 	:CFEEsqueleto (matriz, _tamanhoMascara),    idf    (0)
   {
   }
@@ -63,7 +63,7 @@ CFEEsqueletoV2 (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
   
 
   /// Processa determinação do esqueleto.
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz,
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz,
 			 unsigned int _tamanhoMascara = 0);
 
 };

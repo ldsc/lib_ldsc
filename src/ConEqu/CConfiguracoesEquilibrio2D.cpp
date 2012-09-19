@@ -38,7 +38,7 @@ Arquivo de documentacao auxiliar:
 using namespace std;
 
 //  Cria alguns objetos agregados e zera ponteiros
-CConfiguracoesEquilibrio2D::CConfiguracoesEquilibrio2D ( /*TMatriz2D< int >* imagem */ ostream & out)
+CConfiguracoesEquilibrio2D::CConfiguracoesEquilibrio2D ( /*TCMatriz2D< int >* imagem */ ostream & out)
 {
 	// Flags de controle
 	os = &out; 				// temporaria, para saida tela
@@ -54,12 +54,13 @@ CConfiguracoesEquilibrio2D::CConfiguracoesEquilibrio2D ( /*TMatriz2D< int >* ima
 	camara = NULL;
 	camara = new CCamara2D ();	//  Cria objetos agregados
 	COperacao::TestaAlocacao (camara, "objeto camara, construtor CConfiguracoesEquilibrio2");
-	
+/* Falta implementar sobrecarga do operador << em TCMatriz2D
 	if (visualizar == 1)
 	{
-		TMatriz2D< int > *ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+		TCMatriz2D< int > *ptr_camara = static_cast<TCMatriz2D< int > *>(camara);
 		out << (*ptr_camara) << endl;
 	}
+*/
 	fluidoA = new CMFluido ();	//  Podem ser alterados usando
 	fluidoB = new CMFluido ();	//  confEqui->fluidoA->atributo
 	COperacao::TestaAlocacao (fluidoB, "objeto fluidoB, construtor CConfiguracoesEquilibrio2");
@@ -76,7 +77,7 @@ void CConfiguracoesEquilibrio2D::DefineAtributos()
 	//  1=poros
 	// Valores abaixo devem ser utilizados quando quizer gerar as imagens com ~65000 cores.
 	// Pode-se usar qualquer conjunto de valores, desde que não ocorram repeticoes.
-	// Para melhorar a qualidade da visualizacao da imagem gerada, usar TMatriz2D< int >->NumCores(n);
+	// Para melhorar a qualidade da visualizacao da imagem gerada, usar TCMatriz2D< int >->NumCores(n);
 	// sendo n maior que o maior valor encontrado na imagem.
 	B0 = 65000;			//  2;//  indices das diferentes regiões geométricas
 	A0 = 15000;
@@ -140,7 +141,7 @@ CConfiguracoesEquilibrio2D::~CConfiguracoesEquilibrio2D ()
 //  ====================================
 //  Usa a idf d34 para chutar o raioMaximo (usa somente a imagem), ou seja
 //  na imagem da camara o raio maximo pode ser maior em funcao da camara
-void CConfiguracoesEquilibrio2D::CriaCamara(TMatriz2D< int > * &imagem)
+void CConfiguracoesEquilibrio2D::CriaCamara(TCMatriz2D< int > * &imagem)
 {
   Salvar(imagem, "0-imagemInicial.pgm"); 		//  Salva a imagem inicial
   
@@ -172,13 +173,14 @@ void CConfiguracoesEquilibrio2D::CriaCamara(TMatriz2D< int > * &imagem)
   
   //  Aloca a camara, define as paredes e copia imagem
   camara->CriaCamara( imagem );	
-  
+/* Falta implementar sobrecarga do operador << em TCMatriz2D
   if (visualizar == 1)
   {
 	*os << " \nDados objeto camara criacao camara\n";
-	TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+	TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
 	*os << *ptr_camara << endl;
   }
+*/
   //  if(imagem!=NULL)
   //     delete imagem;
   //  imagem=NULL;//  Deleta a imagem recebida, economia.
@@ -194,7 +196,7 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
     delete idf;			//  Se a idf já existe, deleta
   idf = NULL;
 
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
 
   switch ( tipoIDF )		//  Cria objeto idf selecionado
   {
@@ -223,7 +225,7 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
   int maiorValor = idf->MaiorValor ();			//  Calcula o raioMaximo a ser utilizado
   raioMaximo = (maiorValor % idf->Mi() == 0) ? maiorValor / idf->Mi() : 1 + maiorValor / idf->Mi ();
   
-  TMatriz2D< int >* ptr_idf = static_cast<TMatriz2D< int >*>( idf );
+  TCMatriz2D< int >* ptr_idf = static_cast<TCMatriz2D< int >*>( idf );
   Salvar (ptr_idf, string("1-imagemIDF.pgm"));
 }
 
@@ -236,7 +238,7 @@ CConfiguracoesEquilibrio2D::CriaRotulador ()
   if(rotulador)
     delete rotulador;		//  Deleta objeto de rotulagem anterior
   rotulador = NULL;
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   rotulador = new CConectividade2D (ptr_camara);	//  Cria novo objeto rotulador
   COperacao::TestaAlocacao (rotulador, "objeto rotulador, funcao CConfiguracoesEquilibrio2D::Go");
 }
@@ -247,13 +249,13 @@ CConfiguracoesEquilibrio2D::CriaRotulador ()
 void
 CConfiguracoesEquilibrio2D::CalculaAbertura ( int & raio )
 {
-  	TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  	TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   	idf->Abertura (ptr_camara, raio);	//  Determina as regiões abertura (G) na camara
   	Salvar (ptr_camara, "2-imagemG-(4)-%d.pgm");	//  ....Tem na camara(0,G=3)...
 	
 /*	
 	// correção da abertura.
-	TMatriz2D< int > *pm2D = new TMatriz2D< int >(*ptr_camara);
+	TCMatriz2D< int > *pm2D = new TCMatriz2D< int >(*ptr_camara);
 	ptr_camara->Constante(0);
 	int nx = pm2D->NX();
 	int ny = pm2D-> NY();
@@ -287,7 +289,7 @@ CConfiguracoesEquilibrio2D::CalculaAbertura ( int & raio )
   idf->CorrigeAbertura(ptr_camara, G);
   Salvar (ptr_camara, "2.1-imagemG-(corrigida)-%d.dgm"); // imagem G corrigida para não apresentar erro físico.
   
-  //TMatriz2D< int >* ptr_mask = static_cast<TMatriz2D< int >*>(idf->mask);
+  //TCMatriz2D< int >* ptr_mask = static_cast<TCMatriz2D< int >*>(idf->mask);
   //Salvar (ptr_mask, "2.2-mask-%d.pgm");
 
 //  Abaixo só é necessário se for usar G_
@@ -316,10 +318,10 @@ void CConfiguracoesEquilibrio2D::ConectividadeKGB0 ()
 									// no sistema novo, implementado com coilib, isto é desnecessário,
 									// (não tem a membrana, a camara não entra no calculo da abertura)
 									//  ....Tem na camara(0,G=3,B0=4)...
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>( camara );
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>( camara );
   rotulador->Go ( ptr_camara );						//  Realiza a rotulagem
   
-  TMatriz2D< int >* ptr_rotulador = static_cast<TMatriz2D< int >*>(rotulador);
+  TCMatriz2D< int >* ptr_rotulador = static_cast<TCMatriz2D< int >*>(rotulador);
   Salvar (ptr_rotulador, string("4-imagemG+B0-Rotulada-%d.pgm"));	//  salva imagem rotulada
   
   // Tarefa: Leandro renomear VerificaConectividade , para PintaRegiaoConexa ou DefineRegiaoConexa 
@@ -345,7 +347,7 @@ void CConfiguracoesEquilibrio2D::UniaoG__U_KGB0 ()
   //  ....Tem na camara(0,wbG-_U_KGB0)...
   //  if(fluidoB->Molhabilidade()==1)                 		//  se wb=1 a IDF tem valores negativos
   //  RestabeleceIDFPositiva();                 		//  A idf passa a ser positiva e representa a imagem inicial
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   Salvar (ptr_camara, "6-imagem-wbG__U_K(G,B0)-(0,8)-%d.pgm");	//  0,wbG-_U_KGB0=8,
 }
 
@@ -359,7 +361,7 @@ void CConfiguracoesEquilibrio2D::ConectividadeKwbG__U_KGB0B0()
   									//  ....Tem na camara(0,wbG__U_KGB0,B0)...
   rotulador->Go (camara);						//  Antes: 2ï¿½ rotulagem Agora: 1ï¿½ rotulagem
   
-  TMatriz2D< int >* ptr_rotulador = static_cast<TMatriz2D< int >*>(rotulador);
+  TCMatriz2D< int >* ptr_rotulador = static_cast<TCMatriz2D< int >*>(rotulador);
   Salvar (ptr_rotulador, "7.0-imagem-wbG__U_KGB0B0-rotulada-%d.pgm");	//  ....Tem na camara(0,wbG__U_KGB0=8,B0=4,)...
   
   rotulador->VerificaConectividade (wbG__U_KGB0, B0, KwbG__U_KGB0B0);	//  
@@ -367,14 +369,14 @@ void CConfiguracoesEquilibrio2D::ConectividadeKwbG__U_KGB0B0()
   									//  rotulador->VerificaConectividade(wbG__U_KGB0,B0,B); //  
   indiceParcialB = KwbG__U_KGB0B0;					//  =9
   
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   Salvar (ptr_camara, "7.1-imagem-KwbG__U_KGB0B0-Omega-(0,8,9)-%d.pgm");//  ....Tem na camara(0,wbG__U_KGB0=8,KwbG__U_KGB0B0=9,)...
 }
 
 //  ====================================
 //  Definicao dos valores de B, o restante e' Y
 //  Aqui a imagem tem (B->indiceRegiaoB, 0, A0, um outro indice que representa Y)
-void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TMatriz2D< int > * &imagem)
+void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TCMatriz2D< int > * &imagem)
 {
   //  Função: MarcaYi()
   //  Transformacao OPCIONAL
@@ -387,7 +389,7 @@ void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TMatriz2D< in
       else
 	camara->data2D[i][j] = 0;					//  caso contrario nao e Yi
   
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   Salvar (ptr_camara, "7.2-imagem-Yi-(0,3)-%d.pgm");			//  ....Tem na camara(0,Yi)...
 
   //  Funcao DeterminaA0()
@@ -435,11 +437,11 @@ void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TMatriz2D< in
 //  Aqui a camara tem a solucao para Omega no instante de tempo atual,
 //  A imagem tem a solucao no instante anterior
 //  Devo eliminar Yi da solucao de Omega, B = Omega - ca*Yi ~ Omega -ca * (Yi-1)
-void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TMatriz2D< int > * &imagem)
+void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TCMatriz2D< int > * &imagem)
 {
 
   //  if(imagem) delete imagem; imagem = NULL;
-  //  imagem = new TMatriz2D< int >();                                         //  camara->nxImg(),camara->nyImg()
+  //  imagem = new TCMatriz2D< int >();                                         //  camara->nxImg(),camara->nyImg()
   //  sprintf(fileName, "10-imagem-%d.dat",     contadorPassosExecutados-1);
   //  imagem->Read( fileName );                				//  Le a imagem do disco
 
@@ -451,7 +453,7 @@ void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TMatriz2D< int > * &imagem)
 	camara->data2D[i + DeslocX][j + DeslocY] = Yi;			//  pinta como Yi na camara
 
   //  if(imagem) delete imagem; imagem = NULL;
-  TMatriz2D< int >* ptr_camara = static_cast<TMatriz2D< int >*>(camara);
+  TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   Salvar (ptr_camara, "9-imagem-K{WBxG__U_K(G,B0),B0}-caYi-%d.pgm");
   //  CorrecaoBolas(); ??
 }
@@ -460,7 +462,7 @@ void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TMatriz2D< int > * &imagem)
 //  SolucaoFinal(), salva em disco
 //  ====================================
 //  Pensar em Criar: SetdeslocX(), SetdeslocY(), Write..
-void CConfiguracoesEquilibrio2D::SolucaoFinal (TMatriz2D< int > * &imagem) 
+void CConfiguracoesEquilibrio2D::SolucaoFinal (TCMatriz2D< int > * &imagem) 
 {
   //  verificar como esta a imagem
   int DeslocX = camara->DeslocamentoNX ();
@@ -490,17 +492,17 @@ void CConfiguracoesEquilibrio2D::SolucaoFinal (TMatriz2D< int > * &imagem)
 
 // Tarefa: Leandro, o indice deve ser qualquer indice trabalhado, isto e, A, B,Y, A0, BO, e valores parciais,
 // e não apenas A e B. Isto deixa o código mais genérico e util.
-// TMatriz2D< int > * GetImagem ( const int regiao ) const;
-TMatriz2D< int > * CConfiguracoesEquilibrio2D::GetImagem( const int regiao ) const
+// TCMatriz2D< int > * GetImagem ( const int regiao ) const;
+TCMatriz2D< int > * CConfiguracoesEquilibrio2D::GetImagem( const int regiao ) const
 {
-	TMatriz2D< int > * imagem = new TMatriz2D< int >(camara->NxImg(), camara->NyImg());	// aloca matriz 2D com as dimensões da imagem da câmara
+	TCMatriz2D< int > * imagem = new TCMatriz2D< int >(camara->NxImg(), camara->NyImg());	// aloca matriz 2D com as dimensões da imagem da câmara
 
 	return GetImagem( imagem , regiao );
 }
 
 // A funcao deve ter uma outra versão, uma versao que recebe uma imagem e apenas pinta a regiao de interesse
-//TMatriz2D< int > * GetImagem( CImagem2D* imagem, const int regiao ) const;
-TMatriz2D< int > * CConfiguracoesEquilibrio2D::GetImagem( TMatriz2D< int >* imagem, const int regiao) const
+//TCMatriz2D< int > * GetImagem( CImagem2D* imagem, const int regiao ) const;
+TCMatriz2D< int > * CConfiguracoesEquilibrio2D::GetImagem( TCMatriz2D< int >* imagem, const int regiao) const
 {
 	int DeslocX = camara->DeslocamentoNX ();
 	int DeslocY = camara->DeslocamentoNY ();
@@ -544,7 +546,7 @@ void CConfiguracoesEquilibrio2D::RestabeleceIDFPositiva ()
 
 
 // Salva a matriz imagem em disco, monta o nome considerando parametros da simulacao.
-void CConfiguracoesEquilibrio2D::Salvar (TMatriz2D< int > * &imagem, string msg)
+void CConfiguracoesEquilibrio2D::Salvar (TCMatriz2D< int > * &imagem, string msg)
 {
   char fileName[255];
 
@@ -563,12 +565,13 @@ void CConfiguracoesEquilibrio2D::Salvar (TMatriz2D< int > * &imagem, string msg)
   	imagem->NumCores( (cores >= 2) ? cores : cores+2 );
     	imagem->Write (fileName);
   }
-
+/* Falta implementar sobrecarga do operador << em TCMatriz2D
   if (visualizar == 1)
     {
       (*os) << (*imagem) << "\n" << fileName;
       cin.get ();
     }
+*/
 }
 
 //  *********************************************************************
@@ -577,7 +580,7 @@ void CConfiguracoesEquilibrio2D::Salvar (TMatriz2D< int > * &imagem, string msg)
 //  No codigo faz: K(G-Yi,B0)
 //  APÓS REALIZAR OPERACAO ABERTURA, MARCA PONTOS Y DA IMAGEM ANTERIOR
 //  Não esta sendo utilizada
-void CConfiguracoesEquilibrio2D::DiferencaEmRelacaoArtigo (TMatriz2D< int > * &imagem)
+void CConfiguracoesEquilibrio2D::DiferencaEmRelacaoArtigo (TCMatriz2D< int > * &imagem)
 {
   int DeslocX = camara->DeslocamentoNX ();
   int DeslocY = camara->DeslocamentoNY ();
@@ -590,14 +593,14 @@ void CConfiguracoesEquilibrio2D::DiferencaEmRelacaoArtigo (TMatriz2D< int > * &i
 //  ====================================
 //  FUNCAO Next
 //  ====================================
-//   Funcao:    bool CConfiguracoesEquilibrio2D::Next(TMatriz2D< int >* imagem)
+//   Funcao:    bool CConfiguracoesEquilibrio2D::Next(TCMatriz2D< int >* imagem)
 //   Objetivo:  Determinar passo-a-passo as configurações de equilíbrio geométricas em um processo de interação entre
 //               dois fluidos (fluidoA e fluidoB) em uma "camara" de um "porosimetro".
 //   Comentário: Por uma questão de economia de memória, a imagem idf é usada para armazenar os índices de G e G_
 //               ou seja, as regiões verde (abertura) e verde complementar. Isto é realizado pintando com valor negativo a região G_
 
 // Porque esta recebendo a imagem??
-bool CConfiguracoesEquilibrio2D::Next(TMatriz2D< int > * &imagem)
+bool CConfiguracoesEquilibrio2D::Next(TCMatriz2D< int > * &imagem)
 {
 	if (contadorPassosExecutados == 0) 		// só irá entrar na primeira vez
   		{
@@ -646,12 +649,12 @@ bool CConfiguracoesEquilibrio2D::Next(TMatriz2D< int > * &imagem)
 //  ====================================
 //  FUNCAO GO
 //  ====================================
-//    Funcao:    void CConfiguracoesEquilibrio2D::Go(TMatriz2D< int >* imagem)
+//    Funcao:    void CConfiguracoesEquilibrio2D::Go(TCMatriz2D< int >* imagem)
 //    Objetivo:  Determinar as configurações de equilíbrio geométricas em um processo de interação entre dois
 //               fluidos (fluidoA e fluidoB) em uma "camara" de um "porosimetro".
 //    Comentário: Por uma questão de economia de memória, a imagem idf é usada para armazenar os índices de G e G_
 //               ou seja, as regiões verde (abertura) e verde complementar. Isto é realizado pintando com valor negativo a região G_
-void CConfiguracoesEquilibrio2D::Go(TMatriz2D< int > * &imagem)
+void CConfiguracoesEquilibrio2D::Go(TCMatriz2D< int > * &imagem)
 {
 	while( Next(imagem) ){} 			// Next irá executar todo os passos que foram comentados abaixo.
 	/* 

@@ -1,16 +1,16 @@
-#ifndef TMatriz2D_h
-#define TMatriz2D_h
+#ifndef TCMatriz2D_H
+#define TCMatriz2D_H
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-						Assunto/Ramo: TMatriz2D...
+						Assunto/Ramo: TCMatriz2D...
 ===============================================================================
 Desenvolvido por:
 						Laboratorio de Desenvolvimento de Software Cientifico
 						[LDSC].
 @author     André Duarte Bueno
-@file       TMatriz2D.h
+@file       TCMatriz2D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 
@@ -39,27 +39,27 @@ using namespace std;
  * A alocacao e feita dinamicamente
  * Tem tres construtores:
  * 1 - Para criar uma matriz toda nova use
- * TMatriz2D(NX,NY),cria matriz, aloca data2D, zera valores
+ * TCMatriz2D(NX,NY),cria matriz, aloca data2D, zera valores
  * 2 - Para criar uma copia no programa use
- * TMatriz2D(TMatriz2D), cria uma copia
- * TMatriz2D=TMatriz2D;
+ * TCMatriz2D(TCMatriz2D), cria uma copia
+ * TCMatriz2D=TCMatriz2D;
  * 3 - Para abrir uma matriz do disco use
- * TMatriz2D("nomearquivo")
- * TMatriz2D.Read("nomearquivo")
+ * TCMatriz2D("nomearquivo")
+ * TCMatriz2D.Read("nomearquivo")
  * Para salvar a matriz em disco use
- * TMatriz2D.Write(std::string fileName)
+ * TCMatriz2D.Write(std::string fileName)
  * Para acessar o conteudo da matriz use data2D
- * TMatriz2D.data2D[i][j]=33;
- * int x=TMatriz2D.data2D[i][j];
+ * TCMatriz2D.data2D[i][j]=33;
+ * int x=TCMatriz2D.data2D[i][j];
  *
  * PS: Observe que com as funções AlocaMatriz2D, pode-se alocar uma estrutura de dados 2D
  * diretamente, sem criar um objeto matriz.
- * Ex: 	int **m2D = TMatriz2D::AlocaMatriz2D(nx,ny);
+ * Ex: 	int **m2D = TCMatriz2D::AlocaMatriz2D(nx,ny);
  * @author 	André Duarte Bueno
  * @see		Veja assunto
 */
 template< typename T >
-class TMatriz2D : public CBaseMatriz
+class TCMatriz2D : public CBaseMatriz
 {
 		// --------------------------------------------------------------Atributos
 	protected:
@@ -70,33 +70,33 @@ class TMatriz2D : public CBaseMatriz
 		T **data2D; /// Ponteiro para matriz 2D de inteiros
 		// -------------------------------------------------------------Construtor
 		/// Construtor default, data2D=NULL nx=ny=0;
-		TMatriz2D ();
+		TCMatriz2D ();
 
-		/// Construtor le TMatriz2D do disco.
-		TMatriz2D (std::string fileName);
+		/// Construtor le TCMatriz2D do disco.
+		TCMatriz2D (std::string fileName);
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY) da imagem.
-		TMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
+		TCMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
 
 		/// Construtor le plano de uma matriz 3D o primeiro plano é o z=0
-		TMatriz2D (std::string fileName, int planoZ);
+		TCMatriz2D (std::string fileName, int planoZ);
 
-		/// Construtor cria copia TMatriz2D
-		TMatriz2D (TMatriz2D &);
+		/// Construtor cria copia TCMatriz2D
+		TCMatriz2D (TCMatriz2D &);
 
 		/// Construtor cria matriz extendida, com borda extra. Copia matriz na parte central
 		// util pois cria uma borda extra, zerada.
-		TMatriz2D ( TMatriz2D & matriz, unsigned int borda );
+		TCMatriz2D ( TCMatriz2D & matriz, unsigned int borda );
 
-		/// Construtor cria nova TMatriz2D dados=lixo, para zerar Constante(0);
-		TMatriz2D (int _nx, int _ny);
+		/// Construtor cria nova TCMatriz2D dados=lixo, para zerar Constante(0);
+		TCMatriz2D (int _nx, int _ny);
 
 		// --------------------------------------------------------------Destrutor
 
 		/// Destrutor, chama Desaloca
-		virtual ~ TMatriz2D ()
+		virtual ~ TCMatriz2D ()
 		{
-			TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+			TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 		}
 
 		// ----------------------------------------------------------------Métodos
@@ -104,14 +104,14 @@ class TMatriz2D : public CBaseMatriz
 		/// Alocacao
 		virtual bool Aloca ()
 		{
-			data2D = TMatriz2D::AlocaMatriz2D (nx, ny);
+			data2D = TCMatriz2D::AlocaMatriz2D (nx, ny);
 			return data2D ? 1 : 0;
 		}
 
 		/// Desalocacao
 		virtual bool Desaloca ()
 		{
-			TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+			TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 			return data2D ? 0 : 1;
 		}
 
@@ -147,11 +147,11 @@ class TMatriz2D : public CBaseMatriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
 		{
 			if( nx != NX || ny != NY ) {
-				TMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
+				TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 				nx = NX;
 				ny = NY;
 				NZ = 0; // evitar warning
-				data2D = TMatriz2D::AlocaMatriz2D (nx, ny);
+				data2D = TCMatriz2D::AlocaMatriz2D (nx, ny);
 				return data2D ? 1 : 0;
 			}
 			return true; // não precisou redimensionar...
@@ -220,22 +220,22 @@ class TMatriz2D : public CBaseMatriz
 
 		// -----------------------------------------------------------------------Sobrecarga de operador
 		/// Sobrecarga +
-		TMatriz2D< T > & operator+ (TMatriz2D< T > & pm2);
+		TCMatriz2D< T > & operator+ (TCMatriz2D< T > & pm2);
 
 		/// Sobrecarga -
-		TMatriz2D< T > & operator- (TMatriz2D< T > & pm2);
+		TCMatriz2D< T > & operator- (TCMatriz2D< T > & pm2);
 
 		/// Sobrecarga =
-		TMatriz2D< T > & operator= (TMatriz2D< T > & pm2);
+		TCMatriz2D< T > & operator= (TCMatriz2D< T > & pm2);
 
-		// TMatriz2D* operator*(TMatriz2D*& m2);
+		// TCMatriz2D* operator*(TCMatriz2D*& m2);
 		// Sobrecarga *
 
 		/// Sobrecarga ==
-		bool operator== (TMatriz2D< T > & pm2);
+		bool operator== (TCMatriz2D< T > & pm2);
 
 		/// Sobrecarga !=
-		bool operator!= (TMatriz2D< T > & pm2);
+		bool operator!= (TCMatriz2D< T > & pm2);
 
 		/// Aceita matriz(x,y)
 		inline T &operator  () (int x, int y) const
@@ -283,9 +283,9 @@ class TMatriz2D : public CBaseMatriz
 
 		// -----------------------------------------------------------------Friend
 		/// Sobrecarga operador<<.
-		friend ostream& operator<< (ostream& os, const TMatriz2D<T> & pm);
+		//friend ostream &operator<<( ostream &, const TCMatriz2D<T> & );
 
 		/// Sobrecarga operador>>.
-		friend istream& operator>> (istream& is, TMatriz2D<T> & pm);
+		//friend istream &operator>>( istream &, TCMatriz2D<T> & );
 };
 #endif

@@ -43,7 +43,7 @@ Programador:      Andre Duarte Bueno
 */
 
 /*
-TMatriz2D< int > *CFEDCMarrHildreth::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+TCMatriz2D< int > *CFEDCMarrHildreth::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 	tamanhoMascara=_tamanhoMascara;
 	return   Go(matriz);
@@ -52,17 +52,17 @@ TMatriz2D< int > *CFEDCMarrHildreth::Go( TMatriz2D< int > *& matriz, unsigned in
 // O arquivo original pode ler os parametros de um arquivo de disco
 // Conteudo do arquivo de parametros (mar.par) 2.0       0.3
 // Recebe como parametro o desvio padrão
-TMatriz2D< int > *
-CFEDCMarrHildreth::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+TCMatriz2D< int > *
+CFEDCMarrHildreth::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   // CriaMascara(tamanhoMascara);
   pm = matriz;
 
   float s = 1.0;
 
-  TMatriz2D< int > *pm2;		// matriz pm2 uma copia de pm
+  TCMatriz2D< int > *pm2;		// matriz pm2 uma copia de pm
 
-  pm2 = new TMatriz2D< int > (*pm);	// im2 é uma copia de im1
+  pm2 = new TCMatriz2D< int > (*pm);	// im2 é uma copia de im1
 
   marr (s - 0.8, pm);		// aplica o filtro de marr em im1 e im2
 
@@ -94,7 +94,7 @@ CFEDCMarrHildreth::distance (float a, float b, float c, float d)
 }
 
 void
-CFEDCMarrHildreth::marr (float s, TMatriz2D< int > * im)
+CFEDCMarrHildreth::marr (float s, TCMatriz2D< int > * im)
 {
   int width;
 
@@ -207,7 +207,7 @@ float ** CFEDCMarrHildreth::f2d (int nr, int nc)
 */
 
 void
-CFEDCMarrHildreth::convolution (TMatriz2D< int > * im, float **mask, int nr, int nc,
+CFEDCMarrHildreth::convolution (TCMatriz2D< int > * im, float **mask, int nr, int nc,
 				float **res, int NR, int NC)
 {
   int i, j, ii, jj, n, m;
@@ -238,14 +238,14 @@ CFEDCMarrHildreth::convolution (TMatriz2D< int > * im, float **mask, int nr, int
 }
 
 void
-CFEDCMarrHildreth::zero_cross (float **lapim, TMatriz2D< int > * im)
+CFEDCMarrHildreth::zero_cross (float **lapim, TCMatriz2D< int > * im)
 {
   // int i,j,k,n,m, dx, dy;
   unsigned int i, j;
 
   // float x, y, z;
   // int xi,xj,yi,yj, count = 0;
-  // TMatriz2D< int >* deriv;
+  // TCMatriz2D< int >* deriv;
 
   for (i = 1; i < im->NX () - 1; i++)
     for (j = 1; j < im->NY () - 1; j++)

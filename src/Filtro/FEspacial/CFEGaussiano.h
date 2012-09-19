@@ -35,7 +35,7 @@ class CFEGaussiano : public CFEspacial
 {
 public:
 	/// Construtor
-  CFEGaussiano (TMatriz2D< int > * &matriz,
+  CFEGaussiano (TCMatriz2D< int > * &matriz,
 		unsigned int _tamanhoMascara)
 	:CFEspacial (matriz,	  _tamanhoMascara)
   {

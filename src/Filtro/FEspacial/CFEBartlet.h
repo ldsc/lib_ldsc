@@ -40,7 +40,7 @@ class CFEBartlet : public CFEspacial
 {
 public:
 		/// Construtor
-  CFEBartlet (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+  CFEBartlet (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
     :CFEspacial (matriz,_tamanhoMascara)
   {
   }

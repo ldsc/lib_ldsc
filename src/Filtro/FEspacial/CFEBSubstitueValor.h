@@ -41,7 +41,7 @@ class CFEBSubstitueValor : public CFEBorda
 
 public:
 		/// Construtor
-  CFEBSubstitueValor (int _valorAntigo, int vB = 0, TMatriz2D< int > * matriz = 0, 
+  CFEBSubstitueValor (int _valorAntigo, int vB = 0, TCMatriz2D< int > * matriz = 0, 
 		      unsigned int _tamanhoMascara = 0)
 	:CFEBorda (vB, matriz, _tamanhoMascara),   
 		    valorAntigo    (_valorAntigo)
@@ -54,7 +54,7 @@ public:
   }
 
     /// Cria a mascara adequada
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &imagem, unsigned int espessura = 1);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &imagem, unsigned int espessura = 1);
 
 };
 #endif // CFEBSubstitueValor

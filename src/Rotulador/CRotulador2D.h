@@ -27,8 +27,8 @@
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 #ifndef CRotulador_h
@@ -44,12 +44,12 @@
  * @see		Rotulador
 */
 
-class CRotulador2D : public CRotulador, public TMatriz2D< int >
+class CRotulador2D : public CRotulador, public TCMatriz2D< int >
 {
   //--------------------------------------------------------------Atributos
  public:
   /** @brief Ponteiro para a imagem recebida no construtor ou em Go*/
-  TMatriz2D< int > * pm;
+  TCMatriz2D< int > * pm;
 
   //-------------------------------------------------------------Construtor
   /** Construtor. 
@@ -57,24 +57,24 @@ class CRotulador2D : public CRotulador, public TMatriz2D< int >
    * Copia ponteiro para imagem recebida,
    * na funcão prepara imagem copia os dados
   */
-  CRotulador2D (TMatriz2D< int > * _pm, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TMatriz2D< int >(_pm->NX(), _pm->NY()), pm(_pm) {
-  	TMatriz2D< int >::Path( _pm->Path() );
+  CRotulador2D (TCMatriz2D< int > * _pm, int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(_pm->NX(), _pm->NY()), pm(_pm) {
+  	TCMatriz2D< int >::Path( _pm->Path() );
   }
 
   /// Construtor, abre imagem do disco
   CRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TMatriz2D< int >(fileName), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(fileName), pm(NULL) {
   }
 
   /// Construtor, recebe dimensões da imagem
   CRotulador2D (int nx, int ny, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TMatriz2D< int >(nx, ny), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(nx, ny), pm(NULL) {
   }
 
   /** data2D deve ser alocado posteriormente*/
   CRotulador2D (int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TMatriz2D< int >(), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(), pm(NULL) {
   }
 
   //--------------------------------------------------------------Destrutor
@@ -87,7 +87,7 @@ class CRotulador2D : public CRotulador, public TMatriz2D< int >
   //----------------------------------------------------------------Métodos
   protected:
   /**  @brief Verifica a imagem*/
-  virtual bool PreparaImagem (TMatriz2D< int > * matriz);
+  virtual bool PreparaImagem (TCMatriz2D< int > * matriz);
 
   /**  @brief Passo 1: 1a Passagem.
    * OBS: o int rotuloInicial=0 foi passado para a funcao RotulaImagem	*/
@@ -108,9 +108,9 @@ class CRotulador2D : public CRotulador, public TMatriz2D< int >
   virtual void CalculaPerimetroObjetos ();
 
   //Metodos utilizados na rotulagem, redefinidos aqui
-  //virtual void Go(TMatriz2D< int >*& matriz, int rotuloInicial = 0 );
+  //virtual void Go(TCMatriz2D< int >*& matriz, int rotuloInicial = 0 );
   /// Executa toda a sequencia de rotulagem
-  virtual bool Go (TMatriz2D< int > * matriz /*, int rotuloInicial = 0 */ );
+  virtual bool Go (TCMatriz2D< int > * matriz /*, int rotuloInicial = 0 */ );
 
   //--------------------------------------------------------------------Get
   //--------------------------------------------------------------------Set

@@ -2,7 +2,7 @@
 #define CCorrelacaoEspacial_h
 
 #include <Correlacao/CCorrelacao.h>
-#include <Matriz/TMatriz2D.h>
+#include <Matriz/TCMatriz2D.h>
 
 /**
  * @brief Recebe uma imagem bidimensional e determina através do método do deslocamento da imagem sobre ela mesma, a função autocorrelação.
@@ -22,8 +22,8 @@ class CCorrelacaoEspacial : public CCorrelacao
    /// Determina a função autocorrelação. Recebe ponteiro para vetor imagem, as dimensões da imagem e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
    virtual bool Go (float *Re_data, int NX, int NY, int indice=1);
 
-   /// Determina a função autocorrelação. Recebe ponteiro para TMatriz2D< int > e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
-   virtual bool Go (TMatriz2D< int > *img, int indice=1);
+   /// Determina a função autocorrelação. Recebe ponteiro para TCMatriz2D< int > e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
+   virtual bool Go (TCMatriz2D< int > *img, int indice=1);
 
 };
 

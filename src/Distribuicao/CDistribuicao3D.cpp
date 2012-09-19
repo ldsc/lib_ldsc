@@ -78,7 +78,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
    //calcula a imagem idf.
    while (obj != 0.0) {
       lastobj = obj;
-      *matriz=*pm3D; //faz uma cópia da matriz utilizando a sobrecarga de operador de TMatriz2D< int >
+      *matriz=*pm3D; //faz uma cópia da matriz utilizando a sobrecarga de operador de TCMatriz2D< int >
       // calula a idf da imagem
       filtro->Go(matriz, raio);
       // aplica a abertura na imagem

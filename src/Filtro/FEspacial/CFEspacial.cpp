@@ -43,19 +43,19 @@ Descrição: Deve percorrer a imagem somente onde a mascara cabe // depois mudar
 Programador:      Andre Duarte Bueno
 */
 
-/*TMatriz2D< int > *CFEspacial::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+/*TCMatriz2D< int > *CFEspacial::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
  tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 } */
 
-TMatriz2D< int > * CFEspacial::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) {
+TCMatriz2D< int > * CFEspacial::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) {
     tamanhoMascara = _tamanhoMascara;
     CriaMascara (tamanhoMascara);	// Cria a mascara adequada
 
     // A funcao de preenchimento da mascara já calculada o peso da mascara
     pm = matriz;
-    TMatriz2D< int > *rImg = new TMatriz2D< int > (*pm);	// rImg é uma matriz cópia da matriz pm passada
+    TCMatriz2D< int > *rImg = new TCMatriz2D< int > (*pm);	// rImg é uma matriz cópia da matriz pm passada
 
     unsigned int i, j, k, l;			// variáveis auxiliares
 

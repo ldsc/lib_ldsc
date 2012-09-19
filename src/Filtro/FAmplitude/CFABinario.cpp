@@ -32,8 +32,8 @@ Descrição:        Se o valor de cor do pixel for maior que o nivel de corte, a
 						caso contrário assume valor  0.
 Programador:      Andre Duarte Bueno
 */
-TMatriz2D< int > *
-CFABinario::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+TCMatriz2D< int > *
+CFABinario::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
   for (unsigned int i = 0; i < pm->NX (); i++)

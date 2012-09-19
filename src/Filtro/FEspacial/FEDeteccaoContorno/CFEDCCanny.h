@@ -43,7 +43,7 @@ protected:
 // Métodos
 public:			
 	/// Construtor
-    CFEDCCanny (TMatriz2D< int > * &matriz,
+    CFEDCCanny (TCMatriz2D< int > * &matriz,
 		unsigned int _tamanhoMascara)
       : CFEDeteccaoContorno (matriz,  _tamanhoMascara)
   {
@@ -59,7 +59,7 @@ public:
   }				
 
   /// Processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
 protected:
 /// Método auxiliar trace

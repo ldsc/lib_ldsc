@@ -57,7 +57,7 @@ public:
 public:
 
     /// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
-    CFEspacial (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)
+    CFEspacial (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)
     {
         mask = NULL;
     }
@@ -82,7 +82,7 @@ public:
     }
 
     /// Realiza o processamento da filtragem
-    virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+    virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
 
 
 protected:

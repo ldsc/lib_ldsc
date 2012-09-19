@@ -12,8 +12,8 @@ Bibliotecas e Defines
 #endif
 
 // inclue a biblioteca de filtros
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 /*
@@ -49,7 +49,7 @@ protected:
 
 // Métodos
 public:			/// Construtor
-  CFEEsqueleto (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
+  CFEEsqueleto (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
 	: CFEspacial (matriz, _tamanhoMascara), valorEsqueleto (1), valorObjeto (0)
   {
   }
@@ -85,6 +85,6 @@ public:			/// Construtor
 
 
   /// Método usado para eliminar pés de galinha (ramos mortos).
-  virtual void EliminaPeGalinha (TMatriz2D< int > * imagem);	//
+  virtual void EliminaPeGalinha (TCMatriz2D< int > * imagem);	//
 };
 #endif //  CFEEZhangSuen_h

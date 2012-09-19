@@ -67,7 +67,7 @@ CSMatriz * CSMatriz::Selecao (int tipo)
 // Funcao Determinante
 // -----------------------------------------------------------------------
 double
-CSMatriz::Determinante (TMatriz2D< int > * &A)	// ;// , int numRows);
+CSMatriz::Determinante (TCMatriz2D< int > * &A)	// ;// , int numRows);
 {
 /*
 BUG: a matriz deve ser double e não int
@@ -86,7 +86,7 @@ BUG: a matriz deve ser double e não int
 // Funcao Inversa
 // -----------------------------------------------------------------------
 // Deve pertencer a   TM2DOperacoesBasicas
-CMath::EMathError CSMatriz::Inversa (TMatriz2D< int > * &A)	// ;// , int numRows);// MatInverse
+CMath::EMathError CSMatriz::Inversa (TCMatriz2D< int > * &A)	// ;// , int numRows);// MatInverse
 {
 /*  CVetor colVect(A->GetNX());
   unsigned int i, j;
@@ -111,7 +111,7 @@ CMath::EMathError CSMatriz::Inversa (TMatriz2D< int > * &A)	// ;// , int numRows
 // Funcao LUBackSubst
 // -----------------------------------------------------------------------
 void
-CSMatriz::LUBackSubst (TMatriz2D< int > * &A, CVetor * &B)	// ;// CVetor& Index,int A.GetNX(),
+CSMatriz::LUBackSubst (TCMatriz2D< int > * &A, CVetor * &B)	// ;// CVetor& Index,int A.GetNX(),
 {
 /*
 BUG: a matriz deve ser double e não int
@@ -148,7 +148,7 @@ BUG: a matriz deve ser double e não int
 CVetor Index(A.GetNX());       		// A.GetNX()= numRows
 int rowSwapFlag;
 */
-CMath::EMathError CSMatriz::LUDecomp (TMatriz2D< int > * &A)
+CMath::EMathError CSMatriz::LUDecomp (TCMatriz2D< int > * &A)
 {
 /*
 BUG: a matriz deve ser double e não int

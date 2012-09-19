@@ -7,7 +7,7 @@
 #include  <cassert>
 
 // Inclusao de arquivos da LIB_LDSC
-#include <Matriz/TMatriz2D.h>					// Matriz normal da libldsc
+#include <Matriz/TCMatriz2D.h>					// Matriz normal da libldsc
 #include <FFT/CFFT.h>						// Objeto calculo transformada fourier
 #include <Interpolacao/Interpolacao2D/CInt2DBilinear.h> 	// Objeto de interpolacao
 
@@ -61,7 +61,7 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 	RealocarMatrizSeNecessario(Re_data, _NX, _NY);
 
 	// Método estatico da classe matriz2d que lê matriz no formato antigo (somente dados)
-	bool leituraArquivo = TMatriz2D< float >::Read2D( (fileName + ".dat").c_str (), Re_data, NX, NY );
+	bool leituraArquivo = TCMatriz2D< float >::Read2D( (fileName + ".dat").c_str (), Re_data, NX, NY );
 
 	if ( leituraArquivo == 0 )
 	{
@@ -200,8 +200,8 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 }
 
 // Funcao de cálculo da funcao correlacao
-// Recebe uma imagem 2D (TMatriz2D< int >)
-bool CCorrelacaoFFT::Go ( TMatriz2D< int > *img, int indice ) {
+// Recebe uma imagem 2D (TCMatriz2D< int >)
+bool CCorrelacaoFFT::Go ( TCMatriz2D< int > *img, int indice ) {
 	if (! img )
 		return false;
 

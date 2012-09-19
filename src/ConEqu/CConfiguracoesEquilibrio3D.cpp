@@ -699,7 +699,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo( CMatriz3D * &imagem ) {
 //  ====================================
 //  FUNCAO Next
 //  ====================================
-//   Funcao:     bool CConfiguracoesEquilibrio2D::Next(TMatriz2D< int >* imagem)
+//   Funcao:     bool CConfiguracoesEquilibrio2D::Next(TCMatriz2D< int >* imagem)
 //   Objetivo:   Determinar passo-a-passo as configurações de equilíbrio geométricas em um processo de interação entre
 //               dois fluidos (fluidoA e fluidoB) em uma "camara" de um "porosimetro".
 //   Comentário: Por uma questão de economia de memória, a imagem idf é usada para armazenar os índices de G e G_

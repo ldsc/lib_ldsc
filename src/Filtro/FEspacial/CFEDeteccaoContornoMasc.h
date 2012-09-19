@@ -33,7 +33,7 @@ class CFEDeteccaoContornoMasc : public CFEspacial
 {
 public:
 		/// Construtor
-  CFEDeteccaoContornoMasc (TMatriz2D< int > * &matriz,
+  CFEDeteccaoContornoMasc (TCMatriz2D< int > * &matriz,
 			   unsigned int _tamanhoMascara)
     : CFEspacial (matriz,  _tamanhoMascara)
   {

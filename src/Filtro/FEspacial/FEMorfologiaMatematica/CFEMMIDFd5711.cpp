@@ -43,9 +43,9 @@
   deve percorrer a parte interna da imagem, não acessando a borda da imagem.
   Ou seja desconsidera-se os pontos da borda da imagem.
 */
-//  TMatriz2D< int > * CFEMMIDFd5711::Go( TMatriz2D< int > *& matriz)
+//  TCMatriz2D< int > * CFEMMIDFd5711::Go( TCMatriz2D< int > *& matriz)
 /*
-  TMatriz2D< int > *CFEMMIDFd5711::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+  TCMatriz2D< int > *CFEMMIDFd5711::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
   {
   InicializaIDF(matriz,_tamanhoMascara);//  armazena valores da matriz e _tamanhoMascara
   //  verifica se pm->data2D e this->data2D tem as mesmas dimensoes

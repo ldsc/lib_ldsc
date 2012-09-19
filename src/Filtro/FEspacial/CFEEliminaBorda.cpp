@@ -22,8 +22,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 #include "Filtro/FEspacial/CFEEliminaBorda.h"
 
-TMatriz2D< int > *
-CFEEliminaBorda::Go (TMatriz2D< int > * imagem, int espessura)
+TCMatriz2D< int > *
+CFEEliminaBorda::Go (TCMatriz2D< int > * imagem, int espessura)
 {
   int nx = imagem->NX ();
   int ny = imagem->NY ();

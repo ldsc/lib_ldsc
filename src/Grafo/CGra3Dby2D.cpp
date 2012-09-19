@@ -83,7 +83,7 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao) {
    assert (ra);
    rp = new CRotulador2DCm (nx, ny);
    assert (rp);
-   img2D = new TMatriz2D< int > (nx, ny);
+   img2D = new TCMatriz2D< int > (nx, ny);
    assert (img2D);
    CRotulador2DCm *rtemp;
 
@@ -221,7 +221,7 @@ CGrafo * CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao) {
 
    // Matriz imagem bidimensional passada para rotulador->Go(matriz)
    // Contém uma copia do plano3D a ser analisado
-   img2D = new TMatriz2D< int > (nx, ny);
+   img2D = new TCMatriz2D< int > (nx, ny);
    assert (img2D);
 
    // ------------

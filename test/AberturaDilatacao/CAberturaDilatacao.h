@@ -3,7 +3,7 @@
 #define CAberturaDilatacao_H
 
 #include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
-#include <Matriz/TMatriz2D.h>
+#include <Matriz/TCMatriz2D.h>
 #include <Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
@@ -35,10 +35,10 @@ protected:
     CVetor* distribuicaoSitios;
 
     /// Matriz original (ponteiro para matriz original)
-    TMatriz2D< int >* pm;
+    TCMatriz2D< int >* pm;
 
     /// Matriz rotulada
-    TMatriz2D< int >* matrizRotulo;
+    TCMatriz2D< int >* matrizRotulo;
 
     /// Numero de objetos identificados na última rotulagem (Não é acumulado)
     int numeroObjetos;
@@ -77,13 +77,13 @@ public:
     CAberturaDilatacao();
 
     /// Construtor sobrecarregado
-    CAberturaDilatacao(TMatriz2D< int >* &matriz, std::string _nomeImagem = "");
+    CAberturaDilatacao(TCMatriz2D< int >* &matriz, std::string _nomeImagem = "");
 
     /// Destrutor
     ~CAberturaDilatacao();
 
     /// Calculo da porosidade
-    double Porosidade(TMatriz2D< int >*& pm);
+    double Porosidade(TCMatriz2D< int >*& pm);
 
     /// Rotula a imagem
     void RotulaImagem();

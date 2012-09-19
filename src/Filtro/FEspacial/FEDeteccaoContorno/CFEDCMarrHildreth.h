@@ -8,8 +8,8 @@ Bibliotecas e Defines
 */
 
 // inclue a biblioteca de Matrizzes
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 #ifndef CFEDeteccaoContorno_h
@@ -41,7 +41,7 @@ class CFEDCMarrHildreth:public CFEDeteccaoContorno
 // Métodos
 public:			
 	/// Construtor
-  CFEDCMarrHildreth (TMatriz2D< int > * &matriz,
+  CFEDCMarrHildreth (TCMatriz2D< int > * &matriz,
 		     unsigned int  _tamanhoMascara)
                    : CFEDeteccaoContorno (matriz,  _tamanhoMascara)
   {
@@ -53,13 +53,13 @@ public:
   }				
 
   /// Processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, 
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, 
 			 unsigned int _tamanhoMascara =	 0);
 
 
 protected:
   /// Método auxiliar convolution
-  void convolution (TMatriz2D< int > * im, float **mask, int nr, int nc,
+  void convolution (TCMatriz2D< int > * im, float **mask, int nr, int nc,
 		    float **res, int NR, int NC);
 
   /// Método auxiliar gauss
@@ -72,13 +72,13 @@ protected:
   float meanGauss (float x, float sigma);
 
     /// Método auxiliar marr
-  void marr (float s, TMatriz2D< int > * im);
+  void marr (float s, TCMatriz2D< int > * im);
 
     /// Método auxiliar dolap
   void dolap (float **x, int nr, int nc, float **y);
 
     /// Método auxiliar zero_cross
-  void zero_cross (float **lapim, TMatriz2D< int > * im);
+  void zero_cross (float **lapim, TCMatriz2D< int > * im);
 
     /// Método auxiliar norm
   float norm (float x, float y);

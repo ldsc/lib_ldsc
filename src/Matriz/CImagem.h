@@ -31,8 +31,8 @@ Desenvolvido por:
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 /* // comentei para poder fazer dynamic_cast
 #ifndef CImg_h
@@ -43,7 +43,7 @@ Desenvolvido por:
  * 
  * @brief	Representra uma imagem bidimensional.	
  * 
- * É uma matriz bidimensional, herdeira da TMatriz2D< int >
+ * É uma matriz bidimensional, herdeira da TCMatriz2D< int >
  * Acrescenta os atributos x0 e y0 que representam
  * as coordenadas centrais na matriz de dados.
  * Acrescenta uma função contem que verifica se o ponto passado
@@ -51,44 +51,44 @@ Desenvolvido por:
  * @author 	André Duarte Bueno	
  * @see		Matrizes
 */
-class CImagem : public TMatriz2D< int >//, public CImg // comentei para poder fazer dynamic_cast
+class CImagem : public TCMatriz2D< int >//, public CImg // comentei para poder fazer dynamic_cast
 {
 // --------------------------------------------------------------Atributos
 public:
   int x0, y0;
 // -------------------------------------------------------------Construtor
   /// Constrói uma imagem vazia, não alocada
-  CImagem ():TMatriz2D< int > ()
+  CImagem ():TCMatriz2D< int > ()
   {
      x0 = y0 = 0;
   }
 
   /// Constrói a imagem a partir de arquivo de disco
-  CImagem (std::string fileName):TMatriz2D< int > (fileName)
+  CImagem (std::string fileName):TCMatriz2D< int > (fileName)
   {
     x0 = y0 = 0;
   }
 
   /// Constrói a imagem bidimensional a partir de plano de imagem tridimensional
-  CImagem (std::string fileName, int planoZ):TMatriz2D< int > (fileName, planoZ)
+  CImagem (std::string fileName, int planoZ):TCMatriz2D< int > (fileName, planoZ)
   {
     x0 = y0 = 0;
   }
 
   /// Construtor de cópia
-CImagem (CImagem & img):TMatriz2D< int > (img)
+CImagem (CImagem & img):TCMatriz2D< int > (img)
   {
      x0 = y0 = 0;
   }
 
   /// Constrói imagem nova, com as dimensões passadas
-  CImagem (int nx, int ny):TMatriz2D< int > (nx, ny)
+  CImagem (int nx, int ny):TCMatriz2D< int > (nx, ny)
   {
      x0 = y0 = 0;
   }
 
   /// Constrói uma imagem a partir de uma matriz2D, faz x0=y0=0
-CImagem (TMatriz2D< int > & matriz):TMatriz2D< int > (matriz)
+CImagem (TCMatriz2D< int > & matriz):TCMatriz2D< int > (matriz)
   {
     x0 = y0 = 0;
   }
@@ -121,13 +121,13 @@ public:
   void Inverter ();
 
   /// Faz a interseção entre this e pm2
-  TMatriz2D< int > *Intersecao (TMatriz2D< int > * pm2);
+  TCMatriz2D< int > *Intersecao (TCMatriz2D< int > * pm2);
 
   /// Faz a união entre this e pm2
-  TMatriz2D< int > *Uniao (TMatriz2D< int > * pm2);
+  TCMatriz2D< int > *Uniao (TCMatriz2D< int > * pm2);
 
   // Compara this e pm2
-  // TMatriz2D< int >* Igual(TMatriz2D< int >*pm2);                              
+  // TCMatriz2D< int >* Igual(TCMatriz2D< int >*pm2);                              
 
 // -----------------------------------------------------------------Friend
 //       friend ostream& operator<< (ostream& os, CImagem& obj);

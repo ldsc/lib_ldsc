@@ -56,7 +56,7 @@ class CRotulador2DCm : public CRotulador2D
   // Copia ponteiro para imagem recebida,
   // na função prepara imagem copia os dados
   /// Construtor recebe ponteiro para imagem
-  CRotulador2DCm (TMatriz2D< int > * _pm) : CRotulador2D ( _pm )
+  CRotulador2DCm (TCMatriz2D< int > * _pm) : CRotulador2D ( _pm )
   {
   }
 

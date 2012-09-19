@@ -401,7 +401,7 @@ void CVetor::SalvaDadosBinarios (ofstream & fout) const {
 				}
 				break;
 			case V6_X_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
-				cerr << "Formato de arquivo V6_X_COLOR_BINARY não implementado em TMatriz2D< int >::SalvaDadosBinarios" << endl;
+				cerr << "Formato de arquivo V6_X_COLOR_BINARY não implementado em TCMatriz2D< int >::SalvaDadosBinarios" << endl;
 				/* falta implementar vetores para as cores RGB
 				for (int i = 0; i < nx; i++) {
 					fout << (unsigned char) data1Dr[i];
@@ -410,7 +410,7 @@ void CVetor::SalvaDadosBinarios (ofstream & fout) const {
 				}
 				*/
 				break;
-			default: cerr << "Formato de arquivo inválido em TMatriz2D< int >::SalvaDadosBinarios" << endl;
+			default: cerr << "Formato de arquivo inválido em TCMatriz2D< int >::SalvaDadosBinarios" << endl;
 		}
 	}
 }

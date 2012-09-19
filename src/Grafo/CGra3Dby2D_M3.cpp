@@ -340,7 +340,7 @@ return this;
 */
 
 bool
-CGra3Dby2D_M3::SetMatrizAVetorB (TMatriz2D< int > * &A, CVetor * &B)  const
+CGra3Dby2D_M3::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
 {
    // vector< vector<float> > A;
    // vector<float> B;

@@ -38,9 +38,9 @@ Desenvolvido por:
 #include <Matriz/CVetor.h>
 #endif
 
-// Classe definição TMatriz2D< int >
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+// Classe definição TCMatriz2D< int >
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 // Clase base
@@ -117,21 +117,21 @@ public:
 // ----------------------------------------------------------------Métodos
 protected:
 	/// Método auxiliar, LUBackSubst  
-  void LUBackSubst (TMatriz2D< int > * &A, CVetor * &B);
+  void LUBackSubst (TCMatriz2D< int > * &A, CVetor * &B);
 
   
   	/// Método auxiliar, LUDecomp 
-  CMath::EMathError LUDecomp (TMatriz2D< int > * &A);
+  CMath::EMathError LUDecomp (TCMatriz2D< int > * &A);
 
 public:
   /// Calcula e retorna a solução X do sistema
-  virtual CVetor * Go (TMatriz2D< int > * A = 0, CVetor * B = 0) = 0;	// CVetor é unsigned int bug
+  virtual CVetor * Go (TCMatriz2D< int > * A = 0, CVetor * B = 0) = 0;	// CVetor é unsigned int bug
 
   /// Calcula o determinante
-  double Determinante (TMatriz2D< int > * &A);
+  double Determinante (TCMatriz2D< int > * &A);
 
   /// Inverte  a matriz
-  CMath::EMathError Inversa (TMatriz2D< int > * &A);
+  CMath::EMathError Inversa (TCMatriz2D< int > * &A);
 
   /// Cria objeto solver e retorna
   static CSMatriz *Selecao (int tipo = 0);

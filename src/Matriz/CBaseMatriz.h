@@ -120,7 +120,7 @@ using namespace std;
 // Documentacao CLASSE: CBaseMatriz
 // ===============================================================================
 /**
- * @brief Classe base para as classes CVetor, TMatriz2D< int > e CMatriz3D.
+ * @brief Classe base para as classes CVetor, TCMatriz2D< int > e CMatriz3D.
  *   Inclue as definições em comum.
  *
  * Obs:

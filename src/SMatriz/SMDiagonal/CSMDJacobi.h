@@ -68,7 +68,7 @@ class CSMDJacobi : public CSMDiagonalDominante
  protected:
 
     // Calcula e retorna a solucao X do sistema
-    // virtual TVetor* Go(TMatriz2D* A=0,TVetor* B=0);
+    // virtual TVetor* Go(TCMatriz2D* A=0,TVetor* B=0);
     /// Funcao que atualiza os valores de X
     virtual void AtualizaX ();
 
@@ -81,7 +81,7 @@ class CSMDJacobi : public CSMDiagonalDominante
  public:
 
     // Calcula e retorna a solucao X do sistema
-    // virtual TVetor* Go(TMatriz2D* A=0,TVetor* B=0){};                   
+    // virtual TVetor* Go(TCMatriz2D* A=0,TVetor* B=0){};                   
     // -------------------------------------------------------------Sobrecarga
 
     // --------------------------------------------------------------------Get

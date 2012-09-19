@@ -38,7 +38,7 @@ class CFEMorfologiaMatematica : public CFEspacial {
 
     public:
         /// Construtor
-        CFEMorfologiaMatematica ( TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
+        CFEMorfologiaMatematica ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
            : CFEspacial ( matriz, _tamanhoMascara ), EEHitMiss1 ( false ), EEHitMiss2 ( false ), INDICE ( _indice ), FUNDO ( _fundo ) { }
 
         /**
@@ -50,7 +50,7 @@ class CFEMorfologiaMatematica : public CFEspacial {
          * @param _tamanhoMascara
          * @return
          */
-        virtual TMatriz2D< int > *Go ( TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0 ) {
+        virtual TCMatriz2D< int > *Go ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0 ) {
             _tamanhoMascara = 0; // evitar warning
             return matriz;
         }
@@ -59,32 +59,32 @@ class CFEMorfologiaMatematica : public CFEspacial {
         virtual void CriaMascara ( unsigned int _tamanhoMascara );
 
         /// Processa  Abertura, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Abertura ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Abertura ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Erosao, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Erosao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Erosao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Dilatacao, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Dilatacao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Dilatacao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Fechamento, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Fechamento ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Fechamento ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         //  Corrigir arrumar, as funcoes abaixo
         /// Processa  DeteccaoContorno, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *DeteccaoContorno ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *DeteccaoContorno ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  HitMiss, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *HitMiss ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *HitMiss ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Afinamento, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Afinamento ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Afinamento ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Espessamento, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Espessamento ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Espessamento ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
         /// Processa  Esqueleto, as operacoes recebem o raio da bola
-        virtual TMatriz2D< int > *Esqueleto ( TMatriz2D< int > * &matriz, unsigned int _RaioBola );
+        virtual TCMatriz2D< int > *Esqueleto ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
 
     protected:
         /// Cria mascara do tipo b1, usadas no afinamento e espessamento

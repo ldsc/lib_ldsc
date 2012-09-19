@@ -11,8 +11,8 @@ Bibliotecas e Defines
 #include <Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.h>
 #endif
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>	// inclue a biblioteca de matrizes
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>	// inclue a biblioteca de matrizes
 #endif // 
 
 // #define MAX                    // MAX é usada na lib
@@ -75,13 +75,13 @@ protected:
   int nr; ///< numero linhas  nrows
   int nc;			///< numero  colunas ncols 
 
-  TMatriz2D< int > *edges;		///< keep track of edge points (thresholded)
+  TCMatriz2D< int > *edges;		///< keep track of edge points (thresholded)
 
   int thinFactor;		///< fator de thining (afinamento)
 
 public:			/// Construtor
 
-  CFEDCShenCastan (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara);
+  CFEDCShenCastan (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara);
 
   /// Destrutor
   ~CFEDCShenCastan ()
@@ -90,7 +90,7 @@ public:			/// Construtor
   		
   
   /// Processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
   /// Seta parâmetros do método.
   void SetParametros (double razao = 0.035, double fatorAmortecimento = .91,
@@ -110,7 +110,7 @@ public:			/// Construtor
 
 protected:
 	/// Método auxiliar shen
-  void shen (TMatriz2D< int > * &im, TMatriz2D< int > * &res);
+  void shen (TCMatriz2D< int > * &im, TCMatriz2D< int > * &res);
 
 	/// Método auxiliar compute_ISEF
   void compute_ISEF (float **x, float **y, int nrows, int ncols);
@@ -124,32 +124,32 @@ protected:
 			      float **B, int nrows, int ncols);
 
   	/// Método auxiliar compute_bli
-  TMatriz2D< int > *compute_bli (float **buff1, float **buff2, int nrows, int ncols);
+  TCMatriz2D< int > *compute_bli (float **buff1, float **buff2, int nrows, int ncols);
 
   	/// Método auxiliar locate_zero_crossings
   void locate_zero_crossings (float **orig, float **smoothed,
-			      TMatriz2D< int > * &bli, int nrows, int ncols);
+			      TCMatriz2D< int > * &bli, int nrows, int ncols);
 
   	/// Método auxiliar threshold_edges
-  void threshold_edges (float **in, TMatriz2D< int > * &out, int nrows, int ncols);
+  void threshold_edges (float **in, TCMatriz2D< int > * &out, int nrows, int ncols);
 
   	/// Método auxiliar mark_connected
   int mark_connected (int i, int j, int level);
 
   	/// Método auxiliar is_candidate_edge
-  int is_candidate_edge (TMatriz2D< int > * &buff, float **orig, int row, int col);
+  int is_candidate_edge (TCMatriz2D< int > * &buff, float **orig, int row, int col);
 
   	/// Método auxiliar compute_adaptive_gradient
-  float compute_adaptive_gradient (TMatriz2D< int > * &BLI_buffer,
+  float compute_adaptive_gradient (TCMatriz2D< int > * &BLI_buffer,
 				   float **orig_buffer, int row, int col);
 
   	/// Método auxiliar estimate_thresh
   void estimate_thresh (double *low, double *hi, int nr, int nc);
 
   	/// Método auxiliar debed
-  void debed (TMatriz2D< int > * &im, int width);
+  void debed (TCMatriz2D< int > * &im, int width);
 
   	/// Método auxiliar embed
-  void embed (TMatriz2D< int > * &im, int width);
+  void embed (TCMatriz2D< int > * &im, int width);
 };
 #endif //  CFEDCShenCastan

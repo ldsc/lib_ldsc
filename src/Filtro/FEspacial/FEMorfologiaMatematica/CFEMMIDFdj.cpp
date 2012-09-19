@@ -67,7 +67,7 @@ Descrição:
 Programador:      Andre Duarte Bueno
 */
 
-TMatriz2D< int > * CFEMMIDFdj::Go (TMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara */ ) {
+TCMatriz2D< int > * CFEMMIDFdj::Go (TCMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara */ ) {
    ExecutadaPorGo (matriz);	//  armazena valores da matriz e _tamanhoMascara
    InverterSeNecessario();
    // IDFNosPlanosDeContorno(mj);     //  verifica planos de contorno

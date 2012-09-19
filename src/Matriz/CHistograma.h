@@ -27,8 +27,8 @@ Desenvolvido por:
 #include <Matriz/CVetor.h>
 #endif
 
-#ifndef TMatriz2D_h
-#include <Matriz/TMatriz2D.h>
+#ifndef TCMatriz2D_H
+#include <Matriz/TCMatriz2D.h>
 #endif
 
 /**
@@ -88,7 +88,7 @@ CHistograma (int nx = 256): CVetor  (nx), numeroCores (256)
 
 // ----------------------------------------------------------------Métodos
   /// Calcula o histograma
-	CHistograma *Go (TMatriz2D< int > * matriz);
+	CHistograma *Go (TCMatriz2D< int > * matriz);
 
   /// Calcula o nível de corte para a percentagem passada
   int NivelCortePara (double percentagem);

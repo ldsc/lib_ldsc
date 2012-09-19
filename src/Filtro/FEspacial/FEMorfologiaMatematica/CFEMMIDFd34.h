@@ -34,7 +34,7 @@ class CFEMMIDFd34  : public CFEMMIDFdij
 {
 public:			//  mi mj rb
    /// Construtor
-   CFEMMIDFd34 (TMatriz2D< int > * &matriz, int _indice=1, int _fundo=0) : CFEMMIDFdij (matriz, 3, 4, 1, _indice, _fundo)
+   CFEMMIDFd34 (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0) : CFEMMIDFdij (matriz, 3, 4, 1, _indice, _fundo)
    {
    }
 

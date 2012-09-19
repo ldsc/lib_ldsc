@@ -22,7 +22,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ==================================================================================
 Documentacao      Construtor .
 ==================================================================================
-Descrição:        Passa atributo tamanhoMascara para classe base TMatriz2D< int >,
+Descrição:        Passa atributo tamanhoMascara para classe base TCMatriz2D< int >,
 		observe que o tamanhoMascara é passado para as dimensoes x e y
 				da matriz.
 				Define-se ainda o peso da mascara como sendo 1.
@@ -31,7 +31,7 @@ Descrição:        Passa atributo tamanhoMascara para classe base TMatriz2D< in
 Programador:      Andre Duarte Bueno
 */
 CMascara::CMascara (unsigned int tamanhoMascara)
-        : TMatriz2D< int > (tamanhoMascara, tamanhoMascara),  peso (1.0)
+        : TCMatriz2D< int > (tamanhoMascara, tamanhoMascara),  peso (1.0)
 {
 
     //   As herdeiras da CMascara devem preencher a mascara chamando a funcao

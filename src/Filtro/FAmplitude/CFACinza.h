@@ -46,7 +46,7 @@ float pesoBlue; ///< Ponderações rgb, blue
 
 public:
 			/// Construtor, define atributos internos
-  CFACinza (TMatriz2D< int > * matriz, float _pesoRed = 0.29, float _pesoGreen = 0.60, float _pesoBlue = 0.11):
+  CFACinza (TCMatriz2D< int > * matriz, float _pesoRed = 0.29, float _pesoGreen = 0.60, float _pesoBlue = 0.11):
   CFAmplitude (matriz),		// chama construtor base
     pesoRed (_pesoRed), pesoGreen (_pesoGreen), pesoBlue (_pesoBlue)
   {
@@ -58,7 +58,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
 
   /// Retorna pesoRed
   float PesoRed () const

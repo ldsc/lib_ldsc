@@ -38,13 +38,13 @@ bool CFEMMIDF::atualizaIDF = 0;	// por default, não recalcula a idf apos dilata
 ==================================================================================
 Documentacao construtor
 ==================================================================================
-Executa o construtor da classe base, o TMatriz2D< int >(NX,NY) que aloca a matriz2D.
+Executa o construtor da classe base, o TCMatriz2D< int >(NX,NY) que aloca a matriz2D.
 Define o valor do raioBola como sendo metade do tamanhoMascara, e o raioMaximo.
 */
 
 // Construtor sobrecarregado, recebe também o tamanho do raio máximo
-CFEMMIDF::CFEMMIDF ( TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
-   : CFEMorfologiaMatematica ( matriz, _tamanhoMascara, _indice, _fundo ), TMatriz2D< int > ( matriz->NX (), matriz->NY () ),
+CFEMMIDF::CFEMMIDF ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
+   : CFEMorfologiaMatematica ( matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz2D< int > ( matriz->NX (), matriz->NY () ),
      raioBola ( _tamanhoMascara ), raioMaximo ( _raioMax ), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
 }
 
@@ -85,7 +85,7 @@ Função usada exclusivamente por Go:
 
 */
 // Funcao chamada exclusivamente por Go, ou seja depois de executada a idf vai ser recalculada.
-void CFEMMIDF::ExecutadaPorGo ( TMatriz2D< int > * &matriz ) {	// ,unsigned int _tamanhoMascara)
+void CFEMMIDF::ExecutadaPorGo ( TCMatriz2D< int > * &matriz ) {	// ,unsigned int _tamanhoMascara)
    pm = matriz;										// armazena endereço matriz
    if ( this->nx != matriz->NX() || this->ny != matriz->NY() ) { // verifica se a matriz tem as mesmas dimensoes da idf(this)
       Desaloca();				// desaloca a matriz existende e depois
@@ -121,7 +121,7 @@ Usada pelas funções Erosao,Dilatacao, fechamento e abertura para verificar se 
 Se for outra imagem recalcula Go.
 Tambem armazena endereço da imagem em pm.
 */
-void CFEMMIDF::VerificaImagem ( TMatriz2D< int > * &matriz ) { 					// se for a mesma imagem e tiver o mesmo tamanho sai
+void CFEMMIDF::VerificaImagem ( TCMatriz2D< int > * &matriz ) { 					// se for a mesma imagem e tiver o mesmo tamanho sai
    if ( pm == matriz && nx == matriz->NX() && ny == matriz->NY() ) {
       return;			// sai
    } else {
@@ -135,7 +135,7 @@ Função    Erosao
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-TMatriz2D< int > * CFEMMIDF::Erosao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {	//
+TCMatriz2D< int > * CFEMMIDF::Erosao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola ) {	//
    // -->Padrao
    VerificaImagem ( matriz );			// verifica se é a mesma imagem (se diferente recalcula Go)
    tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
@@ -163,7 +163,7 @@ Função    Dilatacao
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-TMatriz2D< int > * CFEMMIDF::Dilatacao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {	//
+TCMatriz2D< int > * CFEMMIDF::Dilatacao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola ) {	//
    // -->Padrao
    VerificaImagem ( matriz );	// verifica se é a mesma imagem (se diferente recalcula Go)
    tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
@@ -238,7 +238,7 @@ Função    Fechamento
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-TMatriz2D< int > * CFEMMIDF::Fechamento ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D< int > * CFEMMIDF::Fechamento ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    bool atualizaIDF_old = atualizaIDF;	// armazena valor de atualizaIDF
    atualizaIDF = 1;		// ativa, para que a Dilatacao recalcule  a idf
    Dilatacao ( matriz, _RaioBola );	// processa a dilatação, e depois Go
@@ -253,7 +253,7 @@ TMatriz2D< int > * CFEMMIDF::Fechamento ( TMatriz2D< int > * &matriz, unsigned i
  * ==================================================================================
  * Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
  */
-TMatriz2D< int > * CFEMMIDF::Abertura ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D< int > * CFEMMIDF::Abertura ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    VerificaImagem ( matriz ); // verifica se é a mesma imagem (se diferente recalcula Go)
    tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
    // Deve calcular o tamanhoMascara antes de criar a mascara
@@ -322,11 +322,11 @@ TMatriz2D< int > * CFEMMIDF::Abertura ( TMatriz2D< int > * &matriz, unsigned int
  * Função    CorrigeAbertura
  * ==================================================================================
  * Este método corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.*/
-void CFEMMIDF::CorrigeAbertura ( TMatriz2D< int > * &matriz, int &regiao ) {
+void CFEMMIDF::CorrigeAbertura ( TCMatriz2D< int > * &matriz, int &regiao ) {
    char fileName[64];
    // calcula idf d34 da mascara
    CFEMMIDFd34 *idfMask = NULL;
-   TMatriz2D< int > *ptr_mask = static_cast<TMatriz2D< int >*> ( mask );
+   TCMatriz2D< int > *ptr_mask = static_cast<TCMatriz2D< int >*> ( mask );
    idfMask = new CFEMMIDFd34 ( ptr_mask );
    idfMask->Go ( ptr_mask );
    //grava em disco a IDF da mascara.
@@ -540,12 +540,12 @@ void CFEMMIDF::CorrigeAbertura ( TMatriz2D< int > * &matriz, int &regiao ) {
 Função    Esqueleto.
 ==================================================================================
 */
-//         virtual TMatriz2D< int >* Esqueleto(TMatriz2D< int >*& matriz,unsigned int _RaioBola=0);
+//         virtual TCMatriz2D< int >* Esqueleto(TCMatriz2D< int >*& matriz,unsigned int _RaioBola=0);
 //////////// //////////// //////////// //////////// // // // // //
 // Depois que o calculo do esqueleto com o objeto esqueleto
 // estiver pronto, copiar aqui?? resolver
 //////////// //////////// //////////// //////////// // // // // //
-TMatriz2D< int > * CFEMMIDF::Esqueleto ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D< int > * CFEMMIDF::Esqueleto ( TCMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
    int mi = Mi ();
    // ----------------------------------------
    // -->Padrao

@@ -44,7 +44,7 @@ protected:
 
 public:
 				/// Construtor
-  CFABinario (TMatriz2D< int > * &_pm, unsigned int _nivel = 128):CFAmplitude (_pm),
+  CFABinario (TCMatriz2D< int > * &_pm, unsigned int _nivel = 128):CFAmplitude (_pm),
     nivel (_nivel)
   {
   }
@@ -55,7 +55,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
   /// Define nivel de corte
   unsigned int Level () const

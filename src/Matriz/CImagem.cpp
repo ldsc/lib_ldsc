@@ -77,8 +77,8 @@ Função:  Intersecao
 @param  :Um ponteiro para uma matriz bidimensional
 @return :Retorna this, com o resultado da intersecção
 */
-TMatriz2D< int > *
-CImagem::Intersecao (TMatriz2D< int > * pm2)
+TCMatriz2D< int > *
+CImagem::Intersecao (TCMatriz2D< int > * pm2)
 {
   // int minx = std::min(this->nx,pm2->NX());
   int minx = this->nx > pm2->NX ()? pm2->NX () : this->nx;
@@ -112,8 +112,8 @@ Função:  Uniao
 @param  : Uma matriz bidimensional
 @return :	Retorna uma matriz bidimensional
 */
-TMatriz2D< int > *
-CImagem::Uniao (TMatriz2D< int > * pm2)
+TCMatriz2D< int > *
+CImagem::Uniao (TCMatriz2D< int > * pm2)
 {
   int minx = this->nx > pm2->NX ()? pm2->NX () : this->nx;
   int miny = this->ny > pm2->NY ()? pm2->NY () : this->ny;
@@ -131,7 +131,7 @@ Função:  Global (Liang)
 -------------------------------------------------------------------------
 @short  :
 Abaixo uma função global pertencia a biblioteca lib.c aloca uma matriz 2D.
-trocar por TMatriz2D< int >* =  new TMatriz2D< int >(nr,nc);
+trocar por TCMatriz2D< int >* =  new TCMatriz2D< int >(nr,nc);
 
 @author :	André Duarte Bueno
 @see    :	Matrizes
@@ -139,7 +139,7 @@ trocar por TMatriz2D< int >* =  new TMatriz2D< int >(nr,nc);
 @return : Ponteiro para matriz de float's
 */
 float **
-f2d (int nx, int ny) // CHAMAR TMatriz2D< int ><float>::Aloca2D(nx,ny) 
+f2d (int nx, int ny) // CHAMAR TCMatriz2D< int ><float>::Aloca2D(nx,ny) 
 {
   float **ptr_m2D = 0;			// , *y;
   int i;

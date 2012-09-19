@@ -70,8 +70,8 @@ deve percorrer a parte interna da imagem, nao acessando a borda da imagem.
 Ou seja desconsidera-se os pontos da borda da imagem.
 */
 
-//   TMatriz2D< int > * CFEMMIDFdijk::Go( TMatriz2D< int > *& matriz)
-TMatriz2D< int > * CFEMMIDFdijk::Go (TMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+//   TCMatriz2D< int > * CFEMMIDFdijk::Go( TCMatriz2D< int > *& matriz)
+TCMatriz2D< int > * CFEMMIDFdijk::Go (TCMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ ) {
    int x, y;			//   Indices para percorrer a matriz
    ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 

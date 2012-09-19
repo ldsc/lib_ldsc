@@ -44,8 +44,8 @@ Documentacao      Construtor
 ==================================================================================
 Descricao:
 */
-// CFEDCShenCastan( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara );
-CFEDCShenCastan::CFEDCShenCastan (TMatriz2D< int > * &matriz,
+// CFEDCShenCastan( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara );
+CFEDCShenCastan::CFEDCShenCastan (TCMatriz2D< int > * &matriz,
 				  unsigned int _tamanhoMascara)
                                 : CFEDeteccaoContorno (matriz, _tamanhoMascara)
 {
@@ -80,26 +80,26 @@ Descricao:
 Programador:      Andre Duarte Bueno
 */
 
-/*TMatriz2D< int > *CFEDCShenCastan::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+/*TCMatriz2D< int > *CFEDCShenCastan::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 	tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 } */
 
-TMatriz2D< int > *
-CFEDCShenCastan::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+TCMatriz2D< int > *
+CFEDCShenCastan::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   // CriaMascara(tamanhoMascara);
 
   pm = matriz;			// armazena endereço da matriz passada
 
-  TMatriz2D< int > *res;		// matriz resultado
+  TCMatriz2D< int > *res;		// matriz resultado
 
   // inicia procedimento de calculo
 
   embed (pm, OUTLINE_SC);	// chama função embed, passando a imagem e OUTLINE_SC
 
-  res = new TMatriz2D< int > (pm->NX (), pm->NY ());	// cria matriz resultado
+  res = new TCMatriz2D< int > (pm->NX (), pm->NY ());	// cria matriz resultado
 
   shen (pm, res);		// processa metodo de shen
 
@@ -115,7 +115,7 @@ CFEDCShenCastan::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 
 // Algoritimo de detecção de contorno de Shen-Castan
 void
-CFEDCShenCastan::shen (TMatriz2D< int > * &im, TMatriz2D< int > * &res)
+CFEDCShenCastan::shen (TCMatriz2D< int > * &im, TCMatriz2D< int > * &res)
 {
   register unsigned int i, j;
 
@@ -123,7 +123,7 @@ CFEDCShenCastan::shen (TMatriz2D< int > * &im, TMatriz2D< int > * &res)
 
   float **smoothed_buffer;
 
-  TMatriz2D< int > *bli_buffer;
+  TCMatriz2D< int > *bli_buffer;
 
   /* Convert the input image to floating point */
   buffer = f2d (im->NX (), im->NY ());
@@ -138,7 +138,7 @@ CFEDCShenCastan::shen (TMatriz2D< int > * &im, TMatriz2D< int > * &res)
   compute_ISEF (buffer, smoothed_buffer, im->NX (), im->NY ());
 
   /* Compute bli image band-limited laplacian image from smoothed image */
-  // retorna ponteiro para TMatriz2D< int >
+  // retorna ponteiro para TCMatriz2D< int >
   bli_buffer =
     compute_bli (smoothed_buffer, buffer, im->NX (), im->NY ());
 
@@ -277,15 +277,15 @@ CFEDCShenCastan::apply_ISEF_horizontal (float **x, float **y,
 }
 
 /* compute the band-limited laplacian of the input image */
-TMatriz2D< int > *
+TCMatriz2D< int > *
 CFEDCShenCastan::compute_bli (float **buff1, float **buff2, int nrows,
 			      int ncols)
 {
   register int row, col;
 
-  TMatriz2D< int > *bli_buffer;
+  TCMatriz2D< int > *bli_buffer;
 
-  bli_buffer = new TMatriz2D< int > (nrows, ncols);
+  bli_buffer = new TCMatriz2D< int > (nrows, ncols);
   for (row = 0; row < nrows; row++)
     for (col = 0; col < ncols; col++)
       bli_buffer->data2D[row][col] = 0;
@@ -309,7 +309,7 @@ CFEDCShenCastan::compute_bli (float **buff1, float **buff2, int nrows,
 
 void
 CFEDCShenCastan::locate_zero_crossings (float **orig, float **smoothed,
-					TMatriz2D< int > * &bli, int nrows,
+					TCMatriz2D< int > * &bli, int nrows,
 					int ncols)
 {
   register int row, col;
@@ -341,7 +341,7 @@ CFEDCShenCastan::locate_zero_crossings (float **orig, float **smoothed,
 }
 
 void
-CFEDCShenCastan::threshold_edges (float **in, TMatriz2D< int > * &out, int nrows,
+CFEDCShenCastan::threshold_edges (float **in, TCMatriz2D< int > * &out, int nrows,
 				  int ncols)
 {
   register int i, j;
@@ -435,7 +435,7 @@ CFEDCShenCastan::mark_connected (int i, int j, int level)
 
 /* finds zero-crossings in laplacian (buff)  orig is the smoothed image */
 int
-CFEDCShenCastan::is_candidate_edge (TMatriz2D< int > * &buff, float **orig, int row,
+CFEDCShenCastan::is_candidate_edge (TCMatriz2D< int > * &buff, float **orig, int row,
 				    int col)
 {
 /* test for zero-crossings of laplacian then make sure that zero-crossing */
@@ -476,7 +476,7 @@ CFEDCShenCastan::is_candidate_edge (TMatriz2D< int > * &buff, float **orig, int 
 }
 
 float
-CFEDCShenCastan::compute_adaptive_gradient (TMatriz2D< int > * &BLI_buffer,
+CFEDCShenCastan::compute_adaptive_gradient (TCMatriz2D< int > * &BLI_buffer,
 					    float **orig_buffer, int row,
 					    int col)
 {
@@ -588,18 +588,18 @@ CFEDCShenCastan::estimate_thresh (double *low, double *hi, int nr, int nc)
 // de calculo. Depois,
 // apaga a matriz passada e iguala ponteiro im a matriz temporaria
 void
-CFEDCShenCastan::embed (TMatriz2D< int > * &im, int width)
+CFEDCShenCastan::embed (TCMatriz2D< int > * &im, int width)
 {
   unsigned int i, j;
 
   int I, J;
 
-  TMatriz2D< int > *nova;
+  TCMatriz2D< int > *nova;
 
   width += 2;
 
   nova =
-    new TMatriz2D< int > (im->NX () + width + width,
+    new TCMatriz2D< int > (im->NX () + width + width,
 		   im->NY () + width + width);
   for (i = 0; i < nova->NX (); i++)
     for (j = 0; j < nova->NY (); j++)
@@ -614,14 +614,14 @@ CFEDCShenCastan::embed (TMatriz2D< int > * &im, int width)
 }
 
 void
-CFEDCShenCastan::debed (TMatriz2D< int > * &im, int width)
+CFEDCShenCastan::debed (TCMatriz2D< int > * &im, int width)
 {
-  TMatriz2D< int > *old;
+  TCMatriz2D< int > *old;
 
   width += 2;
 
   old =
-    new TMatriz2D< int > (im->NX () - width - width,
+    new TCMatriz2D< int > (im->NX () - width - width,
 		   im->NY () - width - width);
   for (unsigned int i = 0; i < old->NX () - 1; i++)
     {

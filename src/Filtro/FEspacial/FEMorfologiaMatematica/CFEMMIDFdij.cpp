@@ -63,8 +63,8 @@ Descricao:
 //  Da forma como esta o codigo fica mais rapido e compreensivo.
 Programador:      Andre Duarte Bueno
 */
-//  TMatriz2D< int > * CFEMMIDFdij::Go(TMatriz2D< int > * matriz )
-TMatriz2D< int > * CFEMMIDFdij::Go ( TMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+//  TCMatriz2D< int > * CFEMMIDFdij::Go(TCMatriz2D< int > * matriz )
+TCMatriz2D< int > * CFEMMIDFdij::Go ( TCMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ ) {
    ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
    // IDFNosPlanosDeContorno(mi);    //  mi=3
    int x, y; // Indices para percorrer a matriz

@@ -34,7 +34,7 @@ Algoritimo de esqueletização
 // Versao simples, se pixel atual ativo e a direita ativo, elimina o da direita
 
 void
-CFEEsqueleto::EliminaPeGalinha (CMatriz2D * imagem)
+CFEEsqueleto::EliminaPeGalinha (TMatriz2D< int > * imagem)
 {
 // // // // // // // // // // // // // // // // // /
 // // OBS: da forma como esta elimina muito mais pontos.

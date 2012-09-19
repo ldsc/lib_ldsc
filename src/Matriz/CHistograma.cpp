@@ -35,7 +35,7 @@ Função:  Go
 @return : Retorna this
 */
 CHistograma *
-CHistograma::Go (CMatriz2D * matriz)
+CHistograma::Go (TMatriz2D< int > *matriz)
 {
 // Desaloca();
 // nx=pow(2,matriz->BitsPixel());

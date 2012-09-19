@@ -46,7 +46,7 @@ public:
    virtual bool Go (float *_Re_data, int _NX, int _NY, int indice=1);
 	
 	/// Determina a função autocorrelação.
-   virtual bool Go (CMatriz2D *img, int indice=1);
+   virtual bool Go (TMatriz2D< int > *img, int indice=1);
 	
 	/// Salva correlação em disco
 	//virtual bool Write (std::string fname);

@@ -7,7 +7,7 @@
 #include  <cassert>
 
 // Inclusao de arquivos da LIB_LDSC
-#include <Matriz/CMatriz2D.h>					// Matriz normal da libldsc
+#include <Matriz/TMatriz2D.h>					// Matriz normal da libldsc
 #include <FFT/CFFT.h>						// Objeto calculo transformada fourier
 #include <Interpolacao/Interpolacao2D/CInt2DBilinear.h> 	// Objeto de interpolacao
 
@@ -20,15 +20,15 @@ using namespace std;
 // Construtor:
 // -----------------------------------------------------------------------
 CCorrelacaoFFT::CCorrelacaoFFT ( int dimensao_vetor_correlacao ) 
-   : CCorrelacao ( dimensao_vetor_correlacao ), Re_data(0), Im_data(0), NX(0), NY(0) {
+	: CCorrelacao ( dimensao_vetor_correlacao ), Re_data(0), Im_data(0), NX(0), NY(0) {
 }
 
 // -----------------------------------------------------------------------
 // Destrutor:
 // -----------------------------------------------------------------------
 CCorrelacaoFFT::~CCorrelacaoFFT () { 
- 	if ( Im_data )
- 		delete [] Im_data;
+	if ( Im_data )
+		delete [] Im_data;
 	if ( Re_data )
 		delete [] Re_data;
 }
@@ -37,49 +37,49 @@ CCorrelacaoFFT::~CCorrelacaoFFT () {
 // Funcao: GoMain
 // -----------------------------------------------------------------------
 int CCorrelacaoFFT::GoMain (int argc, char **argv) {
-   int _NX;
-   int _NY;
-   cout << "\nFormato de uso (equivalente ao codigo original do Liang):\n"
-        << "./RzFFT imagem NX NY\n"
-        << "\nOs parametros default são:\n"
-        << " NX = 640 NY = 480\n"
-        << "o arquivo imagem deve ter somente dados \n"
-        << "a extensão é adicionada automaticamente e deve ser .dat" << endl;
+	int _NX;
+	int _NY;
+	cout << "\nFormato de uso (equivalente ao codigo original do Liang):\n"
+			 << "./RzFFT imagem NX NY\n"
+			 << "\nOs parametros default são:\n"
+			 << " NX = 640 NY = 480\n"
+			 << "o arquivo imagem deve ter somente dados \n"
+			 << "a extensão é adicionada automaticamente e deve ser .dat" << endl;
 
-   string fileName;
-   if (argc > 1)          // argv[0]=nomePrograma
-      fileName = argv[1];  // primeiro argumento nome imagem
-   if (argc > 2)
-      _NX = atoi (argv[2]); // segundo argumento NX
-   if (argc > 3)
-      _NY = atoi (argv[3]); // terceiro argumento NY
+	string fileName;
+	if (argc > 1)          // argv[0]=nomePrograma
+		fileName = argv[1];  // primeiro argumento nome imagem
+	if (argc > 2)
+		_NX = atoi (argv[2]); // segundo argumento NX
+	if (argc > 3)
+		_NY = atoi (argv[3]); // terceiro argumento NY
 
-   cout << "\nParametros passados para o programa:\n"
-        << "Nome do arquivo de entrada com a extensão = " << fileName << ".dat\n"
-        << "NX = " << _NX << " NY = " << _NY << endl;
+	cout << "\nParametros passados para o programa:\n"
+			 << "Nome do arquivo de entrada com a extensão = " << fileName << ".dat\n"
+			 << "NX = " << _NX << " NY = " << _NY << endl;
 
 	RealocarMatrizSeNecessario(Re_data, _NX, _NY);
 
-   // Método estatico da classe matriz2d que lê matriz no formato antigo (somente dados)
-   bool leituraArquivo = CMatriz2D::Read2D ( (fileName + ".dat").c_str (), Re_data, NX, NY );
+	// Método estatico da classe matriz2d que lê matriz no formato antigo (somente dados)
+	bool leituraArquivo = TMatriz2D< float >::Read2D( (fileName + ".dat").c_str (), Re_data, NX, NY );
 
-   if ( leituraArquivo == 0 )
-   {
-      cerr << "\nFalha leitura do arquivo, encerrando funcao.";
-      return 0;
-   }
+	if ( leituraArquivo == 0 )
+	{
+		cerr << "\nFalha leitura do arquivo, encerrando funcao.";
+		return 0;
+	}
 
-   // Chama funcao de calculo da autocorrelacao
-   Go ( Re_data, NX, NY );
+	// Chama funcao de calculo da autocorrelacao
+	Go ( Re_data, NX, NY );
 
-   // Saída da funcao autocorrelacao
-   Write ( fileName );
+	// Saída da funcao autocorrelacao
+	Write ( fileName );
 
-   // Saída da funcao autocorrelacao e dados adicionais
-   Writerzf ( fileName );
+	// Saída da funcao autocorrelacao e dados adicionais
+	Writerzf ( fileName );
 
-   // Re_data é destruido no destrutor, o objetivo e evitar realocacoes a cada novo calculo.
-   return 1;
+	// Re_data é destruido no destrutor, o objetivo e evitar realocacoes a cada novo calculo.
+	return 1;
 }
 
 // -----------------------------------------------------------------------
@@ -90,7 +90,7 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 // Funcao de cálculo da funcao correlacao
 // Recebe uma imagem 2D (vetor) e as dimensoes nx e ny
 bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
-   // Se Im_data nunca foi criada é NULL, então vai ser alocada pelo método abaixo.
+	// Se Im_data nunca foi criada é NULL, então vai ser alocada pelo método abaixo.
 	// Se Im_data já existe, mas tem dimensões diferentes, então é realocada.
 	// Se não é nula e as dimensões são as mesmas, então já foi alocada, e não
 	// precisa realocar, é só zerar.
@@ -98,42 +98,42 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	
 	// Zera Parte Imaginaria
 	// usar memcpy é + rápido
-   for ( int j = 0; j < NY; j++ ) {
-      for ( int i = 0; i < NX; i++ ) {
+	for ( int j = 0; j < NY; j++ ) {
+		for ( int i = 0; i < NX; i++ ) {
 			MatrizImag(i, j) = 0.0;
 		}
 	}
 	
 	// ----------------------------------
 	// Criacao do ponteiro para objeto de calculo da FFT
-	CFFT * objetoFourier; 
+	CFFT * objetoFourier;
 
 	// Definicao do vetor com as dimensões usadas no CFFT
 	int dims[2];
 	dims[0] = NX;
 	dims[1] = NY;
 	
-   // 2D fft
+	// 2D fft
 	// Transformada de Fourier sobre imagem 2D (ida)
 	// Entra com a imagem lida (Re_data e sai com Re_data  e Im_data)
-   // ret = fftn (2 /*dimensao*/, dims/*vetor dimensao*/, Re_data/*img real*/, Im_data/*img imaginaria*/, 1, -1);// PROCESSA
-   // if (ret) return 1;
+	// ret = fftn (2 /*dimensao*/, dims/*vetor dimensao*/, Re_data/*img real*/, Im_data/*img imaginaria*/, 1, -1);// PROCESSA
+	// if (ret) return 1;
 	
 	objetoFourier = new CFFT ( 2, dims, -1 );
 
 	// Calcula a transformada de fourier, muda Re_data e Im_data
-	if ( objetoFourier->Go ( Re_data, Im_data ) ) 
+	if ( objetoFourier->Go ( Re_data, Im_data ) )
 		return 1;						// se retorno==1 sai
 
 	// ----------------------------------
 	// Calculo de R = R * R  + I * I, e I = 0
 	//	fout << "Calculo de R = R * R  + I * I, e I = 0" << endl;
-   for (int j = 0; j < NY; j++) {
-      for (int i = 0; i < NX; i++) {
-         MatrizReal(i, j) = MatrizReal(i, j) * MatrizReal(i, j) + MatrizImag(i, j) *  MatrizImag(i, j);
-         MatrizImag(i, j) = 0;
+	for (int j = 0; j < NY; j++) {
+		for (int i = 0; i < NX; i++) {
+			MatrizReal(i, j) = MatrizReal(i, j) * MatrizReal(i, j) + MatrizImag(i, j) *  MatrizImag(i, j);
+			MatrizImag(i, j) = 0;
 		}
-   }
+	}
 	
 	// ----------------------------------
 	// 2D inverse fft
@@ -160,10 +160,10 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	//	fout << "fmin = " << fmin << endl;
 	//}
 	
-   // Não é bug, mas para o caso FFT não precisa considerar apenas NX/2!!!
-   AlocarOuRealocarCorrelacaoSeNecessarioEZerar( NX / 2 );
+	// Não é bug, mas para o caso FFT não precisa considerar apenas NX/2!!!
+	AlocarOuRealocarCorrelacaoSeNecessarioEZerar( NX / 2 );
 
-	// Angulo 
+	// Angulo
 	float theta;
 	
 	// Quando usamos FFT, a correlacao é determinada em toda imagem
@@ -171,55 +171,55 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	// Objeto de interpolacao - faz uma media das correlacoes em todas as direcoes
 	CInt2DBilinear * interpolacao = NULL;
 	interpolacao = new CInt2DBilinear;
-   if ( ! interpolacao ) {
+	if ( ! interpolacao ) {
 		cerr << "Erro alocacao de interpolacao." ;
 		return 0;
 	}
 
-   // Faz k de 1 ate size
+	// Faz k de 1 ate size
 	// BUG: porque nao comeca de 0, ie, k = 0??? -> por causa da divisao por zero.
-   for ( int k = 1; k < size; k++ ) {
-      for ( int l = 0; l <= 2 * k; l++ ) {
+	for ( int k = 1; k < size; k++ ) {
+		for ( int l = 0; l <= 2 * k; l++ ) {
 			// Calcula o angulo
 			theta = 3.1415926 * l / 4.0 / k;
 			// Cálculo da interpolacao
 			// correlacao += TLIP(NX, NY, Re_data,k*cos(theta),k*sin(theta));
 			correlacao[k] += interpolacao->Go (NX, NY, Re_data, k * cos (theta),  k * sin (theta));
 		}
-      // divide pela ponderacao
-      correlacao[k] /= (2.0 * k + 1.0);
+		// divide pela ponderacao
+		correlacao[k] /= (2.0 * k + 1.0);
 	}
 	delete  interpolacao;
 	//interpolacao = NULL;
 	
 	// NOVO, pois acima nao calcula o ponto 0, pois k comeca em 1
-	correlacao[0] = MatrizReal(0, 0); 
+	correlacao[0] = MatrizReal(0, 0);
 	
 	// Note que Im_data vai ser deletado no destrutor, evitando-se realocacoes de Im_data a cada calculo.
 	return true;
 }
 
 // Funcao de cálculo da funcao correlacao
-// Recebe uma imagem 2D (CMatriz2D)
-bool CCorrelacaoFFT::Go ( CMatriz2D *img, int indice ) {
-	if (! img ) 
+// Recebe uma imagem 2D (TMatriz2D< int >)
+bool CCorrelacaoFFT::Go ( TMatriz2D< int > *img, int indice ) {
+	if (! img )
 		return false;
 
-   // Não é bug, mas para o caso FFT não precisa considerar apenas NX/2!
+	// Não é bug, mas para o caso FFT não precisa considerar apenas NX/2!
 
-   NX = img->NX();
-   AlocarOuRealocarCorrelacaoSeNecessarioEZerar( NX / 2 );
+	NX = img->NX();
+	AlocarOuRealocarCorrelacaoSeNecessarioEZerar( NX / 2 );
 
 	RealocarMatrizSeNecessario(Re_data, img->NX(), img->NY() );
 	
 	// Copia dados de img para Re_data usando MatrizReal
-   for (int j = 0; j < NY; j++) {
-      for (int i = 0; i < NX; i++) {
+	for (int j = 0; j < NY; j++) {
+		for (int i = 0; i < NX; i++) {
 			MatrizReal(i,j) = img->data2D[i][j];
 		}
 	}
 	
-   return Go( Re_data, NX, NY, indice);
+	return Go( Re_data, NX, NY, indice);
 }
 
 
@@ -229,32 +229,32 @@ bool CCorrelacaoFFT::Go ( CMatriz2D *img, int indice ) {
 // @short  :
 // saida .rzf
 bool CCorrelacaoFFT::Writerzf (string fileName) {
-   if (correlacao == NULL)
+	if (correlacao == NULL)
 		return 0;
-   if (Re_data == NULL)
+	if (Re_data == NULL)
 		return 0;
 
-   ofstream frzf ( (fileName + ".rzf").c_str () );
-   if ( ! frzf )
-      return 0;
+	ofstream frzf ( (fileName + ".rzf").c_str () );
+	if ( ! frzf )
+		return 0;
 
-   // Escreve cabecalho
-   frzf 	            << 0
-                     << setw(15) << MatrizReal (0, 0)
-                     << setw(15) << MatrizReal (0, 0)
-                     << setw(15) << MatrizReal (0, 0)
-                     << setw(15) << MatrizReal (0, 0) << endl;
+	// Escreve cabecalho
+	frzf 	            << 0
+										<< setw(15) << MatrizReal (0, 0)
+										<< setw(15) << MatrizReal (0, 0)
+										<< setw(15) << MatrizReal (0, 0)
+										<< setw(15) << MatrizReal (0, 0) << endl;
 
-   // Armazena resultados nos arquivos de disco
-   // Faz k de 1 ate size
-   for (int k = 1; k < size; k++)
-      frzf              << k
-                        << setw(15)  << MatrizReal (k, 0)
-                        << setw(15)  << MatrizReal (0, k)
-                        << setw(15)  << (MatrizReal(0, k) + MatrizReal (k, 0)) / 2
-                        << setw(15)  << correlacao[k] << endl; 				// salva correlacao
-   frzf.close ();
-   return 1;
+	// Armazena resultados nos arquivos de disco
+	// Faz k de 1 ate size
+	for (int k = 1; k < size; k++)
+		frzf              << k
+											<< setw(15)  << MatrizReal (k, 0)
+											<< setw(15)  << MatrizReal (0, k)
+											<< setw(15)  << (MatrizReal(0, k) + MatrizReal (k, 0)) / 2
+											<< setw(15)  << correlacao[k] << endl; 				// salva correlacao
+	frzf.close ();
+	return 1;
 }
 
 // -----------------------------------------------------------------------
@@ -263,13 +263,13 @@ bool CCorrelacaoFFT::Writerzf (string fileName) {
 // @short: Recebe a propria matriz (Im_data ou Re_data) e a nova dimensao,
 // a matriz é realocada de o   ponteiro for null ou se houve mudanca de dimensao. 
 bool CCorrelacaoFFT::RealocarMatrizSeNecessario( float*& matriz, int novoNX, int novoNY ) {
-   if ( matriz == NULL or (NX*NY) != (novoNX * novoNY) ) {
-      delete [] matriz;
-      matriz = new float [  novoNX * novoNY  ];
+	if ( matriz == NULL or (NX*NY) != (novoNX * novoNY) ) {
+		delete [] matriz;
+		matriz = new float [  novoNX * novoNY  ];
 		
-      if ( matriz == NULL ) {
-         cerr << "Erro alocacao da matriz Re_data ou Im_data\n";
-         exit(0);
+		if ( matriz == NULL ) {
+			cerr << "Erro alocacao da matriz Re_data ou Im_data\n";
+			exit(0);
 		}
 	}
 	

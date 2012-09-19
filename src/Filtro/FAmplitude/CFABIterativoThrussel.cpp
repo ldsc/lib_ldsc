@@ -24,7 +24,7 @@ Bibliotecas
 
 #include "Filtro/FAmplitude/CFABIterativoThrussel.h"
 #include "Matriz/CHistograma.h"
-#include "Matriz/CMatriz2D.h"
+#include "Matriz/TMatriz2D.h"
 
 /*
 ==================================================================================
@@ -34,8 +34,8 @@ Descrição:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFABIterativoThrussel::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABIterativoThrussel::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
   long i;			// , j;                           // Contadores

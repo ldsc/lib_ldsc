@@ -53,7 +53,7 @@ class CFEMMIDFEuclidiana:public CFEMMIDFdij
 {
 public:			//  mi,  mj,               rb
 		/// Construtor
-  CFEMMIDFEuclidiana (CMatriz2D * &matriz, int _indice=1, int _fundo=0)
+  CFEMMIDFEuclidiana (TMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
     : CFEMMIDFdij (matriz, 100,	(int)CMath::MSQRT2 * 100, 100, _indice, _fundo)
   {
   }
@@ -64,11 +64,11 @@ public:			//  mi,  mj,               rb
   }				
 
 public:
-  //  virtual CMatriz2D * Go( CMatriz2D *& matriz,unsigned int _tamanhoMascara=0);
-  //  virtual CMatriz2D*  Abertura(CMatriz2D*& matriz,unsigned int _RaioBola);    //  
-  //  virtual CMatriz2D*  Erosao(CMatriz2D*& matriz,unsigned int _RaioBola);    //  
-  //  virtual CMatriz2D*  Dilatacao(CMatriz2D*& matriz,unsigned int _RaioBola); //  
-  //  virtual CMatriz2D*  Fechamento(CMatriz2D*& matriz,unsigned int _RaioBola);//  
+  //  virtual TMatriz2D< int > * Go( TMatriz2D< int > *& matriz,unsigned int _tamanhoMascara=0);
+  //  virtual TMatriz2D< int >*  Abertura(TMatriz2D< int >*& matriz,unsigned int _RaioBola);    //  
+  //  virtual TMatriz2D< int >*  Erosao(TMatriz2D< int >*& matriz,unsigned int _RaioBola);    //  
+  //  virtual TMatriz2D< int >*  Dilatacao(TMatriz2D< int >*& matriz,unsigned int _RaioBola); //  
+  //  virtual TMatriz2D< int >*  Fechamento(TMatriz2D< int >*& matriz,unsigned int _RaioBola);//  
 
 protected:
 	/// Cria mascara. //  Cria bola  euclidiana?.

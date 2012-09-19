@@ -46,7 +46,7 @@ public:
 
 public:			
 	/// Construtor
-  CFABPixelContorno (CMatriz2D * &_pm, int _PCHistLap = 85)
+  CFABPixelContorno (TMatriz2D< int > * &_pm, int _PCHistLap = 85)
     : CFABinario(_pm)
   {
     PCHistLap = _PCHistLap;
@@ -58,7 +58,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
+  virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 
 };
 #endif //  CFABPixelContorno_h

@@ -42,7 +42,7 @@ protected:
 
 public:
    /// Construtor
-   CFEMMIDFdj (CMatriz2D * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
+   CFEMMIDFdj (TMatriz2D< int > * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
       : CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mj, _rb)
    {
    }
@@ -56,6 +56,6 @@ public:
    virtual void CriaMascara (unsigned int _tamanhoMascara);
 
    /// Processa idf.
-   virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0);
+   virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
 };
 #endif //  CFEMMIDFdj_h

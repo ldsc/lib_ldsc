@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @param img 
  * @return *CCamara2D
  */
-CMatriz2D *CCamara2D::CriaCamara ( CMatriz2D * &img )
+TMatriz2D< int > *CCamara2D::CriaCamara ( TMatriz2D< int > * &img )
 {
   // Função que define as dimensões padrões da camara em função do raioMaximo
   // dimensoesPadroes(raioMaximo);       
@@ -211,7 +211,7 @@ CCamara2D::DefineCamaraInferior ( /*int indice */ )
  Se a imagem tiver outras dimensoes e necessario redefinir a camara chamando CriaCamara novamente.
  Desenha a imagem no centro da camara
  */
-void CCamara2D::DefineImagem (CMatriz2D * &img)
+void CCamara2D::DefineImagem (TMatriz2D< int > * &img)
 {
 // Obtem os menores valores, para evitar estouro de pilha
   int minx = (img->NX () > this->nxImg) ? this->nxImg : img->NX ();

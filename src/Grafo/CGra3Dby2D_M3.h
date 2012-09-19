@@ -78,7 +78,7 @@ public:
     */
    virtual void EliminarCondutanciasRepetidas ();	// TESTE
 
-   virtual bool SetMatrizAVetorB (CMatriz2D * &A, CVetor * &B) const;	// TESTAR
+   virtual bool SetMatrizAVetorB (TMatriz2D< int > * &A, CVetor * &B) const;	// TESTAR
 
 protected:
    // Métodos redefinidos

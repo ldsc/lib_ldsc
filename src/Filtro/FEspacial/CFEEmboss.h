@@ -33,7 +33,7 @@ class CFEEmboss : public CFEspacial
 {
 public:
 		/// Construtor
-  CFEEmboss (CMatriz2D * &matriz, unsigned int _tamanhoMascara)	
+  CFEEmboss (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
   :CFEspacial (matriz, _tamanhoMascara)
   {
   }

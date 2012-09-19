@@ -36,8 +36,8 @@
   Programador:      Andre Duarte Bueno
 */
 /*
-//  CMatriz2D * CFEMMIDFd34::Go(CMatriz2D * matriz )
-CMatriz2D *CFEMMIDFd34::Go( CMatriz2D *& matriz, unsigned int _tamanhoMascara )
+//  TMatriz2D< int > * CFEMMIDFd34::Go(TMatriz2D< int > * matriz )
+TMatriz2D< int > *CFEMMIDFd34::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
 InicializaIDF(matriz,_tamanhoMascara);//  armazena valores da matriz e _tamanhoMascara
 //  verifica se pm->data2D e this->data2D tem as mesmas dimensoes

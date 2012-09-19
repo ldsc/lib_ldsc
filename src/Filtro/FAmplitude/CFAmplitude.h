@@ -45,7 +45,7 @@ class CFAmplitude : public CFiltro
 {
 public:
 /// Construtor
-  CFAmplitude (CMatriz2D * &matriz):CFiltro (matriz)
+  CFAmplitude (TMatriz2D< int > * &matriz):CFiltro (matriz)
   {
   }
 

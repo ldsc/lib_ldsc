@@ -1,6 +1,6 @@
 #include <Filtro/FReconstrucao/CFReconstrucao.h>
 
-CMatriz3D * CFReconstrucao::Go (CMatriz2D * matriz2D, Eeixo _eixo) {
+CMatriz3D * CFReconstrucao::Go (TMatriz2D< int > * matriz2D, Eeixo _eixo) {
 	int i, j, k;
 	int nxyz = matriz2D->NX(); // Dimensões das matrizes (quadrada ou cúbica).
 			
@@ -8,7 +8,7 @@ CMatriz3D * CFReconstrucao::Go (CMatriz2D * matriz2D, Eeixo _eixo) {
 	pm3D = new CMatriz3D(nxyz, nxyz, nxyz);
 	
 	if ( ! pm3D ) { // se não conseguiu alocar a matriz 3D exibe erro e retorna NULL
-		cerr << "CFReconstrucao::Go(CMatriz2D * matriz2D) não conseguiu alocar CMatriz3D!" << endl; 
+		cerr << "CFReconstrucao::Go(TMatriz2D< int > * matriz2D) não conseguiu alocar CMatriz3D!" << endl; 
 		return NULL; 	
 	}
 	//int umterco = nxyz / 3;
@@ -49,10 +49,10 @@ CMatriz3D * CFReconstrucao::Go (CMatriz2D * matriz2D, Eeixo _eixo) {
 }
 
 CMatriz3D * CFReconstrucao::Go(string arquivo, Eeixo _eixo) {
-	CMatriz2D * pm = NULL;
-	pm = new CMatriz2D(arquivo);
+	TMatriz2D< int > * pm = NULL;
+	pm = new TMatriz2D< int >(arquivo);
 	if( ! pm ) {
-		cerr << "CFReconstrucao::G0(string arquivo) não conseguiu alocar CMatriz2D!" << endl; 
+		cerr << "CFReconstrucao::G0(string arquivo) não conseguiu alocar TMatriz2D< int >!" << endl; 
 		return NULL;
 	}
 	return Go(pm, _eixo);	

@@ -83,7 +83,7 @@ CFEMorfologiaMatematica::CriaEEB2 ( unsigned int /*_tamanhoMascara*/ ) {				//  
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D * CFEMorfologiaMatematica::Erosao ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+TMatriz2D< int > * CFEMorfologiaMatematica::Erosao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    pm = matriz;
    tamanhoMascara = ( 2 * _RaioBola ) + 1;
    if ( tamanhoMascara > pm->NX() || tamanhoMascara > pm->NY() ) {
@@ -92,7 +92,7 @@ CMatriz2D * CFEMorfologiaMatematica::Erosao ( CMatriz2D * &matriz, unsigned int 
    }
 
    CriaMascara ( tamanhoMascara );	//  Se o tamanho da mascara foi alterado vai criar nova mascara
-   CMatriz2D rImg ( *pm );		//  Cria uma copia da imagem
+   TMatriz2D< int > rImg ( *pm );		//  Cria uma copia da imagem
 
    unsigned int i, j, k, l;	//  variaveis auxiliares
    unsigned int raioMascaraX = mask->RaioX ();
@@ -317,7 +317,7 @@ dilatacao classica, percorre a imagem com o EE e compara.
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D * CFEMorfologiaMatematica::Dilatacao ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+TMatriz2D< int > * CFEMorfologiaMatematica::Dilatacao ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    pm = matriz;
    tamanhoMascara = ( 2 * _RaioBola ) + 1;
 	if ( tamanhoMascara > pm->NX() || tamanhoMascara > pm->NY() ) {
@@ -327,7 +327,7 @@ CMatriz2D * CFEMorfologiaMatematica::Dilatacao ( CMatriz2D * &matriz, unsigned i
    CriaMascara ( tamanhoMascara );	//  criada na classe TFMorfologicos
    unsigned int i, j, k, l;	//  variaveis auxiliares
 
-   CMatriz2D rImg ( *pm );		//  copia a imagem
+   TMatriz2D< int > rImg ( *pm );		//  copia a imagem
 
    unsigned int raioMascaraX = mask->RaioX ();	//  variavel auxiliar para acelerar processo
    unsigned int raioMascaraY = mask->RaioY ();
@@ -481,7 +481,7 @@ PulaForMask9:
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D * CFEMorfologiaMatematica::Fechamento ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+TMatriz2D< int > * CFEMorfologiaMatematica::Fechamento ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    //  dilatacao
    if ( Dilatacao( matriz, _RaioBola ) == NULL )
 		return NULL;
@@ -510,7 +510,7 @@ CMatriz2D * CFEMorfologiaMatematica::Fechamento ( CMatriz2D * &matriz, unsigned 
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D * CFEMorfologiaMatematica::Abertura ( CMatriz2D * &matriz, unsigned int _RaioBola ) {
+TMatriz2D< int > * CFEMorfologiaMatematica::Abertura ( TMatriz2D< int > * &matriz, unsigned int _RaioBola ) {
    //  erosao
    if ( Erosao ( matriz, _RaioBola ) == NULL )
 		return NULL;
@@ -522,8 +522,8 @@ CMatriz2D * CFEMorfologiaMatematica::Abertura ( CMatriz2D * &matriz, unsigned in
 }
 
 // Não implementada
-CMatriz2D *
-CFEMorfologiaMatematica::DeteccaoContorno ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+TMatriz2D< int > *
+CFEMorfologiaMatematica::DeteccaoContorno ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
    return matriz;
 }
 
@@ -540,9 +540,9 @@ CFEMorfologiaMatematica::DeteccaoContorno ( CMatriz2D * &matriz, unsigned int /*
   Programador:      Andre Duarte Bueno
 */
 
-CMatriz2D *
-CFEMorfologiaMatematica::HitMiss ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
-   /*        CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
+TMatriz2D< int > *
+CFEMorfologiaMatematica::HitMiss ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
+   /*        TMatriz2D< int >* matriz2=new TMatriz2D< int >(matriz);       //  Cria copia da matriz
        matriz2->Inverter();                   //  e transforma na complementar
        EEHitMiss1=true;                       //  ativa criação da mascara para bi
        CFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
@@ -554,10 +554,10 @@ CFEMorfologiaMatematica::HitMiss ( CMatriz2D * &matriz, unsigned int /*_RaioBola
    return matriz;
 }
 
-CMatriz2D *
-CFEMorfologiaMatematica::Afinamento ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+TMatriz2D< int > *
+CFEMorfologiaMatematica::Afinamento ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
    /*
-       CMatriz2D* matriz2=new CMatriz2D(matriz);      //  Cria copia da matriz
+       TMatriz2D< int >* matriz2=new TMatriz2D< int >(matriz);      //  Cria copia da matriz
        HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
        matriz2->Inverter();                         //  o mesmo que matriz2->Complementar();
        matriz->Intersecao(matriz2);               //  intersecção entre matriz e matriz2
@@ -565,9 +565,9 @@ CFEMorfologiaMatematica::Afinamento ( CMatriz2D * &matriz, unsigned int /*_RaioB
    return matriz;
 }
 
-CMatriz2D *
-CFEMorfologiaMatematica::Espessamento ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {				/*
-       CMatriz2D* matriz2=new CMatriz2D(matriz);       //  Cria copia da matriz
+TMatriz2D< int > *
+CFEMorfologiaMatematica::Espessamento ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {				/*
+       TMatriz2D< int >* matriz2=new TMatriz2D< int >(matriz);       //  Cria copia da matriz
        HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
        matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
      delete matriz2; // apaga objeto imagem */
@@ -575,7 +575,7 @@ CFEMorfologiaMatematica::Espessamento ( CMatriz2D * &matriz, unsigned int /*_Rai
 }
 
 // Implementar
-CMatriz2D *
-CFEMorfologiaMatematica::Esqueleto ( CMatriz2D * &matriz, unsigned int /*_RaioBola*/ ) {
+TMatriz2D< int > *
+CFEMorfologiaMatematica::Esqueleto ( TMatriz2D< int > * &matriz, unsigned int /*_RaioBola*/ ) {
    return matriz;
 }

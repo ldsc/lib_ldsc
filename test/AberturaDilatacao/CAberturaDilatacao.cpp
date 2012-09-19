@@ -3,7 +3,7 @@
 #include "CObjetoImagem.h" // novo, repreenta objeto da imagem
 
 #include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 #include <Matriz/CVetor.h>
 
 #include <vector>
@@ -26,7 +26,7 @@ CAberturaDilatacao::CAberturaDilatacao() :
 {
 }
 
-CAberturaDilatacao::CAberturaDilatacao( CMatriz2D* &matriz , std::string _nomeImagem)
+CAberturaDilatacao::CAberturaDilatacao( TMatriz2D< int >* &matriz , std::string _nomeImagem)
         : pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
         nomeImagem(_nomeImagem),
         fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 30000 ), // usar limits
@@ -34,7 +34,7 @@ CAberturaDilatacao::CAberturaDilatacao( CMatriz2D* &matriz , std::string _nomeIm
         numeroObjetos(0), modelo(2)
         //,salvarResultadosParciais(0)
 {
-    matrizRotulo = new CMatriz2D( *pm );
+    matrizRotulo = new TMatriz2D< int >( *pm );
 }
 
 CAberturaDilatacao::~CAberturaDilatacao()
@@ -75,7 +75,7 @@ void CAberturaDilatacao::Salvar(vector<double> v, std::string nomeArquivo)
     fout.close();
 }
 
-double CAberturaDilatacao::Porosidade( CMatriz2D*& pm )
+double CAberturaDilatacao::Porosidade( TMatriz2D< int >*& pm )
 {
     double porosidade = 0.0;
     for ( int i = 0 ;  i < pm->NX() ; i++ )
@@ -100,7 +100,7 @@ void CAberturaDilatacao::RotulaImagem()
     // ABaixo foi modificado - testar - bug?
     // se matriz rotulo não foi alocada, entao aloca. É destruida no destrutor.
     if ( matrizRotulo == 0 )
-        matrizRotulo = new CMatriz2D( *pm );
+        matrizRotulo = new TMatriz2D< int >( *pm );
     else
     {
         for ( i = 0 ; i < matrizRotulo->NX() ; i++ )
@@ -261,9 +261,9 @@ void CAberturaDilatacao::RotulaImagemSequencial( int rotuloInicial , int fundo )
 void CAberturaDilatacao::DistTotalPoros()
 {
     // Cria cópia da matriz
-    CMatriz2D* matrizAuxiliar = 0;
+    TMatriz2D< int >* matrizAuxiliar = 0;
 
-    matrizAuxiliar = new CMatriz2D( *pm );
+    matrizAuxiliar = new TMatriz2D< int >( *pm );
 
     if ( matrizAuxiliar == NULL )
     {
@@ -340,13 +340,13 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
     modelo = 0 ;
 
 // Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
-    CMatriz2D* MatrizSitiosLigacoes = new CMatriz2D( pm->NX(), pm->NY()  ); // cópia da matriz inicial
+    TMatriz2D< int >* MatrizSitiosLigacoes = new TMatriz2D< int >( pm->NX(), pm->NY()  ); // cópia da matriz inicial
     MatrizSitiosLigacoes->Constante( 0 );
 		MatrizSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
 
 // 	Copia da matrizInicial
-    CMatriz2D* MatrizInicial = new CMatriz2D( *pm  ); // cópia da matriz inicial
+    TMatriz2D< int >* MatrizInicial = new TMatriz2D< int >( *pm  ); // cópia da matriz inicial
 
 // Variaveis auxiliares
     ostringstream os;
@@ -360,11 +360,11 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
     cout << "Alocando imagens auxiliares..." << endl ;
 
     // Representa a matriz pm no passo anterior (antes da abertura-dilatacao)
-    CMatriz2D matrizInstanteAnterior( pm->NX(), pm->NY() );
+    TMatriz2D< int > matrizInstanteAnterior( pm->NX(), pm->NY() );
 
-    // CMatriz2D matrizAbertura(pm->NX(),pm->NY
+    // TMatriz2D< int > matrizAbertura(pm->NX(),pm->NY
     // troquei pela linha abaixo para poder resolver o problema de referencia no metodo funcaoPorosidade
-    CMatriz2D* matrizAbertura = new CMatriz2D( pm->NX(), pm->NY() );
+    TMatriz2D< int >* matrizAbertura = new TMatriz2D< int >( pm->NX(), pm->NY() );
 
     cout << "Alocando vetores distribuicao..." << endl ;
     distribuicaoTotalPoros = new CVetor( (pm->NX()-1)/2+1 ); // dimensao igual a do raio que zera a imagem abertura + 1
@@ -567,20 +567,20 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
 
 // Cria MPoros e deixa vazia
     cout << "Criando e inicializando MPoros..." << endl;
-    CMatriz2D* MPoros = new CMatriz2D(pm->NX(), pm->NY());
+    TMatriz2D< int >* MPoros = new TMatriz2D< int >(pm->NX(), pm->NY());
     MPoros->Constante(0);
 		MPoros->WriteFormat( P1_X_Y_ASCII );
     //MPoros->Write("MPoros_inicial.pbm");
 
 // Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
     cout << "Criando e inicializando MSitios..." << endl;
-    CMatriz2D* MSitios  = new CMatriz2D( *pm );
+    TMatriz2D< int >* MSitios  = new TMatriz2D< int >( *pm );
 		MSitios->WriteFormat( P1_X_Y_ASCII );
     //MSitios->Write("MSitios_inicial.pbm");
 
 // Cria MLigacoes e deixa vazia
     cout << "Criando e inicializando MLigacoes..." << endl;
-    CMatriz2D* MLigacoes   = new CMatriz2D(pm->NX(), pm->NY());
+    TMatriz2D< int >* MLigacoes   = new TMatriz2D< int >(pm->NX(), pm->NY());
     MLigacoes->Constante(0);
 		MLigacoes->WriteFormat( P1_X_Y_ASCII );
     //MLigacoes->Write("MLigacoes_inicial.pbm");
@@ -590,14 +590,14 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
     // Rotula matrizRotulo usando pm
     RotulaImagemSequencial(0);
 
-    CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
+    TMatriz2D< int >* MInicialRotulada = new TMatriz2D< int >( *matrizRotulo );
 		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write("MInicialRotulada.pgm");
 
 // Cria MAbertura, é a imagem apos abertura
     cout << "Criando e inicializando MAbertura..." << endl;
-    CMatriz2D* MAbertura= new CMatriz2D(pm->NX(), pm->NY());
+    TMatriz2D< int >* MAbertura= new TMatriz2D< int >(pm->NX(), pm->NY());
 
 // Cria vetor VPoros
     cout << "Criando e inicializando VPoros..." << endl;
@@ -794,7 +794,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 
 // Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
     cout << "Criando e inicializando MLigacoes..." << endl;
-    CMatriz2D* MSitiosLigacoes   = new CMatriz2D( pm->NX(), pm->NY() );
+    TMatriz2D< int >* MSitiosLigacoes   = new TMatriz2D< int >( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
 		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
@@ -807,7 +807,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
-    CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
+    TMatriz2D< int >* MInicialRotulada = new TMatriz2D< int >( *matrizRotulo );
 		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
 
@@ -1216,7 +1216,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 
 // Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
     cout << "Criando e inicializando MLigacoes..." << endl;
-    CMatriz2D* MSitiosLigacoes   = new CMatriz2D( pm->NX(), pm->NY() );
+    TMatriz2D< int >* MSitiosLigacoes   = new TMatriz2D< int >( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
 		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
@@ -1229,7 +1229,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
-    CMatriz2D* MInicialRotulada = new CMatriz2D( *matrizRotulo );
+    TMatriz2D< int >* MInicialRotulada = new TMatriz2D< int >( *matrizRotulo );
 		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     if ( salvarResultadosParciais )
@@ -1238,7 +1238,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     }
 
 ////NOVO TENTAR RETIRAR POIS CONSOME MAIS MEMORIA - NOVO MODELO 3
-    CMatriz2D* MatrizPmAntesAbertura = new CMatriz2D( *pm ); //NOVO MODELO 3
+    TMatriz2D< int >* MatrizPmAntesAbertura = new TMatriz2D< int >( *pm ); //NOVO MODELO 3
 
 
 //	Cria vetor de objetos
@@ -1596,7 +1596,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     // 3- Calcular e salvar distribuicao de sitios
     // 4- Apagar e copiar dados ligaçoes
     // 5- Calcular e salvar distribuicao de  ligaçoes
-    // CMatriz2D* ptrImg = new CMatriz2D(nx, ny);
+    // TMatriz2D< int >* ptrImg = new TMatriz2D< int >(nx, ny);
     //*******************************
 
     // Salva MInicialRotulada em disco - resultado final (rótulos dos objetos)
@@ -1672,7 +1672,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_4()
 void CAberturaDilatacao::SequenciaAberturaTonsCinza()
 {
     // 	Cria matriz abertura
-    CMatriz2D* MAbertura = new CMatriz2D( *pm );
+    TMatriz2D< int >* MAbertura = new TMatriz2D< int >( *pm );
     pfmf = new CFEMorfologiaMatematica( pm , 3 );
 
     // Entra num looping para o raio do elemento estruturante

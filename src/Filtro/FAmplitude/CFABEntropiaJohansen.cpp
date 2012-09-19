@@ -26,7 +26,7 @@ Bibliotecas
 */
 #include <cmath>
 #include "Filtro/FAmplitude/CFABEntropiaJohansen.h"
-#include "Matriz/CMatriz2D.h"
+#include "Matriz/TMatriz2D.h"
 #include "Matriz/CHistograma.h"	// ponteiro para histograma
 
 /*
@@ -37,8 +37,8 @@ Descricao:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFABEntropiaJohansen::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABEntropiaJohansen::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;			// armazena a matriz
   int i;			// , j;                     // contadores

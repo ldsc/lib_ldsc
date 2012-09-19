@@ -32,7 +32,7 @@ class CFERotacaoVerticaleDiferenca : public CFEspacial
 {
 public:
 		/// Construtor
-  CFERotacaoVerticaleDiferenca (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+  CFERotacaoVerticaleDiferenca (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
   : CFEspacial (matriz, _tamanhoMascara)
   {
   }

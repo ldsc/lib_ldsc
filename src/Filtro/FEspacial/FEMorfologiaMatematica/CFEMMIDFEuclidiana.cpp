@@ -50,10 +50,10 @@ void CFEMMIDFEuclidiana::CriaMascara (unsigned int _tamanhoMascara) {
 //  o tamanho da maior bola a ser considerada. A maior bola pode ter o tamanho de 65535/100=655 pixel's..
 //  Que é maior que as imagens normalmente consideradas. Assim para imagens de até 655 píxel's, este
 //  processo é válido. Acima disso podem ocorrer erros para bolas maior que 655.
-//  CMatriz2D * CFEMMIDFEuclidiana::Go( CMatriz2D*& matriz)
+//  TMatriz2D< int > * CFEMMIDFEuclidiana::Go( TMatriz2D< int >*& matriz)
 /*
 /*
-CMatriz2D *CFEMMIDFEuclidiana::Go( CMatriz2D *& matriz, unsigned int _tamanhoMascara )
+TMatriz2D< int > *CFEMMIDFEuclidiana::Go( TMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
  InicializaIDF(matriz,_tamanhoMascara);		//  armazena valores da matriz e _tamanhoMascara
 						//  verifica se pm->data2D e this->data2D tem as mesmas dimensoes
@@ -150,9 +150,9 @@ Executa abertura a partir da idf
 //  A segunda é que a mascara CBCEuclidiana é uma mascara preenchida corretamente, e não  um vetor
 //  como usado na TIDFd34. Assim percorro toda a mascara e verifico se o valor da mascara é 1 ou 0
 //  se for 1 seto o valor da matriz auxiliar pm.
-//  virtual CMatriz2D* Abertura(unsigned int _raioBola);//  redefinida,
+//  virtual TMatriz2D< int >* Abertura(unsigned int _raioBola);//  redefinida,
 /*
-CMatriz2D*  CFEMMIDFEuclidiana::Abertura(CMatriz2D*& matriz,unsigned int _RaioBola)	//  
+TMatriz2D< int >*  CFEMMIDFEuclidiana::Abertura(TMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
 {
  pm=matriz;
  int i,j;
@@ -195,7 +195,7 @@ e a definição dos píxel ativos após a erosão pode ser realizada sem a masca
 ou seja não preciso das funções GetraioBolaInclusa e GetraioBolaTangente
 */
 /*
-CMatriz2D*  CFEMMIDFEuclidiana::Erosao(CMatriz2D*& matriz,unsigned int _RaioBola)	//  
+TMatriz2D< int >*  CFEMMIDFEuclidiana::Erosao(TMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
 {
  pm=matriz;
  int i,j;
@@ -222,7 +222,7 @@ Documentacao 		Dilatacao
 Descricao: A função abaixo implementa o conceito de Dilatacao
 */
 /*
-CMatriz2D*  CFEMMIDFEuclidiana::Dilatacao(CMatriz2D*& matriz,unsigned int _RaioBola)	//  
+TMatriz2D< int >*  CFEMMIDFEuclidiana::Dilatacao(TMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
 {
  pm=matriz;
  int i,j;

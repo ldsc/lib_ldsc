@@ -16,7 +16,7 @@ class CFEDeteccaoContorno : public CFEspacial
 	
 
 public:			/// Construtor
-  CFEDeteccaoContorno (CMatriz2D * &matriz,
+  CFEDeteccaoContorno (TMatriz2D< int > * &matriz,
 		       unsigned int _tamanhoMascara)
     : CFEspacial (matriz, _tamanhoMascara)
   {

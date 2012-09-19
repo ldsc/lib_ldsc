@@ -68,7 +68,7 @@ class CConectividade2D : public CRotulador2D
 {
 	
   // Atributos
-  CMatriz2D *pm; ///< Ponteiro para a imagem recebida, usado na função VerificaConectividade.
+  TMatriz2D< int > *pm; ///< Ponteiro para a imagem recebida, usado na função VerificaConectividade.
 
   // A função verifica conectividade não recebe a imagem, pois é necessária
   // a rotulagem da imagem(funcao Go()).
@@ -86,8 +86,8 @@ class CConectividade2D : public CRotulador2D
 
  public:
   /// Construtor Default
-  // CConectividade2D():TRotulador2D(),CMatriz2D(){};// Exige a definição de pm e data2D posteriormente
-    CConectividade2D (CMatriz2D * &imagem):CRotulador2D (imagem), pm (imagem)
+  // CConectividade2D():TRotulador2D(),TMatriz2D< int >(){};// Exige a definição de pm e data2D posteriormente
+    CConectividade2D (TMatriz2D< int > * &imagem):CRotulador2D (imagem), pm (imagem)
   {
   }
 

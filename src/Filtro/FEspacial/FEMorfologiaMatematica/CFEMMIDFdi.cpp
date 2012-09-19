@@ -50,9 +50,9 @@ void CFEMMIDFdi::CriaMascara (unsigned int _tamanhoMascara) {
 //      1
 //   1  p  1
 //      1
-//  CMatriz2D * CFEMMIDFdi::Go( CMatriz2D *& matriz)
+//  TMatriz2D< int > * CFEMMIDFdi::Go( TMatriz2D< int > *& matriz)
 //  Obs
-CMatriz2D * CFEMMIDFdi::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara */ ) {
+TMatriz2D< int > * CFEMMIDFdi::Go (TMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara */ ) {
    ExecutadaPorGo (matriz); //  verifica a matriz e copia dados para data2D
    //  IDFNosPlanosDeContorno(mi); //  verifica planos de contorno
    //  ida    MinimoIda

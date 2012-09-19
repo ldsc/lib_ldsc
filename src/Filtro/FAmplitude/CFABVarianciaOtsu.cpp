@@ -25,7 +25,7 @@ Bibliotecas
 
 #include "Filtro/FAmplitude/CFABVarianciaOtsu.h"
 #include "Matriz/CHistograma.h"	// ponteiro para histograma
-#include "Matriz/CMatriz2D.h"	
+#include "Matriz/TMatriz2D.h"
 
 /*
 ==================================================================================
@@ -43,8 +43,8 @@ As variancias razao=va/vb
 
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFABVarianciaOtsu::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABVarianciaOtsu::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
   // 

@@ -21,12 +21,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 #include "Filtro/FEspacial/CFEBSubstitueValor.h"
-// Construtor:   CFEBSubstitueValor( int _valorAntigo, int  vB=0,CMatriz2D * matriz=0, unsigned int _tamanhoMascara=0 )
+// Construtor:   CFEBSubstitueValor( int _valorAntigo, int  vB=0,TMatriz2D< int > * matriz=0, unsigned int _tamanhoMascara=0 )
 // Exemplo de uso: CFEBSubstitueValor(valorAntigo,antigoValor).Go(imagem);
 
 // Trocar todos os pixel's com (valorAntigo) por (valorBorda)
-CMatriz2D *
-CFEBSubstitueValor::Go (CMatriz2D * &imagem, unsigned int espessura /*=1*/ )
+TMatriz2D< int > *
+CFEBSubstitueValor::Go (TMatriz2D< int > * &imagem, unsigned int espessura /*=1*/ )
 {
   int nx = imagem->NX ();
   int ny = imagem->NY ();

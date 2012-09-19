@@ -3,7 +3,7 @@
 #define CFiltro_h
 
 // ponteiro para matriz
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 
 /*
 ----------------------------------------------------------------------------
@@ -41,11 +41,11 @@ class CFiltro
 {
 protected:
 
-    CMatriz2D * pm;	///< é um ponteiro para a imagem a ser filtrada
+    TMatriz2D< int > * pm;	///< é um ponteiro para a imagem a ser filtrada
 
 public:
 /// Construtor, recebe o endereço da matriz a ser processada
-    CFiltro (CMatriz2D * &matriz)
+    CFiltro (TMatriz2D< int > * &matriz)
     {
         pm = matriz;
     }
@@ -61,7 +61,7 @@ public:
      * @param _tamanhoMascara  dimensão da mascara a ser utilizada
      * @return ponteiro para imagem processada
      */
-    virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara = 0) = 0;
+    virtual TMatriz2D< int > *Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
 #endif //   CFiltro_h

@@ -9,7 +9,7 @@
 
 #include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
 #include <Geometria/Bola/BCDiscreta/CBCd34.h>
-#include <Matriz/CMatriz2D.h>
+#include <Matriz/TMatriz2D.h>
 
 #include "Grafico/Gnuplot/CGnuplot.h"
 
@@ -81,7 +81,7 @@ int main ( int argc, char *argv[] )
         cin >> iOpcao;
         cin.get();
 
-        CMatriz2D * pm = NULL;
+        TMatriz2D< int > * pm = NULL;
         CFEMorfologiaMatematica * filtro = NULL;
         CAberturaDilatacao * carac = NULL;
         int dimensao;
@@ -111,7 +111,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
 
             carac = new CAberturaDilatacao(pm,nomeimg);
@@ -154,7 +154,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
 
             carac = new CAberturaDilatacao(pm,nomeimg);
@@ -196,7 +196,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
 
             carac = new CAberturaDilatacao(pm,nomeimg);
@@ -239,7 +239,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
 
             carac = new CAberturaDilatacao(pm,nomeimg);
@@ -292,7 +292,7 @@ int main ( int argc, char *argv[] )
             cout << "Tamanho do elemento estruturante: " << endl;
             cin >> eleStrut;
             cin.get(); // pega o enter
-            pm = new CMatriz2D( nomeimg );
+            pm = new TMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
             filtro = new CFEMorfologiaMatematica( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
@@ -328,7 +328,7 @@ int main ( int argc, char *argv[] )
             cout << "Tamanho do elemento estruturante: " << endl;
             cin >> eleStrut;
             cin.get(); // pega o enter
-            pm = new CMatriz2D( nomeimg );
+            pm = new TMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
             filtro = new CFEMorfologiaMatematica( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
@@ -364,7 +364,7 @@ int main ( int argc, char *argv[] )
             cout << "Tamanho do elemento estruturante: " << endl;
             cin >> eleStrut;
             cin.get(); // pega o enter
-            pm = new CMatriz2D( nomeimg );
+            pm = new TMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
             filtro = new CFEMorfologiaMatematica( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
@@ -399,7 +399,7 @@ int main ( int argc, char *argv[] )
             cout << "Tamanho do elemento estruturante: " << endl;
             cin >> eleStrut;
             cin.get(); // pega o enter
-            pm = new CMatriz2D( nomeimg );
+            pm = new TMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
             filtro = new CFEMorfologiaMatematica( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
@@ -433,7 +433,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
 
             carac = new CAberturaDilatacao(pm,nomeimg);
@@ -459,7 +459,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
             if ( pm == NULL )
             {
@@ -500,7 +500,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             if ( pm == NULL)
             {
                 cerr << "Antes precisa carregar a imagem, executando opcões 1-4.\n";
@@ -544,7 +544,7 @@ int main ( int argc, char *argv[] )
             cin >> borda;
             cin.get(); // pega o enter
 
-            pm = new CMatriz2D(nomeimg, borda);
+            pm = new TMatriz2D< int >(nomeimg, borda);
             if ( pm == NULL  )
             {
                 cerr << "Falha alocação Matriz .\n" ;
@@ -569,7 +569,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D(nomeimg);
+            pm = new TMatriz2D< int >(nomeimg);
             cout << "Carregou imagem->" << nomeimg << endl;
             if ( pm == NULL )
             {
@@ -595,7 +595,7 @@ int main ( int argc, char *argv[] )
             cout << "Nome da imagem (nome.extensao): " << endl;
             cin >> nomeimg;
             cin.get(); // pega o enter
-            pm = new CMatriz2D( nomeimg );
+            pm = new TMatriz2D< int >( nomeimg );
             cout << "Carregou imagem->" << nomeimg << endl;
             if ( pm == NULL )
             {

@@ -45,8 +45,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 //    3
 // Erro 2: Na imagem final ficam pontos 4 e 3 que poderiam ser eliminados
 
-CMatriz2D *
-CFEEsqueletoV2::Go (CMatriz2D * &imagem, unsigned int /*_tamanhoMascara*/ )
+TMatriz2D< int > *
+CFEEsqueletoV2::Go (TMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*/ )
 {
   if (idf == NULL)
     {
@@ -115,7 +115,7 @@ CFEEsqueletoV2::Go (CMatriz2D * &imagem, unsigned int /*_tamanhoMascara*/ )
 
       // novo colocado em 2007
       //      CFEMMIDFd34* ptrImg2D = idf;
-      CMatriz2D* pMatriz = dynamic_cast<CMatriz2D*>( idf );
+      TMatriz2D< int >* pMatriz = dynamic_cast<TMatriz2D< int >*>( idf );
       idf->Go (pMatriz,0);		// atualiza a idf após descascamento
       // idf->Go (idf);		// FORMATO ANTIGO
 

@@ -42,7 +42,7 @@ class CFEEliminaBorda : public CFEspacial
 
 public:
 		/// Construtor
-  CFEEliminaBorda (int vB = 0, CMatriz2D * matriz = 0, unsigned int _tamanhoMascara = 0)
+  CFEEliminaBorda (int vB = 0, TMatriz2D< int > * matriz = 0, unsigned int _tamanhoMascara = 0)
     : CFEspacial (matriz, _tamanhoMascara),    valorBorda    (vB)
   {
   }
@@ -53,7 +53,7 @@ public:
   }
 
   /// Cria a mascara adequada
-  virtual CMatriz2D *Go (CMatriz2D * imagem, int espessura);
+  virtual TMatriz2D< int > *Go (TMatriz2D< int > * imagem, int espessura);
 
   /// Seta valor da borda
   void ValorBorda (int v)

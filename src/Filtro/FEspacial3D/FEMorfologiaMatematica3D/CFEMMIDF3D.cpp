@@ -434,7 +434,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
 */
 	
 	// Pega plano central da mascara
-	CMatriz2D * pcm = NULL;
+	TMatriz2D< int > * pcm = NULL;
  	pcm = idfMask->LePlano(mask->RaioZ(), EIXO_Z);
 	
    /*	//grava em disco o plano da mascara.
@@ -551,7 +551,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
  idfAbertura->Write(fileName);
 
  // Pega plano central da mascara
- CMatriz2D * pcm = NULL;
+ TMatriz2D< int > * pcm = NULL;
 // 	pcm = idfMask->LePlano(mask->RaioZ(), EIXO_Z);
  pcm = ptr_mask->LePlano(mask->RaioZ(), EIXO_Z);
  //grava em disco o plano da mascara.

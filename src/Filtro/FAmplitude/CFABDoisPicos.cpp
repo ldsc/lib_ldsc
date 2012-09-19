@@ -23,7 +23,7 @@ Bibliotecas
 */
 
 #include "Matriz/CHistograma.h"
-#include "Matriz/CMatriz2D.h"
+#include "Matriz/TMatriz2D.h"
 #include "Filtro/FAmplitude/CFABDoisPicos.h"
 
 /*
@@ -35,8 +35,8 @@ Descrição:        Calcula o valor médio do nível de corte
 
 Programador:      Andre Duarte Bueno
 */
-CMatriz2D *
-CFABDoisPicos::Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara)
+TMatriz2D< int > *
+CFABDoisPicos::Go (TMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 {
   pm = matriz;
   // 

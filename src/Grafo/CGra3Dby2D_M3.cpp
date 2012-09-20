@@ -311,7 +311,7 @@ return this;
 }
 */
 /*
-CGrafo* CGra3Dby2D_M3::Go( CMatriz3D * _img3D,unsigned long int funcao)
+CGrafo* CGra3Dby2D_M3::Go( TCMatriz3D<int> * _img3D,unsigned long int funcao)
 {	
  // Chama função que determina o grafo
  CGra3Dby2D_M2::Go( _img3D , funcao);

@@ -122,7 +122,7 @@ protected:
 protected:
     void DefineAtributos ();				/// Método que define os atributos da classe
 
-    void CriaCamara (CMatriz3D * &imagem);		/// Método que  cria a camara
+    void CriaCamara (TCMatriz3D<int> * &imagem);		/// Método que  cria a camara
 
     void CriaIDF ();					/// Método que cria a imagem idf. Uma idf se autocalcula
 
@@ -136,17 +136,17 @@ protected:
 
     void ConectividadeKwbG__U_KGB0B0 ();			///  Método que determina a conectividade KwbG__U_KGB0B0
 
-    void SolucaoOmega (int &indiceRegiaoB, CMatriz3D * &imagem);	///  Método que determina a soluãoo Omega
+    void SolucaoOmega (int &indiceRegiaoB, TCMatriz3D<int> * &imagem);	///  Método que determina a soluãoo Omega
 
-    void CorrecaocaxYi (CMatriz3D * &imagem);		///  Método que corrige caxYi,  isto é, recupera os píxeis tomados por Yi
+    void CorrecaocaxYi (TCMatriz3D<int> * &imagem);		///  Método que corrige caxYi,  isto é, recupera os píxeis tomados por Yi
 
-    void SolucaoFinal (CMatriz3D * &imagem);		///  Método que fornece a solução final
+    void SolucaoFinal (TCMatriz3D<int> * &imagem);		///  Método que fornece a solução final
 
     void RestabeleceIDFPositiva ();			///  Método que reestabelece a idf positiva
 
-    void DiferencaEmRelacaoArtigo (CMatriz3D * &imagem); 	///  Método que realiza correção, isto é, ajuste para que o método funcione.  Este ajuste não consta do artigo original.
+    void DiferencaEmRelacaoArtigo (TCMatriz3D<int> * &imagem); 	///  Método que realiza correção, isto é, ajuste para que o método funcione.  Este ajuste não consta do artigo original.
 
-    void Salvar (CMatriz3D * &imagem, std::string msg);	///  Método que salva em disco as imagens geradas, Utilizado em etapas de teste
+    void Salvar (TCMatriz3D<int> * &imagem, std::string msg);	///  Método que salva em disco as imagens geradas, Utilizado em etapas de teste
 
 public:
 
@@ -171,16 +171,16 @@ public:
     }
 
     ///  Executa passo-a-passo a determinação das configurações de equilíbrio.
-    virtual bool Next (CMatriz3D * &imagem);
+    virtual bool Next (TCMatriz3D<int> * &imagem);
 
     ///  Executa toda a determinação das configurações de equilíbrio.
-    virtual void Go (CMatriz3D * &imagem);
+    virtual void Go (TCMatriz3D<int> * &imagem);
 
     /// Retorna ponteiro para uma CMatriz3D o qual aponta para uma imagem binária extraída da câmara, correspondente a regiao passada como parâmetro. Deve ser chamada após Next ou Go.
-// CMatriz3D * GetImagem ( int indice_regiao ) const;
+// TCMatriz3D<int> * GetImagem ( int indice_regiao ) const;
 
     /// Altera os valores da matriz passsada como parametro para corresponder a imagem binária referente a regiao passada como parâmetro. Deve ser chamada após Next ou Go.
-// bool GetImagem(CMatriz3D * imagem, int indice_regiao) const;
+// bool GetImagem(TCMatriz3D<int> * imagem, int indice_regiao) const;
 
     /// Retorna o índice da região A
     int GetIndiceRegiaoA() {
@@ -198,14 +198,14 @@ public:
     }
 
     /// Inverte o fluxo na determinação das configurações de equilíbrio. (drenagem <-> embebição)
-    void InverterFluxo ( CMatriz3D * &imagem );
+    void InverterFluxo ( TCMatriz3D<int> * &imagem );
 
     /// Retorna ponteiro para uma CMatriz3D o qual aponta para uma imagem da região informada (A ou B) extraída da câmara. Deve ser chamada após Next ou Go.
     // Quem chamou deve destruir a imagem que é aqui criada.
-    CMatriz3D * GetImagem( int regiao ) const;
+    TCMatriz3D<int> * GetImagem( int regiao ) const;
 
     /// Preenche a imagem recebida como parametro com os pixeis que sao iguais ao indice regiao.
-    bool GetImagem(CMatriz3D * &imagem, int regiao) const;
+    bool GetImagem(TCMatriz3D<int> * &imagem, int regiao) const;
 
     /// Método que seta o atributo fluidoA
     void FluidoA (  CMFluido * &fa)

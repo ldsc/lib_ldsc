@@ -24,9 +24,9 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 #include "Filtro/FEspacial3D/CFEBorda3D.h"
 
-// virtual CMatriz3D* Go(CMatriz3D* imagem, int _espessura=1);
-CMatriz3D *
-CFEBorda3D::Go (CMatriz3D * &imagem, unsigned int espessura)
+// virtual TCMatriz3D<int> * Go(TCMatriz3D<int> * imagem, int _espessura=1);
+TCMatriz3D<int> *
+CFEBorda3D::Go (TCMatriz3D<int> * &imagem, unsigned int espessura)
 {
   int nx = imagem->NX ();
 

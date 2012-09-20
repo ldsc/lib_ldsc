@@ -81,7 +81,7 @@ protected:
 				 CContorno::ETipoContorno tipo);
 
   // Função Go
-  // virtual CGrafo* Go( CMatriz3D * _img3D,unsigned long int  _tamanhoMascara = 1);
+  // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);
   // virtual CGrafo* Go( std::string fileName,unsigned long int _tamanhoMascara = 0) ;
 
 // --------------------------------------------------------------------Get

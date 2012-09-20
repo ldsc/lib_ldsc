@@ -21,7 +21,7 @@ email:            andre@lmpt.ufsc.br
 
 
 CGrafo *
-CGra3Dby2D_M5::Go (CMatriz3D * _img3D, unsigned long int funcao)
+CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
 {
   // NOVO a partir do modelo 5
   // no modelo 5 usa informacoes do plano anterior e posterior,

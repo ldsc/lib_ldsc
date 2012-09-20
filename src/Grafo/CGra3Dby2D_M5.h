@@ -44,7 +44,7 @@ protected:
 	std::ofstream pixeisDeletados;
 
   /// Imagem 3D.
-  CMatriz3D *img3D;
+  TCMatriz3D<int> *img3D;
 
 public:
 // -------------------------------------------------------------Construtor
@@ -72,7 +72,7 @@ public:
 
 // ----------------------------------------------------------------Métodos
   /// Processa a determinação do grafo.
-  CGrafo *Go (CMatriz3D * _img3D, unsigned long int funcao);
+  CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int funcao);
 
 protected:
 	/// Adiciona objetos ao grafo

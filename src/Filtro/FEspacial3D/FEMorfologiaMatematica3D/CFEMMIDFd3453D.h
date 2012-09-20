@@ -54,7 +54,7 @@ class CFEMMIDFd3453D:public CFEMMIDFdijk3D
 public:
   /// Construtor:
   // ponteiro para matriz imagem, tamanho da mascara a ser criada,raio máximo a ser usado
-  CFEMMIDFd3453D (CMatriz3D * &matriz, int _indice=1, int _fundo=0) : CFEMMIDFdijk3D (matriz, 3, 4, 5, 1, _indice, _fundo)
+  CFEMMIDFd3453D (TCMatriz3D<int> * &matriz, int _indice=1, int _fundo=0) : CFEMMIDFdijk3D (matriz, 3, 4, 5, 1, _indice, _fundo)
   {
   }
 
@@ -62,7 +62,7 @@ public:
   {
   }				// Destrutor
 
-  // virtual CMatriz3D * Go( CMatriz3D *& matriz,unsigned int _tamanhoMascara=0);// redefinida
+  // virtual TCMatriz3D<int> * Go( TCMatriz3D<int> *& matriz,unsigned int _tamanhoMascara=0);// redefinida
 
 };
 

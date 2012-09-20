@@ -60,10 +60,10 @@ class CPermeabilidadeRelativa
 {
 // --------------------------------------------------------------Atributos
 protected:
-	/// Ponteiro para CMatriz3D (imagemA);
+	/// Ponteiro para TCMatriz3D<int> (imagemA);
 	CImagem3D * imagemA;
 
-	/// Ponteiro para CMatriz3D (imagemB);
+	/// Ponteiro para TCMatriz3D<int> (imagemB);
 	CImagem3D * imagemB;
 
 	/// Ponteiro para CPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase A;
@@ -116,7 +116,7 @@ public:
 	bool Go( string pathFileName );
 
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um ponteiro para CMatriz3D.
-	bool Go( CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0 );
+	bool Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0 );
 	
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um o path de uma imagem 3D (.dbm).
 	bool Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0 );

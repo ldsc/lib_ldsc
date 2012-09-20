@@ -1,16 +1,16 @@
-#ifndef CMatriz3D_h
-#define CMatriz3D_h
+#ifndef TCMatriz3D_h
+#define TCMatriz3D_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-						Assunto/Ramo: CMatriz3D...
+						Assunto/Ramo: TCMatriz3D...
 ===============================================================================
 Desenvolvido por:	
 						Laboratorio de Desenvolvimento de Software Cientifico
 						[LDSC].
 @author     André Duarte Bueno
-@file       CMatriz3D.h
+@file       TCMatriz3D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
@@ -61,8 +61,8 @@ Desenvolvido por:
  * @author 	André Duarte Bueno
  * @see		Matriz
 */
-
-class CMatriz3D : public CBaseMatriz
+template< typename T >
+class TCMatriz3D : public CBaseMatriz
 {
 		// --------------------------------------------------------------Atributos
 		// Atributos e metodos estaticos
@@ -77,36 +77,35 @@ class CMatriz3D : public CBaseMatriz
 		enum E_eixo { EIXO_X, EIXO_Y, EIXO_Z };
 
 		/// Ponteiro para matriz 3D
-		int ***data3D;
+		T ***data3D;
 
 		/// Alocal matriz 3D e retorna ponteiro int***
-		static int ***AlocaMatriz3D (int nx, int ny, int nz);
+		static T ***AlocaMatriz3D (int nx, int ny, int nz);
 
 		/// Desaloca matriz 3D
-		static bool DesalocaMatriz3D (int ***dat, int nx, int ny, int nz);
+		static bool DesalocaMatriz3D (T ***dat, int nx, int ny, int nz);
 
 		// -------------------------------------------------------------Construtor
 		// Metodos construtores
 		/// Construtor
-		CMatriz3D ();
+		TCMatriz3D ();
 
-		/// Construtor le CMatriz3D do disco
-		CMatriz3D (std::string fileName);
+		/// Construtor le TCMatriz3D do disco
+		TCMatriz3D (std::string fileName);
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
-		CMatriz3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY );
+		TCMatriz3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY );
 
-		/// Construtor cria copia CMatriz3D
-		CMatriz3D (CMatriz3D &);
+		/// Construtor cria copia TCMatriz3D
+		TCMatriz3D (TCMatriz3D &);
 
-		/// Construtor cria nova CMatriz3D
-		CMatriz3D (int, int, int);
+		/// Construtor cria nova TCMatriz3D
+		TCMatriz3D (int, int, int);
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
-		virtual ~ CMatriz3D ()
-		{
-			CMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
+		virtual ~ TCMatriz3D () {
+			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
 		}
 
 		// ----------------------------------------------------------------Métodos
@@ -124,14 +123,14 @@ class CMatriz3D : public CBaseMatriz
 		/// Aloca a matriz
 		virtual bool Aloca ()
 		{
-			data3D = CMatriz3D::AlocaMatriz3D (nx, ny, nz);
+			data3D = TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
 			return data3D ? 1 : 0;
 		}
 
 		/// Desaloca a matriz
 		virtual bool Desaloca ()
 		{
-			CMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
+			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
 			return data3D ? 0 : 1;
 		}
 
@@ -139,11 +138,11 @@ class CMatriz3D : public CBaseMatriz
 		/// Redimensiona  a matriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
 		{
-			CMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
+			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
 			nx = NX;
 			ny = NY;
 			nz = NZ;
-			data3D = CMatriz3D::AlocaMatriz3D (nx, ny, nz);
+			data3D = TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
 			return data3D ? true : false;
 		}
 
@@ -212,29 +211,29 @@ class CMatriz3D : public CBaseMatriz
 
 		// -------------------------------------------------------------Sobrecarga
 		/// Sobrecarga operator+
-		CMatriz3D & operator+ (CMatriz3D & pm3);
+		TCMatriz3D< T > & operator+ (TCMatriz3D< T > & pm3);
 
 		/// Sobrecarga operator-
-		CMatriz3D & operator- (CMatriz3D & pm3);
+		TCMatriz3D< T > & operator- (TCMatriz3D< T > & pm3);
 
 		/// Sobrecarga operator+=
-		CMatriz3D & operator= (CMatriz3D & pm3);
+		TCMatriz3D< T > & operator= (TCMatriz3D< T > & pm3);
 		// TCMatriz2D< int >* operator*(TCMatriz2D< int >*& m2);
 
 		/// Sobrecarga operator==
-		bool operator== (CMatriz3D & pm3);
+		bool operator== (TCMatriz3D< T > & pm3);
 
 		/// Sobrecarga operator!=
-		bool operator!= (CMatriz3D & pm3);
+		bool operator!= (TCMatriz3D< T > & pm3);
 
 		/// Sobrecarga operator()
-		inline int &operator  () (int x, int y, int z) const
+		inline T &operator  () (int x, int y, int z) const
 		{
 			return data3D[x][y][z];
 		}
 
 		/// Sobrecarga operator[]
-		inline int &operator[] (int x) const
+		inline T &operator[] (int x) const
 		{
 			return data3D[x][0][0];
 		}
@@ -260,7 +259,7 @@ class CMatriz3D : public CBaseMatriz
 		}
 
 		/// Retorna data3D
-		inline int ***Data3D () const
+		inline T ***Data3D () const
 		{
 			return data3D;
 		}
@@ -292,15 +291,15 @@ class CMatriz3D : public CBaseMatriz
 		}
 
 		// -----------------------------------------------------------------Friend
-		//       friend ostream& operator<< (ostream& os, CMatriz3D& obj);
-		//       friend istream& operator>> (istream& is, CMatriz3D& obj);
+		//       friend ostream& operator<< (ostream& os, TCMatriz3D& obj);
+		//       friend istream& operator>> (istream& is, TCMatriz3D& obj);
 
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, CMatriz3D& obj);
-// istream& operator>> (istream& is, CMatriz3D& obj);
+// ostream& operator<< (ostream& os, TCMatriz3D& obj);
+// istream& operator>> (istream& is, TCMatriz3D& obj);
 
 #endif
 

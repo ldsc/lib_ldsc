@@ -18,7 +18,7 @@ Nome da classe:      CMascara3D
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
-#include  <Matriz/CMatriz3D.h>
+#include  <Matriz/TCMatriz3D.h>
 
 
 /**
@@ -37,7 +37,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  *    (nx-2)/2= -1          0       0       0       1       1       2
 */
 
-class CMascara3D : public CMatriz3D
+class CMascara3D : public TCMatriz3D<int>
 {
 protected:
   float peso;	///< Peso usado para que a mascara tenha Somatorio/peso=1

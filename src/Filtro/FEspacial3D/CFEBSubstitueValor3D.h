@@ -45,7 +45,7 @@ class CFEBSubstitueValor3D : public CFEBorda3D
 public:
     CFEBSubstitueValor3D (int _valorAntigo,
 			  int vB
-			  /*,CMatriz3D*& matriz, unsigned int _tamanhoMascara=0 */
+			  /*,TCMatriz3D<int> *& matriz, unsigned int _tamanhoMascara=0 */
 			  )
   : CFEBorda3D (vB /*,matriz, _tamanhoMascara */ ), valorAntigo (_valorAntigo)
   {
@@ -55,7 +55,7 @@ public:
   {
   }
 
-  virtual CMatriz3D *Go (CMatriz3D * &imagem, unsigned int espessura = 1);
+  virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &imagem, unsigned int espessura = 1);
 
 };
 #endif // CFEBSubstitueValor3D

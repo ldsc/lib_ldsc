@@ -22,8 +22,8 @@ Liang Zirong, Paulo C. Philippi,
 #include <ConEqu/CCamara.h>
 #endif
 
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <Matriz/TCMatriz3D.h>
 #endif
 
 
@@ -58,7 +58,7 @@ Liang Zirong, Paulo C. Philippi,
  * // a imagem é carregada do arquivo de disco
  * CCamara3D * camara = new CCamara3D ( fileName ) ;	
 */
-class CCamara3D : public CCamara, public CMatriz3D
+class CCamara3D : public CCamara, public TCMatriz3D<int>
 {
   // Métodos
  public:
@@ -70,7 +70,7 @@ class CCamara3D : public CCamara, public CMatriz3D
     }
 
     // Construtor sobrecarregado, recebe imagem e raio máximom a seguir cria camara assumindo dimensoes padroes.
-    // CCamara3D (CMatriz3D*& img,int& raioMaximo=10):CCamara(raioMaximo)
+    // CCamara3D (TCMatriz3D<int> *& img,int& raioMaximo=10):CCamara(raioMaximo)
     //  {
     //  CCamara3D::CriaCamara(img);
     //  }
@@ -100,7 +100,7 @@ class CCamara3D : public CCamara, public CMatriz3D
     }
 
     /// Função que cria a camara a partir das dimensões das paredes e da imagem
-    virtual CMatriz3D *CriaCamara (CMatriz3D * &img);	// ,int raioMaximo=10);
+		virtual TCMatriz3D<int> *CriaCamara (TCMatriz3D<int> * &img);	// ,int raioMaximo=10);
 
     // Preenchimento das paredes da camara com o valor dado pelo indice = FUNDO ( PRETO = 0 )
     // que efetivamente pintam os pixel's das "paredes" na camara
@@ -126,7 +126,7 @@ class CCamara3D : public CCamara, public CMatriz3D
     // 7-Copia os pixels da imagem para a camara, pode ser chamada para alterar a imagem no centro da camara
     // se as dimensões da imagem forem diferentes das da imagem anterior, 
     // então voce deve chamar CriaCamara novamente.
-    virtual void DefineImagem (CMatriz3D * &img);
+		virtual void DefineImagem (TCMatriz3D<int> * &img);
 };
 
 #endif

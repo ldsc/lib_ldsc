@@ -3,7 +3,7 @@
 #define CFiltro3D_h
 
 // ponteiro para matriz
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 
 /*
 ----------------------------------------------------------------------------
@@ -42,11 +42,11 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 class CFiltro3D
 {
 protected:
-  CMatriz3D * pm;	///< é um ponteiro para a imagem a ser filtrada
+	TCMatriz3D<int> * pm;	///< é um ponteiro para a imagem a ser filtrada
 
 public:
 /// Construtor, recebe o endereço da matriz a ser processada
-  CFiltro3D (CMatriz3D * &matriz)
+	CFiltro3D (TCMatriz3D<int> * &matriz)
   {
     pm = matriz;
   }
@@ -63,7 +63,7 @@ public:
    * @param _tamanhoMascara  dimensão da mascara a ser utilizada
    * @return ponteiro para imagem processada
    */ 
-  virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0) = 0;
+	virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
 #endif //   CFiltro3D_h

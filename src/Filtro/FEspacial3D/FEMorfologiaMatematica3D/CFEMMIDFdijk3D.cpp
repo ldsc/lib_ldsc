@@ -66,7 +66,7 @@ Descrição:
  // Funcao IDFNosPlanosDeContorno();// preenche os planos de contorno com valor base
 Programador:      Andre Duarte Bueno
 */
-CMatriz3D * CFEMMIDFdijk3D::Go (CMatriz3D * &matriz, unsigned int /*_tamanhoMascara*/) {
+TCMatriz3D<int> * CFEMMIDFdijk3D::Go (TCMatriz3D<int> * &matriz, unsigned int /*_tamanhoMascara*/) {
    ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
 
    //adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.

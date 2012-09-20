@@ -121,7 +121,7 @@ Funcao:
 @return :
 */
 void CImagem3D::SalvaCabecalho (ofstream & fout) const {
-	CMatriz3D::SalvaCabecalho (fout);
+	TCMatriz3D<int>::SalvaCabecalho (fout);
 	SalvaInformacoesRecontrucao(fout);
 }
 

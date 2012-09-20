@@ -54,20 +54,20 @@ Descrição:
 Programador:      Andre Duarte Bueno
 */
 
-/*CMatriz3D *CFEspacial3D::Go( CMatriz3D *& matriz, unsigned int _tamanhoMascara )
+/*TCMatriz3D<int> *CFEspacial3D::Go( TCMatriz3D<int> *& matriz, unsigned int _tamanhoMascara )
 {
 	tamanhoMascara=_tamanhoMascara;
    return   Go(matriz);
 } */
-CMatriz3D *
-CFEspacial3D::Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara)
+TCMatriz3D<int> *
+CFEspacial3D::Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara)
 {
   CriaMascara (tamanhoMascara);	// Cria a mascara adequada
   // A funcao de preenchimento da mascara
   // já calculada o peso da mascara
   pm = matriz;
 
-  CMatriz3D *rImg = new CMatriz3D (*pm);	// rImg é uma matriz cópia da matriz pm passada
+  TCMatriz3D<int> *rImg = new TCMatriz3D<int> (*pm);	// rImg é uma matriz cópia da matriz pm passada
 
   unsigned int i, j, k;		// percorre imagem
 

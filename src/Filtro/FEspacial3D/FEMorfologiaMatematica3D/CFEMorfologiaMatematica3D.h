@@ -64,7 +64,7 @@ public:
 
 public:
 	///Construtor
-   CFEMorfologiaMatematica3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
+	 CFEMorfologiaMatematica3D (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
       : CFEspacial3D (matriz,  _tamanhoMascara), EEHitMiss1 (false), EEHitMiss2 (false), INDICE ( _indice ), FUNDO ( _fundo )
    { }
 
@@ -79,7 +79,7 @@ public:
     * @param _tamanhoMascara
     * @return
  */
-	virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0)
+	virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 0)
   	{
       _tamanhoMascara = _tamanhoMascara; // evitar warning
       return matriz;
@@ -89,29 +89,29 @@ public:
   	virtual void CriaMascara (unsigned int _tamanhoMascara);	// Cria a mascara adequada
 
   	/// Processa  Abertura, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Abertura (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Abertura (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 	/// Processa  Erosao, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Erosao (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Erosao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 	/// Processa  Dilatacao, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Dilatacao (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Dilatacao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 	/// Processa  Fechamento, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Fechamento (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Fechamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 
   	// Corrigir arrumar, as funções abaixo
   	/// Processa  DeteccaoContorno, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *DeteccaoContorno (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *DeteccaoContorno (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 	
 	/// Processa  HitMiss, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *HitMiss (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *HitMiss (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 	
 	/// Processa  Afinamento, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Afinamento (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Afinamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 
 	/// Processa  Espessamento, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Espessamento (CMatriz3D * &matriz,  unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Espessamento (TCMatriz3D<int> * &matriz,  unsigned int _RaioBola);
 
 	/// Processa  Esqueleto, as operacoes recebem o raio da bola
-  	virtual CMatriz3D *Esqueleto (CMatriz3D * &matriz, unsigned int _RaioBola);
+		virtual TCMatriz3D<int> *Esqueleto (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 
 protected:
 	///  criam mascara do tipo b1, usadas no afinamento e espessamento  

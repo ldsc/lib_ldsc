@@ -50,7 +50,7 @@ protected:
 public:
 
     CFEBorda3D (int vB
-		/*,CMatriz3D*& matriz, unsigned int _tamanhoMascara=0 */ )
+		/*,TCMatriz3D<int> *& matriz, unsigned int _tamanhoMascara=0 */ )
   {
   }
 
@@ -59,7 +59,7 @@ public:
   {
   }
 
-  virtual CMatriz3D *Go (CMatriz3D * &imagem, unsigned int espessura = 1);
+  virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &imagem, unsigned int espessura = 1);
 
   void ValorBorda (int v)
   {

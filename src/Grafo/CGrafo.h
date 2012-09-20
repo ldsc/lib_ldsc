@@ -34,8 +34,8 @@
 #include <Grafo/CObjetoGrafo.h>
 #endif	
 
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <Matriz/TCMatriz3D.h>
 #endif	
 
 #ifndef TCMatriz2D_H
@@ -64,7 +64,7 @@
  * A primeira utilização desta classe, e que deu origem a éla é a determinação do 
  * grafo de sítios representativos da imagem 3D,a partir de imagens bidimensionais. 
  * A classe que implementa de fato a determinação do grafo 3D a partir de seções 2D é a CGra3Dby2D (que tem diversas filhas).
- * Para obter o Grafo  dos sítios, basta passar uma imagem_3D CMatriz3D* para a função Go, que trabalha sobre os planos 
+ * Para obter o Grafo  dos sítios, basta passar uma imagem_3D TCMatriz3D<int> * para a função Go, que trabalha sobre os planos 
  * bidimensionais, para realizar a classificação dos sítios e estabelecer as conexoes entre eles.
  * 
  * Uso:
@@ -247,7 +247,7 @@ class  CGrafo
      * @brief Função que recebe uma imagem 3D e gera a lista 
      * de objetos e seus relacionamentos
     */
-    virtual CGrafo* Go( CMatriz3D * _img3D ,unsigned long int _tamanhoMascara = 0) = 0;
+    virtual CGrafo* Go( TCMatriz3D<int> * _img3D ,unsigned long int _tamanhoMascara = 0) = 0;
 
     /** 
      * @brief Função que recebe o nome do arquivo de uma  
@@ -258,7 +258,7 @@ class  CGrafo
     */
     virtual CGrafo* Go( std::string fileName,
          unsigned long int _tamanhoMascara = 0) {
-      CMatriz3D * img3D = new CMatriz3D (fileName);
+      TCMatriz3D<int> * img3D = new TCMatriz3D<int> (fileName);
       assert(img3D);
       img3D->Constante(0);
       return Go(img3D, _tamanhoMascara);

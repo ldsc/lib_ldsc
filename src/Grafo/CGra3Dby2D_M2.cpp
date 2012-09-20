@@ -100,7 +100,7 @@ Função:  	Go
 @param  : Recebe o número do maior rótulo já utilizado
 @return : void
 */
-CGrafo * CGra3Dby2D_M2::Go (CMatriz3D * _img3D, unsigned long int _tamanhoMascara) {
+CGrafo * CGra3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara) {
    // Cria o rotulador intermediário
    if (rotInt != NULL)
       delete rotInt;

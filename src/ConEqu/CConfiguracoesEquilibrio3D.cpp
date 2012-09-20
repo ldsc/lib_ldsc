@@ -44,7 +44,7 @@ using namespace std;
  * Seta os atributos da classe,
  * e cria alguns objetos dinâmicos, como a camara e os fluidos.
 */
-CConfiguracoesEquilibrio3D::CConfiguracoesEquilibrio3D ( /*CMatriz3D* imagem */ ostream & out) {
+CConfiguracoesEquilibrio3D::CConfiguracoesEquilibrio3D ( /*TCMatriz3D<int> * imagem */ ostream & out) {
    os = &out;				//  temporaria, para saida tela
 
    salvarResultadosParciaisDisco = 0;	//  temporario
@@ -129,7 +129,7 @@ CConfiguracoesEquilibrio3D::~CConfiguracoesEquilibrio3D () {
 /** Metodo que cria a camara. Usa a idf d345 para determinar o raioMaximo (usa somente a imagem),
     Observe que na imagem da camara o raio maximo pode ser maior em do espaço da própria camara.
 */
-void CConfiguracoesEquilibrio3D::CriaCamara (CMatriz3D * &imagem) {
+void CConfiguracoesEquilibrio3D::CriaCamara (TCMatriz3D<int> * &imagem) {
    if (camara) {
       delete camara;
       camara = NULL;
@@ -173,7 +173,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
       delete idf;				//  Se já existe deleta
    idf = NULL;
 
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
 
 	switch (tipoIDF) {			//  Cria objeto idf selecionado
    case 345:
@@ -195,7 +195,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
    //  abaixo usava idf->Getmi() = 3, verificar
    raioMaximo = (maiorValor % idf->Mi () == 0) ? maiorValor / idf->Mi () : 1 + maiorValor / idf->Mi ();
 
-   CMatriz3D* ptr_idf = static_cast<CMatriz3D*>(idf); // Salvar recebe CImagem3D*
+	 TCMatriz3D<int> * ptr_idf = static_cast<TCMatriz3D<int> *>(idf); // Salvar recebe CImagem3D*
    Salvar (ptr_idf, string("1-imagemIDF"));
 }
 
@@ -210,7 +210,7 @@ void CConfiguracoesEquilibrio3D::CriaRotulador () {
 
 /// Abertura: Calcula a abertura sobre a IDF da camara
 void CConfiguracoesEquilibrio3D::CalculaAbertura (int &raio) {
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
    idf->Abertura (ptr_camara, raio);	//  Determina as regiões abertura na camara
    Salvar (ptr_camara, "2.0-imagem-%d-G-(4)");	//  ....Tem na camara(0,G=4)...
 
@@ -220,7 +220,7 @@ void CConfiguracoesEquilibrio3D::CalculaAbertura (int &raio) {
    }
 
    //está salvando a máscara somente para estudo. Depois comentar...
-   CMatriz3D* ptr_mask = static_cast<CMatriz3D*>(idf->mask);
+	 TCMatriz3D<int> * ptr_mask = static_cast<TCMatriz3D<int> *>(idf->mask);
    ptr_mask->Path(ptr_camara->Path());
    Salvar (ptr_mask, "2.2-mask-%d");
 
@@ -243,11 +243,11 @@ void CConfiguracoesEquilibrio3D::CalculaAbertura (int &raio) {
 void CConfiguracoesEquilibrio3D::ConectividadeKGB0 () {
    camara->DefineCamaraInferior ();		//  Redesenha camara inferior, eliminada na abertura
    //  ....Tem na camara(0,G=3,B0=4)...
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
 
    rotulador->Go (ptr_camara);					//  Realiza a rotulagem
 
-   CMatriz3D* ptr_rotulador = static_cast<CMatriz3D*> (rotulador);
+	 TCMatriz3D<int> * ptr_rotulador = static_cast<TCMatriz3D<int> *> (rotulador);
    Salvar (ptr_rotulador, "4-imagem-%d-G+B0-Rotulada");	//  salva imagem rotulada
 
    //  Verifica a conectividade entre B0 e G, e pinta a regiao conexa com KGB0
@@ -269,7 +269,7 @@ void CConfiguracoesEquilibrio3D::UniaoG__U_KGB0 () {
             else
                camara->data3D[i][j][k] = 0;	//  o restante passa a ser zero
    //  ....Tem na camara(0,wbG-_U_KGB0)...
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
    Salvar (ptr_camara, "6-imagem-%d-wbG__U_K(G,B0)-(0,8)");	//  0,wbG-_U_KGB0=8,
 }
 
@@ -280,10 +280,10 @@ void CConfiguracoesEquilibrio3D::ConectividadeKwbG__U_KGB0B0 () {
    camara->DefineCamaraInferior ();
    //  ....Tem na camara(0,wbG__U_KGB0,B0)...
 
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
 
    rotulador->Go (ptr_camara);					//  2 rotulagem
-   CMatriz3D* ptr_rotulador = static_cast<CMatriz3D*> (rotulador);
+	 TCMatriz3D<int> * ptr_rotulador = static_cast<TCMatriz3D<int> *> (rotulador);
 
    //  ....Tem na camara(0,wbG__U_KGB0=8,KwbG__U_KGB0B0=9,)...
    Salvar (ptr_rotulador, "7.0-imagem-%d-wbG__U_KGB0B0-rotulada");
@@ -296,7 +296,7 @@ void CConfiguracoesEquilibrio3D::ConectividadeKwbG__U_KGB0B0 () {
 /**  Metodo que determina a solução de Omega isto é, os valores de B, o restante e Y
   	Aqui a imagem tem (B->indiceRegiaoB, 0, A0, um outro indice que representa Y)
 */
-void CConfiguracoesEquilibrio3D::SolucaoOmega (int &indiceRegiaoB, CMatriz3D * &imagem) {
+void CConfiguracoesEquilibrio3D::SolucaoOmega (int &indiceRegiaoB, TCMatriz3D<int> * &imagem) {
    //  Marca Yi como sendo os valores que estao na idf e nao pertencem a região B
    for (int i = 0; i < camara->NX (); i++)
       for (int j = 0; j < camara->NY (); j++)		//  Transformacao OPCIONAL
@@ -305,7 +305,7 @@ void CConfiguracoesEquilibrio3D::SolucaoOmega (int &indiceRegiaoB, CMatriz3D * &
                camara->data3D[i][j][k] = Yi;
             else
                camara->data3D[i][j][k] = 0;
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
    Salvar (ptr_camara, "7.2-imagem-%d-Yi-(0,2)");	//  Aqui tem 0,Yi
 
    //  Funcao DeterminaA0()
@@ -360,7 +360,7 @@ void CConfiguracoesEquilibrio3D::SolucaoOmega (int &indiceRegiaoB, CMatriz3D * &
  A imagem tem a solucao no instante anterior
  Devo eliminar Yi da solucao de Omega, B=Omega-ca*Yi ~ Omega-ca*(Yi-1)
 */
-void CConfiguracoesEquilibrio3D::CorrecaocaxYi (CMatriz3D * &imagem) {
+void CConfiguracoesEquilibrio3D::CorrecaocaxYi (TCMatriz3D<int> * &imagem) {
    int DeslocX = camara->DeslocamentoNX ();
    int DeslocY = camara->DeslocamentoNY ();
    int DeslocZ = camara->DeslocamentoNZ ();
@@ -375,14 +375,14 @@ void CConfiguracoesEquilibrio3D::CorrecaocaxYi (CMatriz3D * &imagem) {
                // corrigindo, erro do codigo original, que permitia retrocesso de fluido B
                camara->data3D[i + DeslocX][j + DeslocY][k + DeslocZ] = B;
 
-   CMatriz3D* ptr_camara = static_cast<CMatriz3D*>(camara);
+	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
    Salvar (ptr_camara, "9-imagem-%d-K{WBxG__U_K(G,B0),B0}-caYi");
    //  CorrecaoBolas();
 }
 
 /// Metodo que determina a SolucaoFinal(), e salva em disco
 //  Tarefa: Pensar em Criar: SetdeslocX(), SetdeslocY(), Write..
-void CConfiguracoesEquilibrio3D::SolucaoFinal (CMatriz3D * &imagem) {
+void CConfiguracoesEquilibrio3D::SolucaoFinal (TCMatriz3D<int> * &imagem) {
    int DeslocX = camara->DeslocamentoNX ();
    int DeslocY = camara->DeslocamentoNY ();
    int DeslocZ = camara->DeslocamentoNZ ();
@@ -444,7 +444,7 @@ void CConfiguracoesEquilibrio3D::RestabeleceIDFPositiva () {
 /// No artigo faz: K(G,B0)
 /// No codigo faz: K(G-Yi,B0)
 /// APÓS REALIZAR OPERACAO ABERTURA, MARCA PONTOS Y DA IMAGEM ANTERIOR
-void CConfiguracoesEquilibrio3D::DiferencaEmRelacaoArtigo (CMatriz3D *&imagem) {
+void CConfiguracoesEquilibrio3D::DiferencaEmRelacaoArtigo (TCMatriz3D<int> *&imagem) {
    int DeslocX = camara->DeslocamentoNX ();
    int DeslocY = camara->DeslocamentoNY ();
    int DeslocZ = camara->DeslocamentoNZ ();
@@ -457,7 +457,7 @@ void CConfiguracoesEquilibrio3D::DiferencaEmRelacaoArtigo (CMatriz3D *&imagem) {
 
 /// Metodo que salva imagem em disco
 /// Note que inclui informações como wb1 wb0 ca0 ca1
-void CConfiguracoesEquilibrio3D::Salvar (CMatriz3D * &imagem, string msg) {
+void CConfiguracoesEquilibrio3D::Salvar (TCMatriz3D<int> * &imagem, string msg) {
    char fileName[255];
 
    string buffer = msg;
@@ -486,9 +486,9 @@ void CConfiguracoesEquilibrio3D::Salvar (CMatriz3D * &imagem, string msg) {
 
 // retorna ponteiro para uma CMatriz3D que aponta para uma imagem da região informada, extraída da câmara.
 // esta função deve ser chamada após Next ou Go.
-CMatriz3D * CConfiguracoesEquilibrio3D::GetImagem(int regiao) const {
-   CMatriz3D * imagem = NULL;
-   imagem = new CMatriz3D(camara->NxImg(), camara->NyImg(), camara->NzImg()); // aloca matriz 3D com as dimensões da imagem da câmara
+TCMatriz3D<int> * CConfiguracoesEquilibrio3D::GetImagem(int regiao) const {
+   TCMatriz3D<int> * imagem = NULL;
+	 imagem = new TCMatriz3D<int>(camara->NxImg(), camara->NyImg(), camara->NzImg()); // aloca matriz 3D com as dimensões da imagem da câmara
    if ( ! imagem ) return NULL;
 
    if ( GetImagem( imagem , regiao ) )
@@ -499,7 +499,7 @@ CMatriz3D * CConfiguracoesEquilibrio3D::GetImagem(int regiao) const {
 
 // Altera os valores da matriz passsada como parametro para corresponder a imagem binária referente a regiao passada como parâmetro.
 // esta função deve ser chamada após Next ou Go.
-bool CConfiguracoesEquilibrio3D::GetImagem(CMatriz3D * &imagem, int regiao) const {
+bool CConfiguracoesEquilibrio3D::GetImagem(TCMatriz3D<int> * &imagem, int regiao) const {
    if ( ! imagem ) return false;
    int DeslocX = camara->DeslocamentoNX ();
    int DeslocY = camara->DeslocamentoNY ();
@@ -612,7 +612,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo()
 }
 */
 // Usada para inverter o sentido do fluxo
-void CConfiguracoesEquilibrio3D::InverterFluxo( CMatriz3D * &imagem ) {
+void CConfiguracoesEquilibrio3D::InverterFluxo( TCMatriz3D<int> * &imagem ) {
 	 camara->WriteFormat(D2_X_Y_Z_GRAY_ASCII);
    int cores = camara->MaiorValor();
    camara->NumCores( (cores >= 2) ? cores : cores+2 );
@@ -629,7 +629,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo( CMatriz3D * &imagem ) {
 
    // Faz também uma cópia da imagem do meio poroso contida na camara de forma que o que for diferente de 0 (solido) será 1 (poro)
    // esta imagem será usado para recriar a camara, depois de criada a imagem é redefinida (verificar necessidade!).
-   CMatriz3D *pmCopiaBin = new CMatriz3D( nximg, nyimg, nzimg );
+	 TCMatriz3D<int> *pmCopiaBin = new TCMatriz3D<int>( nximg, nyimg, nzimg );
    pmCopiaBin->Path(camara->Path());
    for ( int i = 0; i < nximg; i++ ) {
       for ( int j = 0; j < nyimg; j++ ) {
@@ -705,7 +705,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo( CMatriz3D * &imagem ) {
 //   Comentário: Por uma questão de economia de memória, a imagem idf é usada para armazenar os índices de G e G_
 //               ou seja, as regiões verde (abertura) e verde complementar. Isto é realizado pintando com valor negativo a região G_
 //   Next irá retornar verdadeiro enquanto existirem passos a serem executados.
-bool CConfiguracoesEquilibrio3D::Next(CMatriz3D * &imagem) {
+bool CConfiguracoesEquilibrio3D::Next(TCMatriz3D<int> * &imagem) {
    if (contadorPassosExecutados == 0)	{					// só irá entrar na primeira vez
       CriaCamara(imagem);			// Cria a camara considerando a imagem e a Molhabilidade do fluido B
       CriaIDF();				// Cria a IDF, a partir da camara (calcula a idf e o raioMaximo)
@@ -751,7 +751,7 @@ bool CConfiguracoesEquilibrio3D::Next(CMatriz3D * &imagem) {
 ///  Comentário: Por uma questão de economia de memória, a imagem idf é usada para armazenar
 ///  os índices de G e G_ , ou seja, as regiões verde (abertura) e verde complementar.
 ///  Isto é realizado pintando com valor negativo a região G_
-void CConfiguracoesEquilibrio3D::Go (CMatriz3D * &imagem) {
+void CConfiguracoesEquilibrio3D::Go (TCMatriz3D<int> * &imagem) {
    while ( Next(imagem) ) { } // Next irá executar todo os passos que foram comentados abaixo.
    //InverterFluxo();
    //while( Next(imagem) ) { }

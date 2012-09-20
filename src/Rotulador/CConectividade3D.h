@@ -56,7 +56,7 @@ class CConectividade3D : public CRotulador3D
 {
 
 // Atributos
-    CMatriz3D *pm;		/// Ponteiro para a imagem recebida, usado na função VerificaConectividade.
+		TCMatriz3D<int> *pm;		/// Ponteiro para a imagem recebida, usado na função VerificaConectividade.
     // A função verifica conectividade não recebe a imagem, pois é necessária a rotulagem da imagem(funcao Go()).
     // A rotulagem pode ser feita uma única vez, e a verificação da conectividade diversas vezes.
 
@@ -71,7 +71,7 @@ protected:
 public:
     /// Construtor Default
     // CConectividade3D():CRotulador3D(),CMatriz3D(){};// Exige a definção de pm e data3D posteriormente.
-    CConectividade3D (CMatriz3D * imagem):CRotulador3D (imagem), pm (imagem) { }
+		CConectividade3D (TCMatriz3D<int> * imagem):CRotulador3D (imagem), pm (imagem) { }
 
     /// Destrutor
     virtual ~ CConectividade3D () { }

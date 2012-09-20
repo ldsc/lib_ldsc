@@ -70,7 +70,7 @@ Descrição:
 Programador:      Andre Duarte Bueno
 */
 /*
-CMatriz3D *CFEMMIDFd3453D::Go( CMatriz3D *& matriz, unsigned int _tamanhoMascara )
+TCMatriz3D<int> *CFEMMIDFd3453D::Go( TCMatriz3D<int> *& matriz, unsigned int _tamanhoMascara )
 {
  InicializaIDF(matriz,_tamanhoMascara);		// armazena valores da matriz e _tamanhoMascara
 						// verifica se pm->data2D e this->data2D tem as mesmas dimensoes

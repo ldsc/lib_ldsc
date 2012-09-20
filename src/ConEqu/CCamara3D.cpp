@@ -25,7 +25,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @param img 
  * @return 
  */
-CMatriz3D * CCamara3D::CriaCamara (CMatriz3D * &img) // ,int raioMaximo)
+TCMatriz3D<int> *CCamara3D::CriaCamara(TCMatriz3D<int> * &img) // ,int raioMaximo)
 {
   // dimensoesPadroes(raioMaximo);  
   // função que define as dimesões padrões da camara em funcao do raioMaximo
@@ -330,7 +330,7 @@ void CCamara3D::DefineParedeDireita ( /*int indice */ )
 |*|-----------------|*|    |.
 |*********************|    --> x
 */
-void CCamara3D::DefineImagem (CMatriz3D * &img)
+void CCamara3D::DefineImagem (TCMatriz3D<int> *&img)
 {
   int minx = (img->NX () > this->nxImg) ? this->nxImg : img->NX ();
   int miny = (img->NY () > this->nyImg) ? this->nyImg : img->NY ();

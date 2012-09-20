@@ -32,7 +32,7 @@ Descrição:        Passa atributo tamanhoMascara para classe base CMatriz3D,
 Programador:    Andre Duarte Bueno
 */
 CMascara3D::CMascara3D (unsigned int tamanhoMascara):
-CMatriz3D (tamanhoMascara, tamanhoMascara, tamanhoMascara)
+TCMatriz3D<int> (tamanhoMascara, tamanhoMascara, tamanhoMascara)
 {
   peso = 1.0;
 //   As herdeiras da CMascara3D devem preencher a mascara chamando a funcao

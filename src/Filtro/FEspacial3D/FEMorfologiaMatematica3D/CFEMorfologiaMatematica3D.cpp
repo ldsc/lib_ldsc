@@ -82,7 +82,7 @@ Se a multiplicacao da mascara pela imagem der algum valor zero, deve erodir
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz3D * CFEMorfologiaMatematica3D::Erosao (CMatriz3D * & /*matriz */,  unsigned int /*_RaioBola*/ )
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Erosao (TCMatriz3D<int> * & /*matriz */,  unsigned int /*_RaioBola*/ )
 
 {
    /*	pm=matriz;
@@ -280,7 +280,7 @@ dilatacao classica, percorre a imagem com o EE e compara.
 
 Programador:      Andre Duarte Bueno
 */
-CMatriz3D * CFEMorfologiaMatematica3D::Dilatacao (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Dilatacao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
    /*	pm=matriz;
  tamanhoMascara= _RaioBola*2+1;
  CriaMascara(tamanhoMascara);              	 // criada na classe CFEMorfologicos
@@ -435,7 +435,7 @@ O fechamento é a operacao de dilatacao seguida de erosao
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz3D * CFEMorfologiaMatematica3D::Fechamento (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Fechamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
    // dilatacao
    Dilatacao (matriz, _RaioBola);
    // erosao
@@ -470,7 +470,7 @@ erosao e dilatacao que criam e usam uma mascara.
 
 Programador:      Andre Duarte Bueno
 */
-CMatriz3D * CFEMorfologiaMatematica3D::Abertura (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Abertura (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
 	// erosao
 	Erosao (matriz, _RaioBola);
 	// dilatacao
@@ -478,7 +478,7 @@ CMatriz3D * CFEMorfologiaMatematica3D::Abertura (CMatriz3D * &matriz, unsigned i
 	return matriz;
 }
 
-CMatriz3D * CFEMorfologiaMatematica3D::DeteccaoContorno (CMatriz3D * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::DeteccaoContorno (TCMatriz3D<int> * &matriz, unsigned int /*_RaioBola*/ ) {
    return matriz;
 }
 
@@ -496,8 +496,8 @@ Descricao:
 Programador:      Andre Duarte Bueno
 */
 
-CMatriz3D * CFEMorfologiaMatematica3D::HitMiss (CMatriz3D * &matriz, unsigned int /*_RaioBola*/ ) {
-   /*	CMatriz3D* matriz2=new CMatriz3D(matriz);	// Cria copia da matriz
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::HitMiss (TCMatriz3D<int> * &matriz, unsigned int /*_RaioBola*/ ) {
+   /*	TCMatriz3D<int> * matriz2=new CMatriz3D(matriz);	// Cria copia da matriz
  matriz2->Inverter();                   // e transforma na complementar
 
  EEHitMiss1=true;                       // ativa criação da mascara para bi
@@ -512,8 +512,8 @@ CMatriz3D * CFEMorfologiaMatematica3D::HitMiss (CMatriz3D * &matriz, unsigned in
    return matriz;
 }
 
-CMatriz3D * CFEMorfologiaMatematica3D::Afinamento (CMatriz3D * &matriz, unsigned int _RaioBola) {
-   /*     CMatriz3D* matriz2=new CMatriz3D(matriz);       // Cria copia da matriz
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Afinamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
+   /*     TCMatriz3D<int> * matriz2=new CMatriz3D(matriz);       // Cria copia da matriz
      HitMiss(matriz2,  _RaioBola);                       // Realiza operação HitMiss
      matriz2->Inverter();                               // o mesmo que matriz2->Complementar();
      matriz->Intersecao(matriz2);                    // intersecção entre matriz e matriz2
@@ -521,8 +521,8 @@ CMatriz3D * CFEMorfologiaMatematica3D::Afinamento (CMatriz3D * &matriz, unsigned
    return matriz;
 }
 
-CMatriz3D * CFEMorfologiaMatematica3D::Espessamento (CMatriz3D * &matriz, unsigned int /*_RaioBola*/ ) {				/*
-       CMatriz3D* matriz2=new CMatriz3D(matriz); // Cria copia da matriz
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Espessamento (TCMatriz3D<int> * &matriz, unsigned int /*_RaioBola*/ ) {				/*
+       TCMatriz3D<int> * matriz2=new CMatriz3D(matriz); // Cria copia da matriz
        HitMiss(matriz2,  _RaioBola);    // Realiza operação HitMiss
        matriz->Uniao(matriz2);          // união entre matriz e matriz2
        delete matriz2;
@@ -530,6 +530,6 @@ CMatriz3D * CFEMorfologiaMatematica3D::Espessamento (CMatriz3D * &matriz, unsign
    return matriz;
 }
 
-CMatriz3D * CFEMorfologiaMatematica3D::Esqueleto (CMatriz3D * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz3D<int> * CFEMorfologiaMatematica3D::Esqueleto (TCMatriz3D<int> * &matriz, unsigned int /*_RaioBola*/ ) {
    return matriz;
 }

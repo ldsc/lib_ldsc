@@ -70,7 +70,7 @@ protected:
    * @brief  Determina o grafo usando imagem 3D.
    * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
    */
-  virtual CGrafo *Go (CMatriz3D * _img3D, unsigned long int _tamanhoMascara =   1);
+  virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara =   1);
 
 /**
  * @brief  Determina o grafo lendo a imagem do disco,	plano a plano.

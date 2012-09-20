@@ -46,7 +46,7 @@ void CPermeabilidadeIntrinseca::DestruirObjetos () {
    if ( perm   ) { delete perm;	 perm   = NULL; }
 }
 
-bool CPermeabilidadeIntrinseca::CriarObjetos (CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
+bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 
 	unsigned int size = matriz3D->NX(); 			// em 64bits int já é bem grande
@@ -83,7 +83,7 @@ bool CPermeabilidadeIntrinseca::CriarObjetos (CMatriz3D * matriz3D, unsigned int
 	return true;
 }
 
-long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( CMatriz3D * matriz3D ) {
+long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> * matriz3D ) {
 	// cria objetos para verificar se existe conectividade em Y, na matriz3D recebida.
 	CFEConectividade3D * objCon = new CFEConectividade3D( matriz3D, 1, 0 );
    bool conectada  = objCon->isConnected( matriz3D );
@@ -131,22 +131,22 @@ long double CPermeabilidadeIntrinseca::Go( string pathFileName, long double fato
 }
 
 long double CPermeabilidadeIntrinseca::Go ( CImagem3D * imagem3D, long double fatorRelaxacao ) {
-	CMatriz3D * matriz3D = NULL;
-	matriz3D = dynamic_cast< CMatriz3D *>(imagem3D);
+	TCMatriz3D<int> * matriz3D = NULL;
+	matriz3D = dynamic_cast< TCMatriz3D<int> *>(imagem3D);
 	if ( ! matriz3D)
 		return 0.0;
 	return Go( matriz3D, imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda(), fatorRelaxacao);
 }
 
 long double CPermeabilidadeIntrinseca::Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
-	CMatriz3D * mat3D = NULL;
-	mat3D = new CMatriz3D( pathFileName ); 				// não é deletado ?
+	TCMatriz3D<int> * mat3D = NULL;
+	mat3D = new TCMatriz3D<int>( pathFileName ); 				// não é deletado ?
 	if ( ! mat3D ) 
 		return 0.0;	
 	return Go( mat3D, fatorAmplificacao, sizePixel, numeroPixelsBorda, fatorRelaxacao );
 }
 
-long double CPermeabilidadeIntrinseca::Go ( CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
+long double CPermeabilidadeIntrinseca::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
    if ( CriarObjetos( matriz3D, fatorAmplificacao, sizePixel, numeroPixelsBorda, fatorRelaxacao ) ) {
 		return CalcularPermeabilidade( matriz3D );
 	}

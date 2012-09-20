@@ -39,7 +39,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.h>
 
 // ----------------------------------------------------------------------------
@@ -49,7 +49,7 @@ Arquivo de documentacao auxiliar:
  * @brief  Determina a matriz IDF - imagem de distância ao fundo, de uma imagem 3D.
  * Herdeira de CFEMorfologiaMatematica3D e CMatriz3D.
  */
-class CFEMMIDF3D : public CFEMorfologiaMatematica3D, public CMatriz3D
+class CFEMMIDF3D : public CFEMorfologiaMatematica3D, public TCMatriz3D<int>
 {
    // Atributos
 protected:
@@ -74,12 +74,12 @@ protected:
    }
 
    /// Usada por erosao, dilatacao, abertura e fechamento
-   inline void VerificaImagem (CMatriz3D * &matriz);	// usada por erosao,dilatacao,abertura e fechamento
+	 inline void VerificaImagem (TCMatriz3D<int> * &matriz);	// usada por erosao,dilatacao,abertura e fechamento
    // para verificar se a imagem passada é a mesma, se diferente recalcula Go.
 
    // 2007 abaixo usada mas não definida?
    /// Para verificar se a imagem passada é a mesma, se diferente recalcula Go.
-   void ExecutadaPorGo (CMatriz3D * &matriz);	// antiga InicializaIDF
+	 void ExecutadaPorGo (TCMatriz3D<int> * &matriz);	// antiga InicializaIDF
 
    // Funcao executada exclusivamente por Go
    // 1-verifica se a idf tem as mesmas dimensoes de pm
@@ -96,7 +96,7 @@ public:
 
    /// Construtor
    // ponteiro para matriz imagem,tamanho da mascara a ser criada,raioMáximo a ser utilizado
-   CFEMMIDF3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
+	 CFEMMIDF3D (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
 
    /// Destrutor
    virtual ~ CFEMMIDF3D () { }
@@ -126,22 +126,22 @@ public:
       indiceInativo = indice;
    }
    /// Método de Abertura
-   virtual CMatriz3D *Abertura (CMatriz3D * &matriz, unsigned int _RaioBola);
+	 virtual TCMatriz3D<int> *Abertura (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
    /// Método de Erosao
-   virtual CMatriz3D *Erosao (CMatriz3D * &matriz, unsigned int _RaioBola);
+	 virtual TCMatriz3D<int> *Erosao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
    /// Método de Dilatacao
-   virtual CMatriz3D *Dilatacao (CMatriz3D * &matriz, unsigned int _RaioBola);
+	 virtual TCMatriz3D<int> *Dilatacao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
    /// Método de Fechamento
-   virtual CMatriz3D *Fechamento (CMatriz3D * &matriz, unsigned int _RaioBola);
+	 virtual TCMatriz3D<int> *Fechamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola);
 
    /// Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
-   void CorrigeAbertura (CMatriz3D * &matriz, int &regiao);
+	 void CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao);
 
 private:
    /// Método recursivo que fechar (marca com 0) todos os pontos adjacentes (no plano) ao ponto passado. Método utilizado em CorrigeAbertura()
-   void FecharAdjacencias ( int x, int y, int plano, CMatriz3D * &matriz);
+   void FecharAdjacencias ( int x, int y, int plano, TCMatriz3D<int> * &matriz);
    //  /// Metodo recursivo que retorna o número de planos (entre 0 e raioy), a partir do passado como parâmetro, cuja mascara passe pela região informada e atende as adjacências. Método utilizado em CorrigeAbertura()
-   //  int  NumeroPlanosMascaraPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, CMatriz3D * &pcm, CMatriz3D * &matriz, int &regiao );
+   //  int  NumeroPlanosMascaraPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, TCMatriz3D<int> * &pcm, TCMatriz3D<int> * &matriz, int &regiao );
 
 };
 #endif

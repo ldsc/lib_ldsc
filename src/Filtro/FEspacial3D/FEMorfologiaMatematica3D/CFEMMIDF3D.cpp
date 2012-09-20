@@ -42,8 +42,8 @@ Depois copia o endereco da imagem no atributo pm.
 Assim pm aponta para a matriz recebida e data3D para a matriz IDF
 */
 // Construtor sobrecarregado, recebe também o tamanho do raio máximo
-CFEMMIDF3D::CFEMMIDF3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
-   :CFEMorfologiaMatematica3D (matriz, _tamanhoMascara, _indice, _fundo ), CMatriz3D (matriz->NX (), matriz->NY (), matriz->NZ ()),
+CFEMMIDF3D::CFEMMIDF3D (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
+   :CFEMorfologiaMatematica3D (matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz3D<int> (matriz->NX (), matriz->NY (), matriz->NZ ()),
      raioBola (_tamanhoMascara), raioMaximo (_raioMax), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
 	path = matriz->Path();
 }
@@ -84,7 +84,7 @@ Assim, toda funcao Go herdeira da CFEMMIDF deve chamar esta funcao:
 
 */
 // Funcao chamada exclusivamente por Go, ou seja depois de executada a idf vai ser recalculada.
-void CFEMMIDF3D::ExecutadaPorGo (CMatriz3D * &matriz) {	// ,unsigned int _tamanhoMascara) {
+void CFEMMIDF3D::ExecutadaPorGo (TCMatriz3D<int> * &matriz) {	// ,unsigned int _tamanhoMascara) {
    pm = matriz;			// armazena endereço matriz
    // verifica se a matriz tem as mesmas dimensoes da idf(this)
    if (this->nx != matriz->NX () || this->ny != matriz->NY () || this->nz != matriz->NZ ()) {
@@ -119,7 +119,7 @@ Usada pelas funções Erosao,Dilatacao, fechamento e abertura para verificar se 
 Se for outra imagem recalcula Go.
 Tambem armazena endereço da imagem em pm.
 */
-void CFEMMIDF3D::VerificaImagem (CMatriz3D * &matriz) {
+void CFEMMIDF3D::VerificaImagem (TCMatriz3D<int> * &matriz) {
    // se for a mesma imagem e tiver o mesmo tamanho sai
    if (pm == matriz && nx == matriz->NX () && ny == matriz->NY () && nz == matriz->NZ ()) {
       return;		// sai
@@ -135,7 +135,7 @@ Função    Erosao.
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-CMatriz3D * CFEMMIDF3D::Erosao (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMMIDF3D::Erosao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
    // -->Padrao
    VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
    tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
@@ -166,7 +166,7 @@ Função    Dilatacao
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-CMatriz3D * CFEMMIDF3D::Dilatacao (CMatriz3D * &matriz, unsigned int _RaioBola)
+TCMatriz3D<int> * CFEMMIDF3D::Dilatacao (TCMatriz3D<int> * &matriz, unsigned int _RaioBola)
 {
    // -->Padrao
    VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
@@ -260,7 +260,7 @@ Função    Fechamento
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-CMatriz3D * CFEMMIDF3D::Fechamento (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMMIDF3D::Fechamento (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
    bool atualizaIDF_old = atualizaIDF;	// armazena valor de atualizaIDF
    atualizaIDF = 1;		// ativa, para que a Dilatacao recalcule  a idf
    Dilatacao (matriz, _RaioBola);	// processa a dilatação, e depois Go
@@ -275,7 +275,7 @@ Função    Abertura
 ==================================================================================
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
-CMatriz3D * CFEMMIDF3D::Abertura (CMatriz3D * &matriz, unsigned int _RaioBola) {
+TCMatriz3D<int> * CFEMMIDF3D::Abertura (TCMatriz3D<int> * &matriz, unsigned int _RaioBola) {
    VerificaImagem (matriz); // verifica se é a mesma imagem (se diferente recalcula Go) Go não está fazendo nada!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   	tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
   	// Deve calcular o tamanhoMascara antes de criar a mascara
@@ -398,9 +398,9 @@ CMatriz3D * CFEMMIDF3D::Abertura (CMatriz3D * &matriz, unsigned int _RaioBola) {
 Função    CorrigeAbertura
 ==================================================================================
 Este método corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.*/
-void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
+void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
 	// Método - 2
-	CMatriz3D *ptr_mask = static_cast<CMatriz3D*>(mask);
+	TCMatriz3D<int> *ptr_mask = static_cast<TCMatriz3D<int> *>(mask);
 	char fileName[64];
 	int max;
 	// calcula idf d345 da mascara
@@ -521,7 +521,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
 	delete pcm;
 
    /*	// Método - 1
- CMatriz3D *ptr_mask = static_cast<CMatriz3D*>(mask);
+ TCMatriz3D<int> *ptr_mask = static_cast<TCMatriz3D<int> *>(mask);
  char fileName[64];
  int max;
  // calcula idf d345 da mascara
@@ -647,7 +647,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
 // ==================================================================================
 // Metodo recursivo que retorna o número de planos (entre 0 e raioy), a partir do passado como parâmetro, cuja mascara passe pela região informada e atende as adjacências.
 // Método utilizado em CorrigeAbertura() */
-// int CFEMMIDF3D::NumeroPlanosMascaraPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, CMatriz3D * &pcm, CMatriz3D * &matriz, int &regiao ){ // na primeira chamada, cont == raioy
+// int CFEMMIDF3D::NumeroPlanosMascaraPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, TCMatriz3D<int> * &pcm, TCMatriz3D<int> * &matriz, int &regiao ){ // na primeira chamada, cont == raioy
 // 	static int cont = 0; // número de planos analizados
 // 	cont++;
 // 	if (cont >= raioy) return cont;
@@ -675,7 +675,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
 // ==================================================================================
 // Metodo recursivo que retorna o número de planos (entre 0 e raioy), a partir do passado como parâmetro, cuja mascara não passe pela região informada.
 // Método utilizado em CorrigeAbertura() */
-// int CFEMMIDF3D::NumeroPlanosMascaraNaoPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, CMatriz3D * &pcm, CMatriz3D * &matriz, int &regiao ){ // na primeira chamada, cont == raioy
+// int CFEMMIDF3D::NumeroPlanosMascaraNaoPassaRegiao ( int i, int j, int plano, int &raiox, int &raioy, TCMatriz3D<int> * &pcm, TCMatriz3D<int> * &matriz, int &regiao ){ // na primeira chamada, cont == raioy
 // 	static int contador = 0; // número de planos analizados
 // 	contador++;
 // 	if (contador >= raioy) return contador;
@@ -694,7 +694,7 @@ void CFEMMIDF3D::CorrigeAbertura (CMatriz3D * &matriz, int &regiao) {
 Função    CorrigeAbertura
 ==================================================================================
 Método recursivo que fechar (marca com 0) todos os pontos adjacentes (no plano) ao ponto passado. Método utilizado em CorrigeAbertura() */
-void CFEMMIDF3D::FecharAdjacencias ( int x, int y, int plano, CMatriz3D * &matriz) 
+void CFEMMIDF3D::FecharAdjacencias ( int x, int y, int plano, TCMatriz3D<int> * &matriz) 
 {
 	if ( matriz->data3D[x][plano][y] != 0 ) {
 		matriz->data3D[x][plano][y] = 0;

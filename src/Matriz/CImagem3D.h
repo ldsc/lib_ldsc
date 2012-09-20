@@ -31,8 +31,8 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <Matriz/TCMatriz3D.h>
 #endif
 /* // comentei para poder fazer dynamic_cast
 #ifndef CImg_h
@@ -56,7 +56,7 @@ using namespace std;
  * @author 	André Duarte Bueno
  * @see		Matrizes
 */
-class CImagem3D : public CMatriz3D//, public CImg //comentei para poder fazer dynamic_cast
+class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fazer dynamic_cast
 {
 
 // --------------------------------------------------------------Atributos
@@ -69,42 +69,42 @@ public:
 
 // -------------------------------------------------------------Construtor
     /// Constróe imagem 3D vazia
-    CImagem3D ():CMatriz3D ()/*, CImg()*/, z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
+    CImagem3D ():TCMatriz3D<int> ()/*, CImg()*/, z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
     {
     }
 
     /// Constróe imagem 3D a partir de imagem 3D no disco
-    CImagem3D (std::string fileName): CMatriz3D (fileName),/* CImg(),*/ z0 (0)
+    CImagem3D (std::string fileName): TCMatriz3D<int> (fileName),/* CImg(),*/ z0 (0)
     {
         LeInformacoesRecontrucao(fileName);
     }
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
 		CImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
-			:CMatriz3D(fileRAW, _nx, _ny, _nz, tipo), z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
+			:TCMatriz3D<int>(fileRAW, _nx, _ny, _nz, tipo), z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
 		{
 		}
 
 		/*  CImagem3D(CImagem3D* img)
-    	:CMatriz3D(dynamic_cast< CMatriz3D* > (img)),z0(0)	{}; */
+    	:CMatriz3D(dynamic_cast< TCMatriz3D<int> * > (img)),z0(0)	{}; */
 
     /// Construtor de cópia
-    CImagem3D (CImagem3D & img):CMatriz3D (img),/* CImg(),*/ z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao),
+    CImagem3D (CImagem3D & img):TCMatriz3D<int> (img),/* CImg(),*/ z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao),
             sizePixel (img.sizePixel), numeroPixelsBorda (img.numeroPixelsBorda)
     {
     }
 
     /// Constróe imagem vazia, com as dimensões nx,ny,nz
-    CImagem3D (int nx, int ny, int nz):CMatriz3D (nx, ny, nz),/* CImg(),*/ z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
+    CImagem3D (int nx, int ny, int nz):TCMatriz3D<int> (nx, ny, nz),/* CImg(),*/ z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
     {
 
     }
-    /*  CImagem3D(CMatriz3D* matriz)
+    /*  CImagem3D(TCMatriz3D<int> * matriz)
     :CMatriz3D(matriz),z0(0)
     {};*/
 
     /// Construtor de cópia  a partir de uma matriz 3D
-    CImagem3D (CMatriz3D & matriz):CMatriz3D (matriz), z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
+    CImagem3D (TCMatriz3D<int> & matriz):TCMatriz3D<int> (matriz), z0 (0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0)
     {
     }
 

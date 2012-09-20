@@ -62,7 +62,7 @@ protected:
 public:
    /// Construtor:
    /// Recebe ponteiro para matriz imagem, métrica da mascara a ser criada, raio máximo a ser usado, identificação de índice e fundo
-   CFEMMIDFdijk3D (CMatriz3D * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
+   CFEMMIDFdijk3D (TCMatriz3D<int> * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
       :CFEMMIDF3D (matriz, 3, 32000, _indice, _fundo), CMCdijk (_mi, _mj, _mk, _rb)
    {
    }
@@ -72,7 +72,7 @@ public:
    {
    }
 
-   virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0);
+   virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 0);
 	// redefinida
 
 };

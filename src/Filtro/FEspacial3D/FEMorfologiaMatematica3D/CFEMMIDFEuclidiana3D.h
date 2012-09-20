@@ -51,7 +51,7 @@ class CFEMMIDFEuclidiana3D:public CFEMMIDFdijk3D
 {
 public:
   // imagem,mi, mj               ,mk               ,rb
-  CFEMMIDFEuclidiana3D (CMatriz3D * &matriz, int _indice=1, int _fundo=0)
+  CFEMMIDFEuclidiana3D (TCMatriz3D<int> * &matriz, int _indice=1, int _fundo=0)
     : CFEMMIDFdijk3D (matriz, 100, (int)CMath::MSQRT2 * 100, (int)CMath::MSQRT3 * 100, 100, _indice, _fundo)
   {
   }

@@ -74,7 +74,7 @@ public:
 // Métodos
 public:
 	/// Construtor, recebe ponteiro para imagem3d, e tamanho da mascara.
-	CFEspacial3D (CMatriz3D * &matriz, unsigned int _tamanhoMascara)	// ponteiro para imagem, e
+	CFEspacial3D (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara)	// ponteiro para imagem, e
   	: CFiltro3D (matriz), tamanhoMascara (_tamanhoMascara)	// tamanho da mascara
   	{
     		mask = NULL;
@@ -97,7 +97,7 @@ public:
   	}
 	
 	/// Realiza o processamento da filtragem
-  	virtual CMatriz3D *Go (CMatriz3D * &matriz, unsigned int _tamanhoMascara = 0);
+		virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 0);
 
 protected:
 	/// Cria a mascara adequada

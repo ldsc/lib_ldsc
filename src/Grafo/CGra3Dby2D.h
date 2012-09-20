@@ -151,7 +151,7 @@ class CGra3Dby2D : public CGrafoContorno
      * @param 	Recebe uma imagem tridimensional (ou seja toda a imagem 3D)
      * @return Retorna um ponteiro para this
     */
-    virtual CGrafo *Go (CMatriz3D * _img3D, unsigned long int _tamanhoMascara = 1);
+    virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1);
 
     /**
      * @brief Função Go, realiza a determinação de todo o grafo

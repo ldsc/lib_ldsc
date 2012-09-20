@@ -238,8 +238,8 @@ Função: Go
 @param  :
 @return :
 */
-// bool CRotulador3D::Go(CMatriz3D*& matriz, int _rotuloInicial)
-bool CRotulador3D::Go (CMatriz3D * matriz) {
+// bool CRotulador3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
+bool CRotulador3D::Go (TCMatriz3D<int> * matriz) {
    // this->rotuloInicial=rotuloInicial;                        // default=1, rotulo a ser dado para o primeiro objeto
 
    if (PreparaImagem (matriz) == false)	// verifica a imagem
@@ -292,7 +292,7 @@ Função: PreparaImagem
 @param  :CMatriz3D
 @return :bool
 */
-bool CRotulador3D::PreparaImagem (CMatriz3D * matriz) {
+bool CRotulador3D::PreparaImagem (TCMatriz3D<int> *matriz) {
    pm = matriz;			// Armazena endereço matriz
    // Verifica se a matriz tem as mesmas dimensoes do rotulador
    if (pm == NULL)

@@ -13,7 +13,7 @@ Nome deste arquivo: CFReconstrucao.h
 Nome da classe:     CFReconstrucao
 ----------------------------------------------------------------------------
 */
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 #include <Matriz/TCMatriz2D.h>
 
 /**
@@ -36,10 +36,10 @@ public:
   virtual ~ CFReconstrucao () { }
 
   /// Executa a reconstrução e retorna a imagem 3D reconstruída.
-  CMatriz3D * Go ( TCMatriz2D< int > * matriz2D, Eeixo _eixo=E_EIXO_X );
+  TCMatriz3D<int> * Go ( TCMatriz2D< int > * matriz2D, Eeixo _eixo=E_EIXO_X );
   
   /// Executa a reconstrução e retorna a imagem 3D reconstruída.
-  CMatriz3D * Go ( string arquivo, Eeixo _eixo=E_EIXO_X );
+  TCMatriz3D<int> * Go ( string arquivo, Eeixo _eixo=E_EIXO_X );
     
   //void teste(string arquivo);
 };

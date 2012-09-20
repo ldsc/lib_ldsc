@@ -1,7 +1,7 @@
 #include <Correlacao/CCorrelacao3D.h>
 #include <Correlacao/CCorrelacaoEspacial.h>
 #include <Correlacao/CCorrelacaoFFT.h>
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 #include <fstream>
 
 // -----------------------------------------------------------------------
@@ -17,7 +17,7 @@ CCorrelacao3D::~CCorrelacao3D () {
 // calculada e o número de planos que serão utilizados para o calculo da média das correlações.
 // Se o número de planos informado for zero ou negativo, o defalt será 10% dos planos.
 // -----------------------------------------------------------------------
-bool CCorrelacao3D::Go (CMatriz3D *img, Tipos tipo, int indice, int numPlanos) {
+bool CCorrelacao3D::Go (TCMatriz3D<int> *img, Tipos tipo, int indice, int numPlanos) {
    CCorrelacao * cor = NULL;
    int nx = img->NX();
    size = nx/2;

@@ -31,8 +31,8 @@
 #include <Rotulador/CRotulador.h>
 #endif
 
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <Matriz/TCMatriz3D.h>
 #endif
 
 /**
@@ -41,7 +41,7 @@
  * @author 	Andre Duarte Bueno	
  *  @see	Rotulagem
 */
-class CRotulador3D : public CMatriz3D, public CRotulador
+class CRotulador3D : public TCMatriz3D<int>, public CRotulador
 {
 
    // --------------------------------------------------------------Atributos
@@ -50,24 +50,24 @@ public:
    bool direto;
 
    /// Ponteiro para a imagem recebida no construtor ou em Go
-   CMatriz3D *pm;
+	 TCMatriz3D<int> *pm;
 
    // -------------------------------------------------------------Construtor
    /// Construtor, recebe ponteiro para imagem 3D usado para setar nx,ny,nz
-   CRotulador3D (CMatriz3D * _pm, int _indice=1, int _fundo=0)
-      : CMatriz3D (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
+	 CRotulador3D (TCMatriz3D<int> * _pm, int _indice=1, int _fundo=0)
+			: TCMatriz3D<int> (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
       , CRotulador ( _indice, _fundo), direto (true), pm (_pm)  {    // Seta atributos
       path = _pm-> path;
    }
 
    /// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
    CRotulador3D (std::string fileName)
-      :CMatriz3D (fileName), CRotulador (), direto (true),pm (NULL) {
+			:TCMatriz3D<int> (fileName), CRotulador (), direto (true),pm (NULL) {
    }
 
    /// Recebe a informação das dimensoes da imagem
    CRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
-      :CMatriz3D (nx, ny, nz), CRotulador (), direto (true), pm (NULL) {
+			:TCMatriz3D<int> (nx, ny, nz), CRotulador (), direto (true), pm (NULL) {
    }
 
    // --------------------------------------------------------------Destrutor
@@ -80,7 +80,7 @@ protected:
 
    // Verifica se a imagem recebida tem as mesmas dimensoes do rotulador
    // se diferente, realoca o rotulador
-   virtual bool PreparaImagem (CMatriz3D * matriz);
+	 virtual bool PreparaImagem (TCMatriz3D<int> * matriz);
 
    /// 1a passagem, identifica pixeis válidos
    virtual void IdentificaObjetos ();
@@ -112,7 +112,7 @@ public:
 
    // Metodos utilizados na rotulagem, redefinidos aqui
    /// Executa toda a sequencia de rotulagem
-   virtual bool Go (CMatriz3D * matriz /*, int rotuloInicial=0 */ );
+	 virtual bool Go (TCMatriz3D<int> * matriz /*, int rotuloInicial=0 */ );
 
 
    // --------------------------------------------------------------------Get

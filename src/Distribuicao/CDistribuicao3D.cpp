@@ -12,7 +12,7 @@
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.h>
 #endif
 
-bool CDistribuicao3D::Go( CMatriz3D * _pm3D, Tipos _tipo, Metrica3D _metrica, int indice, int fundo ) {
+bool CDistribuicao3D::Go( TCMatriz3D<int> * _pm3D, Tipos _tipo, Metrica3D _metrica, int indice, int fundo ) {
    pm3D = _pm3D;
    Go ( _tipo, _metrica, indice, fundo );
 }
@@ -35,8 +35,8 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
    double acumulada = 0.0;
    distribuicao.clear();
 
-   CMatriz3D * matriz = NULL;
-   matriz = new CMatriz3D(nx, ny, nz); // faz uma cópia da matriz
+   TCMatriz3D<int> * matriz = NULL;
+	 matriz = new TCMatriz3D<int>(nx, ny, nz); // faz uma cópia da matriz
    if ( ! matriz ) { // se a matriz não foi criada corretamente rotorna false
       cerr << "Erro em CDistribuicao3D::Go! Cópia de CMatriz3D não foi criada!" << endl;
       return false;
@@ -117,7 +117,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
    return true;
 }
 
-bool CDistribuicao3D::Go( CMatriz3D * _pm3D, Tipos _tipo, Metrica _metrica, int indice, int fundo, int numPlanos) {
+bool CDistribuicao3D::Go( TCMatriz3D<int> * _pm3D, Tipos _tipo, Metrica _metrica, int indice, int fundo, int numPlanos) {
    pm3D = _pm3D;
    Go ( _tipo, _metrica, indice, fundo, numPlanos );
 }

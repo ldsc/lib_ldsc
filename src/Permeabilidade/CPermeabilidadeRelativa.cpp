@@ -75,17 +75,17 @@ bool CPermeabilidadeRelativa::Go ( CImagem3D * imagem3D ) {
 	imagemA->SizePixel( imagem3D->SizePixel() );
 	imagemB->SizePixel( imagem3D->SizePixel() );
 
-	return Go( dynamic_cast< CMatriz3D *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda());
+	return Go( dynamic_cast< TCMatriz3D<int> *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda());
 }
 
 bool CPermeabilidadeRelativa::Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda ) {
-	CMatriz3D * mat3D = new CMatriz3D( pathFileName );
+	TCMatriz3D<int> * mat3D = new TCMatriz3D<int>( pathFileName );
 	bool retorno = Go( mat3D, fatorAmplificacao, sizePixel, numeroPixelsBorda );
 	delete mat3D;
 	return retorno;
 }
 
-bool CPermeabilidadeRelativa::Go ( CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda ) {
+bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda ) {
 	if ( ! matriz3D ) {
 		DestruirObjetos();
 		cerr << "Erro: Imagem matriz3D nula!" << endl;
@@ -155,7 +155,7 @@ bool CPermeabilidadeRelativa::Go ( CMatriz3D * matriz3D, unsigned int fatorAmpli
 		passo++;
 		cout << "\n----------------------------------------- Executando passo " << passo << " -----------------------------------------" << endl;
 		// se não recuperar a imagem corretamente, destroi os objetos já criados e retorna false.
-		CMatriz3D * pm3dA = dynamic_cast< CMatriz3D *>( imagemA );
+		TCMatriz3D<int> * pm3dA = dynamic_cast< TCMatriz3D<int> *>( imagemA );
 		if ( ! confeq->GetImagem( pm3dA, confeq->GetIndiceRegiaoA()) ) {
 			DestruirObjetos();
 			cerr << "Erro: GetImagem A!" << endl;
@@ -164,7 +164,7 @@ bool CPermeabilidadeRelativa::Go ( CMatriz3D * matriz3D, unsigned int fatorAmpli
 		cout << "\nconfeq->GetImagem(imagemA, confeq->IndiceRegiaoA())" << endl;
 
 		// se não recuperar a imagem corretamente, destroi os objetos já criados e retorna false.
-		CMatriz3D * pm3dB = dynamic_cast< CMatriz3D *>( imagemB );
+		TCMatriz3D<int> * pm3dB = dynamic_cast< TCMatriz3D<int> *>( imagemB );
 		if ( ! confeq->GetImagem( pm3dB, confeq->GetIndiceRegiaoB()) ) {
 			DestruirObjetos();
 			cerr << "Erro: GetImagem A!" << endl;

@@ -27,7 +27,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 #include <Rotulador/CRotulador3D.h>
 #include <Matriz/CImagem3D.h>
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 #include <set>
 
 /**
@@ -51,11 +51,11 @@ class CFEConectividade3D : public CRotulador3D
 public:
   /// Construtor (recebe CImagem3D)
   CFEConectividade3D ( CImagem3D * imagem, int indice = 1, int fundo = 0 )
-     : CRotulador3D ( dynamic_cast<CMatriz3D *>(imagem), indice, fundo ) {
+     : CRotulador3D ( dynamic_cast<TCMatriz3D<int> *>(imagem), indice, fundo ) {
   }
 
   /// Construtor (recebe CMatriz3D)
-  CFEConectividade3D ( CMatriz3D * imagem, int indice = 1, int fundo = 0 )
+  CFEConectividade3D ( TCMatriz3D<int> * imagem, int indice = 1, int fundo = 0 )
      : CRotulador3D ( imagem, indice, fundo ) {
   }
 
@@ -67,25 +67,25 @@ public:
   set<int> GetObjetosConectados ( CImagem3D * pmOrig);
 
   /// Retorna a lista de objetos conectados.
-  set<int> GetObjetosConectados ( CMatriz3D * pmOrig);
+  set<int> GetObjetosConectados ( TCMatriz3D<int> * pmOrig);
 
   /// Verifica se a imagem possui conectividade no eixo Y.
   bool isConnected ( CImagem3D * pmOrig);
 
   /// Verifica se a matriz possui conectividade no eixo Y.
-  bool isConnected ( CMatriz3D * pmOrig);
+  bool isConnected ( TCMatriz3D<int> * pmOrig);
 
   /// Retorna uma nova imagem conectada de acordo com o indice e com o valor de fundo informados.
   CImagem3D * GetImagemConectada ( CImagem3D * pmOrig);
 
   /// Retorna uma nova matriz conectada de acordo com o indice e com o valor de fundo informados.
-  CMatriz3D * GetMatrizConectada ( CMatriz3D * pmOrig);
+  TCMatriz3D<int> * GetMatrizConectada ( TCMatriz3D<int> * pmOrig);
 
   /// Altera Imagem 3D retornando Imagem 3D conectada.
   bool Go (CImagem3D * pmCon);
 
   /// Altera Matriz 3D retornando matriz 3D conectada.
-  bool Go (CMatriz3D * pmCon);
+  bool Go (TCMatriz3D<int> * pmCon);
 
 
 

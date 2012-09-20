@@ -248,7 +248,7 @@ class CCamara
   //  5-Função que cria a camara a partir das dimensões das paredes e da imagem
   //  virtual void* criaCamara(void* img){};
   //  virtual TCMatriz2D< int >* criaCamara(TImagem2D* img){}; //  definidas nas classes herdeiras
-  //  virtual CMatriz3D* criaCamara(TImagem3D* img){}; //  chamadas diretamente pelo usuário
+  //  virtual TCMatriz3D<int> * criaCamara(TImagem3D* img){}; //  chamadas diretamente pelo usuário
 
   ///   Preenchimento das paredes da camara com o valor dado pelo indice FUNDO (PRETO=0)
   void DefineCamara ( /*int indice */ );			//  Executa todas as funções abaixo

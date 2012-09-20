@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 	[LDSC].
 @author:          Andre Duarte Bueno
-File:             CMatriz3D.cpp
+File:             TCMatriz3D.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
 email:            andre@lmpt.ufsc.br
@@ -26,7 +26,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 
 /*
 -------------------------------------------------------------------------
@@ -45,27 +45,28 @@ Funcao: Aloca
 @param  :
 @return :
 */
-int *** CMatriz3D::AlocaMatriz3D (int nx, int ny, int nz) {
+template< typename T >
+T *** TCMatriz3D<T>::AlocaMatriz3D (int nx, int ny, int nz) {
 	int i, j;			//
-	int ***dat = NULL;		// Cria ponteiro*** nulo
-	dat = new int **[nx];		// Passo 1: aloca eixo x.
+	T ***dat = NULL;		// Cria ponteiro*** nulo
+	dat = new T **[nx];		// Passo 1: aloca eixo x.
 	if (dat) {			// se alocou dat corretamente
 		for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
 			dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
 		for (i = 0; i < nx; i++) {			//
-			dat[i] = new int *[ny];	// Passo 2: aloca linhas y
+			dat[i] = new T *[ny];	// Passo 2: aloca linhas y
 			if (dat[i]) {		// se alocou corretamente
 				for (j = 0; j < ny; j++)	// Zera todos os ponteiros dat[i][j]
 					dat[i][j] = NULL;	// porque se a alocacao der errado vai chamar desaloca
 				for (j = 0; j < ny; j++) {
-					dat[i][j] = new int[nz];	// STEP 3: aloca matriz de dados 3D.
+					dat[i][j] = new T[nz];	// STEP 3: aloca matriz de dados 3D.
 					if (dat[i][j] == NULL) {
-						CMatriz3D::DesalocaMatriz3D (dat, nx, ny, nz);
+						TCMatriz3D<T>::DesalocaMatriz3D (dat, nx, ny, nz);
 						return 0;
 					}
 				}
 			} else {
-				CMatriz3D::DesalocaMatriz3D (dat, nx, ny, nz);
+				TCMatriz3D<T>::DesalocaMatriz3D (dat, nx, ny, nz);
 				return 0;
 			}
 		}
@@ -88,10 +89,9 @@ Funcao:  DesalocaMatriz3D
 @param  :
 @return :
 */
-bool CMatriz3D::DesalocaMatriz3D (int ***dat, int nx, int ny, int nz)
-{
-	if (dat != NULL)
-	{
+template< typename T >
+bool TCMatriz3D<T>::DesalocaMatriz3D (T ***dat, int nx, int ny, int nz) {
+	if (dat != NULL) {
 		int i, j;
 		for (i = 0; i < nx; i++)
 			if (dat[i] != NULL)
@@ -112,33 +112,36 @@ bool CMatriz3D::DesalocaMatriz3D (int ***dat, int nx, int ny, int nz)
 
 /*
 ==================================================================================
-Documentacao  Construtor (vazio) CMatriz3D
+Documentacao  Construtor (vazio) TCMatriz3D
 ==================================================================================
 Descrição: Faz data3D apontar para NULL, e valores nx = ny = nz = 0;
 */
-CMatriz3D::CMatriz3D () {
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D () {
 	nx = ny = nz = 0;
 	data3D = NULL;
 	formatoImagem = D1_X_Y_Z_ASCII;
 	numCores = 65535;
 }
 
-CMatriz3D::CMatriz3D (string fileName) {
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D (string fileName) {
 	nx = ny = nz = 0;
 	data3D = NULL;
-	CMatriz3D::Read (fileName);
+	TCMatriz3D<T>::Read (fileName);
 	size_t pos = fileName.rfind("/");
 	if (pos!=string::npos)
 		path = fileName.substr(0, pos+1);
 }
 
 // Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
-CMatriz3D::CMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType tipo) {
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType tipo) {
 	nx = 0;					// será setado em ReadRAW()
 	ny = 0;					// será setado em ReadRAW()
 	nz = 0;					// será setado em ReadRAW()
 	data3D = NULL;	// será setado em ReadRAW()
-	CMatriz3D::ReadRAW(fileRAW, _nx, _ny, _nz, tipo);
+	TCMatriz3D<T>::ReadRAW(fileRAW, _nx, _ny, _nz, tipo);
 	size_t pos = fileRAW.rfind("/");
 	if (pos!=string::npos)
 		path = fileRAW.substr(0, pos+1);
@@ -146,8 +149,8 @@ CMatriz3D::CMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType tipo)
 }
 
 // Cria copia deve copiar nx,ny,nz, depois alocar a matriz e entao copiar membro a membro
-CMatriz3D::CMatriz3D (CMatriz3D & matriz)
-{
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D (TCMatriz3D & matriz) {
 	formatoImagem = matriz.formatoImagem;
 	nx = matriz.nx;
 	ny = matriz.ny;
@@ -155,7 +158,7 @@ CMatriz3D::CMatriz3D (CMatriz3D & matriz)
 	numCores = matriz.numCores;
 	path = matriz.path;
 
-	data3D = CMatriz3D::AlocaMatriz3D (nx, ny, nz);
+	data3D = TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz);
 
 	if (data3D)
 		for (int i = 0; i < nx; i++)
@@ -165,14 +168,15 @@ CMatriz3D::CMatriz3D (CMatriz3D & matriz)
 }
 
 /*
-CMatriz3D::CMatriz3D(CMatriz3D* matriz)		// : TCMatriz2D< int >()
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D(TCMatriz3D* matriz)		// : TCMatriz2D< int >()
 {
  formatoImagem = matriz->formatoImagem;
  nx = matriz->nx; 			   // Define dimensoes
  ny = matriz->ny;
  nz = matriz->nz;
 
- data3D = CMatriz3D::AlocaMatriz3D(nx, ny,nz);// Aloca data3D
+ data3D = TCMatriz3D<T>::AlocaMatriz3D(nx, ny,nz);// Aloca data3D
 
  if(data3D)
  for (  int i = 0; i < nx; i++)  // Copia membro a membro
@@ -193,14 +197,14 @@ Funcao: Construtor
 @param  :
 @return :
 */
-CMatriz3D::CMatriz3D (int NX, int NY, int NZ)
-{
+template< typename T >
+TCMatriz3D<T>::TCMatriz3D (int NX, int NY, int NZ) {
 	nx = NX;			// define valores
 	ny = NY;			// em aloca garante que sejam positivos
 	nz = NZ;
 	formatoImagem = D1_X_Y_Z_ASCII;
 	numCores = 65535;
-	data3D = CMatriz3D::AlocaMatriz3D (nx, ny, nz);	// aloca data3D
+	data3D = TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz);	// aloca data3D
 }
 
 /*
@@ -214,14 +218,11 @@ Funcao:  operator+
 
 @return :
 */
-CMatriz3D & CMatriz3D::operator+ (CMatriz3D & m2)
-{
-	int
-			minx = std::min (this->nx, m2.nx);
-	int
-			miny = std::min (this->ny, m2.ny);
-	int
-			minz = std::min (this->nz, m2.nz);
+template< typename T >
+TCMatriz3D<T> & TCMatriz3D<T>::operator+ (TCMatriz3D<T> & m2) {
+	int minx = std::min (this->nx, m2.nx);
+	int miny = std::min (this->ny, m2.ny);
+	int minz = std::min (this->nz, m2.nz);
 	// ja aloca data3D
 	// deve somar membro a membro
 	for (int i = 0; i < minx; i++)
@@ -230,21 +231,6 @@ CMatriz3D & CMatriz3D::operator+ (CMatriz3D & m2)
 				this->data3D[i][j][k] += m2.data3D[i][j][k];
 	return *this;
 }
-/*
-CMatriz3D* CMatriz3D::operator+(CMatriz3D* m2)
-{
-	int minx = std::min(this->nx,m2->nx);
-	int miny = std::min(this->ny,m2->ny);
-	int minz = std::min(this->nz,m2->nz);
-	// ja aloca data3D
-	// deve somar membro a membro
-	for (  int i = 0; i < minx; i++)
-	for (  int j = 0; j < miny; j++)
-	for (  int k = 0; k < minz; k++)
-	this->data3D[i][j][k] += m2->data3D[i][j][k];
-return this;
-}
-*/
 
 /*
 -------------------------------------------------------------------------
@@ -256,15 +242,11 @@ Funcao:  operator-
 @param  :
 @return :
 */
-CMatriz3D & CMatriz3D::operator- (CMatriz3D & m2)
-{
-	int
-			minx = std::min (this->nx, m2.nx);
-	int
-			miny = std::min (this->ny, m2.ny);
-	int
-			minz = std::min (this->nz, m2.nz);
-
+template< typename T >
+TCMatriz3D<T> & TCMatriz3D<T>::operator- (TCMatriz3D<T> & m2) {
+	int minx = std::min (this->nx, m2.nx);
+	int miny = std::min (this->ny, m2.ny);
+	int minz = std::min (this->nz, m2.nz);
 	for (int i = 0; i < minx; i++)
 		for (int j = 0; j < miny; j++)
 			for (int k = 0; k < minz; k++)
@@ -282,37 +264,18 @@ Funcao: operator=
 @param  :
 @return :
 */
-CMatriz3D & CMatriz3D::operator= (CMatriz3D & m2)
-{
-	int
-			minx = std::min (this->nx, m2.nx);
-	int
-			miny = std::min (this->ny, m2.ny);
-	int
-			minz = std::min (this->nz, m2.nz);
+template< typename T >
+TCMatriz3D<T> & TCMatriz3D<T>::operator= (TCMatriz3D & m2) {
+	int minx = std::min (this->nx, m2.nx);
+	int miny = std::min (this->ny, m2.ny);
+	int minz = std::min (this->nz, m2.nz);
 	// deve igualar membro a membro
 	for (int i = 0; i < minx; i++)
 		for (int j = 0; j < miny; j++)
 			for (int k = 0; k < minz; k++)
 				this->data3D[i][j][k] = m2.data3D[i][j][k];
-
 	return *this;
 }
-/*
-CMatriz3D* CMatriz3D::operator=(CMatriz3D* m2)
-{
-	int minx = std::min(this->nx,m2->nx);
-	int miny = std::min(this->ny,m2->ny);
-	int minz = std::min(this->nz,m2->nz);
-							// deve igualar membro a membro
- for (  int i = 0; i < minx; i++)
-	for (  int j = 0; j < miny; j++)
-	 for (  int k = 0; k < minz; k++)
-		this->data3D[i][j][k] = m2->data3D[i][j][k];
-
-return this;
-}
-*/
 
 /*
 -------------------------------------------------------------------------
@@ -326,14 +289,11 @@ caso contrario retorna 0 (false)
 @param  :
 @return :
 */
-bool CMatriz3D::operator== (CMatriz3D & pmatriz)
-{
-	int
-			minx = std::min (this->nx, pmatriz.nx);
-	int
-			miny = std::min (this->ny, pmatriz.ny);
-	int
-			minz = std::min (this->nz, pmatriz.nz);
+template< typename T >
+bool TCMatriz3D<T>::operator== (TCMatriz3D<T> & pmatriz) {
+	int minx = std::min (this->nx, pmatriz.nx);
+	int miny = std::min (this->ny, pmatriz.ny);
+	int minz = std::min (this->nz, pmatriz.nz);
 	for (int i = 0; i < minx; i++)
 		for (int j = 0; j < miny; j++)
 			for (int k = 0; k < minz; k++)
@@ -341,20 +301,6 @@ bool CMatriz3D::operator== (CMatriz3D & pmatriz)
 					return 0;		// retorna false
 	return 1;			// senao retorna true
 }
-/*
-bool CMatriz3D::operator==(CMatriz3D* pmatriz)
-{
-	int minx = std::min(this->nx,pmatriz->nx);
-	int miny = std::min(this->ny,pmatriz->ny);
-	int minz = std::min(this->nz,pmatriz->nz);
-	for (  int i = 0; i < minx; i++)
-	for (  int j = 0; j < miny; j++)
-	for (  int k = 0; k < minz; k++)
-	if(this->data3D[i][j][k] != pmatriz->data3D[i][i][k])	// se houver algum diferente
-	return 0;						// retorna false
- return 1;                    				// senao retorna true
-}
-*/
 
 /*
 -------------------------------------------------------------------------
@@ -368,12 +314,11 @@ caso contrario retorna 0 (false)
 @param  :
 @return :
 */
-bool CMatriz3D::operator!= (CMatriz3D & pmatriz)
-{
+template< typename T >
+bool TCMatriz3D<T>::operator!= (TCMatriz3D<T> & pmatriz) {
 	// abaixo compara o endereco dos ponteiros, e nao seu conteudo
 	// return ! (this==pmatriz);
-
-	return !(CMatriz3D::operator == (pmatriz));
+	return !(TCMatriz3D<T>::operator == (pmatriz));
 }
 
 /*
@@ -386,8 +331,8 @@ Funcao: operator<<
 @param  :
 @return :
 */
-ostream & operator<< (ostream & os, const CMatriz3D & pm)
-{
+template< typename T >
+ostream & operator<< (ostream & os, const TCMatriz3D<T> & pm) {
 	/* for (int k = 0; k < pm.NZ(); k++)
  {
 	os << "\n- y! --------------------------------------------------------------------";
@@ -440,35 +385,27 @@ ostream & operator<< (ostream & os, const CMatriz3D & pm)
  }
  return os;
 */
-	for (int k = 0; k < pm.NZ (); k++)
-	{
-		os <<
-					"\n- y! --------------------------------------------------------------------";
-		for (int j = pm.NY () - 1; j >= 0; j--)
-		{
+	for (int k = 0; k < pm.NZ (); k++) {
+		os << "\n- y! --------------------------------------------------------------------";
+		for (int j = pm.NY () - 1; j >= 0; j--) {
 			os << "\n| ";
 			os.width (pm.larguraCampo);
 			os << j << " |";
-			for (int i = 0; i < pm.NX (); i++)
-			{
+			for (int i = 0; i < pm.NX (); i++) {
 				os.width (pm.larguraCampo);
 				os << pm.data3D[i][j][k] << " ";	// ' ';
 			}
 			// os<<'\n';
 		}
-		os <<
-					"\n|   y |------------------------------ x-> --------------------------------------\n      |";
-		for (int i = 0; i < pm.NX (); i++)
-		{
+		os << "\n|   y |------------------------------ x-> --------------------------------------\n      |";
+		for (int i = 0; i < pm.NX (); i++) {
 			os.width (pm.larguraCampo);
 			os << i << " ";
 		}
-		os <<
-					"\n-------------------------------------------------------------------------------";
+		os << "\n-------------------------------------------------------------------------------";
 		os << "\nz=" << k;
 	}
 	return os;
-
 }
 
 /*
@@ -481,8 +418,8 @@ Funcao:
 @param  :
 @return :
 */
-void CMatriz3D::SalvaCabecalho (ofstream & fout) const
-{
+template< typename T >
+void TCMatriz3D<T>::SalvaCabecalho (ofstream & fout) const {
 	if (fout) { // testa abertura do arquivo
 		switch ( formatoImagem ) {
 			case D1_X_Y_Z_ASCII:
@@ -511,7 +448,8 @@ void CMatriz3D::SalvaCabecalho (ofstream & fout) const
 }
 
 // Salva dados no formato binario
-void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
+template< typename T >
+void TCMatriz3D<T>::SalvaDadosBinarios (ofstream & fout) const {
 	int x, bit;
 	unsigned char c = 0;
 	if (fout) {
@@ -541,7 +479,7 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 				}
 				break;
 			case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
-				cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em CMatriz3D::SalvaDadosBinarios" << endl;
+				cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em TCMatriz3D<T>::SalvaDadosBinarios" << endl;
 				/* falta implementar matrizes para as cores RGB
 				for (int k = 0; k < nz; k++) {
 					for (int j = 0; j < ny; j++) {
@@ -554,13 +492,14 @@ void CMatriz3D::SalvaDadosBinarios (ofstream & fout) const {
 				}
 				*/
 				break;
-			default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDadosBinarios" << endl;
+			default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::SalvaDadosBinarios" << endl;
 		}
 	}
 }
 
 // Salva dados "colados" sem espaço (ex.: 00110011110111101010) ou em formato binário
-void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
+template< typename T >
+void TCMatriz3D<T>::SalvaDadosColados (ofstream & fout) const {
 	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
@@ -580,7 +519,7 @@ void CMatriz3D::SalvaDadosColados (ofstream & fout) const {
 		case D6_X_Y_Z_COLOR_BINARY:
 			SalvaDadosBinarios(fout);
 			break;
-		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;
+		default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::SalvaDados" << endl;
 	}
 }
 
@@ -594,7 +533,8 @@ Funcao:
 @param  :
 @return :
 */
-void CMatriz3D::SalvaDados (ofstream & fout) const {
+template< typename T >
+void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
@@ -614,7 +554,7 @@ void CMatriz3D::SalvaDados (ofstream & fout) const {
 		case D6_X_Y_Z_COLOR_BINARY:
 			SalvaDadosBinarios(fout);
 			break;
-		default: cerr << "Formato de arquivo inválido em CMatriz3D::SalvaDados" << endl;
+		default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::SalvaDados" << endl;
 	}
 }
 
@@ -628,7 +568,8 @@ Funcao:
 @param  :
 @return :
 */
-bool CMatriz3D::Read (string fileName, int separado) {
+template< typename T >
+bool TCMatriz3D<T>::Read (string fileName, int separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
 	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
 	//fin.open (fileName.c_str ());		// Abre o arquivo de disco no formato ascii
@@ -652,14 +593,14 @@ bool CMatriz3D::Read (string fileName, int separado) {
 				CBaseMatriz::LeComentarios(fin);
 				break;
 			case INVALID_IMAGE_TYPE:
-				cerr << "Formato de arquivo inválido em  CMatriz3D::Read" << endl;
+				cerr << "Formato de arquivo inválido em  TCMatriz3D<T>::Read" << endl;
 				return false;
 		}
 		if ( data3D = AlocaMatriz3D (nx, ny, nz) ) {	// Aloca a matriz de dados
 			if (separado != 0)							// Leitura dos dados da matriz
-				CMatriz3D::LeDados (fin);				// Lê os dados separados
+				TCMatriz3D<T>::LeDados (fin);				// Lê os dados separados
 			else
-				CMatriz3D::LeDadosColados (fin);			// Lê os dados colados
+				TCMatriz3D<T>::LeDadosColados (fin);			// Lê os dados colados
 			fin.close();
 			return true;
 		}
@@ -670,7 +611,8 @@ bool CMatriz3D::Read (string fileName, int separado) {
 		return false;
 }
 
-bool CMatriz3D::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType tipo) {
+template< typename T >
+bool TCMatriz3D<T>::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType tipo) {
 	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
 	if (fin.good ()) { // Se o arquivo foi corretamente aberto
 		nx = _nx;
@@ -678,7 +620,7 @@ bool CMatriz3D::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType t
 		nz = _nz;
 		if ( data3D = AlocaMatriz3D(nx, ny, nz) ) {			// Aloca a matriz de dados
 			formatoImagem = D5_X_Y_Z_GRAY_BINARY; // força leitura como tons de cinza
-			CMatriz3D::LeDadosBinarios (fin);			// Lê os dados separados
+			TCMatriz3D<T>::LeDadosBinarios (fin);			// Lê os dados separados
 			formatoImagem = tipo;									// seta o real formato da imagem
 			fin.close();
 			return true;
@@ -694,7 +636,8 @@ bool CMatriz3D::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType t
 
 }
 
-TCMatriz2D< int >* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
+template< typename T >
+TCMatriz2D< int >* TCMatriz3D<T>::LePlano (unsigned int planoZ, E_eixo direcao)
 {
 	if ( ! data3D )
 		return NULL;
@@ -710,7 +653,8 @@ TCMatriz2D< int >* CMatriz3D::LePlano (unsigned int planoZ, E_eixo direcao)
 		return NULL;
 }
 
-bool CMatriz3D::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao)
+template< typename T >
+bool TCMatriz3D<T>::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao)
 {
 	if ( ! data3D || ! pm2D)
 		return false;
@@ -762,9 +706,10 @@ bool CMatriz3D::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo di
 	return true;
 }
 
-bool CMatriz3D::Rotacionar90 (E_eixo axis){
-	CMatriz3D * pmtmp = NULL;
-	pmtmp = new CMatriz3D( *this );
+template< typename T >
+bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
+	TCMatriz3D * pmtmp = NULL;
+	pmtmp = new TCMatriz3D( *this );
 	if( ! pmtmp ) return false;
 	int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
 	int _ny = ny;
@@ -812,7 +757,8 @@ bool CMatriz3D::Rotacionar90 (E_eixo axis){
 	return true;
 }
 
-void CMatriz3D::LeDados (ifstream & fin) {
+template< typename T >
+void TCMatriz3D<T>::LeDados (ifstream & fin) {
 	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
@@ -831,15 +777,16 @@ void CMatriz3D::LeDados (ifstream & fin) {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			CMatriz3D::LeDadosBinarios(fin);
+			TCMatriz3D<T>::LeDadosBinarios(fin);
 			break;
-		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDados" << endl;
+		default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::LeDados" << endl;
 	}
 }
 
 // Lê os dados de um arquivo de disco, Os dados estao "colados"
 // Ex: 00011101000101
-void CMatriz3D::LeDadosColados (ifstream & fin) {
+template< typename T >
+void TCMatriz3D<T>::LeDadosColados (ifstream & fin) {
 	char ch = 0;
 	char matrizChar[30] = " ";
 	switch(formatoImagem) {
@@ -865,15 +812,16 @@ void CMatriz3D::LeDadosColados (ifstream & fin) {
 		case D4_X_Y_Z_BINARY:
 		case D5_X_Y_Z_GRAY_BINARY:
 		case D6_X_Y_Z_COLOR_BINARY:
-			CMatriz3D::LeDadosBinarios(fin);
+			TCMatriz3D<T>::LeDadosBinarios(fin);
 			break;
-		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDadosColados" << endl;
+		default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::LeDadosColados" << endl;
 	}
 }
 
 // Lê os dados de um arquivo de disco
 // Os dados estao separados por um " "
-void CMatriz3D::LeDadosBinarios (ifstream & fin) {
+template< typename T >
+void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 	char c;
 	unsigned char c2;
 	int x, bit;
@@ -904,7 +852,7 @@ void CMatriz3D::LeDadosBinarios (ifstream & fin) {
 			}
 			break;
 		case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
-			cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em CMatriz3D::LeDadosBinarios" << endl;
+			cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em TCMatriz3D<T>::LeDadosBinarios" << endl;
 			/* falta implementar matrizes para as cores RGB
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
@@ -920,7 +868,7 @@ void CMatriz3D::LeDadosBinarios (ifstream & fin) {
 			}
 			*/
 			break;
-		default: cerr << "Formato de arquivo inválido em CMatriz3D::LeDados" << endl;
+		default: cerr << "Formato de arquivo inválido em TCMatriz3D<T>::LeDados" << endl;
 	}
 }
 
@@ -936,8 +884,8 @@ Funcao: Constante
 @param  :
 @return :
 */
-void CMatriz3D::Constante (int cte)
-{
+template< typename T >
+void TCMatriz3D<T>::Constante (int cte) {
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
 			for (int k = 0; k < nz; k++)
@@ -956,8 +904,8 @@ de tmatriz por timagem
 @param  :
 @return :
 */
-void CMatriz3D::Inverter ()
-{
+template< typename T >
+void TCMatriz3D<T>::Inverter () {
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
 			for (int k = 0; k < nz; k++)
@@ -977,8 +925,8 @@ Funcao:
 @param  :
 @return :
 */
-double CMatriz3D::Media () const
-{
+template< typename T >
+double TCMatriz3D<T>::Media () const {
 	double media = 0.0;
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
@@ -998,8 +946,8 @@ MaiorValor retorna o maior valor da matriz
 @param  :
 @return :
 */
-int CMatriz3D::MaiorValor () const
-{
+template< typename T >
+int TCMatriz3D<T>::MaiorValor () const {
 	int maior = data3D[0][0][0];
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
@@ -1020,8 +968,8 @@ MenorValor retorna o menor valor da matriz
 @param  :
 @return :
 */
-int CMatriz3D::MenorValor () const
-{
+template< typename T >
+int TCMatriz3D<T>::MenorValor () const {
 	int menor = data3D[0][0][0];
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
@@ -1037,8 +985,8 @@ Funcao:   MenorValorNzero
 @short  :MenorValorNzero retorna o menor valor da matriz diferente de zero
 @author :Leandro Puerari
 */
-int CMatriz3D::MenorValorNzero () const
-{
+template< typename T >
+int TCMatriz3D<T>::MenorValorNzero () const {
 	int menor = 9999999;
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
@@ -1054,8 +1002,8 @@ Funcao:   MaiorMenorValorNzero
 @short  :MaiorMenorValorNzero retorna um par correspondente ao maior e menor valor (respectivamente) da matriz diferente de zero
 @author :Leandro Puerari
 */
-pair<int,int> CMatriz3D::MaiorMenorValorNzero() const
-{
+template< typename T >
+pair<int,int> TCMatriz3D<T>::MaiorMenorValorNzero() const {
 	//int menor = 9999999999;
 	//int maior = data2D[0][0];
 	pair<int,int> maiorMenor;
@@ -1081,8 +1029,8 @@ Funcao:
 @param  :
 @return :
 */
-int CMatriz3D::Replace (int i, int j)
-{
+template< typename T >
+int TCMatriz3D<T>::Replace (int i, int j) {
 	int contador = 0;
 	for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
 		for (int l = 0; l < ny; l++)
@@ -1105,8 +1053,8 @@ Funcao:
 @param  :
 @return :
 */
-void CMatriz3D::Propriedades (ofstream & os) const
-{
+template< typename T >
+void TCMatriz3D<T>::Propriedades (ofstream & os) const {
 	CBaseMatriz::Propriedades (os);
 	os << "\nDimensoes: nx=" << nx << " ny=" << ny << " nz=" << nz;
 }

@@ -33,8 +33,8 @@ Desenvolvido por:
 #include <Matriz/CImagem3D.h>
 #endif
 
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <Matriz/TCMatriz3D.h>
 #endif
 
 #ifndef CGrafo_h
@@ -112,16 +112,16 @@ protected:
 public:
 	/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. 
 	/// (Deve ser chamado antes de CalcularPermeabilidade())
-	bool CriarObjetos( CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel,  unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7 );
+	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel,  unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7 );
 	
 	/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
-	long double CalcularPermeabilidade(CMatriz3D * matriz3D);
+	long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CImagem3D.
 	long double Go( CImagem3D * imagem3D, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
-	long double Go( CMatriz3D * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
+	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo CImagem3D.
 	long double Go( string pathFileName, long double fatorRelaxacao = 0.7);

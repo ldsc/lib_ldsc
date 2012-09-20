@@ -3,11 +3,11 @@
 
 // Retorna a lista de objetos conectados.
 set<int> CFEConectividade3D::GetObjetosConectados ( CImagem3D * pmOrig ){
-	return GetObjetosConectados( dynamic_cast<CMatriz3D*>(pmOrig) );
+	return GetObjetosConectados( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
 // Retorna a lista de objetos conectados.
-set<int> CFEConectividade3D::GetObjetosConectados ( CMatriz3D * pmOrig){
+set<int> CFEConectividade3D::GetObjetosConectados ( TCMatriz3D<int> * pmOrig){
    //	if ( ! rotulado )			// verifica se a imagem já foi rotulada
    CRotulador3D::Go ( pmOrig ); // se ainda não rotulada, rotula...
    // Obter os objetos do primeiro plano da imagem rotulada (this).
@@ -41,10 +41,10 @@ set<int> CFEConectividade3D::GetObjetosConectados ( CMatriz3D * pmOrig){
 
 
 bool CFEConectividade3D::isConnected ( CImagem3D * pmOrig) {
-	return isConnected( dynamic_cast<CMatriz3D*>(pmOrig) );
+	return isConnected( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
-bool CFEConectividade3D::isConnected ( CMatriz3D * pmOrig) {
+bool CFEConectividade3D::isConnected ( TCMatriz3D<int> * pmOrig) {
 	if ( GetObjetosConectados(pmOrig).empty() ) // se não existir objetos em plano0 é porque a imagem não possui conectividade.
 		return false;
 	else
@@ -106,12 +106,12 @@ CImagem3D * CFEConectividade3D::GetImagemConectada ( CImagem3D * pmOrig) {
 */
 }
 
-CMatriz3D * CFEConectividade3D::GetMatrizConectada ( CMatriz3D * pmOrig) {
+TCMatriz3D<int> * CFEConectividade3D::GetMatrizConectada ( TCMatriz3D<int> * pmOrig) {
    if ( ! isConnected(pmOrig) )
       return NULL;
 
-   CMatriz3D * pmCon = NULL;
-   pmCon = new CMatriz3D( * pmOrig );
+   TCMatriz3D<int> * pmCon = NULL;
+	 pmCon = new TCMatriz3D<int>( * pmOrig );
    if ( ! pmCon ) {
       cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
       return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
@@ -129,7 +129,7 @@ CMatriz3D * CFEConectividade3D::GetMatrizConectada ( CMatriz3D * pmOrig) {
   return NULL;
  }
 
- CMatriz3D * pmCon = NULL;
+ TCMatriz3D<int> * pmCon = NULL;
    pmCon = new CMatriz3D(pmOrig->NX(), pmOrig->NY(), pmOrig->NZ());
    if ( ! pmCon ) {
   cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
@@ -153,9 +153,9 @@ CMatriz3D * CFEConectividade3D::GetMatrizConectada ( CMatriz3D * pmOrig) {
 
 
 // Recebe ponteiro para imagem 3D que será alterada para imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
-bool CFEConectividade3D::Go ( CMatriz3D* pmCon ) {
+bool CFEConectividade3D::Go ( TCMatriz3D<int> * pmCon ) {
 	if ( ! pmCon ) {
-		cerr << "Erro! - CFEConectividade3D::Go (CMatriz3D*) recebeu objeto nulo" << endl;
+		cerr << "Erro! - CFEConectividade3D::Go (TCMatriz3D<int> *) recebeu objeto nulo" << endl;
 		return false; 		// se não conseguiu alocar a matriz 3D retorna NULL
 	}
 
@@ -181,7 +181,7 @@ bool CFEConectividade3D::Go ( CMatriz3D* pmCon ) {
 // Recebe ponteiro para imagem 3D que será alterada para imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
 bool CFEConectividade3D::Go ( CImagem3D* pmCon ) {
 	if ( ! pmCon ) {
-		cerr << "Erro! - CFEConectividade3D::Go (CMatriz3D*) recebeu objeto nulo" << endl;
+		cerr << "Erro! - CFEConectividade3D::Go (TCMatriz3D<int> *) recebeu objeto nulo" << endl;
 		return false; 		// se não conseguiu alocar a matriz 3D retorna NULL
 	}
 

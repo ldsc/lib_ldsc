@@ -195,7 +195,7 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao) {
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
-CGrafo * CGra3Dby2D::Go (CMatriz3D * _img3D, unsigned long int funcao) {
+CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
 
    // Armazena a informacao das dimensoes da imagem
    nx = _img3D->NX ();

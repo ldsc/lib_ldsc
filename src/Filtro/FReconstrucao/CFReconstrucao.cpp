@@ -1,11 +1,11 @@
 #include <Filtro/FReconstrucao/CFReconstrucao.h>
 
-CMatriz3D * CFReconstrucao::Go (TCMatriz2D< int > * matriz2D, Eeixo _eixo) {
+TCMatriz3D<int> * CFReconstrucao::Go (TCMatriz2D< int > * matriz2D, Eeixo _eixo) {
 	int i, j, k;
 	int nxyz = matriz2D->NX(); // Dimensões das matrizes (quadrada ou cúbica).
 			
-	CMatriz3D * pm3D = NULL;
-	pm3D = new CMatriz3D(nxyz, nxyz, nxyz);
+	TCMatriz3D<int> * pm3D = NULL;
+	pm3D = new TCMatriz3D<int>(nxyz, nxyz, nxyz);
 	
 	if ( ! pm3D ) { // se não conseguiu alocar a matriz 3D exibe erro e retorna NULL
 		cerr << "CFReconstrucao::Go(TCMatriz2D< int > * matriz2D) não conseguiu alocar CMatriz3D!" << endl; 
@@ -48,7 +48,7 @@ CMatriz3D * CFReconstrucao::Go (TCMatriz2D< int > * matriz2D, Eeixo _eixo) {
 	return pm3D;
 }
 
-CMatriz3D * CFReconstrucao::Go(string arquivo, Eeixo _eixo) {
+TCMatriz3D<int> * CFReconstrucao::Go(string arquivo, Eeixo _eixo) {
 	TCMatriz2D< int > * pm = NULL;
 	pm = new TCMatriz2D< int >(arquivo);
 	if( ! pm ) {

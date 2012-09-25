@@ -13,7 +13,7 @@
   @file       CSMDJacobi.h
   @begin      Sun Sep 17 2000
   @copyright  (C) 2000 by Andre Duarte Bueno
-  @email      andre@lmpt.ufsc.br
+  @email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------

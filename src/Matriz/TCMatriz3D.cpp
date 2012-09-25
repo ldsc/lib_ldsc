@@ -10,7 +10,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 File:             TCMatriz3D.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-email:            andre@lmpt.ufsc.br
+email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -26,7 +26,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <Matriz/TCMatriz3D.h>
+// #include <Matriz/TCMatriz3D.h>
 
 /*
 -------------------------------------------------------------------------
@@ -150,13 +150,11 @@ TCMatriz3D<T>::TCMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType 
 
 // Cria copia deve copiar nx,ny,nz, depois alocar a matriz e entao copiar membro a membro
 template< typename T >
-TCMatriz3D<T>::TCMatriz3D (TCMatriz3D & matriz) {
-	formatoImagem = matriz.formatoImagem;
+TCMatriz3D<T>::TCMatriz3D (TCMatriz3D<T> & matriz) : CBaseMatriz(matriz.formatoImagem, matriz.path) {
 	nx = matriz.nx;
 	ny = matriz.ny;
 	nz = matriz.nz;
 	numCores = matriz.numCores;
-	path = matriz.path;
 
 	data3D = TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz);
 
@@ -169,7 +167,7 @@ TCMatriz3D<T>::TCMatriz3D (TCMatriz3D & matriz) {
 
 /*
 template< typename T >
-TCMatriz3D<T>::TCMatriz3D(TCMatriz3D* matriz)		// : TCMatriz2D< int >()
+TCMatriz3D<T>::TCMatriz3D(TCMatriz3D<T>* matriz)		// : TCMatriz2D< int >()
 {
  formatoImagem = matriz->formatoImagem;
  nx = matriz->nx; 			   // Define dimensoes
@@ -595,9 +593,11 @@ bool TCMatriz3D<T>::Read (string fileName, int separado) {
 			case INVALID_IMAGE_TYPE:
 				cerr << "Formato de arquivo inválido em  TCMatriz3D<T>::Read" << endl;
 				return false;
+			default:
+				return false;
 		}
-		if ( data3D = AlocaMatriz3D (nx, ny, nz) ) {	// Aloca a matriz de dados
-			if (separado != 0)							// Leitura dos dados da matriz
+		if ( (data3D = AlocaMatriz3D (nx, ny, nz)) ) {	// Aloca a matriz de dados
+			if (separado)							// Leitura dos dados da matriz
 				TCMatriz3D<T>::LeDados (fin);				// Lê os dados separados
 			else
 				TCMatriz3D<T>::LeDadosColados (fin);			// Lê os dados colados
@@ -618,7 +618,7 @@ bool TCMatriz3D<T>::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageTy
 		nx = _nx;
 		ny = _ny;
 		nz = _nz;
-		if ( data3D = AlocaMatriz3D(nx, ny, nz) ) {			// Aloca a matriz de dados
+		if ( (data3D = AlocaMatriz3D(nx, ny, nz)) ) {			// Aloca a matriz de dados
 			formatoImagem = D5_X_Y_Z_GRAY_BINARY; // força leitura como tons de cinza
 			TCMatriz3D<T>::LeDadosBinarios (fin);			// Lê os dados separados
 			formatoImagem = tipo;									// seta o real formato da imagem
@@ -654,7 +654,7 @@ TCMatriz2D< int >* TCMatriz3D<T>::LePlano (unsigned int planoZ, E_eixo direcao)
 }
 
 template< typename T >
-bool TCMatriz3D<T>::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao)
+bool TCMatriz3D<T>::LePlano (TCMatriz2D< int > * pm2D, int plano, E_eixo direcao)
 {
 	if ( ! data3D || ! pm2D)
 		return false;
@@ -708,8 +708,8 @@ bool TCMatriz3D<T>::LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eix
 
 template< typename T >
 bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
-	TCMatriz3D * pmtmp = NULL;
-	pmtmp = new TCMatriz3D( *this );
+	TCMatriz3D<T> * pmtmp = NULL;
+	pmtmp = new TCMatriz3D<T>( *this );
 	if( ! pmtmp ) return false;
 	int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
 	int _ny = ny;
@@ -823,7 +823,7 @@ void TCMatriz3D<T>::LeDadosColados (ifstream & fin) {
 template< typename T >
 void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 	char c;
-	unsigned char c2;
+	unsigned char c2 = 0;
 	int x, bit;
 	switch(formatoImagem){
 		case D4_X_Y_Z_BINARY: // 1 bite por pixel

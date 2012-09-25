@@ -1,20 +1,16 @@
 #ifndef TCMatriz2D_H
 #define TCMatriz2D_H
-
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
 						Assunto/Ramo: TCMatriz2D...
 ===============================================================================
-Desenvolvido por:
-						Laboratorio de Desenvolvimento de Software Cientifico
-						[LDSC].
+Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico - [LDSC].
 @author     André Duarte Bueno
 @file       TCMatriz2D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
-
-@email      andre@lmpt.ufsc.br
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -36,22 +32,6 @@ using namespace std;
 /**
  * @brief	Representa uma matriz bidimensional.
  * Permite criar e usar uma matriz bidimensional.
- * A alocacao e feita dinamicamente
- * Tem tres construtores:
- * 1 - Para criar uma matriz toda nova use
- * TCMatriz2D(NX,NY),cria matriz, aloca data2D, zera valores
- * 2 - Para criar uma copia no programa use
- * TCMatriz2D(TCMatriz2D), cria uma copia
- * TCMatriz2D=TCMatriz2D;
- * 3 - Para abrir uma matriz do disco use
- * TCMatriz2D("nomearquivo")
- * TCMatriz2D.Read("nomearquivo")
- * Para salvar a matriz em disco use
- * TCMatriz2D.Write(std::string fileName)
- * Para acessar o conteudo da matriz use data2D
- * TCMatriz2D.data2D[i][j]=33;
- * int x=TCMatriz2D.data2D[i][j];
- *
  * PS: Observe que com as funções AlocaMatriz2D, pode-se alocar uma estrutura de dados 2D
  * diretamente, sem criar um objeto matriz.
  * Ex: 	int **m2D = TCMatriz2D::AlocaMatriz2D(nx,ny);
@@ -67,7 +47,7 @@ class TCMatriz2D : public CBaseMatriz
 		int nx;   	/// Dimensão nx
 
 	public:
-		T **data2D; /// Ponteiro para matriz 2D de inteiros
+		T **data2D; /// Ponteiro para matriz 2D
 		// -------------------------------------------------------------Construtor
 		/// Construtor default, data2D=NULL nx=ny=0;
 		TCMatriz2D ();
@@ -82,7 +62,7 @@ class TCMatriz2D : public CBaseMatriz
 		TCMatriz2D (std::string fileName, int planoZ);
 
 		/// Construtor cria copia TCMatriz2D
-		TCMatriz2D (TCMatriz2D &);
+		TCMatriz2D (TCMatriz2D < T > &);
 
 		/// Construtor cria matriz extendida, com borda extra. Copia matriz na parte central
 		// util pois cria uma borda extra, zerada.
@@ -94,29 +74,24 @@ class TCMatriz2D : public CBaseMatriz
 		// --------------------------------------------------------------Destrutor
 
 		/// Destrutor, chama Desaloca
-		virtual ~ TCMatriz2D ()
-		{
+		virtual ~ TCMatriz2D () {
 			TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 		}
 
 		// ----------------------------------------------------------------Métodos
 	protected:
 		/// Alocacao
-		virtual bool Aloca ()
-		{
+		virtual bool Aloca () {
 			data2D = TCMatriz2D::AlocaMatriz2D (nx, ny);
 			return data2D ? 1 : 0;
 		}
 
 		/// Desalocacao
-		virtual bool Desaloca ()
-		{
+		virtual bool Desaloca () {
 			TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 			return data2D ? 0 : 1;
 		}
 
-		// As funções abaixo devem ser movidas para a classe CImagem2D
-		// COLOQUEI APENAS ENQUANTO NAO TROCO NO ANAIMP CBaseMatriz POR TIMAGEM
 		/// Le os dados separados por " "
 		void LeDados (std::ifstream & fin);
 
@@ -127,7 +102,6 @@ class TCMatriz2D : public CBaseMatriz
 		void LeDadosBinarios (std::ifstream & fin);
 
 	public:
-
 		/// Salva dados do cabecalho
 		virtual void SalvaCabecalho (std::ofstream & fout) const;
 
@@ -144,8 +118,7 @@ class TCMatriz2D : public CBaseMatriz
 		bool LePlanoZ (std::string fileName, int planoZ, bool separado = true);
 
 		/// Redimensiona a matriz
-		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
-		{
+		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0) {
 			if( nx != NX || ny != NY ) {
 				TCMatriz2D::DesalocaMatriz2D (data2D, nx, ny);
 				nx = NX;
@@ -188,16 +161,14 @@ class TCMatriz2D : public CBaseMatriz
 		/// Calcula e retorna a média
 		virtual double Media () const;
 
-		virtual int DimensaoMatriz () const
-		{
+		virtual int DimensaoMatriz () const {
 			return 2;
 		}
 
 		/// Troca todos os valores i por j no vetor, retorna o numero de elementos trocados
 		virtual int Replace (int i, int j);
 
-		bool ChecaIndice (int NX, int NY) const
-		{
+		bool ChecaIndice (int NX, int NY) const {
 			return (NX >= 0 && NX < nx && NY >= 0 && NY < ny) ? 1 : 0;
 		}
 
@@ -238,46 +209,39 @@ class TCMatriz2D : public CBaseMatriz
 		bool operator!= (TCMatriz2D< T > & pm2);
 
 		/// Aceita matriz(x,y)
-		inline T &operator  () (int x, int y) const
-		{
+		inline T &operator  () (int x, int y) const {
 			return data2D[x][y];
 		}
 
 		/// Poderia criar um SetColuna[y], ai teria data2D[x][coluna]
-		inline T &operator[] (int x) const
-		{
+		inline T &operator[] (int x) const {
 			return data2D[x][0];
 		}
 
 		// --------------------------------------------------------------------Get
 		/// Retorna nx
-		inline int NX () const
-		{
+		inline int NX () const {
 			return nx;
 		}
 
 		/// Retorna ny
-		inline int NY () const
-		{
+		inline int NY () const {
 			return ny;
 		}
 
 		/// Retorna data2D
-		inline T **Data2D () const
-		{
+		inline T **Data2D () const {
 			return data2D;
 		}
 
 		// --------------------------------------------------------------------Set
 		/// Define nx
-		inline void NX (int NX)
-		{
+		inline void NX (int NX) {
 			nx = NX;
 		}
 
 		/// Define ny
-		inline void NY (int NY)
-		{
+		inline void NY (int NY) {
 			ny = NY;
 		}
 
@@ -288,4 +252,7 @@ class TCMatriz2D : public CBaseMatriz
 		/// Sobrecarga operador>>.
 		//friend istream &operator>>( istream &, TCMatriz2D<T> & );
 };
+
+#include <Matriz/TCMatriz2D.cpp>
+
 #endif

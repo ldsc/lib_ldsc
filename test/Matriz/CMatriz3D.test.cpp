@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <Matriz/CMatriz3D.h>
+#include <Matriz/TCMatriz3D.h>
 
 using namespace std;
 
@@ -14,16 +14,14 @@ using namespace std;
  * @param argv[]
  * @return
  */
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
     cout  << "\n================================================================================"
           << "\n====================== Programa de teste da LIB_LDSC ==========================="
           << "\n================================================================================" << endl;
 
     cout  << "\n================================================================================"
           << "\nUSO:"
-          << "\n./matriz3d"
+					<< "\n./matriz3D"
           << "\n================================================================================" << endl;
 
     // Cria string com nome da imagem
@@ -36,7 +34,7 @@ main (int argc, char *argv[])
           << "Carrega imagem " << fileName << " do disco" << endl;
 
     // Cria imagem
-    CMatriz3D *pm3 = new CMatriz3D (fileName);
+		TCMatriz3D<int> *pm3 = new TCMatriz3D<int> (fileName);
 
     // Cria nova string com nome do arquivo de saída
     string fileOut = "out." + fileName;
@@ -46,11 +44,8 @@ main (int argc, char *argv[])
     // Salva imagem no disco
     pm3->Write (fileOut, 0);
 
-
     // Destroe a imagem
     delete pm3;
-
     return 0;
-
 }
 

@@ -13,7 +13,7 @@ Desenvolvido por:
 @file       CBaseMatriz.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
-@email      andre@lmpt.ufsc.br
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -166,7 +166,7 @@ class CBaseMatriz
 		// -------------------------------------------------------------Construtor
 		/// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
 		//CBaseMatriz (int _formatoSalvamento = WRITEFORM_ASCII_PI_N_256_DATA)
-		CBaseMatriz (EImageType _formatoSalvamento = P1_X_Y_ASCII, string _path="./") :formatoImagem (_formatoSalvamento), path(_path)
+		CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./") :formatoImagem (_formatoImagem), path(_path)
 		{
 		}
 		// --------------------------------------------------------------Destrutor

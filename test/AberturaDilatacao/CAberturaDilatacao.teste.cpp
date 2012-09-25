@@ -81,6 +81,7 @@ int main ( int argc, char *argv[] )
         cin >> iOpcao;
         cin.get();
 
+TCMatriz2D<int> lixo;
         TCMatriz2D< int > * pm = NULL;
         CFEMorfologiaMatematica * filtro = NULL;
         CAberturaDilatacao * carac = NULL;

@@ -13,7 +13,7 @@
   @file       CGra3Dby2D_M3.h
   @begin      Oct 20 2000
   @copyright  (C) 2000 by André Duarte Bueno
-  @email      andre@lmpt.ufsc.br
+  @email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------

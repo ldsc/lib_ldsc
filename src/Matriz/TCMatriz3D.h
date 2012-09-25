@@ -13,7 +13,7 @@ Desenvolvido por:
 @file       TCMatriz3D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
-@email      andre@lmpt.ufsc.br
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -177,7 +177,7 @@ class TCMatriz3D : public CBaseMatriz
 		TCMatriz2D< int >* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);
 
 		/// lê a matriz 3D na direção e plano informados e seta na matriz 2D passada como parametro. As direções podem ser: x, y, z ou X, Y, Z ou i, j, k ou I, J, K.
-		bool LePlano (TCMatriz2D< int > * pm2D, unsigned int plano, E_eixo direcao = EIXO_Z);
+		bool LePlano (TCMatriz2D< int > * pm2D, int plano, E_eixo direcao = EIXO_Z);
 
 		/// rotaciona a imagem 3D, 90 graus a direita no eixo informado
 		bool Rotacionar90 (E_eixo axis = EIXO_Z);
@@ -300,6 +300,8 @@ class TCMatriz3D : public CBaseMatriz
 // Declaração de Funções Friend
 // ostream& operator<< (ostream& os, TCMatriz3D& obj);
 // istream& operator>> (istream& is, TCMatriz3D& obj);
+
+#include <Matriz/TCMatriz3D.cpp>
 
 #endif
 

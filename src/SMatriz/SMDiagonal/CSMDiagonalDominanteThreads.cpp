@@ -9,7 +9,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 File:             CSMDiagonalDominanteThreads.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by André Duarte Bueno
-email:            andre@lmpt.ufsc.br
+email:            andreduartebueno@gmail.com
 */
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++.

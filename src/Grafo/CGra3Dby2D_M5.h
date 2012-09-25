@@ -13,7 +13,7 @@ Desenvolvido por:
 @file       CGra3Dby2D_M5.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
-@email      andre@lmpt.ufsc.br
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------

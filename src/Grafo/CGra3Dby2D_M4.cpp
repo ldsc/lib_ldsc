@@ -10,7 +10,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 File:             CGra3Dby2D_M4.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-email:            andre@lmpt.ufsc.br
+email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------

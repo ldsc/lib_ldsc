@@ -10,7 +10,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 File:             CImagem3D.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by André Duarte Bueno
-email:            andre@lmpt.ufsc.br
+email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -32,26 +32,7 @@ Atributos estticos da classe
 //  int CImagem3D::PRETO=0;
 //  int CImagem3D::BRANCO=255;
 
-/*
--------------------------------------------------------------------------
-Função:
--------------------------------------------------------------------------
-@short  :Verifica se a imagem contem o ponto passado
-@author :André Duarte Bueno
-@see    :
-@param  :
-@return :
-*/
-bool CImagem3D::Contem (int i, int j, int k) const
-{
-    if (i < nx && j < ny && k < nz)	// acusa ser sempre verdadeira?
-        return 1;
-    else
-        return 0;
-};
-
-void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const
-{
+void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const {
     if (fout) {
         fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
         fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
@@ -59,8 +40,7 @@ void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const
     }
 }
 
-bool CImagem3D::LeInformacoesRecontrucao (ifstream & fin)
-{
+bool CImagem3D::LeInformacoesRecontrucao (ifstream & fin) {
     if (fin.good()) {
         int posInicial = fin.tellg();		//guarda a posição de leitura no arquivo.
         char linha[256];
@@ -100,8 +80,7 @@ bool CImagem3D::LeInformacoesRecontrucao (ifstream & fin)
     return false;
 }
 
-bool CImagem3D::LeInformacoesRecontrucao (string fileName)
-{
+bool CImagem3D::LeInformacoesRecontrucao (string fileName) {
     ifstream fin;									// Ponteiro para arquivo de disco
     CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
     if (fin.good ()) {								// Se o arquivo foi corretamente aberto

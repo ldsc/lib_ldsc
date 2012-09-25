@@ -10,7 +10,7 @@
   File:             CGrafo.cpp
   begin:            Sat Sep 16 2000
   copyright:        (C) 2000 by André Duarte Bueno
-  email:            andre@lmpt.ufsc.br
+  email:            andreduartebueno@gmail.com
 */
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
@@ -89,7 +89,7 @@ using namespace std;
 					
     @author : André Duarte Bueno
     @see    : TPermabilidade
-    @param  : viscosidade, dimensão do pixel e fator de amplificaç� o do pixel
+    @param  : viscosidade, dimensão do pixel e fator de amplificaç o do pixel
     @return : void
 */
 void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)

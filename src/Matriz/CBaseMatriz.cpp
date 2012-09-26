@@ -302,76 +302,71 @@ EImageType CBaseMatriz::VerificaFormato(ifstream & fin) {
 			case 'V':
 				switch (aux[1]) {
 					case '1':
-						return formatoImagem = V1_X_ASCII;
+						return V1_X_ASCII;
 					case '2':
-						return formatoImagem = V2_X_GRAY_ASCII;
+						return V2_X_GRAY_ASCII;
 					case '3':
-						return formatoImagem = V3_X_COLOR_ASCII;
+						return V3_X_COLOR_ASCII;
 					case '4':
-						return formatoImagem = V4_X_BINARY;
+						return V4_X_BINARY;
 					case '5':
-						return formatoImagem = V5_X_GRAY_BINARY;
+						return V5_X_GRAY_BINARY;
 					case '6':
-						return formatoImagem = V6_X_COLOR_BINARY;
+						return V6_X_COLOR_BINARY;
 					default:
-						return formatoImagem = INVALID_IMAGE_TYPE;
+						return INVALID_IMAGE_TYPE;
 				}
 			case 'P':
 				switch (aux[1]) {
 					case '1':
-						return formatoImagem = P1_X_Y_ASCII;
+						return P1_X_Y_ASCII;
 					case '2':
-						return formatoImagem = P2_X_Y_GRAY_ASCII;
+						return P2_X_Y_GRAY_ASCII;
 					case '3':
-						return formatoImagem = P3_X_Y_COLOR_ASCII;
+						return P3_X_Y_COLOR_ASCII;
 					case '4':
-						return formatoImagem = P4_X_Y_BINARY;
+						return P4_X_Y_BINARY;
 					case '5':
-						return formatoImagem = P5_X_Y_GRAY_BINARY;
+						return P5_X_Y_GRAY_BINARY;
 					case '6':
-						return formatoImagem = P6_X_Y_COLOR_BINARY;
+						return P6_X_Y_COLOR_BINARY;
 					default:
-						return formatoImagem = INVALID_IMAGE_TYPE;
+						return INVALID_IMAGE_TYPE;
 				}
 			case 'D':
 				switch (aux[1]) {
 					case '1':
-						return formatoImagem = D1_X_Y_Z_ASCII;
+						return D1_X_Y_Z_ASCII;
 					case '2':
-						return formatoImagem = D2_X_Y_Z_GRAY_ASCII;
+						return D2_X_Y_Z_GRAY_ASCII;
 					case '3':
-						return formatoImagem = D3_X_Y_Z_COLOR_ASCII;
+						return D3_X_Y_Z_COLOR_ASCII;
 					case '4':
-						return formatoImagem = D4_X_Y_Z_BINARY;
+						return D4_X_Y_Z_BINARY;
 					case '5':
-						return formatoImagem = D5_X_Y_Z_GRAY_BINARY;
+						return D5_X_Y_Z_GRAY_BINARY;
 					case '6':
-						return formatoImagem = D6_X_Y_Z_COLOR_BINARY;
+						return D6_X_Y_Z_COLOR_BINARY;
 					default:
-						return formatoImagem = INVALID_IMAGE_TYPE;
+						return INVALID_IMAGE_TYPE;
 				}
 			default:
-				return formatoImagem = INVALID_IMAGE_TYPE;
+				return INVALID_IMAGE_TYPE;
 		}
-	} else
-		return formatoImagem = INVALID_IMAGE_TYPE;
+	} else {
+		cerr << "Não foi possível ler o arquivo informado em CBaseMatriz::VerificaFormato(std::ifstream)" << endl;
+		return INVALID_IMAGE_TYPE;
+	}
 }
 
-/*
-	-------------------------------------------------------------------------
-	Função: Propriedades
-	-------------------------------------------------------------------------
-	@short  :
-	@author :André Duarte Bueno
-	@see    :
-	@param  :
-	@return :
-*/
-void CBaseMatriz::Propriedades (ofstream & os) const {
-	os << "\nPropriedades objeto :"
-		 << "\nDimensao da Matriz=" << DimensaoMatriz ()
-		 << "\nMaior valor=" << MaiorValor ()
-		 << "\nMenor valor=" << MenorValor ()
-		 << "\nMedia=" << Media ()
-		 << "\nFormato de salvamento=" << formatoImagem << endl;
+EImageType CBaseMatriz::VerificaFormato(string &filename) {
+	ifstream fin(filename.c_str());
+	if (fin.good()){
+		EImageType formato = VerificaFormato(fin);
+		fin.close();
+		return formato;
+	} else {
+		cerr << "Não foi possível ler o arquivo informado em CBaseMatriz::VerificaFormato(std::string)" << endl;
+		return INVALID_IMAGE_TYPE;
+	}
 }

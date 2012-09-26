@@ -144,7 +144,7 @@ TCMatriz3D<int> * CFEMMIDF3D::Erosao (TCMatriz3D<int> * &matriz, unsigned int _R
    CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
    // Processamento da erosao em si
    int raioBolaInclusa = maskd->RaioBolaInclusa ();
-   int ***pmdata3D = pm->Data3D ();
+	 Matriz3D(int) pmdata3D = pm->Data3D ();
    for (int k = 0; k < nz; k++) {
       for (int j = 0; j < ny; j++) {
          for (int i = 0; i < nx; i++) {
@@ -179,7 +179,7 @@ TCMatriz3D<int> * CFEMMIDF3D::Dilatacao (TCMatriz3D<int> * &matriz, unsigned int
    // Processamento da Dilatacao em si
    // pm->Constante(0);        // zera a matriz imagem
    int mi = Mi ();		//
-   int ***pmdata3D = pm->Data3D ();
+	 Matriz3D(int) pmdata3D = pm->Data3D ();
    for (int jj = 0; jj < ny; jj++)	// percorre toda a idf e
       for (int ii = 0; ii < nx; ii++)	// pinta pontos na imagem
          for (int kk = 0; kk < nz; kk++)	// pinta pontos na imagem
@@ -296,7 +296,7 @@ TCMatriz3D<int> * CFEMMIDF3D::Abertura (TCMatriz3D<int> * &matriz, unsigned int 
   	int rmz;			// 
 
    // Otimizacao Imagem
-   int ***pmdata3D = pm->Data3D ();
+	 Matriz3D(int) pmdata3D = pm->Data3D ();
 
    // Variáveis para SIMETRIA Bola
   	int posxe, posxd;		// x esquerda e x direita

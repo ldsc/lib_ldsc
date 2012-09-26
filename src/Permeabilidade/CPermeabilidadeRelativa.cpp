@@ -23,8 +23,8 @@ CPermeabilidadeRelativa::CPermeabilidadeRelativa ( ofstream & out ) {
 	permB	= NULL;	// Ponteiro para CPermeabilidadeGrafo;
 	confeq	= NULL;	// Ponteiro para CConfiguracoesEquilibrio3D;
 
-	imagemA = new CImagem3D(); //Estou criando imagens A e B no construtor para poder setar paramentor de recontrução antes da execução de Go()
-	imagemB = new CImagem3D(); //Como as imagens podem ser destruídas em Go(), sempre verificar se são != NULL;
+	imagemA = new CImagem3D<int>(); //Estou criando imagens A e B no construtor para poder setar paramentor de recontrução antes da execução de Go()
+	imagemB = new CImagem3D<int>(); //Como as imagens podem ser destruídas em Go(), sempre verificar se são != NULL;
 
 	// valores usados em CSMDiagonalDominante
 	limiteIteracoes = 5000;
@@ -50,21 +50,21 @@ void CPermeabilidadeRelativa::DestruirObjetos () {
 
 // Métodos
 bool CPermeabilidadeRelativa::Go( string pathFileName ) {
-	CImagem3D * imagem3D = new CImagem3D( pathFileName );
+	CImagem3D<int> * imagem3D = new CImagem3D<int>( pathFileName );
 	bool retorno = Go( imagem3D );
 	delete imagem3D;
 	return retorno;
 }
 
-bool CPermeabilidadeRelativa::Go ( CImagem3D * imagem3D ) {
+bool CPermeabilidadeRelativa::Go ( CImagem3D<int> *imagem3D ) {
 	if ( ! imagem3D )
 		return false;
 
 	if ( ! imagemA )
-		imagemA = new CImagem3D();
+		imagemA = new CImagem3D<int>();
 
 	if ( ! imagemB )
-		imagemB = new CImagem3D();
+		imagemB = new CImagem3D<int>();
 
 	imagemA->Path(imagem3D->Path());
 	imagemB->Path(imagem3D->Path());
@@ -103,14 +103,14 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 	long double permeabilidadeB = 0.0;
 
 	//certificar que as imagens A e B estão devidamente criadas.
-	if ( ! imagemA ) imagemA = new CImagem3D();
+	if ( ! imagemA ) imagemA = new CImagem3D<int>();
 	if ( ! imagemA ) {
 		DestruirObjetos();
 		cerr << "Erro: imagemA nula!" << endl;
 		return false;
 	}
 
-	if ( ! imagemB ) imagemB = new CImagem3D();
+	if ( ! imagemB ) imagemB = new CImagem3D<int>();
 	if ( ! imagemB ) {
 		DestruirObjetos();
 		cerr << "Erro: imagemB nula!" << endl;

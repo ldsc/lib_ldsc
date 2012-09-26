@@ -56,7 +56,8 @@ using namespace std;
  * @author 	André Duarte Bueno
  * @see		Matrizes
 */
-class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fazer dynamic_cast
+template<typename T>
+class CImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fazer dynamic_cast
 {
 
 		// --------------------------------------------------------------Atributos
@@ -69,34 +70,35 @@ class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fa
 
 		// -------------------------------------------------------------Construtor
 		/// Constrói imagem 3D vazia, não alocada.
-		CImagem3D ():TCMatriz3D<int> ()/*, CImg()*/, x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
+		CImagem3D ()
+			: TCMatriz3D<T> ()/*, CImg()*/, x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		/// Constróe imagem 3D a partir de imagem 3D no disco
 		CImagem3D (std::string fileName)
-			: TCMatriz3D<int> (fileName),/* CImg(),*/ x0(0), y0(0), z0(0) {
+			: TCMatriz3D<T> (fileName),/* CImg(),*/ x0(0), y0(0), z0(0) {
 			LeInformacoesRecontrucao(fileName);
 		}
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
 		CImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
-			:TCMatriz3D<int>(fileRAW, _nx, _ny, _nz, tipo), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
+			:TCMatriz3D<T>(fileRAW, _nx, _ny, _nz, tipo), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		/// Construtor de cópia
 		CImagem3D (CImagem3D & img)
-			: TCMatriz3D<int> (img),/* CImg(),*/ x0(img.x0), y0(img.y0), z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao), sizePixel (img.sizePixel), numeroPixelsBorda (img.numeroPixelsBorda) {
+			: TCMatriz3D<T> (img),/* CImg(),*/ x0(img.x0), y0(img.y0), z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao), sizePixel (img.sizePixel), numeroPixelsBorda (img.numeroPixelsBorda) {
 		}
 
 		/// Constróe imagem vazia, com as dimensões nx,ny,nz
 		CImagem3D (int nx, int ny, int nz)
-			: TCMatriz3D<int> (nx, ny, nz),/* CImg(),*/ x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
+			: TCMatriz3D<T> (nx, ny, nz),/* CImg(),*/ x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 
 		}
 
 		/// Construtor de cópia  a partir de uma matriz 3D
-		CImagem3D (TCMatriz3D<int> & matriz)
-			: TCMatriz3D<int> (matriz), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
+		CImagem3D (TCMatriz3D<T> & matriz)
+			: TCMatriz3D<T> (matriz), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		// --------------------------------------------------------------Destrutor
@@ -107,7 +109,7 @@ class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fa
 		// ----------------------------------------------------------------Métodos
 		/// Verifica se a imagem contem o ponto   // checaIndice
 		inline bool Contem ( int i, int j, int k) const {
-			return (i < nx && j < ny && k < nz) ? 1 : 0;
+			return (i < TCMatriz3D<T>::nx && j < TCMatriz3D<T>::ny && k < TCMatriz3D<T>::nz) ? 1 : 0;
 		}
 
 		/// Armazena no arquivo .dbm, em forma de comentário, as informações de reconstrução da imagem. Deve ser chamado após CMatriz3D::SalvaCabecalho().
@@ -198,6 +200,8 @@ class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fa
 		// -----------------------------------------------------------------Friend
 		//       friend ostream& operator<< (ostream& os, CImagem3D& obj);
 		//       friend istream& operator>> (istream& is, CImagem3D& obj);
+		// A partir daqui IMAGE3D é um ponteiro para CImagem3D
+		typedef CImagem3D<T> *IMAGE3D;
 };
 
 // -----------------------------------------------------------------Friend
@@ -205,7 +209,6 @@ class CImagem3D : public TCMatriz3D<int>//, public CImg //comentei para poder fa
 // ostream& operator<< (ostream& os, CImagem3D& obj);
 // istream& operator>> (istream& is, CImagem3D& obj);
 
-// A partir daqui IMAGE3D é um ponteiro para CImagem3D
-typedef CImagem3D *IMAGE3D;
+#include <Matriz/CImagem3D.cpp>
 
 #endif

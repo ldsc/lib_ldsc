@@ -78,7 +78,7 @@ CFEEsqueletoV1::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
 
   int im1, i_1, jm1, j_1;	// 
 
-	vector< vector<int> > idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
+	Matriz2D(int) idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
 
 
   for (int v = valorMinimo; v < valorMaximo; v++)	// Percorre a imagem do valor minimo ao máximo

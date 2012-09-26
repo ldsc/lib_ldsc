@@ -22,17 +22,12 @@ email:            andreduartebueno@gmail.com
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
+#ifndef CImagem3D_h
 #include <Matriz/CImagem3D.h>
+#endif
 
-/*
-----------------------------------------------------------------------------
-Atributos estticos da classe
-----------------------------------------------------------------------------
-*/
-//  int CImagem3D::PRETO=0;
-//  int CImagem3D::BRANCO=255;
-
-void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const {
+template< typename T >
+void CImagem3D<T>::SalvaInformacoesRecontrucao (ofstream & fout) const {
     if (fout) {
         fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
         fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
@@ -40,7 +35,8 @@ void CImagem3D::SalvaInformacoesRecontrucao (ofstream & fout) const {
     }
 }
 
-bool CImagem3D::LeInformacoesRecontrucao (ifstream & fin) {
+template< typename T >
+bool CImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
     if (fin.good()) {
         int posInicial = fin.tellg();		//guarda a posição de leitura no arquivo.
         char linha[256];
@@ -80,7 +76,8 @@ bool CImagem3D::LeInformacoesRecontrucao (ifstream & fin) {
     return false;
 }
 
-bool CImagem3D::LeInformacoesRecontrucao (string fileName) {
+template< typename T >
+bool CImagem3D<T>::LeInformacoesRecontrucao (string fileName) {
     ifstream fin;									// Ponteiro para arquivo de disco
     CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
     if (fin.good ()) {								// Se o arquivo foi corretamente aberto
@@ -99,8 +96,9 @@ Funcao:
 @param  :
 @return :
 */
-void CImagem3D::SalvaCabecalho (ofstream & fout) const {
-	TCMatriz3D<int>::SalvaCabecalho (fout);
+template< typename T >
+void CImagem3D<T>::SalvaCabecalho (ofstream & fout) const {
+	TCMatriz3D<T>::SalvaCabecalho (fout);
 	SalvaInformacoesRecontrucao(fout);
 }
 

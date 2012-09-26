@@ -32,6 +32,7 @@ Desenvolvido por:
 #endif
 
 #include <Matriz/TCMatriz2D.h>
+#include <vector>
 
 /**
  * @brief Representa uma matriz 3D.
@@ -61,6 +62,9 @@ Desenvolvido por:
  * @author 	André Duarte Bueno
  * @see		Matriz
 */
+
+#define Matriz3D(tipo) vector< vector< vector<tipo> > >
+
 template< typename T >
 class TCMatriz3D : public CBaseMatriz
 {
@@ -77,13 +81,13 @@ class TCMatriz3D : public CBaseMatriz
 		enum E_eixo { EIXO_X, EIXO_Y, EIXO_Z };
 
 		/// Ponteiro para matriz 3D
-		T ***data3D;
+		Matriz3D(T) data3D;
 
 		/// Alocal matriz 3D e retorna ponteiro int***
-		static T ***AlocaMatriz3D (int nx, int ny, int nz);
+		bool AlocaMatriz3D (int _nx, int _ny, int _nz);
 
 		/// Desaloca matriz 3D
-		static bool DesalocaMatriz3D (T ***dat, int nx, int ny, int nz);
+		static void DesalocaMatriz3D (Matriz3D(T) &dat, int nx, int ny, int nz);
 
 		// -------------------------------------------------------------Construtor
 		// Metodos construtores
@@ -121,30 +125,19 @@ class TCMatriz3D : public CBaseMatriz
 
 		// Alocacao, Desalocacao
 		/// Aloca a matriz
-		virtual bool Aloca ()
-		{
-			data3D = TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
-			return data3D ? 1 : 0;
+		virtual bool Aloca () {
+			return TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
 		}
 
 		/// Desaloca a matriz
-		virtual bool Desaloca ()
-		{
+		virtual bool Desaloca () {
 			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
-			return data3D ? 0 : 1;
+			return data3D.empty();
 		}
 
 	public:
 		/// Redimensiona  a matriz
-		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
-		{
-			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
-			nx = NX;
-			ny = NY;
-			nz = NZ;
-			data3D = TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
-			return data3D ? true : false;
-		}
+		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0);
 
 		/// Salva dados do cabecalho
 		virtual void SalvaCabecalho (std::ofstream & fout) const;
@@ -159,76 +152,67 @@ class TCMatriz3D : public CBaseMatriz
 		virtual void SalvaDados (std::ofstream & fout) const;
 
 		/// Checa indice de acesso, retorna true/false
-		int ChecaIndice (int NX, int NY, int NZ) const
-		{
-			return (NX >= 0 && NX < (int) nx &&
-							NY >= 0 && NY < (int) ny &&
-							NZ >= 0 && NZ < (int) nz)
-					? 1 : 0;
+		bool ChecaIndice (int NX, int NY, int NZ) const {
+			return (NX >= 0 && NX < (int) nx && NY >= 0 && NY < (int) ny && NZ >= 0 && NZ < (int) nz) ? 1 : 0;
 		}
 
-		/// Como é chamada pelo construtor nao pode ser virtual
-		bool Read (std::string fileName, int separado = 1);
+		/// Lê matriz 3D de uma arquivo.
+		bool Read (std::string fileName, int separado = 1); //Como é chamada pelo construtor nao pode ser virtual
 
 		/// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY).
 		bool ReadRAW (std::string fileName, int _nx, int _ny, int _nz, EImageType tipo = D4_X_Y_Z_BINARY); // Como é chamada pelo construtor nao pode ser virtual
 
 		/// lê o plano z da matriz 3D e retona a matriz 2D correspondente ao plano lido.
-		TCMatriz2D< int >* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);
+		TCMatriz2D<T>* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);
 
 		/// lê a matriz 3D na direção e plano informados e seta na matriz 2D passada como parametro. As direções podem ser: x, y, z ou X, Y, Z ou i, j, k ou I, J, K.
-		bool LePlano (TCMatriz2D< int > * pm2D, int plano, E_eixo direcao = EIXO_Z);
+		bool LePlano (TCMatriz2D<T> * pm2D, int plano, E_eixo direcao = EIXO_Z);
 
 		/// rotaciona a imagem 3D, 90 graus a direita no eixo informado
 		bool Rotacionar90 (E_eixo axis = EIXO_Z);
 
 		/// Preenche com valor constante
-		virtual void Constante (int cte);
+		virtual void Constante (T cte);
 
 		/// Inverte valores (0)-->(1)  (>0) -->0
 		virtual void Inverter ();
 
-		/// Retorna para os as propriedades da matriz
-		virtual void Propriedades (std::ofstream & os) const;
-
 		/// Retorna o maior valor da matriz
-		virtual int MaiorValor () const;
+		int MaiorValor () const;
 
 		/// Retorna o menor valor da matriz
-		virtual int MenorValor () const;
+		int MenorValor () const;
 
 		/// Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
-		virtual int MenorValorNzero () const;
+		int MenorValorNzero () const;
 
 		/// Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
-		virtual pair<int,int> MaiorMenorValorNzero () const;
+		pair<T,T> MaiorMenorValorNzero () const;
 
 		/// Calcula e retorna a média
 		virtual double Media () const;
 
 		/// Troca todos os valores i por j no vetor
-		virtual int Replace (int i, int j);
+		int Replace (T i, T j);
 
 		// -------------------------------------------------------------Sobrecarga
 		/// Sobrecarga operator+
-		TCMatriz3D< T > & operator+ (TCMatriz3D< T > & pm3);
+		TCMatriz3D<T> & operator+ (TCMatriz3D<T> & pm3);
 
 		/// Sobrecarga operator-
-		TCMatriz3D< T > & operator- (TCMatriz3D< T > & pm3);
+		TCMatriz3D<T> & operator- (TCMatriz3D<T> & pm3);
 
 		/// Sobrecarga operator+=
-		TCMatriz3D< T > & operator= (TCMatriz3D< T > & pm3);
-		// TCMatriz2D< int >* operator*(TCMatriz2D< int >*& m2);
+		TCMatriz3D<T> & operator= (TCMatriz3D<T> & pm3);
 
 		/// Sobrecarga operator==
-		bool operator== (TCMatriz3D< T > & pm3);
+		bool operator== (TCMatriz3D<T> & pm3);
 
 		/// Sobrecarga operator!=
-		bool operator!= (TCMatriz3D< T > & pm3);
+		bool operator!= (TCMatriz3D<T> & pm3);
 
 		/// Sobrecarga operator()
-		inline T &operator  () (int x, int y, int z) const
-		{
+		inline T &operator  () (int x, int y, int z) const {
 			return data3D[x][y][z];
 		}
 
@@ -241,52 +225,44 @@ class TCMatriz3D : public CBaseMatriz
 		// --------------------------------------------------------------------Get
 	public:
 		/// Retorna nx
-		inline int NX () const
-		{
+		inline int NX () const {
 			return nx;
 		}
 
 		/// Retorna ny
-		inline int NY () const
-		{
+		inline int NY () const {
 			return ny;
 		}
 
 		/// Retorna nz
-		inline int NZ () const
-		{
+		inline int NZ () const {
 			return nz;
 		}
 
 		/// Retorna data3D
-		inline T ***Data3D () const
-		{
+		inline Matriz3D(T) & Data3D () {
 			return data3D;
 		}
 
 		/// Retorna DimensaoMatriz
-		virtual int DimensaoMatriz () const
-		{
+		virtual int DimensaoMatriz () const {
 			return 3;
 		}
 
 		// --------------------------------------------------------------------Set
 	public:
 		/// Seta nx
-		inline void NX (int NX)
-		{
+		inline void NX (int NX) {
 			nx = NX;
 		}
 
 		/// Seta ny
-		inline void NY (int NY)
-		{
+		inline void NY (int NY) {
 			ny = NY;
 		}
 
 		/// Seta nz
-		inline void NZ (int NZ)
-		{
+		inline void NZ (int NZ) {
 			nz = NZ;
 		}
 
@@ -308,19 +284,3 @@ class TCMatriz3D : public CBaseMatriz
 
 #endif
 
-/*
-Criar Funcoes do tipo:
-	 // Obtem uma matriz bidimensional de uma matriz tridimensional
-	GetMatriz2D(valorDeCorte, Direcao);
-	 // Obtem um vetor de uma matriz2D ou 3D
-	 GetVetor(valorDeCorte, Direcao);
-
-	 A direcao indice o plano de corte:
-	 3D: direcao=
-	 1->xy		data3D[i][j][nz];
-	 2->xz    data3D[i][ny][k];
-	 3->yz    data3D[nx][j][k];
-	 2D: direcao=
-	 1->linha 	data2D[i][ny];
-	 2->coluna   data2D[nx][j];
-*/

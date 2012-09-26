@@ -39,6 +39,9 @@ using namespace std;
  * @author 	André Duarte Bueno
  * @see		Veja assunto
 */
+
+#define Matriz2D(tipo) vector< vector <tipo> >
+
 template< typename T >
 class TCMatriz2D : public CBaseMatriz
 {
@@ -48,7 +51,7 @@ class TCMatriz2D : public CBaseMatriz
 		int nx;   	/// Dimensão nx
 
 	public:
-		vector< vector<T> > data2D; /// Matriz 2D
+		Matriz2D(T) data2D; /// Matriz 2D
 		// -------------------------------------------------------------Construtor
 		/// Construtor default, data2D=NULL nx=ny=0;
 		TCMatriz2D ();
@@ -121,10 +124,10 @@ class TCMatriz2D : public CBaseMatriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0);
 
 		/// Aloca uma matriz de dados 2D qualquer.
-		bool AlocaMatriz2D(int nx, int ny);
+		bool AlocaMatriz2D(int _nx, int _ny);
 
 		/// Desaloca dat
-		static void DesalocaMatriz2D (vector< vector<T> > &dat, int nx, int ny);
+		static void DesalocaMatriz2D (Matriz2D(T) &dat, int nx, int ny);
 
 		/// Preenche com valor constante
 		virtual void Constante (T cte);
@@ -132,21 +135,17 @@ class TCMatriz2D : public CBaseMatriz
 		/// Inverte valores (0)-->(1)  (>0)-->(0)
 		virtual void Inverter ();
 
-		/// Retorna para os as propriedades da matriz
-		virtual void Propriedades (std::ofstream & os) const;
-		// virtual void        Propriedades(std::ostream& os)const;
-
 		/// Retorna o maior valor da matriz
-		virtual int MaiorValor() const;
+		T MaiorValor() const;
 
 		/// Retorna o menor valor da matriz
-		virtual int MenorValor() const;
+		T MenorValor() const;
 
 		/// Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
-		virtual T MenorValorNzero() const;
+		T MenorValorNzero() const;
 
 		/// Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
-		virtual pair<T, T> MaiorMenorValorNzero() const;
+		pair<T, T> MaiorMenorValorNzero() const;
 
 		/// Calcula e retorna a média
 		virtual double Media () const;
@@ -156,7 +155,7 @@ class TCMatriz2D : public CBaseMatriz
 		}
 
 		/// Troca todos os valores i por j no vetor, retorna o numero de elementos trocados
-		virtual int Replace (int i, int j);
+		int Replace (T i, T j);
 
 		bool ChecaIndice (int NX, int NY) const {
 			return (NX >= 0 && NX < nx && NY >= 0 && NY < ny) ? 1 : 0;
@@ -220,7 +219,7 @@ class TCMatriz2D : public CBaseMatriz
 		}
 
 		/// Retorna data2D
-		inline vector< vector<T> > & Data2D () {
+		inline Matriz2D(T) & Data2D () {
 			return data2D;
 		}
 

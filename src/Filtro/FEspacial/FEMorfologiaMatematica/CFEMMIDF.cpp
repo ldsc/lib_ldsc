@@ -144,7 +144,7 @@ TCMatriz2D< int > * CFEMMIDF::Erosao ( TCMatriz2D< int > * &matriz, unsigned int
    CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
    // Processamento da erosao em si
    register int raioBolaInclusa = maskd->RaioBolaInclusa ();
-   register int **pmdata2D = pm->Data2D ();	// otimizacao
+	 register vector< vector<int> > pmdata2D = pm->Data2D ();	// otimizacao
    for ( int j = 0; j < ny; j++ ) {
       for ( int i = 0; i < nx; i++ ) {
          // se o ponto da idf for maior que a bola tangente, faz ponto=1
@@ -174,7 +174,7 @@ TCMatriz2D< int > * CFEMMIDF::Dilatacao ( TCMatriz2D< int > * &matriz, unsigned 
 
    // Processamento da Dilatacao em si
    int mi = Mi ();		// funcao definida na CFEMMIDF, redeclarada nas filhas
-   register int **pmdata2D = pm->Data2D ();
+	 register vector< vector<int> > pmdata2D = pm->Data2D ();
    for ( int j = 0; j < ny; j++ )	// percorre toda a idf e
       for ( int i = 0; i < nx; i++ )	// pinta pontos na imagem
          if ( data2D[i][j] >= mi )
@@ -186,7 +186,7 @@ TCMatriz2D< int > * CFEMMIDF::Dilatacao ( TCMatriz2D< int > * &matriz, unsigned 
    int raio = maskd->RaioX ();
    // int raioBolaInclusa=maskd->RaioBolaInclusa();
    // int raioBolaTangente=maskd->RaioBolaTangente();
-   register int **maskdata2D = maskd->Data2D ();
+	 register vector< vector<int> > maskdata2D = maskd->Data2D ();
    register int rmx;		// raio mais x, raio+x
    // Variáveis para SIMETRIA Bola
    int posxe, posxd;		// x esquerda e x direita
@@ -272,11 +272,11 @@ TCMatriz2D< int > * CFEMMIDF::Abertura ( TCMatriz2D< int > * &matriz, unsigned i
    register int raio = maskd->RaioX ();
    int raioBolaTangente = maskd->RaioBolaTangente ();
    int raioBolaInclusa = maskd->RaioBolaInclusa ();
-   register int **maskdata2D = maskd->Data2D ();
+	 register vector< vector<int> > maskdata2D = maskd->Data2D ();
    register int rmx;		// raio mais x, raio+x
 
    // Otimizacao Imagem
-   register int **pmdata2D = pm->Data2D ();
+	 register vector< vector<int> > pmdata2D = pm->Data2D ();
 
    // Variáveis para SIMETRIA Bola   // otimizacao
    unsigned int posxe, posxd;	// x esquerda e x direita
@@ -333,7 +333,7 @@ void CFEMMIDF::CorrigeAbertura ( TCMatriz2D< int > * &matriz, int &regiao ) {
    /*
      *    static int contMasK = 1;
      *    sprintf (fileName, "idfMascara%d.pgm", contMasK++);
-     *    idfMask->WriteFormat( WRITEFORM_PI_X_Y_GRAY_ASCII );
+     *    idfMask->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
      *      idfMask->NumCores( idfMask->MaiorValor()+1 );
      *    idfMask->Write(fileName);
      */
@@ -344,7 +344,7 @@ void CFEMMIDF::CorrigeAbertura ( TCMatriz2D< int > * &matriz, int &regiao ) {
    //grava em disco a IDF da imagem abertura.
    static int contAbertura = 1;
    sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
-	 idfAbertura->WriteFormat ( P2_X_Y_GRAY_ASCII );
+	 idfAbertura->SetFormato ( P2_X_Y_GRAY_ASCII );
    idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
    idfAbertura->Write ( fileName );
 

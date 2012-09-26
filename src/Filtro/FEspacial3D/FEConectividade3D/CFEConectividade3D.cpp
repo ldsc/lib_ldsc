@@ -84,7 +84,7 @@ CImagem3D * CFEConectividade3D::GetImagemConectada ( CImagem3D * pmOrig) {
   cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int) não conseguiu criar CImagem3D" << endl;
   return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
  }
- pmCon->WriteFormat(pmOrig->GetFormat());
+ pmCon->SetFormato(pmOrig->GetFormato());
  pmCon->NumCores(pmOrig->NumCores());
  pmCon->Path(pmOrig->Path());
  pmCon->fatorAmplificacao = pmOrig->FatorAmplificacao();

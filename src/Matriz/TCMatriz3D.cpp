@@ -1059,3 +1059,22 @@ void TCMatriz3D<T>::Propriedades (ofstream & os) const {
 	CBaseMatriz::Propriedades (os);
 	os << "\nDimensoes: nx=" << nx << " ny=" << ny << " nz=" << nz;
 }
+
+template< typename T >
+void TCMatriz3D<T>::SetFormato(EImageType _formato){
+	if(formatoImagem != _formato){
+		switch(_formato){
+			case D1_X_Y_Z_ASCII:
+			case D2_X_Y_Z_GRAY_ASCII:
+			case D3_X_Y_Z_COLOR_ASCII:
+			case D4_X_Y_Z_BINARY:
+			case D5_X_Y_Z_GRAY_BINARY:
+			case D6_X_Y_Z_COLOR_BINARY:
+				formatoImagem=_formato;
+				break;
+			default:
+				cerr << "Foi informato um formato inválido em TCMatriz3D<T>::SetFormato()" << endl;
+				break;
+		}
+	}
+}

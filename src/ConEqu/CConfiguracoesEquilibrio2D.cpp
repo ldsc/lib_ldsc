@@ -480,7 +480,7 @@ void CConfiguracoesEquilibrio2D::SolucaoFinal (TCMatriz2D< int > * &imagem)
 	os << "10-SolucaoFinal-Passo-" << setw(4) << right << setfill('0') << contadorPassosExecutados << ".pgm";
 	fileName = os.str();
 									// novidade
-	imagem->WriteFormat (P2_X_Y_GRAY_ASCII);
+	imagem->SetFormato (P2_X_Y_GRAY_ASCII);
  	imagem->NumCores (imagem->MaiorValor());
 	imagem->Write (os.str().c_str());	//  A cada passo, deve salvar a configuracao final de equilibrio
   }
@@ -560,7 +560,7 @@ void CConfiguracoesEquilibrio2D::Salvar (TCMatriz2D< int > * &imagem, string msg
   sprintf (fileName, buffer.c_str (), contadorPassosExecutados);
 
   if (salvarResultadosParciaisDisco == 1) { 
-		imagem->WriteFormat( P2_X_Y_GRAY_ASCII );
+		imagem->SetFormato( P2_X_Y_GRAY_ASCII );
   	int cores = imagem->MaiorValor();
   	imagem->NumCores( (cores >= 2) ? cores : cores+2 );
     	imagem->Write (fileName);

@@ -165,7 +165,6 @@ class CBaseMatriz
 
 		// -------------------------------------------------------------Construtor
 		/// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
-		//CBaseMatriz (int _formatoSalvamento = WRITEFORM_ASCII_PI_N_256_DATA)
 		CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./") :formatoImagem (_formatoImagem), path(_path)
 		{
 		}
@@ -246,19 +245,9 @@ class CBaseMatriz
 		EImageType VerificaFormato (std::ifstream & fin);
 
 		/**
-	 * @brief Define a variável de formato de salvamente (e leitura) de dados
-	*/
-		// old-old = WRITEFORM_ASCII_PI_N_256_DATA
-		// old = WRITEFORM_ASCII_PI_N_MAXCOLOR_DATA
-		void WriteFormat (EImageType _formato = P2_X_Y_GRAY_ASCII)
-		{
-			formatoImagem = _formato;
-		}
-
-		/**
 	 * @brief Retona o valor da variável de formato de salvamente (e leitura) de dados
 	*/
-		inline EImageType GetFormat () const { return formatoImagem; }
+		inline EImageType GetFormato () const { return formatoImagem; }
 
 		/**
 	 * @brief Define a variável que informa o número de tons de cores ou de cinza
@@ -286,6 +275,11 @@ class CBaseMatriz
 		// Metodos herdados virtuais
 		// -----------------------------------------------------------------------
 		// Alocacao, Desalocacao
+		/**
+	 * @brief Define a variável de formato de salvamente (e leitura) de dados
+	*/
+		virtual void SetFormato (EImageType _formato)= 0;
+
 		/**
 	 *   @brief Funcoes virtuais de alocacao.
 	*/

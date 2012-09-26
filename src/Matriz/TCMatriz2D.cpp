@@ -44,7 +44,7 @@ template< typename T >
 TCMatriz2D<T>::TCMatriz2D () : CBaseMatriz() {
 	nx = 0;
 	ny = 0;
-	data2D = NULL;
+	data2D.clear();
 	formatoImagem = P2_X_Y_GRAY_ASCII;
 	numCores = 255;
 }
@@ -63,7 +63,7 @@ Funcao: construtor
 template< typename T >
 TCMatriz2D<T>::TCMatriz2D (string fileName) : CBaseMatriz() {
 	nx = ny = 0;
-	data2D = NULL;
+	data2D.clear();
 	TCMatriz2D<T>::Read(fileName);
 	size_t pos = fileName.rfind("/");
 	if (pos!=string::npos)
@@ -84,7 +84,7 @@ template< typename T >
 TCMatriz2D<T>::TCMatriz2D(string fileRAW, int _nx, int _ny, EImageType tipo) : CBaseMatriz() {
 	nx = 0;					// será setado em ReadRAW()
 	ny = 0;					// será setado em ReadRAW()
-	data2D = NULL;	// será setado em ReadRAW()
+	data2D.clear();	// será setado em ReadRAW()
 	TCMatriz2D<T>::ReadRAW(fileRAW, _nx, _ny, tipo);
 	size_t pos = fileRAW.rfind("/");
 	if (pos!=string::npos)
@@ -104,7 +104,7 @@ Funcao: construtor
 template< typename T >
 TCMatriz2D<T>::TCMatriz2D (string fileName, int planoZ) : CBaseMatriz() {
 	nx = ny = 0;
-	data2D = NULL;
+	data2D.clear();
 	TCMatriz2D<T>::LePlanoZ (fileName, planoZ);
 	size_t pos = fileName.rfind("/");
 	if (pos!=string::npos)
@@ -127,8 +127,8 @@ TCMatriz2D<T>::TCMatriz2D (TCMatriz2D<T> & matriz, unsigned int borda) : CBaseMa
 	nx = matriz.nx + (2*borda);			// Define dimensoes
 	ny = matriz.ny + (2*borda);
 	data2D = TCMatriz2D<T>::AlocaMatriz2D(nx, ny);
-	if( data2D )	{// Aloca data2D
-		Constante(0); // Zera a imagem criada // posteriormente otimizar, zerando somente as bordas
+	if( ! data2D.empty() )	{// Aloca data2D
+		//Constante(0); //já está alocando zerada // Zera a imagem criada // posteriormente otimizar, zerando somente as bordas
 		for (int i = borda; i < nx - borda; i++)	// Copia região central
 			for (int j = borda; j < ny - borda; j++)
 				this->data2D[i][j] = matriz.data2D[i][j];
@@ -149,23 +149,13 @@ template< typename T >
 TCMatriz2D<T>::TCMatriz2D (TCMatriz2D<T> & matriz) : CBaseMatriz(matriz.formatoImagem, matriz.path) {
 	nx = matriz.nx;			// Define dimensoes
 	ny = matriz.ny;
-	data2D = TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
-	if( data2D )	// Aloca data2D
+	data2D.clear();
+	if( TCMatriz2D<T>::AlocaMatriz2D (nx, ny) )	// Aloca data2D
 		for (int i = 0; i < nx; i++)	// Copia membro a membro
 			for (int j = 0; j < ny; j++)
 				this->data2D[i][j] = matriz.data2D[i][j];
 }
-/*TCMatriz2D::TCMatriz2D(TCMatriz2D* matriz)
-{
- nx = matriz->nx;				// Define dimensoes
- ny = matriz->ny;
- data2D = AlocaMatriz2D(nx,ny);   	// Aloca data2D
 
- for (  int i = 0; i < nx; i++)  	// Copia membro a membro
- for (  int j = 0; j < ny; j++)
-		this->data2D[i][j] = matriz->data2D[i][j];
-}
-*/
 /**
 -------------------------------------------------------------------------
 Funcao:
@@ -182,7 +172,8 @@ TCMatriz2D<T>::TCMatriz2D (int NX, int NY) : CBaseMatriz() {
 	ny = NY;
 	formatoImagem = P2_X_Y_GRAY_ASCII;
 	numCores = 255;
-	data2D = TCMatriz2D<T>::AlocaMatriz2D (nx, ny);	// aloca data2D
+	data2D.clear();
+	TCMatriz2D<T>::AlocaMatriz2D (nx, ny);	// aloca data2D
 }
 
 /**
@@ -210,28 +201,23 @@ ponteiro para ponteiro
 @return :
 */
 template< typename T >
-T ** TCMatriz2D<T>::AlocaMatriz2D (int nx, int ny) {
-	int i;			//
-	T **dat = NULL;		// Cria ponteiro nulo
-	dat = new T *[nx];		// Passo 1: aloca eixo x
-	if (dat) {			// se alocou dat corretamente
-		for (i = 0; i < nx; i++)	// Zera todos os ponteiros dat[i]
-			dat[i] = NULL;		// porque se a alocacao der errado vai chamar desaloca
-		for (i = 0; i < nx; i++) {
-			dat[i] = new T[ny];	// Passo 2: aloca linhas y
-			if (dat[i] == NULL) {	// Se a linha nao foi corretamente alocada
-				TCMatriz2D<T>::DesalocaMatriz2D (dat, nx, ny); // Para evitar vazamento de memoria
+bool TCMatriz2D<T>::AlocaMatriz2D(int nx, int ny) {
+	data2D.resize(nx);		// Cria matriz vazia
+	if (! data2D.empty() ) {			// se alocou dat corretamente
+		for (int i = 0; i < nx; i++) {
+			data2D[i].resize(ny,0); //redimensiona e zera o conteúdo
+			if ( data2D[i].empty() ) {	// Se a linha nao foi corretamente alocada
+				TCMatriz2D<T>::DesalocaMatriz2D (data2D, nx, ny); // Para evitar vazamento de memoria
 				cerr << "Não alocou Matriz 2D em TCMatriz2D<T>::AlocaMatriz2D (nx, ny)" << endl;
-				return 0;
+				return false;
 			}
-			// Desaloca toda a matriz ja alocada dat=null,nx=ny=0 e retorna.
+			return true;
 		}	// O que nao foi alocado esta com NULL e pode ser deletado
-		return dat;
 	} else { // se nao alocou corretamente dat=0
 		nx = ny = 0;		// ou verifica data2D ou faz nx=ny=0
 		cerr << "Não alocou Matriz 2D em TCMatriz2D<T>::AlocaMatriz2D (nx, ny)" << endl;
-		return 0;			// informa retornando 0
 	}
+	return false;
 }
 
 /**
@@ -245,18 +231,13 @@ Funcao:
 @return :
 */
 template< typename T >
-bool TCMatriz2D<T>::DesalocaMatriz2D (T **&dat, int nx, int ny) {
-	if (dat != NULL)
-	{
+void TCMatriz2D<T>::DesalocaMatriz2D (vector<vector<T> > &dat, int nx, int ny) {
+	if ( ! dat.empty() ) {
 		for (int i = 0; i < nx; i++)
-			if ( dat[i] )
-				delete [] dat[i];	//  Passo 1: apaga linhas y
-		delete [] dat;				//  Passo 2: apaga eixo x
-		dat = NULL;
+			dat[i].clear();
+		dat.clear();
 		nx = ny = 0;				// opcional, evita uso indevido de data2D
-		return 1;
 	}
-	return 0;
 }
 
 
@@ -282,7 +263,7 @@ bool TCMatriz2D<T>::Read2D (std::string inputFile, float * & _reData, int _nx, i
 	if (fin.fail ())
 		return 0;
 	// Lê imagem do disco
-	T aux;
+	float aux;
 	for (int cy = 0; cy < (_ny); cy++)
 		for (int cx = 0; cx < (_nx); cx++) {
 			fin >> aux;
@@ -497,6 +478,7 @@ void TCMatriz2D<T>::SalvaCabecalho (ofstream & fout) const {
 				break;
 			default:
 				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
+				cerr << "Formato inválido em TCMatriz2D<T>::SalvaCabecalho. Utilizado valor default!" << endl;
 				break;
 		} // Valor de nCores é salva em CBaseMatriz, depois de chamar SalvaCabecalho.
 	}
@@ -629,8 +611,7 @@ bool TCMatriz2D<T>::Read (string fileName, int separado) {
 				return false;
 			default: break; //Evitar warming do compilador.
 		}
-		data2D = TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
-		if ( data2D ) {			// Aloca a matriz de dados
+		if ( TCMatriz2D<T>::AlocaMatriz2D (nx, ny) ) {			// Aloca a matriz de dados
 			if (separado != 0)							// Leitura dos dados da matriz
 				TCMatriz2D<T>::LeDados (fin);				// Lê os dados separados
 			else
@@ -654,8 +635,7 @@ bool TCMatriz2D<T>::ReadRAW(string fileName, int _nx, int _ny, EImageType tipo) 
 	if (fin.good ()) { // Se o arquivo foi corretamente aberto
 		nx = _nx;
 		ny = _ny;
-		data2D = AlocaMatriz2D (nx, ny);
-		if ( data2D ) {	// Aloca a matriz de dados
+		if ( TCMatriz2D<T>::AlocaMatriz2D (nx, ny) ) {	// Aloca a matriz de dados
 			formatoImagem = P5_X_Y_GRAY_BINARY;			// força leitura como tons de cinza
 			TCMatriz2D<T>::LeDadosBinarios (fin);				// Lê os dados separados
 			formatoImagem = tipo;										// seta o real formato da imagem
@@ -835,10 +815,9 @@ bool TCMatriz2D<T>::LePlanoZ (string fileName, int planoZ, bool separado) {
 				cerr << "Formato de arquivo inválido em TCMatriz2D<T>::LePlanoZ" << endl;
 				return 0;
 		}
-		if(data2D)
+		if( ! data2D.empty() )
 			TCMatriz2D<T>::DesalocaMatriz2D(data2D, nx, ny);
-		data2D = TCMatriz2D<T>::AlocaMatriz2D (nx, ny);				// Aloca a matriz de dados
-		if (data2D) {
+		if (TCMatriz2D<T>::AlocaMatriz2D (nx, ny)) { // Aloca a matriz de dados
 			int i, j, k, temp;
 			if (planoZ > nz - 1)						// O plano a ser lido nao pode ser maior que nz-1
 				planoZ = nz - 1;							// se nz=5 (0,1,2,3,4) planoZ <= 4
@@ -875,8 +854,9 @@ bool TCMatriz2D<T>::Redimensiona(int NX, int NY, int NZ) {
 		nx = NX;
 		ny = NY;
 		NZ = 0; // evitar warning
-		data2D = TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
-		return data2D ? 1 : 0;
+		data2D.clear();
+		TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
+		return data2D.empty();
 	}
 	return true; // não precisou redimensionar...
 }
@@ -1076,579 +1056,21 @@ void TCMatriz2D<T>::Propriedades (ofstream & os) const {
 	os << "\nDimensoes: nx=" << nx << " ny=" << ny << endl;
 }
 
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/* Especialização da Classe tamplate para o tipo bool */
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-/********************************************************************************/
-
-// Construtor Default
-template<>
-TCMatriz2D<bool>::TCMatriz2D() : CBaseMatriz() {
-	nx = 0;
-	ny = 0;
-	data2D.clear();
-	formatoImagem = P4_X_Y_BINARY;
-	numCores = 0;
-}
-
-// Construtor que lê matriz do arquivo
-template<>
-TCMatriz2D<bool>::TCMatriz2D(string fileName) : CBaseMatriz() {
-	nx = ny = 0;
-	data2D.clear();
-	TCMatriz2D<bool>::Read(fileName);
-	size_t pos = fileName.rfind("/");
-	if (pos!=string::npos)
-		path = fileName.substr(0, pos+1);
-}
-
-// Construtor que le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo da imagem.
-template<>
-TCMatriz2D<bool>::TCMatriz2D(string fileRAW, int _nx, int _ny, EImageType tipo) : CBaseMatriz() {
-	nx = 0;					// será setado em ReadRAW()
-	ny = 0;					// será setado em ReadRAW()
-	data2D = NULL;	// será setado em ReadRAW()
-	TCMatriz2D<bool>::ReadRAW(fileRAW, _nx, _ny, tipo);
-	size_t pos = fileRAW.rfind("/");
-	if (pos!=string::npos)
-		path = fileRAW.substr(0, pos+1);
-}
-
-// Construtor que recebe o nome do arquivo de disco e o número do plano a ser lido
-template<>
-TCMatriz2D<bool>::TCMatriz2D(string fileName, int planoZ) : CBaseMatriz() {
-	nx = ny = 0;
-	data2D.clear();
-	TCMatriz2D<bool>::LePlanoZ (fileName, planoZ);
-	size_t pos = fileName.rfind("/");
-	if (pos!=string::npos)
-		path = fileName.substr(0, pos+1);
-}
-
-// Construtor que cria copia com borda extendida, a imagem fica centralizada.
-template<>
-TCMatriz2D<bool>::TCMatriz2D(TCMatriz2D<bool> & matriz, unsigned int borda) : CBaseMatriz(matriz.formatoImagem, matriz.path) {
-	nx = matriz.nx + (2*borda);			// Define dimensoes
-	ny = matriz.ny + (2*borda);
-	data2D = TCMatriz2D<bool>::AlocaMatriz2D(nx, ny);
-	if( data2D )	{// Aloca data2D
-		for (int i = borda; i < nx - borda; i++)	// Copia região central
-			for (int j = borda; j < ny - borda; j++)
-				this->data2D[i][j] = matriz.data2D[i][j];
-	}
-}
-
-// Construtor que cria copia da matriz
-template<>
-TCMatriz2D<bool>::TCMatriz2D(TCMatriz2D<bool> & matriz) : CBaseMatriz(matriz.formatoImagem, matriz.path) {
-	nx = matriz.nx;			// Define dimensoes
-	ny = matriz.ny;
-	data2D = TCMatriz2D<bool>::AlocaMatriz2D (nx, ny);
-	if( data2D.size() != 0 )	// Aloca data2D
-		for (int i = 0; i < nx; i++)	// Copia membro a membro
-			for (int j = 0; j < ny; j++)
-				this->data2D[i][j] = matriz.data2D[i][j];
-}
-
-// Construtor que cria uma matriz vazia com as dimensões informadas
-template<>
-TCMatriz2D<bool>::TCMatriz2D(int NX, int NY) : CBaseMatriz() {
-	nx = NX;			// define valores
-	ny = NY;
-	formatoImagem = P4_X_Y_BINARY;
-	numCores = 0;
-	data2D = TCMatriz2D<bool>::AlocaMatriz2D (nx, ny);	// aloca data2D
-}
-
-// Método que aloca uma matriz booleana do tipo dynamic_bitset
-template<>
-vector< dynamic_bitset<> > & TCMatriz2D<bool>::AlocaMatriz2D (int nx, int ny) {
-	vector< dynamic_bitset<> > dat(nx); //cria vetor de dynamic_bitset do tamanho nx
-	if ( ! dat.empty() ) {
-		for (int i = 0; i < nx; i++) {
-			dat[i].resize(ny);							//redimensiona o dynamic_bitset para o tamanho ny
-			if (dat[i].empty()) {						// Se a linha nao foi corretamente alocada
-				TCMatriz2D<bool>::DesalocaMatriz2D (dat, nx, ny); // Para evitar vazamento de memoria
-				cerr << "Não alocou Matriz 2D em TCMatriz2D<bool>::AlocaMatriz2D (nx, ny)" << endl;
-				return 0;
-			}
-			return dat;
-		}
-	} else { // se nao alocou corretamente dat=0
-		nx = ny = 0;		// ou verifica data2D ou faz nx=ny=0
-		cerr << "Não alocou Matriz 2D em TCMatriz2D<bool>::AlocaMatriz2D (nx, ny)" << endl;
-		return 0;			// informa retornando 0
-	}
-}
-
-// Método que desaloca a matriz.
-template<>
-bool TCMatriz2D<bool>::DesalocaMatriz2D (vector< dynamic_bitset<> > &dat, int nx, int ny) {
-	if ( ! dat.empty() ) {
-		for (int i = 0; i < nx; i++)
-			dat[i].clear();
-		dat.clear();
-		nx = ny = 0;				// opcional, evita uso indevido de data2D
-	}
-	return true;
-}
-
-
-// Método que lê uma matriz bidimensional de arquivo.
-// A matriz é  bidimensional mas o acesso é como em um vetor.
-// O arquivo possuí um vetor de float's e as dimensões nx e ny da matriz
-//#ifndef Real_E1(x,y)
-//#define Real_E1(x,y) _reData [(y)*_nx + (x)]
-//#endif
-
-template<>
-bool TCMatriz2D<bool>::Read2D (std::string inputFile, float * & _reData, int _nx, int _ny) {
-	// Abre arquivo disco
-	ifstream fin (inputFile.c_str ());
-	if (fin.fail ())
-		return 0;
-	// Lê imagem do disco
-	bool aux;
-	for (int cy = 0; cy < (_ny); cy++)
-		for (int cx = 0; cx < (_nx); cx++) {
-			fin >> aux;
-			// Real_E1(cx,cy) = aux;
-			_reData[(cy) * _nx + (cx)] = aux;
-		}
-	fin.close ();
-	return 1;
-}
-
-// Método que salva em arquivo a matriz bidimensional armazenada em vetor.
-template<>
-bool TCMatriz2D<bool>::Write2D (std::string inputFile, float * _reData, int _nx, int _ny) {
-	ofstream fout (inputFile.c_str ()); 	// Abre arquivo disco
-	if ( fout.fail() )
-		return false;
-	// Lê imagem do disco
-	for (int cy = 0; cy < (_ny); cy++) {
-		for (int cx = 0; cx < (_nx); cx++) {
-			fout << _reData[(cy) * _nx + (cx)];
-		}
-		fout << "\n";
-	}
-	fout.close ();
-	return true;
-}
-
-// Sobrecarga do operador +
-template<>
-TCMatriz2D<bool> & TCMatriz2D<bool>::operator+ (TCMatriz2D<bool> & matriz) {
-	int minx = std::min (this->nx, matriz.nx);
-	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			this->data2D[i][j] += matriz.data2D[i][j];
-	return *this;
-}
-
-// Sobrecarga do operador -
-template<>
-TCMatriz2D<bool> & TCMatriz2D<bool>::operator- (TCMatriz2D<bool> & matriz) {
-	int minx = std::min (this->nx, matriz.nx);
-	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			this->data2D[i][j] -= matriz.data2D[i][j];
-	return *this;
-}
-
-// Sobrecarga operador =
-template<>
-TCMatriz2D<bool> & TCMatriz2D<bool>::operator= (TCMatriz2D<bool> & matriz) {
-	int minx = std::min (this->nx, matriz.nx);
-	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			this->data2D[i][j] = matriz.data2D[i][j];	// deve igualar membro a membro
-	return *this;
-}
-
-// Sobrecarga operador ==
-template<>
-bool TCMatriz2D<bool>::operator== (TCMatriz2D<bool> & pmatriz) {
-	int minx = std::min (this->nx, pmatriz.nx);
-	int miny = std::min (this->ny, pmatriz.ny);
-	for (int i = 0; i < minx; i++)	// percorre as matrizes
-		for (int j = 0; j < miny; j++)
-			if (this->data2D[i][j] != pmatriz.data2D[i][i])	// se houver algum diferente
-				return 0;		// retorna false
-	return 1;			// senao retorna true
-}
-
-// Sobrecarga operador !=
-template<>
-bool TCMatriz2D<bool>::operator!= (TCMatriz2D<bool> & pmatriz) {
-	return !(TCMatriz2D<bool>::operator== (pmatriz));
-}
-
-// Método que salva em arquivo os dados do cabecalho
-template<>
-void TCMatriz2D<bool>::SalvaCabecalho (ofstream & fout) const {
-	if (fout) {	// testa abertura do arquivo
-		switch (formatoImagem) {
+template< typename T >
+void TCMatriz2D<T>::SetFormato(EImageType _formato){
+	if(formatoImagem != _formato){
+		switch(_formato){
 			case P1_X_Y_ASCII:
-				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
-				break;
+			case P2_X_Y_GRAY_ASCII:
+			case P3_X_Y_COLOR_ASCII:
 			case P4_X_Y_BINARY:
-				fout << setw (0) << "P4" << '\n' << nx << ' ' << ny;
+			case P5_X_Y_GRAY_BINARY:
+			case P6_X_Y_COLOR_BINARY:
+				formatoImagem=_formato;
 				break;
 			default:
-				fout << setw (0) << "P1" << '\n' << nx << ' ' << ny;
+				cerr << "Foi informato um formato inválido em TCMatriz2D<T>::SetFormato()" << endl;
 				break;
-		} // Valor de nCores é salva em CBaseMatriz, depois de chamar SalvaCabecalho.
-	}
-}
-
-// Salva dados no formato binario
-template<>
-void TCMatriz2D<bool>::SalvaDadosBinarios (ofstream & fout) const {
-	if (fout) {
-		/* //testar se funciona assim!!!
-		for (int i = 0; i < nx; i++) {
-			fout << data2D[i];
-		}
-		*/
-		int x, bit;
-		unsigned char c = 0;
-		for (int j = 0; j < ny; j++) {
-			for (int i = 0; i < nx; i++) {
-				x = 7 - i%8;
-				bit = (data2D[i][j])%2;
-				c = c | (bit << x);
-				if ( (i+1)%8 == 0 || i == (nx-1) ) {
-					fout << c;
-					c = 0;
-				}
-			}
 		}
 	}
-}
-
-// Salva dados "colados" sem espaço (ex.: 00110011110111101010) ou em formato binário
-template<>
-void TCMatriz2D<bool>::SalvaDadosColados (ofstream & fout) const {
-	if (formatoImagem == P1_X_Y_ASCII){
-		for (int j = 0; j < ny; j++) {
-			for (int i = 0; i < nx; i++) {
-				fout << data2D[i][j];
-			}
-			fout << '\n';
-		}
-	} else if (formatoImagem == P4_X_Y_BINARY)
-		TCMatriz2D<bool>::SalvaDadosBinarios(fout);
-	else
-		default: cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::SalvaDadosColados" << endl;
-}
-
-// Salva dados com um espaco (ex.: 0 0 1 1 0 0 1 1 1 1 0 1 1 1 1 0 1 0 1 0) ou em formato binário
-template<>
-void TCMatriz2D<bool>::SalvaDados (ofstream & fout) const {
-	if (formatoImagem == P1_X_Y_ASCII){
-		for (int j = 0; j < ny; j++) {
-			for (int i = 0; i < nx; i++) {
-				fout << data2D[i][j] << ' ';
-			}
-			fout << '\n';
-		}
-	} else if (formatoImagem == P4_X_Y_BINARY)
-		TCMatriz2D<bool>::SalvaDadosBinarios(fout);
-	else
-		default: cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::SalvaDados" << endl;
-}
-
-// Método que le os dados do arquivo e armazena em data2D.
-template<>
-bool TCMatriz2D<bool>::Read (string fileName, int separado) {
-	ifstream fin; // Ponteiro para arquivo de disco.
-	CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
-	//fin.open(fileName.c_str());
-	if (fin.good ()) { // Se o arquivo foi corretamente aberto
-		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
-		if (formatoImagem != P1_X_Y_ASCII && formatoImagem != P4_X_Y_BINARY) {
-			cerr << "Formato de arquivo inválido em  TCMatriz2D<bool>::Read" << endl;
-			return false;
-		}
-		//pega os valore de nx e ny ignorando os comentários
-		CBaseMatriz::LeComentarios(fin);
-		fin >> nx;
-		CBaseMatriz::LeComentarios(fin);
-		fin >> ny;
-		CBaseMatriz::LeComentarios(fin);
-		data2D = TCMatriz2D<bool>::AlocaMatriz2D (nx, ny); // Aloca a matriz de dados
-		if ( ! data2D.empty() ) {
-			if (separado != 0)							// Leitura dos dados da matriz
-				TCMatriz2D<bool>::LeDados (fin);				// Lê os dados separados
-			else
-				TCMatriz2D<bool>::LeDadosColados (fin);			// Lê os dados colados
-			fin.close();
-			return true;
-		}
-		fin.close();
-		cerr << "Não foi possível alocar matriz 2D em TCMatriz2D<bool>::Read()." << endl;
-		return false;
-	} else {
-		cerr << "Não foi possível abrir arquivo " << fileName << " em TCMatriz2D<bool>::Read()." << endl;
-		return false;
-	}
-}
-
-// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo P4_X_Y_BINARY (default).
-template<>
-bool TCMatriz2D<bool>::ReadRAW(string fileName, int _nx, int _ny, EImageType tipo) {
-	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
-	if (fin.good ()) { // Se o arquivo foi corretamente aberto
-		nx = _nx;
-		ny = _ny;
-		formatoImagem = tipo;		// seta o formato da imagem
-		data2D = AlocaMatriz2D (nx, ny);
-		if ( ! data2D.empty() ) {	// Aloca a matriz de dados
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					fin.read(&c, 1);
-					data2D[i][j] = (unsigned char) c;
-				}
-			}
-			fin.close();
-			return true;
-		} else {
-			nx = ny = 0;
-			formatoImagem = INVALID_IMAGE_TYPE;
-			fin.close();
-			cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::ReadRAW" << endl;
-			return false;
-		}
-	} else {
-		cerr << "Não foi possível ler do arquivo " << fileName << " em TCMatriz2D<bool>::ReadRAW" << endl;
-		return false;
-	}
-}
-
-// Lê os dados de um arquivo de disco
-// Os dados estao separados por um " "
-template<>
-void TCMatriz2D<bool>::LeDados (ifstream & fin) {
-	switch(formatoImagem){
-		case P1_X_Y_ASCII:
-		case P2_X_Y_GRAY_ASCII:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
-						fin >> data2D[i][j];
-					} else {
-						data2D[i][j] = 0;	// preenche com zeros
-					}
-				}
-			}
-			break;
-		case P4_X_Y_BINARY:
-		case P5_X_Y_GRAY_BINARY:
-		case P6_X_Y_COLOR_BINARY:
-			TCMatriz2D<bool>::LeDadosBinarios(fin);
-			break;
-		default: cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::LeDados" << endl;
-	}
-}
-
-// Lê os dados de um arquivo de disco, Os dados estao "colados"
-// Ex: 00011101000101
-template<>
-void TCMatriz2D<bool>::LeDadosColados (ifstream & fin) {
-	char ch = 0;
-	char matrizChar[30] = " ";
-	switch(formatoImagem) {
-		case P1_X_Y_ASCII:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {	// leitura arquivos 00111101010101
-					if (!fin.eof ()) {
-						cin.get (ch);	// pega o caracter
-						if (ch >= 48 && ch <= 57) {	// se for um número válido 48->0 57->1
-							matrizChar[0] = ch;	// copia para string
-							data2D[i][j] = atoi(matrizChar);	// e da string para o inteiro
-						} else {
-							i--;		// se for um \n ou ' ' desconsidera, e retorna contador
-						}
-					} else {
-						data2D[i][j] = 0;	// se chegou ao fim do arquivo, preenche com zeros
-					}
-				}
-			}
-			break;
-		case P4_X_Y_BINARY:
-		case P5_X_Y_GRAY_BINARY:
-		case P6_X_Y_COLOR_BINARY:
-			TCMatriz2D<bool>::LeDadosBinarios(fin);
-			break;
-		default: cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::LeDadosColados" << endl;
-	}
-}
-
-// Lê os dados de um arquivo de disco
-// Os dados estao separados por um " "
-template<>
-void TCMatriz2D<bool>::LeDadosBinarios (ifstream & fin) {
-	char c;
-	unsigned char c2 = 0;
-	int x, bit;
-	if (formatoImagem == P4_X_Y_BINARY) { // 1 bit por pixel
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					if ( i%8 == 0 ){
-						fin.read(&c, 1);
-						c2 = (unsigned char) c;
-					}
-					x = 7 -i%8;
-					bit = (c2 >> x)%2;
-					data2D[i][j] = bit;
-				}
-			}
-	} else {
-		cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::LeDados" << endl;
-	}
-}
-
-// Le um plano de uma matriz tridimensional.
-template<>
-bool TCMatriz2D<bool>::LePlanoZ (string fileName, int planoZ, bool separado) {
-	int nz;
-	ifstream fin;							// Ponteiro para arquivo de disco
-	CBaseMatriz::AbreArquivo (fin, fileName);	// Abre o arquivo de disco no formato correto
-	if (fin.good ()) {						// Se o arquivo foi corretamente aberto
-		// Obtem o formato de salvamento
-		formatoImagem = CBaseMatriz::VerificaFormato(fin);
-		switch (formatoImagem)	{				// Em funcao do formato de salvamento lê os dados do cabecalho
-			case D1_X_Y_Z_ASCII:
-			case D4_X_Y_Z_BINARY:
-				CBaseMatriz::LeComentarios(fin);
-				fin >> nx;
-				CBaseMatriz::LeComentarios(fin);
-				fin >> ny;
-				CBaseMatriz::LeComentarios(fin);
-				fin >> nz;
-				CBaseMatriz::LeComentarios(fin);
-				break;
-			case D2_X_Y_Z_GRAY_ASCII:
-			case D3_X_Y_Z_COLOR_ASCII:
-			case D5_X_Y_Z_GRAY_BINARY:
-			case D6_X_Y_Z_COLOR_BINARY:
-				CBaseMatriz::LeComentarios(fin);
-				fin >> nx;
-				CBaseMatriz::LeComentarios(fin);
-				fin >> ny;
-				CBaseMatriz::LeComentarios(fin);
-				fin >> nz;
-				CBaseMatriz::LeComentarios(fin);
-				fin >> numCores;					// pega o número de cores do arquivo.
-				CBaseMatriz::LeComentarios(fin);
-				break;
-			default:
-				cerr << "Formato de arquivo inválido em TCMatriz2D<bool>::LePlanoZ" << endl;
-				return 0;
-		}
-		if( ! data2D.empty() )
-			TCMatriz2D<bool>::DesalocaMatriz2D(data2D, nx, ny);
-		data2D = TCMatriz2D<bool>::AlocaMatriz2D (nx, ny);				// Aloca a matriz de dados
-		if ( ! data2D.empty() ) {
-			int i, j, k, temp;
-			if (planoZ > nz - 1)						// O plano a ser lido nao pode ser maior que nz-1
-				planoZ = nz - 1;							// se nz=5 (0,1,2,3,4) planoZ <= 4
-			if (separado) {
-				for (k = 0; k < planoZ; k++)	// Aqui posiciona o ponteiro
-					for (j = 0; j < ny; j++)		// devo ler os elementos desnecessarios
-						for (i = 0; i < nx; i++)	// ate encontrar o plano desejado.
-							fin >> temp;						// armazena em temp, depois
-				TCMatriz2D<bool>::LeDados (fin);			// Lê os dados do plano Z selecionado
-			} else {
-				char ch;
-				for (k = 0; k < planoZ; k++)				// Aqui posiciona o ponteiro
-					for (j = 0; j < ny; j++)					// devo ler os elementos desnecessarios
-						for (i = 0; i < nx; i++) {			// ate encontrar o plano desejado.
-							cin.get (ch);
-							if (ch == ' ' || ch == '\n')	// Precisa considerar '\n' e ' '
-								cin.get (ch);	// testar
-						}
-				TCMatriz2D<bool>::LeDadosColados (fin);		// Lê os dados como colados
-			}
-			fin.close();
-			return true;								// sucesso
-		}
-		fin.close();
-		return false;
-	}
-	return false;									// falha
-}
-
-// Redimensiona matriz de dados
-template<>
-bool TCMatriz2D<bool>::Redimensiona(int NX, int NY, int NZ) {
-	if( nx != NX || ny != NY ) {
-		TCMatriz2D<bool>::DesalocaMatriz2D (data2D, nx, ny);
-		nx = NX;
-		ny = NY;
-		NZ = 0; // evitar warning
-		data2D = TCMatriz2D<bool>::AlocaMatriz2D (nx, ny);
-		return data2D.empty();
-	}
-	return true; // não precisou redimensionar...
-}
-
-// Preenche a matriz com um valor constante
-template<>
-void TCMatriz2D<bool>::Constante (bool cte) {
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
-			data2D[i][j] = cte;
-}
-
-// Inverte os valores da matriz
-template<>
-void TCMatriz2D<bool>::Inverter () {
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
-			data2D[i][j].flip();
-}
-
-//Rotaciona a matriz em 90 graus
-template<>
-bool TCMatriz2D<bool>::Rotacionar90 () {
-	TCMatriz2D<bool> * pmtmp = NULL;
-	pmtmp = new TCMatriz2D< bool >( *this );
-	if ( ! pmtmp )
-		return false;
-	int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
-	int _ny = ny;
-	if (nx != ny) {
-		if ( ! Redimensiona(ny, nx) )
-			return false ;
-	}
-	for (int i = 0; i < _nx; i++) {
-		for (int j = 0; j < _ny; j++) {
-			data2D[_ny-1-j][i] = pmtmp->data2D[i][j];
-		}
-	}
-	delete pmtmp;
-	return true;
-}
-
-// Retorna as propriedades da matriz
-template<>
-void TCMatriz2D<bool>::Propriedades (ofstream & os) const {
-	CBaseMatriz::Propriedades (os);
-	os << "\nDimensoes: nx=" << nx << " ny=" << ny << endl;
 }

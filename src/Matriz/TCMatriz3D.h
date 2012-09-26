@@ -290,6 +290,9 @@ class TCMatriz3D : public CBaseMatriz
 			nz = NZ;
 		}
 
+		/// Define formato do arquivo
+		void SetFormato(EImageType _formato);
+
 		// -----------------------------------------------------------------Friend
 		//       friend ostream& operator<< (ostream& os, TCMatriz3D& obj);
 		//       friend istream& operator>> (istream& is, TCMatriz3D& obj);

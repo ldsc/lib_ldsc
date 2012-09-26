@@ -35,7 +35,7 @@ CFEBorda::Go (TCMatriz2D< int > * &imagem, unsigned int espessura)
 
 // Teste acesso aos dados da imagem diretamente:
 // Na TCMatriz2D< int > inline int   ** GetData2D() const    {return data2D;};       // RETORNA data2D
-  int **img = imagem->Data2D ();
+	vector< vector<int> > img = imagem->Data2D ();
 
   for (desloc = 0; desloc < espessura; desloc++)
     {

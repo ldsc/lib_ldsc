@@ -72,7 +72,7 @@ CFEEsqueletoV4::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
   int mi = idf->Mi ();		// funcao virtual, retorna menor valor da mascara utilizada
 //   int mip1=mi+1;// 4                          // Variaveis otimizacao
   int im1, i_1, jm1, j_1;	// 
-	vector< vector<int> > idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
+	Matriz2D(int) idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
 
   int somaVizinhos;
   for (int v = valorMinimo; v < valorMaximo; v++)	// Percorre a imagem do valor minimo ao máximo

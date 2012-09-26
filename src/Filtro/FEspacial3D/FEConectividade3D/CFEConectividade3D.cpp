@@ -2,7 +2,7 @@
 // retorna ponteiro para imagem conectada ou NULL caso a imagem não possua conectividade ou ocorra algum erro.
 
 // Retorna a lista de objetos conectados.
-set<int> CFEConectividade3D::GetObjetosConectados ( CImagem3D * pmOrig ){
+set<int> CFEConectividade3D::GetObjetosConectados ( CImagem3D<int> *pmOrig ){
 	return GetObjetosConectados( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
@@ -40,7 +40,7 @@ set<int> CFEConectividade3D::GetObjetosConectados ( TCMatriz3D<int> * pmOrig){
 
 
 
-bool CFEConectividade3D::isConnected ( CImagem3D * pmOrig) {
+bool CFEConectividade3D::isConnected ( CImagem3D<int> *pmOrig) {
 	return isConnected( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
@@ -52,14 +52,14 @@ bool CFEConectividade3D::isConnected ( TCMatriz3D<int> * pmOrig) {
 }
 
 // Recebe ponteiro para imagem 3D e retorna uma nova imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
-CImagem3D * CFEConectividade3D::GetImagemConectada ( CImagem3D * pmOrig) {
+CImagem3D<int> * CFEConectividade3D::GetImagemConectada ( CImagem3D<int> *pmOrig) {
    if ( ! isConnected(pmOrig) ){
       cerr << "Não é conectada em Y" << endl;
       return NULL;
    }
 
-   CImagem3D * pmCon = NULL;
-   pmCon = new CImagem3D( * pmOrig );
+	 CImagem3D<int> * pmCon = NULL;
+	 pmCon = new CImagem3D<int>( * pmOrig );
    if ( ! pmCon ) {
       cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
       return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
@@ -179,7 +179,7 @@ bool CFEConectividade3D::Go ( TCMatriz3D<int> * pmCon ) {
 }
 
 // Recebe ponteiro para imagem 3D que será alterada para imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
-bool CFEConectividade3D::Go ( CImagem3D* pmCon ) {
+bool CFEConectividade3D::Go ( CImagem3D<int> *pmCon ) {
 	if ( ! pmCon ) {
 		cerr << "Erro! - CFEConectividade3D::Go (TCMatriz3D<int> *) recebeu objeto nulo" << endl;
 		return false; 		// se não conseguiu alocar a matriz 3D retorna NULL

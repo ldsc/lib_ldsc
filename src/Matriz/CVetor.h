@@ -166,9 +166,6 @@ public:
   /// Inverte valores (0)-->(1)  (>0) -->0
   virtual void Inverter ();
 
-  /// Retorna para os as propriedades da matriz
-  virtual void Propriedades (std::ofstream & os) const;
-
   /// Retorna o maior valor da matriz
   virtual int MaiorValor () const;
 

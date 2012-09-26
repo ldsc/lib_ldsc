@@ -620,22 +620,6 @@ int CVetor::Replace (int i, int j)
 -------------------------------------------------------------------------
 Funcao:
 -------------------------------------------------------------------------
-@short  : Retorna para os as propriedades da matriz
-@author : Andre Duarte Bueno
-@see    :
-@param  :
-@return :
-*/
-void CVetor::Propriedades (ofstream & os) const
-{
-	CBaseMatriz::Propriedades (os);
-	os << "\nDimensoes: nx=" << nx << endl;
-}
-
-/*
--------------------------------------------------------------------------
-Funcao:
--------------------------------------------------------------------------
 @short  : Abre arquivo de disco e lê os dados.
 @author : Andre Duarte Bueno
 @see    :

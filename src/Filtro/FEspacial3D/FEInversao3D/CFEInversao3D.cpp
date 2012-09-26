@@ -1,14 +1,14 @@
 #include <Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.h>
 
-CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
+CImagem3D<int> *CFEInversao3D::Go( CImagem3D<int> *imagem ) {
 	if ( ! imagem )
 		return NULL;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
 		return NULL;
 	
-	CImagem3D * pi3Dinv = NULL;
-	pi3Dinv = new CImagem3D( *imagem);
+	CImagem3D<int> * pi3Dinv = NULL;
+	pi3Dinv = new CImagem3D<int>( *imagem);
 	if ( ! pi3Dinv )
 		return NULL;
 	

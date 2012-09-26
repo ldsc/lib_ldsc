@@ -234,39 +234,44 @@ class CBaseMatriz
 	*/
 
 		/**
-	 * @brief Abre o arquivo verifica o formato e reabre no formato
-	 * correto (ASCII ou Binário)
-	*/
+		@brief Abre o arquivo verifica o formato e reabre no formato
+		correto (ASCII ou Binário)
+		*/
 		bool AbreArquivo (std::ifstream & fin, std::string fileName);
 
 		/**
-	 * @brief Verifica e retorna o formato de salvamento do arquivo
-	*/
+		@brief Verifica e retorna o formato de salvamento do arquivo. Recebe objeto do tipo std::ifstream
+		*/
 		EImageType VerificaFormato (std::ifstream & fin);
 
 		/**
-	 * @brief Retona o valor da variável de formato de salvamente (e leitura) de dados
-	*/
+		@brief Verifica e retorna o formato de salvamento do arquivo. Recebe o nome do arquivo.
+		*/
+		EImageType VerificaFormato (std::string & filename);
+
+		/**
+		@brief Retona o valor da variável de formato de salvamente (e leitura) de dados
+		*/
 		inline EImageType GetFormato () const { return formatoImagem; }
 
 		/**
-	 * @brief Define a variável que informa o número de tons de cores ou de cinza
-	*/
+		@brief Define a variável que informa o número de tons de cores ou de cinza
+		*/
 		void NumCores ( int _cores )
 		{
 			numCores = _cores;
 		}
 
 		/**
-	 * @brief Define o valor do path de salvamento da matriz
-	*/
+		@brief Define o valor do path de salvamento da matriz
+		*/
 		void Path ( string _path )
 		{
 			path = _path;
 		}
 		/**
-	* @brief Retorna o valor do path de salvamento da matriz
-	*/
+		@brief Retorna o valor do path de salvamento da matriz
+		*/
 		string Path ( )
 		{
 			return path;
@@ -276,80 +281,49 @@ class CBaseMatriz
 		// -----------------------------------------------------------------------
 		// Alocacao, Desalocacao
 		/**
-	 * @brief Define a variável de formato de salvamente (e leitura) de dados
-	*/
+		@brief Define a variável de formato de salvamente (e leitura) de dados
+		*/
 		virtual void SetFormato (EImageType _formato)= 0;
 
 		/**
-	 *   @brief Funcoes virtuais de alocacao.
-	*/
+		@brief Funcoes virtuais de alocacao.
+		*/
 		virtual bool Aloca () = 0;
 
 		/**
-	 *   @brief Desalocacao dos dados
-	*/
+		@brief Desalocacao dos dados
+		*/
 		virtual bool Desaloca () = 0;
 
 		/**
-	 *   @brief Redimensiona a matriz ,virtual pura
-	*/
+		@brief Redimensiona a matriz ,virtual pura
+		*/
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0) = 0;
 
 		/**
-	 * @brief Preenche com valor constante
-	*/
+		@brief Preenche com valor constante
+		*/
 		virtual void Constante (int cte) = 0;
 
 		/**
-	 *   @brief Inverte valores (0)-->(1)  (>0) -->0
-	*/
+		@brief Inverte valores (0)-->(1)  (>0) -->0
+		*/
 		virtual void Inverter () = 0;
 
 		/**
-	 *   @brief Troca todos os valores i por j, retorna o numero de
-	 * elementos trocados
-	*/
-		virtual int Replace (int i, int j) = 0;
-
-		/**
-	 *   @brief Retorna para os as propriedades da matriz
-	*/
-		virtual void Propriedades (std::ofstream & os) const;
-
-		/**
-	 *   @brief Calcula e retorna a média
-	*/
+		@brief Calcula e retorna a média
+		*/
 		virtual double Media () const = 0;
 
 		// --------------------------------------------------------------------Get
 		/**
-	 * @brief Retorna o número de tons de cores ou de cinza)
-	*/
+		@brief Retorna o número de tons de cores ou de cinza)
+		*/
 		inline int NumCores ( ) const { return numCores; }
 
 		/**
-	 *   @brief Retorna o maior valor da matriz
-	*/
-		virtual int MaiorValor () const = 0;
-
-		/**
-	 *   @brief Retorna o menor valor da matriz
-	*/
-		virtual int MenorValor () const = 0;
-
-		//		/**
-		//	 *   @brief Retorna o menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 9999999999
-		//	*/
-		//		virtual int MenorValorNzero () const = 0;
-
-		//		/**
-		//	 *   @brief Retorna o um par correspondente ao maior e ao menor valor da matriz (diferente de zero). Se a matriz só tiver zeros, irá retornar 0 e 9999999999
-		//	*/
-		//		virtual pair<int,int> MaiorMenorValorNzero () const = 0;
-
-		/**
-	 *   @brief Retorna a dimensão da matriz
-	*/
+		@brief Retorna a dimensão da matriz
+		*/
 		virtual int DimensaoMatriz () const = 0;
 
 		// --------------------------------------------------------------------Set

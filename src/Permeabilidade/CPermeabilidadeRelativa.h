@@ -61,10 +61,10 @@ class CPermeabilidadeRelativa
 // --------------------------------------------------------------Atributos
 protected:
 	/// Ponteiro para TCMatriz3D<int> (imagemA);
-	CImagem3D * imagemA;
+	CImagem3D<int> * imagemA;
 
 	/// Ponteiro para TCMatriz3D<int> (imagemB);
-	CImagem3D * imagemB;
+	CImagem3D<int> * imagemB;
 
 	/// Ponteiro para CPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase A;
 	CPermeabilidadeIntrinseca * permA;
@@ -108,7 +108,7 @@ protected:
 public:
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um ponteiro para CImagem3D.
 	// tirar fator relaxacao
-	bool Go( CImagem3D * imagem3D );
+	bool Go( CImagem3D<int> * imagem3D );
 
 	
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um o path de uma imagem 3D (.dbm).

@@ -190,7 +190,7 @@ add_library (ldsc STATIC
   Mascara/MCDiscreta/CMCEuclidiana.cpp
   Material/CMFluido.cpp
   Matriz/CImg.cpp
-  Matriz/CImagem3D.cpp
+  Matriz/CImagem3D.h
   Matriz/CImagem.cpp
   Matriz/CHistograma.cpp
   Matriz/CVetor.cpp

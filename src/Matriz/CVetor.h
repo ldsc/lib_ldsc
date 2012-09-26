@@ -245,6 +245,8 @@ public:
     nx = _nx;
   }
 
+	///Seta formato do arquivo
+	void SetFormato(EImageType _formato);
 // -----------------------------------------------------------------Friend
 //       friend ostream& operator<< (ostream& os, CVetor& obj);
 //       friend istream& operator>> (istream& is, CVetor& obj);

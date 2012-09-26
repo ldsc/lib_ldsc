@@ -4,6 +4,8 @@
 *.cpp.o
 .kdev4
 *.cbp
+*.bkp.cpp
+*.bkp.h
 cvs
 libldsc.a
 CMakeFiles

@@ -51,7 +51,7 @@ CFEEsqueleto::EliminaPeGalinha (TCMatriz2D< int > * imagem)
 
   int x, y;
 
-  int **data = pm->Data2D ();
+	vector< vector<int> > data = pm->Data2D ();
 
   // oeste->leste
   for (y = 0; y < ny; y++)

@@ -297,16 +297,7 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquiv
 EImageType CBaseMatriz::VerificaFormato(ifstream & fin) {
 	if (fin.good ()) { //  Se abriu corretamente o arquivo
 		char aux[255];
-		//  fin >> aux;            //  Lê a primeira string ( Pi ou Di ou Vi ou um numero. ->P1,P2,...D1,D5..)
 		fin.getline (aux, 255);
-		//  0123456789
-		/*if (aux[0]>= 48 && aux[0] <=57 )                            //  Se for um número, então só são dados
- {                                      //  deve receber nx,ny,nz como parametros.
- formatoImagem=WRITEFORM_ASCII_DATA;//  Preciso recolocar ponteiro de leitura no inicio do arquivo
- fin.seekg(0,ios::beg);                     //  reposiciona inicio arquivo
- return formatoImagem;
- }
- else */ //retorna o formato de salvamento
 		switch (aux[0]) {
 			case 'V':
 				switch (aux[1]) {

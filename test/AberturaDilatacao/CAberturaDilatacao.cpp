@@ -342,7 +342,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
 // Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
     TCMatriz2D< int >* MatrizSitiosLigacoes = new TCMatriz2D< int >( pm->NX(), pm->NY()  ); // cópia da matriz inicial
     MatrizSitiosLigacoes->Constante( 0 );
-		MatrizSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MatrizSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
     MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
 
 // 	Copia da matrizInicial
@@ -514,7 +514,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
     Salvar(distribuicaoTotalPoros,"distTotalPoros.dtp");
     cout << "Salvou distTotalPoros.dtp..." << endl ;
 
-//    matrizRotulo->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII );
+//    matrizRotulo->SetFormato(  WRITEFORM_PI_X_Y_GRAY_ASCII );
 //    matrizRotulo->NumCores ( numeroObjetos );
 //    matrizRotulo->Write("MatrizRotulo.pgm");
 
@@ -569,20 +569,20 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
     cout << "Criando e inicializando MPoros..." << endl;
     TCMatriz2D< int >* MPoros = new TCMatriz2D< int >(pm->NX(), pm->NY());
     MPoros->Constante(0);
-		MPoros->WriteFormat( P1_X_Y_ASCII );
+		MPoros->SetFormato( P1_X_Y_ASCII );
     //MPoros->Write("MPoros_inicial.pbm");
 
 // Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
     cout << "Criando e inicializando MSitios..." << endl;
     TCMatriz2D< int >* MSitios  = new TCMatriz2D< int >( *pm );
-		MSitios->WriteFormat( P1_X_Y_ASCII );
+		MSitios->SetFormato( P1_X_Y_ASCII );
     //MSitios->Write("MSitios_inicial.pbm");
 
 // Cria MLigacoes e deixa vazia
     cout << "Criando e inicializando MLigacoes..." << endl;
     TCMatriz2D< int >* MLigacoes   = new TCMatriz2D< int >(pm->NX(), pm->NY());
     MLigacoes->Constante(0);
-		MLigacoes->WriteFormat( P1_X_Y_ASCII );
+		MLigacoes->SetFormato( P1_X_Y_ASCII );
     //MLigacoes->Write("MLigacoes_inicial.pbm");
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -591,7 +591,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
     RotulaImagemSequencial(0);
 
     TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
-		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write("MInicialRotulada.pgm");
 
@@ -796,7 +796,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     cout << "Criando e inicializando MLigacoes..." << endl;
     TCMatriz2D< int >* MSitiosLigacoes   = new TCMatriz2D< int >( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
-		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -808,7 +808,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
     TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
-		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
 
     if ( salvarResultadosParciais )
@@ -909,7 +909,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 // 		os << "MatrizAberturaRotulada_" << raioElemen << ".pgm";
 // 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 // 		matrizRotulo->NumCores ( nObjetosDepoisAbertura );
-// 		matrizRotulo->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_ASCII
+// 		matrizRotulo->SetFormato(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_ASCII
 // 		matrizRotulo->Write(os.str());
 // 		}
 
@@ -951,7 +951,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 // 		os << "MatrizAberturaComplementar_" << raioElemen << ".pbm";
 // 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 // 		//pm->NumCores ( numeroObjetos );
-// 		pm->WriteFormat(  WRITEFORM_PI_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
+// 		pm->SetFormato(  WRITEFORM_PI_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
 // 		pm->Write(os.str());
 // 		}
 
@@ -968,7 +968,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 // 		os << "MatrizAberturaComplementarRotulada_" << raioElemen << ".pgm";
 // 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 // 		matrizRotulo->NumCores ( nObjetosDepoisAberturaComplementar );
-// 		matrizRotulo->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
+// 		matrizRotulo->SetFormato(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
 // 		matrizRotulo->Write(os.str());
 // 		}
 
@@ -1126,7 +1126,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
     // Como obter maior valor de uma enumeração ??
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
     MSitiosLigacoes->Write( os.str() );
@@ -1141,7 +1141,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write( os.str() );
 
@@ -1218,7 +1218,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     cout << "Criando e inicializando MLigacoes..." << endl;
     TCMatriz2D< int >* MSitiosLigacoes   = new TCMatriz2D< int >( pm->NX(), pm->NY() );
     MSitiosLigacoes->Constante(0);
-		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
 
 // Cria MInicialRotulada, é a imagem inicial rotulada
@@ -1230,7 +1230,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 
     cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
     TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
-		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( numeroObjetos ); // 256, numero objetos informa o maior rotulo utilizado.
     if ( salvarResultadosParciais )
     {
@@ -1340,7 +1340,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 // 		os << "MatrizAberturaRotulada_" << raioElemen << ".pgm";
 // 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 // 		matrizRotulo->NumCores ( nObjetosDepoisAbertura );
-// 		matrizRotulo->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_ASCII
+// 		matrizRotulo->SetFormato(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_ASCII
 // 		matrizRotulo->Write(os.str());
 // 		}
 
@@ -1386,7 +1386,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
             os << "MatrizAberturaComplementar_" << raioElemen << ".pbm";
             cout << "-->Salvando imagem " << os.str().c_str() << endl ;
             //pm->NumCores ( numeroObjetos );
-						pm->WriteFormat( P1_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
+						pm->SetFormato( P1_X_Y_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
             pm->Write(os.str());
         }
 
@@ -1403,7 +1403,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 // 		os << "MatrizAberturaComplementarRotulada_" << raioElemen << ".pgm";
 // 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 // 		matrizRotulo->NumCores ( nObjetosDepoisAberturaComplementar );
-// 		matrizRotulo->WriteFormat(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
+// 		matrizRotulo->SetFormato(  WRITEFORM_PI_X_Y_GRAY_ASCII ); // WRITEFORM_PI_X_Y_GRAY_ASCII
 // 		matrizRotulo->Write(os.str());
 // 		}
 
@@ -1585,7 +1585,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		MSitiosLigacoes->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
     // Como obter maior valor de uma enumeração ??
     MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
     MSitiosLigacoes->Write( os.str() );
@@ -1609,7 +1609,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
     			<< "-iree-"	<< incrementoRaioElementoEstruturante*/
     << ".pgm";
     cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		MInicialRotulada->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
     MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
     MInicialRotulada->Write( os.str() );
 
@@ -1694,7 +1694,7 @@ void CAberturaDilatacao::SequenciaAberturaTonsCinza()
             break;
     }
 
-		MAbertura->WriteFormat( P2_X_Y_GRAY_ASCII );
+		MAbertura->SetFormato( P2_X_Y_GRAY_ASCII );
     MAbertura->NumCores ( MAbertura->MaiorValor() + 1 );
     MAbertura->Write("MAbertura.pgm");
 

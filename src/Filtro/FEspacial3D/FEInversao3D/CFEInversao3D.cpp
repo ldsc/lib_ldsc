@@ -4,7 +4,7 @@ CImagem3D * CFEInversao3D::Go ( CImagem3D * imagem ) {
 	if ( ! imagem )
 		return NULL;
 	// só aceita imagens P&B
-	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII && imagem->GetFormat() != D4_X_Y_Z_BINARY)
+	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
 		return NULL;
 	
 	CImagem3D * pi3Dinv = NULL;
@@ -24,7 +24,7 @@ TCMatriz3D<int> * CFEInversao3D::Go ( TCMatriz3D<int> * imagem ) {
 	if ( ! imagem )
 		return NULL;
 	// só aceita imagens P&B
-	if ( imagem->GetFormat() != D1_X_Y_Z_ASCII && imagem->GetFormat() != D4_X_Y_Z_BINARY)
+	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
 		return NULL;
 	
 	TCMatriz3D<int> * pi3Dinv = NULL;

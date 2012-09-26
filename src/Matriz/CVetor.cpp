@@ -777,6 +777,23 @@ void CVetor::LeDadosColados (ifstream & fin) {
 	}
 }
 
+void CVetor::SetFormato(EImageType _formato){
+	if(formatoImagem != _formato){
+		switch(_formato){
+			case V1_X_ASCII:
+			case V2_X_GRAY_ASCII:
+			case V3_X_COLOR_ASCII:
+			case V4_X_BINARY:
+			case V5_X_GRAY_BINARY:
+			case V6_X_COLOR_BINARY:
+				formatoImagem=_formato;
+				break;
+			default:
+				cerr << "Foi informato um formato inválido em CVetor::SetFormato()" << endl;
+				break;
+		}
+	}
+}
 /*
 ptr
 (*ptr) = (*ptr) + (*ptr);

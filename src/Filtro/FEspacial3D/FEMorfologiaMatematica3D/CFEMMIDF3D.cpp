@@ -411,7 +411,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
    /*	//grava em disco a IDF da mascara.
  static int contMasK = 1;
  sprintf (fileName, "idfMascara%d.dgm", contMasK++);
- idfMask->WriteFormat( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
+ idfMask->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
   	max = idfMask->MaiorValor();
   	idfMask->NumCores( (max > 1)? max : max+2 );
  idfMask->Path(matriz->Path());
@@ -426,7 +426,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
    /*	//grava em disco a IDF da imagem abertura.
  static int contAbertura = 1;
  sprintf (fileName, "idfAbertura%d.dgm", contAbertura++);
- idfAbertura->WriteFormat( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
+ idfAbertura->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
   	max = idfAbertura->MaiorValor();
   	idfAbertura->NumCores( (max > 1)? max : max+2 );
  idfAbertura->Path(matriz->Path());
@@ -440,7 +440,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
    /*	//grava em disco o plano da mascara.
  static int contPlanoMask = 1;
  sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
- pcm->WriteFormat( WRITEFORM_PI_X_Y_GRAY_ASCII );
+ pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
   	max = pcm->MaiorValor();
   	pcm->NumCores( (max > 1)? max : max+2 );
  pcm->Path(matriz->Path());
@@ -531,7 +531,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
  //grava em disco a IDF da mascara.
  static int contMasK = 1;
  sprintf (fileName, "idfMascara%d.dgm", contMasK++);
- idfMask->WriteFormat( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
+ idfMask->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
   	max = idfMask->MaiorValor();
   	idfMask->NumCores( (max > 1)? max : max+2 );
  idfMask->Path(matriz->Path());
@@ -544,7 +544,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
  //grava em disco a IDF da imagem abertura.
  static int contAbertura = 1;
  sprintf (fileName, "idfAbertura%d.dgm", contAbertura++);
- idfAbertura->WriteFormat( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
+ idfAbertura->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
   	max = idfAbertura->MaiorValor();
   	idfAbertura->NumCores( (max > 1)? max : max+2 );
  idfAbertura->Path(matriz->Path());
@@ -557,7 +557,7 @@ void CFEMMIDF3D::CorrigeAbertura (TCMatriz3D<int> * &matriz, int &regiao) {
  //grava em disco o plano da mascara.
 /*	static int contPlanoMask = 1;
  sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
- pcm->WriteFormat( WRITEFORM_PI_X_Y_GRAY_ASCII );
+ pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
   	max = pcm->MaiorValor();
   	pcm->NumCores( (max > 1)? max : max+2 );
  pcm->Path(matriz->Path());

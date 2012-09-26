@@ -79,7 +79,7 @@ CFEEsqueletoV3::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
 
   int im1, i_1, jm1, j_1;	// 
 
-  int **idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
+	vector< vector<int> >idfdata = idf->Data2D ();	// captura ponteiro para imagem de dados
 
   //  no v3
   int somaVizinhos;

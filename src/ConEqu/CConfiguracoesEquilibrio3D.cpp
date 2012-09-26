@@ -420,7 +420,7 @@ void CConfiguracoesEquilibrio3D::SolucaoFinal (TCMatriz3D<int> * &imagem) {
 
       fileName = out.str(); // não precisa do fileName, tirar?
       // novidade
-			imagem->WriteFormat (D2_X_Y_Z_GRAY_ASCII);
+			imagem->SetFormato (D2_X_Y_Z_GRAY_ASCII);
       imagem->NumCores( imagem->MaiorValor() );
       imagem->Write (fileName);	//  A cada passo, deve salvar a configuracao final de equilibrio
    }
@@ -470,7 +470,7 @@ void CConfiguracoesEquilibrio3D::Salvar (TCMatriz3D<int> * &imagem, string msg) 
    sprintf (fileName, buffer.c_str (), contadorPassosExecutados);
 
    if (salvarResultadosParciaisDisco == 1) {
-			imagem->WriteFormat(D2_X_Y_Z_GRAY_ASCII);
+			imagem->SetFormato(D2_X_Y_Z_GRAY_ASCII);
       int cores = imagem->MaiorValor();
       imagem->NumCores( (cores >= 2) ? cores : cores+2 );
       imagem->Write (fileName);
@@ -533,7 +533,7 @@ bool CConfiguracoesEquilibrio3D::GetImagem(TCMatriz3D<int> * &imagem, int regiao
 // Usada para inverter o sentido do fluxo
 void CConfiguracoesEquilibrio3D::InverterFluxo()
 {
- camara->WriteFormat(WRITEFORM_DI_X_Y_Z_GRAY_ASCII);
+ camara->SetFormato(WRITEFORM_DI_X_Y_Z_GRAY_ASCII);
      int cores = camara->MaiorValor();
      camara->NumCores( (cores >= 2) ? cores : cores+2 );
      camara->Write ("imagemCamaraAntesInverterFluxo.dgm");
@@ -613,7 +613,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo()
 */
 // Usada para inverter o sentido do fluxo
 void CConfiguracoesEquilibrio3D::InverterFluxo( TCMatriz3D<int> * &imagem ) {
-	 camara->WriteFormat(D2_X_Y_Z_GRAY_ASCII);
+	 camara->SetFormato(D2_X_Y_Z_GRAY_ASCII);
    int cores = camara->MaiorValor();
    camara->NumCores( (cores >= 2) ? cores : cores+2 );
    camara->Write ("imagemCamaraAntesInverterFluxo.dgm");
@@ -689,7 +689,7 @@ void CConfiguracoesEquilibrio3D::InverterFluxo( TCMatriz3D<int> * &imagem ) {
    //só corrige a abertura na drenagem.
    corrigirAbertura = false;
 
-	 camara->WriteFormat(D2_X_Y_Z_GRAY_ASCII);
+	 camara->SetFormato(D2_X_Y_Z_GRAY_ASCII);
    cores = camara->MaiorValor();
    camara->NumCores( (cores >= 2) ? cores : cores+2 );
    camara->Write ("imagemCamaraDepoisInverterFluxo.dgm");

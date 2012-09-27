@@ -29,8 +29,8 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas lib_ldsc
 // -----------------------------------------------------------------------
-#ifndef CImagem3D_h
-#include <Matriz/CImagem3D.h>
+#ifndef TCImagem3D_h
+#include <Matriz/TCImagem3D.h>
 #endif
 
 #ifndef TCMatriz3D_h
@@ -117,13 +117,13 @@ public:
 	/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 	long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
 	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CImagem3D.
-	long double Go( CImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7);
+	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
+	long double Go( TCImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
 	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo CImagem3D.
+	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo TCImagem3D.
 	long double Go( string pathFileName, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo CMatriz3D.

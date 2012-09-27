@@ -195,7 +195,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
    //  abaixo usava idf->Getmi() = 3, verificar
    raioMaximo = (maiorValor % idf->Mi () == 0) ? maiorValor / idf->Mi () : 1 + maiorValor / idf->Mi ();
 
-	 TCMatriz3D<int> * ptr_idf = static_cast<TCMatriz3D<int> *>(idf); // Salvar recebe CImagem3D*
+	 TCMatriz3D<int> * ptr_idf = static_cast<TCMatriz3D<int> *>(idf); // Salvar recebe TCImagem3D*
    Salvar (ptr_idf, string("1-imagemIDF"));
 }
 

@@ -1,16 +1,16 @@
-#ifndef CImagem3D_h
-#define CImagem3D_h
+#ifndef TCImagem3D_h
+#define TCImagem3D_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-						Assunto/Ramo: CImagem3D...
+						Assunto/Ramo: TCImagem3D...
 ===============================================================================
 Desenvolvido por:
 						Laboratorio de Desenvolvimento de Software Cientifico
 						[LDSC].
 @author     André Duarte Bueno
-@file       CImagem3D.h
+@file       TCImagem3D.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 
@@ -25,8 +25,7 @@ Desenvolvido por:
 #include <string>
 #include <iostream>
 #include<iomanip>
-// Por causa abs
-#include <cstdlib>
+#include <cstdlib> // Por causa abs
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -57,7 +56,7 @@ using namespace std;
  * @see		Matrizes
 */
 template<typename T>
-class CImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fazer dynamic_cast
+class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fazer dynamic_cast
 {
 
 		// --------------------------------------------------------------Atributos
@@ -70,40 +69,40 @@ class CImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder faz
 
 		// -------------------------------------------------------------Construtor
 		/// Constrói imagem 3D vazia, não alocada.
-		CImagem3D ()
+		TCImagem3D ()
 			: TCMatriz3D<T> ()/*, CImg()*/, x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		/// Constróe imagem 3D a partir de imagem 3D no disco
-		CImagem3D (std::string fileName)
+		TCImagem3D (std::string fileName)
 			: TCMatriz3D<T> (fileName),/* CImg(),*/ x0(0), y0(0), z0(0) {
 			LeInformacoesRecontrucao(fileName);
 		}
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
-		CImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
+		TCImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
 			:TCMatriz3D<T>(fileRAW, _nx, _ny, _nz, tipo), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		/// Construtor de cópia
-		CImagem3D (CImagem3D & img)
+		TCImagem3D (TCImagem3D & img)
 			: TCMatriz3D<T> (img),/* CImg(),*/ x0(img.x0), y0(img.y0), z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao), sizePixel (img.sizePixel), numeroPixelsBorda (img.numeroPixelsBorda) {
 		}
 
 		/// Constróe imagem vazia, com as dimensões nx,ny,nz
-		CImagem3D (int nx, int ny, int nz)
+		TCImagem3D (int nx, int ny, int nz)
 			: TCMatriz3D<T> (nx, ny, nz),/* CImg(),*/ x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 
 		}
 
 		/// Construtor de cópia  a partir de uma matriz 3D
-		CImagem3D (TCMatriz3D<T> & matriz)
+		TCImagem3D (TCMatriz3D<T> & matriz)
 			: TCMatriz3D<T> (matriz), x0(0), y0(0), z0(0), fatorAmplificacao (0), sizePixel (0), numeroPixelsBorda (0) {
 		}
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
-		virtual ~ CImagem3D () {
+		virtual ~ TCImagem3D () {
 		}
 
 		// ----------------------------------------------------------------Métodos
@@ -198,17 +197,17 @@ class CImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder faz
 		// inline          void SetX0(unsigned short int& X0){x0=X0;};
 		// inline          void SetY0(unsigned short int& Y0){y0=Y0;};
 		// -----------------------------------------------------------------Friend
-		//       friend ostream& operator<< (ostream& os, CImagem3D& obj);
-		//       friend istream& operator>> (istream& is, CImagem3D& obj);
-		// A partir daqui IMAGE3D é um ponteiro para CImagem3D
-		typedef CImagem3D<T> *IMAGE3D;
+		//       friend ostream& operator<< (ostream& os, TCImagem3D& obj);
+		//       friend istream& operator>> (istream& is, TCImagem3D& obj);
+		// A partir daqui IMAGE3D é um ponteiro para TCImagem3D
+		//typedef TCImagem3D<T> *IMAGE3D;
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, CImagem3D& obj);
-// istream& operator>> (istream& is, CImagem3D& obj);
+// ostream& operator<< (ostream& os, TCImagem3D& obj);
+// istream& operator>> (istream& is, TCImagem3D& obj);
 
-#include <Matriz/CImagem3D.cpp>
+#include <Matriz/TCImagem3D.cpp>
 
 #endif

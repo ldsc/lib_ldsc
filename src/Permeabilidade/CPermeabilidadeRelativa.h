@@ -39,8 +39,8 @@ Desenvolvido por:
 #endif
 
 
-#ifndef CImagem3D_h
-#include <Matriz/CImagem3D.h>
+#ifndef TCImagem3D_h
+#include <Matriz/TCImagem3D.h>
 #endif
 
 #include <sstream>
@@ -61,10 +61,10 @@ class CPermeabilidadeRelativa
 // --------------------------------------------------------------Atributos
 protected:
 	/// Ponteiro para TCMatriz3D<int> (imagemA);
-	CImagem3D<int> * imagemA;
+	TCImagem3D<int> * imagemA;
 
 	/// Ponteiro para TCMatriz3D<int> (imagemB);
-	CImagem3D<int> * imagemB;
+	TCImagem3D<int> * imagemB;
 
 	/// Ponteiro para CPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase A;
 	CPermeabilidadeIntrinseca * permA;
@@ -106,9 +106,9 @@ protected:
 	void SalvarImagens( );
 
 public:
-	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um ponteiro para CImagem3D.
+	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um ponteiro para TCImagem3D.
 	// tirar fator relaxacao
-	bool Go( CImagem3D<int> * imagem3D );
+	bool Go( TCImagem3D<int> * imagem3D );
 
 	
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um o path de uma imagem 3D (.dbm).

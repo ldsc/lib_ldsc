@@ -2,7 +2,7 @@
 // retorna ponteiro para imagem conectada ou NULL caso a imagem não possua conectividade ou ocorra algum erro.
 
 // Retorna a lista de objetos conectados.
-set<int> CFEConectividade3D::GetObjetosConectados ( CImagem3D<int> *pmOrig ){
+set<int> CFEConectividade3D::GetObjetosConectados ( TCImagem3D<int> *pmOrig ){
 	return GetObjetosConectados( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
@@ -40,7 +40,7 @@ set<int> CFEConectividade3D::GetObjetosConectados ( TCMatriz3D<int> * pmOrig){
 
 
 
-bool CFEConectividade3D::isConnected ( CImagem3D<int> *pmOrig) {
+bool CFEConectividade3D::isConnected ( TCImagem3D<int> *pmOrig) {
 	return isConnected( dynamic_cast<TCMatriz3D<int> *>(pmOrig) );
 }
 
@@ -52,23 +52,23 @@ bool CFEConectividade3D::isConnected ( TCMatriz3D<int> * pmOrig) {
 }
 
 // Recebe ponteiro para imagem 3D e retorna uma nova imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
-CImagem3D<int> * CFEConectividade3D::GetImagemConectada ( CImagem3D<int> *pmOrig) {
+TCImagem3D<int> * CFEConectividade3D::GetImagemConectada ( TCImagem3D<int> *pmOrig) {
    if ( ! isConnected(pmOrig) ){
       cerr << "Não é conectada em Y" << endl;
       return NULL;
    }
 
-	 CImagem3D<int> * pmCon = NULL;
-	 pmCon = new CImagem3D<int>( * pmOrig );
+	 TCImagem3D<int> * pmCon = NULL;
+	 pmCon = new TCImagem3D<int>( * pmOrig );
    if ( ! pmCon ) {
-      cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
+      cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar TCImagem3D" << endl;
       return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
    }
 
    if ( Go( pmCon ) )
       return pmCon;
    else {
-      cerr << "Go return false em CImagem3D * CFEConectividade3D::GetImagemConectada ( CImagem3D * pmOrig)" << endl;
+      cerr << "Go return false em TCImagem3D * CFEConectividade3D::GetImagemConectada ( TCImagem3D * pmOrig)" << endl;
       return NULL;
    }
    /*
@@ -78,10 +78,10 @@ CImagem3D<int> * CFEConectividade3D::GetImagemConectada ( CImagem3D<int> *pmOrig
   return NULL;
  }
 
- CImagem3D * pmCon = NULL;
-   pmCon = new CImagem3D(pmOrig->NX(), pmOrig->NY(), pmOrig->NZ());
+ TCImagem3D * pmCon = NULL;
+   pmCon = new TCImagem3D(pmOrig->NX(), pmOrig->NY(), pmOrig->NZ());
  if ( ! pmCon ) {
-  cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int) não conseguiu criar CImagem3D" << endl;
+  cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int) não conseguiu criar TCImagem3D" << endl;
   return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
  }
  pmCon->SetFormato(pmOrig->GetFormato());
@@ -113,7 +113,7 @@ TCMatriz3D<int> * CFEConectividade3D::GetMatrizConectada ( TCMatriz3D<int> * pmO
    TCMatriz3D<int> * pmCon = NULL;
 	 pmCon = new TCMatriz3D<int>( * pmOrig );
    if ( ! pmCon ) {
-      cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
+      cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar TCImagem3D" << endl;
       return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
    }
 
@@ -132,7 +132,7 @@ TCMatriz3D<int> * CFEConectividade3D::GetMatrizConectada ( TCMatriz3D<int> * pmO
  TCMatriz3D<int> * pmCon = NULL;
    pmCon = new CMatriz3D(pmOrig->NX(), pmOrig->NY(), pmOrig->NZ());
    if ( ! pmCon ) {
-  cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar CImagem3D" << endl;
+  cerr << "Erro! - CFEConectividade3D::GetImagemConectada (int, int) não conseguiu criar TCImagem3D" << endl;
   return NULL; 		// se não conseguiu alocar a matriz 3D retorna NULL
  }
  set<int>::iterator it0;
@@ -179,7 +179,7 @@ bool CFEConectividade3D::Go ( TCMatriz3D<int> * pmCon ) {
 }
 
 // Recebe ponteiro para imagem 3D que será alterada para imagem 3D conectada. Se a imgem não for conectada, retorna false (0).
-bool CFEConectividade3D::Go ( CImagem3D<int> *pmCon ) {
+bool CFEConectividade3D::Go ( TCImagem3D<int> *pmCon ) {
 	if ( ! pmCon ) {
 		cerr << "Erro! - CFEConectividade3D::Go (TCMatriz3D<int> *) recebeu objeto nulo" << endl;
 		return false; 		// se não conseguiu alocar a matriz 3D retorna NULL

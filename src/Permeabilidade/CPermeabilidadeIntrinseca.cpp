@@ -122,15 +122,15 @@ long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> *
 }
 
 long double CPermeabilidadeIntrinseca::Go( string pathFileName, long double fatorRelaxacao ) {
-	CImagem3D<int> * img3D = NULL;
-	img3D = new CImagem3D<int>( pathFileName ); 				// não é deletado ?
+	TCImagem3D<int> * img3D = NULL;
+	img3D = new TCImagem3D<int>( pathFileName ); 				// não é deletado ?
 	if ( img3D ) 
 		return Go( img3D );	
 	else 
 		return 0.0;
 }
 
-long double CPermeabilidadeIntrinseca::Go ( CImagem3D<int> * imagem3D, long double fatorRelaxacao ) {
+long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long double fatorRelaxacao ) {
 	TCMatriz3D<int> * matriz3D = NULL;
 	matriz3D = dynamic_cast< TCMatriz3D<int> *>(imagem3D);
 	if ( ! matriz3D)

@@ -565,11 +565,13 @@ void TCMatriz3D<T>::LeDados (ifstream & fin) {
 	switch(formatoImagem){
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
+			int n;
 			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
 						if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
-							fin >> data3D[i][j][k];
+							fin >> n;
+							data3D[i][j][k] = n;
 						} else {
 							data3D[i][j][k] = 0;	// preenche com zeros
 						}

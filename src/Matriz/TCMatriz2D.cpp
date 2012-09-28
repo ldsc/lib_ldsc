@@ -455,10 +455,12 @@ void TCMatriz2D<T>::LeDados (ifstream & fin) {
 	switch(formatoImagem){
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
+			int n;
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
 					if (!fin.eof ()) {	// Se NAO chegou ao fim do arquivo entra
-						fin >> data2D[i][j];
+						fin >> n;
+						data2D[i][j]=n;
 					} else {
 						data2D[i][j] = 0;	// preenche com zeros
 					}

@@ -65,6 +65,9 @@ Desenvolvido por:
 
 #define Matriz3D(tipo) vector< vector< vector<tipo> > >
 
+/// Enumera os eixos de uma imagem 3D
+enum E_eixo { EIXO_X, EIXO_Y, EIXO_Z };
+
 template< typename T >
 class TCMatriz3D : public CBaseMatriz
 {
@@ -77,9 +80,6 @@ class TCMatriz3D : public CBaseMatriz
 		int nz;///< Dimensão nz
 
 	public:
-		/// Enumera os eixos de uma imagem 3D
-		enum E_eixo { EIXO_X, EIXO_Y, EIXO_Z };
-
 		/// Ponteiro para matriz 3D
 		Matriz3D(T) data3D;
 

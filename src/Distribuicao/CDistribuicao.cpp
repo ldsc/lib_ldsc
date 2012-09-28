@@ -34,8 +34,8 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    double acumulada = 0.0;
    distribuicao.clear();
 
-   TCMatriz2D< int > * matriz = NULL;
-   matriz = new TCMatriz2D< int >(nx, ny); // faz uma cópia da matriz
+	 TCMatriz2D< int > * matriz = NULL;
+	 matriz = new TCMatriz2D< int >(nx, ny); // faz uma cópia da matriz
    if ( ! matriz ) { // se a matriz não foi criada corretamente rotorna false
       cerr << "Erro em CDistribuicao::Go! Cópia de TCMatriz2D< int > não foi criada!" << endl;
       return false;

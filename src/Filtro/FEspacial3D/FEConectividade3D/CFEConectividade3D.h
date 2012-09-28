@@ -55,7 +55,7 @@ public:
   }
 
   /// Construtor (recebe CMatriz3D)
-  CFEConectividade3D ( TCMatriz3D<int> * imagem, int indice = 1, int fundo = 0 )
+	CFEConectividade3D ( TCMatriz3D<int> * imagem, int indice = 1, int fundo = 0 )
      : CRotulador3D ( imagem, indice, fundo ) {
   }
 

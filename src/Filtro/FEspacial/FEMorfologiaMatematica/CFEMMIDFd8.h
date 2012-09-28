@@ -32,7 +32,7 @@ class CFEMMIDFd8 : public CFEMMIDFdj
 {
 public:
    /// Construtor
-   CFEMMIDFd8 (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
+	 CFEMMIDFd8 (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
       : CFEMMIDFdj (matriz, 1, 1, _indice, _fundo)
    {
    }

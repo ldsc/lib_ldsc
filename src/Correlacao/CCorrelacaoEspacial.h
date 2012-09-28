@@ -23,7 +23,7 @@ class CCorrelacaoEspacial : public CCorrelacao
    virtual bool Go (float *Re_data, int NX, int NY, int indice=1);
 
    /// Determina a função autocorrelação. Recebe ponteiro para TCMatriz2D< int > e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
-   virtual bool Go (TCMatriz2D< int > *img, int indice=1);
+	 virtual bool Go (TCMatriz2D< bool > *img, int indice=1);
 
 };
 

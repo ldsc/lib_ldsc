@@ -43,7 +43,7 @@ protected:
 
 public:
    /// Construtor.
-   CFEMMIDFdi (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
+	 CFEMMIDFdi (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
       :CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mi, _rb)
    {
    }

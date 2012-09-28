@@ -1,14 +1,14 @@
 #include <Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.h>
 
-TCImagem3D<int> *CFEInversao3D::Go( TCImagem3D<int> *imagem ) {
+TCImagem3D<bool> *CFEInversao3D::Go( TCImagem3D<bool> *imagem ) {
 	if ( ! imagem )
 		return NULL;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
 		return NULL;
 	
-	TCImagem3D<int> * pi3Dinv = NULL;
-	pi3Dinv = new TCImagem3D<int>( *imagem);
+	TCImagem3D<bool> * pi3Dinv = NULL;
+	pi3Dinv = new TCImagem3D<bool>( *imagem);
 	if ( ! pi3Dinv )
 		return NULL;
 	
@@ -20,15 +20,15 @@ TCImagem3D<int> *CFEInversao3D::Go( TCImagem3D<int> *imagem ) {
 	return pi3Dinv;
 }
 
-TCMatriz3D<int> * CFEInversao3D::Go ( TCMatriz3D<int> * imagem ) {
+TCMatriz3D<bool> * CFEInversao3D::Go ( TCMatriz3D<bool> * imagem ) {
 	if ( ! imagem )
 		return NULL;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
 		return NULL;
 	
-	TCMatriz3D<int> * pi3Dinv = NULL;
-	pi3Dinv = new TCMatriz3D<int>( *imagem);
+	TCMatriz3D<bool> * pi3Dinv = NULL;
+	pi3Dinv = new TCMatriz3D<bool>( *imagem);
 	if ( ! pi3Dinv )
 		return NULL;
 	

@@ -201,7 +201,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 
 // Funcao de cálculo da funcao correlacao
 // Recebe uma imagem 2D (TCMatriz2D< int >)
-bool CCorrelacaoFFT::Go ( TCMatriz2D< int > *img, int indice ) {
+bool CCorrelacaoFFT::Go ( TCMatriz2D< bool > *img, int indice ) {
 	if (! img )
 		return false;
 

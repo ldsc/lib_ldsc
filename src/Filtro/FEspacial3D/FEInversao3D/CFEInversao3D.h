@@ -40,10 +40,10 @@ public:
 
 // Métodos
   	/// Recebe TCImagem3D, executa a inversão e retornar ponteiro para a imagem 3D invertida.
-		TCImagem3D<int> * Go ( TCImagem3D<int> * imagem );
+		TCImagem3D<bool> * Go ( TCImagem3D<bool> * imagem );
   	
   	/// Recebe CMatriz3D, executa a inversão e retornar ponteiro para a imagem 3D invertida.
-  	TCMatriz3D<int> * Go ( TCMatriz3D<int> * imagem );
+		TCMatriz3D<bool> * Go ( TCMatriz3D<bool> * imagem );
 };
 
 #endif

@@ -41,7 +41,7 @@ public:
 
     /// Determina autocorrelação. Recebe ponteiro para CMatriz3D, o tipo de correlação a ser calculada, o valor de índice a ser considerado e o número de planos que serão utilizados para o calculo da média das correlações.
     /// Se o número de planos informado for menor que 1, o defalt será 10% dos planos.
-    bool Go (TCMatriz3D<int> *img, Tipos tipo, int indice=1, int numPlanos=0);
+		bool Go (TCMatriz3D<bool> *img, Tipos tipo, int indice=1, int numPlanos=0);
 
     /// Salva em disco os dados de correlação (.cor).
     bool Write (string fileName);

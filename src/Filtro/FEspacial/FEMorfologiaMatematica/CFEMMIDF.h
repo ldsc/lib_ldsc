@@ -87,7 +87,7 @@ public:
 
    /// Construtor
    // ponteiro para matriz imagem, tamanho da mascara a ser criada,raioMáximo a ser utilizado, valores de indice e fundo na imagem
-   CFEMMIDF ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
+	 CFEMMIDF ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
 
    /// Destrutor
    virtual ~ CFEMMIDF ( ) { }

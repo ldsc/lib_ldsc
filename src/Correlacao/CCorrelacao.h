@@ -68,7 +68,7 @@ public:
    virtual bool Go (float *Re_data, int NX, int NY, int indice=1) = 0;
 
    /// Determina a função autocorrelação. Recebe ponteiro para TCMatriz2D< int > e o valore que representa índice na imagem, ou seja, o valor que será correlacionado.
-   virtual bool Go (TCMatriz2D< int > *img, int indice=1) = 0;
+	 virtual bool Go (TCMatriz2D< bool > *img, int indice=1) = 0;
 
    /// Recebe lista de arquivos correlação, cálcula a média das curvas e armazena os valores no vetor correlacao
    bool Media (set<string> filesName);

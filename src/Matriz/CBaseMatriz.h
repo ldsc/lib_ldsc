@@ -301,11 +301,6 @@ class CBaseMatriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0) = 0;
 
 		/**
-		@brief Preenche com valor constante
-		*/
-		virtual void Constante (int cte) = 0;
-
-		/**
 		@brief Inverte valores (0)-->(1)  (>0) -->0
 		*/
 		virtual void Inverter () = 0;

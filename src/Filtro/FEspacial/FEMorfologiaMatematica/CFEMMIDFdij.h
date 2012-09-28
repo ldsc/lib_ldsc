@@ -43,7 +43,7 @@ public:
    }
 
    /// Construtor
-   CFEMMIDFdij (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
+	 CFEMMIDFdij (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
       :CFEMMIDF (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb)
    {
    }

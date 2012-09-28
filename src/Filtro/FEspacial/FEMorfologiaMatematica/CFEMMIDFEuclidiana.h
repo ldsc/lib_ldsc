@@ -53,7 +53,7 @@ class CFEMMIDFEuclidiana:public CFEMMIDFdij
 {
 public:			//  mi,  mj,               rb
 		/// Construtor
-  CFEMMIDFEuclidiana (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
+	CFEMMIDFEuclidiana (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
     : CFEMMIDFdij (matriz, 100,	(int)CMath::MSQRT2 * 100, 100, _indice, _fundo)
   {
   }

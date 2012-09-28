@@ -19,15 +19,16 @@ CImagem * CFEInversao::Go ( CImagem * imagem ) {
 	return piInv;
 }
 
-TCMatriz2D< int > * CFEInversao::Go ( TCMatriz2D< int > * imagem ) {
+TCMatriz2D< bool > * CFEInversao::Go ( TCMatriz2D< bool > * imagem ) {
 	// a imagem deve ser passada no construtor.
-	if ( ! imagem ) return NULL;
+	if ( ! imagem )
+		return NULL;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != P1_X_Y_ASCII && imagem->GetFormato() != P4_X_Y_BINARY)
 		return NULL;
 	
-	TCMatriz2D< int > * pmInv = NULL;
-	pmInv = new TCMatriz2D< int >( *imagem );
+	TCMatriz2D< bool > * pmInv = NULL;
+	pmInv = new TCMatriz2D< bool >( *imagem );
 	if ( ! pmInv )
 		return NULL;
 	

@@ -29,13 +29,13 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Herdeiro de CFEspacial.
  */
 
-class CFEDeteccaoContornoMasc : public CFEspacial
+class CFEDeteccaoContornoMasc : public CFEspacial<int>
 {
 public:
 		/// Construtor
   CFEDeteccaoContornoMasc (TCMatriz2D< int > * &matriz,
 			   unsigned int _tamanhoMascara)
-    : CFEspacial (matriz,  _tamanhoMascara)
+    : CFEspacial<int> (matriz,  _tamanhoMascara)
   {
   }
 

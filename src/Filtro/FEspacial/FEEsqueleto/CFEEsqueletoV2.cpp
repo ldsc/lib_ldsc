@@ -50,7 +50,7 @@ CFEEsqueletoV2::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
 {
   if (idf == NULL)
     {
-      idf = new CFEMMIDFd34 (imagem);	// Cria a idf, e testa alocacao
+			idf = new CFEMMIDFd34<int> (imagem);	// Cria a idf, e testa alocacao
       COperacao::TestaAlocacao (idf,
 				"Erro alocacao idf, funcao Go, objeto CFEEsqueletoV2");
     }

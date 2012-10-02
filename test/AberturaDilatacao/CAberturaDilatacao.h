@@ -23,7 +23,7 @@ class CAberturaDilatacao
 
 protected:
     /// Ponteiro para objeto filtro morfologia matematica
-    CFEMorfologiaMatematica* pfmf;
+		CFEMorfologiaMatematica<int>* pfmf;
 
     /// Vetor distribuicao total = distTotal = distPoros + distLigacoes
     CVetor* distribuicaoTotalPoros;

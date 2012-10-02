@@ -36,58 +36,55 @@ Documentacao       Go
 Descrição:        Calcula o valor médio do nível de corte e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
+template<typename T>
+TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	// unsigned int i,j;
+	int i, j;
+	CFiltro<T>::pm = matriz;
+	TCMatriz2D<T> *lap = new TCMatriz2D<T> ( * CFiltro<T>::pm);	// 0-Cria matriz laplaciano, copia de pm
 
-TCMatriz2D< int > *
-CFABPixelContorno::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  // unsigned int i,j;
-  int i, j;
-  pm = matriz;
-  TCMatriz2D< int > *lap = new TCMatriz2D< int > (*pm);	// 0-Cria matriz laplaciano, copia de pm
+	// 1-Calcula o laplaciano da imagem
+	CFELaplaciano filtroLaplaciano (lap, 3);	// tamanho da mascara=3
 
-  // 1-Calcula o laplaciano da imagem
-  CFELaplaciano filtroLaplaciano (lap, 3);	// tamanho da mascara=3
+	filtroLaplaciano.Go (lap);	// calcula o laplaciano em sí
 
-  filtroLaplaciano.Go (lap);	// calcula o laplaciano em sí
+	CHistograma *histograma = new CHistograma (256);	// cria objeto histograma
 
-  CHistograma *histograma = new CHistograma (256);	// cria objeto histograma
+	histograma->Go (lap);		// 2-Calcula o histograma para a matriz laplaciano
 
-  histograma->Go (lap);		// 2-Calcula o histograma para a matriz laplaciano
+	// 3-calcula nível de corte para ter PCHistLap%
+	int nivelCorteLaplaciano = histograma->NivelCortePara (PCHistLap);	// de píxel's ativos na matriz laplaciano
 
-  // 3-calcula nível de corte para ter PCHistLap%
-  int nivelCorteLaplaciano = histograma->NivelCortePara (PCHistLap);	// de píxel's ativos na matriz laplaciano
+	// 4-Agora vai calcular o histograma da imagem pm, mas considerando
+	// somente os pontos de pm que satisfaçam a condição de nivel de corte
+	// definida pela matriz laplaciano
+	// ----------inicio calculo histograma-------
+	histograma->Constante (0);	// zera o histograma
+	for (i = 0; i < CFiltro<T>::pm->NX (); i++)	// percorre a imagem
+		for (j = 0; j < CFiltro<T>::pm->NY (); j++)	{
+			if (// evita acesso a ponto alem dos limites do vetor histograma
+					(CFiltro<T>::pm->data2D[i][j] < histograma->NX ()) &&	// só considerar pontos que satisfaçam a condição do laplaciano
+					(lap->data2D[i][j] >= nivelCorteLaplaciano))
+				histograma->data1D[CFiltro<T>::pm->data2D[i][j]]++;	// incrementa
+		}
+	float area = CFiltro<T>::pm->NX () * CFiltro<T>::pm->NY ();	// coloca histograma em percentuais
 
-  // 4-Agora vai calcular o histograma da imagem pm, mas considerando
-  // somente os pontos de pm que satisfaçam a condição de nivel de corte
-  // definida pela matriz laplaciano
-  // ----------inicio calculo histograma-------
-  histograma->Constante (0);	// zera o histograma
-  for (i = 0; i < pm->NX (); i++)	// percorre a imagem
-    for (j = 0; j < pm->NY (); j++)	// 
-      {
-	if (			// evita acesso a ponto alem dos limites do vetor histograma
-	     (pm->data2D[i][j] < histograma->NX ()) &&	// só considerar pontos que satisfaçam a condição do laplaciano
-	     (lap->data2D[i][j] >= nivelCorteLaplaciano))
-	  histograma->data1D[pm->data2D[i][j]]++;	// incrementa
-      }
-  float area = pm->NX () * pm->NY ();	// coloca histograma em percentuais
- 
-  for (unsigned int k = 0; k < histograma->NX (); k++)
-    histograma->data1D[k] = histograma->data1D[k] * 100.0 / area;
-  // ----------fim calculo histograma-------
+	for (unsigned int k = 0; k < histograma->NX (); k++)
+		histograma->data1D[k] = histograma->data1D[k] * 100.0 / area;
+	// ----------fim calculo histograma-------
 
 
-  delete lap;			// elimina objeto matriz laplaciano
+	delete lap;			// elimina objeto matriz laplaciano
 
-  // 5-Agora precisa determinar o nivel de corte
-  // usando função determinaNivelCorte da classe irmã
-  CFABDoisPicos *fBinarizacaoDoisPicos = new CFABDoisPicos (pm);	// Cria filtro de classe irmã
-  nivel = fBinarizacaoDoisPicos->determinaNivelCorte (histograma);	// chama função publica da classe irmã
- 
-  delete histograma;		// elimina objeto histograma
+	// 5-Agora precisa determinar o nivel de corte
+	// usando função determinaNivelCorte da classe irmã
+	CFABDoisPicos<T> * fBinarizacaoDoisPicos = new CFABDoisPicos<T> (CFiltro<T>::pm);	// Cria filtro de classe irmã
+	CFABinario<T>::nivel = fBinarizacaoDoisPicos->determinaNivelCorte (histograma);	// chama função publica da classe irmã
 
-  delete fBinarizacaoDoisPicos;	// elimina objeto filtro auxiliar
+	delete histograma;		// elimina objeto histograma
 
-  return CFABinario::Go (pm);	// Executa função Go da classe base
+	delete fBinarizacaoDoisPicos;	// elimina objeto filtro auxiliar
+
+	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
 }
 #endif

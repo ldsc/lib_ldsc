@@ -1,5 +1,5 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFdijk_h)
+#ifndef CFEMMIDFdijk_h
 #define CFEMMIDFdijk_h
 
 /*
@@ -29,33 +29,34 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro dijk.
  */
-class CFEMMIDFdijk:public CFEMMIDF, public CMCdijk
+template<typename T>
+class CFEMMIDFdijk : public CFEMMIDF<T>, public CMCdijk
 {
-protected:
-	///  Redefinida, herdada de CFEMMIDF
-  virtual unsigned int Mi ()
-  {
-    return mi;
-  }	
+	protected:
+		///  Redefinida, herdada de CFEMMIDF
+		virtual unsigned int Mi () {
+			return mi;
+		}
 
-protected:
-	///  Redefinida, cria a mascara
-    virtual void CriaMascara (unsigned int _tamanhoMascara);	
+	protected:
+		///  Redefinida, cria a mascara
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-public:
+	public:
 		/// Construtor
-	CFEMMIDFdijk (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
-     :CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdijk (_mi, _mj, _mk, _rb)
-  {
-  }
+		CFEMMIDFdijk (TCMatriz2D<T> * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _mk, unsigned int _rb, int _indice=1, int _fundo=0)
+			: CFEMMIDF<T> (matriz, _rb, 32000, _indice, _fundo), CMCdijk (_mi, _mj, _mk, _rb) {
+		}
 
-  ///  Destrutor
-  virtual ~ CFEMMIDFdijk ()
-  {
-  }				
+		///  Destrutor
+		virtual ~ CFEMMIDFdijk () {
+		}
 
-  /// Processa a idf.
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Processa a idf.
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp"
+
 #endif //  CFEMMIDFdijk_h

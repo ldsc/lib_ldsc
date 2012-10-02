@@ -41,19 +41,19 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
       return false;
    }
 
-   CFEMorfologiaMatematica * filtro = NULL;
+	 CFEMorfologiaMatematica<int> * filtro = NULL;
    switch (_metrica){
    case espacial:
-      filtro = new CFEMorfologiaMatematica(matriz, raio, indice, fundo);
+			filtro = new CFEMorfologiaMatematica<int>(matriz, raio, indice, fundo);
       break;
    case d34:
-      filtro = new CFEMMIDFd34(matriz, indice, fundo);
+			filtro = new CFEMMIDFd34<int>(matriz, indice, fundo);
       break;
    case d5711:
-      filtro = new CFEMMIDFd5711(matriz, indice, fundo);
+			filtro = new CFEMMIDFd5711<int>(matriz, indice, fundo);
       break;
    case euclidiana:
-      filtro = new CFEMMIDFEuclidiana(matriz, indice, fundo);
+			filtro = new CFEMMIDFEuclidiana<int>(matriz, indice, fundo);
       break;
    }
 

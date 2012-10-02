@@ -36,12 +36,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * 
 */
 
-class CFEBartlet : public CFEspacial
+class CFEBartlet : public CFEspacial<int>
 {
 public:
 		/// Construtor
   CFEBartlet (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-    :CFEspacial (matriz,_tamanhoMascara)
+    :CFEspacial<int> (matriz,_tamanhoMascara)
   {
   }
   

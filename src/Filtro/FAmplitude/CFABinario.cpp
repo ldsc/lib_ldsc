@@ -32,17 +32,17 @@ Descrição:        Se o valor de cor do pixel for maior que o nivel de corte, a
 						caso contrário assume valor  0.
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFABinario::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+template<typename T>
+TCMatriz2D<T> * CFABinario<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara)
 {
-  pm = matriz;
-  for (unsigned int i = 0; i < pm->NX (); i++)
-    for (unsigned int j = 0; j < pm->NY (); j++)
+	CFiltro<T>::pm = matriz;
+	for (unsigned int i = 0; i < CFiltro<T>::pm->NX (); i++)
+		for (unsigned int j = 0; j < CFiltro<T>::pm->NY (); j++)
       {
-	(pm->data2D[i][j] > nivel) ?
+	(CFiltro<T>::pm->data2D[i][j] > nivel) ?
 	  // pm->data2D[i][j]=1:  pm->data2D[i][j]=0;
-	  pm->data2D[i][j] = 0 : pm->data2D[i][j] = 1;	// a imagem cinza tem branco=255 preto=0
+		CFiltro<T>::pm->data2D[i][j] = 0 : CFiltro<T>::pm->data2D[i][j] = 1;	// a imagem cinza tem branco=255 preto=0
       }				// o resultado binario deve ter branco=0 preto=1
-  return pm;
+	return CFiltro<T>::pm;
 }
 #endif

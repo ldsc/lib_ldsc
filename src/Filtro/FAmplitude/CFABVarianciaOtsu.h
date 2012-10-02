@@ -24,7 +24,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Filtros de amplitude, usa método da VarianciaOtsu.
- * 
+ *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
  * Otsu's method of 'grey level histograms'
@@ -34,29 +34,26 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * entre as variâncias da classe 1 e 2
  * nivelCorte=varianca1/varianca2
 */
+template<typename T>
+class CFABVarianciaOtsu : public CFABinario<T> {
+	public:
+		/// Construtor
+		CFABVarianciaOtsu (TCMatriz2D<T> * &_pm) : CFABinario<T> (_pm) {
+		}
 
-class CFABVarianciaOtsu : public CFABinario
-{
-public:			
-	/// Construtor
-  CFABVarianciaOtsu (TCMatriz2D< int > * &_pm):CFABinario (_pm)
-  {
-  }
+		/// Destrutor
+		~CFABVarianciaOtsu () {
+		}
 
-/// Destrutor
-  ~CFABVarianciaOtsu ()
-  {
-  }
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+	protected:
+		/// Funções auxiliares
+		float nu (CHistograma * histAux, int k, float iXdataiTotal,  float varianciaTotal);
 
-protected:
-  /// Funções auxiliares
-  float nu (CHistograma * histAux, int k, float iXdataiTotal,  float varianciaTotal);
-
-  /// Funções auxiliares
-  float iXdatai (int *datai, int k);
+		/// Funções auxiliares
+		float iXdatai (int *datai, int k);
 
 };
 #endif //  CFABVarianciaOtsu_h

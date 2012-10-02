@@ -25,10 +25,10 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Filtro de amplitude, baseado no contorno (usa laplaciano).
- * 
+ *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
- * 
+ *
  * Determina o nível de corte, a partir do histograma de níveis de cinza
  * calculado sobre os píxel's de contorno.
  * 0-Cria matrizLaplaciano, copia da matriz passada
@@ -38,27 +38,24 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * 4-Na matriz Laplaciano elimina os pontos menores que nívelCorteLaplaciano
  * 5-Cria filtro de binarização CFABDoisPicos e executa passando a matrizLaplaciano .
 */
+template<typename T>
+class CFABPixelContorno : public CFABinario<T> {
+	public:
+		int PCHistLap;	///< Percentagem de corte no histograma dos pontos do laplaciano
 
-class CFABPixelContorno : public CFABinario
-{
-public:			 
-  int PCHistLap;	///< Percentagem de corte no histograma dos pontos do laplaciano
-
-public:			
-	/// Construtor
-  CFABPixelContorno (TCMatriz2D< int > * &_pm, int _PCHistLap = 85)
-    : CFABinario(_pm)
-  {
-    PCHistLap = _PCHistLap;
-  }
+	public:
+		/// Construtor
+		CFABPixelContorno (TCMatriz2D<T> * &_pm, int _PCHistLap = 85)
+			: CFABinario<T>(_pm) {
+			PCHistLap = _PCHistLap;
+		}
 
 		/// Destrutor
-  ~CFABPixelContorno ()
-  {
-  }
+		~CFABPixelContorno (){
+		}
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 
 };
 #endif //  CFABPixelContorno_h

@@ -89,7 +89,7 @@ protected:
 
     int indiceParcialB;				/// Indice da regiao B após cada processo
 
-    CFEMMIDF *idf; 				/// É uma copia da imagem com a IDF (é o filtro que gera e armazena a idf)
+		CFEMMIDF<int> *idf; 				/// É uma copia da imagem com a IDF (é o filtro que gera e armazena a idf)
 
     CConectividade2D *rotulador; 			/// Objeto conectividade, realiza a verificacao da conectividade (herdeiro de rotulador2D, é uma imagem).
 

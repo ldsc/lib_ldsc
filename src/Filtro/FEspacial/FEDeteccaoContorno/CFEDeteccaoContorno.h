@@ -11,14 +11,14 @@ Bibliotecas e Defines
 /**
  * @brief Classe base para detecção de contorno usando diferentes métodos.
 */
-class CFEDeteccaoContorno : public CFEspacial
+class CFEDeteccaoContorno : public CFEspacial<int>
 {
 	
 
 public:			/// Construtor
   CFEDeteccaoContorno (TCMatriz2D< int > * &matriz,
 		       unsigned int _tamanhoMascara)
-    : CFEspacial (matriz, _tamanhoMascara)
+    : CFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

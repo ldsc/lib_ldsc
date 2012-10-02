@@ -31,13 +31,13 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O resultado geral é a atenuação dos contornos.
  */
 
-class CFEGaussiano : public CFEspacial
+class CFEGaussiano : public CFEspacial<int>
 {
 public:
 	/// Construtor
   CFEGaussiano (TCMatriz2D< int > * &matriz,
 		unsigned int _tamanhoMascara)
-	:CFEspacial (matriz,	  _tamanhoMascara)
+	:CFEspacial<int> (matriz,	  _tamanhoMascara)
   {
   }
 

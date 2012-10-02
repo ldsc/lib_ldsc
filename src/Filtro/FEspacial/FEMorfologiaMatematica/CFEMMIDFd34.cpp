@@ -20,7 +20,9 @@
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
+#ifndef CFEMMIDFd34_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h"	//  Classe base
+#endif
 //  #include "Mascara/MCDiscreta\CMCd34.h"              //  ponteiro para
 //  #include "Mascara/CMascMascDiscretad34.h"            //  Cria objeto
 

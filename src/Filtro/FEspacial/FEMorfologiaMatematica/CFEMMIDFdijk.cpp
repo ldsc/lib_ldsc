@@ -3,7 +3,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp
-    Analise de Imagens de Meios Porosos
+		Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -19,8 +19,9 @@ Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFdijk.
 //   Bibliotecas
 //   ----------------------------------------------------------------------------
 using namespace std;
-
+#ifndef CFEMMIDFdijk_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.h"	//   Classe base
+#endif
 #include "Geometria/Bola/BCDiscreta/CBCdijk.h"	//   ponteiro para
 
 /*
@@ -37,15 +38,15 @@ Tamanho(bits):
 Comentarios:
 Programador:      Andre Duarte Bueno
 */
-
-void CFEMMIDFdijk::CriaMascara (unsigned int _tamanhoMascara) {
-   if (mask) { //   se existe uma mascara
-      if (mask->NX () == _tamanhoMascara)	//   e é do mesmo  tamanho
-         return;			//   sai
-      delete mask;		//   se  nao é do mesmo tamanho apaga objeto mask
-   }				//   e abaixo cria uma nova
-   //   se nao existe a mascara, cria uma nova
-   mask = new CBCdijk (_tamanhoMascara, mi, mj, mk, raioBase);
+template<typename T>
+void CFEMMIDFdijk<T>::CriaMascara (unsigned int _tamanhoMascara) {
+	if (this->mask) { //   se existe uma mascara
+		if (this->mask->NX () == _tamanhoMascara)	//   e é do mesmo  tamanho
+			return;			//   sai
+		delete this->mask;		//   se  nao é do mesmo tamanho apaga objeto mask
+	}				//   e abaixo cria uma nova
+	//   se nao existe a mascara, cria uma nova
+	this->mask = new CBCdijk (_tamanhoMascara, mi, mj, mk, raioBase);
 }
 
 /*
@@ -71,78 +72,79 @@ Ou seja desconsidera-se os pontos da borda da imagem.
 */
 
 //   TCMatriz2D< int > * CFEMMIDFdijk::Go( TCMatriz2D< int > *& matriz)
-TCMatriz2D< int > * CFEMMIDFdijk::Go (TCMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara*/ ) {
-   int x, y;			//   Indices para percorrer a matriz
-   ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
+template<typename T>
+TCMatriz2D<T> * CFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+	int x, y;			//   Indices para percorrer a matriz
+	ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 
-   //adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
-   InverterSeNecessario();
+	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
+	this->InverterSeNecessario();
 
-   //   Como esta mascara tem raio 2, abaixo nao calcula a idf para pontos nos planos 0 e 1
-   //   observe o for iniciar de 2, deixando de fora 0 e 1.
-   //   A funcao abaixo considera os planos 0
-   //    IDFNosPlanosDeContornoIDA(mi);
-   //   Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faço a seguir
-   //   por simplificacao faço ponto igual a 5, posteriormente calcular corretamente
-   for (y = 1; y < ny - 1; y++)
-      if (data2D[1][y] != 0)	//   percorre linha x=1
-         data2D[1][y] = mi;
-   for (x = 2; x < nx - 1; x++)
-      if (data2D[x][1] != 0)	//   percorre linha y=1
-         data2D[x][1] = mi;
+	//   Como esta mascara tem raio 2, abaixo nao calcula a idf para pontos nos planos 0 e 1
+	//   observe o for iniciar de 2, deixando de fora 0 e 1.
+	//   A funcao abaixo considera os planos 0
+	//    IDFNosPlanosDeContornoIDA(mi);
+	//   Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faço a seguir
+	//   por simplificacao faço ponto igual a 5, posteriormente calcular corretamente
+	for (y = 1; y < this->ny - 1; y++)
+		if (this->data2D[1][y] != 0)	//   percorre linha x=1
+			this->data2D[1][y] = mi;
+	for (x = 2; x < this->nx - 1; x++)
+		if (this->data2D[x][1] != 0)	//   percorre linha y=1
+			this->data2D[x][1] = mi;
 
-   //   deve considerar adicionalmente a segunda linha, pois abaixo a mesma nao é verificada.
+	//   deve considerar adicionalmente a segunda linha, pois abaixo a mesma nao é verificada.
 
-   //   ida   MinimoIda
-   //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-   for (y = 2; y < ny - 2; y++) {	//   NY() é igual a ny, ny da matriz idf
-      for (x = 2; x < nx - 2; x++) {
-         if (data2D[x][y] != 0) {	//   Testa a imagem, se nao for solido entra
-            minimo = raioMaximo;	//   usa 32000
-            //   -------------------------------------------------------------
-            min (data2D[x - 1][y] + mi);	/*ponto [x][y] */
-            min (data2D[x - 2][y - 1] + mk);
-            min (data2D[x - 1][y - 1] + mj);
-            min (data2D[x][y - 1] + mi);
-            min (data2D[x + 1][y - 1] + mj);
-            min (data2D[x + 2][y - 1] + mk);
-            min (data2D[x - 1][y - 2] + mk);
-            min (data2D[x + 1][y - 2] + mk);
-            //   -------------------------------------------------------------
-            data2D[x][y] = minimo;
-         }
-      }
-   }
+	//   ida   MinimoIda
+	//   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+	for (y = 2; y < this->ny - 2; y++) {	//   NY() é igual a ny, ny da matriz idf
+		for (x = 2; x < this->nx - 2; x++) {
+			if (this->data2D[x][y] != 0) {	//   Testa a imagem, se nao for solido entra
+				this->minimo = this->raioMaximo;	//   usa 32000
+				//   -------------------------------------------------------------
+				this->min (this->data2D[x - 1][y] + mi);	/*ponto [x][y] */
+				this->min (this->data2D[x - 2][y - 1] + mk);
+				this->min (this->data2D[x - 1][y - 1] + mj);
+				this->min (this->data2D[x][y - 1] + mi);
+				this->min (this->data2D[x + 1][y - 1] + mj);
+				this->min (this->data2D[x + 2][y - 1] + mk);
+				this->min (this->data2D[x - 1][y - 2] + mk);
+				this->min (this->data2D[x + 1][y - 2] + mk);
+				//   -------------------------------------------------------------
+				this->data2D[x][y] = this->minimo;
+			}
+		}
+	}
 
-   //   volta    MinimoVolta
-   //    IDFNosPlanosDeContornoVOLTA(mi);
-   //   for (y=2; y < ny-1 ;y++)
-   for (y = ny - 2; y > 1; y--)
-      if (data2D[nx - 2][y] != 0)	//   percorre linha x=nx-2
-         data2D[nx - 2][y] = mi;
-   //   for (x=2; x < nx-2 ;x++)
-   for (x = nx - 3; x > 1; x--)
-      if (data2D[x][ny - 2] != 0)	//   percorre linha y=ny-2
-         data2D[x][ny - 2] = mi;
+	//   volta    MinimoVolta
+	//    IDFNosPlanosDeContornoVOLTA(mi);
+	//   for (y=2; y < ny-1 ;y++)
+	for (y = this->ny - 2; y > 1; y--)
+		if (this->data2D[this->nx - 2][y] != 0)	//   percorre linha x=nx-2
+			this->data2D[this->nx - 2][y] = mi;
+	//   for (x=2; x < nx-2 ;x++)
+	for (x = this->nx - 3; x > 1; x--)
+		if (this->data2D[x][this->ny - 2] != 0)	//   percorre linha y=ny-2
+			this->data2D[x][this->ny - 2] = mi;
 
-   //   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-   for (y = ny - 3; y > 1; y--) {	//   -2 pois começa do zero e a mascara tem tamanho 1
-      for (x = nx - 3; x > 1; x--) {
-         if (data2D[x][y] != 0) {	//   Se nao for solido
-            minimo = data2D[x][y];	//   Armazena valor minimo da ida
-            //   -------------------------------------------------------------
-            min (data2D[x - 1][y + 2] + mk);
-            min (data2D[x + 1][y + 2] + mk);
-            min (data2D[x - 2][y + 1] + mk);
-            min (data2D[x - 1][y + 1] + mj);
-            min (data2D[x][y + 1] + mi);
-            min (data2D[x + 1][y + 1] + mj);
-            min (data2D[x + 2][y + 1] + mk);
-            /*ponto [x][y] */ min (data2D[x + 1][y] + mi);
-            //   -------------------------------------------------------------
-            data2D[x][y] = minimo;
-         }
-      }
-   }
-   return pm;
+	//   Da forma como esta nao percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+	for (y = this->ny - 3; y > 1; y--) {	//   -2 pois começa do zero e a mascara tem tamanho 1
+		for (x = this->nx - 3; x > 1; x--) {
+			if (this->data2D[x][y] != 0) {	//   Se nao for solido
+				this->minimo = this->data2D[x][y];	//   Armazena valor minimo da ida
+				//   -------------------------------------------------------------
+				this->min (this->data2D[x - 1][y + 2] + mk);
+				this->min (this->data2D[x + 1][y + 2] + mk);
+				this->min (this->data2D[x - 2][y + 1] + mk);
+				this->min (this->data2D[x - 1][y + 1] + mj);
+				this->min (this->data2D[x][y + 1] + mi);
+				this->min (this->data2D[x + 1][y + 1] + mj);
+				this->min (this->data2D[x + 2][y + 1] + mk);
+				this->min (this->data2D[x + 1][y] + mi);
+				//   -------------------------------------------------------------
+				this->data2D[x][y] = this->minimo;
+			}
+		}
+	}
+	return this->pm;
 }

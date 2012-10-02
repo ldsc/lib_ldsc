@@ -6,7 +6,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-  Analise de Imagens de Meios Porosos
+	Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
@@ -30,30 +30,31 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro dij.
  */
-class CFEMMIDFdij : public CFEMMIDF, public CMCdij
+template<typename T>
+class CFEMMIDFdij : public CFEMMIDF<T>, public CMCdij
 {
-protected:
+	protected:
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-   virtual void CriaMascara (unsigned int _tamanhoMascara);
+	public:
+		///  Retorna mi (Redefinida, herdada de CFEMMIDF).
+		virtual unsigned int Mi () {
+			return mi;
+		}
 
-public:
-   ///  Retorna mi (Redefinida, herdada de CFEMMIDF).
-   virtual unsigned int Mi () {
-      return mi;
-   }
+		/// Construtor
+		CFEMMIDFdij (TCMatriz2D<T> * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
+			: CFEMMIDF<T> (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb) {
+		}
 
-   /// Construtor
-	 CFEMMIDFdij (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
-      :CFEMMIDF (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb)
-   {
-   }
+		///  Destrutor
+		virtual ~ CFEMMIDFdij () {
+		}
 
-   ///  Destrutor
-   virtual ~ CFEMMIDFdij ()
-   {
-   }
-
-   /// Processa determinação da idf.
-   virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Processa determinação da idf.
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp"
+
 #endif //  CFEMMIDFdij_h

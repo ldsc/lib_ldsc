@@ -20,7 +20,9 @@ Liang Zirong, Paulo C. Philippi, ...
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
+#ifndef CFEMMIDFd8_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.h"
+#endif
 
 //  Classe base
 //  #include "Mascara/MCDiscreta\CMCd8.h"  //  ponteiro para

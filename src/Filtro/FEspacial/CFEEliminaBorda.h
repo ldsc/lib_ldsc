@@ -36,14 +36,14 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * CFEEliminaBorda(valorBorda).Go(imagem,espessuraBorda);
  */
 
-class CFEEliminaBorda : public CFEspacial
+class CFEEliminaBorda : public CFEspacial<int>
 {
   int valorBorda;
 
 public:
 		/// Construtor
   CFEEliminaBorda (int vB = 0, TCMatriz2D< int > * matriz = 0, unsigned int _tamanhoMascara = 0)
-    : CFEspacial (matriz, _tamanhoMascara),    valorBorda    (vB)
+    : CFEspacial<int> (matriz, _tamanhoMascara),    valorBorda    (vB)
   {
   }
 

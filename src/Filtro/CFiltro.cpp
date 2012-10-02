@@ -1,7 +1,3 @@
-// ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFiltro_cpp
-#define CFiltro_cpp
-
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Bibliotecas LDSC.
@@ -22,8 +18,8 @@ Bibliotecas
 ----------------------------------------------------------------------------
 */
 
-
+#ifndef CFiltro_h
 #include <Filtro/CFiltro.h>
-// vazio porque as funcoes sao puras
-
 #endif
+
+// vazio porque as funcoes sao puras

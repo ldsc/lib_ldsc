@@ -27,35 +27,33 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /** @brief Filtro de amplitude, método de calculo baseado na determinação
  * dos dois picos de níveis de cinza na imagem.
- * 
+ *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
- * 
+ *
  * Método de calculo da posição de corte (threshold)
  * baseado na determinação dos dois picos de níveis de cinza na imagem
  * ideal para imagem com duas regiões de níveis de cinza
- * 
+ *
 */
-
-class CFABDoisPicos : public CFABinario
+template<typename T>
+class CFABDoisPicos : public CFABinario<T>
 {
-public:
+	public:
 
-	/// Construtor			
-  CFABDoisPicos (TCMatriz2D< int > * &_pm):CFABinario (_pm)
-  {
-  }			
+		/// Construtor
+		CFABDoisPicos (TCMatriz2D<T> * &_pm) : CFABinario<T> (_pm) {
+		}
 
-				/// Destrutor
-  ~CFABDoisPicos ()
-  {
-  }
+		/// Destrutor
+		~CFABDoisPicos () {
+		}
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara = 0);
 
-  /// Função que determina o nivel de corte a partir do histograma da imagem
-  unsigned int determinaNivelCorte (CHistograma * &hist); 
+		/// Função que determina o nivel de corte a partir do histograma da imagem
+		unsigned int determinaNivelCorte (CHistograma * &hist);
 
 };
 #endif //  CFABDoisPicos_h

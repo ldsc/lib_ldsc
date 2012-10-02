@@ -28,7 +28,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 Documentacao CLASSE:    CFEBorda3D
 ==================================================================================
 Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
-Superclasse:         TFiltro-> CFEspacial
+Superclasse:         TFiltro-> CFEspacial<int>
 Descrição:           Elimina a borda de uma imagem, substituindo pontos da borda por valorBorda
                      O valor default para a borda é zero (0).
                      Ex:

@@ -23,7 +23,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Filtro de amplitude, usa método iterativo, (Thrussel, 1979).
- * 
+ *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
  * Método iterativo, (Thrussel, 1979)
@@ -32,22 +32,20 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Isto é feito iterativamente, para diferentes níveis de corte
  * o processo termina quando não ocorrer mais variação do nível de corte
 */
-
-class CFABIterativoThrussel : public CFABinario
+template<typename T>
+class CFABIterativoThrussel : public CFABinario<T>
 {
-public:
-				/// Construtor
-  CFABIterativoThrussel (TCMatriz2D< int > * &_pm):CFABinario (_pm)
-  {
-  }
+	public:
+		/// Construtor
+		CFABIterativoThrussel (TCMatriz2D<T> * &_pm) : CFABinario<T> (_pm) {
+		}
 
-				/// Destrutor
-  ~CFABIterativoThrussel ()
-  {
-  }
+		/// Destrutor
+		~CFABIterativoThrussel () {
+		}
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 
 };
 #endif //  CFABIterativoThrussel_h

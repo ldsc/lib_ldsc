@@ -28,7 +28,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 Documentacao CLASSE:    CFEBSubstitueValor3D
 ==================================================================================
 Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
-Superclasse:         TFiltro-> CFEspacial
+Superclasse:         TFiltro-> CFEspacial<int>
 Descrição:           Substitue os pontos da borda com valor i por j.
                      Ex:Exemplo de uso: CFEBSubstitueValor3D(valorAntigo,valorNovoBorda).Go(imagem);
 

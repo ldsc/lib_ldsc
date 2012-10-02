@@ -1,5 +1,5 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFd4_h)
+#ifndef CFEMMIDFd4_h
 #define CFEMMIDFd4_h
 
 /*
@@ -9,7 +9,7 @@ PROJETO:	Anaimp
 ----------------------------------------------------------------------------
 
 Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico 
-  dos Materiais.
+	dos Materiais.
 Programadores:    Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, 
 Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
@@ -29,19 +29,21 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief            Matriz IDF de uma imagem usando mascara de chanfro d4.
  */
-class CFEMMIDFd4 : public CFEMMIDFdi
+template<typename T>
+class CFEMMIDFd4 : public CFEMMIDFdi<T>
 {
-public:			//  mi,rb
+	public:
 		/// Construtor
-	CFEMMIDFd4 (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0)
-     :CFEMMIDFdi (matriz, 1, 1, _indice, _fundo)
-  {
-  }
+		CFEMMIDFd4 (TCMatriz2D<T> * &matriz, int _indice=1, int _fundo=0)
+			: CFEMMIDFdi<T> (matriz, 1, 1, _indice, _fundo) {
+		}
 
-  ///  Destrutor
-  virtual ~ CFEMMIDFd4 ()
-  {
-  }		
+		///  Destrutor
+		virtual ~ CFEMMIDFd4 () {
+		}
 
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp"
+
 #endif //  CFEMMIDFd4_h

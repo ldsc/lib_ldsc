@@ -33,14 +33,12 @@ Descrição:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFABMedia::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  pm = matriz;
-
-  nivel = pm->Media ();		// a matriz imagem calcula sua média
+template<typename T>
+TCMatriz2D<T> * CFABMedia<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	CFiltro<T>::pm = matriz;
+	CFABinario<T>::nivel = CFiltro<T>::pm->Media ();		// a matriz imagem calcula sua média
   // que é utilizada como nível de corte
-  return CFABinario::Go (pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
   // que processa a binarização
 }
 #endif

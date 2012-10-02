@@ -37,84 +37,81 @@ Descricao:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFABEntropiaJohansen::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  pm = matriz;			// armazena a matriz
-  int i;			// , j;                     // contadores
-  int inicio, fim;		// valor inicial e final do intervalo útil do histograma
-  float Sb, Sw;			// variáveis auxiliares
+template<typename T>
+TCMatriz2D<T> * CFABEntropiaJohansen<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	CFiltro<T>::pm = matriz;			// armazena a matriz
+	int i;			// , j;                     // contadores
+	int inicio, fim;		// valor inicial e final do intervalo útil do histograma
+	float Sb, Sw;			// variáveis auxiliares
 
-  float *Pt = new float[256];	// aloca vetores float
-  float *F = new float[256];
-  float *Pq = new float[256];
+	float *Pt = new float[256];	// aloca vetores float
+	float *F = new float[256];
+	float *Pq = new float[256];
 
-  CHistograma histograma (256);	// cria histograma
-  histograma.Go (pm);		// e calcula
+	CHistograma histograma (256);	// cria histograma
+	histograma.Go (CFiltro<T>::pm);		// e calcula
 
-  // calcula fatores
-  Pt[0] = histograma.data1D[0];
-  Pq[0] = 1.0 - Pt[0];
-  for (i = 1; i < 256; i++)
-    {
-      Pt[i] = Pt[i - 1] + histograma.data1D[i];	// acumula valores
-      Pq[i] = 1.0 - Pt[i - 1];
-    }
+	// calcula fatores
+	Pt[0] = histograma.data1D[0];
+	Pq[0] = 1.0 - Pt[0];
+	for (i = 1; i < 256; i++)
+	{
+		Pt[i] = Pt[i - 1] + histograma.data1D[i];	// acumula valores
+		Pq[i] = 1.0 - Pt[i - 1];
+	}
 
-  // Determina o intervalo válido do histograma
-  inicio = 0;			// maior nível de corte com valor 0 no histograma
-  while (histograma.data1D[inicio] <= 0)	// calcula variavel inicio
-    inicio++;			// que representa o menor indice do histograma com valores válidos
+	// Determina o intervalo válido do histograma
+	inicio = 0;			// maior nível de corte com valor 0 no histograma
+	while (histograma.data1D[inicio] <= 0)	// calcula variavel inicio
+		inicio++;			// que representa o menor indice do histograma com valores válidos
 
-  fim = 255;			// menor nível de corte com valor 255 no histograma
-  while (histograma.data1D[fim] <= 0)	// calcula variavel fim
-    fim--;
+	fim = 255;			// menor nível de corte com valor 255 no histograma
+	while (histograma.data1D[fim] <= 0)	// calcula variavel fim
+		fim--;
 
-  // Calcula a funcao que minimiza todos os níveis
-  nivel = inicio;		// -1;
-  float temporaria1;		// variavel temporaria para acelerar processo
-  for (i = inicio; i <= fim; i++)
-    {
-      if (histograma.data1D[i] <= 0)	// se histograma menor ou igual a zero encerra                 0 *   0  **
-	continue;		// sai do for  // isto pode ocorrer se o histograma for bimodal__**** __****
-      temporaria1 = entropy (histograma.data1D[i]);
+	// Calcula a funcao que minimiza todos os níveis
+	CFABinario<T>::nivel = inicio;		// -1;
+	float temporaria1;		// variavel temporaria para acelerar processo
+	for (i = inicio; i <= fim; i++)
+	{
+		if (histograma.data1D[i] <= 0)	// se histograma menor ou igual a zero encerra                 0 *   0  **
+			continue;		// sai do for  // isto pode ocorrer se o histograma for bimodal__**** __****
+		temporaria1 = entropy (histograma.data1D[i]);
 
-      Sb = flog (Pt[i]) + (1.0 / Pt[i]) * (temporaria1 + entropy (Pt[i - 1]));
-      Sw = flog (Pq[i]) + (1.0 / Pq[i]) * (temporaria1 + entropy (Pq[i + 1]));
-      F[i] = Sb + Sw;
-      if (nivel < 0)		// acusou ser sempre falso, porque nivel é unsigned int(sempre positivo)
-	nivel = i;		// ???????codigo inutil? verificar no codigo original se nivel é unsigned int
-      else if (F[i] < F[nivel])
-	nivel = i;
-    }
+		Sb = flog (Pt[i]) + (1.0 / Pt[i]) * (temporaria1 + entropy (Pt[i - 1]));
+		Sw = flog (Pq[i]) + (1.0 / Pq[i]) * (temporaria1 + entropy (Pq[i + 1]));
+		F[i] = Sb + Sw;
+		if (CFABinario<T>::nivel < 0)		// acusou ser sempre falso, porque nivel é unsigned int(sempre positivo)
+			CFABinario<T>::nivel = i;		// ???????codigo inutil? verificar no codigo original se nivel é unsigned int
+		else if (F[i] < F[CFABinario<T>::nivel])
+			CFABinario<T>::nivel = i;
+	}
 
-  delete [] Pt;
-  delete [] F;
-  delete [] Pq;
-  // aqui o nível ótimo de binarização ja foi calculado
-  return CFABinario::Go (pm);	// Executa funcao Go da classe base
-  // que processa a binarização
+	delete [] Pt;
+	delete [] F;
+	delete [] Pq;
+	// aqui o nível ótimo de binarização ja foi calculado
+	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa funcao Go da classe base
+	// que processa a binarização
 }
 
 // Calcula a entropia para o valor h
 // entropia(h)=-h*log(h)
-float
-CFABEntropiaJohansen::entropy (float h)
-{
-  if (h > 0.0)
-    return (-h * (float) std::log ((double) (h)));
-  else
-    return 0.0;
+template<typename T>
+float CFABEntropiaJohansen<T>::entropy (float h) {
+	if (h > 0.0)
+		return (-h * (float) std::log ((double) (h)));
+	else
+		return 0.0;
 }
 
 // Calcula logaritmo de numero float
 // primeiro verifica se é maior que zero
-float
-CFABEntropiaJohansen::flog (float x)
-{
-  if (x > 0.0)
-    return (float) std::log ((double) x);
-  else
-    return 0.0;
+template<typename T>
+float CFABEntropiaJohansen<T>::flog (float x) {
+	if (x > 0.0)
+		return (float) std::log ((double) x);
+	else
+		return 0.0;
 }
 #endif

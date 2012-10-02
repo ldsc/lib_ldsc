@@ -1,11 +1,11 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFdi_h)
+#ifndef CFEMMIDFdi_h
 #define CFEMMIDFdi_h
 
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-  Analise de Imagens de Meios Porosos
+	Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -29,34 +29,31 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro di.
  */
-class CFEMMIDFdi : public CFEMMIDF, public CMCdi
-{
-   //  unsigned int mi, rb;   //  parametros passados para criacao da bola
+template<typename T>
+class CFEMMIDFdi : public CFEMMIDF<T>, public CMCdi {
+	protected:
+		///  Redefinida, herdada de CFEMMIDF
+		virtual unsigned int Mi () {
+			return mi;
+		}
 
-protected:
-	
-	///  Redefinida, herdada de CFEMMIDF
-   virtual unsigned int Mi ()
-   {
-      return mi;
-   }
+	public:
+		/// Construtor.
+		CFEMMIDFdi (TCMatriz2D<T> * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
+			: CFEMMIDF<T> (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mi, _rb) {
+		}
 
-public:
-   /// Construtor.
-	 CFEMMIDFdi (TCMatriz2D< int > * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
-      :CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mi, _rb)
-   {
-   }
+		///  Destrutor.
+		virtual ~ CFEMMIDFdi () {
+		}
 
-   ///  Destrutor.
-   virtual ~ CFEMMIDFdi ()
-   {
-   }
+		/// Cria a mascara.
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-   /// Cria a mascara.
-   virtual void CriaMascara (unsigned int _tamanhoMascara);
-
-   /// Realiza processamento da imagem.
-   virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =	 0);
+		/// Realiza processamento da imagem.
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara =	 0);
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp"
+
 #endif //  CFEMMIDFdi_h

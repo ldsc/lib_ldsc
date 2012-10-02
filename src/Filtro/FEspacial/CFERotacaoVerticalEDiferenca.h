@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -28,12 +28,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @brief Implementa o filtro CFERotacaoVerticaleDiferenca.
  * Herdeiro de CFEspacial.
  */
-class CFERotacaoVerticaleDiferenca : public CFEspacial<int>
+class CFERotacaoVerticaleDiferenca : public TCFEspacial<int>
 {
 public:
 		/// Construtor
   CFERotacaoVerticaleDiferenca (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-  : CFEspacial<int> (matriz, _tamanhoMascara)
+	: TCFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

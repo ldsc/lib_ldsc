@@ -6,19 +6,18 @@
 Bibliotecas e Defines
 ----------------------------------------------------------------------------
 */
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 
 /**
  * @brief Classe base para detecção de contorno usando diferentes métodos.
 */
-class CFEDeteccaoContorno : public CFEspacial<int>
+class CFEDeteccaoContorno : public TCFEspacial<int>
 {
 	
 
 public:			/// Construtor
-  CFEDeteccaoContorno (TCMatriz2D< int > * &matriz,
-		       unsigned int _tamanhoMascara)
-    : CFEspacial<int> (matriz, _tamanhoMascara)
+	CFEDeteccaoContorno (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+		: TCFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

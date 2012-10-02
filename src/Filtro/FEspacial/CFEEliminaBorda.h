@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -36,14 +36,14 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * CFEEliminaBorda(valorBorda).Go(imagem,espessuraBorda);
  */
 
-class CFEEliminaBorda : public CFEspacial<int>
+class CFEEliminaBorda : public TCFEspacial<int>
 {
   int valorBorda;
 
 public:
 		/// Construtor
   CFEEliminaBorda (int vB = 0, TCMatriz2D< int > * matriz = 0, unsigned int _tamanhoMascara = 0)
-    : CFEspacial<int> (matriz, _tamanhoMascara),    valorBorda    (vB)
+		: TCFEspacial<int> (matriz, _tamanhoMascara),    valorBorda    (vB)
   {
   }
 

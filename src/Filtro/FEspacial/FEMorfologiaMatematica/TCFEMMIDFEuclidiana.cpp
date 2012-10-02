@@ -8,18 +8,18 @@ PROJETO:		Anaimp
 Desenvolvido por:		Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   		Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFEuclidiana.cpp
-Nome da classe:      CFEMMIDFEuclidiana
+Nome deste arquivo:	TCFEMMIDFEuclidiana.cpp
+Nome da classe:      TCFEMMIDFEuclidiana
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFEuclidiana.
+Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFEuclidiana.
 */
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 
 //  #include <math.h>      //  Classe base
-#ifndef CFEMMIDFEuclidiana_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h"
+#ifndef TCFEMMIDFEuclidiana_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h"
 #endif
 //  Classe base
 
@@ -34,12 +34,90 @@ Documentacao 		CriaMascara
 Descrição:      Funcao que cria a mascara de chanfro adequada.
 */
 template<typename T>
-void CFEMMIDFEuclidiana<T>::CriaMascara (unsigned int _tamanhoMascara) {
+void TCFEMMIDFEuclidiana<T>::CriaMascara (unsigned int _tamanhoMascara) {
 	if (this->mask)
 		delete this->mask;
 	this->mask = new CBCEuclidiana (_tamanhoMascara);	//  valores mi,mj,rb definidos pelo construtor de CBCEuclidiana
 }
 
+/*================================================================================
+ * Função    CorrigeAbertura
+ * ==================================================================================
+ * Este método corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
+ *
+ * Após mudar para template precisei replicar em todas as classes base de CFEMMIDF pois estava dando erro na compilação. Precisa estudar uma melhor maneira de implementar sem necessidade de replicação.
+*/
+template<typename T>
+void TCFEMMIDFEuclidiana<T>::CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) {
+	 char fileName[64];
+	 // calcula idf d34 da mascara
+	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( TCFEspacial<T>::mask );
+	 TCFEMMIDFEuclidiana<int> *idfMask = new TCFEMMIDFEuclidiana<int> ( ptr_mask );
+	 idfMask->Go ( ptr_mask );
+	 // calcula idf d34 da imagem abertura.
+	 TCFEMMIDFEuclidiana<int> *idfAbertura = new TCFEMMIDFEuclidiana<int> ( matriz );
+	 idfAbertura->Go ( matriz );
+	 //grava em disco a IDF da imagem abertura.
+	 static int contAbertura = 1;
+	 sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
+	 idfAbertura->SetFormato ( P2_X_Y_GRAY_ASCII );
+	 idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
+	 idfAbertura->Write ( fileName );
+
+	 // Método - 1 O melhor até agora!
+	 pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
+	 int centro = maiorMenor.first;
+	 int borda  = maiorMenor.second;
+	 int raiox = TCFEspacial<T>::mask->RaioX();
+	 int raioy = TCFEspacial<T>::mask->RaioY();
+	 for ( int j = raioy; j < this->ny - raioy; j++ ) {	// Percorre a imagem idf
+			for ( int i = raiox; i < this->nx - raiox; i++ ) {
+				 if ( matriz->data2D[i][j] == regiao ) { // se o ponto analizado faz parte da região abertura
+						if ( idfAbertura->data2D[i][j] == centro ) {
+							 if ( ( idfAbertura->data2D[i-raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
+									if ( ( matriz->data2D[i][j+raioy+1] == regiao )
+											 && ( matriz->data2D[i-1][j+raioy] != regiao )
+											 && ( matriz->data2D[i+raiox+1][j+raioy] != regiao ) ) {
+										 for ( int x = 0; x <= raiox; x++ )
+												if ( matriz->data2D[i+x][j+raioy] == regiao )
+													 matriz->data2D[i+x][j+raioy] = 0;
+												else
+													 break;
+									}
+							 } else if ( ( idfAbertura->data2D[i+raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
+									if ( ( matriz->data2D[i][j+raioy+1] == regiao )
+											 && ( matriz->data2D[i+raiox][j+raioy] != regiao )
+											 && ( matriz->data2D[i-raiox-1][j+raioy] != regiao ) ) {
+										 for ( int x = -raiox; x <= raiox; x++ )
+												if ( matriz->data2D[i+x][j+raioy-1] != regiao )
+													 matriz->data2D[i+x][j+raioy] = 0;
+									}
+							 }
+						} else if ( ( idfAbertura->data2D[i][j] < centro ) && ( idfAbertura->data2D[i][j] > borda ) ) {
+							 if ( ( idfAbertura->data2D[i-raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
+									int raio = 1;
+									int teste = 4;
+									//cerr << "raio = " << raio << " teste = " << teste << " ponto = " << idfAbertura->data2D[i][j] << endl;
+									while ( idfAbertura->data2D[i][j] > teste ) { //quando sair do loop, ten-se o raio correspondente a bola cujo valor de IDF (d34) no ponto central, seja igual ao valor do ponto analizado
+										 raio++;
+										 teste += 3;
+										 //cerr << "raio = " << raio << " teste = " << teste << " ponto = " << idfAbertura->data2D[i][j] << endl;
+									}
+									if ( ( matriz->data2D[i][j+raio+1] == regiao )
+											 && ( matriz->data2D[i-1][j+raio] != regiao )
+											 && ( matriz->data2D[i+raio+1][j+raio] != regiao ) ) {
+										 for ( int x = 0; x <= raio; x++ )
+												if ( matriz->data2D[i+x][j+raio] == regiao )
+													 matriz->data2D[i+x][j+raio] = 0;
+												else
+													 break;
+									}
+							 }
+						}
+				 }
+			}
+	 }
+}
 
 //  Ao lado do código o esboço do ponto da mascara que esta sendo considerado.
 //  Da forma como esta o código fica mais rápido e compreensivo.
@@ -51,10 +129,9 @@ void CFEMMIDFEuclidiana<T>::CriaMascara (unsigned int _tamanhoMascara) {
 //  o tamanho da maior bola a ser considerada. A maior bola pode ter o tamanho de 65535/100=655 pixel's..
 //  Que é maior que as imagens normalmente consideradas. Assim para imagens de até 655 píxel's, este
 //  processo é válido. Acima disso podem ocorrer erros para bolas maior que 655.
-//  TCMatriz2D< int > * CFEMMIDFEuclidiana::Go( TCMatriz2D< int >*& matriz)
+//  TCMatriz2D< int > * TCFEMMIDFEuclidiana::Go( TCMatriz2D< int >*& matriz)
 /*
-/*
-TCMatriz2D< int > *CFEMMIDFEuclidiana::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
+TCMatriz2D< int > *TCFEMMIDFEuclidiana::Go( TCMatriz2D< int > *& matriz, unsigned int _tamanhoMascara )
 {
  InicializaIDF(matriz,_tamanhoMascara);		//  armazena valores da matriz e _tamanhoMascara
 						//  verifica se pm->data2D e this->data2D tem as mesmas dimensoes
@@ -146,14 +223,14 @@ Executa abertura a partir da idf
 */
 
 //  O calculo da função  Abertura nesta classe é diferente do da classe base.
-//  A primeira diferença é que a idf calculada usando a CFEMMIDFEuclidiana, esta multiplicada por 100.
+//  A primeira diferença é que a idf calculada usando a TCFEMMIDFEuclidiana, esta multiplicada por 100.
 //  Logo preciso considerar isso, e o faço multiplicando as funções Getraio.. por 100.
 //  A segunda é que a mascara CBCEuclidiana é uma mascara preenchida corretamente, e não  um vetor
 //  como usado na TIDFd34. Assim percorro toda a mascara e verifico se o valor da mascara é 1 ou 0
 //  se for 1 seto o valor da matriz auxiliar pm.
 //  virtual TCMatriz2D< int >* Abertura(unsigned int _raioBola);//  redefinida,
 /*
-TCMatriz2D< int >*  CFEMMIDFEuclidiana::Abertura(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
+TCMatriz2D< int >*  TCFEMMIDFEuclidiana::Abertura(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//
 {
  pm=matriz;
  int i,j;
@@ -196,7 +273,7 @@ e a definição dos píxel ativos após a erosão pode ser realizada sem a masca
 ou seja não preciso das funções GetraioBolaInclusa e GetraioBolaTangente
 */
 /*
-TCMatriz2D< int >*  CFEMMIDFEuclidiana::Erosao(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
+TCMatriz2D< int >*  TCFEMMIDFEuclidiana::Erosao(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//
 {
  pm=matriz;
  int i,j;
@@ -223,7 +300,7 @@ Documentacao 		Dilatacao
 Descricao: A função abaixo implementa o conceito de Dilatacao
 */
 /*
-TCMatriz2D< int >*  CFEMMIDFEuclidiana::Dilatacao(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//  
+TCMatriz2D< int >*  TCFEMMIDFEuclidiana::Dilatacao(TCMatriz2D< int >*& matriz,unsigned int _RaioBola)	//
 {
  pm=matriz;
  int i,j;

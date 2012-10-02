@@ -1,7 +1,6 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFEMMIDFdij_h
-#define CFEMMIDFdij_h
-
+#ifndef TCFEMMIDFd34_h
+#define TCFEMMIDFd34_h
 
 /*
 ----------------------------------------------------------------------------
@@ -10,51 +9,45 @@ PROJETO:	Anaimp
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
- Termofisicas  dos Materiais.
+Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFdij.h
-Nome da classe:      CFEMMIDFdij
+Nome deste arquivo:	TCFEMMIDFd34.h
+Nome da classe:      TCFEMMIDFd34
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h>
-#include <Mascara/MCDiscreta/CMCdij.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdij.h>
 
 //  ----------------------------------------------------------------------------
-//  Classe:       CFEMMIDFdij
+//  Classe:       TCFEMMIDFd34
 //  ----------------------------------------------------------------------------
+
 /**
- * @brief  Matriz IDF de uma imagem usando mascara de chanfro dij.
+ * @brief Matriz IDF de uma imagem usando mascara de chanfro d34.
+ *
  */
 template<typename T>
-class CFEMMIDFdij : public CFEMMIDF<T>, public CMCdij
+class TCFEMMIDFd34  : public TCFEMMIDFdij<T>
 {
-	protected:
-		virtual void CriaMascara (unsigned int _tamanhoMascara);
-
 	public:
-		///  Retorna mi (Redefinida, herdada de CFEMMIDF).
-		virtual unsigned int Mi () {
-			return mi;
-		}
-
 		/// Construtor
-		CFEMMIDFdij (TCMatriz2D<T> * &matriz, unsigned int _mi, unsigned int _mj, unsigned int _rb, int _indice=1, int _fundo=0)
-			: CFEMMIDF<T> (matriz, 3, 32000, _indice, _fundo), CMCdij (_mi, _mj, _rb) {
+		TCFEMMIDFd34 (TCMatriz2D<T> * &matriz, int _indice=1, int _fundo=0)
+			: TCFEMMIDFdij<T> (matriz, 3, 4, 1, _indice, _fundo) {
 		}
 
 		///  Destrutor
-		virtual ~ CFEMMIDFdij () {
+		virtual ~ TCFEMMIDFd34 () {
 		}
 
-		/// Processa determinação da idf.
-		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
+		///  Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
+		virtual void CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao );
+
 };
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp"
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.cpp"
 
-#endif //  CFEMMIDFdij_h
+#endif //  TCFEMMIDFd34_h

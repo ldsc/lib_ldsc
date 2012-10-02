@@ -2,8 +2,8 @@
 #ifndef CFAmplitude_h
 #define CFAmplitude_h
 
-#ifndef CFiltro_h
-#include <Filtro/CFiltro.h>
+#ifndef TCFiltro_h
+#include <Filtro/TCFiltro.h>
 #endif
 
 /*
@@ -41,12 +41,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
 */
 template<typename T>
-class CFAmplitude : public CFiltro<T>
+class CFAmplitude : public TCFiltro<T>
 {
 public:
 /// Construtor
 	CFAmplitude (TCMatriz2D< T > * &matriz)
-		: CFiltro<T> (matriz) {
+		: TCFiltro<T> (matriz) {
   }
 
 

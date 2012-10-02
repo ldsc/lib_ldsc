@@ -29,7 +29,7 @@ Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFd3453D.
 Documentacao 		CriaMascara
 ==================================================================================
 Descrição:        Funcao que cria a mascara de chanfro adequada.
-						O filtro CFEMMIDF recebe a imagem pm, e o tamanho da mascara.
+						O filtro TCFEMMIDF recebe a imagem pm, e o tamanho da mascara.
 						E a função Go recebe o raio máximo, define a variável raioMaximo
 						e chama cria mascara.
 Pré-condições:

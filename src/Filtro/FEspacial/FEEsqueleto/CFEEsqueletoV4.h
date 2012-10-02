@@ -14,8 +14,8 @@ Bibliotecas e Defines
 #include <Matriz/CImagem.h>
 #endif
 
-#ifndef CFEMMIDF_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h>
+#ifndef TCFEMMIDF_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h>
 #endif
 
 /*
@@ -45,7 +45,7 @@ class CFEEsqueletoV4:public CFEEsqueleto
 
 // Atributos
 protected:
-	CFEMMIDF<int> * idf;		///< Ponteiro para imagem idf d
+	TCFEMMIDF<int> * idf;		///< Ponteiro para imagem idf d
 
 // Métodos
 public:			

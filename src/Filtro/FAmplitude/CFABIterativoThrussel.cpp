@@ -36,14 +36,14 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFABIterativoThrussel<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;
+	this->pm = matriz;
 	long i;			// , j;                           // Contadores
 	long nivelAnterior;		// nivel de corte anterior
 	long a, b, c, d;		// variáveis auxiliares
 
 	CHistograma histograma (256);	// Cria histograma
-	histograma.Go (CFiltro<T>::pm);		//  e já calcula
-	CFABinario<T>::nivel = CFiltro<T>::pm->Media ();		// Calcula o valor médio da imagem
+	histograma.Go (this->pm);		//  e já calcula
+	CFABinario<T>::nivel = this->pm->Media ();		// Calcula o valor médio da imagem
 	// que é a semente inicial para o processo iterativo
 	// poderia ser o valor do histograma com 50% dos píxel's
 
@@ -74,7 +74,7 @@ TCMatriz2D<T> * CFABIterativoThrussel<T>::Go (TCMatriz2D<T> * &matriz, unsigned 
 	while (CFABinario<T>::nivel != nivelAnterior);	// se foi alterado continua iteração
 	// se for o mesmo sai
 
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa função Go da classe base
 	// que processa a binarização
 	// o valor de corte é nivel
 }

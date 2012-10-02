@@ -1,10 +1,10 @@
 //  itens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFEMorfologiaMatematica_h
-#define CFEMorfologiaMatematica_h
+#ifndef TCFEMorfologiaMatematica_h
+#define TCFEMorfologiaMatematica_h
 
 //  inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -15,8 +15,8 @@ PROJETO:	Bibliotecas LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades Termofisicas  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, Cunha Neto J.A.B., Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMorfologiaMatematica.h
-Nome da classe:     CFEMorfologiaMatematica
+Nome deste arquivo:	TCFEMorfologiaMatematica.h
+Nome da classe:     TCFEMorfologiaMatematica
 */
 
 /**
@@ -30,7 +30,7 @@ Nome da classe:     CFEMorfologiaMatematica
  * posteriormente remodelar este funcionamento, que ficou um pouco confuso.
 */
 template<typename T>
-class CFEMorfologiaMatematica : public CFEspacial<T>{
+class TCFEMorfologiaMatematica : public TCFEspacial<T>{
 		bool EEHitMiss1; 	///<  flags de controle de criacao da mascara
 		bool EEHitMiss2;	///<  flags de controle de criacao da mascara
 	public:
@@ -39,8 +39,8 @@ class CFEMorfologiaMatematica : public CFEspacial<T>{
 
 	public:
 		/// Construtor
-		CFEMorfologiaMatematica ( TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
-			: CFEspacial<T> ( matriz, _tamanhoMascara ), EEHitMiss1 ( false ), EEHitMiss2 ( false ), INDICE ( _indice ), FUNDO ( _fundo ) { }
+		TCFEMorfologiaMatematica ( TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara, int _indice=1, int _fundo=0 )
+			: TCFEspacial<T> ( matriz, _tamanhoMascara ), EEHitMiss1 ( false ), EEHitMiss2 ( false ), INDICE ( _indice ), FUNDO ( _fundo ) { }
 
 		/**
 				 *  Abaixo a funcao Go que é reescrita aqui, vazia, para inibir o
@@ -57,7 +57,7 @@ class CFEMorfologiaMatematica : public CFEspacial<T>{
 		}
 
 		///  Cria mascara recebe o tamanho da mascara. Cria a mascara adequada.
-		virtual void CriaMascara ( unsigned int _tamanhoMascara );
+		virtual void CriaMascara ( int _tamanhoMascara );
 
 		/// Processa  Abertura, as operacoes recebem o raio da bola
 		virtual TCMatriz2D<T> *Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola );
@@ -95,6 +95,6 @@ class CFEMorfologiaMatematica : public CFEspacial<T>{
 		void CriaEEB2 ( unsigned int _tamanhoMascara );
 };
 
-//typedef CFEMorfologiaMatematica CFEMMClassica;
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.cpp"
-#endif //  CFEMorfologiaMatematica_h
+//typedef TCFEMorfologiaMatematica CFEMMClassica;
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.cpp"
+#endif //  TCFEMorfologiaMatematica_h

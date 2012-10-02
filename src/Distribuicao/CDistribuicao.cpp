@@ -1,15 +1,15 @@
 #include <Distribuicao/CDistribuicao.h>
-#ifndef CFEMorfologiaMatematica_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
+#ifndef TCFEMorfologiaMatematica_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #endif
-#ifndef CFEMMIDFd34_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
+#ifndef TCFEMMIDFd34_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h>
 #endif
-#ifndef CFEMMIDFd5711_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.h>
+#ifndef TCFEMMIDFd5711_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h>
 #endif
-#ifndef CFEMMIDFEuclidiana_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h>
+#ifndef TCFEMMIDFEuclidiana_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h>
 #endif
 
 bool CDistribuicao::Go( TCMatriz2D< int > * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
@@ -41,19 +41,19 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
       return false;
    }
 
-	 CFEMorfologiaMatematica<int> * filtro = NULL;
+	 TCFEMorfologiaMatematica<int> * filtro = NULL;
    switch (_metrica){
    case espacial:
-			filtro = new CFEMorfologiaMatematica<int>(matriz, raio, indice, fundo);
+			filtro = new TCFEMorfologiaMatematica<int>(matriz, raio, indice, fundo);
       break;
    case d34:
-			filtro = new CFEMMIDFd34<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFd34<int>(matriz, indice, fundo);
       break;
    case d5711:
-			filtro = new CFEMMIDFd5711<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFd5711<int>(matriz, indice, fundo);
       break;
    case euclidiana:
-			filtro = new CFEMMIDFEuclidiana<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFEuclidiana<int>(matriz, indice, fundo);
       break;
    }
 

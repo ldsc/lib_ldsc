@@ -11,18 +11,18 @@ Desenvolvido por:    Laboratorio de Desenvolvimento de Software Cientifico
 Programadores:   Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
 Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  Todos os direitos reservados.
-Nome deste arquivo:CFEMMIDFdij.cpp
-Nome da classe:      CFEMMIDFdij
+Nome deste arquivo:TCFEMMIDFdij.cpp
+Nome da classe:      TCFEMMIDFdij
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a funcao CriaMascara da classe CFEMMIDFdij.
+Descricao:	 Implementa a funcao CriaMascara da classe TCFEMMIDFdij.
 */
 
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 // using namespace std;
-#ifndef CFEMMIDFdij_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.h"
+#ifndef TCFEMMIDFdij_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdij.h"
 #endif
 //  Classe base
 #include "Geometria/Bola/BCDiscreta/CBCdij.h"
@@ -44,7 +44,7 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void CFEMMIDFdij<T>::CriaMascara ( unsigned int _tamanhoMascara ) {
+void TCFEMMIDFdij<T>::CriaMascara ( int _tamanhoMascara ) {
 	if ( this->mask ) {		//  se existe uma mascara
 		if ( this->mask->NX () == _tamanhoMascara ) {	//  e o do mesmo  tamanho
 			return;			//  sai
@@ -66,9 +66,9 @@ Descricao:
 //  Da forma como esta o codigo fica mais rapido e compreensivo.
 Programador:      Andre Duarte Bueno
 */
-//  TCMatriz2D< int > * CFEMMIDFdij::Go(TCMatriz2D< int > * matriz )
+//  TCMatriz2D< int > * TCFEMMIDFdij::Go(TCMatriz2D< int > * matriz )
 template<typename T>
-TCMatriz2D<T> * CFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
 	ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
 	// IDFNosPlanosDeContorno(mi);    //  mi=3
 	int x, y; // Indices para percorrer a matriz
@@ -108,7 +108,7 @@ TCMatriz2D<T> * CFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_ta
 			}
 		}
 	}
-	//Write ("CFEMMIDFdij-Go.pgm");
+	//Write ("TCFEMMIDFdij-Go.pgm");
 	//pm->Write ("pmEmGo.pgm");
 	return this->pm;
 }

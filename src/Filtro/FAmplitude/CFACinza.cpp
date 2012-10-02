@@ -35,19 +35,19 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFACinza<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;
+	this->pm = matriz;
 	TCMatriz2D<T> *ptr[3];
-	ptr[0] = CFiltro<T>::pm;
-	ptr[1] = CFiltro<T>::pm + 1;
-	ptr[2] = CFiltro<T>::pm + 2;
+	ptr[0] = this->pm;
+	ptr[1] = this->pm + 1;
+	ptr[2] = this->pm + 2;
 
-	for (unsigned int i = 0; i < CFiltro<T>::pm->NX (); i++)
-		for (unsigned int j = 0; j < CFiltro<T>::pm->NY (); j++) {
-			CFiltro<T>::pm->data2D[i][j] = (unsigned int)
+	for (unsigned int i = 0; i < this->pm->NX (); i++)
+		for (unsigned int j = 0; j < this->pm->NY (); j++) {
+			this->pm->data2D[i][j] = (unsigned int)
 												 (ptr[0]->data2D[i][j] * pesoRed
 													+ ptr[1]->data2D[i][j] * pesoGreen
 													+ ptr[2]->data2D[i][j] * pesoBlue);
 		}
-	return CFiltro<T>::pm;
+	return this->pm;
 }
 #endif

@@ -18,8 +18,8 @@ Bibliotecas
 ----------------------------------------------------------------------------
 */
 
-#ifndef CFiltro_h
-#include <Filtro/CFiltro.h>
+#ifndef TCFiltro_h
+#include <Filtro/TCFiltro.h>
 #endif
 
 // vazio porque as funcoes sao puras

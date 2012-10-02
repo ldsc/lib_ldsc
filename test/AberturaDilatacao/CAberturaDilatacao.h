@@ -2,7 +2,7 @@
 #ifndef CAberturaDilatacao_H
 #define CAberturaDilatacao_H
 
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Matriz/TCMatriz2D.h>
 #include <Matriz/CVetor.h>
 #include <iostream>
@@ -23,7 +23,7 @@ class CAberturaDilatacao
 
 protected:
     /// Ponteiro para objeto filtro morfologia matematica
-		CFEMorfologiaMatematica<int>* pfmf;
+		TCFEMorfologiaMatematica<int>* pfmf;
 
     /// Vetor distribuicao total = distTotal = distPoros + distLigacoes
     CVetor* distribuicaoTotalPoros;

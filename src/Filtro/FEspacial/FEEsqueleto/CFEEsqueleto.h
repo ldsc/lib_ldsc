@@ -8,7 +8,7 @@ Bibliotecas e Defines
 */
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 // inclue a biblioteca de filtros
@@ -38,7 +38,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Herdeira de CFEspacial.
 */
 
-class CFEEsqueleto : public CFEspacial<int>
+class CFEEsqueleto : public TCFEspacial<int>
 {
 
 // Atributos
@@ -50,7 +50,7 @@ protected:
 // Métodos
 public:			/// Construtor
   CFEEsqueleto (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0)
-	: CFEspacial<int> (matriz, _tamanhoMascara), valorEsqueleto (1), valorObjeto (0)
+	: TCFEspacial<int> (matriz, _tamanhoMascara), valorEsqueleto (1), valorObjeto (0)
   {
   }
 

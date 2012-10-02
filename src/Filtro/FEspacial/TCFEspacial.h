@@ -1,9 +1,9 @@
-#ifndef CFEspacial_h
-#define CFEspacial_h
+#ifndef TCFEspacial_h
+#define TCFEspacial_h
 
 // inclue a biblioteca de filtros
-#ifndef CFiltro_h
-#include <Filtro/CFiltro.h>
+#ifndef TCFiltro_h
+#include <Filtro/TCFiltro.h>
 #endif
 
 // inclue a biblioteca de mascaras
@@ -23,8 +23,8 @@ Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEspacial.h
-Nome da classe:      CFEspacial<int>
+Nome deste arquivo:	TCFEspacial.h
+Nome da classe:      TCFEspacial<int>
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -45,10 +45,10 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
 template<typename T>
-class CFEspacial : public CFiltro<T> {
+class TCFEspacial : public TCFiltro<T> {
 		// Atributos
 	protected:
-		unsigned int tamanhoMascara; ///< Tamanho da macara
+		int tamanhoMascara; ///< Tamanho da macara
 
 	public:
 		CMascara * mask;	///< Ponteiro para mascara
@@ -56,13 +56,13 @@ class CFEspacial : public CFiltro<T> {
 		// Métodos
 	public:
 		/// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
-		CFEspacial (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara)
-			: CFiltro<T> (matriz), tamanhoMascara (_tamanhoMascara) {
+		TCFEspacial (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara)
+			: TCFiltro<T> (matriz), tamanhoMascara (_tamanhoMascara) {
 			mask = NULL;
 		}
 
 		/// Destrutor
-		~CFEspacial () {
+		~TCFEspacial () {
 			if (mask)
 				delete mask;
 		}
@@ -89,6 +89,6 @@ class CFEspacial : public CFiltro<T> {
 
 };
 
-#include "Filtro/FEspacial/CFEspacial.cpp"
+#include "Filtro/FEspacial/TCFEspacial.cpp"
 
-#endif // CFEspacial_h
+#endif // TCFEspacial_h

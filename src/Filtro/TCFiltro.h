@@ -1,6 +1,6 @@
 // ítens conferidos: 1[] 2[] 3[] 4[] 5[] 6[] 7[] 8[] 9[] 10[]
-#ifndef CFiltro_h
-#define CFiltro_h
+#ifndef TCFiltro_h
+#define TCFiltro_h
 
 // ponteiro para matriz
 #include <Matriz/TCMatriz2D.h>
@@ -17,8 +17,8 @@ Programadores:   	Andre D.Bueno, Celso P.Fernandez,
 Fabio S.Magnani, Liang Zirong,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFiltro.h
-Nome da classe:      CFiltro
+Nome deste arquivo:	TCFiltro.h
+Nome da classe:      TCFiltro
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -37,18 +37,18 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * -Funcao Go realiza a filtragem da imagem
 */
 template<typename T>
-class CFiltro {
+class TCFiltro {
 	protected:
 		TCMatriz2D< T > * pm;	///< é um ponteiro para a imagem a ser filtrada
 
 	public:
 		/// Construtor, recebe o endereço da matriz a ser processada
-		CFiltro (TCMatriz2D<T> * &matriz) {
+		TCFiltro (TCMatriz2D<T> * &matriz) {
 			pm = matriz;
 		}
 
 		/// Destrutor
-		~CFiltro ()	{
+		~TCFiltro ()	{
 		}
 
 		/**
@@ -60,6 +60,6 @@ class CFiltro {
 		virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
-//#include "Filtro/CFiltro.cpp"
+//#include "Filtro/TCFiltro.cpp"
 
-#endif //   CFiltro_h
+#endif //   TCFiltro_h

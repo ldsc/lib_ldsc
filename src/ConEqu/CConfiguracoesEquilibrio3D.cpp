@@ -35,9 +35,9 @@ using namespace std;
 
 #include <Base/COperacao.h>
 
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.h>
+#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.h>
+#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h>
 
 /** Metodo construtor.
  * Recebe uma ostream os, por default std::cout.
@@ -138,7 +138,7 @@ void CConfiguracoesEquilibrio3D::CriaCamara (TCMatriz3D<int> * &imagem) {
    if (contadorPassosExecutados == 0)
       Salvar (imagem, "0-imagemInicial");
    {
-			CFEMMIDFd3453D idfp (imagem); // BUG: verificar se nao esta deletando a imagem
+			TCFEMMIDFd3453D<int> idfp (imagem); // BUG: verificar se nao esta deletando a imagem
       idfp.Go (imagem);
       int maiorValor = idfp.MaiorValor ();
       raioMaximo = (maiorValor % 3 == 0) ? maiorValor / 3 : 1 + maiorValor / 3;
@@ -177,10 +177,10 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
 
 	switch (tipoIDF) {			//  Cria objeto idf selecionado
    case 345:
-			idf = new CFEMMIDFd3453D (ptr_camara);
+			idf = new TCFEMMIDFd3453D<int> (ptr_camara);
       break;
    default:
-      idf = new CFEMMIDFEuclidiana3D (ptr_camara);
+			idf = new TCFEMMIDFEuclidiana3D<int> (ptr_camara);
       break;
    }
 

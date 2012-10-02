@@ -3,8 +3,8 @@
 #define CFEBorda3D_h
 
 // inclue a biblioteca de filtros
-#ifndef CFEspacial3D_h
-#include <Filtro/FEspacial3D/CFEspacial3D.h>
+#ifndef TCFEspacial3D_h
+#include <Filtro/FEspacial3D/TCFEspacial3D.h>
 #endif
 
 

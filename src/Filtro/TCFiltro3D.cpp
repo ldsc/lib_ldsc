@@ -1,7 +1,3 @@
-// ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFiltro3D_cpp
-#define CFiltro3D_cpp
-
 /*
 ----------------------------------------------------------------------------
 PROJETO:       Bibliotecas LDSC.
@@ -22,8 +18,8 @@ Bibliotecas
 ----------------------------------------------------------------------------
 */
 
-
-#include "Filtro/CFiltro3D.h"
-// vazio porque as funcoes sao puras
-
+#ifndef TCFiltro3D_h
+#include "Filtro/TCFiltro3D.h"
 #endif
+
+// vazio porque as funcoes sao puras

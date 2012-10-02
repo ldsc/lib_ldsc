@@ -1,6 +1,6 @@
 // ítens conferidos: 1[] 2[] 3[] 4[] 5[] 6[] 7[] 8[] 9[] 10[]
-#ifndef CFiltro3D_h
-#define CFiltro3D_h
+#ifndef TCFiltro3D_h
+#define TCFiltro3D_h
 
 // ponteiro para matriz
 #include <Matriz/TCMatriz3D.h>
@@ -17,8 +17,8 @@ Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFiltro3D.h
-Nome da classe:      CFiltro3D
+Nome deste arquivo:	TCFiltro3D.h
+Nome da classe:      TCFiltro3D
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -39,21 +39,20 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * -Funcao CanGo () informa se a operacao pode ser realizada
  * -Funcao Go realiza a filtragem da imagem,
 */
-class CFiltro3D
+template <typename T>
+class TCFiltro3D
 {
 protected:
-	TCMatriz3D<int> * pm;	///< é um ponteiro para a imagem a ser filtrada
+	TCMatriz3D<T> * pm;	///< é um ponteiro para a imagem a ser filtrada
 
 public:
 /// Construtor, recebe o endereço da matriz a ser processada
-	CFiltro3D (TCMatriz3D<int> * &matriz)
-  {
+	TCFiltro3D (TCMatriz3D<T> * &matriz) {
     pm = matriz;
   }
 
 /// Destrutor
-  ~CFiltro3D ()
-  {
+	~TCFiltro3D () {
   }
 
   
@@ -63,7 +62,9 @@ public:
    * @param _tamanhoMascara  dimensão da mascara a ser utilizada
    * @return ponteiro para imagem processada
    */ 
-	virtual TCMatriz3D<int> *Go (TCMatriz3D<int> * &matriz, unsigned int _tamanhoMascara = 0) = 0;
+	virtual TCMatriz3D<T> *Go (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
-#endif //   CFiltro3D_h
+#include "Filtro/TCFiltro3D.cpp"
+
+#endif //   TCFiltro3D_h

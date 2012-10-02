@@ -20,8 +20,9 @@ Termofisicas  dos Materiais.
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
+#ifndef CFEMMIDFd4_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.h"	//  Classe base
-
+#endif
 //  #include "Mascara/MCDiscreta\CMCd4.h"  //  ponteiro para
 
 /*

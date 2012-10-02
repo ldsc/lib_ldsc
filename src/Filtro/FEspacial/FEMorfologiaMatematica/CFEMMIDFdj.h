@@ -1,11 +1,11 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined(CFEMMIDFdj_h)
+#ifndef CFEMMIDFdj_h
 #define CFEMMIDFdj_h
 
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-  Analise de Imagens de Meios Porosos
+	Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
@@ -29,33 +29,32 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 /**
  * @brief  Matriz IDF de uma imagem usando mascara de chanfro dj.
  */
-class CFEMMIDFdj : public CFEMMIDF, public CMCdi
+template<typename T>
+class CFEMMIDFdj : public CFEMMIDF<T>, public CMCdi
 {
-   //  unsigned int mj, rb;   //  parametros passados para criacao da bola
-protected:
+	protected:
+		///  Redefinida, herdada de CFEMMIDF
+		virtual unsigned int Mi () {
+			return mi;
+		}
 
-	///  Redefinida, herdada de CFEMMIDF
-   virtual unsigned int Mi ()
-   {
-      return mi;
-   }
+	public:
+		/// Construtor
+		CFEMMIDFdj (TCMatriz2D<T> * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
+			: CFEMMIDF<T> (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mj, _rb) {
+		}
 
-public:
-   /// Construtor
-	 CFEMMIDFdj (TCMatriz2D< int > * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
-      : CFEMMIDF (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mj, _rb)
-   {
-   }
+		///  Destrutor
+		virtual ~ CFEMMIDFdj () {
+		}
 
-   ///  Destrutor
-   virtual ~ CFEMMIDFdj ()
-   {
-   }
+		///  Redefinida, cria a mascara.
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-   ///  Redefinida, cria a mascara.
-   virtual void CriaMascara (unsigned int _tamanhoMascara);
-
-   /// Processa idf.
-   virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Processa idf.
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.cpp"
+
 #endif //  CFEMMIDFdj_h

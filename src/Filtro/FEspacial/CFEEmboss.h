@@ -29,12 +29,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Herdeiro de CFEspacial.
  */
 
-class CFEEmboss : public CFEspacial
+class CFEEmboss : public CFEspacial<int>
 {
 public:
 		/// Construtor
   CFEEmboss (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
-  :CFEspacial (matriz, _tamanhoMascara)
+  :CFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

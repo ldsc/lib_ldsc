@@ -36,32 +36,30 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * -Funcao CanGo () informa se a operacao pode ser realizada
  * -Funcao Go realiza a filtragem da imagem
 */
+template<typename T>
+class CFiltro {
+	protected:
+		TCMatriz2D< T > * pm;	///< é um ponteiro para a imagem a ser filtrada
 
-class CFiltro
-{
-protected:
+	public:
+		/// Construtor, recebe o endereço da matriz a ser processada
+		CFiltro (TCMatriz2D<T> * &matriz) {
+			pm = matriz;
+		}
 
-    TCMatriz2D< int > * pm;	///< é um ponteiro para a imagem a ser filtrada
+		/// Destrutor
+		~CFiltro ()	{
+		}
 
-public:
-/// Construtor, recebe o endereço da matriz a ser processada
-    CFiltro (TCMatriz2D< int > * &matriz)
-    {
-        pm = matriz;
-    }
-
-    /// Destrutor
-    ~CFiltro ()
-    {
-    }
-
-    /**
-     * @brief Realiza o processamento da filtragem
-     * @param matriz ponteiro para imagem a ser processada
-     * @param _tamanhoMascara  dimensão da mascara a ser utilizada
-     * @return ponteiro para imagem processada
-     */
-    virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0) = 0;
+		/**
+		 * @brief Realiza o processamento da filtragem
+		 * @param matriz ponteiro para imagem a ser processada
+		 * @param _tamanhoMascara  dimensão da mascara a ser utilizada
+		 * @return ponteiro para imagem processada
+		 */
+		virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
+
+//#include "Filtro/CFiltro.cpp"
 
 #endif //   CFiltro_h

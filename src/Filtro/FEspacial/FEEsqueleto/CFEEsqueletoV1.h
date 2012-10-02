@@ -44,12 +44,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Classe desenvolvida para teste de alguns tipos de algorítimos de esqueletização,
  * modelo 1.
 */
-class CFEEsqueletoV1:public CFEEsqueleto
+class CFEEsqueletoV1 : public CFEEsqueleto
 {
 // Atributos
 protected:
   
-	CFEMMIDFd34 * idf;	///< Ponteiro para imagem idf d34
+	CFEMMIDFd34<int> * idf;	///< Ponteiro para imagem idf d34
 
 // Métodos
 public:			

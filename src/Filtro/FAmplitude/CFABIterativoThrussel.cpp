@@ -34,52 +34,48 @@ Descrição:        Calcula o valor médio do nível de corte
 						e depois processa binarização
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFABIterativoThrussel::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  pm = matriz;
-  long i;			// , j;                           // Contadores
-  long nivelAnterior;		// nivel de corte anterior
-  long a, b, c, d;		// variáveis auxiliares
+template<typename T>
+TCMatriz2D<T> * CFABIterativoThrussel<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	CFiltro<T>::pm = matriz;
+	long i;			// , j;                           // Contadores
+	long nivelAnterior;		// nivel de corte anterior
+	long a, b, c, d;		// variáveis auxiliares
 
-  CHistograma histograma (256);	// Cria histograma
-  histograma.Go (pm);		//  e já calcula
-  nivel = pm->Media ();		// Calcula o valor médio da imagem
-  // que é a semente inicial para o processo iterativo
-  // poderia ser o valor do histograma com 50% dos píxel's
+	CHistograma histograma (256);	// Cria histograma
+	histograma.Go (CFiltro<T>::pm);		//  e já calcula
+	CFABinario<T>::nivel = CFiltro<T>::pm->Media ();		// Calcula o valor médio da imagem
+	// que é a semente inicial para o processo iterativo
+	// poderia ser o valor do histograma com 50% dos píxel's
 
-  do				// inicia processo iterativo
-    {
-      nivelAnterior = nivel;	// armazena nivel de corte anterior
-      a = 0;
-      b = 0;
-      for (i = 0; i <= nivelAnterior; i++)	// calcula valores a e b do histograma inferior
-	{
-	  a += i * histograma.data1D[i];
-	  b += histograma.data1D[i];
+	do {				// inicia processo iterativo
+		nivelAnterior = CFABinario<T>::nivel;	// armazena nivel de corte anterior
+		a = 0;
+		b = 0;
+		for (i = 0; i <= nivelAnterior; i++) {	// calcula valores a e b do histograma inferior
+			a += i * histograma.data1D[i];
+			b += histograma.data1D[i];
+		}
+		b += b;
+
+		c = 0;
+		d = 0;
+		for (i = nivelAnterior + 1; i < 256; i++)	{// calcula valores c e d do histograma superior
+			c += i * histograma.data1D[i];
+			d += histograma.data1D[i];
+		}
+		d += d;
+
+		if (b == 0)
+			b = 1;
+		if (d == 0)
+			d = 1;
+		CFABinario<T>::nivel = a / b + c / d;	// calcula o nível como uma relação entre a,b,c e d
 	}
-      b += b;
+	while (CFABinario<T>::nivel != nivelAnterior);	// se foi alterado continua iteração
+	// se for o mesmo sai
 
-      c = 0;
-      d = 0;
-      for (i = nivelAnterior + 1; i < 256; i++)	// calcula valores c e d do histograma superior
-	{
-	  c += i * histograma.data1D[i];
-	  d += histograma.data1D[i];
-	}
-      d += d;
-
-      if (b == 0)
-	b = 1;
-      if (d == 0)
-	d = 1;
-      nivel = a / b + c / d;	// calcula o nível como uma relação entre a,b,c e d
-    }
-  while (nivel != nivelAnterior);	// se foi alterado continua iteração
-  // se for o mesmo sai
-
-  return CFABinario::Go (pm);	// Executa função Go da classe base
-  // que processa a binarização
-  // o valor de corte é nivel
+	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	// que processa a binarização
+	// o valor de corte é nivel
 }
 #endif

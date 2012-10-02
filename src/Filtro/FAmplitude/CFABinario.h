@@ -36,17 +36,17 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O usuário analisa o histograma de nível de cinza e toma a decisao sobre o nivel
  * de corte ideal. Então aplica o filtro binario.
 */
-
-class CFABinario:public CFAmplitude
+template<typename T>
+class CFABinario : public CFAmplitude<T>
 {
 protected:
   unsigned int nivel;		///< Nível de corte
 
 public:
 				/// Construtor
-  CFABinario (TCMatriz2D< int > * &_pm, unsigned int _nivel = 128):CFAmplitude (_pm),
-    nivel (_nivel)
-  {
+	CFABinario (TCMatriz2D< T > * &_pm, unsigned int _nivel = 128)
+		: CFAmplitude<T> (_pm),
+		nivel (_nivel) {
   }
 
 				/// Destrutor
@@ -55,7 +55,7 @@ public:
   }
 
   /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+	virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara = 0);
 
   /// Define nivel de corte
   unsigned int Level () const

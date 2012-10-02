@@ -25,32 +25,30 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Filtro de amplitude, realiza a binarizacao usando um valor de corte médio.
- * 
+ *
  * É um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
- * 
+ *
  * O CFABMedia realiza a binarizacao usando um valor de corte médio.
  * A função Go calcula o nível de corte médio, e depois solicita a classe
  * base que execute a binarização em só.
  * Se o valor de cor do pixel for maior que o nivel de corte, assume o valor 1
  * caso contrário assume valor  0.
 */
-
-class CFABMedia:public CFABinario
+template<typename T>
+class CFABMedia : public CFABinario<T>
 {
-public:
-				/// Construtor
-  CFABMedia (TCMatriz2D< int > * &_pm):CFABinario (_pm)
-  {
-  }
+	public:
+		/// Construtor
+		CFABMedia (TCMatriz2D<T> * &_pm) : CFABinario<T> (_pm) {
+		}
 
-				/// Destrutor
-  ~CFABMedia ()
-  {
-  }
+		/// Destrutor
+		~CFABMedia () {
+		}
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
 
 };
 #endif //  CFABMedia_h

@@ -25,76 +25,67 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /**
  * @brief Filtro de amplitude, para conversão de imagens coloridas em tons de cinza.
- * 
+ *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
- * 
+ *
  * Os atributos wr,wg,wb representam os pesos das ponderações a serem
  * utilizadas para as cores vermelho, verde e azul respectivamente.
  * Transforma uma imagem colorida em tons de cinza
  * Usa três pesos para os valores RGB.
  * wr peso para vermelho,  wg peso para verde ,wb=peso para azul
 */
-
-class CFACinza:public CFAmplitude
+template<typename T>
+class CFACinza : public CFAmplitude<T>
 {
-private:
+	private:
 
-float pesoRed;  ///< Ponderações rgb, red
-float pesoGreen;///< Ponderações rgb, green
-float pesoBlue; ///< Ponderações rgb, blue
+		float pesoRed;  ///< Ponderações rgb, red
+		float pesoGreen;///< Ponderações rgb, green
+		float pesoBlue; ///< Ponderações rgb, blue
 
-public:
-			/// Construtor, define atributos internos
-  CFACinza (TCMatriz2D< int > * matriz, float _pesoRed = 0.29, float _pesoGreen = 0.60, float _pesoBlue = 0.11):
-  CFAmplitude (matriz),		// chama construtor base
-    pesoRed (_pesoRed), pesoGreen (_pesoGreen), pesoBlue (_pesoBlue)
-  {
-  }
+	public:
+		/// Construtor, define atributos internos
+		CFACinza (TCMatriz2D<T> * matriz, float _pesoRed = 0.29, float _pesoGreen = 0.60, float _pesoBlue = 0.11)
+			: CFAmplitude<T> (matriz), pesoRed (_pesoRed), pesoGreen (_pesoGreen), pesoBlue (_pesoBlue) {
+		}
 
-/// Destrutor
-  ~CFACinza ()
-  {
-  }
+		/// Destrutor
+		~CFACinza () {
+		}
 
-  /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara =0);
 
-  /// Retorna pesoRed
-  float PesoRed () const
-  {
-    return pesoRed;
-  }				// funções de obtenção e definição
+		/// Retorna pesoRed
+		float PesoRed () const {
+			return pesoRed;
+		}				// funções de obtenção e definição
 
-  /// Seta pesoRed
-  void PesoRed (float _pesoRed)
-  {
-    pesoRed = _pesoRed;
-  }				// dos atributos internos
+		/// Seta pesoRed
+		void PesoRed (float _pesoRed) {
+			pesoRed = _pesoRed;
+		}				// dos atributos internos
 
-  /// Retorna pesoGreen
-  float PesoGreen () const
-  {
-    return pesoGreen;
-  }
- 
-   /// Seta pesoGreen
-  void PesoGreen (float _pesoGreen)
-  {
-    pesoGreen = _pesoGreen;
-  }
- 
-    /// Retorna pesoBlue
-  float PesoBlue () const
-  {
-    return pesoBlue;
-  }
+		/// Retorna pesoGreen
+		float PesoGreen () const {
+			return pesoGreen;
+		}
 
-  /// Seta pesoBlue
-  void PesoBlue (float _pesoBlue)
-  {
-    pesoBlue = _pesoBlue;
-  }
+		/// Seta pesoGreen
+		void PesoGreen (float _pesoGreen) {
+			pesoGreen = _pesoGreen;
+		}
+
+		/// Retorna pesoBlue
+		float PesoBlue () const {
+			return pesoBlue;
+		}
+
+		/// Seta pesoBlue
+		void PesoBlue (float _pesoBlue) {
+			pesoBlue = _pesoBlue;
+		}
 };
 
 #endif

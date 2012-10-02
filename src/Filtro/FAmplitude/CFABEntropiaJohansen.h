@@ -31,21 +31,20 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Método de Johannsen , usa entropia
  * É uma melhoria no método da entropia.
 */
-class CFABEntropiaJohansen : public CFABinario
+template<typename T>
+class CFABEntropiaJohansen : public CFABinario<T>
 {
 public:			/// Construtor
 
-  CFABEntropiaJohansen (TCMatriz2D< int > * &_pm):CFABinario (_pm)
-  {
+	CFABEntropiaJohansen (TCMatriz2D<T> * &_pm) : CFABinario<T> (_pm) {
   }
 
 				/// Destrutor
-  ~CFABEntropiaJohansen ()
-  {
+	~CFABEntropiaJohansen () {
   }
 
   /// Realiza o processamento da filtragem
-  virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+	virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara =0);
 
 protected:
 

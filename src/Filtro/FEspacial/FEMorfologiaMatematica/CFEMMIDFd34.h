@@ -5,7 +5,7 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-  Analise de Imagens de Meios Porosos
+	Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
@@ -30,18 +30,21 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @brief Matriz IDF de uma imagem usando mascara de chanfro d34.
  *
  */
-class CFEMMIDFd34  : public CFEMMIDFdij
+template<typename T>
+class CFEMMIDFd34  : public CFEMMIDFdij<T>
 {
-public:			//  mi mj rb
-   /// Construtor
-	 CFEMMIDFd34 (TCMatriz2D< int > * &matriz, int _indice=1, int _fundo=0) : CFEMMIDFdij (matriz, 3, 4, 1, _indice, _fundo)
-   {
-   }
+	public:
+		/// Construtor
+		CFEMMIDFd34 (TCMatriz2D<T> * &matriz, int _indice=1, int _fundo=0)
+			: CFEMMIDFdij<T> (matriz, 3, 4, 1, _indice, _fundo) {
+		}
 
-   ///  Destrutor
-   virtual ~ CFEMMIDFd34 ()
-   {
-   }
+		///  Destrutor
+		virtual ~ CFEMMIDFd34 () {
+		}
 
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.cpp"
+
 #endif //  CFEMMIDFd34_h

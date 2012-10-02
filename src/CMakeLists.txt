@@ -44,7 +44,7 @@ add_library (ldsc STATIC
   Filtro/FAmplitude/CFABIterativoThrussel.cpp
   Filtro/FAmplitude/CFABPixelContorno.cpp
   Filtro/FAmplitude/CFACinza.cpp
-  Filtro/FEspacial/CFEspacial.cpp
+  Filtro/FEspacial/CFEspacial.h
   Filtro/FEspacial/CFEBartlet.cpp
   Filtro/FEspacial/CFEDeteccaoContornoMasc.cpp
   Filtro/FEspacial/CFEGaussiano.cpp
@@ -68,18 +68,17 @@ add_library (ldsc STATIC
   Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.cpp
   Filtro/FEspacial/FEEsqueleto/CFEEzhangsuen.cpp
   Filtro/FEspacial/FEInversao/CFEInversao.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.cpp
-  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdij.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.h
+  Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h
   Filtro/FEspacial3D/CFEspacial3D.cpp
   Filtro/FEspacial3D/CFEBorda3D.cpp
   Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp

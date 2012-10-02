@@ -284,7 +284,7 @@ void CAberturaDilatacao::DistTotalPoros()
     double porosidadeParcial = porosidade;
 
     // Tamanho 3 do elemento estruturante conforme codigo ANAIMP
-    pfmf = new CFEMorfologiaMatematica(matrizAuxiliar,3);
+		pfmf = new CFEMorfologiaMatematica<int>(matrizAuxiliar,3);
     if ( pfmf  == NULL )
     {
         cerr << "Falha alocação: pfmf = new CFEMorfologiaMatematica(matrizAuxiliar,3);";
@@ -392,7 +392,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0()
 
     // Cria filtro de morfologia matemática
     cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-    pfmf = new CFEMorfologiaMatematica( pm , 3 ); // mover para construtor, deletar no destrutor
+		pfmf = new CFEMorfologiaMatematica<int>( pm , 3 ); // mover para construtor, deletar no destrutor
 
     // auxiliar, usada para encerrar looping ??
     double porosidadeAposAbertura=	0.0;
@@ -613,7 +613,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1()
 
 // Cria filtro para operacoes de abertura e dilatacao
     cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-    pfmf = new CFEMorfologiaMatematica(pm,3);
+		pfmf = new CFEMorfologiaMatematica<int>(pm,3);
 
 // Variaveis auxiliares
 
@@ -837,7 +837,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2()
 
 // Cria filtro para operacoes de abertura e dilatacao
     cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-    pfmf = new CFEMorfologiaMatematica( pm , 3 );
+		pfmf = new CFEMorfologiaMatematica<int>( pm , 3 );
 
 // Variaveis auxiliares
     // usada para setar nome dos arquivos de disco
@@ -1273,7 +1273,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3()
 
 // Cria filtro para operacoes de abertura e dilatacao
     cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-    pfmf = new CFEMorfologiaMatematica( pm , 3 );
+		pfmf = new CFEMorfologiaMatematica<int>( pm , 3 );
 
 // Variaveis auxiliares
     // usada para setar nome dos arquivos de disco
@@ -1673,7 +1673,7 @@ void CAberturaDilatacao::SequenciaAberturaTonsCinza()
 {
     // 	Cria matriz abertura
     TCMatriz2D< int >* MAbertura = new TCMatriz2D< int >( *pm );
-    pfmf = new CFEMorfologiaMatematica( pm , 3 );
+		pfmf = new CFEMorfologiaMatematica<int>( pm , 3 );
 
     // Entra num looping para o raio do elemento estruturante
     cout << "Entrando no looping de calculo das aberturas..." << endl ;

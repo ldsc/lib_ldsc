@@ -37,7 +37,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @brief  Determina a matriz IDF - imagem de distância ao fundo, de uma imagem.
  * Herdeira de CFEMorfologiaMatematica e TCMatriz2D< int >.
  */
-class CFEMMIDF : public CFEMorfologiaMatematica, public TCMatriz2D< int > {
+template<typename T>
+class CFEMMIDF : public CFEMorfologiaMatematica<T>, public TCMatriz2D<T> {
    // Atributos
 protected:
    int minimo;					/// valor minimo utilizado no calculo minimoIda e minimoVolta
@@ -61,11 +62,11 @@ protected:
    }
 
    /// Usada por erosao, dilatacao, abertura e fechamento
-   inline void VerificaImagem ( TCMatriz2D< int > * &matriz );
+	 inline void VerificaImagem ( TCMatriz2D<T> * &matriz );
 
    /// Verifica se a imagem passada é a mesma, se diferente recalcula Go.
    // antiga InicializaIDF
-   void ExecutadaPorGo ( TCMatriz2D< int > * &matriz );
+	 void ExecutadaPorGo ( TCMatriz2D<T> * &matriz );
 
    // Funcao executada exclusivamente por Go
    // 1-verifica se a idf tem as mesmas dimensoes de pm
@@ -87,7 +88,7 @@ public:
 
    /// Construtor
    // ponteiro para matriz imagem, tamanho da mascara a ser criada,raioMáximo a ser utilizado, valores de indice e fundo na imagem
-	 CFEMMIDF ( TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
+	 CFEMMIDF ( TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
 
    /// Destrutor
    virtual ~ CFEMMIDF ( ) { }
@@ -122,17 +123,20 @@ public:
    }
 
    /// Método de Abertura
-   virtual TCMatriz2D< int > *Abertura ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
+	 virtual TCMatriz2D<T> *Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola );
    /// Método de Erosao
-   virtual TCMatriz2D< int > *Erosao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
+	 virtual TCMatriz2D<T> *Erosao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola );
    /// Método de Dilatacao
-   virtual TCMatriz2D< int > *Dilatacao ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
+	 virtual TCMatriz2D<T> *Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola );
    /// Método de Fechamento
-   virtual TCMatriz2D< int > *Fechamento ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola );
+	 virtual TCMatriz2D<T> *Fechamento ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola );
    /// Método de Esqueleto
-   virtual TCMatriz2D< int > *Esqueleto ( TCMatriz2D< int > * &matriz, unsigned int _RaioBola = 0 );
+	 virtual TCMatriz2D<T> *Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola = 0 );
 
    ///  Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
-   void CorrigeAbertura ( TCMatriz2D< int > * &matriz, int &regiao );
+	 void CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao );
 };
+
+#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp"
+
 #endif

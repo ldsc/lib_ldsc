@@ -24,7 +24,7 @@ Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CFEspacial.h
-Nome da classe:      CFEspacial
+Nome da classe:      CFEspacial<int>
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -44,50 +44,51 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * e a função Go executa o filtro em sí.
 */
 
-class CFEspacial : public CFiltro
-{
-// Atributos
-protected:
-    unsigned int tamanhoMascara; ///< Tamanho da macara
+template<typename T>
+class CFEspacial : public CFiltro<T> {
+		// Atributos
+	protected:
+		unsigned int tamanhoMascara; ///< Tamanho da macara
 
-public:
-    CMascara * mask;	///< Ponteiro para mascara
+	public:
+		CMascara * mask;	///< Ponteiro para mascara
 
-// Métodos
-public:
+		// Métodos
+	public:
+		/// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
+		CFEspacial (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara)
+			: CFiltro<T> (matriz), tamanhoMascara (_tamanhoMascara) {
+			mask = NULL;
+		}
 
-    /// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
-    CFEspacial (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)
-    {
-        mask = NULL;
-    }
+		/// Destrutor
+		~CFEspacial () {
+			if (mask)
+				delete mask;
+		}
 
-    /// Destrutor
-    ~CFEspacial ()
-    {
-        if (mask)
-            delete mask;
-    }
+		/// Obtem tamanhoMascara.
+		virtual unsigned int TamanhoMascara () const
+		{
+			return tamanhoMascara;
+		}
 
-    /// Obtem tamanhoMascara.
-    virtual unsigned int TamanhoMascara () const
-    {
-        return tamanhoMascara;
-    }
+		/// Seta o tamanhoMascara.
+		virtual void TamanhoMascara (unsigned int _tamanhoMascara)
+		{
+			tamanhoMascara = _tamanhoMascara;
+		}
 
-    /// Seta o tamanhoMascara.
-    virtual void TamanhoMascara (unsigned int _tamanhoMascara)
-    {
-        tamanhoMascara = _tamanhoMascara;
-    }
-
-    /// Realiza o processamento da filtragem
-    virtual TCMatriz2D< int > *Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara =0);
+		/// Realiza o processamento da filtragem
+		virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara =0);
 
 
-protected:
-    /// Cria a mascara adequada
-    virtual void CriaMascara (unsigned int _tamanhoMascara);
+	protected:
+		/// Cria a mascara adequada
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
 };
+
+#include "Filtro/FEspacial/CFEspacial.cpp"
+
 #endif // CFEspacial_h

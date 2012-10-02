@@ -18,8 +18,9 @@ Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFEuclidiana.
 //  ----------------------------------------------------------------------------
 
 //  #include <math.h>      //  Classe base
-
+#ifndef CFEMMIDFEuclidiana_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h"
+#endif
 //  Classe base
 
 #include "Geometria/Bola/BCDiscreta/CBCEuclidiana.h"
@@ -32,11 +33,11 @@ Documentacao 		CriaMascara
 ==================================================================================
 Descrição:      Funcao que cria a mascara de chanfro adequada.
 */
-
-void CFEMMIDFEuclidiana::CriaMascara (unsigned int _tamanhoMascara) {
-  if (mask)
-    delete mask;
-  mask = new CBCEuclidiana (_tamanhoMascara);	//  valores mi,mj,rb definidos pelo construtor de CBCEuclidiana 
+template<typename T>
+void CFEMMIDFEuclidiana<T>::CriaMascara (unsigned int _tamanhoMascara) {
+	if (this->mask)
+		delete this->mask;
+	this->mask = new CBCEuclidiana (_tamanhoMascara);	//  valores mi,mj,rb definidos pelo construtor de CBCEuclidiana
 }
 
 
@@ -72,7 +73,7 @@ TCMatriz2D< int > *CFEMMIDFEuclidiana::Go( TCMatriz2D< int > *& matriz, unsigned
 	 for (y=1; y < ny ;y++)                  	 	  //  NY() é igual a ny, ny da matriz idf
 		for (x=1; x < nx-1 ;x++)
 			if (data2D[x][y]!=0)			  //  Testa a imagem, se nao for solido entra
-				{                                     //  
+				{                                     //
 				minimo = raioMaximo*100;              //  255*100=25500
 					auxiliar=data2D[x-1][y-1]+R2X100 ; //    1  		x
 					if (auxiliar < minimo)             //   (sqrt(2)) 1  sqrt(2)
@@ -95,18 +96,18 @@ TCMatriz2D< int > *CFEMMIDFEuclidiana::Go( TCMatriz2D< int > *& matriz, unsigned
 			if (data2D[x][y]!=0)                  	  //  Se nao for solido
 				{
 				minimo = data2D[x][y];		           //  Armazena valor minimo da ida,
-									  //  como foi multiplicado por 100, divido por 100
-					  auxiliar=data2D[x+1][y+1]+R2X100 ;//    sqrt(2)  1 (sqrt(2))
-					  if (auxiliar < minimo)            //       		 x  	1
+										//  como foi multiplicado por 100, divido por 100
+						auxiliar=data2D[x+1][y+1]+R2X100 ;//    sqrt(2)  1 (sqrt(2))
+						if (auxiliar < minimo)            //       		 x  	1
 							minimo = auxiliar;
-					  auxiliar=data2D[x][y+1]+100;    	//    sqrt(2) (1) sqrt(2)
-					  if (auxiliar < minimo)            //       		 x  	 1
+						auxiliar=data2D[x][y+1]+100;    	//    sqrt(2) (1) sqrt(2)
+						if (auxiliar < minimo)            //       		 x  	 1
 							minimo = auxiliar;
-					  auxiliar=data2D[x-1][y+1]+R2X100 ;//   (sqrt(2)) 1  sqrt(2)
-					  if (auxiliar < minimo)            //       		 x  	 1
+						auxiliar=data2D[x-1][y+1]+R2X100 ;//   (sqrt(2)) 1  sqrt(2)
+						if (auxiliar < minimo)            //       		 x  	 1
 							minimo = auxiliar;
-					  auxiliar=data2D[x+1][y]+100;     	//    sqrt(2)  1  sqrt(2)
-					  if (auxiliar < minimo)            //       		 x 	(1)
+						auxiliar=data2D[x+1][y]+100;     	//    sqrt(2)  1  sqrt(2)
+						if (auxiliar < minimo)            //       		 x 	(1)
 							minimo = auxiliar;
 				data2D[x][y]=minimo;
 				}
@@ -164,23 +165,23 @@ TCMatriz2D< int >*  CFEMMIDFEuclidiana::Abertura(TCMatriz2D< int >*& matriz,unsi
  CBCDiscreta* maskd     = dynamic_cast<CBCDiscreta*>(mask);//  Converte a mascara
 
 					//  Percorre a idf (desconsidera as bordas, por causa da mascara)
-  for( j=maskd->RaioY(); j < ny-maskd->RaioY(); j++)
-	  for( i=maskd->RaioX(); i< nx-maskd->RaioX(); i++)
-		  {
-		  //  este if executa de fato a erosao, se o valor do pixel é maior
-		  //  que determinado valor ele fica, senão sai
-		  if (data2D[i][j] >  maskd->GetraioBolaTangente()*100)
+	for( j=maskd->RaioY(); j < ny-maskd->RaioY(); j++)
+		for( i=maskd->RaioX(); i< nx-maskd->RaioX(); i++)
+			{
+			//  este if executa de fato a erosao, se o valor do pixel é maior
+			//  que determinado valor ele fica, senão sai
+			if (data2D[i][j] >  maskd->GetraioBolaTangente()*100)
 					pm->data2D[i][j]=1;     //  seta ponto da imagem como pertencente a bola
 
-		  //  este else if executa então a dilatação
-		  //  se o pixel tem um valor que pode sofrer dilatação, executa a dilatação
-		  else if (data2D[i][j] > maskd->GetraioBolaInclusa()*100)
+			//  este else if executa então a dilatação
+			//  se o pixel tem um valor que pode sofrer dilatação, executa a dilatação
+			else if (data2D[i][j] > maskd->GetraioBolaInclusa()*100)
 			for (int x=0; x < maskd->NX(); x++)	//  percorre a mascara
-			  for (int y=0; y < maskd->NY();y++)
+				for (int y=0; y < maskd->NY();y++)
 					if(maskd->data2D[x][y]!=0)			//  se o ponto da mascara for ativo, setar na imagem auxiliar como ativo
 					pm->data2D[i+x-maskd->RaioX()][j+y-maskd->RaioY()]=1;//  seta ponto da imagem como pertencente a bola
-		  }
-  //  aqui pm é uma imagem de 0 e 1, os números 1 formam as bolas para o raio da mascara atual
+			}
+	//  aqui pm é uma imagem de 0 e 1, os números 1 formam as bolas para o raio da mascara atual
 return pm;
 }
 */
@@ -203,18 +204,18 @@ TCMatriz2D< int >*  CFEMMIDFEuclidiana::Erosao(TCMatriz2D< int >*& matriz,unsign
  //  tamanhoMascara=2*_RaioBola+1;
  //  CriaMascara();
  //  CBCDiscreta* maskd     = dynamic_cast<CBCDiscreta*>(mask);//  converte ponteiro para mascara discreta
-  for( j=0; j < ny; j++)               //  percorre a imagem
-	  for( i=0; i< nx; i++)
-		  {
-		  //  if (data2D[i][j] >  maskd->GetraioBolaTangente())
-		  if (data2D[i][j] > RaioBolaTangenteX100 )  //  > ou >=?
+	for( j=0; j < ny; j++)               //  percorre a imagem
+		for( i=0; i< nx; i++)
+			{
+			//  if (data2D[i][j] >  maskd->GetraioBolaTangente())
+			if (data2D[i][j] > RaioBolaTangenteX100 )  //  > ou >=?
 					pm->data2D[i][j]=1;     //  seta ponto ativo
-		  else
+			else
 					pm->data2D[i][j]=0;     //  seta ponto inativo
-		  }
+			}
 return pm;
 }
-  */
+	*/
 /*
 ==================================================================================
 Documentacao 		Dilatacao
@@ -232,18 +233,18 @@ TCMatriz2D< int >*  CFEMMIDFEuclidiana::Dilatacao(TCMatriz2D< int >*& matriz,uns
 					//  Se a bola tem raio=1 o tamanhoMascara=3
  CBCDiscreta* maskd     = dynamic_cast<CBCDiscreta*>(mask);//  Converte a mascara
 					//  Percorre a idf (desconsidera as bordas, por causa da mascara)
-  for( j=maskd->RaioY(); j < ny-maskd->RaioY(); j++)
-	  for( i=maskd->RaioX(); i< nx-maskd->RaioX(); i++)
-		  {
-		  //  este else if executa a dilatação
-		  //  se o pixel tem um valor que pode sofrer dilatação, executa a dilatação
-		  if (data2D[i][j] > maskd->GetraioBolaInclusa()*100)  //  _RaioBola*100
+	for( j=maskd->RaioY(); j < ny-maskd->RaioY(); j++)
+		for( i=maskd->RaioX(); i< nx-maskd->RaioX(); i++)
+			{
+			//  este else if executa a dilatação
+			//  se o pixel tem um valor que pode sofrer dilatação, executa a dilatação
+			if (data2D[i][j] > maskd->GetraioBolaInclusa()*100)  //  _RaioBola*100
 			for (int x=0; x < maskd->NX(); x++)	//  percorre a mascara
-			  for (int y=0; y < maskd->NY();y++)
+				for (int y=0; y < maskd->NY();y++)
 					if(maskd->data2D[x][y]!=0)			//  se o ponto da mascara for ativo, setar na imagem auxiliar como ativo
 					pm->data2D[i+x-maskd->RaioX()][j+y-maskd->RaioY()]=1;//  seta ponto da imagem como pertencente a bola
-		  }
-  //  aqui pm é uma imagem de 0 e 1, os números 1 formam as bolas para o raio da mascara atual
+			}
+	//  aqui pm é uma imagem de 0 e 1, os números 1 formam as bolas para o raio da mascara atual
 return pm;
 }
 */

@@ -69,11 +69,11 @@ public:
    { }
 
   	// Abaixo a função Go que é reescrita aqui, vazia, para inibir o
-  	// calculo da convolução realizado na classe CFEspacial
+  	// calculo da convolução realizado na classe CFEspacial<int>
   	// As operações da morfologia matemática são diferentes.
    /**
     * Abaixo a funcao Go que é reescrita aqui, vazia, para inibir o
-    * calculo da convolucao realizado na classe CFEspacial
+    * calculo da convolucao realizado na classe CFEspacial<int>
     * As operacaes da morfologia matematica sao diferentes.
     * @param matriz
     * @param _tamanhoMascara

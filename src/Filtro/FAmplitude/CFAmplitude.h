@@ -40,19 +40,18 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Outro atua sobre o espaço geométrico da imagem (são os filtros espaciais)
  * Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
 */
-
-class CFAmplitude : public CFiltro
+template<typename T>
+class CFAmplitude : public CFiltro<T>
 {
 public:
 /// Construtor
-  CFAmplitude (TCMatriz2D< int > * &matriz):CFiltro (matriz)
-  {
+	CFAmplitude (TCMatriz2D< T > * &matriz)
+		: CFiltro<T> (matriz) {
   }
 
 
   /// Destrutor
-  ~CFAmplitude ()
-  {
+	~CFAmplitude () {
   }
   
 };

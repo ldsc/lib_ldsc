@@ -45,7 +45,7 @@ class CFEEsqueletoV3:public CFEEsqueleto
 
 // Atributos
 protected:
-	CFEMMIDF * idf;	///< Ponteiro para imagem idf 
+	CFEMMIDF<int> * idf;	///< Ponteiro para imagem idf
 
 // Métodos
 public:			

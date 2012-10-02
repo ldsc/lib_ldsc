@@ -33,23 +33,21 @@ Descricao:      Tres vetores 2D representam um objeto com 3 cores
 		Onde pm aponta para cor red, pm+1 para green e pm+2 para blue
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFACinza::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  pm = matriz;
-  TCMatriz2D< int > *ptr[3];
-  ptr[0] = pm;
-  ptr[1] = pm + 1;
-  ptr[2] = pm + 2;
+template<typename T>
+TCMatriz2D<T> * CFACinza<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	CFiltro<T>::pm = matriz;
+	TCMatriz2D<T> *ptr[3];
+	ptr[0] = CFiltro<T>::pm;
+	ptr[1] = CFiltro<T>::pm + 1;
+	ptr[2] = CFiltro<T>::pm + 2;
 
-  for (unsigned int i = 0; i < pm->NX (); i++)
-    for (unsigned int j = 0; j < pm->NY (); j++)
-      {
-	pm->data2D[i][j] = (unsigned int)
-	  (ptr[0]->data2D[i][j] * pesoRed
-	   + ptr[1]->data2D[i][j] * pesoGreen
-	   + ptr[2]->data2D[i][j] * pesoBlue);
-      }
-  return pm;
+	for (unsigned int i = 0; i < CFiltro<T>::pm->NX (); i++)
+		for (unsigned int j = 0; j < CFiltro<T>::pm->NY (); j++) {
+			CFiltro<T>::pm->data2D[i][j] = (unsigned int)
+												 (ptr[0]->data2D[i][j] * pesoRed
+													+ ptr[1]->data2D[i][j] * pesoGreen
+													+ ptr[2]->data2D[i][j] * pesoBlue);
+		}
+	return CFiltro<T>::pm;
 }
 #endif

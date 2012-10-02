@@ -31,12 +31,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O resultado geral é o aumento dos contornos. A identificação dos contornos.
  */
 
-class CFEPassaAlta : public CFEspacial
+class CFEPassaAlta : public CFEspacial<int>
 {
 public:
 		/// Construtor
   CFEPassaAlta (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
-  : CFEspacial (matriz, _tamanhoMascara)
+  : CFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

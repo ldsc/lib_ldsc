@@ -148,7 +148,7 @@ void CConfiguracoesEquilibrio2D::CriaCamara(TCMatriz2D< int > * &imagem)
   {							// Calcula estimativa do raio máximo
     // PODE SER OTIMIZADO, SUBSTITUIR POR NX/4?
     // Usa idfd34 apenas para estimar o raio máximo, depois vai criar a idf selecionada
-    CFEMMIDFd34 idfp(imagem);				//  calcula a idf da imagem
+		CFEMMIDFd34<int> idfp(imagem);				//  calcula a idf da imagem
     idfp.Go( imagem );					//  e determina o raioMaximo
 
     int maiorValor = idfp.MaiorValor();			//  a ser utilizado na construcao da camara
@@ -201,20 +201,20 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
   switch ( tipoIDF )		//  Cria objeto idf selecionado
   {
     case 4:
-      idf = new CFEMMIDFd4( ptr_camara );
+			idf = new CFEMMIDFd4<int>( ptr_camara );
       break;
     case 8:
-      idf = new CFEMMIDFd8( ptr_camara );
+			idf = new CFEMMIDFd8<int>( ptr_camara );
       break;
     case 34:
-      idf = new CFEMMIDFd34( ptr_camara );
+			idf = new CFEMMIDFd34<int>( ptr_camara );
       break;
     case 5711:
-      idf = new CFEMMIDFd5711( ptr_camara );
+			idf = new CFEMMIDFd5711<int>( ptr_camara );
       break;
     case 1:
     default:
-      idf = new CFEMMIDFEuclidiana( ptr_camara );
+			idf = new CFEMMIDFEuclidiana<int>( ptr_camara );
       break;
   }
   COperacao::TestaAlocacao (idf,"objeto idf, funcao CConfiguracoesEquilibrio2D:");

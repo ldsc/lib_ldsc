@@ -32,11 +32,11 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O resultado geral é a atenuação dos contornos, pois a mascara é formada
  * por números 1, e o resultado é uma média dos píxel's vizinhos.
  */
-class CFEPassaBaixa : public CFEspacial
+class CFEPassaBaixa : public CFEspacial<int>
 {
 public:
 		/// Construtor
-  CFEPassaBaixa (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) : CFEspacial (matriz,  _tamanhoMascara)
+  CFEPassaBaixa (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara) : CFEspacial<int> (matriz,  _tamanhoMascara)
   {
   }
 

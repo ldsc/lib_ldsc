@@ -43,48 +43,45 @@ As variancias razao=va/vb
 
 Programador:      Andre Duarte Bueno
 */
-TCMatriz2D< int > *
-CFABVarianciaOtsu::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
-{
-  pm = matriz;
-  // 
-  int i, j, k;			// contadores
-  float y, z;			// variáveis auxiliares
-  float iXdataiTotal;		// i multiplicado por data[i] de 0 a 256
-  // datai é o vetor de dados do histograma auxiliar
-  float varianciaTotal;		// variancia total calculada
+template<typename T>
+TCMatriz2D<T> * CFABVarianciaOtsu<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	CFiltro<T>::pm = matriz;
+	//
+	int i, j, k;			// contadores
+	float y, z;			// variáveis auxiliares
+	float iXdataiTotal;		// i multiplicado por data[i] de 0 a 256
+	// datai é o vetor de dados do histograma auxiliar
+	float varianciaTotal;		// variancia total calculada
 
-  CHistograma histAux (256);	// Cria histograma, zera, calcula
-  histAux.Go (pm);		// calcula
+	CHistograma histAux (256);	// Cria histograma, zera, calcula
+	histAux.Go (CFiltro<T>::pm);		// calcula
 
-  iXdataiTotal = iXdatai (histAux.data1D, 256);	// calcula i*data[i] de 0 a 256
-  varianciaTotal = 0.0;		// variancia global
-  for (i = 1; i <= 256; i++)	// calcula a variancia total
-    varianciaTotal +=
-      (i - iXdataiTotal) * (i - iXdataiTotal) * histAux.data1D[i - 1];
+	iXdataiTotal = iXdatai (histAux.data1D, 256);	// calcula i*data[i] de 0 a 256
+	varianciaTotal = 0.0;		// variancia global
+	for (i = 1; i <= 256; i++)	// calcula a variancia total
+		varianciaTotal +=
+				(i - iXdataiTotal) * (i - iXdataiTotal) * histAux.data1D[i - 1];
 
-  j = -1;
-  k = -1;
-  for (i = 1; i <= 256; i++)
-    {
-      if ((j < 0) && (histAux.data1D[i - 1] > 0.0))
-	j = i;			// primeiro indice
-      if (histAux.data1D[i - 1] > 0.0)
-	k = i;			// ultimo indice
-    }
-  z = -1.0;
-  nivel = 0;
-  for (i = j; i <= k; i++)
-    {
-      y = nu (&histAux, i, iXdataiTotal, varianciaTotal);	// calcula NU
-      if (y >= z)		// se for o maior
+	j = -1;
+	k = -1;
+	for (i = 1; i <= 256; i++)
 	{
-	  z = y;		// salvar valor e i
-	  nivel = i;
+		if ((j < 0) && (histAux.data1D[i - 1] > 0.0))
+			j = i;			// primeiro indice
+		if (histAux.data1D[i - 1] > 0.0)
+			k = i;			// ultimo indice
 	}
-    }
-  return CFABinario::Go (pm);	// Executa função Go da classe base
-  // que processa a binarização
+	z = -1.0;
+	CFABinario<T>::nivel = 0;
+	for (i = j; i <= k; i++) 	{
+		y = nu (&histAux, i, iXdataiTotal, varianciaTotal);	// calcula NU
+		if (y >= z) {		// se for o maior
+			z = y;		// salvar valor e i
+			CFABinario<T>::nivel = i;
+		}
+	}
+	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	// que processa a binarização
 }
 
 // Calcula a multiplicação de um valor data[i] do histograma pelo indice i
@@ -92,36 +89,33 @@ CFABVarianciaOtsu::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara
 // alterei o código, antes recebia um vetor de float's agora recebe vetor de int
 // antes fazia i*data[i], não usava o data[0], agora usa data[0]
 // pois data[i] foi trocado por data[i-1]
-float
-CFABVarianciaOtsu::iXdatai (int *datai, int k)
-{
-  int i;
-  float acumulado = 0.0;
-  for (i = 1; i <= k; i++)
-    acumulado += (float) i *datai[i - 1];
-  return acumulado;
+template<typename T>
+float CFABVarianciaOtsu<T>::iXdatai (int *datai, int k) {
+	int i;
+	float acumulado = 0.0;
+	for (i = 1; i <= k; i++)
+		acumulado += (float) i *datai[i - 1];
+	return acumulado;
 }
 
 // histAuxDatai é o vetor de dados do histograma
 // antes recebia vetor da dados em float agora recebe em int
 // ok
-float
-CFABVarianciaOtsu::nu (CHistograma * histAux, int k,
-		       float iXdataiTotal, float varianciaTotal)
-{
-  float xx, yy;
-  yy = histAux->PercentagemPara (k - 1);	// retorna a percentagem acumulada relacionada ao nível
-  // de corte k (agora é k-1 pois vetor histograma
-  // começa de zero e não de 1)
-  // diferença entre iXdataiTotal*yy e iXdatai
-  // de 0 até k
-  xx = iXdataiTotal * yy - iXdatai (histAux->data1D, k);	// 
-  xx = xx * xx;
-  yy = yy * (1.0 - yy);
-  if (yy > 0)
-    xx = xx / yy;
-  else
-    xx = 0.0;
-  return xx / varianciaTotal;
+template<typename T>
+float CFABVarianciaOtsu<T>::nu (CHistograma * histAux, int k, float iXdataiTotal, float varianciaTotal) {
+	float xx, yy;
+	yy = histAux->PercentagemPara (k - 1);	// retorna a percentagem acumulada relacionada ao nível
+	// de corte k (agora é k-1 pois vetor histograma
+	// começa de zero e não de 1)
+	// diferença entre iXdataiTotal*yy e iXdatai
+	// de 0 até k
+	xx = iXdataiTotal * yy - iXdatai (histAux->data1D, k);	//
+	xx = xx * xx;
+	yy = yy * (1.0 - yy);
+	if (yy > 0)
+		xx = xx / yy;
+	else
+		xx = 0.0;
+	return xx / varianciaTotal;
 }
 #endif

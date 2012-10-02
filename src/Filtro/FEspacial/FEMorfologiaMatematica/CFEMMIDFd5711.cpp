@@ -21,7 +21,9 @@
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
+#ifndef CFEMMIDFd5711_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.h"
+#endif
 //  Classe base
 //  #include "Mascara/MCDiscreta\CMCd5711.h"  //  ponteiro para
 

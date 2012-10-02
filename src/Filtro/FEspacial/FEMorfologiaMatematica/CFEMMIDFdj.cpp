@@ -19,7 +19,9 @@ Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFdj.
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
+#ifndef CFEMMIDFdj_h
 #include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.h"	//  Classe base
+#endif
 #include "Geometria/Bola/BCDiscreta/CBCdj.h"	//  ponteiro para
 
 /*
@@ -35,18 +37,14 @@ Tamanho(bits):
 Comentarios:
 Programador:      Andre Duarte Bueno
 */
-
-void
-CFEMMIDFdj::CriaMascara (unsigned int _tamanhoMascara)
-{
-   if (mask)			//  se existe uma mascara
-   {
-      if (mask->NX () == _tamanhoMascara)	//  e é do mesmo  tamanho
+template<typename T>
+void CFEMMIDFdj<T>::CriaMascara (unsigned int _tamanhoMascara) {
+	 if (this->mask) {			//  se existe uma mascara
+			if (this->mask->NX () == _tamanhoMascara)	//  e é do mesmo  tamanho
          return;			//  sai
-      delete mask;		//  se  não é do mesmo tamanho apaga objeto mask
+			delete this->mask;		//  se  não é do mesmo tamanho apaga objeto mask
    }				//  e abaixo cria uma nova
-
-   mask = new CBCdj (_tamanhoMascara, mi, raioBase);	//  se não existe a mascara, cria uma nova
+	 this->mask = new CBCdj (_tamanhoMascara, mi, raioBase);	//  se não existe a mascara, cria uma nova
 }
 
 
@@ -66,47 +64,45 @@ Descrição:
 //  Da forma como esta o código fica mais rápido e compreensivo.
 Programador:      Andre Duarte Bueno
 */
-
-TCMatriz2D< int > * CFEMMIDFdj::Go (TCMatriz2D< int > * &matriz, unsigned int /*_tamanhoMascara */ ) {
-   ExecutadaPorGo (matriz);	//  armazena valores da matriz e _tamanhoMascara
-   InverterSeNecessario();
+template<typename T>
+TCMatriz2D<T> * CFEMMIDFdj<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
+	 this->ExecutadaPorGo (matriz);	//  armazena valores da matriz e _tamanhoMascara
+	 this->InverterSeNecessario();
    // IDFNosPlanosDeContorno(mj);     //  verifica planos de contorno
-
    int x, y; // Indices para percorrer a matriz
-
    // ida   MinimoIda
    // IDFNosPlanosDeContornoIDA(mi);
    // Da forma como esta não percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-   for (y = 1; y < ny - 1; y++)	//  NY() é igual a ny, ny da matriz idf
-      for (x = 1; x < nx - 1; x++)
-         if (data2D[x][y] != 0)	//  Testa a imagem, se nao for solido entra
+	 for (y = 1; y < this->ny - 1; y++)	//  NY() é igual a ny, ny da matriz idf
+			for (x = 1; x < this->nx - 1; x++)
+				 if (this->data2D[x][y] != 0)	//  Testa a imagem, se nao for solido entra
          {			//
-            minimo = raioMaximo;
+						this->minimo = this->raioMaximo;
             //  -----------------------------------------------------------
-            min (data2D[x - 1][y] + mi);	//  ponto[x][y]
-            min (data2D[x - 1][y - 1] + mi);
-            min (data2D[x][y - 1] + mi);
-            min (data2D[x + 1][y - 1] + mi);
+						this->min (this->data2D[x - 1][y] + mi);	//  ponto[x][y]
+						this->min (this->data2D[x - 1][y - 1] + mi);
+						this->min (this->data2D[x][y - 1] + mi);
+						this->min (this->data2D[x + 1][y - 1] + mi);
             //  -----------------------------------------------------------
 
-            data2D[x][y] = minimo;
+						this->data2D[x][y] = this->minimo;
          }
    //  volta    MinimoVolta
    //  Da forma como esta não percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
    //        IDFNosPlanosDeContornoVOLTA(mi);
-   for (y = ny - 2; y > 0; y--)	//  -2 pois começa do zero e a mascara tem tamanho 1
-      for (x = nx - 2; x > 0; x--)
-         if (data2D[x][y] != 0)	//  Se nao for solido
+	 for (y = this->ny - 2; y > 0; y--)	//  -2 pois começa do zero e a mascara tem tamanho 1
+			for (x = this->nx - 2; x > 0; x--)
+				 if (this->data2D[x][y] != 0)	//  Se nao for solido
          {
-            minimo = data2D[x][y];	//  Armazena valor minimo da ida
+						this->minimo = this->data2D[x][y];	//  Armazena valor minimo da ida
             //  -----------------------------------------------------------
-            min (data2D[x - 1][y + 1] + mi);
-            min (data2D[x][y + 1] + mi);
-            min (data2D[x + 1][y + 1] + mi);
-            /*ponto[x][y] */ min (data2D[x + 1][y] + mi);
+						this->min (this->data2D[x - 1][y + 1] + mi);
+						this->min (this->data2D[x][y + 1] + mi);
+						this->min (this->data2D[x + 1][y + 1] + mi);
+						this->min (this->data2D[x + 1][y] + mi);
 
             //  -----------------------------------------------------------
-            data2D[x][y] = minimo;
+						this->data2D[x][y] = this->minimo;
          }
-   return pm;
+	 return this->pm;
 }

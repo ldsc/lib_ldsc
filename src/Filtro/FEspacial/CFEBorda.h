@@ -37,7 +37,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Ex:
  * CFEBorda(valorBorda).Go(imagem,espessuraBorda);
 */
-class CFEBorda : public CFEspacial
+class CFEBorda : public CFEspacial<int>
 {
 protected:
   int valorBorda;		///< Valor dos pontos da borda
@@ -46,7 +46,7 @@ protected:
 public:
 	/// Construtor
   CFEBorda (int vB = 0, TCMatriz2D< int > * matriz = 0, unsigned int _tamanhoMascara = 0)
-    :CFEspacial (matriz, _tamanhoMascara),    valorBorda (vB)
+    :CFEspacial<int> (matriz, _tamanhoMascara),    valorBorda (vB)
   {
   }
 

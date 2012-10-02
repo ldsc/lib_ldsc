@@ -39,7 +39,7 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFABEntropiaJohansen<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;			// armazena a matriz
+	this->pm = matriz;			// armazena a matriz
 	int i;			// , j;                     // contadores
 	int inicio, fim;		// valor inicial e final do intervalo útil do histograma
 	float Sb, Sw;			// variáveis auxiliares
@@ -49,7 +49,7 @@ TCMatriz2D<T> * CFABEntropiaJohansen<T>::Go (TCMatriz2D<T> * &matriz, unsigned i
 	float *Pq = new float[256];
 
 	CHistograma histograma (256);	// cria histograma
-	histograma.Go (CFiltro<T>::pm);		// e calcula
+	histograma.Go (this->pm);		// e calcula
 
 	// calcula fatores
 	Pt[0] = histograma.data1D[0];
@@ -91,7 +91,7 @@ TCMatriz2D<T> * CFABEntropiaJohansen<T>::Go (TCMatriz2D<T> * &matriz, unsigned i
 	delete [] F;
 	delete [] Pq;
 	// aqui o nível ótimo de binarização ja foi calculado
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa funcao Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa funcao Go da classe base
 	// que processa a binarização
 }
 

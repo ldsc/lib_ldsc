@@ -9,18 +9,18 @@ PROJETO:		Anaimp
 Desenvolvido por:      	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:         	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFdj.cpp
-Nome da classe:      CFEMMIDFdj
+Nome deste arquivo:	TCFEMMIDFdj.cpp
+Nome da classe:      TCFEMMIDFdj
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFdj.
+Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFdj.
 */
 
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 //using namespace std;
-#ifndef CFEMMIDFdj_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdj.h"	//  Classe base
+#ifndef TCFEMMIDFdj_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdj.h"	//  Classe base
 #endif
 #include "Geometria/Bola/BCDiscreta/CBCdj.h"	//  ponteiro para
 
@@ -38,7 +38,7 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void CFEMMIDFdj<T>::CriaMascara (unsigned int _tamanhoMascara) {
+void TCFEMMIDFdj<T>::CriaMascara (unsigned int _tamanhoMascara) {
 	 if (this->mask) {			//  se existe uma mascara
 			if (this->mask->NX () == _tamanhoMascara)	//  e é do mesmo  tamanho
          return;			//  sai
@@ -65,7 +65,7 @@ Descrição:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMMIDFdj<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
+TCMatriz2D<T> * TCFEMMIDFdj<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
 	 this->ExecutadaPorGo (matriz);	//  armazena valores da matriz e _tamanhoMascara
 	 this->InverterSeNecessario();
    // IDFNosPlanosDeContorno(mj);     //  verifica planos de contorno

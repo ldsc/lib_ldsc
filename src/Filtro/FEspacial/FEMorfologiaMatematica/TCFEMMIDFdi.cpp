@@ -9,18 +9,18 @@ PROJETO:	Anaimp
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFdi.cpp
-Nome da classe:      CFEMMIDFdi
+Nome deste arquivo:	TCFEMMIDFdi.cpp
+Nome da classe:      TCFEMMIDFdi
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFdi.
+Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFdi.
 */
 
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
 // using namespace std;
-#ifndef CFEMMIDFdi_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.h"	//  Classe base
+#ifndef TCFEMMIDFdi_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdi.h"	//  Classe base
 #endif
 #include "Geometria/Bola/BCDiscreta/CBCdi.h"
 
@@ -39,7 +39,7 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void CFEMMIDFdi<T>::CriaMascara (unsigned int _tamanhoMascara) {
+void TCFEMMIDFdi<T>::CriaMascara (unsigned int _tamanhoMascara) {
 	 if (this->mask) {			//  se existe uma mascara
 			if (this->mask->NX () == _tamanhoMascara) {	//  e é do mesmo  tamanho
          return;			//  sai
@@ -53,10 +53,10 @@ void CFEMMIDFdi<T>::CriaMascara (unsigned int _tamanhoMascara) {
 //      1
 //   1  p  1
 //      1
-//  TCMatriz2D< int > * CFEMMIDFdi::Go( TCMatriz2D< int > *& matriz)
+//  TCMatriz2D< int > * TCFEMMIDFdi::Go( TCMatriz2D< int > *& matriz)
 //  Obs
 template<typename T>
-TCMatriz2D<T> * CFEMMIDFdi<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
+TCMatriz2D<T> * TCFEMMIDFdi<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
    ExecutadaPorGo (matriz); //  verifica a matriz e copia dados para data2D
    //  IDFNosPlanosDeContorno(mi); //  verifica planos de contorno
    //  ida    MinimoIda

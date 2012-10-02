@@ -35,10 +35,10 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFABMedia<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;
-	CFABinario<T>::nivel = CFiltro<T>::pm->Media ();		// a matriz imagem calcula sua média
+	this->pm = matriz;
+	CFABinario<T>::nivel = this->pm->Media ();		// a matriz imagem calcula sua média
   // que é utilizada como nível de corte
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa função Go da classe base
   // que processa a binarização
 }
 #endif

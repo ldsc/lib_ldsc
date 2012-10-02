@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -32,12 +32,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * 
  */
 
-class CFELaplaciano : public CFEspacial<int>
+class CFELaplaciano : public TCFEspacial<int>
 {
 public:
 	/// Construtor
   CFELaplaciano (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
-  : CFEspacial<int> (matriz, _tamanhoMascara)
+	: TCFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

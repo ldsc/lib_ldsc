@@ -1,6 +1,6 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFEMMIDFdi_h
-#define CFEMMIDFdi_h
+#ifndef TCFEMMIDFdj_h
+#define TCFEMMIDFdj_h
 
 /*
 ----------------------------------------------------------------------------
@@ -11,49 +11,54 @@ PROJETO:	Anaimp
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFdi.h
-Nome da classe:      CFEMMIDFdi
+Nome deste arquivo:	TCFEMMIDFdj.h
+Nome da classe:      TCFEMMIDFdj
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
-
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h>
 #include <Mascara/MCDiscreta/CMCdi.h>
+//Geometria/Bola/BCDiscreta/CBCdi.h
 
 //  ----------------------------------------------------------------------------
-//  Classe:       CFEMMIDFdi
+//  Classe:       TCFEMMIDFdj
 //  ----------------------------------------------------------------------------
 /**
- * @brief  Matriz IDF de uma imagem usando mascara de chanfro di.
+ * @brief  Matriz IDF de uma imagem usando mascara de chanfro dj.
  */
 template<typename T>
-class CFEMMIDFdi : public CFEMMIDF<T>, public CMCdi {
+class TCFEMMIDFdj : public TCFEMMIDF<T>, public CMCdi
+{
 	protected:
-		///  Redefinida, herdada de CFEMMIDF
+		///  Redefinida, herdada de TCFEMMIDF
 		virtual unsigned int Mi () {
 			return mi;
 		}
 
 	public:
-		/// Construtor.
-		CFEMMIDFdi (TCMatriz2D<T> * &matriz, unsigned int _mi, unsigned int _rb, int _indice=1, int _fundo=0)
-			: CFEMMIDF<T> (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mi, _rb) {
+		/// Construtor
+		TCFEMMIDFdj (TCMatriz2D<T> * &matriz, unsigned int _mj,	unsigned int _rb, int _indice=1, int _fundo=0)
+			: TCFEMMIDF<T> (matriz, _rb, 32000, _indice, _fundo), CMCdi (_mj, _rb) {
 		}
 
-		///  Destrutor.
-		virtual ~ CFEMMIDFdi () {
+		///  Destrutor
+		virtual ~ TCFEMMIDFdj () {
 		}
 
-		/// Cria a mascara.
+		///  Redefinida, cria a mascara.
 		virtual void CriaMascara (unsigned int _tamanhoMascara);
 
-		/// Realiza processamento da imagem.
-		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara =	 0);
+		/// Processa idf.
+		virtual TCMatriz2D<T> *Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0);
+
+		///  Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
+		virtual void CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) = 0;
+
 };
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdi.cpp"
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdj.cpp"
 
-#endif //  CFEMMIDFdi_h
+#endif //  TCFEMMIDFdj_h

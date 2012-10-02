@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -29,21 +29,21 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Herdeiro de CFEspacial.
  */
 
-class CFEEmboss : public CFEspacial<int>
+class CFEEmboss : public TCFEspacial<int>
 {
-public:
+	public:
 		/// Construtor
-  CFEEmboss (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
-  :CFEspacial<int> (matriz, _tamanhoMascara)
-  {
-  }
+		CFEEmboss (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+			:TCFEspacial<int> (matriz, _tamanhoMascara)
+		{
+		}
 
-  /// Destrutor     
-  ~CFEEmboss ()
-  {
-  }
+		/// Destrutor
+		~CFEEmboss ()
+		{
+		}
 
-    /// Cria a mascara adequada
-  virtual void CriaMascara (unsigned int _tamanhoMascara);	
+		/// Cria a mascara adequada
+		virtual void CriaMascara (unsigned int _tamanhoMascara);
 };
 #endif // CFEEmboss_h

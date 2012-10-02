@@ -14,12 +14,12 @@ Bibliotecas e Defines
 #include <Matriz/CImagem.h>
 #endif
 
-#ifndef CFEMMIDF_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h>
+#ifndef TCFEMMIDF_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h>
 #endif
 
-#ifndef CFEMMIDFd34_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
+#ifndef TCFEMMIDFd34_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h>
 #endif
 
 /*
@@ -49,7 +49,7 @@ class CFEEsqueletoV1 : public CFEEsqueleto
 // Atributos
 protected:
   
-	CFEMMIDFd34<int> * idf;	///< Ponteiro para imagem idf d34
+	TCFEMMIDFd34<int> * idf;	///< Ponteiro para imagem idf d34
 
 // Métodos
 public:			

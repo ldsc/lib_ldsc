@@ -20,11 +20,11 @@ Descricao:	 	Implementa as funções da classe CFEMMIDF.
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
 using namespace std;
-#ifndef CFEMMIDF_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h"	// Classe base
+#ifndef TCFEMMIDF_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h"	// Classe base
 #endif
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h" // Utilizado pelo método CorrigeAbertura
+//#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h" // Utilizado pelo método CorrigeAbertura
 
 #include "Geometria/Bola/BCDiscreta/CBCDiscreta.h"			// Cria objeto
 //  Mascara\MCDiscreta\CBCDiscreta.h"   					// Cria objeto
@@ -36,7 +36,7 @@ Atributos estaticos da classe
 */
 // Se verdadeira após cada processamento recalcula a idf
 template<typename T>
-bool CFEMMIDF<T>::atualizaIDF = 0;	// por default, não recalcula a idf apos dilatacao ou fechamento
+bool TCFEMMIDF<T>::atualizaIDF = 0;	// por default, não recalcula a idf apos dilatacao ou fechamento
 
 /*
 ==================================================================================
@@ -48,9 +48,9 @@ Define o valor do raioBola como sendo metade do tamanhoMascara, e o raioMaximo.
 
 // Construtor sobrecarregado, recebe também o tamanho do raio máximo
 template<typename T>
-CFEMMIDF<T>::CFEMMIDF ( TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
-	 : CFEMorfologiaMatematica<T> ( matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz2D<T> ( matriz->NX (), matriz->NY () ),
-     raioBola ( _tamanhoMascara ), raioMaximo ( _raioMax ), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
+TCFEMMIDF<T>::TCFEMMIDF ( TCMatriz2D<T> * &matriz, int _tamanhoMascara, int _raioMax, int _indice, int _fundo )
+	 : TCFEMorfologiaMatematica<T> ( matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz2D<int> ( matriz->NX (), matriz->NY () ),
+		 raioMaximo ( _raioMax ), raioBola ( _tamanhoMascara ), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
 }
 
 /*
@@ -91,13 +91,13 @@ Função usada exclusivamente por Go:
 */
 // Funcao chamada exclusivamente por Go, ou seja depois de executada a idf vai ser recalculada.
 template<typename T>
-void CFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int _tamanhoMascara)
-	 CFiltro<T>::pm = matriz;										// armazena endereço matriz
+void TCFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int _tamanhoMascara)
+	 this->pm = matriz;										// armazena endereço matriz
    if ( this->nx != matriz->NX() || this->ny != matriz->NY() ) { // verifica se a matriz tem as mesmas dimensoes da idf(this)
-			TCMatriz2D<T>::Desaloca();				// desaloca a matriz existende e depois
+			this->Desaloca();				// desaloca a matriz existende e depois
       this->nx = matriz->NX();	// define novo tamanho
       this->ny = matriz->NY();
-			TCMatriz2D<T>::Aloca();					// aloca de acordo com novo tamanho
+			this->Aloca();					// aloca de acordo com novo tamanho
    }
    // Agora tenho de armazenar valores de pm na idf
    // substituir por this=matriz;
@@ -116,7 +116,7 @@ void CFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int 
          }
       }
    }
-	 TCMatriz2D<T>::Write("ExecutadaPorGo.pgm");
+	 this->Write("ExecutadaPorGo.pgm");
 }
 
 /*
@@ -128,8 +128,8 @@ Se for outra imagem recalcula Go.
 Tambem armazena endereço da imagem em pm.
 */
 template<typename T>
-void CFEMMIDF<T>::VerificaImagem ( TCMatriz2D<T> * &matriz ) { 					// se for a mesma imagem e tiver o mesmo tamanho sai
-	 if ( CFiltro<T>::pm == matriz && this->nx == matriz->NX() && this->ny == matriz->NY() ) {
+void TCFEMMIDF<T>::VerificaImagem ( TCMatriz2D<T> * &matriz ) { 					// se for a mesma imagem e tiver o mesmo tamanho sai
+	 if ( this->pm == matriz && this->nx == matriz->NX() && this->ny == matriz->NY() ) {
       return;			// sai
    } else {
       Go ( matriz );		// senão chama Go, que redefine o tamanho da imagem
@@ -143,16 +143,16 @@ Função    Erosao
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
 template<typename T>
-TCMatriz2D<T> * CFEMMIDF<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {	//
+TCMatriz2D<T> * TCFEMMIDF<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {	//
 	 // -->Padrao
    VerificaImagem ( matriz );			// verifica se é a mesma imagem (se diferente recalcula Go)
-	 CFEspacial<T>::tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
+	 this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
    // Deve calcular o tamanhoMascara antes de criar a mascara
-	 CriaMascara ( CFEspacial<T>::tamanhoMascara );		// Cria a mascara adequada, do tamanho de tamanhoMascara
-	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( CFEspacial<T>::mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
+	 CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada, do tamanho de tamanhoMascara
+	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( TCFEspacial<T>::mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
    // Processamento da erosao em si
-   register int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	 register Matriz2D(int) pmdata2D = CFiltro<T>::pm->Data2D ();	// otimizacao
+	 int raioBolaInclusa = maskd->RaioBolaInclusa ();
+	 Matriz2D(int) pmdata2D = this->pm->Data2D ();	// otimizacao
 	 for ( int j = 0; j < this->ny; j++ ) {
 			for ( int i = 0; i < this->nx; i++ ) {
          // se o ponto da idf for maior que a bola tangente, faz ponto=1
@@ -162,7 +162,7 @@ TCMatriz2D<T> * CFEMMIDF<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _Rai
 						pmdata2D[i][j] = this->FUNDO; //indiceInativo; // seta ponto inativo
       }
    }
-	 return CFiltro<T>::pm;	// pm é a matriz erodida
+	 return this->pm;	// pm é a matriz erodida
 }
 
 /*
@@ -172,18 +172,18 @@ Função    Dilatacao
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
 template<typename T>
-TCMatriz2D<T> * CFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {	//
+TCMatriz2D<T> * TCFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {	//
    // -->Padrao
    VerificaImagem ( matriz );	// verifica se é a mesma imagem (se diferente recalcula Go)
-	 CFEspacial<T>::tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
+	 this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
    // Deve calcular o tamanhoMascara antes de criar a mascara
-	 CriaMascara ( CFEspacial<T>::tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
+	 CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
-	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( CFEspacial<T>::mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
+	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( this->mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
 
    // Processamento da Dilatacao em si
    int mi = Mi ();		// funcao definida na CFEMMIDF, redeclarada nas filhas
-	 register Matriz2D(int) pmdata2D = CFiltro<T>::pm->Data2D ();
+	 Matriz2D(int) pmdata2D = this->pm->Data2D ();
 	 for ( int j = 0; j < this->ny; j++ )	// percorre toda a idf e
 			for ( int i = 0; i < this->nx; i++ )	// pinta pontos na imagem
 				 if ( this->data2D[i][j] >= mi )
@@ -195,8 +195,8 @@ TCMatriz2D<T> * CFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _
    int raio = maskd->RaioX ();
    // int raioBolaInclusa=maskd->RaioBolaInclusa();
    // int raioBolaTangente=maskd->RaioBolaTangente();
-	 register Matriz2D(int) maskdata2D = maskd->Data2D ();
-   register int rmx;		// raio mais x, raio+x
+	 Matriz2D(int) maskdata2D = maskd->Data2D ();
+	 int rmx;		// raio mais x, raio+x
    // Variáveis para SIMETRIA Bola
    int posxe, posxd;		// x esquerda e x direita
    int posys, posyn;		// y sul e y norte
@@ -237,8 +237,8 @@ TCMatriz2D<T> * CFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _
    //  DilatacaoNosContornos();                                    // Realiza a dilatacao nos contornos
    // verifica atualização idf
    if ( atualizaIDF ) // verifica o flag de atualizacao da idf após dilatação
-			Go ( CFiltro<T>::pm );		 // se ativo recalcula a idf
-	 return CFiltro<T>::pm;			 // CFiltro<T>::pm é a matriz Dilatacao
+			Go ( this->pm );		 // se ativo recalcula a idf
+	 return this->pm;			 // CFiltro<T>::pm é a matriz Dilatacao
 }
 
 /*
@@ -248,13 +248,13 @@ Função    Fechamento
 Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
 */
 template<typename T>
-TCMatriz2D<T> * CFEMMIDF<T>::Fechamento ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMMIDF<T>::Fechamento ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
    bool atualizaIDF_old = atualizaIDF;	// armazena valor de atualizaIDF
    atualizaIDF = 1;		// ativa, para que a Dilatacao recalcule  a idf
    Dilatacao ( matriz, _RaioBola );	// processa a dilatação, e depois Go
    atualizaIDF = atualizaIDF_old;	// atualizaIDF volta ao estado anterior
    Erosao ( matriz, _RaioBola );	// Processa a erosão, considerando imagem idf atualizada
-	 return CFiltro<T>::pm;
+	 return this->pm;
 }
 
 /*
@@ -264,35 +264,35 @@ TCMatriz2D<T> * CFEMMIDF<T>::Fechamento ( TCMatriz2D<T> * &matriz, unsigned int 
  * Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
  */
 template<typename T>
-TCMatriz2D<T> * CFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
    VerificaImagem ( matriz ); // verifica se é a mesma imagem (se diferente recalcula Go)
-	 CFEspacial<T>::tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
+	 this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
    // Deve calcular o tamanhoMascara antes de criar a mascara
-	 CriaMascara ( CFEspacial<T>::tamanhoMascara );		// Cria a mascara adequada de tamanho = tamanhoMascara
+	 CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada de tamanho = tamanhoMascara
 
-	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( CFEspacial<T>::mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
+	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( this->mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
 
-   //maskd->Write ("mascaraCBCDiscreta.pgm");
+	 //this->maskd->Write ("mascaraCBCDiscreta.pgm");
 
    // Processamento da abertura em si
    // Obs:Deve zerar a matriz exceto as bordas(resolver)
-	 CFiltro<T>::pm->Constante ( indiceInativo );	// zera a matriz imagem
+	 this->pm->Constante ( indiceInativo );	// zera a matriz imagem
 
    // variáveis auxiliares para otimizacao
    // Otimizacao Mascara
    register int raio = maskd->RaioX ();
    int raioBolaTangente = maskd->RaioBolaTangente ();
    int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	 register Matriz2D(int) maskdata2D = maskd->Data2D ();
+	 Matriz2D(int) maskdata2D = maskd->Data2D ();
    register int rmx;		// raio mais x, raio+x
 
    // Otimizacao Imagem
-	 register Matriz2D(int) pmdata2D = CFiltro<T>::pm->Data2D ();
+	 Matriz2D(int) pmdata2D = this->pm->Data2D ();
 
    // Variáveis para SIMETRIA Bola   // otimizacao
    unsigned int posxe, posxd;	// x esquerda e x direita
    unsigned int posys, posyn;	// y sul e y norte
-   unsigned int xx, yy;		// posicoes xx e yy da bola
+	 int xx, yy;		// posicoes xx e yy da bola
 
 	 for ( int j = raio; j < this->ny - raio; j++ ) { // Percorre a imagem idf
 			for ( int i = raio; i < this->nx - raio; i++ ) {
@@ -326,226 +326,9 @@ TCMatriz2D<T> * CFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _R
       }
    }
    //  DilatacaoNosContornos(); // Realiza a dilatacao nos contornos
-	 return CFiltro<T>::pm;			// pm é a matriz abertura
+	 return this->pm;			// pm é a matriz abertura
 }
 
-/*================================================================================
- * Função    CorrigeAbertura
- * ==================================================================================
- * Este método corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.*/
-template<typename T>
-void CFEMMIDF<T>::CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) {
-   char fileName[64];
-   // calcula idf d34 da mascara
-	 CFEMMIDFd34<int> *idfMask = NULL;
-	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( CFEspacial<T>::mask );
-	 idfMask = new CFEMMIDFd34<int> ( ptr_mask );
-   idfMask->Go ( ptr_mask );
-   //grava em disco a IDF da mascara.
-   /*
-     *    static int contMasK = 1;
-     *    sprintf (fileName, "idfMascara%d.pgm", contMasK++);
-     *    idfMask->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
-     *      idfMask->NumCores( idfMask->MaiorValor()+1 );
-     *    idfMask->Write(fileName);
-     */
-   // calcula idf d34 da imagem abertura.
-	 CFEMMIDFd34<int> *idfAbertura = NULL;
-	 idfAbertura = new CFEMMIDFd34<int> ( matriz );
-   idfAbertura->Go ( matriz );
-   //grava em disco a IDF da imagem abertura.
-	 static int contAbertura = 1;
-   sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
-	 idfAbertura->SetFormato ( P2_X_Y_GRAY_ASCII );
-   idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
-   idfAbertura->Write ( fileName );
-
-   // Método - 1 O melhor até agora!
-   pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
-   int centro = maiorMenor.first;
-   int borda  = maiorMenor.second;
-	 int raiox = CFEspacial<T>::mask->RaioX();
-	 int raioy = CFEspacial<T>::mask->RaioY();
-	 for ( int j = raioy; j < this->ny - raioy; j++ ) {	// Percorre a imagem idf
-			for ( int i = raiox; i < this->nx - raiox; i++ ) {
-         if ( matriz->data2D[i][j] == regiao ) { // se o ponto analizado faz parte da região abertura
-            if ( idfAbertura->data2D[i][j] == centro ) {
-               if ( ( idfAbertura->data2D[i-raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
-                  if ( ( matriz->data2D[i][j+raioy+1] == regiao )
-                       && ( matriz->data2D[i-1][j+raioy] != regiao )
-                       && ( matriz->data2D[i+raiox+1][j+raioy] != regiao ) ) {
-                     for ( int x = 0; x <= raiox; x++ )
-                        if ( matriz->data2D[i+x][j+raioy] == regiao )
-                           matriz->data2D[i+x][j+raioy] = 0;
-                        else
-                           break;
-                  }
-               } else if ( ( idfAbertura->data2D[i+raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
-                  if ( ( matriz->data2D[i][j+raioy+1] == regiao )
-                       && ( matriz->data2D[i+raiox][j+raioy] != regiao )
-                       && ( matriz->data2D[i-raiox-1][j+raioy] != regiao ) ) {
-                     for ( int x = -raiox; x <= raiox; x++ )
-                        if ( matriz->data2D[i+x][j+raioy-1] != regiao )
-                           matriz->data2D[i+x][j+raioy] = 0;
-                  }
-               }
-            } else if ( ( idfAbertura->data2D[i][j] < centro ) && ( idfAbertura->data2D[i][j] > borda ) ) {
-               if ( ( idfAbertura->data2D[i-raiox][j] == borda )  && ( idfAbertura->data2D[i][j+raioy] < centro ) ) {
-                  int raio = 1;
-                  int teste = 4;
-                  //cerr << "raio = " << raio << " teste = " << teste << " ponto = " << idfAbertura->data2D[i][j] << endl;
-                  while ( idfAbertura->data2D[i][j] > teste ) { //quando sair do loop, ten-se o raio correspondente a bola cujo valor de IDF (d34) no ponto central, seja igual ao valor do ponto analizado
-                     raio++;
-                     teste += 3;
-                     //cerr << "raio = " << raio << " teste = " << teste << " ponto = " << idfAbertura->data2D[i][j] << endl;
-                  }
-                  if ( ( matriz->data2D[i][j+raio+1] == regiao )
-                       && ( matriz->data2D[i-1][j+raio] != regiao )
-                       && ( matriz->data2D[i+raio+1][j+raio] != regiao ) ) {
-                     for ( int x = 0; x <= raio; x++ )
-                        if ( matriz->data2D[i+x][j+raio] == regiao )
-                           matriz->data2D[i+x][j+raio] = 0;
-                        else
-                           break;
-                  }
-               }
-            }
-         }
-      }
-   }
-   /*
-     *    // Método - 2
-     *    pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
-     *    int centro = maiorMenor.first;
-     *    int borda  = maiorMenor.second;
-     *    cerr << "maior: " << maiorMenor.first << endl;
-     *    cerr << "menor: " << maiorMenor.second << endl;
-		 *    int raiox = CFEspacial<T>::mask->RaioX();
-		 *    int raioy = CFEspacial<T>::mask->RaioY();
-     *    cerr << "raiox: " << raiox << endl;
-     *    cerr << "raioy: " << raioy << endl << endl;
-     *    bool achou;
-		 *    for (int j = raioy; j < this->ny - raioy; j++) {	// Percorre a imagem idf
-		 *    		for (int i = raiox; i < this->nx - raiox; i++) {
-     *    			achou = false;
-     *    			if ( ( data2D[i][j] == borda ) && ( data2D[i][j-raioy] == centro ) && ( matriz->data2D[i][j] == regiao ) ) {
-     *    				for (int x = 1; x <= raiox; x++) {
-     *    					if(data2D[i+x][j] >= centro) {
-     *    						achou = true;
-     *    						break;
-     }
-     }
-     if( ! achou ) {
-      for (int x = 0; x <= raiox; x++) {
-       if(matriz->data2D[i+x][j] == regiao) {
-        matriz->data2D[i+x][j] = 0;
-     }
-     }
-     }
-     }
-     }
-     }
-     */
-   /*// Método - 3 Mão acançou bons resultados
-     *    pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
-     *    int centro = maiorMenor.first;
-     *    int borda  = maiorMenor.second;
-		 *    int raiox = CFEspacial<T>::mask->RaioX();
-     *    int diametrox  = (2 * raiox) + 1;
-		 *    int raioy = CFEspacial<T>::mask->RaioY();
-     *    int cont;
-     *    bool flag;
-		 *    for (int j = raioy; j < this->ny - raioy; j++) {	// Percorre a imagem idf
-		 *    	for (int i = raiox; i < this->nx - raiox; i++) {
-     *    		cont = 0;
-     *    		flag = true;
-     *    		if ( matriz->data2D[i][j] == regiao ) { // se o ponto analizado faz parte da região abertura
-     *    		if ( idfAbertura->data2D[i][j] == borda ) {
-     *    			cont++;
-     *    			while (flag){
-		 *    				if ( (i + cont) < this->nx ) { // evitar estouro.
-     *    					if ( matriz->data2D[i+cont][j] == regiao ){
-     *    						if (idfAbertura->data2D[i+cont][j] != borda) {
-     *    							cont++;
-     } else {
-      cont++;
-      flag = false;
-     }
-     } else {
-      flag = false;
-     }
-     } else {
-      flag = false;
-     }
-     }
-     if ( (cont < diametrox) && (cont > 2) ) {
-      for (int x = 0; x < cont; x++) {
-       matriz->data2D[i+x][j] = 0;
-     }
-     } else if (cont == 2 && matriz->data2D[i-1][j] != regiao && matriz->data2D[i+2][j] != regiao) {
-      matriz->data2D[i][j] = 0;
-      matriz->data2D[i+1][j] = 0;
-     }
-     }
-     }
-     }
-     }
-     /*
-      *    int maior = idfMask->MaiorValor();
-      *    int menor = idfMask->MenorValorNzero();
-			*    int raiox = CFEspacial<T>::mask->RaioX();
-			*    int raioy = CFEspacial<T>::mask->RaioY();
-			*    for (int j = raioy; j < this->ny - raioy; j++) {	// Percorre a imagem idf
-			*    	for (int i = raiox; i < this->nx - raiox; i++) {
-      *    		if ( ( data2D[i][j] 		< 	maior )
-      *    		  && ( data2D[i-raiox][j] 	< 	menor )
-      *    		  && ( data2D[i+raiox][j] 	<	menor )
-      *    		  && ( matriz->data2D[i][j]	== 	regiao ) )
-      *    		{
-      *    			matriz->data2D[i][j] = 0;
-      }
-      }
-      }
-      */
-   /*
-     *    pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
-     *    cerr << "maior: " << maiorMenor.first << endl;
-     *    cerr << "menor: " << maiorMenor.second << endl;
-		 *    int raiox = CFEspacial<T>::mask->RaioX();
-		 *    int raioy = CFEspacial<T>::mask->RaioY();
-     *    cerr << "raiox: " << raiox << endl;
-     *    cerr << "raioy: " << raioy << endl;
-		 *    for (int j = raioy; j < this->ny - raioy; j++) {	// Percorre a imagem idf
-		 *    		for (int i = raiox; i < this->nx - raiox; i++) {
-     *    			if ( ( data2D[i][j] 		<= 	maiorMenor.first )
-     *    			  && ( data2D[i-raiox][j] 	<= 	maiorMenor.second )
-     *    			  && ( data2D[i+raiox][j] 	<=	maiorMenor.second )
-     *    			  && ( matriz->data2D[i][j]	== 	regiao )
-     *    			  && ( data2D[i][j-raioy] 	< 	maiorMenor.first ) )
-     *    			{
-     *    				matriz->data2D[i][j-raioy] = 0;
-     }
-     }
-     }
-     */
-   /*
-     *    pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
-		 *    int raiox = CFEspacial<T>::mask->RaioX();
-		 *    int raioy = CFEspacial<T>::mask->RaioY();
-		 *    for (int j = raioy; j < this->ny - raioy; j++) {	// Percorre a imagem idf
-		 *    	for (int i = raiox; i < this->nx - raiox; i++) {
-     *    		if ( ( data2D[i][j] 		<= 	maiorMenor.first )
-     *    		  && ( matriz->data2D[i][j]	== 	regiao )
-     *    		  && ( data2D[i-raiox][j] 	<= 	maiorMenor.second )
-     *    		  && ( data2D[i+raiox][j] 	<=	maiorMenor.second ) )
-     *    		{
-     *    			for(int x = -raiox; x <= raiox; x++)
-     *    				matriz->data2D[i+x][j] = 0;
-     }
-     }
-     }
-     */
-}
 
 /*
 ==================================================================================
@@ -558,7 +341,7 @@ Função    Esqueleto.
 // estiver pronto, copiar aqui?? resolver
 //////////// //////////// //////////// //////////// // // // // //
 template<typename T>
-TCMatriz2D<T> * CFEMMIDF<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D<T> * TCFEMMIDF<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
    int mi = Mi ();
    // ----------------------------------------
    // -->Padrao
@@ -579,7 +362,7 @@ TCMatriz2D<T> * CFEMMIDF<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /
    //  Percorre a imagem de mi até raio maximo
    // ----------------------------------------
 	 //CFiltro<T>::pm->Constante ( 0 );		// zera a imagem
-	 CFiltro<T>::pm->Constante ( this->FUNDO );		// zera a imagem
+	 this->pm->Constante ( this->FUNDO );		// zera a imagem
    int raioBolaInclusa;
    for ( int raio = 1; raio < raioMaximo; raio++ ) {
       raioBolaInclusa = mi * raio;	// 3*1
@@ -605,12 +388,12 @@ TCMatriz2D<T> * CFEMMIDF<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /
 							 else if ( this->data2D[i - 1][j - 1] > raioBolaInclusa )
                   continue;	// sou um ponto do esqueleto
                else
-									CFiltro<T>::pm->data2D[i][j] = 1;
+									this->pm->data2D[i][j] = 1;
             }
          }
       }
    }
-	 return CFiltro<T>::pm;
+	 return this->pm;
 }
 
 /*
@@ -621,7 +404,7 @@ Como a mascara nao pode ser encaixada nos pontos de contorno, estes são
 desconsiderados durante a diltacao. Aqui pinta os pontos desconsiderados
 */
 template<typename T>
-void CFEMMIDF<T>::DilatacaoNosContornos () {	// usada pela abertura
+void TCFEMMIDF<T>::DilatacaoNosContornos () {	// usada pela abertura
    // Indices para percorrer a matriz
    /*
 	 for ( int y = 0; y < this->ny; y++ ) {	// plano back z=0
@@ -640,15 +423,15 @@ void CFEMMIDF<T>::DilatacaoNosContornos () {	// usada pela abertura
    //Estou usando INDICE e FUNDO ao invés de 0 e 1
 	 for ( int y = 0; y < this->ny; y++ ) {	// plano back z=0
 			if ( this->data2D[0][y] != this->FUNDO )
-				 CFiltro<T>::pm->data2D[0][y] = this->INDICE;
+				 this->pm->data2D[0][y] = this->INDICE;
 			if ( this->data2D[this->nx-1][y] != this->FUNDO )
-				 CFiltro<T>::pm->data2D[this->nx-1][y] = this->INDICE;
+				 this->pm->data2D[this->nx-1][y] = this->INDICE;
    }
 	 for ( int x = 1; x < this->nx; x++ ) {
 			if ( this->data2D[x][0] != this->FUNDO )
-				 CFiltro<T>::pm->data2D[x][0] = this->INDICE;
+				 this->pm->data2D[x][0] = this->INDICE;
 			if ( this->data2D[x][this->ny-1] != this->FUNDO )
-				 CFiltro<T>::pm->data2D[x][this->ny-1] = this->INDICE;
+				 this->pm->data2D[x][this->ny-1] = this->INDICE;
    }
 }
 
@@ -693,7 +476,7 @@ Método chamado por Go das classes herdeiras para inverter a imagem caso FUNDO!=
 Necessário para que a imagem IDF seja criada corretamente
 */
 template<typename T>
-void CFEMMIDF<T>::InverterSeNecessario(){
+void TCFEMMIDF<T>::InverterSeNecessario(){
 	 if (this->FUNDO != 0){ //inverte a imagem
 			for ( int y = 0; y < this->ny; y++ ) {
 				 for ( int x = 0; x < this->nx; x++ ) {

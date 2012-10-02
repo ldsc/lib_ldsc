@@ -45,7 +45,7 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFABVarianciaOtsu<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;
+	this->pm = matriz;
 	//
 	int i, j, k;			// contadores
 	float y, z;			// variáveis auxiliares
@@ -54,7 +54,7 @@ TCMatriz2D<T> * CFABVarianciaOtsu<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 	float varianciaTotal;		// variancia total calculada
 
 	CHistograma histAux (256);	// Cria histograma, zera, calcula
-	histAux.Go (CFiltro<T>::pm);		// calcula
+	histAux.Go (this->pm);		// calcula
 
 	iXdataiTotal = iXdatai (histAux.data1D, 256);	// calcula i*data[i] de 0 a 256
 	varianciaTotal = 0.0;		// variancia global
@@ -80,7 +80,7 @@ TCMatriz2D<T> * CFABVarianciaOtsu<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 			CFABinario<T>::nivel = i;
 		}
 	}
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa função Go da classe base
 	// que processa a binarização
 }
 

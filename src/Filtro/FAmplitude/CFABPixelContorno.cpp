@@ -40,8 +40,8 @@ template<typename T>
 TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
 	// unsigned int i,j;
 	int i, j;
-	CFiltro<T>::pm = matriz;
-	TCMatriz2D<T> *lap = new TCMatriz2D<T> ( * CFiltro<T>::pm);	// 0-Cria matriz laplaciano, copia de pm
+	this->pm = matriz;
+	TCMatriz2D<T> *lap = new TCMatriz2D<T> ( * this->pm);	// 0-Cria matriz laplaciano, copia de pm
 
 	// 1-Calcula o laplaciano da imagem
 	CFELaplaciano filtroLaplaciano (lap, 3);	// tamanho da mascara=3
@@ -60,14 +60,14 @@ TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 	// definida pela matriz laplaciano
 	// ----------inicio calculo histograma-------
 	histograma->Constante (0);	// zera o histograma
-	for (i = 0; i < CFiltro<T>::pm->NX (); i++)	// percorre a imagem
-		for (j = 0; j < CFiltro<T>::pm->NY (); j++)	{
+	for (i = 0; i < this->pm->NX (); i++)	// percorre a imagem
+		for (j = 0; j < this->pm->NY (); j++)	{
 			if (// evita acesso a ponto alem dos limites do vetor histograma
-					(CFiltro<T>::pm->data2D[i][j] < histograma->NX ()) &&	// só considerar pontos que satisfaçam a condição do laplaciano
+					(this->pm->data2D[i][j] < histograma->NX ()) &&	// só considerar pontos que satisfaçam a condição do laplaciano
 					(lap->data2D[i][j] >= nivelCorteLaplaciano))
-				histograma->data1D[CFiltro<T>::pm->data2D[i][j]]++;	// incrementa
+				histograma->data1D[this->pm->data2D[i][j]]++;	// incrementa
 		}
-	float area = CFiltro<T>::pm->NX () * CFiltro<T>::pm->NY ();	// coloca histograma em percentuais
+	float area = this->pm->NX () * this->pm->NY ();	// coloca histograma em percentuais
 
 	for (unsigned int k = 0; k < histograma->NX (); k++)
 		histograma->data1D[k] = histograma->data1D[k] * 100.0 / area;
@@ -78,13 +78,13 @@ TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 
 	// 5-Agora precisa determinar o nivel de corte
 	// usando função determinaNivelCorte da classe irmã
-	CFABDoisPicos<T> * fBinarizacaoDoisPicos = new CFABDoisPicos<T> (CFiltro<T>::pm);	// Cria filtro de classe irmã
+	CFABDoisPicos<T> * fBinarizacaoDoisPicos = new CFABDoisPicos<T> (this->pm);	// Cria filtro de classe irmã
 	CFABinario<T>::nivel = fBinarizacaoDoisPicos->determinaNivelCorte (histograma);	// chama função publica da classe irmã
 
 	delete histograma;		// elimina objeto histograma
 
 	delete fBinarizacaoDoisPicos;	// elimina objeto filtro auxiliar
 
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa função Go da classe base
 }
 #endif

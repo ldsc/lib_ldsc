@@ -1,7 +1,7 @@
 //  Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 //using namespace std;
-#ifndef CFEMorfologiaMatematica_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h"
+#ifndef TCFEMorfologiaMatematica_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h"
 #endif
 
 #include "Geometria/Bola/BCDiscreta/CBCEuclidiana.h"
@@ -20,7 +20,7 @@
 	Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void CFEMorfologiaMatematica<T>::CriaMascara ( unsigned int _tamanhoMascara ) {
+void TCFEMorfologiaMatematica<T>::CriaMascara ( int _tamanhoMascara ) {
 	//  Abaixo dependendo do flag chama função de criação dos elementos estruturantes
 	//  b1 e b2
 	if ( EEHitMiss1 ) {
@@ -45,7 +45,7 @@ void CFEMorfologiaMatematica<T>::CriaMascara ( unsigned int _tamanhoMascara ) {
 
 //  obs: b1 e b2 poderiam ser lidos do disco
 template<typename T>
-void CFEMorfologiaMatematica<T>::CriaEEB1 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
+void TCFEMorfologiaMatematica<T>::CriaEEB1 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
 	delete this->mask; 			//  apaga objeto mask
 	this->mask = NULL;
 	this->mask = new CBCEuclidiana ( 3 );
@@ -61,7 +61,7 @@ void CFEMorfologiaMatematica<T>::CriaEEB1 ( unsigned int /*_tamanhoMascara*/ ) {
 
 //  obs: b1 e b2 poderiam ser lidos do disco
 template<typename T>
-void CFEMorfologiaMatematica<T>::CriaEEB2 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
+void TCFEMorfologiaMatematica<T>::CriaEEB2 ( unsigned int /*_tamanhoMascara*/ ) {				//  parametro nao usado
 	delete this->mask; 			//  apaga objeto mask
 	this->mask = NULL;
 	this->mask = new CBCEuclidiana ( 3 );
@@ -85,11 +85,11 @@ void CFEMorfologiaMatematica<T>::CriaEEB2 ( unsigned int /*_tamanhoMascara*/ ) {
 	Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
 	this->pm = matriz;
 	this->tamanhoMascara = ( 2 * _RaioBola ) + 1;
 	if ( this->tamanhoMascara > this->pm->NX() || this->tamanhoMascara > this->pm->NY() ) {
-		cerr << "Erro em CFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
+		cerr << "Erro em TCFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
 		return NULL;
 	}
 
@@ -318,11 +318,11 @@ dilatacao classica, percorre a imagem com o EE e compara.
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
 	this->pm = matriz;
 	this->tamanhoMascara = ( 2 * _RaioBola ) + 1;
 	if ( this->tamanhoMascara > this->pm->NX() || this->tamanhoMascara > this->pm->NY() ) {
-		cerr << "Erro em CFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
+		cerr << "Erro em TCFEMorfologiaMatematica::Erosao: O Mascara é maior que a imagem" << endl;
 		return NULL;
 	}
 	CriaMascara ( this->tamanhoMascara );	//  criada na classe TFMorfologicos
@@ -482,7 +482,7 @@ PulaForMask9:
 	Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Fechamento ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Fechamento ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
 	//  dilatacao
 	if ( Dilatacao( matriz, _RaioBola ) == NULL )
 		return NULL;
@@ -511,7 +511,7 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Fechamento ( TCMatriz2D<T> * &matriz
 	Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola ) {
 	//  erosao
 	if ( Erosao ( matriz, _RaioBola ) == NULL )
 		return NULL;
@@ -524,7 +524,7 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Abertura ( TCMatriz2D<T> * &matriz, 
 
 // Não implementada
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::DeteccaoContorno ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::DeteccaoContorno ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
 	return matriz;
 }
 
@@ -541,13 +541,13 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::DeteccaoContorno ( TCMatriz2D<T> * &
 	Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::HitMiss ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::HitMiss ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
 	/*        TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
 			 matriz2->Inverter();                   //  e transforma na complementar
 			 EEHitMiss1=true;                       //  ativa criação da mascara para bi
-			 CFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
+			 TCFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
 			 EEHitMiss2=true;                       //  ativa criação da mascara para be
-			 CFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
+			 TCFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
 			 matriz->Intersecao(matriz2);                              //  intersecção entre matriz e matriz2
 			 delete matriz2; // apaga objeto imagem
 		 */
@@ -555,7 +555,7 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::HitMiss ( TCMatriz2D<T> * &matriz, u
 }
 
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Afinamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Afinamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
 	/*
 			 TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);      //  Cria copia da matriz
 			 HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
@@ -566,7 +566,7 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Afinamento ( TCMatriz2D<T> * &matriz
 }
 
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Espessamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {				/*
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Espessamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {				/*
 			 TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
 			 HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
 			 matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
@@ -576,6 +576,6 @@ TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Espessamento ( TCMatriz2D<T> * &matr
 
 // Implementar
 template<typename T>
-TCMatriz2D<T> * CFEMorfologiaMatematica<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
 	return matriz;
 }

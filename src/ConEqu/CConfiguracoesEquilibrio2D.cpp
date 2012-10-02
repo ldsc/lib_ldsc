@@ -30,11 +30,11 @@ Arquivo de documentacao auxiliar:
 #include <iomanip>
 #include <ConEqu/CConfiguracoesEquilibrio2D.h>
 #include <Base/COperacao.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd4.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd8.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd5711.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFEuclidiana.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd4.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd8.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h>
 using namespace std;
 
 //  Cria alguns objetos agregados e zera ponteiros
@@ -148,7 +148,7 @@ void CConfiguracoesEquilibrio2D::CriaCamara(TCMatriz2D< int > * &imagem)
   {							// Calcula estimativa do raio máximo
     // PODE SER OTIMIZADO, SUBSTITUIR POR NX/4?
     // Usa idfd34 apenas para estimar o raio máximo, depois vai criar a idf selecionada
-		CFEMMIDFd34<int> idfp(imagem);				//  calcula a idf da imagem
+		TCFEMMIDFd34<int> idfp(imagem);				//  calcula a idf da imagem
     idfp.Go( imagem );					//  e determina o raioMaximo
 
     int maiorValor = idfp.MaiorValor();			//  a ser utilizado na construcao da camara
@@ -201,20 +201,20 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
   switch ( tipoIDF )		//  Cria objeto idf selecionado
   {
     case 4:
-			idf = new CFEMMIDFd4<int>( ptr_camara );
+			idf = new TCFEMMIDFd4<int>( ptr_camara );
       break;
     case 8:
-			idf = new CFEMMIDFd8<int>( ptr_camara );
+			idf = new TCFEMMIDFd8<int>( ptr_camara );
       break;
     case 34:
-			idf = new CFEMMIDFd34<int>( ptr_camara );
+			idf = new TCFEMMIDFd34<int>( ptr_camara );
       break;
     case 5711:
-			idf = new CFEMMIDFd5711<int>( ptr_camara );
+			idf = new TCFEMMIDFd5711<int>( ptr_camara );
       break;
     case 1:
     default:
-			idf = new CFEMMIDFEuclidiana<int>( ptr_camara );
+			idf = new TCFEMMIDFEuclidiana<int>( ptr_camara );
       break;
   }
   COperacao::TestaAlocacao (idf,"objeto idf, funcao CConfiguracoesEquilibrio2D:");

@@ -27,7 +27,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 #include "Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV3.h"
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h"
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h"
 
 #include "Filtro/FEspacial/CFEBorda.h"
 
@@ -52,7 +52,7 @@ CFEEsqueletoV3::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
 {
   if (idf == NULL)
     {
-			idf = new CFEMMIDFd34<int> (imagem);	// Cria a idf, e testa alocacao
+			idf = new TCFEMMIDFd34<int> (imagem);	// Cria a idf, e testa alocacao
       COperacao::TestaAlocacao (idf,
 				"Erro alocacao idf, funcao Go, objeto CFEEsqueletoV3");
     }
@@ -164,7 +164,7 @@ CFEEsqueletoV3::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*
     }
 
       // novo colocado em 2007
-      //      CFEMMIDFd34* ptrImg2D = idf;
+      //      TCFEMMIDFd34* ptrImg2D = idf;
       TCMatriz2D< int >* pMatriz = dynamic_cast<TCMatriz2D< int >*>( idf );
       idf->Go (pMatriz,0);		// atualiza a idf após descascamento
       // idf->Go (idf);		// FORMATO ANTIGO

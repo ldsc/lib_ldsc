@@ -33,16 +33,15 @@ Descrição:        Se o valor de cor do pixel for maior que o nivel de corte, a
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-TCMatriz2D<T> * CFABinario<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara)
-{
-	CFiltro<T>::pm = matriz;
-	for (unsigned int i = 0; i < CFiltro<T>::pm->NX (); i++)
-		for (unsigned int j = 0; j < CFiltro<T>::pm->NY (); j++)
+TCMatriz2D<T> * CFABinario<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
+	this->pm = matriz;
+	for (unsigned int i = 0; i < this->pm->NX (); i++)
+		for (unsigned int j = 0; j < this->pm->NY (); j++)
       {
-	(CFiltro<T>::pm->data2D[i][j] > nivel) ?
+	(this->pm->data2D[i][j] > nivel) ?
 	  // pm->data2D[i][j]=1:  pm->data2D[i][j]=0;
-		CFiltro<T>::pm->data2D[i][j] = 0 : CFiltro<T>::pm->data2D[i][j] = 1;	// a imagem cinza tem branco=255 preto=0
+		this->pm->data2D[i][j] = 0 : this->pm->data2D[i][j] = 1;	// a imagem cinza tem branco=255 preto=0
       }				// o resultado binario deve ter branco=0 preto=1
-	return CFiltro<T>::pm;
+	return this->pm;
 }
 #endif

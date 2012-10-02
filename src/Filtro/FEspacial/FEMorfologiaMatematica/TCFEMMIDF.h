@@ -1,6 +1,6 @@
 // Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CFEMMIDF_h
-#define CFEMMIDF_h
+#ifndef TCFEMMIDF_h
+#define TCFEMMIDF_h
 
 /*
 ----------------------------------------------------------------------------
@@ -9,8 +9,8 @@ PROJETO:		Anaimp - Analise de Imagens de Meios Porosos
 Desenvolvido por:      	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:         	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDF.h
-Nome da classe:      CFEMMIDF
+Nome deste arquivo:	TCFEMMIDF.h
+Nome da classe:      TCFEMMIDF
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -22,8 +22,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #include <Matriz/TCMatriz2D.h>
 #endif
 
-#ifndef CFEMorfologiaMatematica_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
+#ifndef TCFEMorfologiaMatematica_h
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #endif
 
 #ifndef CMascara_h
@@ -31,19 +31,19 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #endif
 
 // ----------------------------------------------------------------------------
-// Classe:       CFEMMIDF
+// Classe:       TCFEMMIDF
 // ----------------------------------------------------------------------------
 /**
  * @brief  Determina a matriz IDF - imagem de distância ao fundo, de uma imagem.
- * Herdeira de CFEMorfologiaMatematica e TCMatriz2D< int >.
+ * Herdeira de TCFEMorfologiaMatematica e TCMatriz2D< int >.
  */
 template<typename T>
-class CFEMMIDF : public CFEMorfologiaMatematica<T>, public TCMatriz2D<T> {
+class TCFEMMIDF : public TCFEMorfologiaMatematica<T>, public TCMatriz2D<int> {
    // Atributos
 protected:
    int minimo;					/// valor minimo utilizado no calculo minimoIda e minimoVolta
-   unsigned int raioMaximo;	/// raio máximo da idf
-   unsigned int raioBola;		/// raio da bola atual,entre 0 e raioMaximo
+	 int raioMaximo;	/// raio máximo da idf
+	 int raioBola;		/// raio da bola atual,entre 0 e raioMaximo
    static bool atualizaIDF;	/// Se verdadeira após cada processamento recalcula a idf
    int indiceAtivo; 			/// indice ativo
    int indiceInativo; 			/// indice inativo
@@ -88,10 +88,10 @@ public:
 
    /// Construtor
    // ponteiro para matriz imagem, tamanho da mascara a ser criada,raioMáximo a ser utilizado, valores de indice e fundo na imagem
-	 CFEMMIDF ( TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 3, unsigned int _raioMax = 32000, int _indice=1, int _fundo=0 );
+	 TCFEMMIDF ( TCMatriz2D<T> * &matriz, int _tamanhoMascara = 3, int _raioMax = 32000, int _indice=1, int _fundo=0 );
 
    /// Destrutor
-   virtual ~ CFEMMIDF ( ) { }
+	 virtual ~ TCFEMMIDF ( ) { }
 
    /// Retorna o raioMaximo
    unsigned int RaioMaximo () const {
@@ -134,9 +134,9 @@ public:
 	 virtual TCMatriz2D<T> *Esqueleto ( TCMatriz2D<T> * &matriz, unsigned int _RaioBola = 0 );
 
    ///  Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
-	 void CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao );
+	 virtual void CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) = 0;
 };
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.cpp"
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.cpp"
 
 #endif

@@ -138,7 +138,7 @@ void CConfiguracoesEquilibrio3D::CriaCamara (TCMatriz3D<int> * &imagem) {
    if (contadorPassosExecutados == 0)
       Salvar (imagem, "0-imagemInicial");
    {
-      CFEMMIDFd3453D idfp (imagem); // BUG: verificar se nao esta deletando a imagem
+			CFEMMIDFd3453D idfp (imagem); // BUG: verificar se nao esta deletando a imagem
       idfp.Go (imagem);
       int maiorValor = idfp.MaiorValor ();
       raioMaximo = (maiorValor % 3 == 0) ? maiorValor / 3 : 1 + maiorValor / 3;
@@ -177,7 +177,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
 
 	switch (tipoIDF) {			//  Cria objeto idf selecionado
    case 345:
-      idf = new CFEMMIDFd3453D (ptr_camara);
+			idf = new CFEMMIDFd3453D (ptr_camara);
       break;
    default:
       idf = new CFEMMIDFEuclidiana3D (ptr_camara);

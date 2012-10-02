@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -31,14 +31,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O resultado geral é a atenuação dos contornos.
  */
 
-class CFEGaussiano : public CFEspacial<int>
+class CFEGaussiano : public TCFEspacial<int>
 {
 public:
 	/// Construtor
-  CFEGaussiano (TCMatriz2D< int > * &matriz,
-		unsigned int _tamanhoMascara)
-	:CFEspacial<int> (matriz,	  _tamanhoMascara)
-  {
+	CFEGaussiano (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
+		: TCFEspacial<int> (matriz,	  _tamanhoMascara) {
   }
 
 /// Destrutor

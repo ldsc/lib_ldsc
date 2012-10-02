@@ -9,18 +9,18 @@ PROJETO:		Anaimp
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEMMIDFdijk.cpp
-Nome da classe:      CFEMMIDFdijk
+Nome deste arquivo:	TCFEMMIDFdijk.cpp
+Nome da classe:      TCFEMMIDFdijk
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a função CriaMascara da classe CFEMMIDFdijk.
+Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFdijk.
 */
 
 //   ----------------------------------------------------------------------------
 //   Bibliotecas
 //   ----------------------------------------------------------------------------
 using namespace std;
-#ifndef CFEMMIDFdijk_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFdijk.h"	//   Classe base
+#ifndef TCFEMMIDFdijk_h
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdijk.h"	//   Classe base
 #endif
 #include "Geometria/Bola/BCDiscreta/CBCdijk.h"	//   ponteiro para
 
@@ -39,7 +39,7 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void CFEMMIDFdijk<T>::CriaMascara (unsigned int _tamanhoMascara) {
+void TCFEMMIDFdijk<T>::CriaMascara ( int _tamanhoMascara) {
 	if (this->mask) { //   se existe uma mascara
 		if (this->mask->NX () == _tamanhoMascara)	//   e é do mesmo  tamanho
 			return;			//   sai
@@ -71,9 +71,9 @@ deve percorrer a parte interna da imagem, nao acessando a borda da imagem.
 Ou seja desconsidera-se os pontos da borda da imagem.
 */
 
-//   TCMatriz2D< int > * CFEMMIDFdijk::Go( TCMatriz2D< int > *& matriz)
+//   TCMatriz2D< int > * TCFEMMIDFdijk::Go( TCMatriz2D< int > *& matriz)
 template<typename T>
-TCMatriz2D<T> * CFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
+TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
 	int x, y;			//   Indices para percorrer a matriz
 	ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 

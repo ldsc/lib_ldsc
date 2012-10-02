@@ -47,7 +47,7 @@ TAREFAS:		Criar classe CConfiguracoesEquillibrio comum aos
 #include "Rotulador/CConectividade2D.h"
 #endif
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDF.h"
+#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h"
 
 /**
  * @brief A classe CConfiguracoesEquilibrio2D determina configuracoes equilibrio em imagens 2D.
@@ -89,7 +89,7 @@ protected:
 
     int indiceParcialB;				/// Indice da regiao B após cada processo
 
-		CFEMMIDF<int> *idf; 				/// É uma copia da imagem com a IDF (é o filtro que gera e armazena a idf)
+		TCFEMMIDF<int> *idf; 				/// É uma copia da imagem com a IDF (é o filtro que gera e armazena a idf)
 
     CConectividade2D *rotulador; 			/// Objeto conectividade, realiza a verificacao da conectividade (herdeiro de rotulador2D, é uma imagem).
 

@@ -7,7 +7,7 @@
 #include "CAberturaDilatacao.h"
 #include "CUtil.h"
 
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
+#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <Matriz/TCMatriz2D.h>
 
@@ -83,7 +83,7 @@ int main ( int argc, char *argv[] )
 
 TCMatriz2D<int> lixo;
         TCMatriz2D< int > * pm = NULL;
-				CFEMorfologiaMatematica<int> * filtro = NULL;
+				TCFEMorfologiaMatematica<int> * filtro = NULL;
         CAberturaDilatacao * carac = NULL;
         int dimensao;
 
@@ -295,7 +295,7 @@ TCMatriz2D<int> lixo;
             cin.get(); // pega o enter
             pm = new TCMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
-						filtro = new CFEMorfologiaMatematica<int>( pm , eleStrut );
+						filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
             if ( pm == NULL  || filtro == NULL)
             {
@@ -331,7 +331,7 @@ TCMatriz2D<int> lixo;
             cin.get(); // pega o enter
             pm = new TCMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
-						filtro = new CFEMorfologiaMatematica<int>( pm , eleStrut );
+						filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
             if ( pm == NULL  || filtro == NULL)
             {
@@ -367,7 +367,7 @@ TCMatriz2D<int> lixo;
             cin.get(); // pega o enter
             pm = new TCMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
-						filtro = new CFEMorfologiaMatematica<int>( pm , eleStrut );
+						filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
             if ( pm == NULL  || filtro == NULL)
             {
@@ -402,7 +402,7 @@ TCMatriz2D<int> lixo;
             cin.get(); // pega o enter
             pm = new TCMatriz2D< int >( nomeimg );
             cout << " Carregou a matriz do disco...." << endl;
-						filtro = new CFEMorfologiaMatematica<int>( pm , eleStrut );
+						filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
             cout << " Criou o filtro...." << endl;
             if ( pm == NULL  || filtro == NULL)
             {

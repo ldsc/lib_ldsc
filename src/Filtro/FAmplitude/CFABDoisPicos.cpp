@@ -37,15 +37,15 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * CFABDoisPicos<T>::Go (TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CFiltro<T>::pm = matriz;
+	this->pm = matriz;
 	//
 	CFABinario<T>::nivel = -1;			// variável herdada
 	CHistograma *hist = new CHistograma (256);	// cria histograma de níveis de cinza
-	hist->Go (CFiltro<T>::pm);		// calcula o histograma
+	hist->Go (this->pm);		// calcula o histograma
 
 	CFABinario<T>::nivel = determinaNivelCorte (hist);	// função desta classe que determina o nivel
 	// de corte a partir do histograma
-	return CFABinario<T>::Go (CFiltro<T>::pm);	// Executa função Go da classe base
+	return CFABinario<T>::Go (this->pm);	// Executa função Go da classe base
 	// que processa a binarização
 }
 

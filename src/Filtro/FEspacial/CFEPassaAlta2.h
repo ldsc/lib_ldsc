@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /*
@@ -30,12 +30,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * O resultado geral é o aumento dos contornos. A identificação dos contornos.
  * 
  */
-class CFEPassaAlta2 : public CFEspacial<int>
+class CFEPassaAlta2 : public TCFEspacial<int>
 {
 public:
 		/// Construtor
   CFEPassaAlta2 (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)	
-  : CFEspacial<int> (matriz, _tamanhoMascara)
+		: TCFEspacial<int> (matriz, _tamanhoMascara)
   {
   }
 

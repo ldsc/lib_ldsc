@@ -79,7 +79,7 @@ Função usada exclusivamente por Go:
    executa go    		pfmm->Go(pm,tamanhoMascara);
    executa erosao      pfmm->Erosao(pm,raioBola);	// erosao sobre imagem já erodida
 
-Assim, toda funcao Go herdeira da CFEMMIDF deve chamar esta funcao:
+Assim, toda funcao Go herdeira da TCFEMMIDF deve chamar esta funcao:
   ExecutadaPorGo(matriz);
 
 */

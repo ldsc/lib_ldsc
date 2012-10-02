@@ -152,7 +152,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _Ra
 	 CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( TCFEspacial<T>::mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
    // Processamento da erosao em si
 	 int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	 Matriz2D(int) pmdata2D = this->pm->Data2D ();	// otimizacao
+	 Matriz2D(T) pmdata2D = this->pm->Data2D ();	// otimizacao
 	 for ( int j = 0; j < this->ny; j++ ) {
 			for ( int i = 0; i < this->nx; i++ ) {
          // se o ponto da idf for maior que a bola tangente, faz ponto=1
@@ -183,7 +183,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int 
 
    // Processamento da Dilatacao em si
    int mi = Mi ();		// funcao definida na CFEMMIDF, redeclarada nas filhas
-	 Matriz2D(int) pmdata2D = this->pm->Data2D ();
+	 Matriz2D(T) pmdata2D = this->pm->Data2D ();
 	 for ( int j = 0; j < this->ny; j++ )	// percorre toda a idf e
 			for ( int i = 0; i < this->nx; i++ )	// pinta pontos na imagem
 				 if ( this->data2D[i][j] >= mi )
@@ -287,7 +287,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _
    register int rmx;		// raio mais x, raio+x
 
    // Otimizacao Imagem
-	 Matriz2D(int) pmdata2D = this->pm->Data2D ();
+	 Matriz2D(T) pmdata2D = this->pm->Data2D ();
 
    // Variáveis para SIMETRIA Bola   // otimizacao
    unsigned int posxe, posxd;	// x esquerda e x direita

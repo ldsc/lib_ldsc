@@ -35,7 +35,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #include "Material/CMFluido.h"
 #include "ConEqu/CCamara3D.h"
 #include "Rotulador/CConectividade3D.h"
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.h"
+#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDF3D.h"
 
 using namespace std;
 
@@ -78,7 +78,7 @@ public:
 protected:
     //  objeto de interacao entre dois fluidos(confirmar), TInteracaoFluidosAB* interacaoFluidos;
 
-    CFEMMIDF3D * idf;					/// É uma cópia da imagem com a IDF (3D)
+		TCFEMMIDF3D<int> * idf;					/// É uma cópia da imagem com a IDF (3D)
 
     CConectividade3D *rotulador;				/// Objeto de calculo da conectividade (3D) realiza a verificacao da conectividade.
 

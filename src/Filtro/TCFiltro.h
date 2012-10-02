@@ -60,6 +60,6 @@ class TCFiltro {
 		virtual TCMatriz2D< T > *Go (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara = 0) = 0;
 };
 
-//#include "Filtro/TCFiltro.cpp"
+#include "Filtro/TCFiltro.cpp"
 
 #endif //   TCFiltro_h

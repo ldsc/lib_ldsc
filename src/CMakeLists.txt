@@ -33,8 +33,8 @@ add_library (ldsc STATIC
   Estatistica/CETesteMediaDuasAmostras.cpp
   FFT/CFFT.cpp
   FFT/CFFTPropriedades.cpp
-  Filtro/TCFiltro.cpp
-  Filtro/CFiltro3D.cpp
+  Filtro/TCFiltro.h
+  Filtro/TCFiltro3D.h
   Filtro/FAmplitude/CFABDoisPicos.cpp
   Filtro/FAmplitude/CFABinario.cpp
   Filtro/FAmplitude/CFABMedia.cpp
@@ -79,16 +79,16 @@ add_library (ldsc STATIC
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd4.h
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h
-  Filtro/FEspacial3D/CFEspacial3D.cpp
+  Filtro/FEspacial3D/TCFEspacial3D.h
   Filtro/FEspacial3D/CFEBorda3D.cpp
   Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp
   Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.cpp
   Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDF3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFd3453D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFdijk3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMIDFEuclidiana3D.cpp
-  Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMorfologiaMatematica3D.cpp
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDF3D.h
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFdijk3D.h
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMorfologiaMatematica3D.h
   Filtro/FReconstrucao/CFReconstrucao.cpp
   Funcao/CFChebyshev.cpp
   Funcao/CFGamma.cpp

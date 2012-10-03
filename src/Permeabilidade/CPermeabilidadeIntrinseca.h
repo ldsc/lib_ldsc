@@ -62,8 +62,8 @@ Desenvolvido por:
 #endif
 
 
-#ifndef CFEConectividade3D_h
-#include <Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h>
+#ifndef TCFEConectividade3D_h
+#include <Filtro/FEspacial3D/FEConectividade3D/TCFEConectividade3D.h>
 #endif
 
 /**

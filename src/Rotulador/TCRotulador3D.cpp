@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico 
  [LDSC].
 @author:          André Duarte Bueno
-File:             CRotulador3D.cpp
+File:             TCRotulador3D.cpp
 begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by André Duarte Bueno
 email:            andreduartebueno@gmail.com
@@ -21,7 +21,9 @@ email:            andreduartebueno@gmail.com
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <Rotulador/CRotulador3D.h>
+#ifndef TCRotulador3D_h
+#include <Rotulador/TCRotulador3D.h>
+#endif
 // using namespace std;
 
 /*
@@ -34,7 +36,8 @@ Função: AreaObjetos
 @param  :void
 @return :void
 */
-void CRotulador3D::CalculaAreaObjetos () {
+template<typename T>
+void TCRotulador3D<T>::CalculaAreaObjetos () {
    if (rotulado == false)	// Só procede o calculo se a matriz rótulo já foi determinada
       Go (pm);			// Calcula a matriz rotulo
 
@@ -46,9 +49,9 @@ void CRotulador3D::CalculaAreaObjetos () {
 
       if (areaObjetos != NULL) {	// Se alocado corretamente
          areaObjetos->Constante (0);	// Zera a área dos objetos
-         for (unsigned int i = 0; i < NX (); i++)	// Percorre direcao x
-            for (unsigned int j = 0; j < NY (); j++)	// Percorre direcao y
-               for (unsigned int k = 0; k < NZ (); k++)	// Percorre direcao z
+				 for (int i = 0; i < NX (); i++)	// Percorre direcao x
+						for (int j = 0; j < NY (); j++)	// Percorre direcao y
+							 for (int k = 0; k < NZ (); k++)	// Percorre direcao z
                   areaObjetos->data1D[data3D[i][j][k]]++;	// Incrementa vetor
       }
    }
@@ -65,7 +68,8 @@ Função: 	PerimetroObjetos
 @return : void
 PerimetroObjetos
 */
-void CRotulador3D::CalculaPerimetroObjetos () {
+template<typename T>
+void TCRotulador3D<T>::CalculaPerimetroObjetos () {
    // cout<<"\nCalculo PerimetroObjetos não implementado em 3D, valores de perimetro definidos como sendo 1";
    if (rotulado == false)	// Só procede o calculo se a matriz rótulo já foi determinada
       Go (pm);			// Calcula a matriz rotulo
@@ -238,8 +242,9 @@ Função: Go
 @param  :
 @return :
 */
-// bool CRotulador3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
-bool CRotulador3D::Go (TCMatriz3D<int> * matriz) {
+// bool TCRotulador3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
+template<typename T>
+bool TCRotulador3D<T>::Go (TCMatriz3D<T> * matriz) {
    // this->rotuloInicial=rotuloInicial;                        // default=1, rotulo a ser dado para o primeiro objeto
 
    if (PreparaImagem (matriz) == false)	// verifica a imagem
@@ -292,7 +297,8 @@ Função: PreparaImagem
 @param  :CMatriz3D
 @return :bool
 */
-bool CRotulador3D::PreparaImagem (TCMatriz3D<int> *matriz) {
+template<typename T>
+bool TCRotulador3D<T>::PreparaImagem (TCMatriz3D<T> *matriz) {
    pm = matriz;			// Armazena endereço matriz
    // Verifica se a matriz tem as mesmas dimensoes do rotulador
    if (pm == NULL)
@@ -309,9 +315,9 @@ bool CRotulador3D::PreparaImagem (TCMatriz3D<int> *matriz) {
    }
 
    // Abaixo pode ser eliminado?? (desnecessário)
-   for (unsigned int k = 0; k < nz; k++)
-      for (unsigned int j = 0; j < ny; j++)
-         for (unsigned int i = 0; i < nx; i++)
+	 for (int k = 0; k < nz; k++)
+			for (int j = 0; j < ny; j++)
+				 for (int i = 0; i < nx; i++)
             if (matriz->data3D[i][j][k] == INDICE)
                this->data3D[i][j][k] = INDICE;	// Define this com 0 e 1
             else
@@ -362,10 +368,11 @@ Executa rotulagem diretamente em 3D
   Demais linhas e colunas i j k
    verifica atras
 */
-// void CRotulador3D::IdentificaObjetos(/*int rotuloInicial*/)
-void CRotulador3D::IdentificaObjetos () {
+// void TCRotulador3D::IdentificaObjetos(/*int rotuloInicial*/)
+template<typename T>
+void TCRotulador3D<T>::IdentificaObjetos () {
    // usados nos for
-   unsigned int i, j, k;
+	 int i, j, k;
    // valores dos pixel's acima, a esquerda e atras (plano anterior)
    int acima, esquerda, atras;
 
@@ -404,11 +411,12 @@ void CRotulador3D::IdentificaObjetos () {
    // PRIMEIRA LINHA [i][0][0] [x][y][z]
    // ---------------------------------------------
    for (i = 1; i < NX (); i++)	// verifica a primeira linha
-      if (data3D[i][0][0] != FUNDO)	// definindo os rotulos
+			if (data3D[i][0][0] != FUNDO){	// definindo os rotulos
          if (data3D[i - 1][0][0] != FUNDO)	// se a esquerda for preto
             data3D[i][0][0] = rotuloAtual;	// fica com o mesmo rotulo
          else
             data3D[i][0][0] = ++rotuloAtual;	// senão incrementa e usa
+			}
 
    // ---------------------------------------------
    // Demais LINHAs [i][j][0]
@@ -516,12 +524,13 @@ numeroObjetos = 5
 rotuloFinal   = 4 =  rotuloInicial+numeroObjetos-1
 rotuloInicial  =  _rotuloInicial;
 */
-// void CRotulador3D::RotulaImagem(/*int _rotuloInicial*/)
-void CRotulador3D::RotulaImagem () {
+// void TCRotulador3D::RotulaImagem(/*int _rotuloInicial*/)
+template<typename T>
+void TCRotulador3D<T>::RotulaImagem () {
    // rotuloFinal    =  rotuloInicial  +   numeroObjetos - 1;
-   for (unsigned int i = 0; i < NX (); i++)
-      for (unsigned int j = 0; j < NY (); j++)
-         for (unsigned int k = 0; k < NZ (); k++)
+	 for (int i = 0; i < NX (); i++)
+			for (int j = 0; j < NY (); j++)
+				 for (int k = 0; k < NZ (); k++)
             data3D[i][j][k] = vConversao->data1D[data3D[i][j][k]];	// + rotuloInicial;
 
    if (vConversao != NULL)

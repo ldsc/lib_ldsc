@@ -39,7 +39,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 template<typename T>
 class TCFiltro {
 	protected:
-		TCMatriz2D< T > * pm;	///< é um ponteiro para a imagem a ser filtrada
+		/// Ponteiro para a imagem a ser filtrada
+		TCMatriz2D< T > * pm;
 
 	public:
 		/// Construtor, recebe o endereço da matriz a ser processada

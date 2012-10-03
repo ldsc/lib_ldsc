@@ -87,22 +87,14 @@ for (y=1; y < ny ;y++)                //  NY() é igual a ny, ny da matriz idf
 */
 template<typename T>
 void TCFEMMIDFd4<T>::CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) {
-	 char fileName[64];
-	 // calcula idf d34 da mascara
-	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( TCFEspacial<T>::mask );
+	 // calcula idf d4 da mascara
+	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( this->mask );
 	 TCFEMMIDFd4<int> *idfMask = new TCFEMMIDFd4<int> ( ptr_mask );
 	 idfMask->Go ( ptr_mask );
-	 // calcula idf d34 da imagem abertura.
-	 TCFEMMIDFd4<int> *idfAbertura = new TCFEMMIDFd4<int> ( matriz );
+	 // calcula idf d4 da imagem abertura.
+	 TCFEMMIDFd4<T> *idfAbertura = new TCFEMMIDFd4<T> ( matriz );
 	 idfAbertura->Go ( matriz );
-	 //grava em disco a IDF da imagem abertura.
-	 static int contAbertura = 1;
-	 sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
-	 idfAbertura->SetFormato ( P2_X_Y_GRAY_ASCII );
-	 idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
-	 idfAbertura->Write ( fileName );
-
-	 // Método - 1 O melhor até agora!
+	 // Método - 1; O melhor até agora!
 	 pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
 	 int centro = maiorMenor.first;
 	 int borda  = maiorMenor.second;

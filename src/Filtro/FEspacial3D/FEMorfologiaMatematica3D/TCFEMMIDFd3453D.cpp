@@ -154,7 +154,7 @@ void TCFEMMIDFd3453D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) 
 */
 
 	// calcula idf d345 da imagem abertura.
-	TCFEMMIDFd3453D<int> *idfAbertura = new TCFEMMIDFd3453D<int>(matriz);
+	TCFEMMIDFd3453D<T> *idfAbertura = new TCFEMMIDFd3453D<T>(matriz);
 	idfAbertura->Go(matriz);
 
 	/*	//grava em disco a IDF da imagem abertura.
@@ -269,7 +269,7 @@ void TCFEMMIDFd3453D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) 
 		idfMask->NumCores( (max > 1)? max : max+2 );
  idfMask->Path(matriz->Path());
  idfMask->Write(fileName);
-/*	// PROVAVELMENTE NÃO SERÁ USADO. SE FOR USAR IDF DA ABERTURA, TERÁ DE CALCULAR A IDF DE CADA PLANO DA IMAGEM ABERTURA E NÃO A IDF DA IMAGEM TODA (3D)
+ // PROVAVELMENTE NÃO SERÁ USADO. SE FOR USAR IDF DA ABERTURA, TERÁ DE CALCULAR A IDF DE CADA PLANO DA IMAGEM ABERTURA E NÃO A IDF DA IMAGEM TODA (3D)
  // calcula idf d345 da imagem abertura.
  CFEMMIDFd3453D *idfAbertura = NULL;
  idfAbertura = new CFEMMIDFd3453D(matriz);
@@ -288,7 +288,7 @@ void TCFEMMIDFd3453D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) 
 // 	pcm = idfMask->LePlano(mask->RaioZ(), EIXO_Z);
  pcm = ptr_mask->LePlano(mask->RaioZ(), EIXO_Z);
  //grava em disco o plano da mascara.
-/*	static int contPlanoMask = 1;
+ static int contPlanoMask = 1;
  sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
  pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
 		max = pcm->MaiorValor();

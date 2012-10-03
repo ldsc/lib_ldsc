@@ -43,7 +43,7 @@ template<typename T>
 void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) {
 	// Método - 2
 	TCMatriz3D<int> *ptr_mask = static_cast<TCMatriz3D<int> *>(this->mask);
-	// calcula idf d345 da mascara
+	// calcula idf euclidiana da mascara
 	TCFEMMIDFEuclidiana3D<int> *idfMask = new TCFEMMIDFEuclidiana3D<int>(ptr_mask);
 	idfMask->Go(ptr_mask);
 
@@ -59,8 +59,8 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 	idfMask->Write(fileName);
 */
 
-	// calcula idf d345 da imagem abertura.
-	TCFEMMIDFEuclidiana3D<int> *idfAbertura = new TCFEMMIDFEuclidiana3D<int>(matriz);
+	// calcula idf euclidiana da imagem abertura.
+	TCFEMMIDFEuclidiana3D<T> *idfAbertura = new TCFEMMIDFEuclidiana3D<T>(matriz);
 	idfAbertura->Go(matriz);
 
 	/*	//grava em disco a IDF da imagem abertura.
@@ -175,7 +175,7 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 		idfMask->NumCores( (max > 1)? max : max+2 );
  idfMask->Path(matriz->Path());
  idfMask->Write(fileName);
-/*	// PROVAVELMENTE NÃO SERÁ USADO. SE FOR USAR IDF DA ABERTURA, TERÁ DE CALCULAR A IDF DE CADA PLANO DA IMAGEM ABERTURA E NÃO A IDF DA IMAGEM TODA (3D)
+	// PROVAVELMENTE NÃO SERÁ USADO. SE FOR USAR IDF DA ABERTURA, TERÁ DE CALCULAR A IDF DE CADA PLANO DA IMAGEM ABERTURA E NÃO A IDF DA IMAGEM TODA (3D)
  // calcula idf d345 da imagem abertura.
  CFEMMIDFd3453D *idfAbertura = NULL;
  idfAbertura = new CFEMMIDFd3453D(matriz);
@@ -194,7 +194,7 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 // 	pcm = idfMask->LePlano(mask->RaioZ(), EIXO_Z);
  pcm = ptr_mask->LePlano(mask->RaioZ(), EIXO_Z);
  //grava em disco o plano da mascara.
-/*	static int contPlanoMask = 1;
+	static int contPlanoMask = 1;
  sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
  pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
 		max = pcm->MaiorValor();

@@ -47,7 +47,8 @@ Assim pm aponta para a matriz recebida e data3D para a matriz IDF
 template<typename T>
 TCFEMMIDF3D<T>::TCFEMMIDF3D (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
 	:TCFEMorfologiaMatematica3D<T> (matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz3D<int> (matriz->NX (), matriz->NY (), matriz->NZ ()),
-		raioBola (_tamanhoMascara), raioMaximo (_raioMax), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
+		raioMaximo (_raioMax), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
+	raioBola = _tamanhoMascara;
 	path = matriz->Path();
 }
 
@@ -150,15 +151,14 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Erosao (TCMatriz3D<T> * &matriz, unsigned int _R
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
 	// Processamento da erosao em si
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	Matriz3D(T) pmdata3D = this->pm->Data3D ();
 	for (int k = 0; k < nz; k++) {
 		for (int j = 0; j < ny; j++) {
 			for (int i = 0; i < nx; i++) {
 				// se o ponto da idf for maior que a bola tangente, faz ponto=1
 				if (data3D[i][j][k] > raioBolaInclusa) {
-					pmdata3D[i][j][k] = this->INDICE; //indiceAtivo;	// seta ponto ativo
+					this->pm->data3D[i][j][k] = this->INDICE; //indiceAtivo;	// seta ponto ativo
 				} else {
-					pmdata3D[i][j][k] = this->FUNDO; //indiceInativo;	// seta ponto inativo
+					this->pm->data3D[i][j][k] = this->FUNDO; //indiceInativo;	// seta ponto inativo
 				}
 			}
 		}
@@ -185,14 +185,13 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	// Processamento da Dilatacao em si
 	// pm->Constante(0);        // zera a matriz imagem
 	int mi = Mi ();		//
-	Matriz3D(T) pmdata3D = this->pm->Data3D ();
 	for (int jj = 0; jj < ny; jj++)	// percorre toda a idf e
 		for (int ii = 0; ii < nx; ii++)	// pinta pontos na imagem
 			for (int kk = 0; kk < nz; kk++)	// pinta pontos na imagem
 				if (data3D[ii][jj][kk] >= mi)
-					pmdata3D[ii][jj][kk] = this->INDICE; //indiceAtivo;	// pm->data3D[ii][jj][kk]=1;
+					this->pm->data3D[ii][jj][kk] = this->INDICE; //indiceAtivo;	// pm->data3D[ii][jj][kk]=1;
 				else
-					pmdata3D[ii][jj][kk] = this->FUNDO; //indiceInativo;	// pm->data3D[ii][jj][kk]=0;
+					this->pm->data3D[ii][jj][kk] = this->FUNDO; //indiceInativo;	// pm->data3D[ii][jj][kk]=0;
 
 	// Otimizacao Mascara (bola)
 	int raio = maskd->RaioX ();
@@ -225,11 +224,14 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 								posxd = i + xx;
 								rmx = raio + xx;
 								if (maskd->data3D[rmx][rmy][rmz] != 0) {
-									pmdata3D[posxe][posyn][poszf] =
-											pmdata3D[posxe][posys][poszf] = pmdata3D[posxd][posyn][poszf] =
-											pmdata3D[posxd][posys][poszf] = pmdata3D[posxe][posyn][poszb] =
-											pmdata3D[posxe][posys][poszb] = pmdata3D[posxd][posyn][poszb] =
-											pmdata3D[posxd][posys][poszb] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxe][posyn][poszf] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxe][posys][poszf] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxd][posyn][poszf] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxd][posys][poszf] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxe][posyn][poszb] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxe][posys][poszb] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxd][posyn][poszb] = this->INDICE; //indiceAtivo;
+									this->pm->data3D[posxd][posys][poszb] = this->INDICE; //indiceAtivo;
 								}
 							}
 						}
@@ -303,9 +305,6 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	int rmy;			//
 	int rmz;			//
 
-	// Otimizacao Imagem
-	Matriz3D(T) pmdata3D = this->pm->Data3D ();
-
 	// Variáveis para SIMETRIA Bola
 	int posxe, posxd;		// x esquerda e x direita
 	int posys, posyn;		// y sul e y norte
@@ -317,7 +316,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 		for (int j = raio; j < ny - raio; j++) {
 			for (int i = raio; i < nx - raio; i++) {
 				if (data3D[i][j][k] > raioBolaTangente) {	// se for maior que a bola tangente vai permanecer
-					pmdata3D[i][j][k] = indiceAtivo;
+					this->pm->data3D[i][j][k] = indiceAtivo;
 					// imagemModificada=1;
 				} else if (data3D[i][j][k] > raioBolaInclusa) { // se for maior que a inclusa e menor ou igual a tangente pintar a bola
 					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
@@ -334,14 +333,14 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 								posxd = i + xx;
 								rmx = raio + xx;
 								if (maskd->data3D[rmx][rmy][rmz] != 0) {
-									pmdata3D[posxe][posyn][poszf] =
-											pmdata3D[posxe][posys][poszf] =
-											pmdata3D[posxd][posyn][poszf] =
-											pmdata3D[posxd][posys][poszf] =
-											pmdata3D[posxe][posyn][poszb] =
-											pmdata3D[posxe][posys][poszb] =
-											pmdata3D[posxd][posyn][poszb] =
-											pmdata3D[posxd][posys][poszb] = indiceAtivo;
+									this->pm->data3D[posxe][posyn][poszf] = indiceAtivo;
+									this->pm->data3D[posxe][posys][poszf] = indiceAtivo;
+									this->pm->data3D[posxd][posyn][poszf] = indiceAtivo;
+									this->pm->data3D[posxd][posys][poszf] = indiceAtivo;
+									this->pm->data3D[posxe][posyn][poszb] = indiceAtivo;
+									this->pm->data3D[posxe][posys][poszb] = indiceAtivo;
+									this->pm->data3D[posxd][posyn][poszb] = indiceAtivo;
+									this->pm->data3D[posxd][posys][poszb] = indiceAtivo;
 								}
 							}
 						}

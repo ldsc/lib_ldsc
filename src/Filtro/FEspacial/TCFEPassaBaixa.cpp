@@ -1,5 +1,3 @@
-// ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-
 /*
 ----------------------------------------------------------------------------
 PROJETO:		Anaimp.
@@ -9,17 +7,19 @@ PROJETO:		Anaimp.
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEPassaBaixa.cpp
-Nome da classe:      CFEPassaBaixa
+Nome deste arquivo:	TCFEPassaBaixa.cpp
+Nome da classe:      TCFEPassaBaixa
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
-
 /*
 ----------------------------------------------------------------------------
    BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEPassaBaixa.h"
+#ifndef TCFEPassaBaixa_h
+#include "Filtro/FEspacial/TCFEPassaBaixa.h"
+#endif
+
 #include "Mascara/CMPassaBaixa.h"
 
 /*
@@ -30,12 +30,10 @@ Descrição:	Se a mascara ja existe deve ser eliminada o construtor da mascara c
 a funcao de preenchimento da mascara e de calculo do peso da mascara
 Programador:    Andre Duarte Bueno
 */
-
-void
-CFEPassaBaixa::CriaMascara (unsigned int _tamanhoMascara) {
-   tamanhoMascara = _tamanhoMascara;
-   if (mask)
-      delete mask;
-   mask = new CMPassaBaixa (_tamanhoMascara);
+template<typename T>
+void TCFEPassaBaixa<T>::CriaMascara (unsigned int _tamanhoMascara) {
+	 this->tamanhoMascara = _tamanhoMascara;
+	 if (this->mask)
+			delete this->mask;
+	 this->mask = new CMPassaBaixa (_tamanhoMascara);
 }
-

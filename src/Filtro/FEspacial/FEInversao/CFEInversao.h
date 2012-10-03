@@ -43,7 +43,7 @@ public:
   	CImagem * Go ( CImagem * imagem );
   	
   	/// Recebe TCMatriz2D< int >, executa a inversão e retornar ponteiro para a imagem 3D invertida.
-		TCMatriz2D< bool > * Go ( TCMatriz2D< bool > * imagem );
+		TCMatriz2D<bool> * Go ( TCMatriz2D<bool> * imagem );
 };
 
 #endif

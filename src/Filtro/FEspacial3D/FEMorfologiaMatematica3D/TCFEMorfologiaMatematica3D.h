@@ -86,7 +86,7 @@ class TCFEMorfologiaMatematica3D : public TCFEspacial3D<T>
 		}
 
 		///  Cria mascara recebe o tamanho da mascara. Cria a mascara adequada.
-		virtual void CriaMascara (unsigned int _tamanhoMascara);	// Cria a mascara adequada
+		virtual void CriaMascara (int _tamanhoMascara);	// Cria a mascara adequada
 
 		/// Processa  Abertura, as operacoes recebem o raio da bola
 		virtual TCMatriz3D<T> *Abertura (TCMatriz3D<T> * &matriz, unsigned int _RaioBola);

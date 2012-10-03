@@ -43,7 +43,7 @@ Comentarios:
 Programador:      Andre Duarte Bueno
 */
 template<typename T>
-void TCFEMMIDFdijk3D<T>::CriaMascara (unsigned int _tamanhoMascara) {
+void TCFEMMIDFdijk3D<T>::CriaMascara (int _tamanhoMascara) {
 	 if (this->mask) { // se existe uma mascara
 			if (this->mask->NX () == _tamanhoMascara)	// e é do mesmo  tamanho
          return;		// sai

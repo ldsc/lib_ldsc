@@ -7,7 +7,7 @@ PROJETO:		Anaimp.
 ----------------------------------------------------------------------------
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico e Propriedades
- Termofisicas 
+ Termofisicas
  dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani,
  Liang Zirong, Paulo C. Philippi, ...
@@ -20,7 +20,7 @@ Algoritimo de esqueletização
 
 /*
 ----------------------------------------------------------------------------
-       			BIBLIOTECAS
+						BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
 
@@ -28,56 +28,45 @@ Algoritimo de esqueletização
 
 // Funcao que procura e elimina pés de galinha
 //       int valorEsqueleto;      
- // valor final dos pixel's que pertencem ao esqueleto
+// valor final dos pixel's que pertencem ao esqueleto
 //       int valorObjeto;          
 // valor final dos pixel's que não pertencem ao esqueleto
 // Versao simples, se pixel atual ativo e a direita ativo, elimina o da direita
 
-void
-CFEEsqueleto::EliminaPeGalinha (TCMatriz2D< int > * imagem)
-{
-// // // // // // // // // // // // // // // // // /
-// // OBS: da forma como esta elimina muito mais pontos.
-// // Se for um ponto a ser apagado valor=0
-// // Quando um ponto é o final da linha, deve ser marcado como inapagavel= valorEsqueleto+1
-// // 
-// // Só USAR PARA ELIMINAR OS PES DE GALINHA< COMO ESQUELETO NAO FUNCIONA
-// // // // // // // // // // // // // // // // // /
-  pm = imagem;
+void CFEEsqueleto::EliminaPeGalinha (TCMatriz2D< int > * imagem) {
+	// // // // // // // // // // // // // // // // // /
+	// // OBS: da forma como esta elimina muito mais pontos.
+	// // Se for um ponto a ser apagado valor=0
+	// // Quando um ponto é o final da linha, deve ser marcado como inapagavel= valorEsqueleto+1
+	// //
+	// // Só USAR PARA ELIMINAR OS PES DE GALINHA< COMO ESQUELETO NAO FUNCIONA
+	// // // // // // // // // // // // // // // // // /
+	pm = imagem;
+	int nx = pm->NX ();
+	int ny = pm->NY ();
+	int x, y;
+	// oeste->leste
+	for (y = 0; y < ny; y++)
+		for (x = 0; x < nx - 1; x++)
+			if (pm->data2D[x][y] == valorEsqueleto && pm->data2D[x + 1][y] == valorEsqueleto)
+				pm->data2D[x][y] = 0;
 
-  int nx = pm->NX ();
+	// leste->oeste
+	for (y = 0; y < ny; y++)
+		for (x = nx - 1; x > 0; x--)
+			if (pm->data2D[x][y] == valorEsqueleto && pm->data2D[x - 1][y] == valorEsqueleto)
+				pm->data2D[x][y] = 0;
 
-  int ny = pm->NY ();
+	// sul->norte
+	for (x = 0; x < nx; x++)
+		for (y = 0; y < ny - 1; y++)
+			if (pm->data2D[x][y] == valorEsqueleto && pm->data2D[x][y + 1] == valorEsqueleto)
+				pm->data2D[x][y] = 0;
 
-  int x, y;
-
-	Matriz2D(int) data = pm->Data2D ();
-
-  // oeste->leste
-  for (y = 0; y < ny; y++)
-    for (x = 0; x < nx - 1; x++)
-      if (data[x][y] == valorEsqueleto && data[x + 1][y] == valorEsqueleto)
-	data[x][y] = 0;
-
-  // leste->oeste
-  for (y = 0; y < ny; y++)
-    for (x = nx - 1; x > 0; x--)
-      if (data[x][y] == valorEsqueleto && data[x - 1][y] == valorEsqueleto)
-	data[x][y] = 0;
-
-  // sul->norte
-  for (x = 0; x < nx; x++)
-    for (y = 0; y < ny - 1; y++)
-      if (data[x][y] == valorEsqueleto && data[x][y + 1] == valorEsqueleto)
-	data[x][y] = 0;
-
-  // norte->sul
-  for (x = 0; x < nx; x++)
-    for (y = ny - 1; y > 0; y--)
-      if (data[x][y] == valorEsqueleto && data[x][y - 1] == valorEsqueleto)
-	data[x][y] = 0;
+	// norte->sul
+	for (x = 0; x < nx; x++)
+		for (y = ny - 1; y > 0; y--)
+			if (pm->data2D[x][y] == valorEsqueleto && pm->data2D[x][y - 1] == valorEsqueleto)
+				pm->data2D[x][y] = 0;
 
 }
-
-// while(ptr!=4)...
-//      ptr++=0;

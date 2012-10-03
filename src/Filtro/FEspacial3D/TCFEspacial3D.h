@@ -68,7 +68,7 @@ class TCFEspacial3D : public TCFiltro3D<T>
 {
 		// Atributos
 	protected:
-		unsigned int tamanhoMascara;	/// Tamanho da mascara
+		int tamanhoMascara;	/// Tamanho da mascara
 
 	public:
 		CMascara3D * mask;			/// Ponteiro para mascara

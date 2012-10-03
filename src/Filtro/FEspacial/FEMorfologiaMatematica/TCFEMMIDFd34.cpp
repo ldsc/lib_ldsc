@@ -91,9 +91,9 @@ if (data2D[x][y]!=0)		  //  Testa a imagem, se nao for solido entra
 */
 template<typename T>
 void TCFEMMIDFd34<T>::CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) {
-	 char fileName[64];
+	 //char fileName[64];
 	 // calcula idf d34 da mascara
-	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( TCFEspacial<T>::mask );
+	 TCMatriz2D<int> *ptr_mask = static_cast<TCMatriz2D<int>*> ( this->mask );
 	 TCFEMMIDFd34<int> *idfMask = new TCFEMMIDFd34<int> ( ptr_mask );
 	 idfMask->Go ( ptr_mask );
 	 //grava em disco a IDF da mascara.
@@ -105,16 +105,17 @@ void TCFEMMIDFd34<T>::CorrigeAbertura ( TCMatriz2D<T> * &matriz, int &regiao ) {
 		 *    idfMask->Write(fileName);
 		 */
 	 // calcula idf d34 da imagem abertura.
-	 TCFEMMIDFd34<int> *idfAbertura = new TCFEMMIDFd34<int> ( matriz );
+	 TCFEMMIDFd34<T> *idfAbertura = new TCFEMMIDFd34<T> ( matriz );
 	 idfAbertura->Go ( matriz );
 	 //grava em disco a IDF da imagem abertura.
+	 /*
 	 static int contAbertura = 1;
 	 sprintf ( fileName, "idfAbertura%d.pgm", contAbertura++ );
 	 idfAbertura->SetFormato ( P2_X_Y_GRAY_ASCII );
 	 idfAbertura->NumCores ( idfAbertura->MaiorValor() +1 );
 	 idfAbertura->Write ( fileName );
-
-	 // Método - 1 O melhor até agora!
+	*/
+	 // Método - 1; O melhor até agora!
 	 pair<int,int> maiorMenor = idfMask->MaiorMenorValorNzero(); //maiorMenor.first = centro da máscara e maiorMenor.second = bordas da máscara
 	 int centro = maiorMenor.first;
 	 int borda  = maiorMenor.second;

@@ -52,7 +52,7 @@ template<typename T>
 class TCFEMMIDFdijk3D : public TCFEMMIDF3D<T>, public CMCdijk
 {
 	protected:
-		virtual void CriaMascara (unsigned int _tamanhoMascara);	// redefinida
+		virtual void CriaMascara (int _tamanhoMascara);	// redefinida
 
 		virtual unsigned int Mi () {
 			return mi; // redefinida, herdada de CFEMMIDF3D

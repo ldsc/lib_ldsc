@@ -12,7 +12,7 @@ Desenvolvido por:
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
-#include <Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h>
+#include <Filtro/FEspacial3D/FEConectividade3D/TCFEConectividade3D.h>
 #include <Permeabilidade/CPermeabilidadeRelativa.h>
 
 // Construtor

@@ -30,7 +30,8 @@ Nome da classe:     TCFEMorfologiaMatematica
  * posteriormente remodelar este funcionamento, que ficou um pouco confuso.
 */
 template<typename T>
-class TCFEMorfologiaMatematica : public TCFEspacial<T>{
+class TCFEMorfologiaMatematica : public TCFEspacial<T>
+{
 		bool EEHitMiss1; 	///<  flags de controle de criacao da mascara
 		bool EEHitMiss2;	///<  flags de controle de criacao da mascara
 	public:

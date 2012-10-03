@@ -142,7 +142,7 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Erosao ( TCMatriz2D<T> * &matriz, u
 	//  Normal, centro da imagem
 	for ( i = raioMascaraX; i < pmNX - raioMascaraX; i++ )
 		for ( j = raioMascaraY; j < pmNY - raioMascaraY; j++ ) {
-			if ( rImg.data2D[i][j] != FUNDO )	//  se o ponto é poro >0, verifica se é para erodir
+			if ( rImg.data2D[i][j] != FUNDO )	//  se o ponto é poro (diferente de FUNDO), verifica se é para erodir
 				for ( k = 0; k < maskNX; k++ )
 					for ( l = 0; l < maskNY; l++ )
 						//  Se um ponto da mascara estiver ativo
@@ -151,8 +151,7 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Erosao ( TCMatriz2D<T> * &matriz, u
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask1;
 						}
-PulaForMask1:
-			NULL;
+PulaForMask1: NULL;
 		}
 
 	//  Percorre a Borda superior
@@ -344,8 +343,7 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Dilatacao ( TCMatriz2D<T> * &matriz
 			if ( rImg.data2D[i][j] == FUNDO )	//  se o ponto for fundo da imagem, pode ser dilatado
 				for ( k = 0; k < maskNX; k++ )
 					for ( l = 0; l < maskNY; l++ )
-						//  se houver a interseccao de um ponto da bola
-						//  com a imagem, o ponto i,j da imagem é dilatado
+						//  se houver a interseccao de um ponto da bola com a imagem, o ponto i,j da imagem é dilatado
 						if ( this->mask->data2D[k][l] > 0 && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] != FUNDO ) {
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask1;
@@ -542,35 +540,36 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::DeteccaoContorno ( TCMatriz2D<T> * 
 */
 template<typename T>
 TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::HitMiss ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
-	/*        TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
-			 matriz2->Inverter();                   //  e transforma na complementar
-			 EEHitMiss1=true;                       //  ativa criação da mascara para bi
-			 TCFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
-			 EEHitMiss2=true;                       //  ativa criação da mascara para be
-			 TCFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
-			 matriz->Intersecao(matriz2);                              //  intersecção entre matriz e matriz2
-			 delete matriz2; // apaga objeto imagem
-		 */
+	/*TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
+	matriz2->Inverter();                   //  e transforma na complementar
+	EEHitMiss1=true;                       //  ativa criação da mascara para bi
+	TCFEMorfologiaMatematica::Erosao(matriz,_RaioBola);//  Erosão sobre a matriz com Bi
+	EEHitMiss2=true;                       //  ativa criação da mascara para be
+	TCFEMorfologiaMatematica::Erosao(matriz2,_RaioBola);//  Erosão sobre a matriz2 com be
+	matriz->Intersecao(matriz2);                              //  intersecção entre matriz e matriz2
+	delete matriz2; // apaga objeto imagem
+	*/
 	return matriz;
 }
 
 template<typename T>
 TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Afinamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
-	/*
-			 TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);      //  Cria copia da matriz
-			 HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
-			 matriz2->Inverter();                         //  o mesmo que matriz2->Complementar();
-			 matriz->Intersecao(matriz2);               //  intersecção entre matriz e matriz2
-			delete matriz2; // apaga objeto imagem*/
+	/*TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);      //  Cria copia da matriz
+	HitMiss(matriz2,  _RaioBola);                 //  Realiza operação HitMiss
+	matriz2->Inverter();                         //  o mesmo que matriz2->Complementar();
+	matriz->Intersecao(matriz2);               //  intersecção entre matriz e matriz2
+	delete matriz2; // apaga objeto imagem
+	*/
 	return matriz;
 }
 
 template<typename T>
-TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Espessamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {				/*
-			 TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
-			 HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
-			 matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
-		 delete matriz2; // apaga objeto imagem */
+TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Espessamento ( TCMatriz2D<T> * &matriz, unsigned int /*_RaioBola*/ ) {
+	/*TCMatriz2D< int >* matriz2=new TCMatriz2D< int >(matriz);       //  Cria copia da matriz
+	HitMiss(matriz2,  _RaioBola);                //  Realiza operação HitMiss
+	matriz->Uniao(matriz2);                     //  união entre matriz e matriz2
+	delete matriz2; // apaga objeto imagem
+	*/
 	return matriz;
 }
 

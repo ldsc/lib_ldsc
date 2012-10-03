@@ -66,7 +66,6 @@ Descricao:
 //  Da forma como esta o codigo fica mais rapido e compreensivo.
 Programador:      Andre Duarte Bueno
 */
-//  TCMatriz2D< int > * TCFEMMIDFdij::Go(TCMatriz2D< int > * matriz )
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
 	ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
@@ -83,9 +82,9 @@ TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_t
 			if ( this->data2D[x][y] != 0 ) {	//  Testa a imagem, se nao for solido entra
 				this->minimo = this->raioMaximo;
 				//  -----------------------------------------------------------
-				this->min ( this->data2D[x-1][y] + mi );	/*ponto[x][y] */
+				this->min ( this->data2D[x-1][ y ] + mi );	/*ponto[x][y] */
 				this->min ( this->data2D[x-1][y-1] + mj );
-				this->min ( this->data2D[x][y-1] + mi );
+				this->min ( this->data2D[ x ][y-1] + mi );
 				this->min ( this->data2D[x+1][y-1] + mj );
 				//  -----------------------------------------------------------
 				this->data2D[x][y] = this->minimo;

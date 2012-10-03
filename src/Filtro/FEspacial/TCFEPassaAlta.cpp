@@ -9,8 +9,8 @@ PROJETO:		Anaimp.
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico   dos Materiais.
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEPassaAlta.cpp
-Nome da classe:      CFEPassaAlta
+Nome deste arquivo:	TCFEPassaAlta.cpp
+Nome da classe:      TCFEPassaAlta
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
@@ -19,7 +19,9 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 			BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEPassaAlta.h"
+#ifndef TCFEPassaAlta_h
+#include "Filtro/FEspacial/TCFEPassaAlta.h"
+#endif
 #include "Mascara/CMPassaAlta.h"
 
 /*
@@ -29,13 +31,11 @@ Documentacao      CriaMascara
 Descrição:	Se a mascara ja existe deve ser eliminada
 Programador:      Andre Duarte Bueno
 */
-
-void
-CFEPassaAlta::CriaMascara (unsigned int _tamanhoMascara)
-{
-  tamanhoMascara = _tamanhoMascara;
-  if (mask)
-    delete mask;
-  mask = new CMPassaAlta (_tamanhoMascara);
+template<typename T>
+void TCFEPassaAlta<T>::CriaMascara (unsigned int _tamanhoMascara) {
+	this->tamanhoMascara = _tamanhoMascara;
+	if (this->mask)
+		delete this->mask;
+	this->mask = new CMPassaAlta (_tamanhoMascara);
 }
 

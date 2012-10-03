@@ -48,11 +48,11 @@ add_library (ldsc STATIC
   Filtro/FEspacial/CFEBartlet.cpp
   Filtro/FEspacial/CFEDeteccaoContornoMasc.cpp
   Filtro/FEspacial/CFEGaussiano.cpp
-  Filtro/FEspacial/CFEPassaAlta.cpp
+  Filtro/FEspacial/TCFEPassaAlta.h
   Filtro/FEspacial/CFEBorda.cpp
   Filtro/FEspacial/CFEEliminaBorda.cpp
   Filtro/FEspacial/CFELaplaciano.cpp
-  Filtro/FEspacial/CFEPassaBaixa.cpp
+  Filtro/FEspacial/TCFEPassaBaixa.h
   Filtro/FEspacial/CFEBSubstitueValor.cpp
   Filtro/FEspacial/CFEEmboss.cpp
   Filtro/FEspacial/CFEPassaAlta2.cpp
@@ -82,7 +82,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial3D/TCFEspacial3D.h
   Filtro/FEspacial3D/CFEBorda3D.cpp
   Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp
-  Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.cpp
+  Filtro/FEspacial3D/FEConectividade3D/TCFEConectividade3D.h
   Filtro/FEspacial3D/FEInversao3D/CFEInversao3D.cpp
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDF3D.h
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h
@@ -208,7 +208,7 @@ add_library (ldsc STATIC
   Rotulador/CRotulador2D.cpp
   Rotulador/CRotulador2DCm.cpp
   Rotulador/CConectividade2D.cpp
-  Rotulador/CRotulador3D.cpp
+  Rotulador/TCRotulador3D.h
   Rotulador/CConectividade3D.cpp
   SFuncao/CSFBissecao.cpp
   SFuncao/CSFCordas.cpp

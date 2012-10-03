@@ -57,21 +57,18 @@ Programador:      Andre Duarte Bueno
 } */
 template <typename T>
 TCMatriz3D<T> * TCFEspacial3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara) {
-	CriaMascara (tamanhoMascara);	// Cria a mascara adequada
+	CriaMascara (_tamanhoMascara);	// Cria a mascara adequada
 	// A funcao de preenchimento da mascara
 	// já calculada o peso da mascara
 	this->pm = matriz;
 
 	TCMatriz3D<T> *rImg = new TCMatriz3D<T> (*this->pm);	// rImg é uma matriz cópia da matriz pm passada
 
-	unsigned int i, j, k;		// percorre imagem
-
-	unsigned int ii, jj, kk;	// percorre mascara
+	int i, j, k;		// percorre imagem
+	int ii, jj, kk;	// percorre mascara
 
 	int raioMascaraX = mask->RaioX ();	// temporaria aumenta performance
-
 	int raioMascaraY = mask->RaioY ();
-
 	int raioMascaraZ = mask->RaioZ ();
 
 	float soma;

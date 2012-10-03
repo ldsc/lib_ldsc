@@ -25,7 +25,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#include <Rotulador/CRotulador3D.h>
+#include <Rotulador/TCRotulador3D.h>
 
 /**
  * @brief Declara a classe CConectividade3D.
@@ -52,7 +52,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Se B for multipla, somente uma delas será considerada.
 */
 
-class CConectividade3D : public CRotulador3D
+class CConectividade3D : public TCRotulador3D<int>
 {
 
 // Atributos
@@ -71,7 +71,8 @@ protected:
 public:
     /// Construtor Default
     // CConectividade3D():CRotulador3D(),CMatriz3D(){};// Exige a definção de pm e data3D posteriormente.
-		CConectividade3D (TCMatriz3D<int> * imagem):CRotulador3D (imagem), pm (imagem) { }
+		CConectividade3D (TCMatriz3D<int> * imagem)
+			: TCRotulador3D<int> (imagem), pm (imagem) { }
 
     /// Destrutor
     virtual ~ CConectividade3D () { }

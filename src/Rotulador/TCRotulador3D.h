@@ -1,16 +1,16 @@
-#ifndef CRotulador3D_h
-#define CRotulador3D_h
+#ifndef TCRotulador3D_h
+#define TCRotulador3D_h
 
 /*
   ===============================================================================
   PROJETO:    Biblioteca LIB_LDSC
-  Assunto/Ramo: CRotulador3D...
+	Assunto/Ramo: TCRotulador3D...
   ===============================================================================
   Desenvolvido por:	
   Laboratorio de Desenvolvimento de Software Cientifico 	
   [LDSC].
   @author     Andre Duarte Bueno
-  @file       CRotulador3D.h
+	@file       TCRotulador3D.h
   @begin      Sat Sep 16 2000
   @copyright  (C) 2000 by Andre Duarte Bueno
   @email      andreduartebueno@gmail.com
@@ -41,7 +41,8 @@
  * @author 	Andre Duarte Bueno	
  *  @see	Rotulagem
 */
-class CRotulador3D : public TCMatriz3D<int>, public CRotulador
+template<typename T>
+class TCRotulador3D : public TCMatriz3D<int>, public CRotulador
 {
 
    // --------------------------------------------------------------Atributos
@@ -50,29 +51,29 @@ public:
    bool direto;
 
    /// Ponteiro para a imagem recebida no construtor ou em Go
-	 TCMatriz3D<int> *pm;
+	 TCMatriz3D<T> *pm;
 
    // -------------------------------------------------------------Construtor
    /// Construtor, recebe ponteiro para imagem 3D usado para setar nx,ny,nz
-	 CRotulador3D (TCMatriz3D<int> * _pm, int _indice=1, int _fundo=0)
+	 TCRotulador3D (TCMatriz3D<T> * _pm, int _indice=1, int _fundo=0)
 			: TCMatriz3D<int> (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
       , CRotulador ( _indice, _fundo), direto (true), pm (_pm)  {    // Seta atributos
       path = _pm-> path;
    }
 
    /// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-   CRotulador3D (std::string fileName)
+	 TCRotulador3D (std::string fileName)
 			:TCMatriz3D<int> (fileName), CRotulador (), direto (true),pm (NULL) {
    }
 
    /// Recebe a informação das dimensoes da imagem
-   CRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
+	 TCRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
 			:TCMatriz3D<int> (nx, ny, nz), CRotulador (), direto (true), pm (NULL) {
    }
 
    // --------------------------------------------------------------Destrutor
    /// Destrutor
-   virtual ~ CRotulador3D () {
+	 virtual ~ TCRotulador3D () {
    }
 
    // ----------------------------------------------------------------Metodos
@@ -80,7 +81,7 @@ protected:
 
    // Verifica se a imagem recebida tem as mesmas dimensoes do rotulador
    // se diferente, realoca o rotulador
-	 virtual bool PreparaImagem (TCMatriz3D<int> * matriz);
+	 virtual bool PreparaImagem (TCMatriz3D<T> * matriz);
 
    /// 1a passagem, identifica pixeis válidos
    virtual void IdentificaObjetos ();
@@ -98,8 +99,7 @@ protected:
 
 public:
    /// Define o flag direto
-   void SetDireto (bool flag)
-   {
+	 void SetDireto (bool flag) {
       direto = flag;
    }
 
@@ -112,7 +112,7 @@ public:
 
    // Metodos utilizados na rotulagem, redefinidos aqui
    /// Executa toda a sequencia de rotulagem
-	 virtual bool Go (TCMatriz3D<int> * matriz /*, int rotuloInicial=0 */ );
+	 virtual bool Go (TCMatriz3D<T> * matriz /*, int rotuloInicial=0 */ );
 
 
    // --------------------------------------------------------------------Get
@@ -120,13 +120,15 @@ public:
    //{return data3D[i][j][k]       + rotuloInicial;};
    // --------------------------------------------------------------------Set
    // -----------------------------------------------------------------Friend
-   //       friend ostream& operator<< (ostream& os, CRotulador3D& obj);
-   //       friend istream& operator>> (istream& is, CRotulador3D& obj);
+	 //       friend ostream& operator<< (ostream& os, TCRotulador3D& obj);
+	 //       friend istream& operator>> (istream& is, TCRotulador3D& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaracao de Funcoes Friend
-// ostream& operator<< (ostream& os, CRotulador3D& obj);
-// istream& operator>> (istream& is, CRotulador3D& obj);
+// ostream& operator<< (ostream& os, TCRotulador3D& obj);
+// istream& operator>> (istream& is, TCRotulador3D& obj);
+
+#include <Rotulador/TCRotulador3D.cpp>
 
 #endif

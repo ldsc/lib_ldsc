@@ -33,7 +33,7 @@ using namespace std;
 template< typename T >
 TCMatriz3D<T>::TCMatriz3D () : CBaseMatriz()  {
 	nx = ny = nz = 0;
-	data3D.clear();
+	data3D = NULL;
 	formatoImagem = D2_X_Y_Z_GRAY_ASCII;
 	numCores = 255;
 }
@@ -42,7 +42,7 @@ TCMatriz3D<T>::TCMatriz3D () : CBaseMatriz()  {
 template< typename T >
 TCMatriz3D<T>::TCMatriz3D (string fileName) : CBaseMatriz() {
 	nx = ny = nz = 0;
-	data3D.clear();
+	data3D = NULL;
 	TCMatriz3D<T>::Read(fileName);
 	size_t pos = fileName.rfind("/");
 	if (pos!=string::npos)
@@ -53,7 +53,7 @@ TCMatriz3D<T>::TCMatriz3D (string fileName) : CBaseMatriz() {
 template< typename T >
 TCMatriz3D<T>::TCMatriz3D(string fileRAW, int _nx, int _ny, int _nz, EImageType tipo) : CBaseMatriz(tipo) {
 	nx = ny = nz = 0;	// será setado em ReadRAW()
-	data3D.clear();	// será setado em ReadRAW()
+	data3D = NULL;	// será setado em ReadRAW()
 	TCMatriz3D<T>::ReadRAW(fileRAW, _nx, _ny, _nz, tipo);
 	size_t pos = fileRAW.rfind("/");
 	if (pos!=string::npos)
@@ -68,7 +68,7 @@ TCMatriz3D<T>::TCMatriz3D (TCMatriz3D<T> & matriz) : CBaseMatriz(matriz.formatoI
 	ny = matriz.ny;
 	nz = matriz.nz;
 	numCores = matriz.numCores;
-	data3D.clear();
+	data3D = NULL;
 	if(TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz))
 		for (int i = 0; i < nx; i++)
 			for (int j = 0; j < ny; j++)
@@ -84,7 +84,7 @@ TCMatriz3D<T>::TCMatriz3D (int NX, int NY, int NZ) : CBaseMatriz() {
 	nz = NZ;
 	formatoImagem = D2_X_Y_Z_GRAY_ASCII;
 	numCores = 255;
-	data3D.clear();
+	data3D = NULL;
 	TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz);	// aloca data3D
 }
 
@@ -94,12 +94,16 @@ bool TCMatriz3D<T>::AlocaMatriz3D(int _nx, int _ny, int _nz) {
 	nx = _nx;
 	ny = _ny;
 	nz = _nz;
-	data3D.resize(nx);								// Aloca dimensão x
-	if ( ! data3D.empty() ) {					// se alocou corretamente
+	if(data3D)
+		TCMatriz3D<T>::DesalocaMatriz3D (data3D, nx, ny, nz);
+	data3D = NULL;
+	data3D = new vector<T> *[nx];							// Aloca dimensão x
+	if ( data3D ) {					// se alocou corretamente
 		int i, j;
 		for (i = 0; i < nx; i++){
-			data3D[i].resize(ny);					// Aloca dimensão y
-			if ( ! data3D[i].empty() ) {  // Se alocou corretamente
+			data3D[i] = NULL;					// Aloca dimensão y
+			data3D[i] = new vector<T> [ny];
+			if ( data3D[i] ) {  // Se alocou corretamente
 				for (j = 0; j < ny; j++) {
 					data3D[i][j].resize(nz,0);// Aloca dimensão y e zera o conteúdo
 					if ( data3D[i][j].empty() ) { // Se não alocou corretamente
@@ -124,16 +128,18 @@ bool TCMatriz3D<T>::AlocaMatriz3D(int _nx, int _ny, int _nz) {
 
 // Desaloca a memória da matriz 3D
 template< typename T >
-void TCMatriz3D<T>::DesalocaMatriz3D (Matriz3D(T) &dat, int nx, int ny, int nz) {
-	if (! dat.empty() ) {
+void TCMatriz3D<T>::DesalocaMatriz3D (vector<T>** &dat, int nx, int ny, int nz) {
+	if ( dat ) {
 		int i, j;
 		for (i = 0; i < nx; i++) {
 			for (j = 0; j < ny; j++) {
 				dat[i][j].clear();
 			}
-			dat[i].clear();
+			delete [] dat[i];
+			dat[i]=NULL;
 		}
-		dat.clear();
+		delete [] dat;
+		dat = NULL;
 		nx = ny = nz = 0;
 	}
 }
@@ -439,7 +445,7 @@ bool TCMatriz3D<T>::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageTy
 // Retorna matriz 2D referente ao plano/eixo informados
 template< typename T >
 TCMatriz2D<T> * TCMatriz3D<T>::LePlano (unsigned int planoZ, E_eixo direcao) {
-	if ( data3D.empty() )
+	if ( ! data3D )
 		return NULL;
 	TCMatriz2D<T> *pm2D = NULL;
 	pm2D = new TCMatriz2D<T>(nx, ny);	// Aloca a matriz de dados
@@ -454,7 +460,7 @@ TCMatriz2D<T> * TCMatriz3D<T>::LePlano (unsigned int planoZ, E_eixo direcao) {
 // Carrega matriz 2D infomada com o conteúdo do plano/eixo informados
 template< typename T >
 bool TCMatriz3D<T>::LePlano (TCMatriz2D<T> * pm2D, int plano, E_eixo direcao) {
-	if ( data3D.empty() || ! pm2D)
+	if ( ! data3D || ! pm2D)
 		return false;
 	int i, j;
 	switch(direcao){
@@ -685,9 +691,10 @@ bool TCMatriz3D<T>::Redimensiona(int NX, int NY, int NZ) {
 		nx = NX;
 		ny = NY;
 		nz = NZ;
-		data3D.clear();
+		data3D = NULL;
 		TCMatriz3D::AlocaMatriz3D (nx, ny, nz);
-		return ! data3D.empty();
+		if( ! data3D)
+			return false;
 	}
 	return true;
 }

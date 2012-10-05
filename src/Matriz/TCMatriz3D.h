@@ -63,7 +63,7 @@ Desenvolvido por:
  * @see		Matriz
 */
 
-#define Matriz3D(tipo) vector< vector< vector<tipo> > >
+//#define Matriz3D(tipo) vector<tipo>**
 
 /// Enumera os eixos de uma imagem 3D
 enum E_eixo { EIXO_X, EIXO_Y, EIXO_Z };
@@ -81,13 +81,13 @@ class TCMatriz3D : public CBaseMatriz
 
 	public:
 		/// Ponteiro para matriz 3D
-		Matriz3D(T) data3D;
+		vector<T>** data3D;
 
 		/// Alocal matriz 3D e retorna ponteiro int***
 		bool AlocaMatriz3D (int _nx, int _ny, int _nz);
 
 		/// Desaloca matriz 3D
-		static void DesalocaMatriz3D (Matriz3D(T) &dat, int nx, int ny, int nz);
+		static void DesalocaMatriz3D (vector<T>** &dat, int nx, int ny, int nz);
 
 		// -------------------------------------------------------------Construtor
 		// Metodos construtores
@@ -132,7 +132,7 @@ class TCMatriz3D : public CBaseMatriz
 		/// Desaloca a matriz
 		virtual bool Desaloca () {
 			TCMatriz3D::DesalocaMatriz3D (data3D, nx, ny, nz);
-			return data3D.empty();
+			return true;
 		}
 
 	public:
@@ -240,7 +240,7 @@ class TCMatriz3D : public CBaseMatriz
 		}
 
 		/// Retorna data3D
-		inline Matriz3D(T) & Data3D () {
+		inline vector<T>** & Data3D () {
 			return data3D;
 		}
 

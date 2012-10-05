@@ -151,7 +151,7 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Erosao ( TCMatriz2D<T> * &matriz, u
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask1;
 						}
-PulaForMask1: NULL;
+PulaForMask1:{}
 		}
 
 	//  Percorre a Borda superior
@@ -164,8 +164,7 @@ PulaForMask1: NULL;
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask2;
 						}
-PulaForMask2:
-			NULL;
+PulaForMask2:{}
 		}
 
 	//  Percorre a Borda inferior
@@ -178,8 +177,7 @@ PulaForMask2:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask3;
 						}
-PulaForMask3:
-			NULL;
+PulaForMask3:{}
 		}
 
 	//  Percorre a Borda esquerda
@@ -192,8 +190,7 @@ PulaForMask3:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask4;
 						}
-PulaForMask4:
-			NULL;
+PulaForMask4:{}
 		}
 
 	//  Percorre a Borda direita
@@ -206,8 +203,7 @@ PulaForMask4:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask5;
 						}
-PulaForMask5:
-			NULL;
+PulaForMask5:{}
 		}
 
 	//  Percorre o Canto superior  esquerdo
@@ -220,8 +216,7 @@ PulaForMask5:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask6;
 						}
-PulaForMask6:
-			NULL;
+PulaForMask6:{}
 		}
 
 	//  Percorre o Canto superior direito
@@ -235,8 +230,7 @@ PulaForMask6:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask7;
 						}
-PulaForMask7:
-			NULL;
+PulaForMask7:{}
 		}
 
 	//  Percorre o Canto  inferior esquerdo
@@ -249,8 +243,7 @@ PulaForMask7:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask8;
 						}
-PulaForMask8:
-			NULL;
+PulaForMask8:{}
 		}
 
 	//  Percorre o Canto inferior direito
@@ -263,8 +256,7 @@ PulaForMask8:
 							this->pm->data2D[i][j] = FUNDO;
 							goto PulaForMask9;
 						}
-PulaForMask9:
-			NULL;
+PulaForMask9:{}
 		}
 
 	return this->pm;
@@ -348,8 +340,7 @@ TCMatriz2D<T> * TCFEMorfologiaMatematica<T>::Dilatacao ( TCMatriz2D<T> * &matriz
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask1;
 						}
-PulaForMask1:
-			NULL;
+PulaForMask1:{}
 		}
 
 	//  Percorre a Borda superior
@@ -365,8 +356,7 @@ PulaForMask1:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask2;
 						}
-PulaForMask2:
-			NULL;
+PulaForMask2:{}
 		}
 
 	//  Percorre a Borda inferior
@@ -379,8 +369,7 @@ PulaForMask2:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask3;
 						}
-PulaForMask3:
-			NULL;
+PulaForMask3:{}
 		}
 
 	//  Percorre a Borda esquerda
@@ -393,8 +382,7 @@ PulaForMask3:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask4;
 						}
-PulaForMask4:
-			NULL;
+PulaForMask4:{}
 		}
 
 	//  Percorre a Borda direita
@@ -407,8 +395,7 @@ PulaForMask4:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask5;
 						}
-PulaForMask5:
-			NULL;
+PulaForMask5:{}
 		}
 
 	//  Percorre o Canto superior esquerdo
@@ -421,8 +408,7 @@ PulaForMask5:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask6;
 						}
-PulaForMask6:
-			NULL;
+PulaForMask6:{}
 		}
 	//  Percorre o Canto superior direito
 	//for (i = pmNX - raioMascaraX; i < pmNX; i++)
@@ -435,8 +421,7 @@ PulaForMask6:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask7;
 						}
-PulaForMask7:
-			NULL;
+PulaForMask7:{}
 		}
 
 	//  Percorre o Canto  inferior esquerdo
@@ -449,8 +434,7 @@ PulaForMask7:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask8;
 						}
-PulaForMask8:
-			NULL;
+PulaForMask8:{}
 		}
 
 	//  Percorre o Canto inferior direito
@@ -463,8 +447,7 @@ PulaForMask8:
 							this->pm->data2D[i][j] = INDICE;
 							goto PulaForMask9;
 						}
-PulaForMask9:
-			NULL;
+PulaForMask9:{}
 		}
 
 	return this->pm;

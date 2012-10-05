@@ -123,7 +123,7 @@ TCMatriz3D<T> * TCFEMorfologiaMatematica3D<T>::Erosao (TCMatriz3D<T> * & matriz,
 									this->pm->data3D[i][j][k] = FUNDO;
 									goto PulaForMask1;
 								}
-PulaForMask1: NULL;
+PulaForMask1:{}
 			}
 
 	// Falta implementar a erosão nas bordas e nos cantos.
@@ -214,7 +214,7 @@ TCMatriz3D<T> * TCFEMorfologiaMatematica3D<T>::Dilatacao (TCMatriz3D<T> * &matri
 									this->pm->data3D[i][j][k] = INDICE;
 									goto PulaForMask1;
 								}
-PulaForMask1: NULL;
+PulaForMask1:{}
 			}
 
 	// Falta implementar a dilatação nas bordas e nos cantos.

@@ -128,7 +128,7 @@ bool TCMatriz2D<T>::AlocaMatriz2D(int _nx, int _ny) {
 
 // Desaloca a memória da matriz 2D
 template< typename T >
-void TCMatriz2D<T>::DesalocaMatriz2D ( Matriz2D(T) &dat, int nx, int ny) {
+void TCMatriz2D<T>::DesalocaMatriz2D ( vector< vector<T> > &dat, int nx, int ny) {
 	if ( ! dat.empty() ) {
 		for (int i = 0; i < nx; i++)
 			dat[i].clear();

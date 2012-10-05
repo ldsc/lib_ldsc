@@ -40,7 +40,7 @@ using namespace std;
  * @see		Veja assunto
 */
 
-#define Matriz2D(tipo) vector< vector <tipo> >
+//#define Matriz2D(tipo) vector< vector <tipo> >
 
 template< typename T >
 class TCMatriz2D : public CBaseMatriz
@@ -51,7 +51,7 @@ class TCMatriz2D : public CBaseMatriz
 		int nx;   	/// Dimensão nx
 
 	public:
-		Matriz2D(T) data2D; /// Matriz 2D
+		vector< vector<T> > data2D; /// Matriz 2D
 		// -------------------------------------------------------------Construtor
 		/// Construtor default, data2D=NULL nx=ny=0;
 		TCMatriz2D ();
@@ -127,7 +127,7 @@ class TCMatriz2D : public CBaseMatriz
 		bool AlocaMatriz2D(int _nx, int _ny);
 
 		/// Desaloca dat
-		static void DesalocaMatriz2D (Matriz2D(T) &dat, int nx, int ny);
+		static void DesalocaMatriz2D (vector< vector<T> > &dat, int nx, int ny);
 
 		/// Preenche com valor constante
 		virtual void Constante (T cte);
@@ -219,7 +219,7 @@ class TCMatriz2D : public CBaseMatriz
 		}
 
 		/// Retorna data2D
-		inline Matriz2D(T) & Data2D () {
+		inline vector< vector<T> > & Data2D () {
 			return data2D;
 		}
 

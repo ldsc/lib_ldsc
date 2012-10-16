@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = libldsc
+PROJECT_NAME           = LibLDSC
 PROJECT_NUMBER         = 2012
 PROJECT_BRIEF          =
 PROJECT_LOGO           =
@@ -87,60 +87,18 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = src/Base \
-                         src/ConEqu \
-                         src/Contorno \
-                         src/Correlacao \
-			 src/Distribuicao \
-                         src/Estatistica \
-                         src/FFT \
-                         src/Filtro \
-                         src/Filtro/FAmplitude \
-                         src/Filtro/FEspacial \
-                         src/Filtro/FEspacial/FEDeteccaoContorno \
-                         src/Filtro/FEspacial/FEEsqueleto \
-                         src/Filtro/FEspacial/FEInversao \
-                         src/Filtro/FEspacial/FEMorfologiaMatematica \
-			 src/Filtro/FEspacial3D \
-			 src/Filtro/FEspacial3D/FEConectividade3D \
-			 src/Filtro/FEspacial3D/FEEsqueleto3D \
-			 src/Filtro/FEspacial3D/FEEsqueleto3D/TFEEMa \
-			 src/Filtro/FEspacial3D/FEInversao3D \
-                         src/Filtro/FEspacial3D/FEMorfologiaMatematica3D \
-			 src/Filtro/FReconstrucao \
-                         src/Funcao \
-			 src/Geometria \
-			 src/Geometria/Bola \
-                         src/Geometria/Bola/BCDiscreta \
-                         src/Geometria/Bola/BCDiscreta3D \
-                         src/Grafo \
-                         src/Integral \
-                         src/Interpolacao \
-                         src/Interpolacao/Interpolacao2D \
-                         src/Interpolacao/IntMetNum \
-                         src/Mascara \
-                         src/Mascara/MCDiscreta \
-                         src/Material \
-                         src/Matriz \
-                         src/Permeabilidade \
-                         src/Reconstrucao \
-                         src/Rotulador \
-                         src/SFuncao \
-                         src/SMatriz \
-			 src/SMatriz/SMComum \
-                         src/SMatriz/SMDiagonal \
-                         src/Tempo 
+INPUT                  = src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.cpp \
                          *.h
-RECURSIVE              = NO
+RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = 
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = 
-EXAMPLE_RECURSIVE      = NO
+EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = 
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 

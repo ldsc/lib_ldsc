@@ -12,7 +12,7 @@
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h>
 #endif
 
-bool CDistribuicao::Go( TCMatriz2D< int > * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
+bool CDistribuicao::Go( TCMatriz2D<bool> * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    pm = _pm;
    Go ( _tipo, _metrica, indice, fundo );
 }
@@ -34,26 +34,26 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
    double acumulada = 0.0;
    distribuicao.clear();
 
-	 TCMatriz2D< int > * matriz = NULL;
-	 matriz = new TCMatriz2D< int >(nx, ny); // faz uma cópia da matriz
+	 TCMatriz2D<bool> * matriz = NULL;
+	 matriz = new TCMatriz2D<bool>(nx, ny); // faz uma cópia da matriz
    if ( ! matriz ) { // se a matriz não foi criada corretamente rotorna false
       cerr << "Erro em CDistribuicao::Go! Cópia de TCMatriz2D< int > não foi criada!" << endl;
       return false;
    }
 
-	 TCFEMorfologiaMatematica<int> * filtro = NULL;
+	 TCFEMorfologiaMatematica<bool> * filtro = NULL;
    switch (_metrica){
    case espacial:
-			filtro = new TCFEMorfologiaMatematica<int>(matriz, raio, indice, fundo);
+			filtro = new TCFEMorfologiaMatematica<bool>(matriz, raio, indice, fundo);
       break;
    case d34:
-			filtro = new TCFEMMIDFd34<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFd34<bool>(matriz, indice, fundo);
       break;
    case d5711:
-			filtro = new TCFEMMIDFd5711<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFd5711<bool>(matriz, indice, fundo);
       break;
    case euclidiana:
-			filtro = new TCFEMMIDFEuclidiana<int>(matriz, indice, fundo);
+			filtro = new TCFEMMIDFEuclidiana<bool>(matriz, indice, fundo);
       break;
    }
 

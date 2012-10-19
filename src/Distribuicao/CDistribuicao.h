@@ -35,7 +35,7 @@ public:
    };
 private:
    /// Ponteiro para matriz bidimensional (imagem)
-	 TCMatriz2D< int > * pm;
+	 TCMatriz2D<bool> * pm;
 
    // Construtores / Destrutor
 public:
@@ -44,7 +44,7 @@ public:
 	}
 
 	/// Construtor (recebe TCMatriz2D< int >)
-	 CDistribuicao ( TCMatriz2D< int > * _pm ) : CBaseDistribuicao( ), pm(_pm) {
+	 CDistribuicao ( TCMatriz2D<bool> * _pm ) : CBaseDistribuicao( ), pm(_pm) {
 	}
 
 	/// Destrutor
@@ -56,7 +56,7 @@ public:
    bool Go( Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
 
    /// Calcula a distribuição de tamanho dos objetos em uma imagem 2D binária. Recebe como parâmetros: Ponteiro para Matriz 2D, Tipo, Metrica, indice e fundo.
-	 bool Go( TCMatriz2D< int > * _pm, Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
+	 bool Go( TCMatriz2D<bool> * _pm, Tipos _tipo=dts, Metrica _metrica=d34, int indice=1, int fundo=0 );
 
 };
 

@@ -68,7 +68,7 @@ Desenvolvido por:
 
 /**
  * @brief Determina a permeabilidade intrinseca a partir de uma imagem 3D.
- * 
+ *
 */
 
 class CPermeabilidadeIntrinseca

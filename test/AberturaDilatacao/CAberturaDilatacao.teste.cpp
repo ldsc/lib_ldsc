@@ -4,15 +4,14 @@
 #include <string>
 #include <stdlib.h>
 #include <cstdlib>
-#include "CAberturaDilatacao.h"
-#include "CUtil.h"
 
+#include <Segmentacao/2D/PorosGargantas/CAberturaDilatacao.h>
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <Matriz/TCMatriz2D.h>
 
 #include "Grafico/Gnuplot/CGnuplot.h"
-
+#include "CUtil.h"
 
 using namespace std;
 

@@ -20,9 +20,7 @@ LIBS= -pthread -ldl -WL,--rpath -L/usr/lib64
 
 # ----------------------------------------Instru��es para montagem de programas
 bin_PROGRAMS = abertura_dilatacao
-abertura_dilatacao_SOURCES = CAberturaDilatacao.cpp \
-	CAberturaDilatacao.teste.cpp CObjetoImagem.cpp CUtil.cpp
+abertura_dilatacao_SOURCES = CAberturaDilatacao.teste.cpp CUtil.cpp
 abertura_dilatacao_LDADD = $(top_builddir)/src/libldsc.a
 
 # --------------------------------------------------------------------------FIM
-noinst_HEADERS = CObjetoImagem.h

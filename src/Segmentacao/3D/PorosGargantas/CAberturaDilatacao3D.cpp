@@ -33,8 +33,7 @@ CAberturaDilatacao3D::~CAberturaDilatacao3D() {
 	// delete pm;
 }
 
-void CAberturaDilatacao3D::Salvar(CVetor* &vetor, std::string nomeArquivo)
-{
+void CAberturaDilatacao3D::Salvar(CVetor* &vetor, std::string nomeArquivo) {
 	ofstream fout;
 	fout.open(nomeArquivo.c_str());
 	if (fout.fail())
@@ -75,6 +74,7 @@ double CAberturaDilatacao3D::Porosidade( TCMatriz3D<int> *&pm ) {
 	return porosidade / ( (double) pm->NX() * pm->NY() * pm->NZ());
 }
 
+// ATENÇÃO: corrigir para imagem 3D! Por que não usar rotulador da lib?
 void CAberturaDilatacao3D::RotulaImagem() {
 	int i,j,k;
 	int acima, esquerda, maior, menor;
@@ -84,7 +84,7 @@ void CAberturaDilatacao3D::RotulaImagem() {
 	int PRETO = 1; //PORO
 	int BRANCO = 0; //SOLIDO
 
-	// ABaixo foi modificado - testar - bug?
+	// Abaixo foi modificado - testar - bug?
 	// se matriz rotulo não foi alocada, entao aloca. É destruida no destrutor.
 	if ( matrizRotulo == 0 ) {
 		matrizRotulo = new TCMatriz3D< int >( *pm );
@@ -95,7 +95,7 @@ void CAberturaDilatacao3D::RotulaImagem() {
 					matrizRotulo->data3D[i][j][k] = pm->data3D[i][j][k];
 	}
 
-	// PRIMEIRO PONTO [0][0]
+	// PRIMEIRO PONTO [0][0][0]
 	if ( matrizRotulo->data3D[0][0][0] == PRETO ) {
 		matrizRotulo->data3D[0][0][0] = ++rotulo;
 		m[rotulo] = 1;
@@ -104,13 +104,10 @@ void CAberturaDilatacao3D::RotulaImagem() {
 	// PRIMEIRA LINHA
 	for ( i = 1; i < pm->NX(); i++ )
 		if ( matrizRotulo->data3D[i][0][0] == PRETO )
-			if ( matrizRotulo->data3D[i-1][0][0] == BRANCO )
-			{
+			if ( matrizRotulo->data3D[i-1][0][0] == BRANCO ) {
 				matrizRotulo->data3D[i][0][0] = ++rotulo;
 				m[rotulo] = 1;
-			}
-			else
-			{
+			} else {
 				matrizRotulo->data3D[i][0][0] = rotulo;
 				m[rotulo]++;
 			}

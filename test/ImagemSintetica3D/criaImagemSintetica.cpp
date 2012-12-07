@@ -31,6 +31,7 @@ int main (int argc, char *argv[]) {
 	unsigned int desfera1 = 25; //diametro da primeira esfera
 	unsigned int desfera2 = 21; //diametro da segunda esfera
 	unsigned int dcilindro = 15; //diametro do cilindro
+	unsigned int margem = 10; //borda da imagem;
 	unsigned int teclado = 0; //valores digitados pelo usuário
 
 	cout << "Tamanho da imagem (par):" << endl;
@@ -41,6 +42,14 @@ int main (int argc, char *argv[]) {
 	}
 	nxyz = teclado;
 
+	cout << "Borda da imagem (de 0 a " << nxyz/10 << "):" << endl;
+	cin >>  teclado;
+	while ( teclado > nxyz/10 || teclado < 0 ){
+		cout << "O tamanho da borda deve ser entre 0 e " << nxyz/10 << "!" << endl;
+		cin >> teclado;
+	}
+	margem = teclado;
+
 	cout << "Diametro da primeira esfera (impar - menor que " << int(nxyz/3) << "):" << endl;
 	cin >> teclado;
 	while ( ((teclado % 2) == 0) || (teclado >= int(nxyz/3)) ) {
@@ -50,7 +59,7 @@ int main (int argc, char *argv[]) {
 		if ( teclado >= int(nxyz/3) ) {
 			cout << "A esfera deve ser menor que " << int(nxyz/3) << "):" << endl;
 		}
-		cin >>  teclado;
+		cin >> teclado;
 	}
 	desfera1 = teclado;
 
@@ -88,8 +97,6 @@ int main (int argc, char *argv[]) {
 	CBCDiscreta* cilindro = new CBCd5711(dcilindro);
 	CBCDiscreta3D* esfera1 = new CBCd3453D(desfera1);
 	CBCDiscreta3D* esfera2 = new CBCd3453D(desfera2);
-
-	int margem = 10; //borda da imagem;
 
 	//desenhando primeira esfera
 	int x = (nxyz/2)-(desfera1/2); //centraliza a primeira esfera no eixo x da imagem
@@ -144,7 +151,7 @@ int main (int argc, char *argv[]) {
 	cout << "Salvando a imagem 3D em disco com o nome " << os.str() << endl;
 	img->Write( os.str() );
 
-	cout << "Abrindo imagem no LVP:" << endl;
+	cout << "Abrindo imagem no LVP..." << endl;
 	string comando = string( "lvp ") + os.str()  + " &";
 	system( comando.c_str() ) ;
 

@@ -3,14 +3,14 @@
 PROJETO:    Biblioteca libldsc CObjetoImagem
 =========================================================================
 Desenvolvido por:
-            LDSC - Laboratorio de Desenvolvimento de Software Científico
+						LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
 @begin      2010
 @copyright  (C) 2010 by Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
 @email      <bueno@lenep.uenf.br>
 @file 	  CObjetoImagem.cpp
 @license    GNU General Public License - version 2
-            see  $LICENSEFILE$ for the full license text.
+						see  $LICENSEFILE$ for the full license text.
 */
 
 // -----------------------------------------------------------------------
@@ -20,7 +20,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
 // -----------------------------------------------------------------------
-#include "CObjetoImagem.h"
+#include <Segmentacao/2D/PorosGargantas/CObjetoImagem.h>
 
 // ---------------------------------------------------Construtor-Destrutor
 
@@ -30,7 +30,7 @@ std::string CObjetoImagem::Tipo()
 {
 	switch ( tipo )
 	{
-		case FUNDO: 		return "Fundo";
+		case SOLIDO: 		return "Solido";
 		case SITIO: 		return "Sitio";
 		case LIGACAO: 		return "Ligacao";
 		case RAMO_MORTO: 	return "Ramo_Morto";

@@ -6,6 +6,10 @@
 *.cbp
 *.bkp.cpp
 *.bkp.h
+*.pbm
+*.dbm
+*.pgm
+*.dgm
 cvs
 libldsc.a
 CMakeFiles
@@ -18,5 +22,6 @@ pullToGithub
 pushToGithub
 CMakeLists.txt.user
 abertura_dilatacao
+abertura_dilatacao_new
 criaSintetica3D
 CMakeCache.txt

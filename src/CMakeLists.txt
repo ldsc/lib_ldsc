@@ -205,12 +205,13 @@ add_library (ldsc STATIC
   Reconstrucao/CReconstrucaoEsferas.cpp
   Reconstrucao/CReconstrucaoZhirong.cpp
   Rotulador/CRotulador.cpp
-  Rotulador/CRotulador2D.cpp
+  Rotulador/TCRotulador2D.h
   Rotulador/CRotulador2DCm.cpp
   Rotulador/CConectividade2D.cpp
   Rotulador/TCRotulador3D.h
   Rotulador/CConectividade3D.cpp
   Segmentacao/2D/PorosGargantas/CAberturaDilatacao.cpp
+  Segmentacao/2D/PorosGargantas/CAberturaDilatacaoNew.cpp
   Segmentacao/2D/PorosGargantas/CObjetoImagem.cpp
   Segmentacao/3D/PorosGargantas/CAberturaDilatacao3D.cpp
   Segmentacao/3D/PorosGargantas/CObjetoImagem3D.cpp

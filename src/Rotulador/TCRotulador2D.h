@@ -1,16 +1,16 @@
-#ifndef CRotulador2D_h
-#define CRotulador2D_h
+#ifndef TCRotulador2D_h
+#define TCRotulador2D_h
 
 /*
   ===============================================================================
   PROJETO:    Biblioteca LIB_LDSC
-  Assunto/Ramo: CRotulador2D...
+	Assunto/Ramo: TCRotulador2D...
   ===============================================================================
   Desenvolvido por:	
   Laboratorio de Desenvolvimento de Software Cientifico 	
   [LDSC].
   @author     André Duarte Bueno
-  @file       CRotulador2D.h
+	@file       TCRotulador2D.h
   @begin      Sat Sep 16 2000
   @copyright  (C) 2000 by André Duarte Bueno
   @email      andreduartebueno@gmail.com
@@ -43,13 +43,13 @@
  * @author 	André Duarte Bueno	
  * @see		Rotulador
 */
-
-class CRotulador2D : public CRotulador, public TCMatriz2D< int >
+template<typename T>
+class TCRotulador2D : public CRotulador, public TCMatriz2D<int>
 {
   //--------------------------------------------------------------Atributos
  public:
   /** @brief Ponteiro para a imagem recebida no construtor ou em Go*/
-  TCMatriz2D< int > * pm;
+	TCMatriz2D<T> * pm;
 
   //-------------------------------------------------------------Construtor
   /** Construtor. 
@@ -57,37 +57,37 @@ class CRotulador2D : public CRotulador, public TCMatriz2D< int >
    * Copia ponteiro para imagem recebida,
    * na funcão prepara imagem copia os dados
   */
-  CRotulador2D (TCMatriz2D< int > * _pm, int _indice=1, int _fundo=0) :
+	TCRotulador2D (TCMatriz2D<T> * _pm, int _indice=1, int _fundo=0) :
      CRotulador( _indice, _fundo ), TCMatriz2D< int >(_pm->NX(), _pm->NY()), pm(_pm) {
   	TCMatriz2D< int >::Path( _pm->Path() );
   }
 
   /// Construtor, abre imagem do disco
-  CRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
+	TCRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
      CRotulador( _indice, _fundo ), TCMatriz2D< int >(fileName), pm(NULL) {
   }
 
   /// Construtor, recebe dimensões da imagem
-  CRotulador2D (int nx, int ny, int _indice=1, int _fundo=0) :
+	TCRotulador2D (int nx, int ny, int _indice=1, int _fundo=0) :
      CRotulador( _indice, _fundo ), TCMatriz2D< int >(nx, ny), pm(NULL) {
   }
 
   /** data2D deve ser alocado posteriormente*/
-  CRotulador2D (int _indice=1, int _fundo=0) :
+	TCRotulador2D (int _indice=1, int _fundo=0) :
      CRotulador( _indice, _fundo ), TCMatriz2D< int >(), pm(NULL) {
   }
 
   //--------------------------------------------------------------Destrutor
   
   /// Destrutor
-  virtual ~ CRotulador2D ()
+	virtual ~ TCRotulador2D ()
   {
   }
 
   //----------------------------------------------------------------Métodos
   protected:
   /**  @brief Verifica a imagem*/
-  virtual bool PreparaImagem (TCMatriz2D< int > * matriz);
+	virtual bool PreparaImagem (TCMatriz2D<T> * matriz);
 
   /**  @brief Passo 1: 1a Passagem.
    * OBS: o int rotuloInicial=0 foi passado para a funcao RotulaImagem	*/
@@ -110,18 +110,20 @@ class CRotulador2D : public CRotulador, public TCMatriz2D< int >
   //Metodos utilizados na rotulagem, redefinidos aqui
   //virtual void Go(TCMatriz2D< int >*& matriz, int rotuloInicial = 0 );
   /// Executa toda a sequencia de rotulagem
-  virtual bool Go (TCMatriz2D< int > * matriz /*, int rotuloInicial = 0 */ );
+	virtual bool Go (TCMatriz2D<T> * matriz /*, int rotuloInicial = 0 */ );
 
   //--------------------------------------------------------------------Get
   //--------------------------------------------------------------------Set
   //-----------------------------------------------------------------Friend
-  //friend ostream& operator<< (ostream& os, CRotulador2D& obj);
-  //friend istream& operator>> (istream& is, CRotulador2D& obj);
+	//friend ostream& operator<< (ostream& os, TCRotulador2D& obj);
+	//friend istream& operator>> (istream& is, TCRotulador2D& obj);
 };
 
 //-----------------------------------------------------------------Friend
 //Declaração de Funções Friend
-//ostream& operator<< (ostream& os, CRotulador2D& obj);
-//istream& operator>> (istream& is, CRotulador2D& obj);
+//ostream& operator<< (ostream& os, TCRotulador2D& obj);
+//istream& operator>> (istream& is, TCRotulador2D& obj);
+
+#include <Rotulador/TCRotulador2D.cpp>
 
 #endif

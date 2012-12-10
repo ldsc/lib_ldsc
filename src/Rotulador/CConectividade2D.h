@@ -25,7 +25,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #ifndef _LIB_LDSC_CLASS_h
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
-#include <Rotulador/CRotulador2D.h>
+#include <Rotulador/TCRotulador2D.h>
 /**
  * @brief Determina a conexão de objetos em imagens 3D.
  * 
@@ -64,7 +64,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * Posteriormente considerar multiplas regiões B.
 */
 
-class CConectividade2D : public CRotulador2D
+class CConectividade2D : public TCRotulador2D<int>
 {
 	
   // Atributos
@@ -87,7 +87,7 @@ class CConectividade2D : public CRotulador2D
  public:
   /// Construtor Default
   // CConectividade2D():TRotulador2D(),TCMatriz2D< int >(){};// Exige a definição de pm e data2D posteriormente
-    CConectividade2D (TCMatriz2D< int > * &imagem):CRotulador2D (imagem), pm (imagem)
+		CConectividade2D (TCMatriz2D< int > * &imagem):TCRotulador2D<int> (imagem), pm (imagem)
   {
   }
 

@@ -42,7 +42,7 @@
  *  @see	Rotulagem
 */
 template<typename T>
-class TCRotulador3D : public TCMatriz3D<int>, public CRotulador
+class TCRotulador3D : public CRotulador, public TCMatriz3D<int>
 {
 
    // --------------------------------------------------------------Atributos
@@ -58,18 +58,23 @@ public:
 	 TCRotulador3D (TCMatriz3D<T> * _pm, int _indice=1, int _fundo=0)
 			: TCMatriz3D<int> (_pm->NX (), _pm->NY (), _pm->NZ ()) // Aloca matriz de dados
       , CRotulador ( _indice, _fundo), direto (true), pm (_pm)  {    // Seta atributos
-      path = _pm-> path;
+			TCMatriz3D<int>::Path( _pm->Path() );
    }
 
    /// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-	 TCRotulador3D (std::string fileName)
-			:TCMatriz3D<int> (fileName), CRotulador (), direto (true),pm (NULL) {
+	 TCRotulador3D (std::string fileName, int _indice=1, int _fundo=0)
+			:TCMatriz3D<int> (fileName), CRotulador (_indice, _fundo), direto (true),pm (NULL) {
    }
 
    /// Recebe a informação das dimensoes da imagem
-	 TCRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz)
-			:TCMatriz3D<int> (nx, ny, nz), CRotulador (), direto (true), pm (NULL) {
+	 TCRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz, int _indice=1, int _fundo=0)
+			:TCMatriz3D<int> (nx, ny, nz), CRotulador (_indice, _fundo), direto (true), pm (NULL) {
    }
+
+	 /** data3D deve ser alocado posteriormente*/
+	 TCRotulador3D (int _indice=1, int _fundo=0) :
+			CRotulador( _indice, _fundo ), TCMatriz3D<int>(), direto (true), pm(NULL) {
+	 }
 
    // --------------------------------------------------------------Destrutor
    /// Destrutor

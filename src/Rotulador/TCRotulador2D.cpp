@@ -7,7 +7,7 @@
   Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
   	[LDSC].
   @author:          André Duarte Bueno
-  File:             CRotulador2D.cpp
+	File:             TCRotulador2D.cpp
   begin:            Sat Sep 16 2000
   copyright:        (C) 2000 by André Duarte Bueno
   email:            andreduartebueno@gmail.com
@@ -21,7 +21,9 @@
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <Rotulador/CRotulador2D.h>
+#ifndef TCRotulador2D_h
+#include <Rotulador/TCRotulador2D.h>
+#endif
 // using namespace std;
 /*
   -------------------------------------------------------------------------
@@ -33,7 +35,8 @@
   @param  : void
   @return : void
 */
-void CRotulador2D::CalculaAreaObjetos () {
+template<typename T>
+void TCRotulador2D<T>::CalculaAreaObjetos () {
    // só procede o calculo se a matriz rótulo já foi determinada
    if (!rotulado)
       Go (pm);			// Calcula a matriz rotulo
@@ -80,7 +83,8 @@ void CRotulador2D::CalculaAreaObjetos () {
   esta função, vai acessar ilegalmente pm.
   Excessões:        tipos de excessoes
 */
-void CRotulador2D::CalculaPerimetroObjetos () {
+template<typename T>
+void TCRotulador2D<T>::CalculaPerimetroObjetos () {
    if (!rotulado)		// só procede o calculo se a matriz rótulo já foi determinada
       Go (pm);			// Cria e calcula a matriz rotulo
    // BUG: se pm tiver sido deletado, trocar por Go(this)?
@@ -102,14 +106,14 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Região central, fora as bordas
          for (i = 1; i < NX () - 1; i++)	// Percorre direcao x, fora bordas
             for (j = 1; j < NY () - 1; j++) {	// Percorre direcao y, fora bordas
-               if (data2D[i][j] != FUNDO) {
-                  if (data2D[i - 1][j] == FUNDO)	// esquerdo
+							 if (data2D[i][j] != 0) {
+									if (data2D[i - 1][j] == 0)	// esquerdo
                      perimetroObjetos->data1D[data2D[i][j]]++;
-                  if (data2D[i + 1][j] == FUNDO)	// direito
+									if (data2D[i + 1][j] == 0)	// direito
                      perimetroObjetos->data1D[data2D[i][j]]++;
-                  if (data2D[i][j - 1] == FUNDO)	// acima
+									if (data2D[i][j - 1] == 0)	// acima
                      perimetroObjetos->data1D[data2D[i][j]]++;
-                  if (data2D[i][j + 1] == FUNDO)	// abaixo
+									if (data2D[i][j + 1] == 0)	// abaixo
                      perimetroObjetos->data1D[data2D[i][j]]++;
                }
             }
@@ -117,13 +121,13 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Borda esquerda
          i = 0;
          for (j = 1; j < NY () - 1; j++) { // Percorre direcao y,
-            if (data2D[i][j] != FUNDO) {
+						if (data2D[i][j] != 0) {
                perimetroObjetos->data1D[data2D[i][j]]++;	// considera esquerdo como perímetro [novo]
-               if (data2D[i + 1][j] == FUNDO)	// direito
+							 if (data2D[i + 1][j] == 0)	// direito
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j - 1] == FUNDO)	// acima
+							 if (data2D[i][j - 1] == 0)	// acima
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j + 1] == FUNDO)	// abaixo
+							 if (data2D[i][j + 1] == 0)	// abaixo
                   perimetroObjetos->data1D[data2D[i][j]]++;
             }
          }
@@ -131,13 +135,13 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Borda direita
          i = NX () - 1;
          for (j = 1; j < NY () - 1; j++) {	// Percorre direcao y,
-            if (data2D[i][j] != FUNDO) {
+						if (data2D[i][j] != 0) {
                perimetroObjetos->data1D[data2D[i][j]]++;	// considera direito como perímetro [novo]
-               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+							 if (data2D[i - 1][j] == 0)	// esquerdo
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j - 1] == FUNDO)	// acima
+							 if (data2D[i][j - 1] == 0)	// acima
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j + 1] == FUNDO)	// abaixo
+							 if (data2D[i][j + 1] == 0)	// abaixo
                   perimetroObjetos->data1D[data2D[i][j]]++;
             }
          }
@@ -145,13 +149,13 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Borda superior
          j = 0;
          for (i = 1; i < NX () - 1; i++) {	// Percorre direcao x,
-            if (data2D[i][j] != FUNDO) {
+						if (data2D[i][j] != 0) {
                perimetroObjetos->data1D[data2D[i][j]]++;	// considera superior como perímetro [novo]
-               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+							 if (data2D[i - 1][j] == 0)	// esquerdo
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i + 1][j] == FUNDO)	// direito
+							 if (data2D[i + 1][j] == 0)	// direito
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j + 1] == FUNDO)	// abaixo
+							 if (data2D[i][j + 1] == 0)	// abaixo
                   perimetroObjetos->data1D[data2D[i][j]]++;
             }
          }
@@ -159,14 +163,14 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Borda inferior
          j = NY () - 1;
          for (i = 1; i < NX () - 1; i++) {	// Percorre direcao x,
-            if (data2D[i][j] != FUNDO) {
+						if (data2D[i][j] != 0) {
                // if(data2D[i][j]>0)
                perimetroObjetos->data1D[data2D[i][j]]++;	// considera inferior como perímetro [novo]
-               if (data2D[i - 1][j] == FUNDO)	// esquerdo
+							 if (data2D[i - 1][j] == 0)	// esquerdo
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i + 1][j] == FUNDO)	// direito
+							 if (data2D[i + 1][j] == 0)	// direito
                   perimetroObjetos->data1D[data2D[i][j]]++;
-               if (data2D[i][j - 1] == FUNDO)	// acima
+							 if (data2D[i][j - 1] == 0)	// acima
                   perimetroObjetos->data1D[data2D[i][j]]++;
             }
          }
@@ -177,47 +181,47 @@ void CRotulador2D::CalculaPerimetroObjetos () {
          // Canto superior esquerdo
          i = 0;
          j = 0;
-         if (data2D[i][j] != FUNDO) {
+				 if (data2D[i][j] != 0) {
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
-            if (data2D[i + 1][j] == FUNDO)
+						if (data2D[i + 1][j] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
-            if (data2D[i][j + 1] == FUNDO)
+						if (data2D[i][j + 1] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
          }
 
          // Canto superior direito
          i = NX () - 1;
          j = 0;
-         if (data2D[i][j] != FUNDO) {
+				 if (data2D[i][j] != 0) {
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto superior
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
-            if (data2D[i - 1][j] == FUNDO)
+						if (data2D[i - 1][j] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
-            if (data2D[i][j + 1] == FUNDO)
+						if (data2D[i][j + 1] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
          }
          // Canto inferior esquerdo
          i = 0;
          j = NY () - 1;
-         if (data2D[i][j] != FUNDO) {
+				 if (data2D[i][j] != 0) {
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto esquerdo
-            if (data2D[i][j - 1] == FUNDO)
+						if (data2D[i][j - 1] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
-            if (data2D[i + 1][j] == FUNDO)
+						if (data2D[i + 1][j] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
          }
 
          // Canto inferior direito
          i = NX () - 1;
          j = NY () - 1;
-         if (data2D[i][j] != FUNDO) {
+				 if (data2D[i][j] != 0) {
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto inferior
             perimetroObjetos->data1D[data2D[i][j]]++;	// considera  Canto direito
-            if (data2D[i - 1][j] == FUNDO)
+						if (data2D[i - 1][j] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
-            if (data2D[i][j - 1] == FUNDO)
+						if (data2D[i][j - 1] == 0)
                perimetroObjetos->data1D[data2D[i][j]]++;
          }
          // Salvar(perimetroObjetos,"perimetroObjetos.peo");
@@ -236,8 +240,9 @@ void CRotulador2D::CalculaPerimetroObjetos () {
   @return :
 */
 // Pende em mudar para void*, que será formatado na função PreparaImagem
-// bool CRotulador2D::Go(void* matriz)
-bool CRotulador2D::Go (TCMatriz2D< int > * matriz) {
+// bool TCRotulador2D::Go(void* matriz)
+template<typename T>
+bool TCRotulador2D<T>::Go (TCMatriz2D<T> * matriz) {
    // this->rotuloInicial=rotuloInicial;
 
    // Verifica a imagem
@@ -269,11 +274,11 @@ bool CRotulador2D::Go (TCMatriz2D< int > * matriz) {
    RotulaImagem ( /*_rotuloInicial*/ );
 
    // Define que a imagem já foi rotulada
-   rotulado = true;
+	 // rotulado = true; // já está definindo em RotulaImagem()
 
    // Retorna true indicando que ocorreu tudo bem
    return true;
-};
+}
 
 
 /*
@@ -292,8 +297,9 @@ bool CRotulador2D::Go (TCMatriz2D< int > * matriz) {
   @param  :
   @return :
 */
-// bool CRotulador2D::PreparaImagem(void* matriz)
-bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
+// bool TCRotulador2D::PreparaImagem(void* matriz)
+template<typename T>
+bool TCRotulador2D<T>::PreparaImagem (TCMatriz2D<T> * matriz) {
    pm = matriz;			// armazena endereço matriz
    if (pm == NULL)		// Se for nulo após igualar, sai
       return false;
@@ -306,10 +312,10 @@ bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
    // sem passar as dimensoes nx, e ny, este sabe que a mesma não foi alocada,
    // e não pode ser utilizada.
    // Se data2D==NULL (não alocada), a mesma vai ser alocada abaixo.
-   if (this->nx != matriz->NX () || this->ny != matriz->NY ()) {
+	 if (this->nx != pm->NX () || this->ny != pm->NY ()) {
       Desaloca ();		// desaloca a matriz existende e depois
-      this->nx = matriz->NX ();	// define novo tamanho
-      this->ny = matriz->NY ();
+			this->nx = pm->NX ();	// define novo tamanho
+			this->ny = pm->NY ();
       Aloca ();			// aloca de acordo com novo tamanho
    }
    // Agora tenho de armazenar valores de pm na idf
@@ -322,10 +328,10 @@ bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
    for (unsigned int j = 0; j < ny; j++)
       for (unsigned int i = 0; i < nx; i++)
          //LP - if (matriz->data2D[i][j] != 0)	// como a imagem recebida pode ser uma outra idf
-         if (matriz->data2D[i][j] == INDICE)	// como a imagem recebida pode ser uma outra idf
-            this->data2D[i][j] = INDICE;	// define this com 0 e 1
+				 if (pm->data2D[i][j] == INDICE)	// como a imagem recebida pode ser uma outra idf
+						this->data2D[i][j] = 1;	// define this com 0 e 1
          else
-            this->data2D[i][j] = FUNDO;	// Garante FUNDO = 0 // v7
+						this->data2D[i][j] = 0;	// Garante FUNDO = 0 // v7
 
    // Como pode chamar Go mais de uma vez, preciso apagar os vetores area e perimetro
    // que foram alocados na chamada anterior a Go (Versão 7)
@@ -336,9 +342,9 @@ bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
    if (perimetroObjetos)
       delete perimetroObjetos;
    perimetroObjetos = NULL;
-   return true;
 
-   // Write("PreparaImagem.txt");
+	 // Write("PreparaImagem.txt");
+	 return true;
 }
 
 /*
@@ -349,7 +355,7 @@ bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
   O procedimento de rotulagem é executado pela função Go.
   Go chama IdentificaObjetos, que realiza a primeira passagem sobre a imagem.
 
-  O objeto CRotulador2D é uma imagem 2D, que inicialmente contem um conjunto de pontos
+	O objeto TCRotulador2D é uma imagem 2D, que inicialmente contem um conjunto de pontos
   cujos valores sao 0 se representam a fase solida e valores diferentes de 0 se poros.
   -O vetor vConversao é uma tabela de conversão, um pixel de valor k na imagem terá
   seu valor convertido para vConversao[k], ou seja rotulo = vConversao[k].
@@ -392,7 +398,8 @@ bool CRotulador2D::PreparaImagem (TCMatriz2D< int > * matriz) {
   @param  :void
   @return :void
 */
-void CRotulador2D::IdentificaObjetos () {
+template<typename T>
+void TCRotulador2D<T>::IdentificaObjetos () {
    // i,j mesmo tipo da matriz ou seja Tipo
    // Usados nos for
    unsigned long int i, j;
@@ -402,7 +409,7 @@ void CRotulador2D::IdentificaObjetos () {
 
    // índice do rotulo atual
    // LP - unsigned long int rotuloAtual = 0;
-   unsigned long int rotuloAtual = 2; //Irá rotular a partir de 2 para poder utilizar 1 como fundo
+	 unsigned long int rotuloAtual = 0;
 
    // Necessario pois Go pode ser chamada diretamente + de uma vez,
    // no final de Go o numeroObjetos é o encontrado na imagem
@@ -424,17 +431,16 @@ void CRotulador2D::IdentificaObjetos () {
    // ---------------------------------------------
    // PONTO 0 0
    // ---------------------------------------------
-   // FAZ pixel[0][0]=1, ou seja objeto 0 com rotulo 0
-   // assume o valor 1
-   if (data2D[0][0] != FUNDO)
+	 // FAZ pixel[0][0]=1, ou seja objeto 0 com rotulo deferente de 0 assume o valor 1
+	 if (data2D[0][0] != 0)
       data2D[0][0] = ++rotuloAtual;
 
    // ---------------------------------------------
    // PRIMEIRA LINHA [i][0]
    // ---------------------------------------------
    for (i = 1; i < NX (); i++)
-      if (data2D[i][0] != FUNDO)	// se for poro (preto)
-         if (data2D[i - 1][0] != FUNDO)	// e se o anterior for preto
+			if (data2D[i][0] != 0)	// se for poro (preto)
+				 if (data2D[i-1][0] != 0)	// e se o anterior for preto
             data2D[i][0] = rotuloAtual;	// usa rotulo atual (igual ao do ponto a esquerda)
          else
             data2D[i][0] = ++rotuloAtual;	// incrementa rotulo e usa
@@ -444,22 +450,22 @@ void CRotulador2D::IdentificaObjetos () {
    // ---------------------------------------------
    for (j = 1; j < NY (); j++) {	// Varre as colunas y=j
       // PRIMEIRA COLUNA
-      if (data2D[0][j] != FUNDO) {	// se for poro (preto)
+			if (data2D[0][j] != 0) {	// se for poro (preto)
          data2D[0][j] = ++rotuloAtual;	// incrementa o rotulo e usa
-         acima = data2D[0][j - 1];	// armazena valor do ponto acima
+				 acima = data2D[0][j-1];	// armazena valor do ponto acima
          VerificaContorno (acima, rotuloAtual);	// rotulo atual de forma indireta.
       }
       // ---------------------------------------------
       // ABAIXO PONTOS [i][j]
       // ABAIXO TENTATIVA DE ALTERACAO PARA FICAR MAIS CLARO
       for (i = 1; i < NX (); i++) {	// Varre as linhas x=i
-         if (data2D[i][j] != FUNDO) {	// se for poro (preto)
+				 if (data2D[i][j] != 0) {	// se for poro (preto)
             acima = data2D[i][j - 1];	// armazena informação do ponto acima
             esquerda = data2D[i - 1][j];	// e da esquerda
-            if (esquerda != FUNDO) {	// se a esquerda e acima forem != FUNDO
+						if (esquerda != 0) {	// se a esquerda e acima forem != FUNDO
                data2D[i][j] = rotuloAtual;	// fica com o rotulo atual
                VerificaContorno (acima, rotuloAtual);
-            } else {		// esquerda==FUNDO
+						} else {		// esquerda==0
                data2D[i][j] = ++rotuloAtual;	// incrementa rotulo e usa
                VerificaContorno (acima, rotuloAtual);
             }
@@ -505,8 +511,9 @@ void CRotulador2D::IdentificaObjetos () {
   @param  :void
   @return :void
 */
-// void CRotulador2D::RotulaImagem(/*unsigned int _rotuloInicial*/)
-void CRotulador2D::RotulaImagem () {
+// void TCRotulador2D::RotulaImagem(/*unsigned int _rotuloInicial*/)
+template<typename T>
+void TCRotulador2D<T>::RotulaImagem () {
    // O numero de objetos é calculado na função PesquisaRotulosValidosEOrdena()
    // rotuloFinal    =  rotuloInicial  +   numeroObjetos - 1; // Versão 6
 
@@ -518,7 +525,7 @@ void CRotulador2D::RotulaImagem () {
          // mas também esta transladando o rotulo = 0 do fundo
          // por isso preciso de if's adicionais na função Area e perimetro
          // if( data2D[i][j] != 0)
-         if (data2D[i][j] != FUNDO)	// Este if é desnecessario, pois o vconversao[0] aponta para 0 (ou rotuloInicial)
+				 if (data2D[i][j] != 0)	// Este if é desnecessario, pois o vconversao[0] aponta para 0 (ou rotuloInicial)
             data2D[i][j] = vConversao->data1D[data2D[i][j]];
    // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]  + rotuloInicial;
 
@@ -551,7 +558,7 @@ void CRotulador2D::RotulaImagem () {
 */
 /*  
 // renomear para Go_HoshenKopelman()
-void CRotulador2D::FuncaoRotulaImagemAntiga()
+void TCRotulador2D::FuncaoRotulaImagemAntiga()
 {
 if(rotulado==1)				// se ja rotulado sai
 return;
@@ -699,7 +706,7 @@ rotulado=1;							// define que o objeto ja esta rotulado
    @return :
  */
 /*
-   void CRotulador2D::FuncaoRotulaImagemSequencialAntiga()
+	 void TCRotulador2D::FuncaoRotulaImagemSequencialAntiga()
    {
    CVetor objetoAtivo(numeroObjetos);	// cria vetor dos objetos ativos
    objetoAtivo.Constante(0);		// todos os objetos são marcados como inativos

@@ -28,8 +28,8 @@
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef CRotulador2D_h
-#include <Rotulador/CRotulador2D.h>
+#ifndef TCRotulador2D_h
+#include <Rotulador/TCRotulador2D.h>
 #endif
 
 /**
@@ -39,7 +39,7 @@
  * @author 	André Duarte Bueno	
  * @see		Rotulador
 */
-class CRotulador2DCm : public CRotulador2D
+class CRotulador2DCm : public TCRotulador2D<int>
 {
   // --------------------------------------------------------------Atributos
  public:
@@ -56,23 +56,23 @@ class CRotulador2DCm : public CRotulador2D
   // Copia ponteiro para imagem recebida,
   // na função prepara imagem copia os dados
   /// Construtor recebe ponteiro para imagem
-  CRotulador2DCm (TCMatriz2D< int > * _pm) : CRotulador2D ( _pm )
+	CRotulador2DCm (TCMatriz2D< int > * _pm) : TCRotulador2D<int> ( _pm )
   {
   }
 
   /// Construtor recebe nome da imagem
-  CRotulador2DCm (std::string fileName) : CRotulador2D (fileName)
+	CRotulador2DCm (std::string fileName) : TCRotulador2D<int> (fileName)
   {
   }
 
     /// Construtor, recebe nx e ny
-  CRotulador2DCm (int nx, int ny) : CRotulador2D (nx, ny, 1, 0)
+	CRotulador2DCm (int nx, int ny) : TCRotulador2D<int> (nx, ny, 1, 0)
     // CRotulador2DCm( int nx,int ny) : CRotulador2D(nx,ny),cmx(NULL),cmy(NULL)
     {
     }
 
     /// Construtor default
-    CRotulador2DCm ():CRotulador2D ()
+		CRotulador2DCm ():TCRotulador2D<int> ()
     // CRotulador2DCm():CRotulador2D(),cmx(NULL),cmy(NULL)
     {
     }

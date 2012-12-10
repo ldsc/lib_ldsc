@@ -89,9 +89,9 @@ class CRotulador
 {
   // --------------------------------------------------------------Atributos
  protected:
-  /// Representa a cor de indice (poro) da imagem, normalmente=1
+	/// Representa a cor de indice (poro) da imagem original, normalmente=1
   int INDICE; // Tirei o unsigned por causa dos warnings, verificar efeito
-  /// Representa a cor de fundo da imagem, normalmente=0
+	/// Representa a cor de fundo da imagem original, normalmente=0
   int FUNDO; // Tirei o unsigned por causa dos warnings, verificar efeito
 
   /// Vetor de conversao (identifica rotulos validos e invalidos)
@@ -200,14 +200,14 @@ class CRotulador
   // int GetrotuloFinal()   const {return rotuloFinal;};
   // int GetnumeroObjetos() const {return numeroObjetos;};
 
-  /// O rotulo inicial é sempre  0.
+	/// O rotulo inicial é sempre 0.
   int RotuloInicial () const {
-    return 0;
+		return 0;
   }
 
-  /// O ultimo rotulo é o numero de objetos -1.
+	/// O ultimo rotulo corresponde ao numero de objetos -1.
   int RotuloFinal () const {
-    return (numeroObjetos - 1);
+		return (numeroObjetos-1);
   }
 
   /// Retorna numero de objetos.

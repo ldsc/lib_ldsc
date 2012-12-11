@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <cstdlib>
 
-#include <Segmentacao/2D/PorosGargantas/CAberturaDilatacaoNew.h>
+#include <Segmentacao/2D/PorosGargantas/CAberturaDilatacaoOld.h>
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <Matriz/TCMatriz2D.h>
@@ -82,7 +82,7 @@ int main ( int argc, char *argv[] )
 
 		TCMatriz2D<int> * pm = NULL;
 		TCFEMorfologiaMatematica<int> * filtro = NULL;
-		CAberturaDilatacaoNew * carac = NULL;
+		CAberturaDilatacaoOld * carac = NULL;
 		int dimensao;
 
 		CBCd34 * bola = NULL;
@@ -113,11 +113,11 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz2D< int >(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				if ( pm == NULL  || carac == NULL)
 				{
-					cerr << "Falha alocação Matriz ou CAberturaDilatacaoNew.\n" ;
+					cerr << "Falha alocação Matriz ou CAberturaDilatacaoOld.\n" ;
 					exit(0);
 				}
 
@@ -156,11 +156,11 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz2D< int >(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				if ( pm == NULL  || carac == NULL)
 				{
-					cerr << "Falha alocação Matriz ou CAberturaDilatacaoNew.\n" ;
+					cerr << "Falha alocação Matriz ou CAberturaDilatacaoOld.\n" ;
 					exit(0);
 				}
 
@@ -198,10 +198,11 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz2D< int >(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
-				if ( pm == NULL  || carac == NULL) {
-					cerr << "Falha alocação Matriz ou CAberturaDilatacaoNew.\n" ;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
+				if ( pm == NULL  || carac == NULL)
+				{
+					cerr << "Falha alocação Matriz ou CAberturaDilatacaoOld.\n" ;
 					exit(0);
 				}
 
@@ -240,11 +241,11 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz2D< int >(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				if ( pm == NULL  || carac == NULL)
 				{
-					cerr << "Falha alocação Matriz ou CAberturaDilatacaoNew.\n" ;
+					cerr << "Falha alocação Matriz ou CAberturaDilatacaoOld.\n" ;
 					exit(0);
 				}
 
@@ -434,11 +435,11 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz2D< int >(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				if ( pm == NULL  || carac == NULL)
 				{
-					cerr << "Falha alocação Matriz ou CAberturaDilatacaoNew.\n" ;
+					cerr << "Falha alocação Matriz ou CAberturaDilatacaoOld.\n" ;
 					exit(0);
 				}
 				porosidade = carac->Porosidade(pm);
@@ -464,8 +465,8 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				carac->DistTotalPoros();
 				cout << "Calculou carac->DistTotalPoros();." << endl;
 				delete pm;
@@ -574,8 +575,8 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacaoNew(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				carac->SequenciaAberturaTonsCinza();
 				cout << "Calculou carac->SequenciaAberturaTonsCinza();." << endl;
 				delete pm;
@@ -589,7 +590,7 @@ int main ( int argc, char *argv[] )
 			case 16:
 			{
 				cout << "Selecionou calculo porosidade." << endl;
-				system("ls *.pbm");
+				system("ls");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -600,8 +601,8 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacaoNew( pm ,nomeimg );
-				cout << "Criou objeto CAberturaDilatacaoNew." << endl;
+				carac = new CAberturaDilatacaoOld( pm ,nomeimg );
+				cout << "Criou objeto CAberturaDilatacaoOld." << endl;
 				cout << "Porosidade = " << carac->Porosidade(pm) << endl;
 				delete pm;
 				pm  = NULL;
@@ -616,7 +617,7 @@ int main ( int argc, char *argv[] )
 				cout << "Deseja salvar resultados parciais em disco (entre com 1 para sim e 0 para não):" << endl;
 				cin >> salvarResultadosParciais;
 				cin.get(); // pega o enter
-				CAberturaDilatacaoNew::SalvarResultadosParciais ( salvarResultadosParciais );
+				CAberturaDilatacaoOld::SalvarResultadosParciais ( salvarResultadosParciais );
 				break;
 			}
 			case 18:

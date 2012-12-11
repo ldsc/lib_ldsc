@@ -22,6 +22,6 @@ pullToGithub
 pushToGithub
 CMakeLists.txt.user
 abertura_dilatacao
-abertura_dilatacao_new
+abertura_dilatacao_old
 criaSintetica3D
 CMakeCache.txt

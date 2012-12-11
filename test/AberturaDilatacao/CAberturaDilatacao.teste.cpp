@@ -200,8 +200,7 @@ int main ( int argc, char *argv[] )
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
 				cout << "Criou objeto CAberturaDilatacao." << endl;
-				if ( pm == NULL  || carac == NULL)
-				{
+				if ( pm == NULL  || carac == NULL) {
 					cerr << "Falha alocação Matriz ou CAberturaDilatacao.\n" ;
 					exit(0);
 				}
@@ -590,7 +589,7 @@ int main ( int argc, char *argv[] )
 			case 16:
 			{
 				cout << "Selecionou calculo porosidade." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter

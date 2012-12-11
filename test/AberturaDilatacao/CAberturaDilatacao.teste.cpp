@@ -72,6 +72,7 @@ int main ( int argc, char *argv[] )
 		cout << "\t15 - Funcao SequenciaAberturaTonsCinza - Salva imagem abertura em tons de cinza\n";
 		cout << "\t16 - Calcula a porosidade\n";
 		cout << "\t17 - Seta flag para salvar resultados parciais em disco\n";
+		cout << "\t18 - Apagar do disco os resultados parciais\n";
 		cout << "\n";
 		cout.clear();
 		cout << "\nDigite 20 para encerrar o programa...\n";
@@ -105,7 +106,7 @@ int main ( int argc, char *argv[] )
 			case Modelo_0:
 			{
 				cout << "Selecionou método abertura-dilatacao, determina distribuicao sitios e ligacoes, Modelo 0" << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -148,7 +149,7 @@ int main ( int argc, char *argv[] )
 			case Modelo_1:
 			{
 				cout << "Selecionou método abertura-dilatacao, determina distribuicao sitios e ligacoes, Modelo 1." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -190,7 +191,7 @@ int main ( int argc, char *argv[] )
 			case Modelo_2:
 			{
 				cout << "Selecionou Modelo 2." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -233,7 +234,7 @@ int main ( int argc, char *argv[] )
 			case Modelo_3:
 			{
 				cout << "Selecionou Modelo 3." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -283,7 +284,7 @@ int main ( int argc, char *argv[] )
 			case 5:
 			{
 				cout << "Selecionou erosao." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -319,7 +320,7 @@ int main ( int argc, char *argv[] )
 			case 6:
 			{
 				cout << "Selecionou dilatacao." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -355,7 +356,7 @@ int main ( int argc, char *argv[] )
 			case 7:
 			{
 				cout << "Selecionou abertura." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -390,7 +391,7 @@ int main ( int argc, char *argv[] )
 			case 8:
 			{
 				cout << "Selecionou fechamento." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -427,7 +428,7 @@ int main ( int argc, char *argv[] )
 			case 9:
 			{
 				cout << "Selecionou calculo porosidade." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -453,7 +454,7 @@ int main ( int argc, char *argv[] )
 			case 10:
 			{
 				cout << "Selecionou distribuicao de poros (método normal)." << endl;
-				system("ls");
+				system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -619,8 +620,13 @@ int main ( int argc, char *argv[] )
 				CAberturaDilatacao::SalvarResultadosParciais ( salvarResultadosParciais );
 				break;
 			}
-
-
+			case 18:
+			{
+				cout << "Selecionou Apagar do disco resltados parciais." << endl;
+				system("rm Matriz*.p?m");
+				cout << "Operação apagar finalizada!" << endl;
+				break;
+			}
 		} //fim switch
 	} while ( Opcao != SAIR );
 }

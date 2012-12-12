@@ -1,5 +1,5 @@
-#include "CAberturaDilatacao.h"
-
+#include <Segmentacao/2D/PorosGargantas/CAberturaDilatacao.h>
+#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
 #include <iomanip>
 #include <cmath>
 

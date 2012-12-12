@@ -3,7 +3,6 @@
 
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Rotulador/TCRotulador2D.h>
-#include <Segmentacao/2D/PorosGargantas/CObjetoImagem.h> // novo, repreenta objeto da imagem
 #include <Matriz/TCMatriz2D.h>
 #include <Matriz/CVetor.h>
 #include <iostream>

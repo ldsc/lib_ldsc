@@ -20,7 +20,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
 // -----------------------------------------------------------------------
-#include <Segmentacao/2D/PorosGargantas/CObjetoImagem.h>
+#include <Segmentacao/CObjetoImagem.h>
 
 // ---------------------------------------------------Construtor-Destrutor
 

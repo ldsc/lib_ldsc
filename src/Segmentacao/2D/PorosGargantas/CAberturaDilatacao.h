@@ -24,7 +24,7 @@ class CAberturaDilatacao
 {
 	protected:
 		/// Ponteiro para objeto filtro morfologia matematica
-		TCFEMorfologiaMatematica<int>* pfmf;
+		TCFEMorfologiaMatematica<bool>* pfmf;
 
 		/// Vetor distribuicao total = distTotal = distPoros + distLigacoes
 		CVetor* distribuicaoTotalPoros; // usado pelo modelo 0
@@ -36,10 +36,10 @@ class CAberturaDilatacao
 		CVetor* distribuicaoSitios; // usado pelo modelo 0
 
 		/// Matriz original (ponteiro para matriz original)
-		TCMatriz2D<int>* pm;
+		TCMatriz2D<bool>* pm;
 
 		/// Matriz rotulada
-		TCRotulador2D<int>* matrizRotulo;
+		TCRotulador2D<bool>* matrizRotulo;
 
 		/// Porosidade
 		double porosidade;
@@ -73,13 +73,13 @@ class CAberturaDilatacao
 		CAberturaDilatacao();
 
 		/// Construtor sobrecarregado
-		CAberturaDilatacao(TCMatriz2D< int >* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
+		CAberturaDilatacao(TCMatriz2D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
 
 		/// Destrutor
 		~CAberturaDilatacao();
 
 		/// Calculo da porosidade
-		double Porosidade(TCMatriz2D< int >*& pm);
+		double Porosidade(TCMatriz2D<bool>*& pm);
 
 		/// Determina distribuicao Total de Poros (método normal)
 		void DistTotalPoros();

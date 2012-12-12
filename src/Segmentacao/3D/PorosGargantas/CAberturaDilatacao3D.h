@@ -37,7 +37,7 @@ class CAberturaDilatacao3D
 		/// Matriz original (ponteiro para matriz original)
 		TCMatriz3D<bool>* pm;
 
-		/// Matriz rotulada
+		/// Ponteiro para objeto rotulador o qual herda TCMatriz3D<int> para representar a matriz rotulada.
 		TCRotulador3D<bool>* matrizRotulo;
 
 		/// Porosidade
@@ -68,10 +68,11 @@ class CAberturaDilatacao3D
 		static bool salvarResultadosParciais ;
 
 	public:
+		/*
 		/// Construtor
 		CAberturaDilatacao3D();
-
-		/// Construtor sobrecarregado
+		*/
+		/// Construtor
 		CAberturaDilatacao3D(TCMatriz3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
 
 		/// Destrutor

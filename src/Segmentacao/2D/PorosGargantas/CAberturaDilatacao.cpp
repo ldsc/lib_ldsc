@@ -12,17 +12,17 @@ CAberturaDilatacao::CAberturaDilatacao() :
 	incrementoRaioElementoEstruturante ( 1 ), pm(0), modelo(2), INDICE(1), FUNDO(0)
 //, salvarResultadosParciais(0)
 {
-	matrizRotulo = new TCRotulador2D<int>();
+	matrizRotulo = new TCRotulador2D<bool>();
 }
 
-CAberturaDilatacao::CAberturaDilatacao( TCMatriz2D< int >* &matriz , std::string _nomeImagem, int _indice, int _fundo)
+CAberturaDilatacao::CAberturaDilatacao( TCMatriz2D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
 	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 		nomeImagem(_nomeImagem),
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 30000 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), matrizRotulo (0), modelo(2), INDICE(_indice), FUNDO(_fundo)
 	//,salvarResultadosParciais(0)
 {
-	matrizRotulo = new TCRotulador2D<int>( pm, INDICE, FUNDO );
+	matrizRotulo = new TCRotulador2D<bool>( pm, INDICE, FUNDO );
 }
 
 CAberturaDilatacao::~CAberturaDilatacao()
@@ -56,12 +56,12 @@ void CAberturaDilatacao::Salvar(vector<double> v, std::string nomeArquivo)
 	fout.close();
 }
 
-double CAberturaDilatacao::Porosidade( TCMatriz2D< int >*& pm )
+double CAberturaDilatacao::Porosidade( TCMatriz2D<bool> *&pm )
 {
 	double porosidade = 0.0;
 	for ( int i = 0 ;  i < pm->NX() ; i++ )
 		for (int j = 0; j < pm->NY(); j++ )
-			if ( pm->data2D[i][j] > 0 ) {
+			if ( pm->data2D[i][j] == 1 ) {
 				porosidade++;
 			}
 	return porosidade / ( (double) pm->NX() * pm->NY() );
@@ -73,9 +73,9 @@ double CAberturaDilatacao::Porosidade( TCMatriz2D< int >*& pm )
 void CAberturaDilatacao::DistTotalPoros()
 {
 	// Cria cópia da matriz
-	TCMatriz2D< int >* matrizAuxiliar = 0;
+	TCMatriz2D<bool>* matrizAuxiliar = 0;
 
-	matrizAuxiliar = new TCMatriz2D< int >( *pm );
+	matrizAuxiliar = new TCMatriz2D<bool>( *pm );
 
 	if ( matrizAuxiliar == NULL ) {
 		cerr << "Erro alocação matrizAuxiliar  dentro de void CAberturaDilatacao::DistTotalPoros().";
@@ -95,7 +95,7 @@ void CAberturaDilatacao::DistTotalPoros()
 	double porosidadeParcial = porosidade;
 
 	// Tamanho 3 do elemento estruturante conforme codigo ANAIMP
-	pfmf = new TCFEMorfologiaMatematica<int>(matrizAuxiliar,3);
+	pfmf = new TCFEMorfologiaMatematica<bool>(matrizAuxiliar,3);
 	if ( pfmf  == NULL ) {
 		cerr << "Falha alocação: pfmf = new CFEMorfologiaMatematica(matrizAuxiliar,3);";
 		return;
@@ -148,13 +148,13 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0() {
 	modelo = 0 ;
 
 	// Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
-	TCMatriz2D< int >* MatrizSitiosLigacoes = new TCMatriz2D< int >( pm->NX(), pm->NY()  ); // cópia da matriz inicial
+	TCMatriz2D<int>* MatrizSitiosLigacoes = new TCMatriz2D<int>( pm->NX(), pm->NY()  ); // cópia da matriz inicial
 	MatrizSitiosLigacoes->Constante( 0 );
 	MatrizSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
 	MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
 
 	// 	Copia da matrizInicial
-	TCMatriz2D< int >* MatrizInicial = new TCMatriz2D< int >( *pm  ); // cópia da matriz inicial
+	TCMatriz2D<bool>* MatrizInicial = new TCMatriz2D<bool>( *pm  ); // cópia da matriz inicial
 
 	// Variaveis auxiliares
 	ostringstream os;
@@ -168,11 +168,11 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0() {
 	cout << "Alocando imagens auxiliares..." << endl ;
 
 	// Representa a matriz pm no passo anterior (antes da abertura-dilatacao)
-	TCMatriz2D< int > matrizInstanteAnterior( pm->NX(), pm->NY() );
+	TCMatriz2D<bool> matrizInstanteAnterior( pm->NX(), pm->NY() );
 
 	// TCMatriz2D< int > matrizAbertura(pm->NX(),pm->NY
 	// troquei pela linha abaixo para poder resolver o problema de referencia no metodo funcaoPorosidade
-	TCMatriz2D< int >* matrizAbertura = new TCMatriz2D< int >( pm->NX(), pm->NY() );
+	TCMatriz2D<bool>* matrizAbertura = new TCMatriz2D<bool>( pm->NX(), pm->NY() );
 
 	cout << "Alocando vetores distribuicao..." << endl ;
 	distribuicaoTotalPoros = new CVetor( (pm->NX()-1)/2+1 ); // dimensao igual a do raio que zera a imagem abertura + 1
@@ -200,7 +200,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_0() {
 
 	// Cria filtro de morfologia matemática
 	cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-	pfmf = new TCFEMorfologiaMatematica<int>( pm , 3, INDICE, FUNDO ); // mover para construtor, deletar no destrutor
+	pfmf = new TCFEMorfologiaMatematica<bool>( pm, 3, INDICE, FUNDO ); // mover para construtor, deletar no destrutor
 
 	// auxiliar, usada para encerrar looping ??
 	double porosidadeAposAbertura=	0.0;
@@ -368,20 +368,20 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1() {
 	modelo = 1 ;
 	// Cria MPoros e deixa vazia
 	cout << "Criando e inicializando MPoros..." << endl;
-	TCMatriz2D< int >* MPoros = new TCMatriz2D< int >(pm->NX(), pm->NY());
+	TCMatriz2D<bool>* MPoros = new TCMatriz2D<bool>(pm->NX(), pm->NY());
 	MPoros->Constante(0);
 	MPoros->SetFormato( P1_X_Y_ASCII );
 	//MPoros->Write("MPoros_inicial.pbm");
 
 	// Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
 	cout << "Criando e inicializando MSitios..." << endl;
-	TCMatriz2D< int >* MSitios  = new TCMatriz2D< int >( *pm );
+	TCMatriz2D<bool>* MSitios  = new TCMatriz2D<bool>( *pm );
 	MSitios->SetFormato( P1_X_Y_ASCII );
 	//MSitios->Write("MSitios_inicial.pbm");
 
 	// Cria MLigacoes e deixa vazia
 	cout << "Criando e inicializando MLigacoes..." << endl;
-	TCMatriz2D< int >* MLigacoes   = new TCMatriz2D< int >(pm->NX(), pm->NY());
+	TCMatriz2D<bool>* MLigacoes   = new TCMatriz2D<bool>(pm->NX(), pm->NY());
 	MLigacoes->Constante(0);
 	MLigacoes->SetFormato( P1_X_Y_ASCII );
 	//MLigacoes->Write("MLigacoes_inicial.pbm");
@@ -391,14 +391,14 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1() {
 	// Rotula matrizRotulo usando pm
 	matrizRotulo->Go( pm );
 
-	TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
+	TCMatriz2D<int>* MInicialRotulada = new TCMatriz2D<int>( *matrizRotulo );
 	MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
 	MInicialRotulada->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 	MInicialRotulada->Write("MatrizInicialRotulada.pgm");
 
 	// Cria MAbertura, é a imagem apos abertura
 	cout << "Criando e inicializando MAbertura..." << endl;
-	TCMatriz2D< int >* MAbertura= new TCMatriz2D< int >(pm->NX(), pm->NY());
+	TCMatriz2D<bool>* MAbertura= new TCMatriz2D<bool>(pm->NX(), pm->NY());
 
 	// Cria vetor VPoros
 	cout << "Criando e inicializando VPoros..." << endl;
@@ -414,7 +414,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_1() {
 
 	// Cria filtro para operacoes de abertura e dilatacao
 	cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-	pfmf = new TCFEMorfologiaMatematica<int>(pm, 3, INDICE, FUNDO );
+	pfmf = new TCFEMorfologiaMatematica<bool>(pm, 3, INDICE, FUNDO );
 
 	// Variaveis auxiliares
 
@@ -590,7 +590,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 
 	// Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
 	cout << "Criando e inicializando MLigacoes..." << endl;
-	TCMatriz2D< int >* MSitiosLigacoes   = new TCMatriz2D< int >( pm->NX(), pm->NY() );
+	TCMatriz2D<int>* MSitiosLigacoes = new TCMatriz2D<int>( pm->NX(), pm->NY() );
 	MSitiosLigacoes->Constante(0);
 	MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
 	MSitiosLigacoes->NumCores ( 6 ); // 256, numero objetos informa o maior rotulo utilizado.
@@ -603,7 +603,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 	cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
 	cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
-	TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
+	TCMatriz2D<int>* MInicialRotulada = new TCMatriz2D<int>( *matrizRotulo );
 	MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
 	MInicialRotulada->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 
@@ -632,7 +632,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 
 	// Cria filtro para operacoes de abertura e dilatacao
 	cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-	pfmf = new TCFEMorfologiaMatematica<int>( pm, 3, INDICE, FUNDO );
+	pfmf = new TCFEMorfologiaMatematica<bool>( pm, 3, INDICE, FUNDO );
 
 	// Variaveis auxiliares
 	// usada para setar nome dos arquivos de disco
@@ -997,7 +997,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 
 	// Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
 	cout << "Criando e inicializando MLigacoes..." << endl;
-	TCMatriz2D< int >* MSitiosLigacoes   = new TCMatriz2D< int >( pm->NX(), pm->NY() );
+	TCMatriz2D<int>* MSitiosLigacoes = new TCMatriz2D<int>( pm->NX(), pm->NY() );
 	MSitiosLigacoes->Constante(0);
 	MSitiosLigacoes->SetFormato( P2_X_Y_GRAY_ASCII );
 	MSitiosLigacoes->NumCores(6); // 256, numero objetos informa o maior rotulo utilizado.
@@ -1010,7 +1010,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 	cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
 	cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
-	TCMatriz2D< int >* MInicialRotulada = new TCMatriz2D< int >( *matrizRotulo );
+	TCMatriz2D<int>* MInicialRotulada = new TCMatriz2D<int>( *matrizRotulo );
 	MInicialRotulada->SetFormato( P2_X_Y_GRAY_ASCII );
 	MInicialRotulada->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 	if ( salvarResultadosParciais ) {
@@ -1018,7 +1018,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 	}
 
 	////NOVO TENTAR RETIRAR POIS CONSOME MAIS MEMORIA - NOVO MODELO 3
-	TCMatriz2D< int >* MatrizPmAntesAbertura = new TCMatriz2D< int >( *pm ); //NOVO MODELO 3
+	TCMatriz2D<bool>* MatrizPmAntesAbertura = new TCMatriz2D<bool>( *pm ); //NOVO MODELO 3
 
 	//	Cria vetor de objetos
 	//	No início todos os objetos são marcados como fundo (verificar se esta ok)
@@ -1051,7 +1051,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 
 	// Cria filtro para operacoes de abertura e dilatacao
 	cout << "Criando filtro CFEMorfologiaMatematica..." << endl ;
-	pfmf = new TCFEMorfologiaMatematica<int>( pm, 3, INDICE, FUNDO );
+	pfmf = new TCFEMorfologiaMatematica<bool>( pm, 3, INDICE, FUNDO );
 
 	// Variaveis auxiliares
 	// usada para setar nome dos arquivos de disco
@@ -1436,8 +1436,8 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_4() {
 void CAberturaDilatacao::SequenciaAberturaTonsCinza()
 {
 	// 	Cria matriz abertura
-	TCMatriz2D< int >* MAbertura = new TCMatriz2D< int >( *pm );
-	pfmf = new TCFEMorfologiaMatematica<int>( pm , 3 );
+	TCMatriz2D<bool>* MAbertura = new TCMatriz2D<bool>( *pm );
+	pfmf = new TCFEMorfologiaMatematica<bool>( pm , 3 );
 
 	// Entra num looping para o raio do elemento estruturante
 	cout << "Entrando no looping de calculo das aberturas..." << endl ;

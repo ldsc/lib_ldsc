@@ -80,8 +80,8 @@ int main ( int argc, char *argv[] )
 		cin >> iOpcao;
 		cin.get();
 
-		TCMatriz2D<int> * pm = NULL;
-		TCFEMorfologiaMatematica<int> * filtro = NULL;
+		TCMatriz2D<bool> * pm = NULL;
+		TCFEMorfologiaMatematica<bool> * filtro = NULL;
 		CAberturaDilatacao * carac = NULL;
 		int dimensao;
 
@@ -110,7 +110,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
@@ -153,7 +153,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
@@ -195,7 +195,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
@@ -237,7 +237,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
@@ -290,9 +290,9 @@ int main ( int argc, char *argv[] )
 				cout << "Tamanho do elemento estruturante: " << endl;
 				cin >> eleStrut;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >( nomeimg );
+				pm = new TCMatriz2D<bool>( nomeimg );
 				cout << " Carregou a matriz do disco...." << endl;
-				filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
+				filtro = new TCFEMorfologiaMatematica<bool>( pm , eleStrut );
 				cout << " Criou o filtro...." << endl;
 				if ( pm == NULL  || filtro == NULL)
 				{
@@ -326,9 +326,9 @@ int main ( int argc, char *argv[] )
 				cout << "Tamanho do elemento estruturante: " << endl;
 				cin >> eleStrut;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >( nomeimg );
+				pm = new TCMatriz2D<bool>( nomeimg );
 				cout << " Carregou a matriz do disco...." << endl;
-				filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
+				filtro = new TCFEMorfologiaMatematica<bool>( pm , eleStrut );
 				cout << " Criou o filtro...." << endl;
 				if ( pm == NULL  || filtro == NULL)
 				{
@@ -362,9 +362,9 @@ int main ( int argc, char *argv[] )
 				cout << "Tamanho do elemento estruturante: " << endl;
 				cin >> eleStrut;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >( nomeimg );
+				pm = new TCMatriz2D<bool>( nomeimg );
 				cout << " Carregou a matriz do disco...." << endl;
-				filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
+				filtro = new TCFEMorfologiaMatematica<bool>( pm , eleStrut );
 				cout << " Criou o filtro...." << endl;
 				if ( pm == NULL  || filtro == NULL)
 				{
@@ -397,9 +397,9 @@ int main ( int argc, char *argv[] )
 				cout << "Tamanho do elemento estruturante: " << endl;
 				cin >> eleStrut;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >( nomeimg );
+				pm = new TCMatriz2D<bool>( nomeimg );
 				cout << " Carregou a matriz do disco...." << endl;
-				filtro = new TCFEMorfologiaMatematica<int>( pm , eleStrut );
+				filtro = new TCFEMorfologiaMatematica<bool>( pm , eleStrut );
 				cout << " Criou o filtro...." << endl;
 				if ( pm == NULL  || filtro == NULL)
 				{
@@ -431,7 +431,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
 				carac = new CAberturaDilatacao(pm,nomeimg);
@@ -457,7 +457,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 				if ( pm == NULL )
 				{
@@ -498,7 +498,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				if ( pm == NULL)
 				{
 					cerr << "Antes precisa carregar a imagem, executando opcões 1-4.\n";
@@ -542,7 +542,7 @@ int main ( int argc, char *argv[] )
 				cin >> borda;
 				cin.get(); // pega o enter
 
-				pm = new TCMatriz2D< int >(nomeimg, borda);
+				pm = new TCMatriz2D<bool>(nomeimg, borda);
 				if ( pm == NULL  )
 				{
 					cerr << "Falha alocação Matriz .\n" ;
@@ -567,7 +567,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >(nomeimg);
+				pm = new TCMatriz2D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 				if ( pm == NULL )
 				{
@@ -593,7 +593,7 @@ int main ( int argc, char *argv[] )
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
-				pm = new TCMatriz2D< int >( nomeimg );
+				pm = new TCMatriz2D<bool>( nomeimg );
 				cout << "Carregou imagem->" << nomeimg << endl;
 				if ( pm == NULL )
 				{

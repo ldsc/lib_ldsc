@@ -352,7 +352,7 @@ void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 					}
 					fout << '\n';
 				}
-				fout << '\n';
+				//fout << '\n';
 			}
 			break;
 		case D4_X_Y_Z_BINARY:

@@ -217,8 +217,7 @@ class TCMatriz3D : public CBaseMatriz
 		}
 
 		/// Sobrecarga operator[]
-		inline T &operator[] (int x) const
-		{
+		inline T &operator[] (int x) const {
 			return data3D[x][0][0];
 		}
 
@@ -274,11 +273,6 @@ class TCMatriz3D : public CBaseMatriz
 		//       friend istream& operator>> (istream& is, TCMatriz3D& obj);
 
 };
-
-// -----------------------------------------------------------------Friend
-// Declaração de Funções Friend
-// ostream& operator<< (ostream& os, TCMatriz3D& obj);
-// istream& operator>> (istream& is, TCMatriz3D& obj);
 
 #include <Matriz/TCMatriz3D.cpp>
 

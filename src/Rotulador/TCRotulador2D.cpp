@@ -325,8 +325,8 @@ bool TCRotulador2D<T>::PreparaImagem (TCMatriz2D<T> * matriz) {
    // Verificar o que precisa ser alterado para realizar corretamente a rotulagem
    // sem passar tudo para 0 e 1.
    // Ou seja eliminar a necessidade do código abaixo
-   for (unsigned int j = 0; j < ny; j++)
-      for (unsigned int i = 0; i < nx; i++)
+	 for (int j = 0; j < ny; j++)
+			for (int i = 0; i < nx; i++)
          //LP - if (matriz->data2D[i][j] != 0)	// como a imagem recebida pode ser uma outra idf
 				 if (pm->data2D[i][j] == INDICE)	// como a imagem recebida pode ser uma outra idf
 						this->data2D[i][j] = 1;	// define this com 0 e 1
@@ -438,12 +438,15 @@ void TCRotulador2D<T>::IdentificaObjetos () {
    // ---------------------------------------------
    // PRIMEIRA LINHA [i][0]
    // ---------------------------------------------
-   for (i = 1; i < NX (); i++)
-			if (data2D[i][0] != 0)	// se for poro (preto)
-				 if (data2D[i-1][0] != 0)	// e se o anterior for preto
+	 for (i = 1; i < NX (); i++) {
+			if (data2D[i][0] != 0) {	// se for poro (preto)
+				 if (data2D[i-1][0] != 0) {	// e se o anterior for preto
             data2D[i][0] = rotuloAtual;	// usa rotulo atual (igual ao do ponto a esquerda)
-         else
+				 } else {
             data2D[i][0] = ++rotuloAtual;	// incrementa rotulo e usa
+				}
+			}
+	 }
 
    // ---------------------------------------------
    // TODAS AS DEMAIS LINHAS E COLUNAS [i][j]

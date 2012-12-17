@@ -145,6 +145,13 @@ class CAberturaDilatacao3D
 		static void SalvarResultadosParciais( bool b ) {
 			salvarResultadosParciais = b;
 		}
+
+	private:
+		/** Recebe ponteiro para duas matrizes do tipo bool e o valor de indice a ser considerado para cada uma delas.
+		*		Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
+		*		Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
+		*/
+		bool Write(string fileName, TCMatriz3D<bool> *&mat1, TCMatriz3D<bool> *&mat2 );
 };
 
 #endif

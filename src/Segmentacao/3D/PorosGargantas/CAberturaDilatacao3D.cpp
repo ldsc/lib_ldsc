@@ -28,8 +28,7 @@ CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz , std::str
 	pfmf = new TCFEMMIDFd3453D<bool>( matriz, INDICE, FUNDO );
 }
 
-CAberturaDilatacao3D::~CAberturaDilatacao3D()
-{
+CAberturaDilatacao3D::~CAberturaDilatacao3D() {
 	delete matrizRotulo;
 	delete pfmf;
 }
@@ -130,6 +129,42 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 	distribuicaoTotalPoros->Write("distPoros.dtp");
 }
 
+//	Recebe ponteiro para duas matrizes do tipo bool e o valor de indice a ser considerado para cada uma delas.
+//	Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
+//	Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
+//	Método criado para que se possa salvar em disco duas matrizes bool ao invés de utilizar uma matriz int para representar sólidos, sitios e ligações (consome menos memória).
+bool CAberturaDilatacao3D::Write(string fileName, TCMatriz3D<bool>* &mat1, TCMatriz3D<bool>* &mat2 ) {
+	ofstream fout; //  Abre arquivo disco
+	fout.open(fileName.c_str(), ios::binary);
+	int nx, ny, nz;
+	if (fout.good()){
+		//menores valores para nx, ny e nz.
+		nx = ( mat1->NX() <= mat2->NX() ) ? mat1->NX() : mat2->NX();
+		ny = ( mat1->NY() <= mat2->NY() ) ? mat1->NY() : mat2->NY();
+		nz = ( mat1->NZ() <= mat2->NZ() ) ? mat1->NZ() : mat2->NZ();
+
+		//cabeçalho
+		fout << setw (0) << "D5" << '\n' << nx << ' ' << ny << ' ' << nz << '\n' << 3 << '\n';
+
+		//percorre matrizes e mescla resultados salvando em disco.
+		for (int k = 0; k < nz; k++) {
+			for (int j = 0; j < ny; j++) {
+				for (int i = 0; i < nx; i++) {
+					if( mat2->data3D[i][j][k] == INDICE )				// se o voxel for índice em mat2
+						fout << (unsigned char) 2;
+					else if( mat1->data3D[i][j][k] == INDICE )	// senão, se o voxel for índice em mat1
+						fout << (unsigned char) 1;
+					else																			// senão, só pode ser fundo
+						fout << (unsigned char) 0;
+				}
+			}
+		}
+		return true;
+	} else {
+		return false;
+	}
+}
+
 // Este modelo foi copiado? do Anaimp.
 // Apenas acrescentei comentários e saída dos resultados (para análise visual).
 
@@ -137,20 +172,15 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 // pixeis isolados que foram eliminados na abertura dos pixeis das ligacoes.
 
 // Os resultados são bons apenas para poros muito bem comportados
+
+// Ao implementar a versão 3D a partir da 2D, foram realizadas modificações para economia de memória e para que pm não seja alterada.
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
+	// Variaveis auxiliares
 	modelo = 0 ;
 
-	// Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
-	TCMatriz3D<int>* MatrizSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() ); // cópia da matriz inicial
-	MatrizSitiosLigacoes->Constante( 0 ); // Em matriz int o fundo será sempre zero.
-	MatrizSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
-
-	// 	Copia da matrizInicial
-	TCMatriz3D<bool>* MatrizInicial = new TCMatriz3D<bool>( *pm  ); // cópia da matriz inicial
-
-	// Variaveis auxiliares
+	// usada para setar nome dos arquivos de disco
 	ostringstream os;
+
 	// area das ligacoes, usada para
 	double areaLigacoes;
 
@@ -159,11 +189,27 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 	cout << "Alocando imagens auxiliares..." << endl ;
 
-	// Representa a matriz pm no passo anterior (antes da abertura-dilatacao)
+	/* Substituido pelo código abaixo para economizar memória
+	// Novo, para salvar resultado final em disco cria MatrizSitiosLigacoes
+	TCMatriz3D<int>* MatrizSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() ); // cópia da matriz inicial
+	MatrizSitiosLigacoes->Constante( 0 ); // Em matriz int o fundo será sempre zero.
+	MatrizSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
+	MatrizSitiosLigacoes->NumCores ( 3 ); // 3 cores, fundo = 0,  ligacoes = 1, sitios = 2
+	*/
+	TCMatriz3D<bool>* MatrizSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MatrizSitios->SetFormato( D1_X_Y_Z_ASCII );
+
+	TCMatriz3D<bool>* MatrizLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MatrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
+
+	// 	Copia da matrizInicial
+	TCMatriz3D<bool>* MatrizInicial = new TCMatriz3D<bool>( *pm  ); // cópia da matriz pm
+
+	// Representa a MatrizInicial no passo anterior (antes da abertura-dilatacao)
 	TCMatriz3D<bool> matrizInstanteAnterior( pm->NX(), pm->NY(), pm->NZ() );
 
 	// Troquei pela linha abaixo para poder resolver o problema de referencia no metodo funcaoPorosidade
-	// Armazena o conteúdo de pm em cada passo para poder restaurá-la posteriormente.
+	// Armazena o conteúdo de MatrizInicial em cada passo para poder restaurá-la posteriormente.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
 
 	cout << "Alocando vetores distribuicao..." << endl ;
@@ -183,7 +229,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 	// Calcula porosidade
 	cout << "Calculando porosidade da imagem inicial..." << endl ;
-	porosidade = Porosidade( pm );
+	porosidade = Porosidade( MatrizInicial );
 	cout << " = " << porosidade << endl ;
 
 	// Cria vetor para area dos objetos mapeados
@@ -205,25 +251,25 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		for (int i = 0; i < pm->NX(); i++)
 			for (int j = 0; j < pm->NY(); j++)
 				for (int k = 0; k < pm->NZ(); k++)
-					matrizInstanteAnterior.data3D[i][j][k] = pm->data3D[i][j][k];
+					matrizInstanteAnterior.data3D[i][j][k] = MatrizInicial->data3D[i][j][k];
 
 		// ROTULAGEM
 		cout << "-->Realizando rotulagem sequencial..." << endl ;
-		matrizRotulo->Go( pm ); 				// rotula matrizRotulo
+		matrizRotulo->Go( MatrizInicial ); 				// rotula matrizRotulo
 		// salvar a matriz rotulo ?
 
 		// ABERTURA
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( pm, raioElemen );
-		pfmf->Abertura( pm, raioElemen );
+		pfmf->Go( MatrizInicial, raioElemen );
+		pfmf->Abertura( MatrizInicial, raioElemen );
 
 		// Salva matriz abertura
 		os.str("");
 		os << "MatrizAbertura_" << raioElemen << ".dbm";
 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		pm->Write( os.str() );
+		MatrizInicial->Write( os.str() );
 
-		porosidadeAposAbertura = Porosidade ( pm );
+		porosidadeAposAbertura = Porosidade ( MatrizInicial );
 
 		// Seta matriz abertura e calcula area dos objetos
 		cout << "-->Calculando area dos objetos da matriz abertura..." << endl ;
@@ -233,7 +279,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 				for (int k = 0; k < pm->NZ(); k++){
 					// Atualiza matrizAbertura
 					// mudar realizar abertura na matriz abertura.
-					matrizAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
+					matrizAbertura->data3D[i][j][k] = MatrizInicial->data3D[i][j][k];
 					if ( matrizAbertura->data3D[i][j][k] == INDICE)  // se o pixel esta na matriz abertura, pegue seu rotulo
 						areaObjetosMapeados.data1D[ matrizRotulo->data3D[i][j][k] ] ++; // e acumule a area deste rotulo
 				}
@@ -242,14 +288,14 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 		// DILATACAO
 		cout << "-->Processando dilatação..." << endl ;
-		pfmf->Go ( pm, raioElemen/fatorReducaoRaioElemEst);
-		pfmf->Dilatacao( pm, raioElemen/fatorReducaoRaioElemEst );
+		pfmf->Go ( MatrizInicial, raioElemen/fatorReducaoRaioElemEst);
+		pfmf->Dilatacao( MatrizInicial, raioElemen/fatorReducaoRaioElemEst );
 
 		// Salva matriz dilatacao
 		os.str("");
 		os << "MatrizAberturaDilatacao_" << raioElemen << ".dbm";
 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		pm->Write( os.str() );
+		MatrizInicial->Write( os.str() );
 
 		// Critério de parada
 		if ( porosidadeAposAbertura == 0  ) {
@@ -269,13 +315,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 					// Se o pixel existe na matrizInstanteAnterior,
 					if ( ( matrizInstanteAnterior.data3D[i][j][k] == INDICE )
 							 // e nao existe na matriz aberturaDilatacao pm
-							 && ( pm->data3D[i][j][k] == FUNDO )
+							 && ( MatrizInicial->data3D[i][j][k] == FUNDO )
 							 // e area do objeto > 0; entao e pixel de ligaçao (não é poro eliminado)
 							 && ( areaObjetosMapeados.data1D[ matrizRotulo->data3D[i][j][k] ] > 0) )
 					{
-						areaLigacoes++;   		// acumula cada pixel de ligação
-						// se for ligação anota na MatrizSitiosLigacoes (em tons de cinza, 0=fundo, 1=ligacao, 2=sitio)
-						MatrizSitiosLigacoes->data3D[i][j][k] = 1;       // o armazenamento dos pontos das ligações só serve para visualização
+						areaLigacoes++;   		// acumula cada pixel de ligação e anota na MatrizLigacoes
+						MatrizLigacoes->data3D[i][j][k] = INDICE;       // o armazenamento dos pontos das ligações só serve para visualização
 					}
 				}
 			}
@@ -285,7 +330,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		os.str("");
 		os << "MatrizLigacoes_" << raioElemen << ".dgm";
 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		MatrizSitiosLigacoes->Write( os.str() );
+		MatrizLigacoes->Write( os.str() );
 
 		// DISTRIBUIÇOES
 		cout << "-->Calculando distribuicoes acumuladas..." << endl ;
@@ -299,12 +344,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		// esta na total e não esta na ligacao, então é sitio
 		distribuicaoSitios->data1D[ raioElemen ] = distribuicaoTotalPoros->data1D[ raioElemen ] - distribuicaoLigacoes->data1D[ raioElemen ];
 
-		// pm sofreu dilatação, precisa voltar a ser matrizAbertura
+		// MatrizInicial sofreu dilatação, precisa voltar a ser matrizAbertura
 		// garante que a próxima abertura parte da atual
 		for (int  i = 0; i < pm->NX(); i++) {
 			for (int  j = 0; j < pm->NY(); j++) {
 				for (int k = 0; k < pm->NZ(); k++) {
-					pm->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
+					MatrizInicial->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
 				}
 			}
 		}
@@ -338,10 +383,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 	for ( int i = 0; i < pm->NX(); i++) {
 		for ( int j = 0; j < pm->NY(); j++) {
 			for ( int k = 0; k < pm->NZ(); k++) {
-				// É poro (esta na MatrizInicial) e não é  ligação, então é  sítio
-				if ( MatrizInicial ->data3D[i][j][k] == INDICE // é poro
-						 and MatrizSitiosLigacoes->data3D[i][j][k] != 1 )       // não é ligacao
-					MatrizSitiosLigacoes->data3D[i][j][k] = 2; // então é sitio.
+				// É poro (esta em pm) e não é  ligação, então é  sítio
+				if ( pm->data3D[i][j][k] == INDICE // é poro
+						 and MatrizLigacoes->data3D[i][j][k] != INDICE ) // não é ligacao
+					MatrizSitios->data3D[i][j][k] = INDICE; // então é sitio.
 			}
 		}
 	}
@@ -358,11 +403,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		 << "-"	<< nomeImagem
 		 << ".dgm";
 
-	cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-	MatrizSitiosLigacoes->Write( os.str() );
+	cout << "-->Salvando imagem " << os.str().c_str() << endl;
+	Write( os.str(), MatrizLigacoes, MatrizSitios );
 
+	delete MatrizSitios;
+	delete MatrizLigacoes;
+	delete MatrizInicial;
 	delete matrizAbertura;
-	delete MatrizSitiosLigacoes; // novo
 }
 
 
@@ -372,20 +419,20 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 // Este modelo desconsidera fato de que poros pequenos, isolados, serão contabilizados como ligações.
 // Não usa rotulagem.
 // A diferença para DistSitiosLigacoes_Modelo_1_old_usaCVetor é que usa distribuições em vector<double>
+// Ao implementar a versão 3D a partir da 2D, foram realizadas modificações para economia de memória e para que pm não seja alterada.
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
+	// Variaveis auxiliares
 	modelo = 1 ;
+
+	// usada para setar nome dos arquivos de disco
+	ostringstream os;
+
 	// Cria MPoros e deixa vazia
 	cout << "Criando e inicializando MPoros..." << endl;
 	TCMatriz3D<bool>* MPoros = new TCMatriz3D<bool>(pm->NX(), pm->NY(), pm->NZ());
 	MPoros->Constante(FUNDO);
 	MPoros->SetFormato( D1_X_Y_Z_ASCII );
 	//MPoros->Write("MPoros_inicial.dbm");
-
-	// Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
-	cout << "Criando e inicializando MSitios..." << endl;
-	TCMatriz3D<bool>* MSitios = new TCMatriz3D<bool>( *pm );
-	MSitios->SetFormato( D1_X_Y_Z_ASCII );
-	//MSitios->Write("MSitios_inicial.dbm");
 
 	// Cria MLigacoes e deixa vazia
 	cout << "Criando e inicializando MLigacoes..." << endl;
@@ -394,15 +441,20 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 	MLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 	//MLigacoes->Write("MLigacoes_inicial.dbm");
 
-	// Cria MInicialRotulada, é a imagem inicial rotulada
-	cout << "Criando e inicializando MInicialRotulada - tons de cinza..." << endl;
-	// Rotula matrizRotulo usando pm
-	matrizRotulo->Go( pm );
+	// Cria MSitios cópia da matriz pm inicial (durante o processo vai apagar)
+	cout << "Criando e inicializando MSitios..." << endl;
+	TCMatriz3D<bool>* MSitios = new TCMatriz3D<bool>( *pm );
+	MSitios->SetFormato( D1_X_Y_Z_ASCII );
+	//MSitios->Write("MSitios_inicial.dbm");
 
-	TCMatriz3D<int>* MInicialRotulada = new TCMatriz3D<int>( *matrizRotulo );
-	MInicialRotulada->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MInicialRotulada->NumCores ( 255 ); // numero objetos informa o maior rotulo utilizado.
-	MInicialRotulada->Write("MatrizInicialRotulada.dgm");
+	// Cria MInicial, cópia de pm
+	cout << "Criando MInicial (cópia de pm)..." << endl;
+	TCMatriz3D<bool>* MInicial = new TCMatriz3D<bool>( *pm );
+	//MInicial->Write("MInicial.dbm");
+
+	cout << "Rotulando MInicial..." << endl;
+	// Rotula matrizRotulo usando pm
+	matrizRotulo->Go( MInicial );
 
 	// Cria MAbertura, é a imagem apos abertura
 	cout << "Criando e inicializando MAbertura..." << endl;
@@ -420,10 +472,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 	cout << "Criando e inicializando VLigacoes..." << endl;
 	vector<double> VLigacoes ( ((pm->NX()-1)/2+1) , 0.0); // inicialia com zero
 
-	// Variaveis auxiliares
-	// usada para setar nome dos arquivos de disco
-	ostringstream os;
-
 	// Entra num looping para o raio do elemento estruturante
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante  )	{
@@ -431,11 +479,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// ABERTURA
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go (pm, raioElemen);
-		pfmf->Abertura(pm,raioElemen);
+		pfmf->Go (MInicial, raioElemen);
+		pfmf->Abertura(MInicial,raioElemen);
 
 		// Calcula porosidade apos abertura, vai ser usada no final como criterio de parada.
-		porosidade = Porosidade ( pm );
+		porosidade = Porosidade ( MInicial );
 		cout << "-->Porosidade = " << porosidade << endl;
 
 		// Criterio de parada; temporario, melhorar o criterio de saida
@@ -443,27 +491,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		if ( porosidade == 0 or raioElemen >= raioMaximoElementoEstruturante ) // bug nao processa raios maiores, usar raioMaximoAbertura
 			break;
 
-		os.str("");
-		os << "MatrizAbertura_" << raioElemen << ".dbm";
-		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		pm->Write(os.str());
-
-		/* // Comentei este trecho pois pode aproveitar a próxima sequencia de for's
-		// Copia o que sobrou em pm para MAbertura (matriz abertura)
-		cout << "-->Setando MAbertura..." << endl ;
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
-					// Não precisa testar pois pm terá somente 0 e 1.
-					//if ( pm->data3D[i][j][k] == 1 )
-					//	MAbertura->data3D[i][j][k] = 1;
-					//else
-					//	MAbertura->data3D[i][j][k] = 0;
-					// Mudar para: *MAbertura = *pm; (testar)
-					MAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
-				}
-			}
-		}*/
+		if (salvarResultadosParciais) {
+			os.str("");
+			os << "MatrizAbertura_" << raioElemen << ".dbm";
+			cout << "-->Salvando imagem " << os.str().c_str() << endl ;
+			MInicial->Write(os.str());
+		}
 
 		// Copia o que sobrou em pm para MAbertura (matriz abertura)
 		// Copia o que foi eliminado na abertura para matriz de poros
@@ -472,9 +505,9 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		for ( int i = 0; i < pm->NX(); i++ ) {
 			for ( int j = 0; j < pm->NY(); j++ ) {
 				for ( int k = 0; k < pm->NZ(); k++ ) {
-					MAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
+					MAbertura->data3D[i][j][k] = MInicial->data3D[i][j][k];
 					// Se esta na imagem original e não esta apos abertura, então é pixel/poro eliminado
-					if ( MInicialRotulada->data3D[i][j][k] >=1 and pm->data3D[i][j][k] == FUNDO )
+					if ( pm->data3D[i][j][k] == INDICE and MInicial->data3D[i][j][k] == FUNDO )
 						MPoros->data3D[i][j][k] = INDICE;
 				}
 			}
@@ -482,16 +515,17 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// DILATACAO
 		cout << "-->Processando dilatação..." << endl ;
-		pfmf->Go( pm, raioElemen/fatorReducaoRaioElemEst );
-		pfmf->Dilatacao( pm, raioElemen/fatorReducaoRaioElemEst );
+		pfmf->Go( MInicial, raioElemen/fatorReducaoRaioElemEst );
+		pfmf->Dilatacao( MInicial, raioElemen/fatorReducaoRaioElemEst );
 
-		os.str("");
-		os << "MatrizAberturaDilatacao_" << raioElemen << ".dbm";
-		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		pm->Write(os.str());
+		if (salvarResultadosParciais) {
+			os.str("");
+			os << "MatrizAberturaDilatacao_" << raioElemen << ".dbm";
+			cout << "-->Salvando imagem " << os.str().c_str() << endl ;
+			MInicial->Write(os.str());
+		}
 
-		// Zera sitios e ligacoes, necessario, pois para diferentes aberturas, teremos diferentes áreas das ligacoes
-		//MSitios->Constante(0);
+		// Zera ligacoes. Necessario, pois para diferentes aberturas, teremos diferentes áreas das ligacoes
 		MLigacoes->Constante(0);
 
 		// Seta pixeis de MSitios e MLigacoes
@@ -499,14 +533,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		for ( int i = 0; i < pm->NX(); i++ ) {
 			for ( int j = 0; j < pm->NY(); j++ ) {
 				for ( int k = 0; k < pm->NZ(); k++ ) {
-					// Se esta em MPoros e não esta em pm, entao é ligacao
-					if ( MPoros->data3D[i][j][k] == INDICE and pm->data3D[i][j][k] == FUNDO ) {
+					// Se esta em MPoros e não esta em MInicial, entao é ligacao
+					if ( MPoros->data3D[i][j][k] == INDICE and MInicial->data3D[i][j][k] == FUNDO ) {
 						MLigacoes->data3D[i][j][k] = INDICE;
 						MSitios->data3D[i][j][k] = FUNDO; // apaga na imagem dos sitios
 					}
-					// Se esta em MPoros e nao é ligacao, entao é sitio
-					//else if ( MPoros->data3D[i][j][k] == 1 )
-					//	MSitios->data3D[i][j][k] = 1;
 				}
 			}
 		}
@@ -547,20 +578,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
 		MLigacoes->Write(os.str());
 
-		// Como fez dilatacao extra, precisa retornar a imagem pm a original
-		// Como fez dilatacao extra, precisa retornar a imagem pm a MAbertura
-		cout << "-->Como fez dilatacao extra, precisa retornar a imagem pm a original..." << endl ;
+		// Como fez dilatacao extra, precisa retornar MInicial para MAbertura
+		cout << "-->Como fez dilatacao extra, precisa retornar a imagem MInicial a original..." << endl ;
 		for ( int i = 0; i < pm->NX(); i++ ) {
 			for ( int j = 0; j < pm->NY(); j++ ) {
 				for ( int k = 0; k < pm->NZ(); k++ ) {
-					//if ( MInicialRotulada->data3D[i][j][k] >= 1 )
-					/* //Por que está testando? MAbertura terá 1 ou 0 (INDICE ou FUNDO), logo, *pm = *MAbertura
-					if ( MAbertura->data3D[i][j][k] == 1 ) {
-						pm->data3D[i][j][k] = 1;
-					} else {
-						pm->data3D[i][j][k] = 0;
-					}*/
-					pm->data3D[i][j][k] = MAbertura->data3D[i][j][k];
+					MInicial->data3D[i][j][k] = MAbertura->data3D[i][j][k];
 				}
 			}
 		}
@@ -575,20 +598,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 	// Salva Vetor VLigacoes*/
 	Salvar( VLigacoes, "distribuicaoLigacoes.dtp" );
 
-	// Apenas para visualizacao do resultado final
-	for ( int i = 0; i < pm->NX(); i++) {
-		for ( int j = 0; j < pm->NY(); j++) {
-			for ( int k = 0; k < pm->NZ(); k++) {
-				if ( MLigacoes->data3D[i][j][k] == INDICE )
-					MInicialRotulada->data3D[i][j][k] = 125;
-				if ( MSitios->data3D[i][j][k] == INDICE )
-					MInicialRotulada->data3D[i][j][k] = 255;
-			}
-		}
-	}
 	// Salva MatrizSitiosLigacoes em disco
-	// ## Modelo NomeImagem raioMaximoElementoEstruturante fatorReducaoRaioElemEst
-	// incrementoRaioElementoEstruturante 20(finalizaPrograma)
 	os.str("");
 	os << "MatrizSitiosLigacoes"
 		 << "-Modelo-" 	<< modelo
@@ -599,31 +609,50 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		 << ".dgm";
 
 	cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-	MInicialRotulada->Write( os.str() );
+	Write( os.str(), MLigacoes, MSitios );
 
 	delete MPoros;
 	delete MSitios;
 	delete MLigacoes;
-	delete MInicialRotulada;
 	delete MAbertura;
 	return;
 }
 
 // Modelo que usa abertura, e matrizes rotuladas para identificar as ligações.
-// Método totalmente novo, desenvolvido em 2010.
+// Método totalmente novo, desenvolvido em 2010 e portado para 3D em 2012.
+// Utiliza maita memória (TCMatriz3D<int>).
+// Ao implementar a versão 3D a partir da 2D, foram realizadas modificações para economia de memória.
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
+	// Variaveis auxiliares
 	modelo = 2 ;
+
+	// usada para setar nome dos arquivos de disco
+	ostringstream os;
+
 	//	int numeroObjetosAcumulados = 0 ;
 	int nObjetosAntesAbertura = 0 ;			// numeroObjetosAntesAbertura
 	int nObjetosDepoisAbertura = 0 ;		// nObjetosDepoisAbertura
 	int nObjetosDepoisAberturaComplementar = 0 ;	// nObjetosDepoisAberturaComplementar
 
+	// Modificado: Utilizando MSitios e MLigacoes para economizar memória
 	// Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
-	cout << "Criando e inicializando MLigacoes..." << endl;
-	TCMatriz3D<int>* MSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() );
-	MSitiosLigacoes->Constante(0);
-	MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MSitiosLigacoes->NumCores ( 6 );
+	//cout << "Criando e inicializando MLigacoes..." << endl;
+	//TCMatriz3D<int>* MSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() );
+	//MSitiosLigacoes->Constante(0);
+	//MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
+	//MSitiosLigacoes->NumCores ( 6 );
+
+	// Cria MSitios vazia (apenas para visualizacao - eliminar depois)
+	cout << "Criando e inicializando MSitios..." << endl;
+	TCMatriz3D<bool>* MSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MSitios->Constante(FUNDO);
+	MSitios->SetFormato( D1_X_Y_Z_ASCII );
+
+	// Cria MLigacoes vazia (apenas para visualizacao - eliminar depois)
+	cout << "Criando e inicializando Mligacoes..." << endl;
+	TCMatriz3D<bool>* MLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MLigacoes->Constante(FUNDO);
+	MLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 
 	// Cria MInicialRotulada, é a imagem inicial rotulada
 	// a cada etapa/raio/passo, é onde são armazenados os rótudos dos objetos identificados
@@ -660,9 +689,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 			vector<double> VLigacoes ( ((pm->NX()-1)/2+1) , 0.0); // inicializa com zero
 		*/
 
-	// Variaveis auxiliares
-	// usada para setar nome dos arquivos de disco
-	ostringstream os;
+
 
 	// Seta o Rotulo e o Tipo dos objetos da imagem inicial
 	// Seta o fundo
@@ -871,29 +898,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 					if ( pm->data3D[i][j][k] == INDICE ) {
 						// Se o numero de coneccoes >1, então é ligação
 						if ( Objeto[ MInicialRotulada->data3D[i][j][k] ].Tipo() == LIGACAO )
-							MSitiosLigacoes->data3D[i][j][k] = LIGACAO;
+							MLigacoes->data3D[i][j][k] = INDICE;
 					}
 				}
 			}
 		}
-
-		// Salva MSitiosLigacoes em disco
-		// ## Modelo NomeImagem raioMaximoElementoEstruturante fatorReducaoRaioElemEst
-		// incrementoRaioElementoEstruturante 20(finalizaPrograma)
-		// 	if ( salvarResultadosParciais )
-		// 		{
-		// 		os.str("");
-		// 		os << nomeImagem << "-MSitiosLigacoes"
-		// 				<< "-Modelo-" 	<< modelo
-		// 				<< "-rmee-" 	<< raioMaximoElementoEstruturante
-		// 				<< "-frree-"	<< fatorReducaoRaioElemEst
-		// 				<< "-iree-"	<< incrementoRaioElementoEstruturante
-		// 				<< "-ree-" 	<< raioElemen
-		// 				<< ".dgm";
-		//
-		// 		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-		// 		MSitiosLigacoes->Write( os.str() );
-		// 		}
 
 		// Precisamos fazer com que pm volte a ser a matriz abertura
 		for ( int i = 0; i < pm->NX(); i++) {
@@ -909,6 +918,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 				}
 			}
 		}
+
 		if ( salvarResultadosParciais )	{
 			os.str("");
 			os << "MatrizPmNoFinalDoLoop_" << raioElemen << ".dbm";
@@ -931,10 +941,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	for ( int i = 0; i < pm->NX(); i++) {
 		for ( int j = 0; j < pm->NY(); j++) {
 			for ( int k = 0; k < pm->NZ(); k++) {
-				//TEMPORARIO, verificar porque código abaixo (documentado) Não funciona?
+				//TEMPORARIO, verificar porque código abaixo (comentado) Não funciona?
 				// Se não é fundo e não é ligação
-				if ( MInicialRotulada->data3D[i][j][k] > 0 and MSitiosLigacoes->data3D[i][j][k] != LIGACAO ) {
-					MSitiosLigacoes->data3D[i][j][k] = SITIO;
+				if ( MInicialRotulada->data3D[i][j][k] > 0 and MLigacoes->data3D[i][j][k] != INDICE ) {
+					MSitios->data3D[i][j][k] = INDICE;
 				}
 				/*		if( MInicialRotulada->data3D[i][j][k] > 0 )
 									{
@@ -960,32 +970,31 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	// Salva MSitiosLigacoes em disco - resultado final (imagem com SOLIDO, PORO, SITIO, RAMO_MORTO, LIGACAO
 	os.str("");
 	os	<< "MatrizSitiosLigacoes"
-			<< "-Modelo-" 	<< modelo
+			<< "-Modelo-" << modelo
 			<< "-rmee-" 	<< raioMaximoElementoEstruturante
 			<< "-frree-"	<< fatorReducaoRaioElemEst
-			<< "-iree-"	<< incrementoRaioElementoEstruturante
-			<< "-" << nomeImagem
+			<< "-iree-"		<< incrementoRaioElementoEstruturante
+			<< "-"				<< nomeImagem
 			<< ".dgm";
 	cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-	MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	// Como obter maior valor de uma enumeração ??
-	MSitiosLigacoes->NumCores ( MSitiosLigacoes->MaiorValor() ); // 256, numero objetos informa o maior rotulo utilizado.
-	MSitiosLigacoes->Write( os.str() );
+	Write( os.str(), MSitios, MLigacoes );
 
-	// Salva MInicialRotulada em disco - resultado final (rótulos dos objetos)
-	// Associada ao grafo permite a identificação dos píxeis.
-	os.str("");
-	os << "MatrizInicialRotulada-Final"
-				//		 << "-Modelo-" 	<< modelo
-				//		 << "-rmee-" 	<< raioMaximoElementoEstruturante
-				//		 << "-frree-"	<< fatorReducaoRaioElemEst
-				//		 << "-iree-"	<< incrementoRaioElementoEstruturante
-		 << "-" << nomeImagem
-		 << ".dgm";
-	cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-	MInicialRotulada->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
-	MInicialRotulada->Write( os.str() );
+	if (salvarResultadosParciais) {
+		// Salva MInicialRotulada em disco - resultado final (rótulos dos objetos)
+		// Associada ao grafo permite a identificação dos píxeis.
+		os.str("");
+		os << "MatrizInicialRotulada-Final"
+					//		 << "-Modelo-" 	<< modelo
+					//		 << "-rmee-" 	<< raioMaximoElementoEstruturante
+					//		 << "-frree-"	<< fatorReducaoRaioElemEst
+					//		 << "-iree-"	<< incrementoRaioElementoEstruturante
+			 << "-" << nomeImagem
+			 << ".dgm";
+		cout << "-->Salvando imagem " << os.str().c_str() << endl ;
+		MInicialRotulada->SetFormato( D2_X_Y_Z_GRAY_ASCII );
+		MInicialRotulada->NumCores ( nObjetosDepoisAberturaComplementar ); // 256, numero objetos informa o maior rotulo utilizado.
+		MInicialRotulada->Write( os.str() );
+	}
 
 	// Salva em disco a estrutura de dados (o grafo)
 	os.str("");
@@ -1001,12 +1010,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 				<< Objeto.size() << endl;
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
-		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin();
-					it != Objeto[i].SConeccao().end();
-					it++	)
-		{
+		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo() << " " << Objeto[i].SConeccao().size();
+		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
 			// indiceDasConeccoes" << endl
 			fout <<  " " << *it << " ";
 		}
@@ -1015,13 +1020,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	}
 	fout.close();
 
-	delete MSitiosLigacoes;
-	delete MInicialRotulada	;
+	delete MSitios;
+	delete MLigacoes;
+	delete MInicialRotulada;
 	return;
 }
 
-
-/**
+/*
  * Modelo 3: Parte do resultado da abertura, e usa extensivamente imagens rotuladas.
  * Andre, observando o resultado dos modelos 0 e 1  vemos alguns problemas,
  * tem muito sitio virando ligacao!
@@ -1035,22 +1040,38 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
  * e os eliminados devem ser considerados ligações.
  * Para evitar que as bordas virem ligações, usa-se a dilatação extra.
 */
-/**
- * Usa o modelo 0, mas seta o incrementoRaioElementoEstruturante como sendo 3,
- */
+// Ao implementar a versão 3D a partir da 2D, foram realizadas modificações para economia de memória.
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
+	// Variaveis auxiliares
 	modelo = 3;
+
+	// usada para setar nome dos arquivos de disco
+	ostringstream os;
+
 	//	int numeroObjetosAcumulados = 0;
 	int nObjetosAntesAbertura = 0;			// numeroObjetosAntesAbertura
 	int nObjetosDepoisAbertura = 0;		// nObjetosDepoisAbertura
 	int nObjetosDepoisAberturaComplementar = 0;	// nObjetosDepoisAberturaComplementar
 
+	// Modificado: Utilizando MSitios e MLigacoes (bool) para economizar memória
 	// Cria MSitiosLigacoes e deixa vazia (apenas para visualizacao das ligacoes - eliminar depois)
-	cout << "Criando e inicializando MLigacoes..." << endl;
-	TCMatriz3D<int>* MSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() );
-	MSitiosLigacoes->Constante(0);
-	MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MSitiosLigacoes->NumCores(6); // 256, numero objetos informa o maior rotulo utilizado.
+	//cout << "Criando e inicializando MLigacoes..." << endl;
+	//TCMatriz3D<int>* MSitiosLigacoes = new TCMatriz3D<int>( pm->NX(), pm->NY(), pm->NZ() );
+	//MSitiosLigacoes->Constante(0);
+	//MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
+	//MSitiosLigacoes->NumCores(6); // 256, numero objetos informa o maior rotulo utilizado.
+
+	// Cria MSitios vazia (apenas para visualizacao - eliminar depois)
+	cout << "Criando e inicializando MSitios..." << endl;
+	TCMatriz3D<bool>* MSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MSitios->Constante(FUNDO);
+	MSitios->SetFormato( D1_X_Y_Z_ASCII );
+
+	// Cria MLigacoes vazia (apenas para visualizacao - eliminar depois)
+	cout << "Criando e inicializando Mligacoes..." << endl;
+	TCMatriz3D<bool>* MLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	MLigacoes->Constante(FUNDO);
+	MLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 
 	// Cria MInicialRotulada, é a imagem inicial rotulada
 	// a cada etapa/raio/passo, é onde são armazenados os rótudos dos objetos identificados
@@ -1085,9 +1106,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		Objeto[i].Tipo( PORO );
 	}
 
-	// Variaveis auxiliares
-	// usada para setar nome dos arquivos de disco
-	ostringstream os;
 
 	// Como no looping iremos setar nObjetosAntesAbertura  como o  nObjetosDepoisAberturaComplementar ,
 	// aqui, devemos setar nObjetosDepoisAberturaComplementar  como sendo nObjetosAntesAbertura
@@ -1317,7 +1335,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 					if ( pm->data3D[i][j][k] == INDICE ) {
 						// Se o numero de coneccoes >1, então é ligação
 						if ( Objeto[ MInicialRotulada->data3D[i][j][k] ].Tipo() == LIGACAO )
-							MSitiosLigacoes->data3D[i][j][k] = LIGACAO;
+							MLigacoes->data3D[i][j][k] = INDICE;
 					}
 				}
 			}
@@ -1327,7 +1345,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		// incrementoRaioElementoEstruturante 20(finalizaPrograma)
 		if ( salvarResultadosParciais ) {
 			os.str("");
-			os << "MatrizSitiosLigacoes"
+			os << "MatrizSitios"
 				 << "-Modelo-" 	<< modelo
 				 << "-rmee-"		<< raioMaximoElementoEstruturante
 				 << "-frree-"		<< fatorReducaoRaioElemEst
@@ -1337,7 +1355,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 				 << ".dgm";
 
 			cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-			MSitiosLigacoes->Write( os.str() );
+			MSitios->Write( os.str() );
 		}
 
 		// Precisamos fazer com que pm volte a ser a matriz abertura
@@ -1378,8 +1396,9 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 			for ( int k = 0; k < pm->NZ(); k++) {
 				//TEMPORARIO, verificar porque código abaixo (documentado) Não funciona?
 				// Se não é fundo e não é ligação
-				if ( MInicialRotulada->data3D[i][j][k] > 0 and  MSitiosLigacoes->data3D[i][j][k] != LIGACAO )
-					MSitiosLigacoes->data3D[i][j][k] = SITIO;
+				if ( MInicialRotulada->data3D[i][j][k] > 0 and MLigacoes->data3D[i][j][k] != INDICE ) {
+					MSitios->data3D[i][j][k] = INDICE;
+				}
 
 				/*		if( MInicialRotulada->data3D[i][j][k] > 0 )
 									{
@@ -1412,9 +1431,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 			<< "-" << nomeImagem
 			<< ".dgm";
 	cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-	MSitiosLigacoes->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	MSitiosLigacoes->NumCores ( MSitiosLigacoes->MaiorValor() ); // 256, numero objetos informa o maior rotulo utilizado.
-	MSitiosLigacoes->Write( os.str() );
+	Write( os.str(), MSitios, MLigacoes );
 
 	//******************************
 	// 1- Criar matriz nova
@@ -1454,8 +1471,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 				<< Objeto.size() << endl;
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
-		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
+		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo() << " " << Objeto[i].SConeccao().size();
 		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
 			// indiceDasConeccoes" << endl
 			fout <<  " " << *it << " ";
@@ -1464,10 +1480,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 	}
 	fout.close();
 
-	delete MSitiosLigacoes;
+	delete MSitios;
+	delete MLigacoes;
 	delete MInicialRotulada;
 	delete MatrizPmAntesAbertura;
-
 	return;
 }
 

@@ -3,7 +3,7 @@
 
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 #include <Rotulador/TCRotulador3D.h>
-#include <Matriz/TCMatriz3D.h>
+#include <Matriz/TCImagem3D.h>
 #include <Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
@@ -75,6 +75,9 @@ class CAberturaDilatacao3D
 		/// Construtor
 		CAberturaDilatacao3D(TCMatriz3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
 
+		/// Construtor
+		CAberturaDilatacao3D(TCImagem3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
+
 		/// Destrutor
 		~CAberturaDilatacao3D();
 
@@ -98,7 +101,7 @@ class CAberturaDilatacao3D
 		void DistSitiosLigacoes_Modelo_3();
 
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
-		void DistSitiosLigacoes_Modelo_4();
+		TCMatriz3D<int>* DistSitiosLigacoes_Modelo_4();
 
 		// Salva vetor em disco (já tem Write?)
 		//void Salvar(CVetor* &v, std::string nomeArquivo);

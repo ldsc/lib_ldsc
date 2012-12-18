@@ -21,11 +21,20 @@ CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz , std::str
 	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 		nomeImagem(_nomeImagem),
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
-		incrementoRaioElementoEstruturante ( 1 ), modelo(2), INDICE(_indice), FUNDO(_fundo)
-	//,salvarResultadosParciais(0)
+		incrementoRaioElementoEstruturante ( 1 ), modelo(4), INDICE(_indice), FUNDO(_fundo)
 {
 	matrizRotulo = new TCRotulador3D<bool>( matriz, INDICE, FUNDO );
 	pfmf = new TCFEMMIDFd3453D<bool>( matriz, INDICE, FUNDO );
+}
+
+CAberturaDilatacao3D::CAberturaDilatacao3D( TCImagem3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
+	: nomeImagem(_nomeImagem),
+		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+		incrementoRaioElementoEstruturante ( 1 ), modelo(4), INDICE(_indice), FUNDO(_fundo)
+{
+	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
+	matrizRotulo = new TCRotulador3D<bool>( pm, INDICE, FUNDO );
+	pfmf = new TCFEMMIDFd3453D<bool>( pm, INDICE, FUNDO );
 }
 
 CAberturaDilatacao3D::~CAberturaDilatacao3D() {
@@ -261,8 +270,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 	// LOOOPING de calculo
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
-	for ( int raioElemen = 1; raioElemen <= ( pm->NX() - 1 ) / 2; raioElemen += incrementoRaioElementoEstruturante ) {
-		cout << "================================>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
+	for ( int raioEE = 1; raioEE <= ( pm->NX() - 1 ) / 2; raioEE += incrementoRaioElementoEstruturante ) {
+		cout << "================================>RAIO Elemento Estruturante = " <<  raioEE << endl ;
 		// COPIA VALORES de matrizInicial PARA matrizInstanteAnterior
 		cout << "-->Inicializando matrizInstanteAnterior..." << endl ;
 		// Testar sobrecarga operator= para substituir o código abaixo: *matrizInstanteAnterior = *pm;
@@ -278,12 +287,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 		// ABERTURA
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( matrizInicial, raioElemen );
-		pfmf->Abertura( matrizInicial, raioElemen );
+		pfmf->Go( matrizInicial, raioEE );
+		pfmf->Abertura( matrizInicial, raioEE );
 
 		// Salva matriz abertura
 		os.str("");
-		os << "MatrizAbertura_" << raioElemen << ".dbm";
+		os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco(matrizInicial, os.str());
 
 		porosidadeAposAbertura = Porosidade ( matrizInicial );
@@ -305,20 +314,20 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 		// DILATACAO
 		cout << "-->Processando dilatação..." << endl ;
-		pfmf->Go ( matrizInicial, raioElemen/fatorReducaoRaioElemEst);
-		pfmf->Dilatacao( matrizInicial, raioElemen/fatorReducaoRaioElemEst );
+		pfmf->Go ( matrizInicial, raioEE/fatorReducaoRaioElemEst);
+		pfmf->Dilatacao( matrizInicial, raioEE/fatorReducaoRaioElemEst );
 
 		// Salva matriz dilatacao
 		os.str("");
-		os << "MatrizAberturaDilatacao_" << raioElemen << ".dbm";
+		os << "MatrizAberturaDilatacao_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizInicial, os.str() );
 
 		// Critério de parada
 		if ( porosidadeAposAbertura == 0  ) {
 			cout << "Criterio de parada: porosidadeAposAbertura == 0" << endl;
 			break;
-		} else if ( raioElemen > raioMaximoElementoEstruturante ) { // bug para imagens com objetos muito grandes
-			cout << "Criterio de parada: raioElemen >  raioMaximoElementoEstruturante " << endl;
+		} else if ( raioEE > raioMaximoElementoEstruturante ) { // bug para imagens com objetos muito grandes
+			cout << "Criterio de parada: raioEE >  raioMaximoElementoEstruturante " << endl;
 			break;
 		}
 
@@ -344,20 +353,20 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 
 		// Salva matriz ligacoes em disco
 		os.str("");
-		os << "MatrizLigacoes_" << raioElemen << ".dgm";
+		os << "MatrizLigacoes_" << raioEE << ".dgm";
 		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
 		// DISTRIBUIÇOES
 		cout << "-->Calculando distribuicoes acumuladas..." << endl ;
 		// Porosidade eliminada / porosidade, dá a distribuicao acumulada pois a porosidade eliminada é acumulada
-		distribuicaoTotalPoros->data1D[ raioElemen ] = ( ( porosidade - Porosidade ( matrizAbertura ) ) / porosidade ) * 100;
+		distribuicaoTotalPoros->data1D[ raioEE ] = ( ( porosidade - Porosidade ( matrizAbertura ) ) / porosidade ) * 100;
 		// calcula porosidade das ligacoes
 		porosidadeParcialdasLigacoes = areaLigacoes / ( pm->NX() * pm->NY() * pm->NZ() );
 		// porosidade ligacoes neste passo mais porosidade ligacoes passo anterior
-		distribuicaoLigacoes->data1D[ raioElemen ] =  porosidadeParcialdasLigacoes / porosidade * 100
-																									+ distribuicaoLigacoes->data1D[ raioElemen - 1 ];
+		distribuicaoLigacoes->data1D[ raioEE ] =  porosidadeParcialdasLigacoes / porosidade * 100
+																									+ distribuicaoLigacoes->data1D[ raioEE - 1 ];
 		// esta na total e não esta na ligacao, então é sitio
-		distribuicaoSitios->data1D[ raioElemen ] = distribuicaoTotalPoros->data1D[ raioElemen ] - distribuicaoLigacoes->data1D[ raioElemen ];
+		distribuicaoSitios->data1D[ raioEE ] = distribuicaoTotalPoros->data1D[ raioEE ] - distribuicaoLigacoes->data1D[ raioEE ];
 
 		// matrizInicial sofreu dilatação, precisa voltar a ser matrizAbertura
 		// garante que a próxima abertura parte da atual
@@ -488,13 +497,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 	// Entra num looping para o raio do elemento estruturante
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
-	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante  )	{
-		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
+	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE += incrementoRaioElementoEstruturante  )	{
+		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
 
 		// ABERTURA
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go (matrizInicial, raioElemen);
-		pfmf->Abertura(matrizInicial,raioElemen);
+		pfmf->Go (matrizInicial, raioEE);
+		pfmf->Abertura(matrizInicial,raioEE);
 
 		// Calcula porosidade apos abertura, vai ser usada no final como criterio de parada.
 		porosidade = Porosidade ( matrizInicial );
@@ -502,11 +511,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// Criterio de parada; temporario, melhorar o criterio de saida
 		// note que como nao processa a borda sempre vai ter porosidade, ou seja, acrescente uma borda na imagem.
-		if ( porosidade == 0 or raioElemen >= raioMaximoElementoEstruturante ) // bug nao processa raios maiores, usar raioMaximoAbertura
+		if ( porosidade == 0 or raioEE >= raioMaximoElementoEstruturante ) // bug nao processa raios maiores, usar raioMaximoAbertura
 			break;
 
 		os.str("");
-		os << "MatrizAbertura_" << raioElemen << ".dbm";
+		os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizInicial, os.str() );
 
 		// Copia o que sobrou em pm para matrizAbertura (matriz abertura)
@@ -526,11 +535,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// DILATACAO
 		cout << "-->Processando dilatação..." << endl ;
-		pfmf->Go( matrizInicial, raioElemen/fatorReducaoRaioElemEst );
-		pfmf->Dilatacao( matrizInicial, raioElemen/fatorReducaoRaioElemEst );
+		pfmf->Go( matrizInicial, raioEE/fatorReducaoRaioElemEst );
+		pfmf->Dilatacao( matrizInicial, raioEE/fatorReducaoRaioElemEst );
 
 		os.str("");
-		os << "MatrizAberturaDilatacao_" << raioElemen << ".dbm";
+		os << "MatrizAberturaDilatacao_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizInicial, os.str() );
 
 		// Zera ligacoes. Necessario, pois para diferentes aberturas, teremos diferentes áreas das ligacoes
@@ -557,30 +566,30 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 				for ( int k = 0; k < pm->NZ(); k++ ) {
 					// 	Calcula VSitios[raioee]
 					if ( matrizSitios->data3D[i][j][k] == INDICE)
-						VSitios[ raioElemen ]++;
+						VSitios[ raioEE ]++;
 					// 	Calcula VLigacoes[raioee]
 					if ( matrizLigacoes->data3D[i][j][k] == INDICE)
-						VLigacoes[ raioElemen ]++;
+						VLigacoes[ raioEE ]++;
 					// 	Calcula VPoros[raioee]
 					// O numero de sitios de VPoros pode ser calculado por
-					// VPoros[raioElemen] = VSitios[raioElemen] + VLigacoes[raioElemen];
+					// VPoros[raioEE] = VSitios[raioEE] + VLigacoes[raioEE];
 					// ou por
 					if ( matrizPoros->data3D[i][j][k] == INDICE)
-						VPoros[ raioElemen ]++;
+						VPoros[ raioEE ]++;
 				}
 			}
 		}
 
 		os.str("");
-		os << "MatrizPoros_"  << raioElemen << ".dbm";
+		os << "MatrizPoros_"  << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizPoros, os.str() );
 
 		os.str("");
-		os  << "MatrizSitios_" << raioElemen << ".dbm";
+		os  << "MatrizSitios_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
 		os.str("");
-		os << "MatrizLigacoes_" << raioElemen << ".dbm";
+		os << "MatrizLigacoes_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
 		// Como fez dilatacao extra, precisa retornar matrizInicial para matrizAbertura
@@ -705,13 +714,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	// Entra num looping para o raio do elemento estruturante
 	// o incremento é dado pelo incrementoRaioElementoEstruturante
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
-	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante  ) {
-		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
+	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE += incrementoRaioElementoEstruturante  ) {
+		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
 		cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( pm, raioElemen );
-		pfmf->Abertura( pm , raioElemen );
+		pfmf->Go( pm, raioEE );
+		pfmf->Abertura( pm , raioEE );
 
 		// Calcula porosidade apos abertura, vai usar como criterio de parada.
 		porosidade = Porosidade ( pm );
@@ -720,11 +729,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		// Criterio de parada; temporario, melhorar o criterio de parada/saida.
 		// note que como nao processa a borda sempre vai ter porosidade na borda, ou seja, acrescente uma borda na imagem.
 		// ou modifique o critério de saída.
-		if ( porosidade == 0.0 or raioElemen >= raioMaximoElementoEstruturante )
+		if ( porosidade == 0.0 or raioEE >= raioMaximoElementoEstruturante )
 			break;
 
 		os.str("");
-		os << "MatrizAbertura_" << raioElemen << ".dbm";
+		os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Rotula a imagem abertura
@@ -738,7 +747,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		matrizRotulo->SetFormato( D2_X_Y_Z_GRAY_ASCII );
 		matrizRotulo->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 		os.str("");
-		os << "MatrizRotuloAposAbertura_" << raioElemen << ".dbm";
+		os << "MatrizRotuloAposAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
 
@@ -777,7 +786,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		}
 
 		os.str("");
-		os << "MatrizAberturaComplementar_" << raioElemen << ".dbm";
+		os << "MatrizAberturaComplementar_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Rotulagem da matriz abertura complementar
@@ -787,7 +796,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		cout << "-->nObjetosDepoisAberturaComplementar =..."<< nObjetosDepoisAberturaComplementar << endl ;
 
 		os.str("");
-		os << "MatrizAberturaComplementarRotulada_" << raioElemen << ".dgm";
+		os << "MatrizAberturaComplementarRotulada_" << raioEE << ".dgm";
 		matrizRotulo->NumCores ( matrizRotulo->NumeroObjetos() );
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
@@ -893,7 +902,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		}
 
 		os.str("");
-		os << "MatrizPmNoFinalDoLoop_" << raioElemen << ".dbm";
+		os << "MatrizPmNoFinalDoLoop_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Atualiza o numero de objetos antes da abertura (i.e. da rotulagem anterior)
@@ -1074,8 +1083,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 	// Entra num looping para o raio do elemento estruturante. Oincremento é dado pelo incrementoRaioElementoEstruturante
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
-	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante ) {
-		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl;
+	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE += incrementoRaioElementoEstruturante ) {
+		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl;
 		cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl;
 
 		// NOVO TENTAR RETIRAR POIS CONSOME MAIS MEMORIA - NOVO MODELO 3
@@ -1085,8 +1094,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 					MatrizPmAntesAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
 
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( pm, raioElemen );
-		pfmf->Abertura( pm, raioElemen );
+		pfmf->Go( pm, raioEE );
+		pfmf->Abertura( pm, raioEE );
 
 		// Calcula porosidade apos abertura, vai usar como criterio de parada.
 		porosidade = Porosidade ( pm );
@@ -1095,11 +1104,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		// Criterio de parada; temporario, melhorar o criterio de parada/saida.
 		// note que como nao processa a borda sempre vai ter porosidade na borda, ou seja, acrescente uma borda na imagem.
 		// ou modifique o critério de saída.
-		if ( porosidade == 0.0 or raioElemen >= raioMaximoElementoEstruturante )
+		if ( porosidade == 0.0 or raioEE >= raioMaximoElementoEstruturante )
 			break;
 
 		os.str("");
-		os << "MatrizAbertura_" << raioElemen << ".dbm";
+		os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Rotula a imagem abertura
@@ -1151,7 +1160,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		}
 
 		os.str("");
-		os << "MatrizAberturaComplementar_" << raioElemen << ".dbm";
+		os << "MatrizAberturaComplementar_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Rotulagem da matriz abertura complementar
@@ -1162,7 +1171,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		cout << "-->nObjetosDepoisAberturaComplementar =..."<< nObjetosDepoisAberturaComplementar << endl ;
 
 		os.str("");
-		os << "MatrizAberturaComplementarRotulada_" << raioElemen << ".dgm";
+		os << "MatrizAberturaComplementarRotulada_" << raioEE << ".dgm";
 		matrizRotulo->NumCores ( matrizRotulo->NumeroObjetos() );
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
@@ -1280,7 +1289,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 			 << "-rmee-"		<< raioMaximoElementoEstruturante
 			 << "-frree-"		<< fatorReducaoRaioElemEst
 			 << "-iree-"		<< incrementoRaioElementoEstruturante
-			 << "-ree-"			<< raioElemen
+			 << "-ree-"			<< raioEE
 			 << "-"					<< nomeImagem
 			 << ".dgm";
 		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
@@ -1301,7 +1310,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		}
 
 		os.str("");
-		os << "MatrizPmNoFinalDoLoop_" << raioElemen << ".dbm";
+		os << "MatrizPmNoFinalDoLoop_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( pm, os.str() );
 
 		// Atualiza o numero de objetos antes da abertura (i.e. da rotulagem anterior)
@@ -1406,35 +1415,102 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 /**
  * A partir das imagens abertura, gerar imagem 3D, em que cada plano representa
- * resultado abertura para raioElemen. Ajuda na visualizacao em 3D.
+ * resultado abertura para raioEE. Ajuda na visualizacao em 3D.
 	*/
-void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
-	cout << "\a\a\aNAO IMPLEMENTADO!" << endl;
+TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
+	// Variáveis auxiliares
+	modelo = 4;
+	int nx = pm->NX();
+	int ny = pm->NY();
+	int nz = pm->NZ();
+	int i, j, k;
+
+	// Cria matriz para representar ligações.
+	//TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
+	//matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
+	//matrizLigacoes->Constante( FUNDO );
+
+	// Cria matriz para representar sítios. Inicialmente é cópia de pm, depois o vexels serão apagados.
+	//TCMatriz3D<bool>* matrizSitos = new TCMatriz3D<bool>( *pm );
+
+	// Cria matriz abertura, cópia de pm.
+	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
+
+	// Cria matriz que ira representar o passo anterior da matriz abertura.
+	TCMatriz3D<bool>* matrizPassoAnterior = new TCMatriz3D<bool>( *matrizAbertura );
+
+	// Calcula a porosidade na matrizAbertura;
+	porosidade = Porosidade( matrizAbertura );
+
+	matrizRotulo->Go( matrizAbertura );
+
+	// Entra em loop para realizar operações de abertura e comparações nas matrizes
+	int raioEE = 1;
+	int meioNX = nx/2;
+	while ( (porosidade > 0.0) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
+		cout << "==>Executando passo = " << raioEE << endl;
+		cout << "-->Porosidade = " << porosidade << endl;
+		cout << "-->Processando Abertura..." << endl;
+		pfmf->Go( matrizAbertura, raioEE );
+		pfmf->Abertura( matrizAbertura, raioEE );
+
+		//cout << "-->Atualizando matriz rotulada..." << endl ;
+		//matrizRotulo->Go( matrizAbertura );
+
+		cout << "-->Comparando matrizes..." << endl ;
+		// Percorre matrizes para realizar comparações
+		for ( i = 0; i < nx; i++) {
+			for ( j = 0; j < ny; j++) {
+				for ( k = 0; k < nz; k++) {
+					if (matrizPassoAnterior->data3D[i][j][k] == FUNDO) {
+						matrizRotulo->data3D[i][j][k] = 0; // Se era fundo, continuará sendo
+					} else if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						matrizRotulo->data3D[i][j][k] = 1; // Se não era fundo, é indice. Se após a abertura continua sendo indice, é sítio.
+					} else  { // não é fundo e não é sítio, logo, é ligação.
+						matrizRotulo->data3D[i][j][k] = 2;
+					}
+					// matrizPassoAnterior recebe matrizAbertura
+					matrizPassoAnterior->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
+				}
+			}
+		}
+
+		// Atualizando porosidade
+		porosidade = Porosidade( matrizAbertura );
+		raioEE += incrementoRaioElementoEstruturante;
+	} // fim do While
+
+	//delete matrizSitos;
+	//delete matrizLigacoes;
+	delete matrizAbertura;
+	delete matrizPassoAnterior;
+
+	return (dynamic_cast <TCMatriz3D<int> *> ( matrizRotulo ));
 }
 
 // Objetiva determinar uma sequencia de abertura marcando e salvando a ImagemAbertura com diferentes tons de cinza.
-// Se o pixel esta na matriz pm, copia para MAberturaDilatacao com o valor do raioElemen, ficando cada abertura com tom de cinza diferente.
+// Se o pixel esta na matriz pm, copia para MAberturaDilatacao com o valor do raioEE, ficando cada abertura com tom de cinza diferente.
 void CAberturaDilatacao3D::SequenciaAberturaTonsCinza() {
 	// 	Cria matriz abertura
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
 
 	// Entra num looping para o raio do elemento estruturante
 	cout << "Entrando no looping de calculo das aberturas..." << endl ;
-	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen++ ) {
-		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
+	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE++ ) {
+		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
 
 		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( pm, raioElemen );
-		pfmf->Abertura( pm , raioElemen );
+		pfmf->Go( pm, raioEE );
+		pfmf->Abertura( pm , raioEE );
 
-		cout << "-->Seta píxeis que ficaram com o valor do raioElemen = " << raioElemen << endl ;
+		cout << "-->Seta píxeis que ficaram com o valor do raioEE = " << raioEE << endl ;
 		for ( int i = 0; i < pm->NX(); i++)
 			for ( int j = 0; j < pm->NY(); j++)
 				for ( int k = 0; k < pm->NZ(); k++)
 					if ( pm->data3D[i][j][k] )
-						matrizAbertura->data3D[i][j][k] = raioElemen;
+						matrizAbertura->data3D[i][j][k] = raioEE;
 		// criterio parada
-		if ( raioElemen == raioMaximoElementoEstruturante)
+		if ( raioEE == raioMaximoElementoEstruturante)
 			break;
 	}
 

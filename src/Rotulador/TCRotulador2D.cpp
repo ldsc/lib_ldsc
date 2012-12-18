@@ -48,8 +48,8 @@ void TCRotulador2D<T>::CalculaAreaObjetos () {
 
       if (areaObjetos) {		// Se alocado corretamente
          areaObjetos->Constante (0);	// Zera o vetor área dos objetos
-         for (unsigned int i = 0; i < NX (); i++)	// Percorre direcao x
-            for (unsigned int j = 0; j < NY (); j++)	// Percorre direcao y
+				 for (int i = 0; i < NX (); i++)	// Percorre direcao x
+						for (int j = 0; j < NY (); j++)	// Percorre direcao y
                areaObjetos->data1D[data2D[i][j]]++;	// Incrementa vetor
       }
    }
@@ -100,7 +100,7 @@ void TCRotulador2D<T>::CalculaPerimetroObjetos () {
          perimetroObjetos->data1D[1] = 1;	// Objeto 1 assume perimetro 1 (erro assumido)
          //agora o fundo é representado ou pelo objeto 0 ou pelo objeto 1 dependendo do valor de FUNDO setado no contrutor.
 
-         unsigned int i, j;	// Variaveis auxiliares para loop's
+				 int i, j;	// Variaveis auxiliares para loop's
 
          // --------------------------------
          // Região central, fora as bordas
@@ -402,7 +402,7 @@ template<typename T>
 void TCRotulador2D<T>::IdentificaObjetos () {
    // i,j mesmo tipo da matriz ou seja Tipo
    // Usados nos for
-   unsigned long int i, j;
+	 long int i, j;
 
    // Valores dos pixel's acima e a esquerda
    int acima, esquerda;
@@ -521,8 +521,8 @@ void TCRotulador2D<T>::RotulaImagem () {
    // rotuloFinal    =  rotuloInicial  +   numeroObjetos - 1; // Versão 6
 
    // Corrigir os rótulos da imagem usando o vetor de conversão
-   for (unsigned int i = 0; i < NX (); i++)
-      for (unsigned int j = 0; j < NY (); j++)
+	 for (int i = 0; i < NX (); i++)
+			for (int j = 0; j < NY (); j++)
          // data2D[i][j] = vConversao->data1D[ data2D[i][j] ]; formato antigo
          // Com o+rotuloInicial, faz uma translação dos rotulos
          // mas também esta transladando o rotulo = 0 do fundo

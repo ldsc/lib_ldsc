@@ -151,7 +151,17 @@ class CAberturaDilatacao3D
 		*		Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 		*		Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 		*/
-		bool Write(string fileName, TCMatriz3D<bool> *&mat1, TCMatriz3D<bool> *&mat2 );
+		bool Write(string fileName, TCMatriz3D<bool>* &mat1, TCMatriz3D<bool>* &mat2 );
+
+		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName);
+
+		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName);
+
+		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
+		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+
 };
 
 #endif

@@ -171,6 +171,9 @@ class TCMatriz3D : public CBaseMatriz
 		/// rotaciona a imagem 3D, 90 graus a direita no eixo informado
 		bool Rotacionar90 (E_eixo axis = EIXO_Z);
 
+		/// Cria e retorna uma nova matriz 3D que será um recorte da matriz (this).
+		TCMatriz3D<T>* Crop (int startX, int endX, int startY, int endY, int startZ, int endZ);
+
 		/// Preenche com valor constante
 		virtual void Constante (T cte);
 

@@ -1414,9 +1414,9 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 }
 
 /**
- * A partir das imagens abertura, gerar imagem 3D, em que cada plano representa
- * resultado abertura para raioEE. Ajuda na visualizacao em 3D.
-	*/
+* A partir das imagens abertura, gerar imagem 3D, em que cada plano representa
+* resultado abertura para raioEE. Ajuda na visualizacao em 3D.
+*/
 TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	// Variáveis auxiliares
 	modelo = 4;

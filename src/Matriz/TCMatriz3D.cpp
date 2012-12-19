@@ -565,6 +565,40 @@ bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
 	return true;
 }
 
+// Cria e retorna uma nova matriz 3D que será um recorte da matriz (this).
+template< typename T >
+TCMatriz3D<T>* TCMatriz3D<T>::Crop (int startX, int endX, int startY, int endY, int startZ, int endZ) {
+	if (startX >= endX || startY >= endY || startZ >= endZ) {
+		cerr << "O valor inicial deve ser menor que o falor final" << endl;
+		return NULL;
+	}
+
+	if (endX > nx || endY > ny || endZ > nz){
+		cerr << "O valor final deve ser menor que o tamanho da matriz original (this)" << endl;
+		return NULL;
+	}
+
+	int _nx = endX-startX;
+	int _ny = endY-startY;
+	int _nz = endZ-startZ;
+
+	TCMatriz3D<T> * pmtmp = NULL;
+	pmtmp = new TCMatriz3D<T>( _nx, _ny, _nz );
+	if( ! pmtmp )
+		return NULL;
+	pmtmp->SetFormato(this->GetFormato());
+	pmtmp->NumCores(this->NumCores());
+
+	for (int i = 0; i < _nx; i++) {
+		for (int j = 0; j < _ny; j++) {
+			for (int k = 0; k < _nz; k++) {
+				pmtmp->data3D[i][j][k] = this->data3D[i+startX][j+startY][k+startZ];
+			}
+		}
+	}
+	return pmtmp;
+}
+
 //Le do arquivo informado os dados da matriz.
 template< typename T >
 void TCMatriz3D<T>::LeDados (ifstream & fin) {
@@ -712,14 +746,14 @@ void TCMatriz3D<T>::Constante (T cte) {
 template< typename T >
 void TCMatriz3D<T>::Inverter () {
 	if ( formatoImagem == D1_X_Y_Z_ASCII || formatoImagem == D4_X_Y_Z_BINARY )
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
-			for (int k = 0; k < nz; k++)
-				// se garantir que o tipo do dado é bool, pode utilizar data3D[i][j][k].flip()
-				if (data3D[i][j][k] == 0)
-					data3D[i][j][k] = 1;
-				else
-					data3D[i][j][k] = 0;
+		for (int i = 0; i < nx; i++)
+			for (int j = 0; j < ny; j++)
+				for (int k = 0; k < nz; k++)
+					// se garantir que o tipo do dado é bool, pode utilizar data3D[i][j][k].flip()
+					if (data3D[i][j][k] == 0)
+						data3D[i][j][k] = 1;
+					else
+						data3D[i][j][k] = 0;
 }
 
 // Calcula a media dos valores armazenados na matriz

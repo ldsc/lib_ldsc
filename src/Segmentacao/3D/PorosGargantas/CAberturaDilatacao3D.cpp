@@ -633,11 +633,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 // Modelo que usa abertura, e matrizes rotuladas para identificar as ligações.
 // Método totalmente novo, desenvolvido em 2010 e portado para 3D em 2012.
-// Utiliza maita memória (TCMatriz3D<int>).
+// Utiliza muita memória (TCMatriz3D<int>).
 // Ao implementar a versão 3D a partir da 2D, foram realizadas modificações para economia de memória.
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	// Variaveis auxiliares
-	modelo = 2 ;
+	modelo = 2;
 
 	// usada para setar nome dos arquivos de disco
 	ostringstream os;
@@ -671,6 +671,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	// a cada etapa/raio/passo, é onde são armazenados os rótudos dos objetos identificados
 	cout << "Rotulando a imagem inicial..." << endl;
 	matrizRotulo->Go( pm );
+	matrizRotulo->SetFormato( D2_X_Y_Z_GRAY_ASCII );
 	nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
 	cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl ;
 
@@ -680,11 +681,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	MInicialRotulada->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 
 	SalvarResultadosParciaisEmDisco( MInicialRotulada, "MatrizInicialRotulada.dgm" );
-
-	//	Cria vetor de objetos
-	//	No início todos os objetos são marcados como fundo (verificar se esta ok)
-	vector< CObjetoImagem > Objeto ( matrizRotulo->NumeroObjetos() , CObjetoImagem( SOLIDO , 0 )); 	// inclui o objeto fundo (0)
-	Objeto.reserve ( 100 *  matrizRotulo->NumeroObjetos() ); 		// evita realocacoes
 
 	/*
 		// Cria vetor VPoros
@@ -698,7 +694,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		// Cria vetor VLigacoes
 			cout << "Criando e inicializando VLigacoes..." << endl;
 			vector<double> VLigacoes ( ((pm->NX()-1)/2+1) , 0.0); // inicializa com zero
-		*/
+	*/
+
+	//	Cria vetor de objetos
+	//	No início todos os objetos são marcados como fundo (verificar se esta ok)
+	vector< CObjetoImagem > Objeto ( matrizRotulo->NumeroObjetos() , CObjetoImagem( SOLIDO , 0 )); 	// inclui o objeto fundo (0)
+	Objeto.reserve ( 100 *  matrizRotulo->NumeroObjetos() ); 		// evita realocacoes
 
 	// Seta o Rotulo e o Tipo dos objetos da imagem inicial
 	// Seta o fundo
@@ -739,17 +740,14 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		// Rotula a imagem abertura
 		cout << "-->Rotulando matriz pm apos abertura " << endl;
 		matrizRotulo->Go( pm ); 		// matrizRotulo
-
-		// Marca o numero de objetos depois da abertura
-		nObjetosDepoisAbertura = nObjetosAntesAbertura + matrizRotulo->NumeroObjetos();
-		cout << "-->nObjetosDepoisAbertura =..." 	<< nObjetosDepoisAbertura << endl ;
-
-		matrizRotulo->SetFormato( D2_X_Y_Z_GRAY_ASCII );
 		matrizRotulo->NumCores ( matrizRotulo->NumeroObjetos() ); // 256, numero objetos informa o maior rotulo utilizado.
 		os.str("");
 		os << "MatrizRotuloAposAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
+		// Marca o numero de objetos depois da abertura
+		nObjetosDepoisAbertura = nObjetosAntesAbertura + matrizRotulo->NumeroObjetos();
+		cout << "-->nObjetosDepoisAbertura =..." 	<< nObjetosDepoisAbertura << endl ;
 
 		// Adiciona objetos rotulados a lista de objetos -  o que ficou na imagem abertura são sitios.
 		for ( int i = nObjetosAntesAbertura ; i < nObjetosDepoisAbertura; i++ ) {
@@ -821,7 +819,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		}
 
 		// Percorre a imagem MInicialRotulada e faz as conecções.
-		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
+		// Identifica os rótulos dos vizinhos e faz a conexão se o rotulo já não tiver sido incluido
 		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
@@ -1081,7 +1079,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		Objeto[i].Tipo( PORO );
 	}
 
-	// Entra num looping para o raio do elemento estruturante. Oincremento é dado pelo incrementoRaioElementoEstruturante
+	// Entra num looping para o raio do elemento estruturante. O incremento é dado pelo incrementoRaioElementoEstruturante
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
 	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE += incrementoRaioElementoEstruturante ) {
 		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl;
@@ -1420,31 +1418,54 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	// Variáveis auxiliares
 	modelo = 4;
+	ostringstream os;
+	int nObjetosAntesAbertura = 0;	// número de objetos existentes na matriz pm antes de sofrer a abertura
+	int nObjetosDepoisAbertura = 0;	// número de objetos existentes na matriz pm depois de sofrer a abertura
+	int nObjetosAberturaComplementar = 0; //número de objetos existentes na matriz complementar da matriz abertura
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
 	int i, j, k;
 
 	// Cria matriz para representar ligações.
-	//TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
-	//matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	//matrizLigacoes->Constante( FUNDO );
+	TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
+	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
+	matrizLigacoes->Constante( FUNDO );
 
-	// Cria matriz para representar sítios. Inicialmente é cópia de pm, depois o vexels serão apagados.
-	//TCMatriz3D<bool>* matrizSitos = new TCMatriz3D<bool>( *pm );
+	// Cria matriz para representar sítios. Inicialmente é cópia de pm, depois os vexels serão apagados.
+	// TCMatriz3D<bool>* matrizSitos = new TCMatriz3D<bool>( *pm );
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
 
 	// Cria matriz que ira representar o passo anterior da matriz abertura.
-	TCMatriz3D<bool>* matrizPassoAnterior = new TCMatriz3D<bool>( *matrizAbertura );
+	// TCMatriz3D<bool>* matrizPassoAnterior = new TCMatriz3D<bool>( *matrizAbertura );
+
+	// Cria matriz que irá armazenar os rótulos identificados nas diversas operações de abertura
+	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
 	// Calcula a porosidade na matrizAbertura;
 	porosidade = Porosidade( matrizAbertura );
 
+	// Rotula matrizRotulo;
 	matrizRotulo->Go( matrizAbertura );
+	nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
+
+	// Cria vetor de objetos do tipo CObjetoImagem
+	vector< CObjetoImagem > Objeto ( 100*matrizRotulo->NumeroObjetos() , CObjetoImagem( ));
+
+	// O primeiro objeto irá representar sólidos e terá rótulo 0;
+	Objeto[0].Rotulo( 0 );
+	Objeto[0].Tipo( SOLIDO );
+
+	// Os demais objetos irão representar poros e terão rótulo sequencial
+	for ( i = 1; i < Objeto.size(); i++ ) {
+		Objeto[i].Rotulo( i );
+		Objeto[i].Tipo( PORO );
+	}
 
 	// Entra em loop para realizar operações de abertura e comparações nas matrizes
+	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
 	int raioEE = 1;
 	int meioNX = nx/2;
 	while ( (porosidade > 0.0) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
@@ -1454,38 +1475,169 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 		pfmf->Go( matrizAbertura, raioEE );
 		pfmf->Abertura( matrizAbertura, raioEE );
 
-		//cout << "-->Atualizando matriz rotulada..." << endl ;
-		//matrizRotulo->Go( matrizAbertura );
+		cout << "-->Rotulando matriz abertura..." << endl ;
+		matrizRotulo->Go( matrizAbertura );
 
-		cout << "-->Comparando matrizes..." << endl ;
-		// Percorre matrizes para realizar comparações
+		// Acumula o número de objeto antes e depois da abertura
+		nObjetosDepoisAbertura = nObjetosAntesAbertura + matrizRotulo->NumeroObjetos();
+
+		// Os objetos identificados após a abertura são considerados sítios e serão adicionados a lista de objetos
+		for ( i = nObjetosAntesAbertura; i < nObjetosDepoisAbertura; i++ ) {
+			Objeto.push_back( CObjetoImagem( SITIO , i ) ) ;
+		}
+
+		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
+		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
+		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
-					if (matrizPassoAnterior->data3D[i][j][k] == FUNDO) {
-						matrizRotulo->data3D[i][j][k] = 0; // Se era fundo, continuará sendo
-					} else if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						matrizRotulo->data3D[i][j][k] = 1; // Se não era fundo, é indice. Se após a abertura continua sendo indice, é sítio.
-					} else  { // não é fundo e não é sítio, logo, é ligação.
-						matrizRotulo->data3D[i][j][k] = 2;
+					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura;
 					}
-					// matrizPassoAnterior recebe matrizAbertura
-					matrizPassoAnterior->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
+					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
+					if ( pm->data3D[i][j][k] ==	INDICE ) {
+						if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
+							matrizAbertura->data3D[i][j][k] = INDICE;
+						} else {
+							matrizAbertura->data3D[i][j][k] = FUNDO;
+						}
+					}
 				}
 			}
 		}
 
+		cout << "-->Rotulando matriz abertura complementar..." << endl ;
+		matrizRotulo->Go( matrizAbertura );
+
+		// Acumula o número de objetos depois da abertura como o número de objetos do complemento da abertura
+		nObjetosAberturaComplementar = nObjetosDepoisAbertura + matrizRotulo->NumeroObjetos();
+
+		// Adiciona a lista de objetos os rótulos identificados no complemento da matriz abertura (são ramos mortos)
+		// Posteriormente irá identificar quais ramos mortos são ligações
+		for ( i = nObjetosDepoisAbertura; i < nObjetosAberturaComplementar; i++ ) {
+			Objeto.push_back( CObjetoImagem( RAMO_MORTO, i ) );
+		}
+
+		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
+		for ( i = 0; i < nx; i++) {
+			for ( j = 0; j < ny; j++) {
+				for ( k = 0; k < nz; k++) {
+					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura;
+					}
+				}
+			}
+		}
+
+		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
+		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
+		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
+		int borda = 1;
+		int rotulo_i_j_k;
+		for ( i = borda; i < (nx-borda); i++) {
+			for ( j = borda; j < (ny-borda); j++) {
+				for ( k = borda; k < (nz-borda); k++) {
+					cerr << "i=" << i << " j=" << j << " k=" << k << endl;
+					rotulo_i_j_k = matrizRotulada->data3D[i][j][k];
+					cerr << "rotulo=" << rotulo_i_j_k << endl;
+					// Só devemos considerar os rotulos da imagem abertura, i.e, rotulo >= nObjetosAntesAbertura
+					if ( rotulo_i_j_k	>= nObjetosAntesAbertura ) {
+						// Se os rotulos são diferentes e fazem parte da matriz abertura, então, marca a conexão.
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i][j-1][k] and matrizRotulada->data3D[i][j-1][k] >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i][j-1][k] );
+
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i][j+1][k] and matrizRotulada->data3D[i][j+1][k]  >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i][j+1][k] );
+
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i-1][j][k] and matrizRotulada->data3D[i-1][j][k]  >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i-1][j][k] );
+
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i+1][j][k] and matrizRotulada->data3D[i+1][j][k]  >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i+1][j][k] );
+
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i][j][k-1] and matrizRotulada->data3D[i][j][k-1]  >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i][j][k-1] );
+
+						if ( rotulo_i_j_k != matrizRotulada->data3D[i][j][k+1] and matrizRotulada->data3D[i][j][k+1]  >= nObjetosAntesAbertura)
+							Objeto[rotulo_i_j_k].Conectar( matrizRotulada->data3D[i][j][k+1] );
+					}
+				}
+			}
+		}
+		cout << "-->Identificando ligações..." << endl ;
+		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
+		for ( i = nObjetosDepoisAbertura; i < nObjetosAberturaComplementar; i++ ) // Percorre apenas os rotulos marcados como RAMOs_MORTOs.
+			if ( Objeto[i].SConeccao().size() > 1 ) // Se o numero de conexões for maior que 1, então é ligação
+				Objeto[i].Tipo( LIGACAO );
+
+		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
+		// Verificar o que ocorre se colocar este código fora do while.
+		// Atenção: fora do while não deverá testar matrizAbertura...
+		for ( i = 0; i < nx; i++) {
+			for ( j = 0; j < ny; j++) {
+				for ( k = 0; k < nz; k++) {
+					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						if ( Objeto[ matrizRotulada->data3D[i][j][k] ].Tipo() == LIGACAO )
+							matrizLigacoes->data3D[i][j][k] = INDICE;
+					}
+				}
+			}
+		}
+
+		// Restaurando a matrizAbertura para o estado anterior.
+		for ( i = 0; i < nx; i++) {
+			for ( j = 0; j < ny; j++) {
+				for ( k = 0; k < nz; k++) {
+					int rotulo = matrizRotulada->data3D[i][j][k];
+					// Atenção: verificar se o teste deve ser >= ou >
+					if ( rotulo  >= nObjetosAntesAbertura and rotulo < nObjetosDepoisAbertura ) {
+						matrizAbertura->data3D[i][j][k] = INDICE;
+					} else {
+						matrizAbertura->data3D[i][j][k] = FUNDO;
+					}
+				}
+			}
+		}
+
+		// Atualizando o número de objetos antes da abertura para o próximo passo.
+		nObjetosAntesAbertura = nObjetosAberturaComplementar;
+
 		// Atualizando porosidade
 		porosidade = Porosidade( matrizAbertura );
+
+		// Incrementando raio do Elemento Estruturante
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
 
-	//delete matrizSitos;
-	//delete matrizLigacoes;
-	delete matrizAbertura;
-	delete matrizPassoAnterior;
+	cout << "==>Gerando resultado final..." << endl ;
+	// Armazendo resultado final na matrizRotulada (reaproveitamento).
+	for ( i = 0; i < nx; i++) {
+		for ( j = 0; j < ny; j++) {
+			for ( k = 0; k < nz; k++) {
+				if ( matrizRotulada->data3D[i][j][k] != 0 ) {
+					if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
+						matrizRotulada->data3D[i][j][k] = 2;
+					} else {
+						matrizRotulada->data3D[i][j][k] = 1;
+					}
+				}
+			}
+		}
+	}
+	matrizRotulada->SetFormato(D2_X_Y_Z_GRAY_ASCII);
+	matrizRotulada->NumCores( 3 );
 
-	return (dynamic_cast <TCMatriz3D<int> *> ( matrizRotulo ));
+	//delete matrizSitos;
+	delete matrizLigacoes;
+	delete matrizAbertura;
+	//delete matrizPassoAnterior;
+
+	return matrizRotulada;
 }
 
 // Objetiva determinar uma sequencia de abertura marcando e salvando a ImagemAbertura com diferentes tons de cinza.

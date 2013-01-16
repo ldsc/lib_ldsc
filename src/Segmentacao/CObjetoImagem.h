@@ -27,16 +27,25 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 
 /**
- * Representa um objeto de uma imagem.
- * Mais especificamente representa um poro de uma imagem de rocha reservatorio.
- * O tipo indica se é um Sitio, Ramo_Morto ou Ligacao.
-
-	@author Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno <bueno@lenep.uenf.br>
+ * Representa um objeto de uma imagem de rocha reservatório.
+ * O tipo indica se é um sólido, poro, sitio, ligação ou Ramo_Morto.
+	@author Andre Duarte Bueno - <andreduartebueno@gmail.com>
 */
 enum ETipoObjetoImagem { SOLIDO = 0, PORO = 1, SITIO = 2, LIGACAO = 3, RAMO_MORTO = 4, NAO_IDENTIFICADO = 5 };
 
 class CObjetoImagem
 {
+	protected:
+		//----------------------------------------------------Atributos
+		/// Identifica o tipo do objeto
+		ETipoObjetoImagem  tipo;
+
+		/// Rotulo que identifica o objeto
+		int rotulo;
+
+		/// Set das conecções
+		std::set< int > sConeccao;
+
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
@@ -51,15 +60,11 @@ class CObjetoImagem
 		/// Destrutor
 		~CObjetoImagem() {}
 
-		/// Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto
-		// insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
-		bool Conectar( int _rotulo )
-		{
-			return (sConeccao.insert( _rotulo )).second;	//***
+		/// O método Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto
+		bool Conectar( int _rotulo ) {
+			return (sConeccao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 		}
 
-		// ------------------------------------------------------AtributosPublicos
-		// --------------------------------------------------------MetodosPublicos
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
 		ETipoObjetoImagem Tipo() 	{
@@ -83,7 +88,10 @@ class CObjetoImagem
 		}
 
 		// Retorna rotulo da conexao i
-		//int  SConeccao( int i ) 		{ return sConeccao[i]; }; //***
+		//int  SConeccao( int i ) { return sConeccao[i]; }
+
+		// Retorna tipo como uma string
+		// 	std::string Tipo() ;
 
 		// --------------------------------------------------------------------Set
 		/// Seta o rotulo
@@ -97,37 +105,8 @@ class CObjetoImagem
 			tipo = _tipo;
 		}
 
-		/// Retorna tipo como uma string
-		// 	std::string Tipo() ;
-
 		/// Seta o tipo de objeto a partir de uma string
 		void Tipo ( std::string _tipo );
-
-		/// Seta o tipo de objeto
-		// 	void Tipo ( int _tipo )
-		// 					{ tipo = ETipoObjetoImagem( _tipo ) ; }
-
-		// Seta rotulo da conexao i (se usar vector)
-		//int  SConeccao( int i , int _rotulo)
-		//				{ sConeccao[i] = _rotulo; }; //***
-
-
-		// -------------------------------------------------------------Sobrecarga
-		// -------------------------------------------------AtributosProtegidos
-		// --------------------------------------------------MetodosProtegidos
-		// ------------------------------------------------------AtributosPrivados
-		// --------------------------------------------------------MetodosPrivados
-		// -----------------------------------------------------------------Friend
-
-	protected:
-		/// Identifica o tipo do objeto
-		ETipoObjetoImagem  tipo;
-
-		/// Rotulo que identifica o objeto (necessário?)
-		int rotulo;
-
-		/// Set das conecções
-		std::set< int > sConeccao;
 };
 
 /*
@@ -140,7 +119,7 @@ pair<iterator,bool> insert(const value_type& x) ;
 	int area;
 
 	/// Perímetro do objeto
-			int perimetro;
+	int perimetro;
 
 	/// Retorna a Area do objeto
 	int Area() 			{ return area; }

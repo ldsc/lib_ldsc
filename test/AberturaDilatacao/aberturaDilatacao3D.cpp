@@ -262,10 +262,56 @@ int main ( int argc, char *argv[] )
 				carac = NULL;
 				break;
 			}//fim opcao3
-				//                        case 4:
-			case Modelo_4: {
+			case Modelo_4: {//                        case 4:
 				cout << "Selecionou Modelo 4." << endl;
-				cout << "NAO FAZ NADA - IMPLEMENTAR." << endl;
+				system("ls *.dbm");
+				cout << "Nome da imagem (nome.extensao): " << endl;
+				cin >> nomeimg;
+				cin.get(); // pega o enter
+				pm = new TCMatriz3D<bool>(nomeimg);
+				cout << "Carregou imagem->" << nomeimg << endl;
+
+				carac = new CAberturaDilatacao3D(pm,nomeimg);
+				cout << "Criou objeto CAberturaDilatacao." << endl;
+				if ( pm == NULL  || carac == NULL) {
+					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
+					exit(0);
+				}
+
+				cout << "Entre com o raioMaximoElementoEstruturante: " << endl;
+				cin >> raioMaximoElementoEstruturante;
+				cin.get(); // pega o enter
+				carac->RaioMaximoElementoEstruturante( raioMaximoElementoEstruturante );
+
+				cout << "Entre com o fatorReducaoRaioElemEst: " << endl;
+				cin >> fatorReducaoRaioElemEst;
+				cin.get(); // pega o enter
+				carac->FatorReducaoRaioElemEst( fatorReducaoRaioElemEst );
+
+				cout << "Entre com o incrementoRaioElementoEstruturante:" << endl;
+				cin >> incrementoRaioElementoEstruturante;
+				cin.get(); // pega o enter
+				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
+
+				TCMatriz3D<int> * mat3D = carac->DistSitiosLigacoes_Modelo_4();
+
+
+				ostringstream os;
+				os.str("");
+				os	<< "MatrizSitiosLigacoes-Modelo-4"
+						<< "-rmee-" 	<< raioMaximoElementoEstruturante
+						<< "-frree-"	<< fatorReducaoRaioElemEst
+						<< "-iree-"	<< incrementoRaioElementoEstruturante
+						<< "-" << nomeimg
+						<< ".dgm";
+				cout << "-->Salvando imagem " << os.str().c_str() << endl ;
+				mat3D->Write(os.str());
+				cout << "Calculou carac->DistSitiosLigacoes_Modelo_4();." << endl;
+				delete mat3D;
+				delete pm;
+				pm  = NULL;
+				delete carac;
+				carac = NULL;
 				break;
 			}//fim opcao4
 			case 5: {

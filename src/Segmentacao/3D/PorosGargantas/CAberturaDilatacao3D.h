@@ -25,15 +25,6 @@ class CAberturaDilatacao3D
 		/// Ponteiro para objeto filtro morfologia matematica
 		TCFEMMIDFd3453D<bool>* pfmf;
 
-		/// Vetor distribuicao total = distTotal = distPoros + distLigacoes
-		CVetor* distribuicaoTotalPoros; // usado pelo modelo 0
-
-		/// Vetor dist. ligacoes
-		CVetor* distribuicaoLigacoes; // usado pelo modelo 0
-
-		/// vetor dist. poros
-		CVetor* distribuicaoSitios; // usado pelo modelo 0
-
 		/// Matriz original (ponteiro para matriz original)
 		TCMatriz3D<bool>* pm;
 

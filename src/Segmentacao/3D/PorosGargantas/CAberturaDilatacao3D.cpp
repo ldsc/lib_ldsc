@@ -94,7 +94,7 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 	}
 
 	// Aloca e zera vetor com distribuicaoTotalPoros
-	distribuicaoTotalPoros = new CVetor(( matrizAuxiliar->NX()-1)/2+1);
+	CVetor * distribuicaoTotalPoros = new CVetor(( matrizAuxiliar->NX()-1)/2+1);
 	distribuicaoTotalPoros->Constante(10000); //???
 	distribuicaoTotalPoros->data1D[0]=0;
 
@@ -245,9 +245,9 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
 
 	cout << "Alocando vetores distribuicao..." << endl ;
-	distribuicaoTotalPoros = new CVetor( (pm->NX()-1)/2+1 ); // dimensao igual a do raio que zera a imagem abertura + 1
-	distribuicaoLigacoes =   new CVetor( (pm->NX()-1)/2+1 );
-	distribuicaoSitios =     new CVetor( (pm->NX()-1)/2+1 );
+	CVetor* distribuicaoTotalPoros	= new CVetor( (pm->NX()-1)/2+1 ); // dimensao igual a do raio que zera a imagem abertura + 1
+	CVetor* distribuicaoLigacoes		= new CVetor( (pm->NX()-1)/2+1 );
+	CVetor* distribuicaoSitios			= new CVetor( (pm->NX()-1)/2+1 );
 
 	// Seta com valores acumulados máximos
 	distribuicaoTotalPoros->Constante(100);
@@ -1424,7 +1424,11 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
-	int i, j, k;
+	double area = nx*ny*nz;
+	vector< pair< int, double > > distSitios;
+	vector< pair< int, double > > distLigacoes;
+	pair< int, double > dist;
+	int i, j, k, cont;
 
 	// Cria matriz para representar ligações.
 	TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
@@ -1483,9 +1487,17 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 		cout << "-->nObjetosDepoisAbertura = " << nObjetosDepoisAbertura << endl;
 
 		// Os objetos identificados após a abertura são considerados sítios e serão adicionados a lista de objetos
+		// Aproveita para calcular a área dos sítios
+		cont = 0;
 		for ( i = nObjetosAntesAbertura; i < nObjetosDepoisAbertura; i++ ) {
 			Objeto.push_back( CObjetoImagem( SITIO , i ) ) ;
+			cont++;
 		}
+		// Seta o par tamanho/area e armazena no vetor distribuição de ligações.
+		dist.first  = raioEE;
+		dist.second = 100.0 * cont / area;
+		distSitios.push_back(dist);
+
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
@@ -1580,14 +1592,17 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
 		// Em seguida, aproveita o loop para restaurar a matrizAbertura para o estado anterior.
+		cont = 0;
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
 					int rotulo = matrizRotulada->data3D[i][j][k];
 					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						if ( Objeto[ rotulo ].Tipo() == LIGACAO )
+						cont++; //incrementa independente de ser ligação ou ramo morto.
+						if ( Objeto[ rotulo ].Tipo() == LIGACAO ) {
 							matrizLigacoes->data3D[i][j][k] = INDICE;
+						}
 					}
 					if ( rotulo  >= nObjetosAntesAbertura and rotulo < nObjetosDepoisAbertura ) {
 						matrizAbertura->data3D[i][j][k] = INDICE;
@@ -1597,6 +1612,12 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 				}
 			}
 		}
+		cout << "-->Área de sítios = " << dist.second << endl;
+		// Seta o par tamanho/area e armazena no vetor distribuição de ligações.
+		dist.first  = raioEE;
+		dist.second = 100.0 * cont / area;
+		distLigacoes.push_back(dist);
+		cout << "-->Área de ligações = " << dist.second << endl;
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;

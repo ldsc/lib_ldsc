@@ -138,6 +138,37 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 	distribuicaoTotalPoros->Write("distPoros.dtp");
 }
 
+// Objetiva determinar uma sequencia de abertura marcando e salvando a ImagemAbertura com diferentes tons de cinza.
+// Se o pixel esta na matriz pm, copia para MAberturaDilatacao com o valor do raioEE, ficando cada abertura com tom de cinza diferente.
+void CAberturaDilatacao3D::SequenciaAberturaTonsCinza() {
+	// 	Cria matriz abertura
+	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
+
+	// Entra num looping para o raio do elemento estruturante
+	cout << "Entrando no looping de calculo das aberturas..." << endl ;
+	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE++ ) {
+		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
+
+		cout << "-->Processando Abertura..." << endl ;
+		pfmf->Go( pm, raioEE );
+		pfmf->Abertura( pm , raioEE );
+
+		cout << "-->Seta píxeis que ficaram com o valor do raioEE = " << raioEE << endl ;
+		for ( int i = 0; i < pm->NX(); i++)
+			for ( int j = 0; j < pm->NY(); j++)
+				for ( int k = 0; k < pm->NZ(); k++)
+					if ( pm->data3D[i][j][k] )
+						matrizAbertura->data3D[i][j][k] = raioEE;
+		// criterio parada
+		if ( raioEE == raioMaximoElementoEstruturante)
+			break;
+	}
+
+	matrizAbertura->SetFormato( D2_X_Y_Z_GRAY_ASCII );
+	matrizAbertura->NumCores ( matrizAbertura->MaiorValor() + 1 );
+	matrizAbertura->Write("matrizAbertura.dgm");
+}
+
 //	Recebe ponteiro para duas matrizes do tipo bool e o valor de indice a ser considerado para cada uma delas.
 //	Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 //	Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
@@ -1436,14 +1467,15 @@ Passos do algorítmo:
 TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	// Variáveis auxiliares
 	modelo = 4;
-	//ostringstream os;
+	ostringstream os;
 	int nObjetosAntesAbertura = 0;	// número de objetos existentes na matriz pm antes de sofrer a abertura
 	int nObjetosDepoisAbertura = 0;	// número de objetos existentes na matriz pm depois de sofrer a abertura
 	int nObjetosAberturaComplementar = 0; //número de objetos existentes na matriz complementar da matriz abertura
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
-	int i, j, k;
+	int i, j, k, rotuloijk, borda;
+	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	/*
 	double volume = nx*ny*nz;			// Volume da matriz
 	double porosidadeInicial = 0.0;		// Volume do espaço poroso == volume de sítios + volume de ligações == porosidade
@@ -1468,6 +1500,7 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
+	matrizAbertura->SetFormato( D1_X_Y_Z_ASCII );
 
 	// Cria matriz que ira representar o passo anterior da matriz abertura.
 	// TCMatriz3D<bool>* matrizPassoAnterior = new TCMatriz3D<bool>( *matrizAbertura );
@@ -1508,6 +1541,12 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 		cout << "-->Processando Abertura..." << endl;
 		pfmf->Go( matrizAbertura, raioEE );
 		pfmf->Abertura( matrizAbertura, raioEE );
+		pfmf->Go( matrizAbertura, raioEE );
+		pfmf->Dilatacao( matrizAbertura, 1 );
+
+		os.str("");
+		os << "MatrizAbertura_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		cout << "-->Rotulando matriz abertura..." << endl ;
 		matrizRotulo->Go( matrizAbertura );
@@ -1544,6 +1583,7 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;// menos 1 para não contar fundo novamente
 					}
+					//Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
 						if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
@@ -1556,6 +1596,42 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 			}
 		}
 
+		os.str("");
+		os << "MatrizComplementoAbertura_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
+
+		/*
+		//No primeiro passo irá verificar se o pixel analizado, após a abertura, virou um pixel isolado.
+		//Ou seja, se antes da abertura fazia parte de algum aglomerado e agora não faz.
+		//if (raioEE == 1){
+			borda = 1;
+			for ( i = borda; i < (nx-borda); i++) {
+				for ( j = borda; j < (ny-borda); j++) {
+					for ( k = borda; k < (nz-borda); k++) {
+						if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+							//Se algum vizinho também for INDICE, não está isolado, logo, continua...
+							if ( matrizAbertura->data3D[i-1][j][k] == INDICE )
+								continue;
+							else if ( matrizAbertura->data3D[i+1][j][k] == INDICE )
+								continue;
+							else if ( matrizAbertura->data3D[i][j-1][k] == INDICE )
+								continue;
+							else if ( matrizAbertura->data3D[i][j+1][k] == INDICE )
+								continue;
+							else if ( matrizAbertura->data3D[i][j][k-1] == INDICE )
+								continue;
+							else if ( matrizAbertura->data3D[i][j][k+1] == INDICE )
+								continue;
+							//Se chegou aqui, é um pixel isolado. Verifica se fazia parte de algum aglomerado...
+
+							//Apaga o pixel na matriz complementar.
+							matrizAbertura->data3D[i][j][k] = FUNDO;
+						}
+					}
+				}
+			}
+		//}
+*/
 		cout << "-->Rotulando matriz abertura complementar..." << endl ;
 		matrizRotulo->Go( matrizAbertura );
 
@@ -1584,8 +1660,7 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
 		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
-		int borda = 1;
-		int rotuloijk, rim1, rip1, rjm1, rjp1, rkm1, rkp1;
+		borda = 1;
 		for ( i = borda; i < (nx-borda); i++) {
 			for ( j = borda; j < (ny-borda); j++) {
 				for ( k = borda; k < (nz-borda); k++) {
@@ -1676,6 +1751,16 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	for ( i = 0; i < nx; i++) {
 		for ( j = 0; j < ny; j++) {
 			for ( k = 0; k < nz; k++) {
+				if ( pm->data3D[i][j][k] == FUNDO ) {
+					matrizRotulada->data3D[i][j][k] = 0;
+				} else {
+					if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
+						matrizRotulada->data3D[i][j][k] = 2;
+					} else {
+						matrizRotulada->data3D[i][j][k] = 1;
+					}
+				}
+				/*
 				if ( matrizRotulada->data3D[i][j][k] != 0 ) {
 					if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
 						matrizRotulada->data3D[i][j][k] = 2;
@@ -1683,6 +1768,7 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 						matrizRotulada->data3D[i][j][k] = 1;
 					}
 				}
+				*/
 			}
 		}
 	}
@@ -1695,35 +1781,4 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	//delete matrizPassoAnterior;
 
 	return matrizRotulada;
-}
-
-// Objetiva determinar uma sequencia de abertura marcando e salvando a ImagemAbertura com diferentes tons de cinza.
-// Se o pixel esta na matriz pm, copia para MAberturaDilatacao com o valor do raioEE, ficando cada abertura com tom de cinza diferente.
-void CAberturaDilatacao3D::SequenciaAberturaTonsCinza() {
-	// 	Cria matriz abertura
-	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
-
-	// Entra num looping para o raio do elemento estruturante
-	cout << "Entrando no looping de calculo das aberturas..." << endl ;
-	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE++ ) {
-		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
-
-		cout << "-->Processando Abertura..." << endl ;
-		pfmf->Go( pm, raioEE );
-		pfmf->Abertura( pm , raioEE );
-
-		cout << "-->Seta píxeis que ficaram com o valor do raioEE = " << raioEE << endl ;
-		for ( int i = 0; i < pm->NX(); i++)
-			for ( int j = 0; j < pm->NY(); j++)
-				for ( int k = 0; k < pm->NZ(); k++)
-					if ( pm->data3D[i][j][k] )
-						matrizAbertura->data3D[i][j][k] = raioEE;
-		// criterio parada
-		if ( raioEE == raioMaximoElementoEstruturante)
-			break;
-	}
-
-	matrizAbertura->SetFormato( D2_X_Y_Z_GRAY_ASCII );
-	matrizAbertura->NumCores ( matrizAbertura->MaiorValor() + 1 );
-	matrizAbertura->Write("matrizAbertura.dgm");
 }

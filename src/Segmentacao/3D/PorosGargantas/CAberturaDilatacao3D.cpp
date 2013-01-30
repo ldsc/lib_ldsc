@@ -1449,6 +1449,7 @@ Passos do algorítmo:
 =>Rotula matrizAbertura e compia para matrizRotulada;
 =>Inicia loop;
 ==>Realiza abertura em matrizAbertura;
+==>Realiza dilatação em matrizAbertura com elemento estruturante de raio 1;
 ==>Rotula matrizAbertura;
 ==>Para cada rótulo da matriazAbertura cria um objeto do tipo SITIO;
 ==>Atualiza matrizRotulada com rótulos sequenciais da matrizAbertura;
@@ -1457,12 +1458,12 @@ Passos do algorítmo:
 ==>Para cada rótulo do complemento da abertura cria um objeto do tipo RAMO_MORTO;
 ==>Atualiza matrizRotulada com rotulos sequenciais do complemento da abertura;
 ==>Realiza conexões entre os objetos identificados até então;
-==>Objetos marcador como RAMO_MORTO ligados a dois ou mais objetos viram LIGACAO;
+==>Objetos marcador como RAMO_MORTO ligados a dois ou mais objetos são transformados em LIGACAO;
 ==>Armazena em matrizLigações as ligações identificadas;
-==>Recupera matrizAbertura para voltar a ser a matriz abertura;
+==>Recupera matrizAbertura para voltar a ser a matriz abertura dilatação;
 ==>Testa condições para encerrar loop;
 =>Condições atendidas: Fim do loop;
-=>Gera resultado final e retorna ponteiro para a metriz resultante;
+=>Gera resultado final e retorna ponteiro para metriz resultante;
 */
 TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	// Variáveis auxiliares

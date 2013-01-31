@@ -19,7 +19,7 @@
 /**
  * @brief Declara a classe CBaseDistribuicao, que é a classe base para as
  * classes CDistribuicao e CDistribuicao3D, as quais possibilitam determinar
- * a distribuição de tamanho dos objetos (poros ou sólidos), em imagens
+ * a distribuição de tamanho dos objetos (poros, gargantas ou sólidos), em imagens
  * binárias 2D e 3D respectivamente.
 */
 
@@ -30,7 +30,7 @@ class CBaseDistribuicao
    //Atributos
 public:
    /// Enumera os tipos de distribuição que podem ser calculadas.
-   enum Tipos { dtp, dts };
+	 enum Tipos { dtp, dts, dtg };
 
    /// Caminho onde o arquivo distribuição será salvo.
    string path;
@@ -69,6 +69,9 @@ protected:
 
    /// Salva em disco os dados de distribuição de tamanho de sólidos (.dts)
    void WriteDTS (ofstream & fout);
+
+	 /// Salva em disco os dados de distribuição de tamanho de gargantas (.dtg)
+	 void WriteDTG (ofstream & fout);
 
 };
 

@@ -1465,7 +1465,7 @@ Passos do algorítmo:
 =>Condições atendidas: Fim do loop;
 =>Gera resultado final e retorna ponteiro para metriz resultante;
 */
-TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
+pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	// Variáveis auxiliares
 	modelo = 4;
 	ostringstream os;
@@ -1496,8 +1496,10 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 	matrizLigacoes->Constante( FUNDO );
 
-	// Cria matriz para representar sítios. Inicialmente é cópia de pm, depois os vexels serão apagados.
-	// TCMatriz3D<bool>* matrizSitos = new TCMatriz3D<bool>( *pm );
+	//Cria matriz para representar sítios. Inicialmente vazia, depois os voxels serão setados.
+	//TCMatriz3D<bool>* matrizSitos = new TCMatriz3D<bool>( nx, ny, nz );
+	//matrizSitos->SetFormato( D1_X_Y_Z_ASCII );
+	//matrizSitos->Constante( FUNDO );
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -1748,38 +1750,25 @@ TCMatriz3D<int>* CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_4() {
 	//cout << "-->Volume Acumulado = " << volumeAcumulado << endl;
 
 	cout << "==>Gerando resultado final..." << endl ;
-	// Armazendo resultado final na matrizRotulada (reaproveitamento).
+	// Armazendo resultado final na matrizAbertura (reaproveitamento).
 	for ( i = 0; i < nx; i++) {
 		for ( j = 0; j < ny; j++) {
 			for ( k = 0; k < nz; k++) {
 				if ( pm->data3D[i][j][k] == FUNDO ) {
-					matrizRotulada->data3D[i][j][k] = 0;
-				} else {
-					if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
-						matrizRotulada->data3D[i][j][k] = 2;
-					} else {
-						matrizRotulada->data3D[i][j][k] = 1;
-					}
+					matrizAbertura->data3D[i][j][k] = FUNDO;
+				} else if ( matrizLigacoes->data3D[i][j][k] != INDICE ) {
+					matrizAbertura->data3D[i][j][k] = INDICE;
 				}
-				/*
-				if ( matrizRotulada->data3D[i][j][k] != 0 ) {
-					if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
-						matrizRotulada->data3D[i][j][k] = 2;
-					} else {
-						matrizRotulada->data3D[i][j][k] = 1;
-					}
-				}
-				*/
 			}
 		}
 	}
-	matrizRotulada->SetFormato(D2_X_Y_Z_GRAY_ASCII);
-	matrizRotulada->NumCores( 3 );
 
-	//delete matrizSitos;
-	delete matrizLigacoes;
-	delete matrizAbertura;
+	delete matrizRotulada;
+	//delete matrizAbertura;
+	//delete matrizSitios;
+	//delete matrizLigacoes;
 	//delete matrizPassoAnterior;
 
-	return matrizRotulada;
+	// retorna par de ponteiros para matrizes sitios e ligações.
+	return make_pair( matrizAbertura, matrizLigacoes );
 }

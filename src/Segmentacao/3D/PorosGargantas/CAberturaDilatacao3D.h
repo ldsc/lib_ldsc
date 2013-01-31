@@ -92,7 +92,7 @@ class CAberturaDilatacao3D
 		void DistSitiosLigacoes_Modelo_3();
 
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
-		TCMatriz3D<int>* DistSitiosLigacoes_Modelo_4();
+		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_4();
 
 		// Salva vetor em disco (já tem Write?)
 		//void Salvar(CVetor* &v, std::string nomeArquivo);
@@ -140,13 +140,13 @@ class CAberturaDilatacao3D
 			salvarResultadosParciais = b;
 		}
 
-	private:
-		/** Recebe ponteiro para duas matrizes do tipo bool e o valor de indice a ser considerado para cada uma delas.
+		/** Recebe nome do arquivo e ponteiro para duas matrizes do tipo bool.
 		*		Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 		*		Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 		*/
 		bool Write(string fileName, TCMatriz3D<bool>* &mat1, TCMatriz3D<bool>* &mat2 );
 
+	private:
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName);
 

@@ -293,7 +293,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
 
-				TCMatriz3D<int> * mat3D = carac->DistSitiosLigacoes_Modelo_4();
+				pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> mat3D = carac->DistSitiosLigacoes_Modelo_4();
 
 
 				ostringstream os;
@@ -305,9 +305,9 @@ int main ( int argc, char *argv[] )
 						<< "-" << nomeimg
 						<< ".dgm";
 				cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-				mat3D->Write(os.str());
+				carac->Write(os.str(), mat3D.first, mat3D.second);
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_4();." << endl;
-				delete mat3D;
+				//delete mat3D;
 				delete pm;
 				pm  = NULL;
 				delete carac;

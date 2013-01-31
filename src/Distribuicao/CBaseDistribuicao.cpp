@@ -68,12 +68,13 @@ bool CBaseDistribuicao::Write (string fileName) {
       cerr << "Erro em CDistribuicao::Write()! O vetor distribuição não possui elementos!" << endl;
       return false;
    }
-   string ext;
-   if (tipo == dts){
-      fileName += ".dts";
-   } else {
-      fileName += ".dtp";
-   }
+
+	 switch (tipo){
+		 case dts: fileName += ".dts"; break;
+		 case dtp: fileName += ".dtp"; break;
+		 case dtg: fileName += ".dtg"; break;
+		 default:	fileName += ".dtp";
+	 }
 
    ofstream fdist ( fileName.c_str() );
 
@@ -82,11 +83,12 @@ bool CBaseDistribuicao::Write (string fileName) {
       return false;
    }
 
-   if (tipo == dts){
-      WriteDTS (fdist);
-   } else {
-      WriteDTP (fdist);
-   }
+	 switch (tipo){
+		 case dts: WriteDTS (fdist); break;
+		 case dtp: WriteDTP (fdist); break;
+		 case dtg: WriteDTG (fdist); break;
+		 default:	WriteDTP (fdist);
+	 }
 
    fdist.close (); 						// Fecha o arquivo de disco
    return true;
@@ -120,4 +122,17 @@ void CBaseDistribuicao::WriteDTS (ofstream & fout){
    // Escreve o vetor distribuicao em disco
    for (int i = 0; i < distribuicao.size(); i++)
       fout << i+1 << "\t" <<  distribuicao[i]  << "\n";
+}
+
+// -----------------------------------------------------------------------
+// Salva em disco o vetor distribuicao no formato dtg.
+// -----------------------------------------------------------------------
+void CBaseDistribuicao::WriteDTG (ofstream & fout){
+	 fout << "# Distribution of Throats Size\n";
+	 fout << "# Size: " << distribuicao.size() << "\n";
+	 fout << "# Porosity: " << objetos << "\n";
+	 fout << "# Radius\tValue\n";
+	 // Escreve o vetor distribuicao em disco
+	 for (int i = 0; i < distribuicao.size(); i++)
+			fout << i+1 << "\t" <<  distribuicao[i]  << "\n";
 }

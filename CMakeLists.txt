@@ -35,10 +35,10 @@ set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 
 #set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")
 if(UNIX) # True for UNIX and UNIX like operating systems.
-  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE")
+  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")
 endif()
 if(WIN32) # True on windows systems, including win64
-  set (CMAKE_CXX_FLAGS_RELEASE "-O2")
+  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
 endif()
 #include_directories (${PATH_LIB_LDSC})
 include_directories(${LIBLDSC_SOURCE_DIR}/src/)

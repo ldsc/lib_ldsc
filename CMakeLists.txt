@@ -33,6 +33,22 @@ set(${PROJECT_NAME}_VERSION_MAJOR ${YEAR})
 set(${PROJECT_NAME}_VERSION_MINOR ${MONTH})
 set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 
+# Detecting C++11 support
+#if(CMAKE_COMPILER_IS_GNUCXX)
+#   execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
+#   if (GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7)
+#        message(STATUS "C++11 activated.")
+#        add_definitions("-std=gnu++11")
+#   elseif(GCC_VERSION VERSION_GREATER 4.3 OR GCC_VERSION VERSION_EQUAL 4.3)
+#        message(WARNING "C++0x activated. If you get any errors update to a compiler which fully supports C++11")
+#        add_definitions("-std=gnu++0x")
+#   else ()
+#        message(FATAL_ERROR "C++11 needed. Therefore a gcc compiler with a version higher than 4.3 is needed.")
+#   endif()
+#else(CMAKE_COMPILER_IS_GNUCXX)
+#   add_definitions("-std=c++0x")
+#endif(CMAKE_COMPILER_IS_GNUCXX)
+
 #set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")
 if(UNIX) # True for UNIX and UNIX like operating systems.
   set (CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")

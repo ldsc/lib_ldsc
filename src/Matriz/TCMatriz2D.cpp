@@ -65,10 +65,13 @@ template< typename T >
 TCMatriz2D<T>::TCMatriz2D (TCMatriz2D<T> & matriz) : CBaseMatriz(matriz.formatoImagem, matriz.path) {
 	numCores = matriz.numCores;
 	data2D.clear();
-	if( TCMatriz2D<T>::AlocaMatriz2D (matriz.nx, matriz.ny) )	// Aloca data2D
-		for (int i = 0; i < nx; i++)	// Copia membro a membro
-			for (int j = 0; j < ny; j++)
+	if( TCMatriz2D<T>::AlocaMatriz2D (matriz.nx, matriz.ny) )	{ // Aloca data2D
+		int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+		for (i = 0; i < nx; i++)	// Copia membro a membro
+			for (j = 0; j < ny; j++)
 				this->data2D[i][j] = matriz.data2D[i][j];
+	}
 }
 
 // Cosntrutor aloca matriz vazia. Copia nx e ny, aloca a matriz e preenche a mesma com zeros
@@ -97,8 +100,10 @@ TCMatriz2D<T>::TCMatriz2D (TCMatriz2D<T> & matriz, unsigned int borda) : CBaseMa
 	data2D = TCMatriz2D<T>::AlocaMatriz2D(nx, ny);
 	if( ! data2D.empty() )	{// Aloca data2D
 		//Constante(0); //já está alocando zerada // Zera a imagem criada // posteriormente otimizar, zerando somente as bordas
-		for (int i = borda; i < nx - borda; i++)	// Copia região central
-			for (int j = borda; j < ny - borda; j++)
+		int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+		for (i = borda; i < nx - borda; i++)	// Copia região central
+			for (j = borda; j < ny - borda; j++)
 				this->data2D[i][j] = matriz.data2D[i][j];
 	}
 }
@@ -180,8 +185,10 @@ template< typename T >
 TCMatriz2D<T> & TCMatriz2D<T>::operator+ (TCMatriz2D<T> & matriz) {
 	int minx = std::min (this->nx, matriz.nx);
 	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
 			this->data2D[i][j] += matriz.data2D[i][j];
 	return *this;
 }
@@ -191,8 +198,10 @@ template< typename T >
 TCMatriz2D<T> & TCMatriz2D<T>::operator- (TCMatriz2D<T> & matriz) {
 	int minx = std::min (this->nx, matriz.nx);
 	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
 			this->data2D[i][j] -= matriz.data2D[i][j];
 	return *this;
 }
@@ -202,8 +211,10 @@ template< typename T >
 TCMatriz2D<T> & TCMatriz2D<T>::operator= (TCMatriz2D<T> & matriz) {
 	int minx = std::min (this->nx, matriz.nx);
 	int miny = std::min (this->ny, matriz.ny);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
 			this->data2D[i][j] = matriz.data2D[i][j];	// deve igualar membro a membro
 	return *this;
 }
@@ -666,30 +677,40 @@ bool TCMatriz2D<T>::Redimensiona(int NX, int NY, int NZ) {
 // Preenche a matriz com um valor constante
 template< typename T >
 void TCMatriz2D<T>::Constante (T cte) {
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < nx; i++)
+		for (j = 0; j < ny; j++)
 			data2D[i][j] = cte;
 }
 
 // Inverte valores da matriz binária
 template< typename T >
 void TCMatriz2D<T>::Inverter () {
-	if ( formatoImagem == P1_X_Y_ASCII || formatoImagem == P4_X_Y_BINARY )
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
+	if ( formatoImagem == P1_X_Y_ASCII || formatoImagem == P4_X_Y_BINARY ) {
+		int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+		for (i = 0; i < nx; i++) {
+			for (j = 0; j < ny; j++) {
 				// se garantir que o tipo do dado é bool, pode utilizar data2D[i][j].flip()
-				if (data2D[i][j] == 0)
+				if (data2D[i][j] == 0) {
 					data2D[i][j] = 1;
-				else
+				} else {
 					data2D[i][j] = 0;
+				}
+			}
+		}
+	}
 }
 
 // Calcula a media dos valores armazenados na matriz
 template< typename T >
 double TCMatriz2D<T>::Media () const {
 	double media = 0.0;
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) reduction(+:media) schedule(static,10)
+	for (i = 0; i < nx; i++)
+		for (j = 0; j < ny; j++)
 			media += data2D[i][j];
 	return media /= (nx * ny);
 }
@@ -747,8 +768,10 @@ pair<T,T> TCMatriz2D<T>::MaiorMenorValorNzero() const {
 template< typename T >
 int TCMatriz2D<T>::Replace (T i, T j) {
 	int contador = 0;
-	for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
-		for (int l = 0; l < ny; l++)
+	int k,l;
+#pragma omp parallel for collapse(2) default(shared) private(k,l) reduction(+:contador) schedule(static,10)
+	for (k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
+		for (l = 0; l < ny; l++)
 			if (data2D[k][l] == i) {	// se existe algum valor i
 				data2D[k][l] = j;	// trocar por j
 				contador++;		// acumula o numero de trocas realizadas
@@ -769,8 +792,10 @@ bool TCMatriz2D<T>::Rotacionar90 () {
 		if ( ! Redimensiona(ny, nx) )
 			return false ;
 	}
-	for (int i = 0; i < _nx; i++) {
-		for (int j = 0; j < _ny; j++) {
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < _nx; i++) {
+		for (j = 0; j < _ny; j++) {
 			data2D[_ny-1-j][i] = pmtmp->data2D[i][j];
 		}
 	}

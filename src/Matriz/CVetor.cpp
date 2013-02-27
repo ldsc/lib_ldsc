@@ -145,7 +145,9 @@ CVetor::CVetor (CVetor & v)
 	// aloca data1D
 	data1D = AlocaVetor (nx);
 	// copia membro a membro
-	for (int i = 0; i < nx; i++)
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < nx; i++)
 		this->data1D[i] = v.data1D[i];
 }
 
@@ -186,7 +188,9 @@ pelo programa que chamou???
 CVetor & CVetor::operator+ (CVetor & v)
 {
 	int minx = this->nx > v.nx ? v.nx : this->nx;
-	for (int i = 0; i < minx; i++)
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
 		this->data1D[i] += v.data1D[i]; // Soma membro a membro
 	return *this;
 }
@@ -214,11 +218,12 @@ GetMenorValor retorna o menor valor da matriz
 @param  :
 @return :
 */
-CVetor & CVetor::operator- (CVetor & v)
-{
+CVetor & CVetor::operator- (CVetor & v) {
 	//int minx = min( this->nx ,  v.nx);
 	int minx = this->nx > v.nx ? v.nx : this->nx;
-	for (int i = 0; i < minx; i++)
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
 		this->data1D[i] -= v.data1D[i]; // subtrai membro a membro
 	return *this;
 }
@@ -248,11 +253,12 @@ Excessões:        No caso dos vetores terem dimensoes diferentes.
 @param  :
 @return :
 */
-CVetor & CVetor::operator= (CVetor & v)
-{
+CVetor & CVetor::operator= (CVetor & v) {
 	//int minx = min(this->nx, v.nx);
 	int minx = this->nx > v.nx ? v.nx : this->nx;
-	for (int i = 0; i < minx; i++)
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < minx; i++)
 		this->data1D[i] = v.data1D[i];
 	return *this;
 }
@@ -291,8 +297,7 @@ bool CVetor::operator==(CVetor* v)const
 return 1;
 }
 */
-bool CVetor::operator== (CVetor & v) const
-{
+bool CVetor::operator== (CVetor & v) const {
 	//if(this->nx!=v->nx)      // se as dimensoes forem diferentes, retorna  0
 	//return 0;                // se incluir esta linha, tem de mudar operador !=
 	//int minx = min(this->nx, v.nx);
@@ -314,8 +319,7 @@ o atributo formatoImagem.
 @param  :
 @return :
 */
-bool CVetor::operator!= (CVetor & v) const
-{
+bool CVetor::operator!= (CVetor & v) const {
 	return !(CVetor::operator== (v));
 }
 /*
@@ -336,8 +340,7 @@ Despacha os valores do vetor para a ostream
 @param  :
 @return :
 */
-ostream & operator<< (ostream & os, CVetor & v)
-{
+ostream & operator<< (ostream & os, CVetor & v) {
 	for (int i = 0; i < v.NX (); i++)
 		os << v.data1D[i] << endl;
 	return os;
@@ -462,16 +465,17 @@ Funcao: Constante
 @param  :
 @return :
 */
-void CVetor::Constante (int cte)
-{ // Versao mais lenta
-	// for (int i = 0; i < nx; i++)
-	//   data1D[i] = cte;
-	int *p = data1D;
-	for (int i = 0; i < nx; i++)
-	{
+void CVetor::Constante (int cte) {
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < nx; i++)
+		data1D[i] = cte;
+/*int *p = data1D;
+	for (int i = 0; i < nx; i++) {
 		*p = cte;			//  PERFORMANCE USAR MEMCPY
 		p++;
 	}
+*/
 }
 
 /*
@@ -487,13 +491,16 @@ de tmatriz por timagem
 @param  :
 @return :
 */
-void CVetor::Inverter ()
-{
-	for (int i = 0; i < nx; i++)
-		if (data1D[i] == 0)
+void CVetor::Inverter () {
+	int i;
+#pragma omp parallel for default(shared) private(i) // reduction(+:variavel) schedule(static,10)
+	for (i = 0; i < nx; i++) {
+		if (data1D[i] == 0) {
 			data1D[i] = 1;
-		else
+		} else {
 			data1D[i] = 0;
+		}
+	}
 }
 
 /*
@@ -508,8 +515,7 @@ retorna o maior valor do vetor
 @param  :
 @return :
 */
-int CVetor::MaiorValor () const
-{
+int CVetor::MaiorValor () const {
 	int maximo = data1D[0];
 	for (int i = 1; i < nx; i++)
 		if (data1D[i] > maximo)
@@ -528,8 +534,7 @@ retorna o menor valor do vetor
 @param  :
 @return :
 */
-int CVetor::MenorValor () const
-{
+int CVetor::MenorValor () const {
 	int minimo = data1D[0];
 	for (int i = 1; i < nx; i++)
 		if (data1D[i] < minimo)
@@ -543,8 +548,7 @@ Funcao:   MenorValorNzero
 @short  :MenorValorNzero retorna o menor valor da matriz diferente de zero
 @author :Leandro Puerari
 */
-int CVetor::MenorValorNzero () const
-{
+int CVetor::MenorValorNzero () const {
 	int menor = 9999999;
 	for (int i = 0; i < nx; i++)
 		if (data1D[i] < menor && data1D[i] != 0)
@@ -558,8 +562,7 @@ Funcao:   MaiorMenorValorNzero
 @short  :MaiorMenorValorNzero retorna um par correspondente ao maior e menor valor (respectivamente) da matriz diferente de zero
 @author :Leandro Puerari
 */
-pair<int,int> CVetor::MaiorMenorValorNzero() const
-{
+pair<int,int> CVetor::MaiorMenorValorNzero() const {
 	pair<int,int> maiorMenor;
 	maiorMenor.first = data1D[0];
 	maiorMenor.second = 999999999;
@@ -582,10 +585,11 @@ Funcao:  Media
 @return :
 */
 double
-CVetor::Media () const
-{
+CVetor::Media () const {
 	double media = 0.0;
-	for (int i = 1; i < nx; i++)
+	int i;
+#pragma omp parallel for default(shared) private(i) reduction(+:media) schedule(static,10)
+	for (i = 1; i < nx; i++)
 		media += data1D[i];
 	return media /= nx;
 }
@@ -601,19 +605,18 @@ A funcao Replace, troca todos os valores i no vetor por j
 @param  :
 @return :
 */
-int CVetor::Replace (int i, int j)
-{
+int CVetor::Replace (int i, int j) {
 	int contador = 0;
+	int k;
+#pragma omp parallel for default(shared) private(k) reduction(+:contador) schedule(static,10)
 	// Pesquisa todo o vetor a procura de i se existe algum valor i
-	for (int k = 0; k < nx; k++)
-		if (data1D[k] == i)
-		{ // Trocar por j
-			data1D[k] = j;
-			// acumula o numero de trocas realizadas
-			contador++;
+	for (k = 0; k < nx; k++) {
+		if (data1D[k] == i) {
+			data1D[k] = j; // Trocar por j
+			contador++; // acumula o numero de trocas realizadas
 		}
-	// Retorna o numero de trocas realizadas
-	return contador;
+	}
+	return contador; // Retorna o numero de trocas realizadas
 }
 
 /*
@@ -626,8 +629,7 @@ Funcao:
 @param  :
 @return :
 */
-bool CVetor::Read (string fileName, bool separado)
-{
+bool CVetor::Read (string fileName, bool separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
 	CBaseMatriz::AbreArquivo (fin, fileName); 			// Abre o arquivo de disco no formato correto
 	int pos;										// posição de leitura do arquivo.

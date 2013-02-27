@@ -70,10 +70,11 @@ TCMatriz3D<T>::TCMatriz3D (TCMatriz3D<T> & matriz) : CBaseMatriz(matriz.formatoI
 	numCores = matriz.numCores;
 	data3D = NULL;
 	if(TCMatriz3D<T>::AlocaMatriz3D (nx, ny, nz)) {
-		#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
+		int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < nx; i++)
+			for (j = 0; j < ny; j++)
+				for (k = 0; k < nz; k++)
 					data3D[i][j][k] = matriz.data3D[i][j][k];
 	}
 }
@@ -152,11 +153,12 @@ TCMatriz3D<T> & TCMatriz3D<T>::operator+ (TCMatriz3D<T> & m2) {
 	int minx = std::min (this->nx, m2.nx);
 	int miny = std::min (this->ny, m2.ny);
 	int minz = std::min (this->nz, m2.nz);
+	int i,j,k;
 	// deve somar membro a membro
-	#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			for (int k = 0; k < minz; k++)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
+			for (k = 0; k < minz; k++)
 				this->data3D[i][j][k] += m2.data3D[i][j][k];
 	return *this;
 }
@@ -167,10 +169,11 @@ TCMatriz3D<T> & TCMatriz3D<T>::operator- (TCMatriz3D<T> & m2) {
 	int minx = std::min (this->nx, m2.nx);
 	int miny = std::min (this->ny, m2.ny);
 	int minz = std::min (this->nz, m2.nz);
-	#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			for (int k = 0; k < minz; k++)
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
+			for (k = 0; k < minz; k++)
 				this->data3D[i][j][k] -= m2.data3D[i][j][k];	// subtrae membro a membro
 	return *this;
 }
@@ -181,11 +184,12 @@ TCMatriz3D<T> & TCMatriz3D<T>::operator= (TCMatriz3D & m2) {
 	int minx = std::min (this->nx, m2.nx);
 	int miny = std::min (this->ny, m2.ny);
 	int minz = std::min (this->nz, m2.nz);
+	int i,j,k;
 	// deve igualar membro a membro
-	#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			for (int k = 0; k < minz; k++)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < minx; i++)
+		for (j = 0; j < miny; j++)
+			for (k = 0; k < minz; k++)
 				this->data3D[i][j][k] = m2.data3D[i][j][k];
 	return *this;
 }
@@ -523,16 +527,17 @@ bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
 	int _nx = nx; // precisa pegar os valores das dimensões, pois se a imagem não for um cubo perfeito, seus valores serão alterados.
 	int _ny = ny;
 	int _nz = nz;
+	int i,j,k;
 	switch (axis){
 		case EIXO_X:
 			if (ny != nz){
 				if ( ! Redimensiona(nx, nz, ny) )
 					return false ;
 			}
-			#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-			for (int i = 0; i < _nx; i++){
-				for (int j = 0; j < _ny; j++){
-					for (int k = 0; k < _nz; k++){
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+			for (i = 0; i < _nx; i++){
+				for (j = 0; j < _ny; j++){
+					for (k = 0; k < _nz; k++){
 						data3D[i][k][nz-1-j] = pmtmp->data3D[i][j][k];
 					}
 				}
@@ -543,10 +548,10 @@ bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
 				if ( ! Redimensiona(nz, ny, nx) )
 					return false ;
 			}
-			#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-			for (int j = 0; j < _ny; j++){
-				for (int i = 0; i < _nx; i++){
-					for (int k = 0; k < _nz; k++){
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+			for (j = 0; j < _ny; j++){
+				for (i = 0; i < _nx; i++){
+					for (k = 0; k < _nz; k++){
 						data3D[k][j][nz-1-i] = pmtmp->data3D[i][j][k];
 					}
 				}
@@ -557,10 +562,10 @@ bool TCMatriz3D<T>::Rotacionar90 (E_eixo axis){
 				if ( ! Redimensiona(ny, nx, nz) )
 					return false ;
 			}
-			#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-			for (int k = 0; k < _nz; k++){
-				for (int j = 0; j < _ny; j++){
-					for (int i = 0; i < _nx; i++){
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+			for (k = 0; k < _nz; k++){
+				for (j = 0; j < _ny; j++){
+					for (i = 0; i < _nx; i++){
 						data3D[nx-1-j][i][k] = pmtmp->data3D[i][j][k];
 					}
 				}
@@ -596,11 +601,11 @@ TCMatriz3D<T>* TCMatriz3D<T>::Crop (int startX, int endX, int startY, int endY, 
 		return NULL;
 	pmtmp->SetFormato(this->GetFormato());
 	pmtmp->NumCores(this->NumCores());
-
-	#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-	for (int i = 0; i < _nx; i++) {
-		for (int j = 0; j < _ny; j++) {
-			for (int k = 0; k < _nz; k++) {
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < _nx; i++) {
+		for (j = 0; j < _ny; j++) {
+			for (k = 0; k < _nz; k++) {
 				pmtmp->data3D[i][j][k] = this->data3D[i+startX][j+startY][k+startZ];
 			}
 		}
@@ -745,35 +750,43 @@ bool TCMatriz3D<T>::Redimensiona(int NX, int NY, int NZ) {
 // Preenche a matriz com um valor constante
 template< typename T >
 void TCMatriz3D<T>::Constante (T cte) {
-	#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
-			for (int k = 0; k < nz; k++)
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < nx; i++)
+		for (j = 0; j < ny; j++)
+			for (k = 0; k < nz; k++)
 				data3D[i][j][k] = cte;
 }
 
 // Inverte valores da matriz binária
 template< typename T >
 void TCMatriz3D<T>::Inverter () {
-	if ( formatoImagem == D1_X_Y_Z_ASCII || formatoImagem == D4_X_Y_Z_BINARY )
-		#pragma omp parallel for collapse(3) //schedule(dynamic,10)
-		for (int i = 0; i < nx; i++)
-			for (int j = 0; j < ny; j++)
-				for (int k = 0; k < nz; k++)
+	if ( formatoImagem == D1_X_Y_Z_ASCII || formatoImagem == D4_X_Y_Z_BINARY ){
+		int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < nx; i++) {
+			for (j = 0; j < ny; j++) {
+				for (k = 0; k < nz; k++) {
 					// se garantir que o tipo do dado é bool, pode utilizar data3D[i][j][k].flip()
 					if (data3D[i][j][k] == 0)
 						data3D[i][j][k] = 1;
 					else
 						data3D[i][j][k] = 0;
+				}
+			}
+		}
+	}
 }
 
 // Calcula a media dos valores armazenados na matriz
 template< typename T >
 double TCMatriz3D<T>::Media () const {
 	double media = 0.0;
-	for (int i = 0; i < nx; i++)
-		for (int j = 0; j < ny; j++)
-			for (int k = 0; k < nz; k++)
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) reduction(+:media) schedule(static,10)
+	for (i = 0; i < nx; i++)
+		for (j = 0; j < ny; j++)
+			for (k = 0; k < nz; k++)
 				media += data3D[i][j][k];
 	return media /= (nx * ny * nz);
 }
@@ -805,7 +818,7 @@ int TCMatriz3D<T>::MenorValor () const {
 // Retorna o menor valor, diferente de zero, encontrado na matriz
 template< typename T >
 int TCMatriz3D<T>::MenorValorNzero () const {
-	int menor = 9999999;
+	int menor = 999999999;
 	for (int i = 0; i < nx; i++)
 		for (int j = 0; j < ny; j++)
 			for (int k = 0; k < nz; k++)
@@ -837,9 +850,11 @@ pair<T, T> TCMatriz3D<T>::MaiorMenorValorNzero() const {
 template< typename T >
 int TCMatriz3D<T>::Replace (T i, T j) {
 	int contador = 0;
-	for (int k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
-		for (int l = 0; l < ny; l++)
-			for (int m = 0; m < nz; m++)
+	int k,l,m;
+#pragma omp parallel for collapse(3) default(shared) private(k,l,m) reduction(+:contador) schedule(static,10)
+	for (k = 0; k < nx; k++)	// Pesquisa toda a matriz a procura de i
+		for (l = 0; l < ny; l++)
+			for (m = 0; m < nz; m++)
 				if (data3D[k][l][m] == i) {	// se existe algum valor i
 					data3D[k][l][m] = j;	// trocar por j
 					contador++;		// acumula o numero de trocas realizadas

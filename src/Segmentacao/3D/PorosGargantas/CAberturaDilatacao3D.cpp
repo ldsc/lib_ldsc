@@ -33,7 +33,7 @@ CAberturaDilatacao3D::CAberturaDilatacao3D( TCImagem3D<bool>* &matriz , std::str
 		incrementoRaioElementoEstruturante ( 1 ), modelo(4), INDICE(_indice), FUNDO(_fundo)
 {
 	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
-	matrizRotulo = new TCRotulador3D<bool>( pm, INDICE, FUNDO );
+			matrizRotulo = new TCRotulador3D<bool>( pm, INDICE, FUNDO );
 	pfmf = new TCFEMMIDFd3453D<bool>( pm, INDICE, FUNDO );
 }
 
@@ -70,9 +70,12 @@ void CAberturaDilatacao3D::Salvar(vector<double> v, std::string nomeArquivo) {
 
 double CAberturaDilatacao3D::Porosidade( TCMatriz3D<bool>* &_pm ) {
 	double porosidade = 0.0;
-	for ( int i = 0; i < _pm->NX(); i++ )
-		for ( int j = 0; j < _pm->NY(); j++ )
-			for ( int k = 0; k < _pm->NZ(); k++ )
+	//executa os 3 for paralelamente, definindo todas as variáveis como compartilhadas, (exceto i, j e k). A variável porosidade terá os valores somados.
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private (i,j,k) reduction(+:porosidade) schedule(static,10)
+	for ( i = 0; i < _pm->NX(); i++ )
+		for ( j = 0; j < _pm->NY(); j++ )
+			for ( k = 0; k < _pm->NZ(); k++ )
 				if ( _pm->data3D[i][j][k] == 1 ) {
 					porosidade++;
 				}
@@ -154,9 +157,11 @@ void CAberturaDilatacao3D::SequenciaAberturaTonsCinza() {
 		pfmf->Abertura( pm , raioEE );
 
 		cout << "-->Seta píxeis que ficaram com o valor do raioEE = " << raioEE << endl ;
-		for ( int i = 0; i < pm->NX(); i++)
-			for ( int j = 0; j < pm->NY(); j++)
-				for ( int k = 0; k < pm->NZ(); k++)
+		int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++)
+			for ( j = 0; j < pm->NY(); j++)
+				for ( k = 0; k < pm->NZ(); k++)
 					if ( pm->data3D[i][j][k] )
 						matrizAbertura->data3D[i][j][k] = raioEE;
 		// criterio parada
@@ -237,6 +242,7 @@ void CAberturaDilatacao3D::SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* 
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 	// Variaveis auxiliares
 	modelo = 0 ;
+	int i,j,k;
 
 	// usada para setar nome dos arquivos de disco
 	ostringstream os;
@@ -306,9 +312,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		// COPIA VALORES de matrizInicial PARA matrizInstanteAnterior
 		cout << "-->Inicializando matrizInstanteAnterior..." << endl ;
 		// Testar sobrecarga operator= para substituir o código abaixo: *matrizInstanteAnterior = *pm;
-		for (int i = 0; i < pm->NX(); i++)
-			for (int j = 0; j < pm->NY(); j++)
-				for (int k = 0; k < pm->NZ(); k++)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < pm->NX(); i++)
+			for (j = 0; j < pm->NY(); j++)
+				for (k = 0; k < pm->NZ(); k++)
 					matrizInstanteAnterior.data3D[i][j][k] = matrizInicial->data3D[i][j][k];
 
 		// ROTULAGEM
@@ -331,9 +338,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		// Seta matriz abertura e calcula area dos objetos
 		cout << "-->Calculando area dos objetos da matriz abertura..." << endl ;
 		areaObjetosMapeados.Constante(0);
-		for (int i = 0; i < pm->NX(); i++) {
-			for (int j = 0; j < pm->NY(); j++) {
-				for (int k = 0; k < pm->NZ(); k++){
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < pm->NX(); i++) {
+			for (j = 0; j < pm->NY(); j++) {
+				for (k = 0; k < pm->NZ(); k++){
 					// Atualiza matrizAbertura
 					// mudar realizar abertura na matriz abertura.
 					matrizAbertura->data3D[i][j][k] = matrizInicial->data3D[i][j][k];
@@ -365,9 +373,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		// Area ligaçoes
 		areaLigacoes = 0;
 		// Percorre a matriz AberturaDilatacao e determina ligacoes
-		for ( int  i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+		//#pragma omp parallel for collapse(3) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) reduction(+:areaLigacoes) schedule(static,10)
+		for ( i = 0; i < pm->NX(); i++ ) {
+			for ( j = 0; j < pm->NY(); j++ ) {
+				for ( k = 0; k < pm->NZ(); k++ ) {
 					// Se o pixel existe na matrizInstanteAnterior,
 					if ( ( matrizInstanteAnterior.data3D[i][j][k] == INDICE )
 							 // e nao existe na matriz aberturaDilatacao pm
@@ -395,15 +405,16 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 		porosidadeParcialdasLigacoes = areaLigacoes / ( pm->NX() * pm->NY() * pm->NZ() );
 		// porosidade ligacoes neste passo mais porosidade ligacoes passo anterior
 		distribuicaoLigacoes->data1D[ raioEE ] =  porosidadeParcialdasLigacoes / porosidade * 100
-																									+ distribuicaoLigacoes->data1D[ raioEE - 1 ];
+																							+ distribuicaoLigacoes->data1D[ raioEE - 1 ];
 		// esta na total e não esta na ligacao, então é sitio
 		distribuicaoSitios->data1D[ raioEE ] = distribuicaoTotalPoros->data1D[ raioEE ] - distribuicaoLigacoes->data1D[ raioEE ];
 
 		// matrizInicial sofreu dilatação, precisa voltar a ser matrizAbertura
 		// garante que a próxima abertura parte da atual
-		for (int  i = 0; i < pm->NX(); i++) {
-			for (int  j = 0; j < pm->NY(); j++) {
-				for (int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < pm->NX(); i++) {
+			for (j = 0; j < pm->NY(); j++) {
+				for (k = 0; k < pm->NZ(); k++) {
 					matrizInicial->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
 				}
 			}
@@ -435,9 +446,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 	// Gerando imagem final e salvando em disco
 	// Apenas para visualizacao do resultado final
 	// Se esta na matriRotulo e nao foi marcado como ligacao, entao é sitio
-	for ( int i = 0; i < pm->NX(); i++) {
-		for ( int j = 0; j < pm->NY(); j++) {
-			for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < pm->NX(); i++) {
+		for (j = 0; j < pm->NY(); j++) {
+			for (k = 0; k < pm->NZ(); k++) {
 				// É poro (esta em pm) e não é  ligação, então é  sítio
 				if ( pm->data3D[i][j][k] == INDICE // é poro
 						 and matrizLigacoes->data3D[i][j][k] != INDICE ) // não é ligacao
@@ -477,7 +489,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_0() {
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 	// Variaveis auxiliares
 	modelo = 1 ;
-
+	int i,j,k;
 	// usada para setar nome dos arquivos de disco
 	ostringstream os;
 
@@ -553,9 +565,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 		// Copia o que foi eliminado na abertura para matriz de poros
 		cout << "-->Setando matrizAbertura..." << endl ;
 		cout << "-->Setando matrizPoros..." << endl ;
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < pm->NX(); i++ ) {
+			for (j = 0; j < pm->NY(); j++ ) {
+				for (k = 0; k < pm->NZ(); k++ ) {
 					matrizAbertura->data3D[i][j][k] = matrizInicial->data3D[i][j][k];
 					// Se esta na imagem original e não esta apos abertura, então é pixel/poro eliminado
 					if ( pm->data3D[i][j][k] == INDICE and matrizInicial->data3D[i][j][k] == FUNDO )
@@ -578,9 +591,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// Seta pixeis de matrizSitios e matrizLigacoes
 		cout << "-->Setando matrizSitios e matrizLigacoes..." << endl ;
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for (i = 0; i < pm->NX(); i++ ) {
+			for (j = 0; j < pm->NY(); j++ ) {
+				for (k = 0; k < pm->NZ(); k++ ) {
 					// Se esta em matrizPoros e não esta em matrizInicial, entao é ligacao
 					if ( matrizPoros->data3D[i][j][k] == INDICE and matrizInicial->data3D[i][j][k] == FUNDO ) {
 						matrizLigacoes->data3D[i][j][k] = INDICE;
@@ -592,9 +606,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// 	Calcula o numero de pixeis de cada matriz
 		cout << "-->Calculando o numero de pixeis de cada matriz..." << endl ;
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++ ) {
+			for ( j = 0; j < pm->NY(); j++ ) {
+				for ( k = 0; k < pm->NZ(); k++ ) {
 					// 	Calcula VSitios[raioee]
 					if ( matrizSitios->data3D[i][j][k] == INDICE)
 						VSitios[ raioEE ]++;
@@ -625,9 +640,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 
 		// Como fez dilatacao extra, precisa retornar matrizInicial para matrizAbertura
 		cout << "-->Como fez dilatacao extra, precisa retornar a imagem matrizInicial a original..." << endl ;
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++ ) {
+			for ( j = 0; j < pm->NY(); j++ ) {
+				for ( k = 0; k < pm->NZ(); k++ ) {
 					matrizInicial->data3D[i][j][k] = matrizAbertura->data3D[i][j][k];
 				}
 			}
@@ -669,7 +685,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_1() {
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	// Variaveis auxiliares
 	modelo = 2;
-
+	int i,j,k;
 	// usada para setar nome dos arquivos de disco
 	ostringstream os;
 
@@ -738,7 +754,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	Objeto[0].Tipo( SOLIDO );
 
 	// Seta os demais objetos como sendo PORO
-	for ( int i = 1; i < Objeto.size(); i++ ) {
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
+	for ( i = 1; i < Objeto.size(); i++ ) {
 		Objeto[i].Rotulo( i );
 		Objeto[i].Tipo( PORO );
 	}
@@ -781,7 +798,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		cout << "-->nObjetosDepoisAbertura =..." 	<< nObjetosDepoisAbertura << endl ;
 
 		// Adiciona objetos rotulados a lista de objetos -  o que ficou na imagem abertura são sitios.
-		for ( int i = nObjetosAntesAbertura ; i < nObjetosDepoisAbertura; i++ ) {
+		for ( i = nObjetosAntesAbertura ; i < nObjetosDepoisAbertura; i++ ) {
 			Objeto.push_back( CObjetoImagem( SITIO , i ) ) ;
 		}
 
@@ -792,9 +809,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		// Copia imagem abertura rotulada para matriz inicial rotulada,
 		// assim, a matriz inicial rotulada já terá a informação do rótulo dos sítios.
 		// A seguir, inverte pm (pm passa a ser o complemento da abertura)
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++ ) {
+			for ( j = 0; j < pm->NY(); j++ ) {
+				for ( k = 0; k < pm->NZ(); k++ ) {
 					// Se faz parte abertura; então copia para matriz inicial rotulada (copia rotulo dos sitios)
 					// MInicialRotulada terá os rótulos iniciais e os rotulos da imagem abertura acrescidos do número de objetos antes da abertura
 					// Isso precisa se feito pois o rotulador não mais permite informar o rótulo inicial.
@@ -831,16 +849,17 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 
 		// Adiciona objetos rotulados a lista de objetos -  são RAMOs_MORTOs
 		// depois iremos identificar quais ramos_mortos são ligações
-		for ( int i = nObjetosDepoisAbertura; i < nObjetosDepoisAberturaComplementar; i++ ) {
+		for ( i = nObjetosDepoisAbertura; i < nObjetosDepoisAberturaComplementar; i++ ) {
 			Objeto.push_back( CObjetoImagem( RAMO_MORTO, i ) );
 		}
 
 		// Copia imagem abertura complementar rotulada para matriz inicial rotulada.
 		// Para cada rótulo da imagem abertura complementar acrescenta o
 		// nObjetosDepoisAbertura de forma que os rotulos sejam sequenciais.
-		for ( int i = 0; i < pm->NX(); i++ ) {
-			for ( int j = 0; j < pm->NY(); j++ ) {
-				for ( int k = 0; k < pm->NZ(); k++ ) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++ ) {
+			for ( j = 0; j < pm->NY(); j++ ) {
+				for ( k = 0; k < pm->NZ(); k++ ) {
 					// Se não é fundo, copia para matriz inicial rotulada
 					if ( pm->data3D[i][j][k] == INDICE ) {
 						MInicialRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura;
@@ -856,9 +875,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;
 		int rotuloPixel_i_j_k;  // auxiliar
-		for ( int i = dimensaoBorda; i < pm->NX() - dimensaoBorda; i++) {
-			for ( int j = dimensaoBorda; j < pm->NY() - dimensaoBorda; j++) {
-				for ( int k = dimensaoBorda; k < pm->NZ() - dimensaoBorda; k++) {
+#pragma omp parallel for collapse(3) default(shared) private(rotuloPixel_i_j_k, i, j, k) //schedule(dynamic,10)
+		for ( i = dimensaoBorda; i < pm->NX() - dimensaoBorda; i++) {
+			for ( j = dimensaoBorda; j < pm->NY() - dimensaoBorda; j++) {
+				for ( k = dimensaoBorda; k < pm->NZ() - dimensaoBorda; k++) {
 					rotuloPixel_i_j_k	 =  MInicialRotulada->data3D[i][j][k];
 					// Só devemos considerar os rotulos da imagem abertura, i.e,  rotulo >= nObjetosAntesAbertura
 					if ( rotuloPixel_i_j_k	>= nObjetosAntesAbertura ) {
@@ -894,16 +914,18 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		}
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 		// Percorre apenas os rotulos marcados como RAMOs_MORTOs.
-		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
+		for ( i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
 			// Se o numero de conecções for maior que 1, então é ligação
 			if ( Objeto[i].SConeccao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
 		// Agora, todos o objetos foram anotados, temos SOLIDO, POROs, SITIOs, RAMOs_MORTOs e LIGACOES.
 		// vamos armazenar resultado na MSitiosLigacoes e salvar resultado parcial em disco.
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
 					// pm armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					// Sé é ramo ou ligação
 					if ( pm->data3D[i][j][k] == INDICE ) {
@@ -916,10 +938,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		}
 
 		// Precisamos fazer com que pm volte a ser a matriz abertura
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
-					int rot = MInicialRotulada->data3D[i][j][k];
+		int rot;
+#pragma omp parallel for collapse(3) default(shared) private(i, j, k, rot) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
+					rot = MInicialRotulada->data3D[i][j][k];
 					// Se maior ou igual a nObjetosAntesAbertura
 					if ( rot  >= nObjetosAntesAbertura and rot < nObjetosDepoisAbertura ) {
 						pm->data3D[i][j][k] = INDICE;
@@ -949,9 +973,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 		*/
 	// Seta MSitiosLigacoes com resultado final
 	//int tipoObjeto ;
-	for ( int i = 0; i < pm->NX(); i++) {
-		for ( int j = 0; j < pm->NY(); j++) {
-			for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for ( i = 0; i < pm->NX(); i++) {
+		for ( j = 0; j < pm->NY(); j++) {
+			for ( k = 0; k < pm->NZ(); k++) {
 				//TEMPORARIO, verificar porque código abaixo (comentado) Não funciona?
 				// Se não é fundo e não é ligação
 				if ( MInicialRotulada->data3D[i][j][k] > 0 and matrizLigacoes->data3D[i][j][k] != INDICE ) {
@@ -1050,7 +1075,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 	// Variaveis auxiliares
 	modelo = 3;
-
+	int i,j,k;
 	// usada para setar nome dos arquivos de disco
 	ostringstream os;
 
@@ -1105,7 +1130,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 	Objeto[0].Rotulo( 0 );
 	Objeto[0].Tipo( SOLIDO );
 	// Seta os demais objetos como sendo PORO
-	for ( int i = 1; i < Objeto.size(); i++ ) {
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
+	for ( i = 1; i < Objeto.size(); i++ ) {
 		Objeto[i].Rotulo( i );
 		Objeto[i].Tipo( PORO );
 	}
@@ -1117,9 +1143,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		cout << "-->nObjetosAntesAbertura =..." 	<< nObjetosAntesAbertura << endl;
 
 		// NOVO TENTAR RETIRAR POIS CONSOME MAIS MEMORIA - NOVO MODELO 3
-		for ( int i = 0; i < pm->NX(); i++)
-			for ( int j = 0; j < pm->NY(); j++)
-				for ( int k = 0; k < pm->NZ(); k++)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++)
+			for ( j = 0; j < pm->NY(); j++)
+				for ( k = 0; k < pm->NZ(); k++)
 					MatrizPmAntesAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
 
 		cout << "-->Processando Abertura..." << endl ;
@@ -1149,7 +1176,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		cout << "-->nObjetosDepoisAbertura =..." 	<< nObjetosDepoisAbertura << endl ;
 
 		// Adiciona objetos rotulados a lista de objetos -  o que ficou na imagem abertura são sitios.
-		for ( int i = nObjetosAntesAbertura ; i < nObjetosDepoisAbertura; i++ ) {
+		for ( i = nObjetosAntesAbertura ; i < nObjetosDepoisAbertura; i++ ) {
 			Objeto.push_back( CObjetoImagem( SITIO , i ) ) ;
 		}
 
@@ -1162,9 +1189,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		// Copia imagem abertura rotulada para matriz inicial rotulada,
 		// assim, a matriz inicial rotulada já terá a informação do rótulo dos sítios.
 		// A seguir, inverte pm (pm passa a ser o complemento da abertura)
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
 					// Se faz parte abertura; então copia para matriz inicial rotulada (copia rotulo dos sitios)
 					// MInicialRotulada terá os rótulos iniciais e os rotulos da imagem abertura acrescidos do número de objetos antes da abertura
 					// Isso precisa se feito pois o rotulador não mais permite informar o rótulo inicial.
@@ -1206,16 +1234,17 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 		// Adiciona objetos rotulados a lista de objetos -  são RAMOs_MORTOs
 		// depois iremos identificar quais ramos_mortos são ligações
-		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
+		for ( i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
 			Objeto.push_back( CObjetoImagem(  RAMO_MORTO , i ) ) ; // trocar por resize + rapido.
 		}
 
 		// Copia imagem abertura complementar rotulada para matriz inicial rotulada.
 		// Para cada rótulo da imagem abertura complementar acrescenta o
 		// nObjetosDepoisAbertura de forma que os rotulos sejam sequenciais.
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
 					// Se não é fundo, copia para matriz inicial rotulada
 					if ( pm->data3D[i][j][k] == INDICE )
 						MInicialRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura;
@@ -1230,9 +1259,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;
 		int rotuloPixel_i_j_k;  // auxiliar
-		for ( int i = dimensaoBorda; i < pm->NX() - dimensaoBorda; i++) {
-			for ( int j = dimensaoBorda; j < pm->NY() - dimensaoBorda; j++) {
-				for ( int k = dimensaoBorda; k < pm->NZ() - dimensaoBorda; k++) {
+#pragma omp parallel for collapse(3) default(shared) private(rotuloPixel_i_j_k, i, j, k) //schedule(dynamic,10)
+		for ( i = dimensaoBorda; i < pm->NX() - dimensaoBorda; i++) {
+			for ( j = dimensaoBorda; j < pm->NY() - dimensaoBorda; j++) {
+				for ( k = dimensaoBorda; k < pm->NZ() - dimensaoBorda; k++) {
 					rotuloPixel_i_j_k	 =  MInicialRotulada->data3D[i][j][k];
 					// Só devemos considerar os rotulos da imagem abertura, i.e,  rotulo >= nObjetosAntesAbertura
 					if (  rotuloPixel_i_j_k	 >=   nObjetosAntesAbertura ) {
@@ -1268,7 +1298,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		}
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 		// Percorre apenas os rotulos marcados como RAMOs_MORTOs.
-		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
+		for ( i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
 			// No modelo 2:
 			// Se o numero de conecções for maior que 1, então é ligação.
 			if ( Objeto[i].SConeccao().size() > 1 )
@@ -1298,9 +1329,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 		// Agora, todos o objetos foram anotados, temos SOLIDO, POROs, SITIOs, RAMOs_MORTOs e LIGACOES.
 		// vamos armazenar resultado na MSitiosLigacoes e salvar resultado parcial em disco.
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
 					// pm armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					// Sé é ramo ou ligação
 					if ( pm->data3D[i][j][k] == INDICE ) {
@@ -1324,10 +1356,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
 		// Precisamos fazer com que pm volte a ser a matriz abertura
-		for ( int i = 0; i < pm->NX(); i++) {
-			for ( int j = 0; j < pm->NY(); j++) {
-				for ( int k = 0; k < pm->NZ(); k++) {
-					int rot = MInicialRotulada->data3D[i][j][k];
+		int rot;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rot) //schedule(dynamic,10)
+		for ( i = 0; i < pm->NX(); i++) {
+			for ( j = 0; j < pm->NY(); j++) {
+				for ( k = 0; k < pm->NZ(); k++) {
+					rot = MInicialRotulada->data3D[i][j][k];
 					// Se maior ou igual a nObjetosAntesAbertura
 					if ( rot  >= nObjetosAntesAbertura and rot < nObjetosDepoisAbertura ) {
 						pm->data3D[i][j][k] = INDICE;
@@ -1348,9 +1382,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 	// Seta MSitiosLigacoes com resultado final
 	// ETipoObjetoImagem tipoObjeto ;
-	for ( int i = 0; i < pm->NX(); i++) {
-		for ( int j = 0; j < pm->NY(); j++) {
-			for ( int k = 0; k < pm->NZ(); k++) {
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for ( i = 0; i < pm->NX(); i++) {
+		for ( j = 0; j < pm->NY(); j++) {
+			for ( k = 0; k < pm->NZ(); k++) {
 				//TEMPORARIO, verificar porque código abaixo (documentado) Não funciona?
 				// Se não é fundo e não é ligação
 				if ( MInicialRotulada->data3D[i][j][k] > 0 and matrizLigacoes->data3D[i][j][k] != INDICE ) {
@@ -1527,6 +1562,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	Objeto[0].Tipo( SOLIDO );
 
 	// Os demais objetos irão representar poros e terão rótulo sequencial
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
 	for ( i = 1; i < Objeto.size(); i++ ) {
 		Objeto[i].Rotulo( i );
 		Objeto[i].Tipo( PORO );
@@ -1579,6 +1615,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
 		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
@@ -1649,6 +1686,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			Objeto.push_back( CObjetoImagem( RAMO_MORTO, i ) );
 		}
 		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
@@ -1664,6 +1702,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
 		borda = 1;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,rim1,rip1,rjm1,rjp1,rkm1,rkp1) //schedule(dynamic,10)
 		for ( i = borda; i < (nx-borda); i++) {
 			for ( j = borda; j < (ny-borda); j++) {
 				for ( k = borda; k < (nz-borda); k++) {
@@ -1700,6 +1739,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		}
 		cout << "-->Identificando ligações..." << endl ;
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
+#pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
 		for ( i = nObjetosDepoisAbertura; i < nObjetosAberturaComplementar; i++ ) // Percorre apenas os rotulos marcados como RAMOs_MORTOs.
 			if ( Objeto[i].SConeccao().size() > 1 ) // Se o numero de conexões for maior que 1, então é ligação
 				Objeto[i].Tipo( LIGACAO );
@@ -1707,10 +1747,12 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
 		// Em seguida, aproveita o loop para restaurar a matrizAbertura para o estado anterior.
 		//cont = 0;
+		int rotulo;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotulo) //schedule(dynamic,10)
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
-					int rotulo = matrizRotulada->data3D[i][j][k];
+					rotulo = matrizRotulada->data3D[i][j][k];
 					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						//cont++; //incrementa independente de ser ligação ou ramo morto.
@@ -1751,6 +1793,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 
 	cout << "==>Gerando resultado final..." << endl ;
 	// Armazendo resultado final na matrizAbertura (reaproveitamento).
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; i++) {
 		for ( j = 0; j < ny; j++) {
 			for ( k = 0; k < nz; k++) {

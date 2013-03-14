@@ -94,6 +94,9 @@ class CAberturaDilatacao3D
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
 		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_4();
 
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 5)
+		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_5();
+
 		// Salva vetor em disco (já tem Write?)
 		//void Salvar(CVetor* &v, std::string nomeArquivo);
 		void Salvar(std::vector<double> v, std::string nomeArquivo);

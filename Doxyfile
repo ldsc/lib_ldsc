@@ -1,4 +1,4 @@
-# Doxyfile 1.5.7.1-KDevelop
+# Doxyfile 1.8.3.1
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = LibLDSC
 PROJECT_NUMBER         = 2013
-PROJECT_BRIEF          =
+PROJECT_BRIEF          = "Biblioteca para a Análise de Imagens de Meios Porosos"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = docs
 CREATE_SUBDIRS         = NO
@@ -119,7 +119,7 @@ VERBATIM_HEADERS       = YES
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
 COLS_IN_ALPHA_INDEX    = 4
-IGNORE_PREFIX          = C
+IGNORE_PREFIX          = C T TC
 #---------------------------------------------------------------------------
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
@@ -170,6 +170,11 @@ USE_MATHJAX            = NO
 MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 SEARCHENGINE           = YES
 SERVER_BASED_SEARCH    = NO
+EXTERNAL_SEARCH        = NO
+SEARCHENGINE_URL       = 
+SEARCHDATA_FILE        = searchdata.xml
+EXTERNAL_SEARCH_ID     = 
+EXTRA_SEARCH_MAPPINGS  = 
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
@@ -272,7 +277,3 @@ DOT_TRANSPARENT        = NO
 DOT_MULTI_TARGETS      = NO
 GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
-#---------------------------------------------------------------------------
-# Configuration::additions related to the search engine   
-#---------------------------------------------------------------------------
-SEARCHENGINE           = YES

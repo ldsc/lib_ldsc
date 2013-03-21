@@ -778,7 +778,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 
 		// Percorre a imagem MInicialRotulada e faz as conecções.
 		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;
@@ -1199,7 +1199,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 
 		// Percorre a imagem MInicialRotulada e faz as conecções.
 		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;

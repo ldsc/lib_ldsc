@@ -43,18 +43,21 @@ class CObjetoImagem
 		/// Rotulo que identifica o objeto
 		int rotulo;
 
+		/// Acumula a quantidade de objetos representados pela classe.
+		int numObjs;
+
 		/// Set das conecções
-		std::set< int > sConeccao;
+		std::set< int > sConexao;
 
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), rotulo(0), sConeccao()
+		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), rotulo(0), numObjs(0), sConexao()
 		{}
 
-		/// Construtor sobrecarregado
-		CObjetoImagem( ETipoObjetoImagem _t , int _r) 	// std::vector< int > _v = 0 )
-			: tipo( _t ), rotulo( _r ),  sConeccao()
+		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
+		CObjetoImagem( ETipoObjetoImagem _t , int _r, int _n=0) 	// std::vector< int > _v = 0 )
+			: tipo( _t ), rotulo( _r ), numObjs( _n ), sConexao()
 		{}
 
 		/// Destrutor
@@ -62,13 +65,18 @@ class CObjetoImagem
 
 		/// O método Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto
 		bool Conectar( int _rotulo ) {
-			return (sConeccao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
+			return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 		}
 
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
 		ETipoObjetoImagem Tipo() 	{
 			return tipo;
+		}
+
+		// Retorna o número de obejtos representados
+		int NumObjs() {
+			return numObjs;
 		}
 
 		// Retorna tipo de objeto como uma string
@@ -84,11 +92,11 @@ class CObjetoImagem
 
 		/// Retorna referencia para o Set das conexoes
 		std::set< int > & SConeccao() 	{
-			return sConeccao;
+			return sConexao;
 		}
 
 		// Retorna rotulo da conexao i
-		//int  SConeccao( int i ) { return sConeccao[i]; }
+		//int  SConeccao( int i ) { return sConexao[i]; }
 
 		// Retorna tipo como uma string
 		// 	std::string Tipo() ;
@@ -105,8 +113,19 @@ class CObjetoImagem
 			tipo = _tipo;
 		}
 
+		/// Seta o número de objetos
+		void NumObjs(int _n){
+			numObjs = _n;
+		}
+
 		/// Seta o tipo de objeto a partir de uma string
 		void Tipo ( std::string _tipo );
+
+		/// Operador que incrementa o número de objetos representados
+		inline CObjetoImagem &operator++() { ++numObjs; return *this;}
+
+		/// Operador que decrementa o número de objetos representados
+		inline CObjetoImagem &operator--() { if(numObjs>0) --numObjs; return *this; }
 };
 
 /*

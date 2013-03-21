@@ -869,7 +869,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 
 		// Percorre a imagem MInicialRotulada e faz as conecções.
 		// Identifica os rótulos dos vizinhos e faz a conexão se o rotulo já não tiver sido incluido
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;
@@ -1253,7 +1253,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 		// Percorre a imagem MInicialRotulada e faz as conecções.
 		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
 		int dimensaoBorda = 1;
@@ -1698,7 +1698,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		}
 		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
 		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
 		borda = 1;
 		//Não pode ser paralelizado pois corre o risco de mais de um processo tentar acessar o mesmo endereço de memória simultaneamente.
@@ -1873,21 +1873,34 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 
 	//Cria matriz de objetos do tipo CObjetoImagem
 	//CObjetoImagem*** matrizObjetos = AlocaMatrizObjetos3D(nx, ny, nz);
+	map<int,CObjetoImagem> matrizObjetos;
+	//declara iterador para a matrizObjetos
+	map<int,CObjetoImagem>::iterator it;
+	//Cria elemento 0 representando sólidos
+	matrizObjetos[0] = CObjetoImagem(SOLIDO,0,0);
 
-	// Cria objetos do tipo PORO, com seus devido rótulos, nas posições que representam o espaço poroso.
-/*
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	//Percorre a matrizRotulada e para cada rótulo cria elementos do tipo PORO ou,
+	//caso o elemento já exista, incrementa o número de objetos representados;
+	//Também incrementa o número de objetos do tipo SOLIDO
+	//Não pode ser paralelo pois corre o risco de tentar acessar a mesma área de memória.
+	//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 	for ( i = 0; i < nx; i++) {
 		for ( j = 0; j < ny; j++) {
 			for ( k = 0; k < nz; k++) {
-				if( pm->data3D[i][j][k] == INDICE ) {
-					matrizObjetos[i][j][k].Tipo(PORO);
-					matrizObjetos[i][j][k].Rotulo(matrizRotulada->data3D[i][j][k]);
+				rotuloijk = matrizRotulada->data3D[i][j][k];
+				if(rotuloijk == FUNDO){
+					++(matrizObjetos[0]);
+				}else{
+					it = matrizObjetos.find(rotuloijk);
+					if(it != matrizObjetos.end()){ // não encontrou elemento
+						++(it->second);
+					}else{
+						matrizObjetos[rotuloijk] = CObjetoImagem(PORO,rotuloijk, 1);
+					}
 				}
 			}
 		}
 	}
-*/
 	// Entra em loop para realizar operações de abertura e comparações nas matrizes
 	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
 	int raioEE = 1;
@@ -1918,19 +1931,33 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
 		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
 					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;// menos 1 para não contar fundo novamente
-						//rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;// menos 1 para não contar fundo novamente
-						//matrizRotulada->data3D[i][j][k] = rotuloijk;
-						// Os objetos identificados após a abertura são considerados sítios e serão atualizados na matrizObjetos
-						//matrizObjetos[i][j][k].Rotulo(rotuloijk);
-						//matrizObjetos[i][j][k].Tipo(SITIO);
+						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
+						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
+						rotuloijk = matrizRotulada->data3D[i][j][k];
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento existe
+							if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
+								--(it->second);							// decrementa o número de objetos representados
+							}else{												// o elemento represente um ou menos objetos
+								matrizObjetos.erase(it);		// apaga o elemento.
+							}
+						}
+						//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
+						rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;// menos 1 para não contar fundo novamente
+						matrizRotulada->data3D[i][j][k] = rotuloijk;
 
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+								++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotuloijk] = CObjetoImagem( SITIO , rotuloijk, 1);
+						}
 					}
 					//Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
@@ -1957,44 +1984,53 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		cout << "-->Num. objetos na abertura complementar = " << matrizRotulo->NumeroObjetos() << endl;
 		cout << "-->nObjetosAberturaComplementar = " << nObjetosAberturaComplementar << endl;
 
-		// Adiciona a lista de objetos os rótulos identificados no complemento da matriz abertura (são ramos mortos)
-		// Posteriormente irá identificar quais ramos mortos são ligações
-		//for ( i = nObjetosDepoisAbertura; i < nObjetosAberturaComplementar; i++ ) {
-		//	Objeto.push_back( CObjetoImagem( RAMO_MORTO, i ) );
-		//}
 		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
 		for ( i = 0; i < nx; i++) {
 			for ( j = 0; j < ny; j++) {
 				for ( k = 0; k < nz; k++) {
 					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura - 1;
-						//rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura - 1;
-						//matrizRotulada->data3D[i][j][k] = rotuloijk;
-						// Os objetos identificados no complemento da abertura são inicialmente considerados RAMO_MORTO e serão atualizados na matrizObjetos
-						// Posteriormente irá identificar quais ramos mortos são ligações.
-						//matrizObjetos[i][j][k].Rotulo(rotuloijk);
-						//matrizObjetos[i][j][k].Tipo(RAMO_MORTO);
+						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
+						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
+						rotuloijk = matrizRotulada->data3D[i][j][k];
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento existe
+							if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
+								--(it->second);							// decrementa o número de objetos representados
+							}else{												// o elemento represente um ou menos objetos
+								matrizObjetos.erase(it);		// apaga o elemento.
+							}
+						}
+						//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
+						//Os objetos identificados no complemento da abertura, inicialmente são considerados ramos mortos; depois iremos verificar quais ramos representam ligaçoes.
+						rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura - 1;
+						matrizRotulada->data3D[i][j][k] = rotuloijk;
+
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+								++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO , rotuloijk, 1);
+						}
 					}
 				}
 			}
 		}
 		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
 		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
-		// lembre-se que set não tem repeticao, e sConeccao é do tipo set<int>.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
 		borda = 1;
-		//Não pode ser paralelizado pois corre o risco de mais de um processo tentar acessar o mesmo endereço de memória simultaneamente.
-		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,rim1,rip1,rjm1,rjp1,rkm1,rkp1) //schedule(dynamic,10)
-		map<int,CObjetoImagem> matrizObjetos;
+		//Não pode ser paralelizado pois corre o risco de mais de um processo atualizar um mesmo endereço de memória simultaneamente.
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,rim1,rip1,rjm1,rjp1,rkm1,rkp1,it) //schedule(dynamic,10)
 		for ( i = borda; i < (nx-borda); i++) {
 			for ( j = borda; j < (ny-borda); j++) {
 				for ( k = borda; k < (nz-borda); k++) {
 					rotuloijk = matrizRotulada->data3D[i][j][k];
 					// Só devemos considerar os rotulos da imagem abertura, i.e, rotulo >= nObjetosAntesAbertura
 					if ( rotuloijk	>= nObjetosAntesAbertura ) {
-						matrizObjetos[rotuloijk] = CObjetoImagem();
+						it = matrizObjetos.find(rotuloijk);
 						rim1 = matrizRotulada->data3D[i-1][j][k];
 						rip1 = matrizRotulada->data3D[i+1][j][k];
 						rjm1 = matrizRotulada->data3D[i][j-1][k];
@@ -2003,22 +2039,22 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
 						// Se os rotulos são diferentes e fazem parte da matriz abertura, então, marca a conexão.
 						if ( rotuloijk != rim1 and rim1 >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rim1 );
+							it->second.Conectar( rim1 );
 
 						if ( rotuloijk != rip1 and rip1 >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rip1 );
+							it->second.Conectar( rip1 );
 
 						if ( rotuloijk != rjm1 and rjm1 >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rjm1 );
+							it->second.Conectar( rjm1 );
 
 						if ( rotuloijk != rjp1 and rjp1  >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rjp1 );
+							it->second.Conectar( rjp1 );
 
 						if ( rotuloijk != rkm1 and rkm1  >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rkm1 );
+							it->second.Conectar( rkm1 );
 
 						if ( rotuloijk != rkp1 and rkp1  >= nObjetosAntesAbertura)
-							matrizObjetos[rotuloijk].Conectar( rkp1 );
+							it->second.Conectar( rkp1 );
 					}
 				}
 			}
@@ -2054,18 +2090,6 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 				}
 			}
 		}
-		matrizObjetos.clear();
-		/*
-		cout << "-->Volume de sítios = " << dist.second << endl;
-		// Seta o par tamanho/area e armazena no vetor distribuição de ligações.
-		volLigacoes = 100.0 * cont / volume;
-		dist.first  = raioEE;
-		dist.second = (lastVolLigacoes - volLigacoes) / porosidadeInicial;
-		distLigacoes.push_back(dist);
-		lastVolLigacoes = volLigacoes;
-		volumeAcumulado += dist.second;
-		cout << "-->Volume de ligações = " << dist.second << endl;
-		*/
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;

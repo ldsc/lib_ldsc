@@ -2,6 +2,7 @@
 #define CAberturaDilatacao3D_H
 
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
+#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
 #include <Rotulador/TCRotulador3D.h>
 #include <Matriz/TCImagem3D.h>
 #include <Matriz/CVetor.h>
@@ -9,7 +10,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
-#include <vector>
+#include <map>
 
 using namespace std;
 
@@ -158,6 +159,12 @@ class CAberturaDilatacao3D
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+
+		/// Cria matriz 3D de objetos do tipo CObjetoImagem
+		CObjetoImagem *** AlocaMatrizObjetos3D(int nx, int ny, int nz);
+
+		/// Cria matriz 3D de objetos do tipo CObjetoImagem
+		void DesalocaMatrizObjetos3D(CObjetoImagem ***dat, int nx, int ny, int nz);
 
 };
 

@@ -640,11 +640,11 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 
 	// Seta o Rotulo e o Tipo dos objetos da imagem inicial
 	// Seta o fundo
-	Objeto[0].Rotulo( 0 );
+	//Objeto[0].Rotulo( 0 );
 	Objeto[0].Tipo( SOLIDO );
 	// Seta os demais objetos como sendo PORO
 	for ( int i = 1; i < Objeto.size(); i++ ) {
-		Objeto[i].Rotulo( i );
+		//Objeto[i].Rotulo( i );
 		Objeto[i].Tipo( PORO );
 	}
 
@@ -950,7 +950,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 				<< Objeto.size() << endl;
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
-		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo()
+		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
 					<< " " << Objeto[i].SConeccao().size();
 		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin();
 					it != Objeto[i].SConeccao().end();
@@ -1027,11 +1027,11 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 
 	// Seta o Rotulo e o Tipo dos objetos da imagem inicial
 	// Seta o fundo
-	Objeto[0].Rotulo( 0 );
+	//Objeto[0].Rotulo( 0 );
 	Objeto[0].Tipo( SOLIDO );
 	// Seta os demais objetos como sendo PORO
 	for ( int i = 1; i < Objeto.size(); i++ ) {
-		Objeto[i].Rotulo( i );
+		//Objeto[i].Rotulo( i );
 		Objeto[i].Tipo( PORO );
 	}
 
@@ -1401,7 +1401,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 				<< Objeto.size() << endl;
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
-		fout 	<< i << " " << Objeto[i].Tipo() << " " << Objeto[i].Rotulo()
+		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
 					<< " " << Objeto[i].SConeccao().size();
 		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
 			// indiceDasConeccoes" << endl

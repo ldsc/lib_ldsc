@@ -98,6 +98,9 @@ class CAberturaDilatacao3D
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 5)
 		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_5();
 
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 6)
+		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_6();
+
 		// Salva vetor em disco (já tem Write?)
 		//void Salvar(CVetor* &v, std::string nomeArquivo);
 		void Salvar(std::vector<double> v, std::string nomeArquivo);
@@ -160,12 +163,13 @@ class CAberturaDilatacao3D
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
 
+		/*
 		/// Cria matriz 3D de objetos do tipo CObjetoImagem
 		CObjetoImagem *** AlocaMatrizObjetos3D(int nx, int ny, int nz);
 
 		/// Cria matriz 3D de objetos do tipo CObjetoImagem
 		void DesalocaMatrizObjetos3D(CObjetoImagem ***dat, int nx, int ny, int nz);
-
+		*/
 };
 
 #endif

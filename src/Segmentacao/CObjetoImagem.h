@@ -40,8 +40,8 @@ class CObjetoImagem
 		/// Identifica o tipo do objeto
 		ETipoObjetoImagem  tipo;
 
-		/// Rotulo que identifica o objeto
-		int rotulo;
+		// /// Rotulo que identifica o objeto
+		//int rotulo;
 
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs;
@@ -52,12 +52,15 @@ class CObjetoImagem
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), rotulo(0), numObjs(0), sConexao()
+		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), numObjs(0), sConexao()
+//CObjetoImagem(): tipo( NAO_IDENTIFICADO ), rotulo(0), numObjs(0), sConexao()
 		{}
 
 		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		CObjetoImagem( ETipoObjetoImagem _t , int _r, int _n=0) 	// std::vector< int > _v = 0 )
-			: tipo( _t ), rotulo( _r ), numObjs( _n ), sConexao()
+		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) 	// std::vector< int > _v = 0 )
+			: tipo( _t ), numObjs( _n ), sConexao()
+		//CObjetoImagem( ETipoObjetoImagem _t , int _r, int _n=0) 	// std::vector< int > _v = 0 )
+		//	: tipo( _t ), rotulo( _r ), numObjs( _n ), sConexao()
 		{}
 
 		/// Destrutor
@@ -70,28 +73,22 @@ class CObjetoImagem
 
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
-		ETipoObjetoImagem Tipo() 	{
-			return tipo;
-		}
+		inline ETipoObjetoImagem Tipo() { return tipo; }
 
 		// Retorna o número de obejtos representados
-		int NumObjs() {
-			return numObjs;
-		}
+		inline int NumObjs() { return numObjs; }
 
 		// Retorna tipo de objeto como uma string
-		//	std::string Tipo() ;
+		// inline std::string Tipo() ;
 
 		// Retorna tipo de objeto como um int
-		// int Tipo() 			{ return (int) tipo; };
+		// inline int Tipo() { return (int) tipo; };
 
-		/// Retorna o rotulo
-		int Rotulo() 					{
-			return rotulo;
-		}
+		// /// Retorna o rotulo
+		//inline int Rotulo() { return rotulo; }
 
 		/// Retorna referencia para o Set das conexoes
-		std::set< int > & SConeccao() 	{
+		inline std::set< int > & SConeccao() 	{
 			return sConexao;
 		}
 
@@ -102,24 +99,17 @@ class CObjetoImagem
 		// 	std::string Tipo() ;
 
 		// --------------------------------------------------------------------Set
-		/// Seta o rotulo
-		void Rotulo ( int _rotulo) 		{
-			rotulo = _rotulo;
-		}
+		// /// Seta o rotulo
+		// inline void Rotulo ( int _rotulo) { rotulo = _rotulo; }
 
 		/// Seta o tipo de objeto
-		void Tipo ( ETipoObjetoImagem _tipo )
-		{
-			tipo = _tipo;
-		}
+		inline void Tipo ( ETipoObjetoImagem _tipo ) { tipo = _tipo; }
 
 		/// Seta o número de objetos
-		void NumObjs(int _n){
-			numObjs = _n;
-		}
+		inline void NumObjs(int _n) { numObjs = _n; }
 
-		/// Seta o tipo de objeto a partir de uma string
-		void Tipo ( std::string _tipo );
+		// /// Seta o tipo de objeto a partir de uma string
+		// inline void Tipo ( std::string _tipo );
 
 		/// Operador que incrementa o número de objetos representados
 		inline CObjetoImagem &operator++() { ++numObjs; return *this;}

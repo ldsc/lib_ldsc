@@ -2407,7 +2407,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			for ( j = borda; j < (ny-borda); j++) {
 				for ( k = borda; k < (nz-borda); k++) {
 					rotuloijk = matrizRotulada->data3D[i][j][k];
-					// Só devemos considerar os rotulos da imagem abertura, i.e, rotulo >= nObjetosAntesAbertura
+					// Só devemos considerar os rotulos criados neste passo, i.e, rotulo >= nObjetosAntesAbertura
 					if ( rotuloijk	>= nObjetosAntesAbertura ) {
 						it = matrizObjetos.find(rotuloijk);
 						rim1 = matrizRotulada->data3D[i-1][j][k];
@@ -2417,22 +2417,34 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 						rkm1 = matrizRotulada->data3D[i][j][k-1];
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
-						if ( rotuloijk != rim1 and rim1 >= nObjetosAntesAbertura and matrizObjetos[rim1].Tipo() == SITIO)
+						if ( rotuloijk != rim1
+								 //and rim1 >= nObjetosAntesAbertura
+								 and matrizObjetos[rim1].Tipo() == SITIO)
 							it->second.Conectar( rim1 );
 
-						if ( rotuloijk != rip1 and rip1 >= nObjetosAntesAbertura and matrizObjetos[rip1].Tipo() == SITIO)
+						if ( rotuloijk != rip1
+								 //and rip1 >= nObjetosAntesAbertura
+								 and matrizObjetos[rip1].Tipo() == SITIO)
 							it->second.Conectar( rip1 );
 
-						if ( rotuloijk != rjm1 and rjm1 >= nObjetosAntesAbertura and matrizObjetos[rjm1].Tipo() == SITIO)
+						if ( rotuloijk != rjm1
+								 //and rjm1 >= nObjetosAntesAbertura
+								 and matrizObjetos[rjm1].Tipo() == SITIO)
 							it->second.Conectar( rjm1 );
 
-						if ( rotuloijk != rjp1 and rjp1  >= nObjetosAntesAbertura and matrizObjetos[rjp1].Tipo() == SITIO)
+						if ( rotuloijk != rjp1
+								 //and rjp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rjp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1 );
 
-						if ( rotuloijk != rkm1 and rkm1  >= nObjetosAntesAbertura and matrizObjetos[rkm1].Tipo() == SITIO)
+						if ( rotuloijk != rkm1
+								 //and rkm1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rkm1].Tipo() == SITIO)
 							it->second.Conectar( rkm1 );
 
-						if ( rotuloijk != rkp1 and rkp1  >= nObjetosAntesAbertura and matrizObjetos[rkp1].Tipo() == SITIO)
+						if ( rotuloijk != rkp1
+								 //and rkp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rkp1].Tipo() == SITIO)
 							it->second.Conectar( rkp1 );
 					}
 				}

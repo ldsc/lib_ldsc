@@ -2219,16 +2219,18 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	int nz = pm->NZ();
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
+	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
+
 
 	// Cria matriz para representar ligações.
 	TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
 	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	//matrizLigacoes->Constante( FUNDO );
+	matrizLigacoes->Constante( FUNDO );
 
 	// Cria matriz para representar sitios.
 	TCMatriz3D<bool>* matrizSitios = new TCMatriz3D<bool>( nx, ny, nz );
 	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
-	//matrizSitios->Constante( FUNDO );
+	matrizSitios->Constante( FUNDO );
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -2297,6 +2299,9 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
+		// Atualizando porosidade
+		porosidade = Porosidade( matrizAbertura );
+
 		cout << "-->Rotulando matriz abertura..." << endl ;
 		matrizRotulo->Go( matrizAbertura );
 
@@ -2340,6 +2345,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 					//Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
+					//if ( matrizRotulada->data3D[i][j][k] >=	nObjetosAntesAbertura ) {
 						if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
 							matrizAbertura->data3D[i][j][k] = INDICE;
 						} else {
@@ -2416,6 +2422,19 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 						rjp1 = matrizRotulada->data3D[i][j+1][k];
 						rkm1 = matrizRotulada->data3D[i][j][k-1];
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
+						rim1jm1 = matrizRotulada->data3D[i-1][j-1][k];
+						rim1jp1 = matrizRotulada->data3D[i-1][j+1][k];
+						rim1km1 = matrizRotulada->data3D[i-1][j][k-1];
+						rim1kp1 = matrizRotulada->data3D[i-1][j][k+1];
+						rip1jp1 = matrizRotulada->data3D[i+1][j+1][k];
+						rip1jm1 = matrizRotulada->data3D[i+1][j-1][k];
+						rip1kp1 = matrizRotulada->data3D[i+1][j][k+1];
+						rip1km1 = matrizRotulada->data3D[i+1][j][k-1];
+						rjm1km1 = matrizRotulada->data3D[i][j-1][k-1];
+						rjm1kp1 = matrizRotulada->data3D[i][j-1][k+1];
+						rjp1km1 = matrizRotulada->data3D[i][j+1][k-1];
+						rjp1kp1 = matrizRotulada->data3D[i][j+1][k+1];
+
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
 						if ( rotuloijk != rim1
 								 //and rim1 >= nObjetosAntesAbertura
@@ -2446,6 +2465,66 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 								 //and rkp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rkp1].Tipo() == SITIO)
 							it->second.Conectar( rkp1 );
+//
+						if ( rotuloijk != rim1jm1
+								 //and rim1jm1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rim1jm1].Tipo() == SITIO)
+							it->second.Conectar( rim1jm1 );
+
+						if ( rotuloijk != rim1jp1
+								 //and rim1jp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rim1jp1].Tipo() == SITIO)
+							it->second.Conectar( rim1jp1 );
+
+						if ( rotuloijk != rim1km1
+								 //and rim1km1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rim1km1].Tipo() == SITIO)
+							it->second.Conectar( rim1km1 );
+
+						if ( rotuloijk != rim1kp1
+								 //and rim1kp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rim1kp1].Tipo() == SITIO)
+							it->second.Conectar( rim1kp1 );
+
+						if ( rotuloijk != rip1jp1
+								 //and rip1jp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rip1jp1].Tipo() == SITIO)
+							it->second.Conectar( rip1jp1 );
+
+						if ( rotuloijk != rip1jm1
+								 //and rip1jm1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rip1jm1].Tipo() == SITIO)
+							it->second.Conectar( rip1jm1 );
+
+						if ( rotuloijk != rip1kp1
+								 //and rip1kp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rip1kp1].Tipo() == SITIO)
+							it->second.Conectar( rip1kp1 );
+
+						if ( rotuloijk != rip1km1
+								 //and rip1km1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rip1km1].Tipo() == SITIO)
+							it->second.Conectar( rip1km1 );
+
+						if ( rotuloijk != rjm1km1
+								 //and rjm1km1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rjm1km1].Tipo() == SITIO)
+							it->second.Conectar( rjm1km1 );
+
+						if ( rotuloijk != rjm1kp1
+								 //and rjm1kp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rjm1kp1].Tipo() == SITIO)
+							it->second.Conectar( rjm1kp1 );
+
+						if ( rotuloijk != rjp1km1
+								 //and rjp1km1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rjp1km1].Tipo() == SITIO)
+							it->second.Conectar( rjp1km1 );
+
+						if ( rotuloijk != rjp1kp1
+								 //and rjp1kp1  >= nObjetosAntesAbertura
+								 and matrizObjetos[rjp1kp1].Tipo() == SITIO)
+							it->second.Conectar( rjp1kp1 );
 					}
 				}
 			}
@@ -2470,12 +2549,16 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 							matrizSitios->data3D[i][j][k] = INDICE;
 						}
 					}
+
 					// restaura a matrizAbertura para o estado anterior.
+					/*
 					if ( rotuloijk  >= nObjetosAntesAbertura and rotuloijk < nObjetosDepoisAbertura ) {
 						matrizAbertura->data3D[i][j][k] = INDICE;
 					} else {
 						matrizAbertura->data3D[i][j][k] = FUNDO;
 					}
+					*/
+					matrizAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
 				}
 			}
 		}
@@ -2483,14 +2566,11 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;
 
-		// Atualizando porosidade
-		porosidade = Porosidade( matrizAbertura );
-
 		// Incrementando raio do Elemento Estruturante
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
 
-	// Armazendo resultado final na matrizAbertura (reaproveitamento).
+	/*
 	cout << "==>Gerando resultado final..." << endl ;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; i++) {
@@ -2507,7 +2587,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			}
 		}
 	}
-
+*/
 	// Libera espaço em memória.
 	delete matrizAbertura;
 	delete matrizRotulada;

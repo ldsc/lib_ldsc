@@ -2436,93 +2436,75 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 						rjp1kp1 = matrizRotulada->data3D[i][j+1][k+1];
 
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
-						if ( rotuloijk != rim1
-								 //and rim1 >= nObjetosAntesAbertura
+						if ( rotuloijk != rim1 //and rim1 >= nObjetosAntesAbertura
 								 and matrizObjetos[rim1].Tipo() == SITIO)
 							it->second.Conectar( rim1 );
 
-						if ( rotuloijk != rip1
-								 //and rip1 >= nObjetosAntesAbertura
+						if ( rotuloijk != rip1 //and rip1 >= nObjetosAntesAbertura
 								 and matrizObjetos[rip1].Tipo() == SITIO)
 							it->second.Conectar( rip1 );
 
-						if ( rotuloijk != rjm1
-								 //and rjm1 >= nObjetosAntesAbertura
+						if ( rotuloijk != rjm1 //and rjm1 >= nObjetosAntesAbertura
 								 and matrizObjetos[rjm1].Tipo() == SITIO)
 							it->second.Conectar( rjm1 );
 
-						if ( rotuloijk != rjp1
-								 //and rjp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rjp1 //and rjp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rjp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1 );
 
-						if ( rotuloijk != rkm1
-								 //and rkm1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rkm1 //and rkm1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rkm1].Tipo() == SITIO)
 							it->second.Conectar( rkm1 );
 
-						if ( rotuloijk != rkp1
-								 //and rkp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rkp1 //and rkp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rkp1].Tipo() == SITIO)
 							it->second.Conectar( rkp1 );
-//
-						if ( rotuloijk != rim1jm1
-								 //and rim1jm1  >= nObjetosAntesAbertura
+
+						if ( rotuloijk != rim1jm1 //and rim1jm1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rim1jm1].Tipo() == SITIO)
 							it->second.Conectar( rim1jm1 );
 
-						if ( rotuloijk != rim1jp1
-								 //and rim1jp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rim1jp1 //and rim1jp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rim1jp1].Tipo() == SITIO)
 							it->second.Conectar( rim1jp1 );
 
-						if ( rotuloijk != rim1km1
-								 //and rim1km1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rim1km1 //and rim1km1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rim1km1].Tipo() == SITIO)
 							it->second.Conectar( rim1km1 );
 
-						if ( rotuloijk != rim1kp1
-								 //and rim1kp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rim1kp1 //and rim1kp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rim1kp1].Tipo() == SITIO)
 							it->second.Conectar( rim1kp1 );
 
-						if ( rotuloijk != rip1jp1
-								 //and rip1jp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rip1jp1 //and rip1jp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rip1jp1].Tipo() == SITIO)
 							it->second.Conectar( rip1jp1 );
 
-						if ( rotuloijk != rip1jm1
-								 //and rip1jm1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rip1jm1 //and rip1jm1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rip1jm1].Tipo() == SITIO)
 							it->second.Conectar( rip1jm1 );
 
-						if ( rotuloijk != rip1kp1
-								 //and rip1kp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rip1kp1 //and rip1kp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rip1kp1].Tipo() == SITIO)
 							it->second.Conectar( rip1kp1 );
 
-						if ( rotuloijk != rip1km1
-								 //and rip1km1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rip1km1 //and rip1km1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rip1km1].Tipo() == SITIO)
 							it->second.Conectar( rip1km1 );
 
-						if ( rotuloijk != rjm1km1
-								 //and rjm1km1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rjm1km1 //and rjm1km1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rjm1km1].Tipo() == SITIO)
 							it->second.Conectar( rjm1km1 );
 
-						if ( rotuloijk != rjm1kp1
-								 //and rjm1kp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rjm1kp1 //and rjm1kp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rjm1kp1].Tipo() == SITIO)
 							it->second.Conectar( rjm1kp1 );
 
-						if ( rotuloijk != rjp1km1
-								 //and rjp1km1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rjp1km1 //and rjp1km1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rjp1km1].Tipo() == SITIO)
 							it->second.Conectar( rjp1km1 );
 
-						if ( rotuloijk != rjp1kp1
-								 //and rjp1kp1  >= nObjetosAntesAbertura
+						if ( rotuloijk != rjp1kp1 //and rjp1kp1  >= nObjetosAntesAbertura
 								 and matrizObjetos[rjp1kp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1kp1 );
 					}
@@ -2562,6 +2544,14 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 				}
 			}
 		}
+
+		os.str("");
+		os << "MatrizSitios_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+
+		os.str("");
+		os << "MatrizLigacoes_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;

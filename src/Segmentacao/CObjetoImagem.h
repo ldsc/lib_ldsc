@@ -88,12 +88,12 @@ class CObjetoImagem
 		//inline int Rotulo() { return rotulo; }
 
 		/// Retorna referencia para o Set das conexoes
-		inline std::set< int > & SConeccao() 	{
+		inline std::set< int > & SConexao() 	{
 			return sConexao;
 		}
 
 		// Retorna rotulo da conexao i
-		//int  SConeccao( int i ) { return sConexao[i]; }
+		//int  SConexao( int i ) { return sConexao[i]; }
 
 		// Retorna tipo como uma string
 		// 	std::string Tipo() ;

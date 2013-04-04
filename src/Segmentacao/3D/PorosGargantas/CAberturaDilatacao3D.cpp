@@ -969,7 +969,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 #pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
 		for ( i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
 			// Se o numero de conecções for maior que 1, então é ligação
-			if ( Objeto[i].SConeccao().size() > 1 )
+			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
 		// Agora, todos o objetos foram anotados, temos SOLIDO, POROs, SITIOs, RAMOs_MORTOs e LIGACOES.
@@ -1095,8 +1095,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_2() {
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
+					<< " " << Objeto[i].SConexao().size();
+		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	) {
 			// indiceDasConeccoes" << endl
 			fout <<  " " << *it << " ";
 		}
@@ -1355,7 +1355,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 		for ( i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
 			// No modelo 2:
 			// Se o numero de conecções for maior que 1, então é ligação.
-			if ( Objeto[i].SConeccao().size() > 1 )
+			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
 			// O problema que a ligação esta se estendendo até que o sítio seja eliminado pela abertura;
@@ -1371,7 +1371,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 
 			// Cria set que vai ter somente as conecções do rótulo i (ramo i), com os objetos sítios (sem repeticao)
 			// 		std::set<int> rotuloSitiosConectados;
-			// 		for( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++ )
+			// 		for( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++ )
 			// 			{
 			// 			if ( Objeto[ *it ].Tipo() == SITIO and *it >= nObjetosDepoisAbertura ) // and *it < nObjetosDepoisAberturaComplementar
 			// 				rotuloSitiosConectados.insert( *it );
@@ -1516,8 +1516,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_3() {
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
+					<< " " << Objeto[i].SConexao().size();
+		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	) {
 			// indiceDasConeccoes" << endl
 			fout <<  " " << *it << " ";
 		}
@@ -1796,7 +1796,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 #pragma omp parallel for default(shared) private(i) //schedule(dynamic,10)
 		for ( i = nObjetosDepoisAbertura; i < nObjetosAberturaComplementar; i++ ) // Percorre apenas os rotulos marcados como RAMOs_MORTOs.
-			if ( Objeto[i].SConeccao().size() > 1 ) // Se o numero de conexões for maior que 1, então é ligação
+			if ( Objeto[i].SConexao().size() > 1 ) // Se o numero de conexões for maior que 1, então é ligação
 				Objeto[i].Tipo( LIGACAO );
 
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
@@ -2132,7 +2132,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 					rotuloijk = matrizRotulada->data3D[i][j][k];
 					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						if ( matrizObjetos[rotuloijk].SConeccao().size() > 1 ) {
+						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
 							matrizLigacoes->data3D[i][j][k] = INDICE;
 						}
@@ -2541,7 +2541,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 					rotuloijk = matrizRotulada->data3D[i][j][k];
 					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
-						if ( matrizObjetos[rotuloijk].SConeccao().size() > 1 ) {
+						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
 							matrizLigacoes->data3D[i][j][k] = INDICE;
 						}else{

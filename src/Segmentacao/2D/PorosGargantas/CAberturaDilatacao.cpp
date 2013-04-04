@@ -813,7 +813,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 		// Percorre apenas os rotulos marcados como RAMOs_MORTOs.
 		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
 			// Se o numero de conecções for maior que 1, então é ligação
-			if ( Objeto[i].SConeccao().size() > 1 )
+			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
 		// Agora, todos o objetos foram anotados, temos SOLIDO, POROs, SITIOs, RAMOs_MORTOs e LIGACOES.
@@ -951,9 +951,9 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin();
-					it != Objeto[i].SConeccao().end();
+					<< " " << Objeto[i].SConexao().size();
+		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin();
+					it != Objeto[i].SConexao().end();
 					it++	)
 		{
 			// indiceDasConeccoes" << endl
@@ -1235,7 +1235,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ ) {
 			// No modelo 2:
 			// Se o numero de conecções for maior que 1, então é ligação.
-			if ( Objeto[i].SConeccao().size() > 1 )
+			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
 			// O problema que a ligação esta se estendendo até que o sítio seja eliminado pela abertura;
@@ -1251,7 +1251,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 
 			// Cria set que vai ter somente as conecções do rótulo i (ramo i), com os objetos sítios (sem repeticao)
 			// 		std::set<int> rotuloSitiosConectados;
-			// 		for( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++ )
+			// 		for( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++ )
 			// 			{
 			// 			if ( Objeto[ *it ].Tipo() == SITIO and *it >= nObjetosDepoisAbertura ) // and *it < nObjetosDepoisAberturaComplementar
 			// 				rotuloSitiosConectados.insert( *it );
@@ -1402,8 +1402,8 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 	for ( int i = 0 ; i < Objeto.size(); i++ ) {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
-					<< " " << Objeto[i].SConeccao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConeccao().begin(); it != Objeto[i].SConeccao().end(); it++	) {
+					<< " " << Objeto[i].SConexao().size();
+		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	) {
 			// indiceDasConeccoes" << endl
 			fout <<  " " << *it << " ";
 		}

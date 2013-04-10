@@ -2217,7 +2217,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
-	int i, j, k, rotuloijk, borda;
+	int i, j, k, l, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
@@ -2289,11 +2289,27 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		cout << "-->Porosidade = " << porosidade << endl;
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
 		cout << "-->nObjetosAntesAbertura = " << nObjetosAntesAbertura << endl;
-		cout << "-->Processando Abertura..." << endl;
+
+		cout << "-->Preparando filtro..." << endl;
 		pfmf->Go( matrizAbertura, raioEE );
+
+		cout << "-->Processando Abertura..." << endl;
 		pfmf->Abertura( matrizAbertura, raioEE );
-		//pfmf->Go( matrizAbertura, raioEE );
-		//pfmf->Dilatacao( matrizAbertura, 1 );
+
+		cout << "-->Processando Dilatação..." << endl;
+		pfmf->Go( matrizAbertura, raioEE );
+		pfmf->Dilatacao( matrizAbertura, 2 );
+
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i ) {
+			for ( j = 0; j < ny; ++j ) {
+				for ( k = 0; k < nz; ++k ) {
+					if( matrizAbertura->data3D[i][j][k] == INDICE and pm->data3D[i][j][k] == FUNDO) {
+						matrizAbertura->data3D[i][j][k] = FUNDO;
+					}
+				}
+			}
+		}
 
 		os.str("");
 		os << "MatrizAbertura_" << raioEE << ".dbm";
@@ -2345,7 +2361,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 					//Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
-					//if ( matrizRotulada->data3D[i][j][k] >=	nObjetosAntesAbertura ) {
+						//if ( matrizRotulada->data3D[i][j][k] >=	nObjetosAntesAbertura ) {
 						if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
 							matrizAbertura->data3D[i][j][k] = INDICE;
 						} else {

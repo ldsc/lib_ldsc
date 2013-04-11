@@ -14,6 +14,13 @@
 
 using namespace std;
 
+struct Ponto {
+		int df; ///<Distância ao fundo.
+		int i; ///<Posição do ponto em x.
+		int j; ///<Posição do ponto em y.
+		int k; ///<Posição do ponto em z.
+};
+
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
  * Substituído rotulador interno pela classe CRotulador3D (otimizada).
@@ -100,6 +107,9 @@ class CAberturaDilatacao3D
 
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 6)
 		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_6();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
+		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_7();
 
 		// Salva vetor em disco (já tem Write?)
 		//void Salvar(CVetor* &v, std::string nomeArquivo);

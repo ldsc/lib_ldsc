@@ -2620,14 +2620,16 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
+	int raioEE = 1;
+	int meioNX = nx/2;
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
 	// Cria matriz para representar ligações.
-	//TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
-	//matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	//matrizLigacoes->Constante( FUNDO );
+	TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
+	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
+	matrizLigacoes->Constante( FUNDO );
 
 	// Cria matriz para representar sitios.
 	TCMatriz3D<bool>* matrizSitios = new TCMatriz3D<bool>( nx, ny, nz );
@@ -2642,10 +2644,10 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	porosidade = Porosidade( matrizAbertura );
 
 	// Rotula matrizRotulo;
-	cout << "==>Rotulando Imagem...";
-	timing = omp_get_wtime();
+	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 	matrizRotulo->Go( matrizAbertura );
-	cout << "\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
 	nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
 
 	// Cria matriz que irá armazenar os rótulos identificados nas diversas operações de abertura
@@ -2685,42 +2687,33 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		}
 	}
 
-	int raioEE = 1;
-	int meioNX = nx/2;
+	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	pfmf->Go( matrizAbertura );
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	cout << "-->Preparando filtro..."; cout.flush();
-	timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura, raioEE );
-	cout << "\t\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
-
-	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
+	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
 	while ( (porosidade > 0.0) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
 		cout << "==>Executando passo = " << raioEE << endl;
 		cout << "-->Porosidade = " << porosidade << endl;
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
-		cout << "-->nObjetosAntesAbertura = " << nObjetosAntesAbertura << endl;
 
-		cout << "-->Processando Abertura..."; cout.flush();
-		timing = omp_get_wtime();
+		cout << "-->Processando Abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 		pfmf->Abertura( matrizAbertura, raioEE );
-		cout << "\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-		os.str("");
-		os << "MatrizAbertura_" << raioEE << ".dbm";
+		os.str(""); os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		// Atualizando porosidade
 		porosidade = Porosidade( matrizAbertura );
 
-		cout << "-->Rotulando matriz abertura..."; cout.flush();
-		timing = omp_get_wtime();
+		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( matrizAbertura );
-		cout << "\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		// Acumula o número de objeto antes e depois da abertura
 		nObjetosDepoisAbertura = nObjetosAntesAbertura + matrizRotulo->NumeroObjetos() - 1; // menos 1 para não contar fundo novamente
 		cout << "-->Num. objetos depois da abertura = " << matrizRotulo->NumeroObjetos() << endl;
-		cout << "-->Num. objetos antes+depois da abertura = " << nObjetosDepoisAbertura << endl;
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
@@ -2768,19 +2761,16 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			}
 		}
 
-		os.str("");
-		os << "MatrizComplementoAbertura_" << raioEE << ".dbm";
+		os.str(""); os << "MatrizComplementoAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
-		cout << "-->Rotulando matriz abertura complementar..."; cout.flush();
-		timing = omp_get_wtime();
+		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( matrizAbertura );
-		cout << "\ttempo: " << omp_get_wtime()-timing << " s." << endl;
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		// Acumula o número de objetos depois da abertura como o número de objetos do complemento da abertura
 		nObjetosAberturaComplementar = nObjetosDepoisAbertura + matrizRotulo->NumeroObjetos() - 1;
 		cout << "-->Num. objetos na abertura complementar = " << matrizRotulo->NumeroObjetos() << endl;
-		cout << "-->nObjetosAberturaComplementar = " << nObjetosAberturaComplementar << endl;
 
 		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
@@ -2801,15 +2791,13 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 							}
 						}
 						//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
-						//Os objetos identificados no complemento da abertura, inicialmente são considerados ramos mortos; depois iremos verificar quais ramos representam ligaçoes.
+						//Os objetos identificados no complemento da abertura, inicialmente são considerados ramos mortos; depois iremos verificar quais ramos representam ligações.
 						rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura - 1;
 						matrizRotulada->data3D[i][j][k] = rotuloijk;
-
 						it = matrizObjetos.find(rotuloijk);
 						if(it != matrizObjetos.end()){  // o elemento foi encontrado
 							++(it->second);								// incrementa o número de objetos representados
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-							//matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO , rotuloijk, 1);
 							matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO, 1);
 						}
 					}
@@ -2817,8 +2805,8 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			}
 		}
 
-		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
 		borda = 1;
+		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
 		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
 		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
@@ -2904,10 +2892,10 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
-							//matrizLigacoes->data3D[i][j][k] = INDICE;
+							matrizLigacoes->data3D[i][j][k] = INDICE;
 						}else{
 							matrizObjetos[rotuloijk].Tipo( SITIO );
-							//matrizSitios->data3D[i][j][k] = INDICE;
+							matrizSitios->data3D[i][j][k] = INDICE;
 						}
 					}
 
@@ -2918,13 +2906,11 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		}
 
 		/*
-		os.str("");
-		os << "MatrizSitios_" << raioEE << ".dbm";
+		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
 
-		os.str("");
-		os << "MatrizLigacoes_" << raioEE << ".dbm";
+		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 		*/
 
@@ -2935,28 +2921,12 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
 
-	cout << "==>Corrigindo sítios..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				if( pm->data3D[i][j][k] == FUNDO) {
-					matrizSitios->data3D[i][j][k] = FUNDO;
-				} else if ( matrizObjetos[matrizRotulada->data3D[i][j][k]].Tipo() == SITIO ) {
-					matrizSitios->data3D[i][j][k] = INDICE;
-				}
-			}
-		}
-	}
-
-	cout << "==>Preparando filtro..."; cout.flush();
-	timing = omp_get_wtime();
-	pfmf->Go( matrizSitios, raioEE );
+	cout << "==>Preparando filtro..."; cout.flush(); timing = omp_get_wtime();
+	pfmf->Go( matrizSitios );
 	cout << "\t\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	cout << "==>Processando Dilataço..."; cout.flush();
-	timing = omp_get_wtime();
-	pfmf->Dilatacao(matrizSitios, raioEE );
+	cout << "==>Processando Dilataço..."; cout.flush(); timing = omp_get_wtime();
+	pfmf->Dilatacao(matrizSitios, 3 );
 	cout << "\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "==>Corrigindo sítios..." << endl ;
@@ -2966,22 +2936,26 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			for ( k = 0; k < nz; ++k) {
 				if( pm->data3D[i][j][k] == FUNDO) {
 					matrizSitios->data3D[i][j][k] = FUNDO;
-					matrizAbertura->data3D[i][j][k] = FUNDO;
+					/*
+					matrizLigacoes->data3D[i][j][k] = FUNDO;
 				} else if ( matrizSitios->data3D[i][j][k] == FUNDO ) {
-					matrizAbertura->data3D[i][j][k] = INDICE;
+					matrizLigacoes->data3D[i][j][k] = INDICE;
+				} else {
+					matrizLigacoes->data3D[i][j][k] = FUNDO;
+					*/
 				}
 			}
 		}
 	}
 
 	// Libera espaço em memória.
-	//delete matrizAbertura;
+	delete matrizAbertura;
 	delete matrizRotulada;
 
 	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
 
 	// retorna par de ponteiros para matrizes sitios e ligações.
-	return make_pair( matrizSitios, matrizAbertura );
+	return make_pair( matrizSitios, matrizLigacoes );
 }
 /*
 		*matrizAuxiliar = *matrizAbertura;

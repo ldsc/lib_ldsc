@@ -23,6 +23,7 @@ using namespace std;
 */
 
 int main (int argc, char *argv[]) {
+	int result;
 	cout  << "\n================================================================================"
 				<< "\n======== Programa para criar imagem sintética 3D com poros e gargantas ========="
 				<< "\n================================================================================" << endl;
@@ -153,7 +154,7 @@ int main (int argc, char *argv[]) {
 
 	cout << "Abrindo imagem no LVP..." << endl;
 	string comando = string( "lvp ") + os.str()  + " &";
-	system( comando.c_str() ) ;
+	result = system( comando.c_str() ) ;
 
 	delete img;
 	return 0;

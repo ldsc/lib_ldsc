@@ -20,6 +20,7 @@ int main ( int argc, char *argv[] )
 {
 	// int opcao, eleStrut;
 	int eleStrut;
+	int result;
 	string nomeimg;
 	string linha = "---------------------------------------------\n";
 
@@ -103,7 +104,7 @@ int main ( int argc, char *argv[] )
 			//                        case 0:
 			case Modelo_0: {
 				cout << "Selecionou método abertura-dilatacao 3D, determina distribuicao sitios e ligacoes, Modelo 0" << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -144,7 +145,7 @@ int main ( int argc, char *argv[] )
 				//                        case 1:
 			case Modelo_1: {
 				cout << "Selecionou método abertura-dilatacao, determina distribuicao sitios e ligacoes, Modelo 1." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -185,7 +186,7 @@ int main ( int argc, char *argv[] )
 				//                        case 2:
 			case Modelo_2: {
 				cout << "Selecionou Modelo 2!" << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -225,7 +226,7 @@ int main ( int argc, char *argv[] )
 				//                        case 3:
 			case Modelo_3: {
 				cout << "Selecionou Modelo 3." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -264,7 +265,7 @@ int main ( int argc, char *argv[] )
 			}//fim opcao3
 			case Modelo_4: {//                        case 4:
 				cout << "Selecionou Modelo 4." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -316,7 +317,7 @@ int main ( int argc, char *argv[] )
 			}//fim opcao4
 			case 5: {
 				cout << "Selecionou erosao." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -342,7 +343,7 @@ int main ( int argc, char *argv[] )
 
 				// Mostra resultado
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
-				system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
+				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
 				pm  = NULL;
 				delete filtro;
@@ -351,7 +352,7 @@ int main ( int argc, char *argv[] )
 			} //fim opcao1
 			case 6: {
 				cout << "Selecionou dilatacao." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -376,7 +377,7 @@ int main ( int argc, char *argv[] )
 
 				// Mostra resultado
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
-				system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
+				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
 				pm  = NULL;
 				delete filtro;
@@ -385,7 +386,7 @@ int main ( int argc, char *argv[] )
 			} //fim opcao6
 			case 7: {
 				cout << "Selecionou abertura." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -410,7 +411,7 @@ int main ( int argc, char *argv[] )
 
 				// Mostra resultado
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
-				system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
+				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
 				pm  = NULL;
 				delete filtro;
@@ -419,7 +420,7 @@ int main ( int argc, char *argv[] )
 			} //fim opcao7
 			case 8: {
 				cout << "Selecionou fechamento." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get();
@@ -445,7 +446,7 @@ int main ( int argc, char *argv[] )
 
 				// Mostra resultado
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
-				system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
+				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
 				pm  = NULL;
 				delete filtro;
@@ -454,7 +455,7 @@ int main ( int argc, char *argv[] )
 			} //fim opcao8
 			case 9: {
 				cout << "Selecionou calculo porosidade." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -477,7 +478,7 @@ int main ( int argc, char *argv[] )
 			}//fim opcao9
 			case 10: {
 				cout << "Selecionou distribuicao de poros (método normal)." << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -514,7 +515,7 @@ int main ( int argc, char *argv[] )
 			}
 			case 12: {
 				cout << "Selecionou visualizar a imagem: " << endl;
-				system("ls");
+				result = system("ls");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -529,7 +530,7 @@ int main ( int argc, char *argv[] )
 				*/
 				// Visualiza o resultado
 				//system ( ( string("display ") + nomeimgaux + "&").c_str() );
-				system ( ( string("lvp ") + nomeimg + "&").c_str() );
+				result = system ( ( string("lvp ") + nomeimg + "&").c_str() );
 				break;
 			}
 			case 13: {
@@ -580,7 +581,7 @@ int main ( int argc, char *argv[] )
 			}
 			case 15: {
 				cout << "Selecionou SequenciaAberturaTonsCinza:" << endl;
-				system("ls");
+				result = system("ls");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -602,7 +603,7 @@ int main ( int argc, char *argv[] )
 			} //fim opcao15
 			case 16: {
 				cout << "Selecionou calculo porosidade:" << endl;
-				system("ls *.dbm");
+				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
 				cin.get(); // pega o enter
@@ -631,7 +632,7 @@ int main ( int argc, char *argv[] )
 			}
 			case 18: {
 				cout << "Selecionou Apagar do disco resltados parciais." << endl;
-				system("rm Matriz*.d?m");
+				result = system("rm Matriz*.d?m");
 				cout << "Operação apagar finalizada!" << endl;
 				break;
 			}

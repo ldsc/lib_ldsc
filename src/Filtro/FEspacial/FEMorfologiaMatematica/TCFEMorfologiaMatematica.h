@@ -53,7 +53,7 @@ class TCFEMorfologiaMatematica : public TCFEspacial<T>
 				 * @return
 				 */
 		virtual TCMatriz2D<T> * Go ( TCMatriz2D<T> * &matriz, unsigned int _tamanhoMascara = 0 ) {
-			_tamanhoMascara = 0; // evitar warning
+			cout << _tamanhoMascara << endl; //evitar warming
 			return matriz;
 		}
 

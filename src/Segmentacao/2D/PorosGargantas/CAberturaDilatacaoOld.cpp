@@ -556,9 +556,10 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_1()
 {
 	modelo = 1 ;
 
+	int result;
 	// Remove arquivos gerados na ultima simulacao
 	cout << "Apaga resultados antigos... Arquivos Matriz*" << endl;
-	system ("rm Matriz*");
+	result = system ("rm Matriz*");
 
 	// Cria MPoros e deixa vazia
 	cout << "Criando e inicializando MPoros..." << endl;

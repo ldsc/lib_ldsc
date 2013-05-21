@@ -136,8 +136,9 @@ public:
   /// Recebe a nova dimensão do vetor,/ retorna 1 se realocou corretamente
   virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0)
   {
-    NY = 0; NZ = 0; //evitar warning
+		NY = NZ; //evitar warning
     CVetor::DesalocaVetor (data1D, nx);
+		nx = NY = NZ; //evitar warning
     nx = NX;
     data1D = CVetor::AlocaVetor (nx);
     return data1D ? 1 : 0;

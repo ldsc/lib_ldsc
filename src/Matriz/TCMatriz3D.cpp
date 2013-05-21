@@ -701,7 +701,7 @@ void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 			}
 			break;
 		case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
-			for (int k = 0; k < nz; k++) {
+            for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
 						fin.read(&c, 1);
@@ -709,7 +709,7 @@ void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 					}
 				}
 			}
-			break;
+            break;
 		case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
 			cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em TCMatriz3D<T>::LeDadosBinarios" << endl;
 			/* falta implementar matrizes para as cores RGB

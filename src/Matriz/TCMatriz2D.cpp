@@ -662,12 +662,12 @@ bool TCMatriz2D<T>::LePlanoZ (string fileName, int planoZ, bool separado) {
 // Redimensiona a matriz para as dimensões informadas
 template< typename T >
 bool TCMatriz2D<T>::Redimensiona(int NX, int NY, int NZ) {
-	if( nx != NX || ny != NY ) {
+    if( nx != NX || ny != NY ) {
 		TCMatriz2D<T>::DesalocaMatriz2D (data2D, nx, ny);
-		nx = NX;
+        nx = NZ; // evitar warning
+        nx = NX;
 		ny = NY;
-		NZ = 0; // evitar warning
-		data2D.clear();
+        data2D.clear();
 		TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
 		return ! data2D.empty();
 	}

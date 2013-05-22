@@ -44,8 +44,7 @@ bool TCImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
         fin.seekg(0, ios::beg);			//posiciona o ponteiro de leitura no começo do arquivo
         do {
             fin >> aux;
-            //cerr << fin.tellg() < endl;
-        } while ( ( aux != "#" ) and ( fin.tellg() < 128 ) ); //
+        } while ( ( aux != "#" ) and ( fin.tellg() > 0 ) and ( fin.tellg() < 64 ) ); //
         bool encontrou = false;
         if (aux == "#") {
             do {

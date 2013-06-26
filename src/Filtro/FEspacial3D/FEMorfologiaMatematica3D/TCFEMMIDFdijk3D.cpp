@@ -74,7 +74,7 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 	ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
 
 	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
-	this->InverterSeNecessario();
+    this->InverterSeNecessario(); // verificar se fica aqui ou se coloca em outro local//verificar se nao esta chamando varias vezes
 
 	//  IDFNosPlanosDeContornoIDA(mi);
 	// -------------------------
@@ -87,7 +87,7 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 	register int z_1;		// z-1
 
 	// MinimoIda
-	for (z = 1; z < this->nz - 1; z++) {	// inicio do 1 pois já considerou planos 0 acima
+    for (z = 1; z < this->nz - 1; z++) {	// inicio do 1 pois já considerou planos 0 acima
 		z_1 = z - 1;
 		for (y = 1; y < this->ny - 1; y++) {
 			ym1 = y + 1;

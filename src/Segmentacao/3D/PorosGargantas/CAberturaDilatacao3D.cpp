@@ -2688,7 +2688,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	}
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura );
+	pfmf->Go( matrizAbertura );//chama calculo idf 1x
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
@@ -2698,17 +2698,17 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
 
 		cout << "-->Processando Abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
-		pfmf->Abertura( matrizAbertura, raioEE );
+		pfmf->Abertura( matrizAbertura, raioEE );//para cada raio calcula abertura nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		os.str(""); os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		// Atualizando porosidade
-		porosidade = Porosidade( matrizAbertura );
+		porosidade = Porosidade( matrizAbertura );// nX
 
 		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
-		matrizRotulo->Go( matrizAbertura );
+		matrizRotulo->Go( matrizAbertura );//rotula nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		// Acumula o número de objeto antes e depois da abertura
@@ -2765,7 +2765,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
-		matrizRotulo->Go( matrizAbertura );
+		matrizRotulo->Go( matrizAbertura );//nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		// Acumula o número de objetos depois da abertura como o número de objetos do complemento da abertura

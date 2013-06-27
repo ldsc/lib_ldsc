@@ -130,7 +130,7 @@ void TCFEMMIDF3D<T>::VerificaImagem (TCMatriz3D<T> *&matriz) {
 	if (this->pm == matriz && nx == matriz->NX () && ny == matriz->NY () && nz == matriz->NZ ()) {
 		return;		// sai
 	} else {			// senão chama Go, que redefine o tamanho da imagem
-		Go (matriz);	// e calcula valores idf
+        this->Go (matriz);	// e calcula valores idf
 	}
 }				
 
@@ -147,7 +147,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Erosao (TCMatriz3D<T> * &matriz, unsigned int _R
 	VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada, do tamanho de tamanhoMascara
+    this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada, do tamanho de tamanhoMascara
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
 	// Processamento da erosao em si
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
@@ -178,7 +178,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
+    this->CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
 
@@ -258,7 +258,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	}
 	// verifica atualização idf
 	if ( atualizaIDF ) // verifica o flag de atualizacao da idf após dilatação
-		Go ( this->pm );		 // se ativo recalcula a idf
+        this->Go ( this->pm );		 // se ativo recalcula a idf
 	return this->pm;		    // pm é a matriz Dilatacao
 }
 
@@ -289,7 +289,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	VerificaImagem (matriz); // verifica se é a mesma imagem (se diferente recalcula Go) Go não está fazendo nada!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
+    this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetRaioBolaTangente
 

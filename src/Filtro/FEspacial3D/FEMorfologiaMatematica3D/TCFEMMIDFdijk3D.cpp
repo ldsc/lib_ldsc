@@ -71,7 +71,7 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*_tamanhoMascara*/) {
-	ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
+    this->ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
 
 	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
     this->InverterSeNecessario(); // verificar se fica aqui ou se coloca em outro local//verificar se nao esta chamando varias vezes

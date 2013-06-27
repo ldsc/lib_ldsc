@@ -75,7 +75,7 @@ Ou seja desconsidera-se os pontos da borda da imagem.
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
 	int x, y;			//   Indices para percorrer a matriz
-	ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
+    this->ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 
 	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
 	this->InverterSeNecessario();

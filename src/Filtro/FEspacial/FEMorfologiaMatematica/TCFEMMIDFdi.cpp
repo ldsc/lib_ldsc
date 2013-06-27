@@ -57,7 +57,7 @@ void TCFEMMIDFdi<T>::CriaMascara (unsigned int _tamanhoMascara) {
 //  Obs
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdi<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
-   ExecutadaPorGo (matriz); //  verifica a matriz e copia dados para data2D
+   this->ExecutadaPorGo (matriz); //  verifica a matriz e copia dados para data2D
    //  IDFNosPlanosDeContorno(mi); //  verifica planos de contorno
    //  ida    MinimoIda
    //  IDFNosPlanosDeContornoIDA(mi); //  verifica planos de contorno

@@ -132,7 +132,7 @@ void TCFEMMIDF<T>::VerificaImagem ( TCMatriz2D<T> * &matriz ) { 					// se for a
 	if ( this->pm == matriz && this->nx == matriz->NX() && this->ny == matriz->NY() ) {
 		return;			// sai
 	} else {
-		Go ( matriz );		// senão chama Go, que redefine o tamanho da imagem
+        this->Go ( matriz );		// senão chama Go, que redefine o tamanho da imagem
 	}
 }					// e calcula valores idf
 
@@ -148,7 +148,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Erosao ( TCMatriz2D<T> * &matriz, unsigned int _Ra
 	VerificaImagem ( matriz );			// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada, do tamanho de tamanhoMascara
+    this->CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada, do tamanho de tamanhoMascara
 	CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( this->mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
 	// Processamento da erosao em si
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
@@ -176,7 +176,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int 
 	VerificaImagem ( matriz );	// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
+    this->CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
 	CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( this->mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
 
@@ -234,7 +234,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Dilatacao ( TCMatriz2D<T> * &matriz, unsigned int 
 	//  DilatacaoNosContornos();                                    // Realiza a dilatacao nos contornos
 	// verifica atualização idf
 	if ( atualizaIDF ) // verifica o flag de atualizacao da idf após dilatação
-		Go ( this->pm );		 // se ativo recalcula a idf
+        this->Go ( this->pm );		 // se ativo recalcula a idf
 	return this->pm;			 // pm é a matriz Dilatacao
 }
 
@@ -265,7 +265,7 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _
 	VerificaImagem ( matriz ); // verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-	CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada de tamanho = tamanhoMascara
+    TCFEMorfologiaMatematica<T>::CriaMascara ( this->tamanhoMascara );		// Cria a mascara adequada de tamanho = tamanhoMascara
 
 	CBCDiscreta *maskd = dynamic_cast < CBCDiscreta * > ( this->mask );	// Cria ponteiro para mascara com acesso a RaioBolaTangente
 

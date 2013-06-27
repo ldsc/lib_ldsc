@@ -49,7 +49,7 @@ class TCFiltro {
 		}
 
 		/// Destrutor
-		~TCFiltro ()	{
+		virtual ~TCFiltro ()	{
 		}
 
 		/**

@@ -221,23 +221,23 @@ void TCFEMMIDFd3453D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) 
 							if (cont > 0) {
 								int inc = cont; //(cont / 2) + 3; //cerr << inc << endl;
 								if ( matriz->data3D[i][j+inc][k] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i-1][j+inc][k] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i+1][j+inc][k] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i][j+inc][k-1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i][j+inc][k+1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i-1][j+inc][k-1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i+1][j+inc][k+1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i-1][j+inc][k+1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 								else if ( matriz->data3D[i+1][j+inc][k-1] == regiao )
-									FecharAdjacencias ( i, k, j+inc, matriz  );
+                                    this->FecharAdjacencias ( i, k, j+inc, matriz  );
 							}
 						}
 					} else if ( (idfAbertura->data3D[i][j][k] == 3) && (idfAbertura->data3D[i-1][j][k] == 0) && (idfAbertura->data3D[i+1][j][k] == 0)

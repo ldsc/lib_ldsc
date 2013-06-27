@@ -68,7 +68,7 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
-	ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
+    this->ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
 	// IDFNosPlanosDeContorno(mi);    //  mi=3
 	int x, y; // Indices para percorrer a matriz
 

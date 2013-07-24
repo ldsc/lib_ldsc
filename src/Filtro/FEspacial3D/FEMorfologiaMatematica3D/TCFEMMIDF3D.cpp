@@ -79,9 +79,9 @@ Função usada exclusivamente por Go:
  Exemplo:
 	 cria idf      		pfmm=new TMMIDF(pm,tamanhoMascara);
 	 executa go    		pfmm->Go(pm,tamanhoMascara);
-	 executa erosao      pfmm->Erosao(pm,raioBola);       // erosao sobre imagem original
+	 executa erosao   pfmm->Erosao(pm,raioBola);       // erosao sobre imagem original
 	 executa go    		pfmm->Go(pm,tamanhoMascara);
-	 executa erosao      pfmm->Erosao(pm,raioBola);	// erosao sobre imagem já erodida
+	 executa erosao   pfmm->Erosao(pm,raioBola);	// erosao sobre imagem já erodida
 
 Assim, toda funcao Go herdeira da TCFEMMIDF deve chamar esta funcao:
 	ExecutadaPorGo(matriz);
@@ -102,9 +102,11 @@ void TCFEMMIDF3D<T>::ExecutadaPorGo (TCMatriz3D<T> *&matriz) {	// ,unsigned int 
 	// Agora tenho de armazenar valores de pm na idf
 	// substituir por this=matriz;
 	register int mi = Mi ();
-	for (int i = 0; i < nx; i++) {
-		for (int j = 0; j < ny; j++) {
-			for (int k = 0; k < nz; k++) {
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < nx; i++) {
+		for (j = 0; j < ny; j++) {
+			for (k = 0; k < nz; k++) {
 				if (matriz->data3D[i][j][k] != 0) {	// como a imagem recebida por ser uma outra idf
 					this->data3D[i][j][k] = mi;	// define this com 0 e 1
 				} else {			// AQUI AQUI AQUI AQUI: trocar 1 por mi
@@ -130,7 +132,7 @@ void TCFEMMIDF3D<T>::VerificaImagem (TCMatriz3D<T> *&matriz) {
 	if (this->pm == matriz && nx == matriz->NX () && ny == matriz->NY () && nz == matriz->NZ ()) {
 		return;		// sai
 	} else {			// senão chama Go, que redefine o tamanho da imagem
-        this->Go (matriz);	// e calcula valores idf
+		this->Go (matriz);	// e calcula valores idf
 	}
 }				
 
@@ -147,13 +149,15 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Erosao (TCMatriz3D<T> * &matriz, unsigned int _R
 	VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-    this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada, do tamanho de tamanhoMascara
-	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
+	this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada, do tamanho de tamanhoMascara
+	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetRaioBolaTangente
 	// Processamento da erosao em si
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	for (int k = 0; k < nz; k++) {
-		for (int j = 0; j < ny; j++) {
-			for (int i = 0; i < nx; i++) {
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (k = 0; k < nz; k++) {
+		for (j = 0; j < ny; j++) {
+			for (i = 0; i < nx; i++) {
 				// se o ponto da idf for maior que a bola tangente, faz ponto=1
 				if (data3D[i][j][k] > raioBolaInclusa) {
 					this->pm->data3D[i][j][k] = this->INDICE; //indiceAtivo;	// seta ponto ativo
@@ -178,20 +182,22 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-    this->CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
+	this->CriaMascara ( this->tamanhoMascara );	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
 
 	// Processamento da Dilatacao em si
 	// pm->Constante(0);        // zera a matriz imagem
 	int mi = Mi ();		//
-	for (int jj = 0; jj < ny; jj++)	// percorre toda a idf e
-		for (int ii = 0; ii < nx; ii++)	// pinta pontos na imagem
-			for (int kk = 0; kk < nz; kk++)	// pinta pontos na imagem
-				if (data3D[ii][jj][kk] >= mi)
-					this->pm->data3D[ii][jj][kk] = this->INDICE; //indiceAtivo;	// pm->data3D[ii][jj][kk]=1;
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < nx; i++)	// percorre toda a idf e pinta pontos na imagem
+		for (j = 0; j < ny; j++)
+			for (k = 0; k < nz; k++)
+				if (data3D[i][j][k] >= mi)
+					this->pm->data3D[i][j][k] = this->INDICE; //indiceAtivo;	// pm->data3D[ii][jj][kk]=1;
 				else
-					this->pm->data3D[ii][jj][kk] = this->FUNDO; //indiceInativo;	// pm->data3D[ii][jj][kk]=0;
+					this->pm->data3D[i][j][k] = this->FUNDO; //indiceInativo;	// pm->data3D[ii][jj][kk]=0;
 
 	// Otimizacao Mascara (bola)
 	int raio = maskd->RaioX ();
@@ -236,29 +242,30 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 							}
 						}
 					}
-					/* // PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
-							 for (zz=-raio; zz<=raio; zz++) { // percorre a mascara
-									kmz= k + zz;
-									rmz= raio + zz;
-									for (yy=-raio; yy<=raio; yy++) {
-										 jmy= j + yy;
-										 rmy= raio + yy;
-										 // usar simetria
-										 for (xx=-raio; xx <=raio;xx++) {
-												// imx=i+x;  // rmx=raio+x;
-												if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
-													 this->pm->data3D[i+xx][jmy][kmz]=indiceAtivo;  // pinta na imagem
+					/*
+					// PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
+					for (zz=-raio; zz<=raio; zz++) { // percorre a mascara
+						kmz= k + zz;
+						rmz= raio + zz;
+						for (yy=-raio; yy<=raio; yy++) {
+							jmy= j + yy;
+							rmy= raio + yy;
+							// usar simetria
+							for (xx=-raio; xx <=raio;xx++) {
+								// imx=i+x;  // rmx=raio+x;
+								if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
+									this->pm->data3D[i+xx][jmy][kmz]=indiceAtivo;  // pinta na imagem
 												}
 										 }
 									}
-							 }*/
+					}*/
 				}
 			}
 		}
 	}
 	// verifica atualização idf
 	if ( atualizaIDF ) // verifica o flag de atualizacao da idf após dilatação
-        this->Go ( this->pm );		 // se ativo recalcula a idf
+		this->Go ( this->pm );		 // se ativo recalcula a idf
 	return this->pm;		    // pm é a matriz Dilatacao
 }
 
@@ -289,7 +296,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	VerificaImagem (matriz); // verifica se é a mesma imagem (se diferente recalcula Go) Go não está fazendo nada!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	this->tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
 	// Deve calcular o tamanhoMascara antes de criar a mascara
-    this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
+	this->CriaMascara (this->tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetRaioBolaTangente
 
@@ -561,12 +568,15 @@ Função: InverterSeNecessario
 Método chamado por Go das classes herdeiras para inverter a imagem caso FUNDO!=0
 Necessário para que a imagem IDF seja criada corretamente
 */
+
 template<typename T>
 void TCFEMMIDF3D<T>::InverterSeNecessario(){
 	if (this->FUNDO != 0){ //inverte a imagem
-		for ( int z = 0; z < ny; z++ ) {
-			for ( int y = 0; y < ny; y++ ) {
-				for ( int x = 0; x < nx; x++ ) {
+		int x, y, z;
+#pragma omp parallel for collapse(3) default(shared) private(x,y,z) //schedule(dynamic,10)
+		for ( z = 0; z < ny; z++ ) {
+			for ( y = 0; y < ny; y++ ) {
+				for ( x = 0; x < nx; x++ ) {
 					if ( data3D[x][y][z] == this->INDICE) {
 						data3D[x][y][z] = this->FUNDO;
 					} else {

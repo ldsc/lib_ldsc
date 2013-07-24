@@ -44,7 +44,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 /**
  * @brief Representa uma bola discreta gerada usando métrica pseudo euclidiana.
- * E' derivada da classe base CBCdijk3D.
+ * É derivada da classe base CBCdijk3D.
  */
 
 class CBCEuclidiana3D : public CBCdijk3D	//  public CMascara

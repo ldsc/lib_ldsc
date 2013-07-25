@@ -69,13 +69,12 @@ class TCFEMMIDFdijk3D : public TCFEMMIDF3D<T>, public CMCdijk
 		virtual ~ TCFEMMIDFdijk3D () {
 		}
 
+		/// Redefine a o método da classe base CFEMorfologiaMatematica3D herdada por TCFEMMIDF3D.
 		virtual TCMatriz3D<T> *Go (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara = 0);
-		// redefinida
+
 
 		/// Corrige o erro físico que ocorre (em configurações de equilíbrio) na rotulagem da imagem após a operação de abertura.
 		virtual void CorrigeAbertura (TCMatriz3D<T> * &matriz, int &regiao) = 0;
-
-
 };
 
 #include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFdijk3D.cpp"

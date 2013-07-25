@@ -71,13 +71,9 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*_tamanhoMascara*/) {
-    this->ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
+	this->ExecutadaPorGo (matriz);	// pm=matriz, copia valores, verfica
+	//Após ExecutadaPorGo a imagem this já vem prenchido com 0 (fundo) e mi (sólido)
 
-	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
-    this->InverterSeNecessario(); // verificar se fica aqui ou se coloca em outro local//verificar se nao esta chamando varias vezes
-
-	//  IDFNosPlanosDeContornoIDA(mi);
-	// -------------------------
 	int x, y, z;			// Indices para percorrer a matriz
 	register int xm1;		// x+1
 	register int x_1;		// x-1
@@ -87,7 +83,7 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 	register int z_1;		// z-1
 
 	// MinimoIda
-    for (z = 1; z < this->nz - 1; z++) {	// inicio do 1 pois já considerou planos 0 acima
+	for (z = 1; z < this->nz - 1; z++) {	// inicio do 1 pois já considerou planos 0 acima
 		z_1 = z - 1;
 		for (y = 1; y < this->ny - 1; y++) {
 			ym1 = y + 1;
@@ -121,8 +117,7 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 			}
 		}
 	}
-	// -------------------------
-	//  IDFNosPlanosDeContornoVOLTA(mi);
+
 	// MinimoVolta
 	for (z = this->nz - 2; z > 0; z--) { // -2 pois já considerou plano z-1 acima
 		zm1 = z + 1;

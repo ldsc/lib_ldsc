@@ -1,5 +1,5 @@
 // ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CBCdijk_h
+#ifndef CBCdijk_h
 #define CBCdijk_h
 
 /*
@@ -33,16 +33,16 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 class CBCdijk: /*public  TMCdijk, *//*public CMascara , */ public CBCDiscreta
 {
 
-public:
+	public:
 
-    /// Construtor
-    CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase);
+		/// Construtor
+		CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase);
 
-/// Destrutor
-    virtual ~ CBCdijk ()
-    {
-    }
+		/// Destrutor
+		virtual ~ CBCdijk ()
+		{
+		}
 
-    // virtual void CalculaRaioBola();
+		// virtual void CalculaRaioBola();
 };
 #endif //  CBCdijk_h

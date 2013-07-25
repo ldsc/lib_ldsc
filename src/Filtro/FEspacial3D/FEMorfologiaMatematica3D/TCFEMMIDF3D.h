@@ -50,7 +50,7 @@ Arquivo de documentacao auxiliar:
  * Herdeira de CFEMorfologiaMatematica3D e CMatriz3D.
  */
 template<typename T>
-class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T>, public TCMatriz3D<int>
+class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int>
 {
 		// Atributos
 	protected:
@@ -81,15 +81,11 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T>, public TCMatriz3D<int>
 		// 2007 abaixo usada mas não definida?
 		/// Para verificar se a imagem passada é a mesma, se diferente recalcula Go.
 		void ExecutadaPorGo (TCMatriz3D<T> * &matriz);	// antiga InicializaIDF
-
 		// Funcao executada exclusivamente por Go
 		// 1-verifica se a idf tem as mesmas dimensoes de pm
 		// 2-se forem iguais continua, se forem diferentes, desaloca e realoca a matriz de dados
 		// 3-copia pm para idf, usando data2D[i][j]=pm->data2D[i][j]
 		// agora já pode executar Go
-
-		/// Método chamado por Go das classes herdeiras para inverter a imagem caso o FUNDO != 0
-		void InverterSeNecessario ();
 
 	public:
 		///  Precisa ser redefinida nas classes bases

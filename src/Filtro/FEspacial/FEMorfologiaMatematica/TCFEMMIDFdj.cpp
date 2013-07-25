@@ -67,7 +67,6 @@ Programador:      Andre Duarte Bueno
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdj<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara */ ) {
 	 this->ExecutadaPorGo (matriz);	//  armazena valores da matriz e _tamanhoMascara
-	 this->InverterSeNecessario();
    // IDFNosPlanosDeContorno(mj);     //  verifica planos de contorno
    int x, y; // Indices para percorrer a matriz
    // ida   MinimoIda

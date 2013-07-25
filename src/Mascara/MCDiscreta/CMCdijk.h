@@ -1,5 +1,5 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CMCdijk_h
+#ifndef CMCdijk_h
 #define CMCdijk_h
 
 /*
@@ -15,10 +15,10 @@ Nome deste arquivo:	CMCdijk.h
 Nome da classe:      CMCdijk
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
+
 //  ----------------------------------------------------------------------------
 //  Bibliotecas
 //  ----------------------------------------------------------------------------
-//  #include "TMascara\CMCDiscreta\CMCDiscreta.h"
 #include <Mascara/MCDiscreta/CMCdij.h>
 
 //  ----------------------------------------------------------------------------
@@ -26,38 +26,38 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 //  ----------------------------------------------------------------------------
 /**
  * @brief Mascara de chanfro dijk.
- * 
- * Representa uma mascara de chanfro. 
+ * Representa uma mascara de chanfro.
+ * Herdeira de CMCdij -> CMCDi -> CMCDiscreta
  */
 class CMCdijk : public CMCdij
 {
-protected:
-  int mk; ///< Atributo mk
+	protected:
+		int mk; ///< Atributo mk
 
-public:
-	/// Seta mk
-  void Mk (int kk)
-  {
-    mk = kk;
-  }
+	public:
+		/// Seta mk
+		void Mk (int kk)
+		{
+			mk = kk;
+		}
 
-  /// Obtêm mk
-  int Mk () const
-  {
-    return mk;
-  }
+		/// Obtêm mk
+		int Mk () const
+		{
+			return mk;
+		}
 
-public:
+	public:
 
-  /// Construtor
-CMCdijk (int ii, int jj, int kk, int rb)
-  : CMCdij (ii, jj, rb), mk (kk)
-  {
-  }
-				///  Destrutor
-  virtual ~ CMCdijk ()
-  {
-  }
+		/// Construtor
+		CMCdijk (int ii, int jj, int kk, int rb)
+			: CMCdij (ii, jj, rb), mk (kk)
+		{
+		}
+		///  Destrutor
+		virtual ~ CMCdijk ()
+		{
+		}
 
 };
-#endif //   CMCdijk_h
+#endif // CMCdijk_h

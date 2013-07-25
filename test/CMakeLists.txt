@@ -1,19 +1,31 @@
+
 add_executable(bin/abertura_dilatacao
-   AberturaDilatacao/aberturaDilatacao.cpp
-   AberturaDilatacao/CUtil.cpp)
+   Old/AberturaDilatacao/aberturaDilatacao.cpp
+   Old/AberturaDilatacao/CUtil.cpp)
 target_link_libraries(bin/abertura_dilatacao ldsc)
 
 add_executable(bin/abertura_dilatacao3D
-   AberturaDilatacao/aberturaDilatacao3D.cpp
-   AberturaDilatacao/CUtil.cpp)
+   Old/AberturaDilatacao/aberturaDilatacao3D.cpp
+   Old/AberturaDilatacao/CUtil.cpp)
 target_link_libraries(bin/abertura_dilatacao3D ldsc)
 
 add_executable(bin/criaSintetica3D
-   ImagemSintetica3D/criaImagemSintetica.cpp)
+   Old/ImagemSintetica3D/criaImagemSintetica.cpp)
 target_link_libraries(bin/criaSintetica3D ldsc)
 
 add_executable(bin/idf3D
    Filtro/MM/idf3D.cpp)
 target_link_libraries(bin/idf3D ldsc)
 
-#add_executable(bin/test main.cpp CTeste.cpp)
+########################### Gtests #############################
+
+include_directories(${LIBLDSC_SOURCE_DIR}/../gtest/include/)
+link_directories(${LIBLDSC_SOURCE_DIR}/../gtest/)
+
+add_executable(bin/runGtest
+   Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
+   Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
+   ${LIBLDSC_SOURCE_DIR}/../gtest/src/gtest_main.cc
+)
+
+target_link_libraries(bin/runGtest gtest ldsc)

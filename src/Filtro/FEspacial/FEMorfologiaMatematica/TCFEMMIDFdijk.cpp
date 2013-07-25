@@ -75,10 +75,7 @@ Ou seja desconsidera-se os pontos da borda da imagem.
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
 	int x, y;			//   Indices para percorrer a matriz
-    this->ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
-
-	//adicionei esta inversão para poder criar imagem IDF informando quem é indice e fundo.
-	this->InverterSeNecessario();
+	this->ExecutadaPorGo (matriz);	//   armazena valores da matriz e _tamanhoMascara
 
 	//   Como esta mascara tem raio 2, abaixo nao calcula a idf para pontos nos planos 0 e 1
 	//   observe o for iniciar de 2, deixando de fora 0 e 1.
@@ -90,7 +87,7 @@ TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_t
 		if (this->data2D[1][y] != 0)	//   percorre linha x=1
 			this->data2D[1][y] = mi;
 	for (x = 2; x < this->nx - 1; x++)
-		if (this->data2D[x][1] != 0)	//   percorre linha y=1
+		if (this->data2D[x][1] != 0)	//   percorre coluna y=1
 			this->data2D[x][1] = mi;
 
 	//   deve considerar adicionalmente a segunda linha, pois abaixo a mesma nao é verificada.
@@ -102,14 +99,14 @@ TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_t
 			if (this->data2D[x][y] != 0) {	//   Testa a imagem, se nao for solido entra
 				this->minimo = this->raioMaximo;	//   usa 32000
 				//   -------------------------------------------------------------
-				this->min (this->data2D[x - 1][y] + mi);	/*ponto [x][y] */
-				this->min (this->data2D[x - 2][y - 1] + mk);
-				this->min (this->data2D[x - 1][y - 1] + mj);
-				this->min (this->data2D[x][y - 1] + mi);
-				this->min (this->data2D[x + 1][y - 1] + mj);
-				this->min (this->data2D[x + 2][y - 1] + mk);
-				this->min (this->data2D[x - 1][y - 2] + mk);
-				this->min (this->data2D[x + 1][y - 2] + mk);
+				this->min (this->data2D[x-1][ y ] + mi);	/*ponto [x][y] */
+				this->min (this->data2D[x-2][y-1] + mk);
+				this->min (this->data2D[x-1][y-1] + mj);
+				this->min (this->data2D[ x ][y-1] + mi);
+				this->min (this->data2D[x+1][y-1] + mj);
+				this->min (this->data2D[x+2][y-1] + mk);
+				this->min (this->data2D[x-1][y-2] + mk);
+				this->min (this->data2D[x+1][y-2] + mk);
 				//   -------------------------------------------------------------
 				this->data2D[x][y] = this->minimo;
 			}
@@ -133,14 +130,14 @@ TCMatriz2D<T> * TCFEMMIDFdijk<T>::Go (TCMatriz2D<T> * &matriz, unsigned int /*_t
 			if (this->data2D[x][y] != 0) {	//   Se nao for solido
 				this->minimo = this->data2D[x][y];	//   Armazena valor minimo da ida
 				//   -------------------------------------------------------------
-				this->min (this->data2D[x - 1][y + 2] + mk);
-				this->min (this->data2D[x + 1][y + 2] + mk);
-				this->min (this->data2D[x - 2][y + 1] + mk);
-				this->min (this->data2D[x - 1][y + 1] + mj);
-				this->min (this->data2D[x][y + 1] + mi);
-				this->min (this->data2D[x + 1][y + 1] + mj);
-				this->min (this->data2D[x + 2][y + 1] + mk);
-				this->min (this->data2D[x + 1][y] + mi);
+				this->min (this->data2D[x-1][y+2] + mk);
+				this->min (this->data2D[x+1][y+2] + mk);
+				this->min (this->data2D[x-2][y+1] + mk);
+				this->min (this->data2D[x-1][y+1] + mj);
+				this->min (this->data2D[ x ][y+1] + mi);
+				this->min (this->data2D[x+1][y+1] + mj);
+				this->min (this->data2D[x+2][y+1] + mk);
+				this->min (this->data2D[x+1][ y ] + mi);
 				//   -------------------------------------------------------------
 				this->data2D[x][y] = this->minimo;
 			}

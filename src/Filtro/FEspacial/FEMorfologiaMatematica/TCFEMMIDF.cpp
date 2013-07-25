@@ -102,17 +102,14 @@ void TCFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int
 	// Agora tenho de armazenar valores de pm na idf
 	// substituir por this=matriz;
 	register int mi = Mi();
-	for ( int j = 0; j < this->ny; j++ ) {
-		for ( int i = 0; i < this->nx; i++ ) {
-			if ( matriz->data2D[i][j] != 0 ) {	// como a imagem recebida pode ser uma outra idf
-				this->data2D[i][j] = mi;		// define this com 0 e 1
-				// =mi    //////////// // // // // // //
-				// AQUI AQUI AQUI AQUI: trocar 1 por mi
-				// elimina calculo dos planos de contorno
-				// fica mais rapido
-				//////////// // // // // // //
+	int i,j;
+#pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(dynamic,10)
+	for ( j = 0; j < this->ny; j++ ) {
+		for ( i = 0; i < this->nx; i++ ) {
+			if ( matriz->data2D[i][j] != this->FUNDO ) {	// como a imagem recebida pode ser uma outra idf
+				this->data2D[i][j] = mi; // Troquei 1 por mi. Elimina calculo dos planos de contorno, logo, fica mais rápido.
 			} else {
-				this->data2D[i][j] = 0;
+				this->data2D[i][j] = 0; // O fundo da IDF é sempre 0
 			}
 		}
 	}
@@ -462,25 +459,3 @@ void CFEMMIDF::IDFNosPlanosDeContornoIDA(int& base)
 // if (t < minimo)
 //    minimo = t;
 // }
-
-/*
-================================================================================
-Função: InverterSeNecessario
-================================================================================
-Método chamado por Go das classes herdeiras para inverter a imagem caso FUNDO!=0
-Necessário para que a imagem IDF seja criada corretamente
-*/
-template<typename T>
-void TCFEMMIDF<T>::InverterSeNecessario(){
-	if (this->FUNDO != 0){ //inverte a imagem
-		for ( int y = 0; y < this->ny; y++ ) {
-			for ( int x = 0; x < this->nx; x++ ) {
-				if ( this->data2D[x][y] == this->INDICE) {
-					this->data2D[x][y] = this->FUNDO;
-				} else {
-					this->data2D[x][y] = this->INDICE;
-				}
-			}
-		}
-	}
-}

@@ -68,15 +68,11 @@ Programador:      Andre Duarte Bueno
 */
 template<typename T>
 TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_tamanhoMascara*/ ) {
-    this->ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
-	// IDFNosPlanosDeContorno(mi);    //  mi=3
+	this->ExecutadaPorGo ( matriz );	//  armazena valores da matriz e _tamanhoMascara
+	//Após ExecutadaPorGo a imagem this já vem prenchido com 0 (fundo) e mi (sólido)
 	int x, y; // Indices para percorrer a matriz
 
-	//adicionei esta inversão para poder criar imagem IDF informando quem é fundo.
-	this->InverterSeNecessario();
-
 	//  ida   MinimoIda
-	//  IDFNosPlanosDeContornoIDA ( mi );
 	for ( y = 1; y < this->ny - 1; y++ ) {	//  NY() e igual a ny, ny da matriz idf
 		for ( x = 1; x < this->nx - 1; x++ ) {
 			if ( this->data2D[x][y] != 0 ) {	//  Testa a imagem, se nao for solido entra
@@ -92,16 +88,15 @@ TCMatriz2D<T> * TCFEMMIDFdij<T>::Go ( TCMatriz2D<T> * &matriz, unsigned int /*_t
 		}
 	}
 	//  volta    MinimoVolta
-	//  IDFNosPlanosDeContornoVOLTA(mi);
 	for ( y = this->ny - 2; y > 0; y-- ) {	//  -2 pois comeca do zero e a mascara tem tamanho 1
 		for ( x = this->nx - 2; x > 0; x-- ) {
 			if ( this->data2D[x][y] != 0 ) {	//  Se nao for solido
 				this->minimo = this->data2D[x][y];	//  Armazena valor minimo da ida
 				//  -----------------------------------------------------------
-				this->min ( this->data2D[x - 1][y + 1] + mj );
-				this->min ( this->data2D[x][y + 1] + mi );
-				this->min ( this->data2D[x + 1][y + 1] + mj );
-				this->min ( this->data2D[x + 1][y] + mi );
+				this->min ( this->data2D[x-1][y+1] + mj );
+				this->min ( this->data2D[ x ][y+1] + mi );
+				this->min ( this->data2D[x+1][y+1] + mj );
+				this->min ( this->data2D[x+1][ y ] + mi );
 				//  -----------------------------------------------------------
 				this->data2D[x][y] = this->minimo;
 			}

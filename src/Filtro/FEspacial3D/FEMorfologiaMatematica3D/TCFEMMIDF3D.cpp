@@ -107,15 +107,15 @@ void TCFEMMIDF3D<T>::ExecutadaPorGo (TCMatriz3D<T> *&matriz) {	// ,unsigned int 
 	for (i = 0; i < nx; i++) {
 		for (j = 0; j < ny; j++) {
 			for (k = 0; k < nz; k++) {
-				if (matriz->data3D[i][j][k] != 0) {	// como a imagem recebida por ser uma outra idf
-					this->data3D[i][j][k] = mi;	// define this com 0 e 1
-				} else {			// AQUI AQUI AQUI AQUI: trocar 1 por mi
-					this->data3D[i][j][k] = 0;
+				if (matriz->data3D[i][j][k] != this->FUNDO) {	// como a imagem recebida por ser uma outra idf
+					this->data3D[i][j][k] = mi;
+				} else {
+					this->data3D[i][j][k] = 0; // O fundo da IDF é sempre 0
 				}
 			}
 		}
 	}
-	// Write("ExecutadaPorGo.txt");
+	//Write("ExecutadaPorGo.dgm");
 }
 
 /*
@@ -560,31 +560,3 @@ void TCFEMMIDF3D::IDFNosPlanosDeContornoVOLTA(int& base)
 		data3D[x][y][pos]=base;
 }
 */
-
-/*
-================================================================================
-Função: InverterSeNecessario
-================================================================================
-Método chamado por Go das classes herdeiras para inverter a imagem caso FUNDO!=0
-Necessário para que a imagem IDF seja criada corretamente
-*/
-
-template<typename T>
-void TCFEMMIDF3D<T>::InverterSeNecessario(){
-	if (this->FUNDO != 0){ //inverte a imagem
-		int x, y, z;
-#pragma omp parallel for collapse(3) default(shared) private(x,y,z) //schedule(dynamic,10)
-		for ( z = 0; z < ny; z++ ) {
-			for ( y = 0; y < ny; y++ ) {
-				for ( x = 0; x < nx; x++ ) {
-					if ( data3D[x][y][z] == this->INDICE) {
-						data3D[x][y][z] = this->FUNDO;
-					} else {
-						data3D[x][y][z] = this->INDICE;
-					}
-				}
-			}
-		}
-	}
-}
-

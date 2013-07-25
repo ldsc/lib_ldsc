@@ -1,5 +1,5 @@
 //  ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#if !defined CMCDiscreta_h
+#ifndef CMCDiscreta_h
 #define CMCDiscreta_h
 
 /*
@@ -22,46 +22,42 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 //  ----------------------------------------------------------------------------
 /**
  * @brief Implementa conceito de mascara de chanfro discreta.
- * 
- * Implementa a classe CMCDiscreta.  E' derivada da classe TMascara.
- * Acrescenta o conceito de mascara discreta.
- * Acrescenta atributos raioBolaInclusa e raioBolaTangente
- * .
- * Representa uma mascara de chanfro. 
+ *
+ * Implementa a classe CMCDiscreta a qual representa uma mascara de chanfro discreta.
+ * Acrescenta o atributo raioBase.
  */
 class CMCDiscreta	
 {
-//  Atributos novos
-public:
-  int raioBase;	///<  raio utilizado pelas mascaras para definir o raio da bola.
-  /// RDF=raioBase*mBase +
-  
-protected:		
+		//  Atributos novos
+	public:
+		int raioBase;	///<  Raio utilizado pelas mascaras para definir o raio da bola.
 
-//  Metodos
-public:
-   	///  Construtor, tamanho da mascara
- CMCDiscreta (int rb):raioBase (rb)
-  {
-  }
-	///  Destrutor
-  virtual ~ CMCDiscreta ()
-  {
-  }
+	protected:
 
-public:
-	/// Seta o raio base
-  void RaioBase (int rb)
-  {
-    raioBase = rb;
-  }
-  
-/// Retorna o raio
-  int RaioBase () const
-  {
-    return raioBase;
-  }
+		//  Metodos
+	public:
+		///  Construtor, tamanho da mascara
+		CMCDiscreta (int rb):raioBase (rb)
+		{
+		}
+		///  Destrutor
+		virtual ~ CMCDiscreta ()
+		{
+		}
 
-  //  virtual CalculaRaioBase();
+	public:
+		/// Seta o raio base
+		void RaioBase (int rb)
+		{
+			raioBase = rb;
+		}
+
+		/// Retorna o raio
+		int RaioBase () const
+		{
+			return raioBase;
+		}
+
+		//  virtual CalculaRaioBase();
 };
 #endif //  TMascMascDiscreta

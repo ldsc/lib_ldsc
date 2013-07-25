@@ -5,11 +5,11 @@
 /*
 ----------------------------------------------------------------------------
 PROJETO:	Anaimp
-  Analise de Imagens de Meios Porosos
+	Analise de Imagens de Meios Porosos
 ----------------------------------------------------------------------------
 
 Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico 
-  dos Materiais.
+	dos Materiais.
 Programadores:   Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, 
 Liang Zirong, Paulo C. Philippi, ...
 Copyright @1997:  	Todos os direitos reservados.
@@ -27,42 +27,35 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 //  ----------------------------------------------------------------------------
 /**
  * @brief Mascara  de chanfro dij.
- * 
- * E' derivada da classe base CMCDiscreta->CMCdi.
- * 
+ * É derivada da classe base CMCdi --> CMCDiscreta.
  * Fundamentada na métrica d34.
- * 
  * Representa uma mascara de chanfro.
- * 
  */
 class CMCdij : public CMCdi
 {
-protected:
-   int mj; ///< Atributo mj
+	protected:
+		int mj; ///< Atributo mj
 
-public:
-	/// Seta mj
-   void Mj (int _mj) {
-      mj = _mj;
-   }
+	public:
+		/// Seta mj
+		void Mj (int _mj) {
+			mj = _mj;
+		}
 
-   /// Obtêm mj
-   int Mj () const {
-      return mj;
-   }
+		/// Obtêm mj
+		int Mj () const {
+			return mj;
+		}
 
-public:
-	///  Construtor
-   CMCdij (int _mi, int _mj, int rb)
-      : CMCdi (_mi, rb), mj (_mj)
-   {
-   }
+	public:
+		///  Construtor
+		CMCdij (int _mi, int _mj, int rb)
+			: CMCdi (_mi, rb), mj (_mj) {
+		}
 
-	///  Destrutor
-   virtual ~ CMCdij ()
-   {
-   }
-
+		///  Destrutor
+		virtual ~ CMCdij () {
+		}
 };
 
 #endif //   CMCdij

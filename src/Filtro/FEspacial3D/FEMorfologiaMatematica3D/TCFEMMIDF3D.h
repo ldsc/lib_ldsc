@@ -67,7 +67,6 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int
 		// void IDFNosPlanosDeContornoIDA(int& base);  // |_
 		// void IDFNosPlanosDeContornoVOLTA(int& base);// -|
 
-		// inline void min (int &t); 2007 tirei a referencia
 		/// Calcula o valor mínimo
 		inline void min (int t) {
 			if (t < minimo)

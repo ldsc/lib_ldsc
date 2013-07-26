@@ -3,7 +3,7 @@
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h>
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h>
 
-TEST(FilterTest_IDF_2D, TestIDFd34_1_0) {
+TEST(Test2DFilter, IDFd34_1_0) {
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>("../../data/images/2v5i7_640x480_BIN_1-0.pbm");
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
@@ -39,7 +39,7 @@ TEST(FilterTest_IDF_2D, TestIDFd34_1_0) {
 	delete filtro;
 }
 
-TEST(FilterTest_IDF_2D, TestIDFd34_0_1) {
+TEST(Test2DFilter, IDFd34_0_1) {
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>("../../data/images/2v5i7_640x480_BIN_1-0.pbm");
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
@@ -75,7 +75,7 @@ TEST(FilterTest_IDF_2D, TestIDFd34_0_1) {
 	delete filtro;
 }
 
-TEST(FilterTest_IDF_2D, TestIDFd5711_1_0) {
+TEST(Test2DFilter, IDFd5711_1_0) {
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>("../../data/images/2v5i7_640x480_BIN_1-0.pbm");
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
@@ -111,7 +111,7 @@ TEST(FilterTest_IDF_2D, TestIDFd5711_1_0) {
 	delete filtro;
 }
 
-TEST(FilterTest_IDF_2D, TestIDFd5711_0_1) {
+TEST(Test2DFilter, IDFd5711_0_1) {
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>("../../data/images/2v5i7_640x480_BIN_1-0.pbm");
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.

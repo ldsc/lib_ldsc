@@ -197,15 +197,14 @@ TCMatriz3D<T> & TCMatriz3D<T>::operator= (TCMatriz3D & m2) {
 // Sobrecarga do operador ==
 template< typename T >
 bool TCMatriz3D<T>::operator== (TCMatriz3D<T> & pmatriz) {
-	int minx = std::min (this->nx, pmatriz.nx);
-	int miny = std::min (this->ny, pmatriz.ny);
-	int minz = std::min (this->nz, pmatriz.nz);
-	for (int i = 0; i < minx; i++)
-		for (int j = 0; j < miny; j++)
-			for (int k = 0; k < minz; k++)
-				if (this->data3D[i][j][k] != pmatriz.data3D[i][i][k])	// se houver algum diferente
-					return 0;		// retorna false
-	return 1;			// senao retorna true
+	if ( (this->nx != pmatriz.nx) || (this->ny != pmatriz.ny) || (this->nz != pmatriz.nz) )
+		return false;
+	for (int i=0; i < nx; i++)
+		for (int j=0; j < ny; j++)
+			for (int k=0; k < nz; k++)
+				if (this->data3D[i][j][k] != pmatriz.data3D[i][j][k])	// se houver algum diferente
+					return false;		// retorna false
+	return true;			// senao retorna true
 }
 
 // Sobrecarga do operador !=

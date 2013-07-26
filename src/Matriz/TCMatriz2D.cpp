@@ -222,12 +222,12 @@ TCMatriz2D<T> & TCMatriz2D<T>::operator= (TCMatriz2D<T> & matriz) {
 // Sobrecarga do operador ==
 template< typename T >
 bool TCMatriz2D<T>::operator== (TCMatriz2D<T> & pmatriz) {
-	int minx = std::min (this->nx, pmatriz.nx);
-	int miny = std::min (this->ny, pmatriz.ny);
-	for (int i = 0; i < minx; i++)	// percorre as matrizes
-		for (int j = 0; j < miny; j++)
-			if (this->data2D[i][j] != pmatriz.data2D[i][i])	// se houver algum diferente
-				return 0;		// retorna false
+	if ( (this->nx != pmatriz.nx) || (this->ny != pmatriz.ny) )
+			 return false;
+	for (int i = 0; i < nx; i++)	// percorre as matrizes
+		for (int j = 0; j < ny; j++)
+			if (this->data2D[i][j] != pmatriz.data2D[i][j])	// se houver algum diferente
+				return false;		// retorna false
 	return 1;			// senao retorna true
 }
 

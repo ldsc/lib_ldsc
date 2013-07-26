@@ -83,34 +83,37 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 	register int z_1;		// z-1
 
 	// MinimoIda
-	for (z = 1; z < this->nz - 1; z++) {	// inicio do 1 pois já considerou planos 0 acima
+	for (z = 1; z < this->nz-1; z++) {	// inicio do 1 pois já considerou planos 0 acima
 		z_1 = z - 1;
-		for (y = 1; y < this->ny - 1; y++) {
+		for (y = 1; y < this->ny-1; y++) {
 			ym1 = y + 1;
 			y_1 = y - 1;
-			for (x = 1; x < this->nx - 1; x++) {
+			for (x = 1; x < this->nx-1; x++) {
 				if (this->data3D[x][y][z] != 0) {	// Testa a imagem, se nao for solido entra
 					xm1 = x + 1;
 					x_1 = x - 1;
-					this->minimo = this->raioMaximo;	// assume valor maximo
-					//  4  3  4      z=0
+					this->minimo = this->raioMaximo;	// assume valor maximo (default 32000)
+					//No plano z atual (1 < z < (nz-1)), compara os pixeis visinhos do voxel (x) considerados nos valores entre parênteses:
+					//Os valores contidos dentro dos parenteses são somados ao atual valor do voxel naquela posição e comparados com o valor contido em minimo, de forma que minimo passa a assumir o menor valor
+					//  4  3  4
 					// (3) x  3
 					// (4)(3)(4)
-					this->min (this->data3D[x_1][y][z] + mi);	// ponto[x][y]
+					this->min (this->data3D[x_1][ y ][z] + mi);	// ponto[x][y]
 					this->min (this->data3D[x_1][y_1][z] + mj);
-					this->min (this->data3D[x][y_1][z] + mi);
+					this->min (this->data3D[ x ][y_1][z] + mi);
 					this->min (this->data3D[xm1][y_1][z] + mj);
-					// (5)(4)(5)     z=-1
+					//No plano z anterior (z-1), compara os voxeis visinhos ao voxel a ser alterado (x):
+					// (5)(4)(5)
 					// (4)(3)(4)
 					// (5)(4)(5)
 					this->min (this->data3D[x_1][ym1][z_1] + mk);
-					this->min (this->data3D[x][ym1][z_1] + mj);
+					this->min (this->data3D[ x ][ym1][z_1] + mj);
 					this->min (this->data3D[xm1][ym1][z_1] + mk);
-					this->min (this->data3D[x_1][y][z_1] + mj);
-					this->min (this->data3D[x][y][z_1] + mi);
-					this->min (this->data3D[xm1][y][z_1] + mj);
+					this->min (this->data3D[x_1][ y ][z_1] + mj);
+					this->min (this->data3D[ x ][ y ][z_1] + mi);
+					this->min (this->data3D[xm1][ y ][z_1] + mj);
 					this->min (this->data3D[x_1][y_1][z_1] + mk);
-					this->min (this->data3D[x][y_1][z_1] + mj);
+					this->min (this->data3D[ x ][y_1][z_1] + mj);
 					this->min (this->data3D[xm1][y_1][z_1] + mk);
 					this->data3D[x][y][z] = this->minimo;
 				}
@@ -130,23 +133,23 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 					x_1 = x - 1;
 					this->minimo = this->data3D[x][y][z];	// Armazena valor minimo da ida
 					// (4)(3)(4)     z=0
-					// (3) x  3
+					//  3  x (3)
 					//  4  3  4
 					this->min (this->data3D[x_1][ym1][z] + mj);
-					this->min (this->data3D[x][ym1][z] + mi);
+					this->min (this->data3D[ x ][ym1][z] + mi);
 					this->min (this->data3D[xm1][ym1][z] + mj);	// bug
-					/*ponto[x][y] */ this->min (this->data3D[xm1][y][z] + mi);
+					this->min (this->data3D[xm1][ y ][z] + mi);
 					// (5)(4)(5)     z=+1
 					// (4)(3)(4)
 					// (5)(4)(5)
 					this->min (this->data3D[x_1][ym1][zm1] + mk);
-					this->min (this->data3D[x][ym1][zm1] + mj);
+					this->min (this->data3D[ x ][ym1][zm1] + mj);
 					this->min (this->data3D[xm1][ym1][zm1] + mk);
-					this->min (this->data3D[x_1][y][zm1] + mj);
-					this->min (this->data3D[x][y][zm1] + mi);
-					this->min (this->data3D[xm1][y][zm1] + mj);
+					this->min (this->data3D[x_1][ y ][zm1] + mj);
+					this->min (this->data3D[ x ][ y ][zm1] + mi);
+					this->min (this->data3D[xm1][ y ][zm1] + mj);
 					this->min (this->data3D[x_1][y_1][zm1] + mk);
-					this->min (this->data3D[x][y_1][zm1] + mj);
+					this->min (this->data3D[ x ][y_1][zm1] + mj);
 					this->min (this->data3D[xm1][y_1][zm1] + mk);
 
 					this->data3D[x][y][z] = this->minimo;

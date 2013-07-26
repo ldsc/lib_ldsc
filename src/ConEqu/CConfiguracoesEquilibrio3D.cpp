@@ -188,7 +188,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
 
    idf->Go (ptr_camara);			//  Calcula a idf
 
-   idf->IndiceAtivo (G);			//  Define indice da matriz apos operacao abertura
+	 idf->INDICE = G;			//  Define indice da matriz apos operacao abertura
 
    int maiorValor = idf->MaiorValor ();	//  Calcula o raioMaximo
 

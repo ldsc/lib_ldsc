@@ -17,9 +17,9 @@ TEST(Test3DFilter, IDFd3453D_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
-	filtro->NumCores(filtro->MaiorValor());
-	filtro->Write("result_IDFd345_IBS0105_1_0.dgm");
+	//filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
+	//filtro->NumCores(filtro->MaiorValor());
+	//filtro->Write("result_IDFd345_IBS0105_1_0.dgm");
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -55,9 +55,9 @@ TEST(Test3DFilter, IDFd3453D_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
-	filtro->NumCores(filtro->MaiorValor());
-	filtro->Write("result_IDFd345_IBS0105_0_1.dgm");
+	//filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
+	//filtro->NumCores(filtro->MaiorValor());
+	//filtro->Write("result_IDFd345_IBS0105_0_1.dgm");
 
 	bool iguais = true;
 	int i,j,k;
@@ -93,7 +93,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
-	pm->Write("result_ErosionIDFd345_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_ErosionIDFd345_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -115,7 +115,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
-	pm->Write("result_ErosionIDFd345_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_ErosionIDFd345_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -137,7 +137,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
-	pm->Write("result_DilatationIDFd345_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_DilatationIDFd345_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -159,7 +159,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
-	pm->Write("result_DilatationIDFd345_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_DilatationIDFd345_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -181,7 +181,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
-	pm->Write("result_OpeningIDFd345_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_OpeningIDFd345_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -203,7 +203,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
-	pm->Write("result_OpeningIDFd345_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_OpeningIDFd345_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -225,7 +225,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
-	pm->Write("result_ClosingIDFd345_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_ClosingIDFd345_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -247,7 +247,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
-	pm->Write("result_ClosingIDFd345_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_ClosingIDFd345_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -269,9 +269,9 @@ TEST(Test3DFilter, IDFEuclidiana_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
-	filtro->NumCores(filtro->MaiorValor());
-	filtro->Write("result_IDFEuclidiana_IBS0105_1_0.dgm");
+	//filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
+	//filtro->NumCores(filtro->MaiorValor());
+	//filtro->Write("result_IDFEuclidiana_IBS0105_1_0.dgm");
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -307,9 +307,9 @@ TEST(Test3DFilter, IDFEuclidiana_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
-	filtro->NumCores(filtro->MaiorValor());
-	filtro->Write("result_IDFEuclidiana_IBS0105_0_1.dgm");
+	//filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
+	//filtro->NumCores(filtro->MaiorValor());
+	//filtro->Write("result_IDFEuclidiana_IBS0105_0_1.dgm");
 
 	bool iguais = true;
 	int i,j,k;
@@ -345,7 +345,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
-	pm->Write("result_ErosionIDFEuclidiana_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_ErosionIDFEuclidiana_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -367,7 +367,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
-	pm->Write("result_ErosionIDFEuclidiana_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_ErosionIDFEuclidiana_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -389,7 +389,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
-	pm->Write("result_DilatationIDFEuclidiana_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_DilatationIDFEuclidiana_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -411,7 +411,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
-	pm->Write("result_DilatationIDFEuclidiana_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_DilatationIDFEuclidiana_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -433,7 +433,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
-	pm->Write("result_OpeningIDFEuclidiana_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_OpeningIDFEuclidiana_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -455,7 +455,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
-	pm->Write("result_OpeningIDFEuclidiana_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_OpeningIDFEuclidiana_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -477,7 +477,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
-	pm->Write("result_ClosingIDFEuclidiana_R3_IBS0105_1_0.dbm");
+	//pm->Write("result_ClosingIDFEuclidiana_R3_IBS0105_1_0.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );
@@ -499,7 +499,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
-	pm->Write("result_ClosingIDFEuclidiana_R3_IBS0105_0_1.dbm");
+	//pm->Write("result_ClosingIDFEuclidiana_R3_IBS0105_0_1.dbm");
 
 	//compara e exibe o resultado do teste
 	EXPECT_TRUE( *pm2 == *pm );

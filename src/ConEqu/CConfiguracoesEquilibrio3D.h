@@ -241,22 +241,22 @@ public:
     /// Get salvarResultadosParciaisDisco
     bool SalvarResultadosParciaisDisco() 	const	{
         return salvarResultadosParciaisDisco;
-    };
+		}
 
     /// Set salvarResultadosParciaisDisco
     void SalvarResultadosParciaisDisco(bool s) 	{
         salvarResultadosParciaisDisco = s;
-    };
+		}
 
     /// Get salvarResultadosFinaisDisco
     bool SalvarResultadosFinaisDisco() 	const	{
         return salvarResultadosFinaisDisco;
-    };
+		}
 
     /// Set salvarResultadosParciaisDisco
     void SalvarResultadosFinaisDisco(bool s) 	{
         salvarResultadosFinaisDisco = s;
-    };
+		}
 
 
     /// Get Saturação da fase A

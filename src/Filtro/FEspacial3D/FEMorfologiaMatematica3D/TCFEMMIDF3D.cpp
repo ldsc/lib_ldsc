@@ -47,7 +47,7 @@ Assim pm aponta para a matriz recebida e data3D para a matriz IDF
 template<typename T>
 TCFEMMIDF3D<T>::TCFEMMIDF3D (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara, unsigned int _raioMax, int _indice, int _fundo )
 	:TCFEMorfologiaMatematica3D<T> (matriz, _tamanhoMascara, _indice, _fundo ), TCMatriz3D<int> (matriz->NX (), matriz->NY (), matriz->NZ ()),
-		raioMaximo (_raioMax), indiceAtivo ( _indice ), indiceInativo ( _fundo ) {
+		raioMaximo (_raioMax) {
 	raioBola = _tamanhoMascara;
 	path = matriz->Path();
 }
@@ -154,7 +154,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Erosao (TCMatriz3D<T> * &matriz, unsigned int _R
 	// Processamento da erosao em si
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
 	int i,j,k;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (k = 0; k < nz; k++) {
 		for (j = 0; j < ny; j++) {
 			for (i = 0; i < nx; i++) {
@@ -190,7 +190,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	// pm->Constante(0);        // zera a matriz imagem
 	int mi = Mi ();		//
 	int i,j,k;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < nx; i++)	// percorre toda a idf e pinta pontos na imagem
 		for (j = 0; j < ny; j++)
 			for (k = 0; k < nz; k++)
@@ -212,9 +212,9 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 	int poszb, poszf;		// z back e z front
 	int xx, yy, zz;		// posicoes xx e yy da bola
 	// falta verificar o contorno
-	for (int k = raio; k < nz - raio; k++) {
-		for (int j = raio; j < ny - raio; j++) {
-			for (int i = raio; i < nx - raio; i++) {
+	for (k = raio; k < nz - raio; k++) {
+		for (j = raio; j < ny - raio; j++) {
+			for (i = raio; i < nx - raio; i++) {
 				if (data3D[i][j][k] == mi)	{// usar simetria
 					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
 					for (zz = 0; zz <= raio; zz++) {	// percorre a mascara
@@ -242,8 +242,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 							}
 						}
 					}
-					/*
-					// PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
+					/* // PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
 					for (zz=-raio; zz<=raio; zz++) { // percorre a mascara
 						kmz= k + zz;
 						rmz= raio + zz;
@@ -254,10 +253,10 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 							for (xx=-raio; xx <=raio;xx++) {
 								// imx=i+x;  // rmx=raio+x;
 								if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
-									this->pm->data3D[i+xx][jmy][kmz]=indiceAtivo;  // pinta na imagem
-												}
-										 }
-									}
+									this->pm->data3D[i+xx][jmy][kmz]=this->INDICE;;  // pinta na imagem
+								}
+							}
+						}
 					}*/
 				}
 			}
@@ -302,7 +301,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 
 	// Processamento da abertura em si
 	// imagemModificada=0;
-	this->pm->Constante (indiceInativo);	// zera a matriz imagem
+	this->pm->Constante (this->FUNDO);	// zera a matriz imagem
 
 	// Otimizacao Mascara (bola)
 	int raio = maskd->RaioX ();
@@ -323,7 +322,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 		for (int j = raio; j < ny - raio; j++) {
 			for (int i = raio; i < nx - raio; i++) {
 				if (data3D[i][j][k] > raioBolaTangente) {	// se for maior que a bola tangente vai permanecer
-					this->pm->data3D[i][j][k] = indiceAtivo;
+					this->pm->data3D[i][j][k] = this->INDICE;
 					// imagemModificada=1;
 				} else if (data3D[i][j][k] > raioBolaInclusa) { // se for maior que a inclusa e menor ou igual a tangente pintar a bola
 					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
@@ -340,14 +339,14 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 								posxd = i + xx;
 								rmx = raio + xx;
 								if (maskd->data3D[rmx][rmy][rmz] != 0) {
-									this->pm->data3D[posxe][posyn][poszf] = indiceAtivo;
-									this->pm->data3D[posxe][posys][poszf] = indiceAtivo;
-									this->pm->data3D[posxd][posyn][poszf] = indiceAtivo;
-									this->pm->data3D[posxd][posys][poszf] = indiceAtivo;
-									this->pm->data3D[posxe][posyn][poszb] = indiceAtivo;
-									this->pm->data3D[posxe][posys][poszb] = indiceAtivo;
-									this->pm->data3D[posxd][posyn][poszb] = indiceAtivo;
-									this->pm->data3D[posxd][posys][poszb] = indiceAtivo;
+									this->pm->data3D[posxe][posyn][poszf] = this->INDICE;
+									this->pm->data3D[posxe][posys][poszf] = this->INDICE;
+									this->pm->data3D[posxd][posyn][poszf] = this->INDICE;
+									this->pm->data3D[posxd][posys][poszf] = this->INDICE;
+									this->pm->data3D[posxe][posyn][poszb] = this->INDICE;
+									this->pm->data3D[posxe][posys][poszb] = this->INDICE;
+									this->pm->data3D[posxd][posyn][poszb] = this->INDICE;
+									this->pm->data3D[posxd][posys][poszb] = this->INDICE;
 								}
 							}
 						}
@@ -362,7 +361,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 										 for (xx=-raio; xx <=raio;xx++) {
 												// imx=i+x;  // rmx=raio+x;
 												if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
-													 this->pm->data3D[i+xx]   [jmy] [kmz]=indiceAtivo;  // pinta na imagem
+													 this->pm->data3D[i+xx]   [jmy] [kmz]=this->INDICE;  // pinta na imagem
 												}
 										 }
 									}

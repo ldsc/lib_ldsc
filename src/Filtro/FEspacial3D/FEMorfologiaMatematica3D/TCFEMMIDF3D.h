@@ -58,9 +58,6 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int
 		unsigned int raioMaximo;	///< raio máximo da idf
 		unsigned int raioBola;		///< raio da bola atual,entre 0 e raioMaximo
 		static bool atualizaIDF;	///< Se verdadeira após cada processamento recalcula a idf
-		int indiceAtivo;			///< indice ativo
-		int indiceInativo;		///< indice inativo
-
 
 		// Métodos
 		// void IDFNosPlanosDeContorno(int& base);     // Calcula a idf nos planos de contorno
@@ -113,14 +110,7 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int
 		void RaioBola (unsigned int _raioBola) {
 			raioBola = _raioBola;
 		}
-		/// Seta o indiceAtivo
-		virtual void IndiceAtivo (int indice) {
-			indiceAtivo = indice;
-		}
-		/// Seta o indiceInativo
-		virtual void IndiceInativo (int indice) {
-			indiceInativo = indice;
-		}
+
 		/// Método de Abertura
 		virtual TCMatriz3D<T> *Abertura (TCMatriz3D<T> * &matriz, unsigned int _RaioBola);
 		/// Método de Erosao

@@ -3,22 +3,22 @@ libldsc
 ===============================================================================
 Nome deste arquivo: 	TODO
 Conte�do:		Lista das tarefas a serem realizadas.
-Autor:			Andr� Duarte Bueno
+Autor:			André Duarte Bueno, Leando Puerari.
 
 ===============================================================================
 Outros arquivos de ajuda
 ===============================================================================
-README		Descreve o que � a libldsc e os arquivos de ajuda.
+README		Descreve o que é a libldsc e os arquivos de ajuda.
 INSTALL		Descreve como instalar a libldsc.
 HOWTO		Descreve como utilizar a libldsc.
-NEWS		Descreve as novidades das �ltimas vers�es.
+NEWS		Descreve as novidades das últimas versões.
 ORGANIZATION	Descreve como modificar a libldsc 
-		(informa��es para desenvolvedores - programadores).
+		(informaçoes para desenvolvedores - programadores).
 TODO		Lista das tarefas a serem realizadas.
 BUGS		Lista de bugs relatados ou identificados.
-ChangeLog	Lista de modifica��es da biblioteca.
-COPYING		Descreve as condi��es para c�pia e instala��o da libldsc
-		e a licen�a p�blica da GNU (Vers�o 2).
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licençaa pública da GNU (Versão 2).
 AUTHORS		Lista dos autores da libldsc.
 
 ===============================================================================
@@ -61,24 +61,15 @@ ok- Leandro: testar novas classes de Correlacao, ver resultado no lvp.
 2) Atualizacao dos softwares de apoio para última versão:
 - O objetivo é se familiarizar com estes softwares.
 - Todos usando Fedora 12 ou 13.
-- Atualizar o kdevelop para versão 4 
-	(deve ficar com as duas versões até que a nova fique estável).
-- Atualizar o g++ para ultima versão 4.5.
-- Atualizar umbrello para ultima versão .
-- Atualizar cervisia para ultima versão .
-- Baixar e instalar ultima versão do VP - Visual Paradigm
+- Atualizar o g++ para ultima versão.
 
 3)
 - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
-(ver como ter as documentacoes do kdevelop e demais softwares instaladas,
-i.e, nome dos pacotes de documentacao)
-- Ler material atualizado do VP - Visual Paradigm
-- Ler material atualizado do kdevelop (help)
-- Ler material atualizado do cervisia
 - Ler livros sobre padroes para desenvolvimento (nomes classes/atributos/métodos)...
 - Ler livros sobre UML2
 - Ler livros sobre C++0x
 - Ler livros sobre Boost
+- Ler livros sobre OpenMP
 - Ler livros sobre outras bibliotecas
 - Ler livros sobre Padroes de projeto
 
@@ -91,15 +82,11 @@ i.e, nome dos pacotes de documentacao)
 - Adotar magick++ para processamento de imagens?
 
 5)
-- Ativar svn no servidor da rede científica
-(inclusive para acesso externo).
-
-6)
 - Definir o padrão de desenvolvimento
 - Definir metodologia de trabalho - fluxo de trabalho
 - Testar padrao e metodologia com desenvolvimento da nova lib
 		
-7)
+6)
 - Reescrever as classes básicas e depois os códigos específicos.
 - Somente as classes novas devem fazer parte da nova lib?
 - Reescrever CVetor/CMatriz2D/CMatriz3D
@@ -114,13 +101,13 @@ conferidas.
 - Acrescentar códigos de Imago
 - Acrescentar códigos de SAIL
 
-8)
+7)
 - O diretório test deve ter a mesma estrutura de src,
 e cada subdiretório deve testar as classes correspondentes.
 - Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários
 - O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
 
-9)
+8)
 - Os programas que foram colocados dentro de test
 devem ser retirados. 
 - Criar programa externo que acessa a lib.
@@ -128,29 +115,29 @@ devem ser retirados.
 de base para aprendizado.
 
 
-10)
+9)
 - As provas feitas para os alunos tem exemplos que podem ser acrescentados a lib.
 
-11)
+10)
 - Verificar se programas feitos por alunos podem, após revisão,
 serem acrescentados a lib.
 
-12) Otimizacao
+11) Otimizacao
 - Aprender a usar gprof
 - Aprender a usar Valgrind
 - Fazer analise de desempenho e consumo de memória
 - Eliminar dependencia de commonC++, 
 - usar thread do novo padrão de C++0x.
 
-13)
+12)
 - Pensar em como vai ser a relacao com qt
 - Criar métodos InputDialog() ? para leitura dos atributos da classe?
 
 
-14) Novas funcoes:
-- Implementar nova FFT,
-montar baseada no codigo do livro do parker.
+13) Novas funcoes:
+- Implementar nova FFT (baseada no codigo do livro do parker).
 - Testar calculo correlacao usando nova FFT?
 - Testar reconstrucao usando nova FFT?
 - 
-- 
+14) IDF Euclidiana
+- Esta utilizando valores maiores que 255, e está dando problema ao salvar a imagem tons de cinza em formato binário (O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 

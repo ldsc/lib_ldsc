@@ -292,7 +292,7 @@ void TCMatriz3D<T>::SalvaDadosBinarios (ofstream & fout) const {
 					}
 				}
 				break;
-			case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
+			case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte - funcional para imagens com variação de tons de 0 a 255.
 				for (int k = 0; k < nz; k++) {
 					for (int j = 0; j < ny; j++) {
 						for (int i = 0; i < nx; i++) {

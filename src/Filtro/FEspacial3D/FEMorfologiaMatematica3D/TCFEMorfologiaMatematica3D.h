@@ -69,6 +69,9 @@ class TCFEMorfologiaMatematica3D : public TCFEspacial3D<T>
 			: TCFEspacial3D<T> (matriz,  _tamanhoMascara), EEHitMiss1 (false), EEHitMiss2 (false), INDICE ( _indice ), FUNDO ( _fundo ) {
 		}
 
+		///Destrutor
+		virtual ~TCFEMorfologiaMatematica3D ( ) {
+		}
 		// Abaixo a função Go que é reescrita aqui, vazia, para inibir o
 		// calculo da convolução realizado na classe CFEspacial<int>
 		// As operações da morfologia matemática são diferentes.

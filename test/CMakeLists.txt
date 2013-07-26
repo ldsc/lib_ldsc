@@ -25,7 +25,7 @@ link_directories(${LIBLDSC_SOURCE_DIR}/../gtest/)
 add_executable(bin/runGtest
    Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
-   ${LIBLDSC_SOURCE_DIR}/../gtest/src/gtest_main.cc
+   gtest_main.cpp
 )
 
 target_link_libraries(bin/runGtest gtest ldsc)

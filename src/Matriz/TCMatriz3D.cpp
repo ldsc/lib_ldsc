@@ -750,7 +750,7 @@ bool TCMatriz3D<T>::Redimensiona(int NX, int NY, int NZ) {
 template< typename T >
 void TCMatriz3D<T>::Constante (T cte) {
 	int i,j,k;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k)
 	for (i = 0; i < nx; i++)
 		for (j = 0; j < ny; j++)
 			for (k = 0; k < nz; k++)

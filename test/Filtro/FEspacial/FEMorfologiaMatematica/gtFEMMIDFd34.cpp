@@ -3,13 +3,13 @@
 #include <string>
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h>
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h>
+#include "../../../gtest_configure.h"
 
-string original2D = "../../data/images/2v5i7_640x480_BIN_1-0.pbm";
-bool criarImagens2DResultantes = false;
+GtestConfigure cfg2 = GtestConfigure();
 
 TEST(Test2DFilter, IDFd34_1_0) {
 	//carrega a imagem original
-	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(original2D);
+	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg2.original2D);
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>("../../data/images/result_IDFd34_2v5i7_640x480_BIN_1-0.pgm");
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
@@ -17,7 +17,7 @@ TEST(Test2DFilter, IDFd34_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	if (criarImagens2DResultantes) {
+	if (cfg2.criarImagensResultantes) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Write("result_IDFd34_2v5i7_640x480_BIN_1-0.pgm");
@@ -47,7 +47,7 @@ TEST(Test2DFilter, IDFd34_1_0) {
 
 TEST(Test2DFilter, IDFd34_0_1) {
 	//carrega a imagem original
-	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(original2D);
+	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg2.original2D);
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>("../../data/images/result_IDFd34_2v5i7_640x480_BIN_0-1.pgm");
 	//Cria o filtro com poro igual e 0 e fundo igual a 1
@@ -55,7 +55,7 @@ TEST(Test2DFilter, IDFd34_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	if (criarImagens2DResultantes) {
+	if (cfg2.criarImagensResultantes) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path(pm->Path());
@@ -85,7 +85,7 @@ TEST(Test2DFilter, IDFd34_0_1) {
 
 TEST(Test2DFilter, IDFd5711_1_0) {
 	//carrega a imagem original
-	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(original2D);
+	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg2.original2D);
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>("../../data/images/result_IDFd5711_2v5i7_640x480_BIN_1-0.pgm");
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
@@ -93,7 +93,7 @@ TEST(Test2DFilter, IDFd5711_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	if (criarImagens2DResultantes) {
+	if (cfg2.criarImagensResultantes) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Write("result_IDFd5711_2v5i7_640x480_BIN_1-0_new.pgm");
@@ -123,7 +123,7 @@ TEST(Test2DFilter, IDFd5711_1_0) {
 
 TEST(Test2DFilter, IDFd5711_0_1) {
 	//carrega a imagem original
-	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(original2D);
+	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg2.original2D);
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>("../../data/images/result_IDFd5711_2v5i7_640x480_BIN_0-1.pgm");
 	//Cria o filtro com poro igual e 0 e fundo igual a 1
@@ -131,7 +131,7 @@ TEST(Test2DFilter, IDFd5711_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	if (criarImagens2DResultantes) {
+	if (cfg2.criarImagensResultantes) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path(pm->Path());

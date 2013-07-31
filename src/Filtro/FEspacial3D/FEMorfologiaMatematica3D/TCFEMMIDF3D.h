@@ -57,7 +57,6 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int
 		int minimo; 				///< valor minimo utilizado no calculo minimoIda e minimoVolta
 		unsigned int raioMaximo;	///< raio máximo da idf
 		unsigned int raioBola;		///< raio da bola atual,entre 0 e raioMaximo
-		static bool atualizaIDF;	///< Se verdadeira após cada processamento recalcula a idf
 
 		// Métodos
 		// void IDFNosPlanosDeContorno(int& base);     // Calcula a idf nos planos de contorno

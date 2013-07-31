@@ -27,15 +27,6 @@ Descricao:	 Implementa as funções da classe TCFEMMIDF3D.
 
 /*
 ==================================================================================
-Atributos estaticos da classe
-==================================================================================
-*/
-// Se verdadeira após cada processamento recalcula a idf
-template<typename T>
-bool  TCFEMMIDF3D<T>::atualizaIDF = 0;	// por default, não recalcula a idf apos dilatacao ou fechamento
-
-/*
-==================================================================================
 Documentacao construtor
 ==================================================================================
 Executa o construtor da classe base, o CMatriz3D(_pm)
@@ -186,11 +177,13 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetraioBolaTangente
 
-	// Processamento da Dilatacao em si
-	// pm->Constante(0);        // zera a matriz imagem
-	int mi = Mi ();		//
+	int mi = Mi ();
 	int i,j,k;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
+
+	/*
+	//Está alterando pm para corresponder a binarização da IDF, mas a IDF é criada a partir de pm, logo, não está alterando nada!
+	//Comentei este trecho pois não encontrei onde funcionalidade.
+	#pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < nx; i++)	// percorre toda a idf e pinta pontos na imagem
 		for (j = 0; j < ny; j++)
 			for (k = 0; k < nz; k++)
@@ -198,25 +191,27 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 					this->pm->data3D[i][j][k] = this->INDICE; //indiceAtivo;	// pm->data3D[ii][jj][kk]=1;
 				else
 					this->pm->data3D[i][j][k] = this->FUNDO; //indiceInativo;	// pm->data3D[ii][jj][kk]=0;
+*/
 
 	// Otimizacao Mascara (bola)
 	int raio = maskd->RaioX ();
 	//   int raioBolaTangente=maskd->GetraioBolaTangente();
 	//   int raioBolaInclusa=maskd->RaioBolaInclusa();
-	int rmx;			// raio mais x, raio+x
-	int rmy;			//
-	int rmz;			//
+	int rmx;	// raio mais x (raio+x)
+	int rmy;	// raio mais y (raio+y)
+	int rmz;	// raio mais z (raio+z)
 	// Variáveis para SIMETRIA Bola
 	int posxe, posxd;		// x esquerda e x direita
 	int posys, posyn;		// y sul e y norte
 	int poszb, poszf;		// z back e z front
-	int xx, yy, zz;		// posicoes xx e yy da bola
-	// falta verificar o contorno
+	int xx, yy, zz;		// posicoes xx, yy e zz da bola
+	// Processamento da Dilatacao em si
+	// Falta verificar o contorno
+	//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,posxe,posxd,posys,posyn,poszb,poszf,xx,yy,zz,rmx,rmy,rmz) //schedule(dynamic,10)
 	for (k = raio; k < nz - raio; k++) {
 		for (j = raio; j < ny - raio; j++) {
 			for (i = raio; i < nx - raio; i++) {
-				if (data3D[i][j][k] == mi)	{// usar simetria
-					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
+				if (data3D[i][j][k] == mi)	{ // PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
 					for (zz = 0; zz <= raio; zz++) {	// percorre a mascara
 						poszb = k - zz;
 						poszf = k + zz;
@@ -262,9 +257,6 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Dilatacao (TCMatriz3D<T> * &matriz, unsigned int
 			}
 		}
 	}
-	// verifica atualização idf
-	if ( atualizaIDF ) // verifica o flag de atualizacao da idf após dilatação
-		this->Go ( this->pm );		 // se ativo recalcula a idf
 	return this->pm;		    // pm é a matriz Dilatacao
 }
 
@@ -276,12 +268,10 @@ Obs: A sequência de execucao desta função não deve ser alterada sem uma anal
 */
 template<typename T>
 TCMatriz3D<T> * TCFEMMIDF3D<T>::Fechamento (TCMatriz3D<T> * &matriz, unsigned int _RaioBola) {
-	bool atualizaIDF_old = atualizaIDF;	// armazena valor de atualizaIDF
-	atualizaIDF = 1;		// ativa, para que a Dilatacao recalcule  a idf
 	Dilatacao (matriz, _RaioBola);	// processa a dilatação, e depois Go
-	atualizaIDF = atualizaIDF_old;	// atualizaIDF volta ao estado anterior
+	this->Go ( this->pm ); //atualiza a idf
 	Erosao (matriz, _RaioBola);	// Processa a erosão, considerando imagem idf atualizada
-	return matriz;
+	return this->pm;
 }
 
 /*
@@ -299,10 +289,6 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 
 	CBCDiscreta3D *maskd = dynamic_cast < CBCDiscreta3D * >(this->mask);	// Cria ponteiro para mascara com acesso a GetRaioBolaTangente
 
-	// Processamento da abertura em si
-	// imagemModificada=0;
-	this->pm->Constante (this->FUNDO);	// zera a matriz imagem
-
 	// Otimizacao Mascara (bola)
 	int raio = maskd->RaioX ();
 	int raioBolaTangente = maskd->RaioBolaTangente ();
@@ -317,13 +303,14 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	int poszb, poszf;		// z back e z front
 	int xx, yy, zz;		// posicoes xx e yy da bola
 
+	// Processamento da abertura em si
+	this->pm->Constante (this->FUNDO);	// zera a matriz imagem
 	// falta verificar o contorno
 	for (int k = raio; k < nz - raio; k++) {
 		for (int j = raio; j < ny - raio; j++) {
 			for (int i = raio; i < nx - raio; i++) {
 				if (data3D[i][j][k] > raioBolaTangente) {	// se for maior que a bola tangente vai permanecer
 					this->pm->data3D[i][j][k] = this->INDICE;
-					// imagemModificada=1;
 				} else if (data3D[i][j][k] > raioBolaInclusa) { // se for maior que a inclusa e menor ou igual a tangente pintar a bola
 					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
 					for (zz = 0; zz <= raio; zz++)	{ // percorre a mascara
@@ -350,22 +337,23 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 								}
 							}
 						}
+					}	/*
+					// PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
+					for (zz=-raio; zz<=raio; zz++) {          // percorre a mascara
+						kmz= k + zz;
+						rmz= raio + zz;
+						for (yy=-raio; yy<=raio; yy++) {
+							jmy= j + yy;
+							rmy= raio + yy;                          // usar simetria
+							for (xx=-raio; xx <=raio;xx++) {
+								// imx=i+x;  // rmx=raio+x;
+								if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
+									this->pm->data3D[i+xx]   [jmy] [kmz]=this->INDICE;  // pinta na imagem
+								}
+							}
+						}
 					}
-					/*// PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
-							 for (zz=-raio; zz<=raio; zz++) {          // percorre a mascara
-									kmz= k + zz;
-									rmz= raio + zz;
-									for (yy=-raio; yy<=raio; yy++) {
-										 jmy= j + yy;
-										 rmy= raio + yy;                          // usar simetria
-										 for (xx=-raio; xx <=raio;xx++) {
-												// imx=i+x;  // rmx=raio+x;
-												if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
-													 this->pm->data3D[i+xx]   [jmy] [kmz]=this->INDICE;  // pinta na imagem
-												}
-										 }
-									}
-							 }*/
+					*/
 				}
 			}
 		}

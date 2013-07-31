@@ -197,11 +197,11 @@ bool CAberturaDilatacao3D::Write(string fileName, TCMatriz3D<bool>* &mat1, TCMat
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
 					if( mat2->data3D[i][j][k] == INDICE )				// se o voxel for índice em mat2
-						fout << (unsigned char) 2;
+						fout << (unsigned char) 2; //ligação
 					else if( mat1->data3D[i][j][k] == INDICE )	// senão, se o voxel for índice em mat1
-						fout << (unsigned char) 1;
+						fout << (unsigned char) 1; //sítio
 					else																			// senão, só pode ser fundo
-						fout << (unsigned char) 0;
+						fout << (unsigned char) 0; //fundo
 				}
 			}
 		}

@@ -1,4 +1,3 @@
-
 add_executable(bin/abertura_dilatacao
    Old/AberturaDilatacao/aberturaDilatacao.cpp
    Old/AberturaDilatacao/CUtil.cpp)
@@ -25,7 +24,9 @@ link_directories(${LIBLDSC_SOURCE_DIR}/../gtest/)
 add_executable(bin/runGtest
    Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
+   Segmentacao/3D/PorosGargantas/gtAberturaDilatacao3D.cpp
    gtest_main.cpp
+   gtest_configure.h
 )
 
 target_link_libraries(bin/runGtest gtest ldsc)

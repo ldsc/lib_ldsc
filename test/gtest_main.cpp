@@ -33,6 +33,20 @@
 
 GTEST_API_ int main(int argc, char **argv) {
 	printf("Running main() from gtest_main.cpp\n");
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+
+	// Redirecting cout
+	std::stringstream buffer;
+	// Save cout's buffer here
+	std::streambuf *sbuf = std::cout.rdbuf();
+	// Redirect cout to our stringstream buffer or any other ostream
+	std::cout.rdbuf(buffer.rdbuf());
+
+	// Init test
+	testing::InitGoogleTest(&argc, argv);
+	int r = RUN_ALL_TESTS();
+
+	// When done redirect cout to its old self
+	std::cout.rdbuf(sbuf);
+
+	return r;
 }

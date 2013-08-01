@@ -4,7 +4,7 @@
 int main(int argc, char *argv[]) {
 	TCMatriz3D<bool> *pm = NULL;
 	TCFEMMIDFd3453D<bool> *pidf = NULL;
-	pm = new TCMatriz3D<bool>("../../data/imagens/IBS0105_100kv_3.9um_cam4K_0.25d_3602_2f_0.5Al_3200ms_8x100_BIN_1-0_conected.dbm");
+	pm = new TCMatriz3D<bool>("../../data/images/IBS0105-50x50x50.dbm");
 
 	pidf = new TCFEMMIDFd3453D<bool>( pm );
 	pidf->Go(pm,3);
@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 	if (pidf->mask) {
 		pidf->mask->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 		pidf->mask->NumCores(pidf->mask->MaiorValor());
-		pidf->mask->Path("./");
+		pidf->mask->Path("../../data/images/");
 		pidf->mask->Write("mascara.dgm");
 	}
 

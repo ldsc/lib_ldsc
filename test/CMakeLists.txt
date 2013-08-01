@@ -13,7 +13,7 @@ add_executable(bin/criaSintetica3D
 target_link_libraries(bin/criaSintetica3D ldsc)
 
 add_executable(bin/idf3D
-   Filtro/MM/idf3D.cpp)
+   Old/Filtro/idf3D.cpp)
 target_link_libraries(bin/idf3D ldsc)
 
 ########################### Gtests #############################

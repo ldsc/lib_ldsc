@@ -25,7 +25,7 @@ add_executable(bin/runGtest
    Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
    Segmentacao/3D/PorosGargantas/gtAberturaDilatacao3D.cpp
-   Filtro/FEspacial/TCFEPassaBaixaTests.cpp
+   Filtro/FEspacial/FEspacialTests.cpp
    gtest_main.cpp
    gtest_configure.h
 )

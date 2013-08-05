@@ -23,8 +23,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #define CFiltroDLL		// define como sendo uma dll
 #include "Filtro/FEspacial/CFESobel.h"
 
-CMatriz2D *
-CFESobel::Go ()
+TCMatriz2D<int>* CFESobel::Go ()
 {
   IMask8 hMask (rawImg, GetMaskSize ());
   int8 ch = -1;

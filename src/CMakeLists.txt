@@ -57,6 +57,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial/CFEEmboss.cpp
   Filtro/FEspacial/CFEPassaAlta2.cpp
   Filtro/FEspacial/CFERotacaoVerticalEDiferenca.cpp
+  Filtro/FEspacial/CFESobel.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.cpp

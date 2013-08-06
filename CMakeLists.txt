@@ -67,7 +67,7 @@ set(CMAKE_BUILD_TYPE Release)
 #set(LIBRARY_OUTPUT_DIRECTORY lib)
 #message(FATAL_ERROR \${CMAKE_BUILD_TYPE}=${CMAKE_BUILD_TYPE})
 add_subdirectory(src)
-#add_subdirectory(demo)
+add_subdirectory(demo)
 add_subdirectory(test)
 
 add_executable(libldsc src/libldsc.cpp)

@@ -1,4 +1,5 @@
 ########################### Gtests #############################
+# Include and Link directories for Gtest.
 include_directories(${LIBLDSC_SOURCE_DIR}/../gtest/include/)
 link_directories(${LIBLDSC_SOURCE_DIR}/../gtest/)
 

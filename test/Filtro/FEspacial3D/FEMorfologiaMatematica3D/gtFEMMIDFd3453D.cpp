@@ -22,7 +22,7 @@ TEST(Test3DFilter, IDFd3453D_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		filtro->SetFormato(D5_X_Y_Z_GRAY_BINARY);
+		filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
 		filtro->Write(result_image);
@@ -116,7 +116,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -148,7 +148,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -180,7 +180,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -211,7 +211,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -242,7 +242,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -274,7 +274,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -306,7 +306,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -338,7 +338,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -462,7 +462,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -493,7 +493,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -526,7 +526,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -559,7 +559,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -592,7 +592,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -625,7 +625,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -658,7 +658,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}
@@ -691,7 +691,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
 
 	//Testa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		pm->SetFormato(D4_X_Y_Z_BINARY);
+		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
 		pm->Write(result_image);
 	}

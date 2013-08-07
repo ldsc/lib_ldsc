@@ -18,7 +18,7 @@ TEST_F(Test2DFilter, IRA_1_0) {
 	//Executa o filtro na imagem original
 	TCMatriz2D<int>* pmfiltrada = filtro->Go( );
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image)) {
-		pmfiltrada->SetFormato(P5_X_Y_GRAY_BINARY);
+		pmfiltrada->SetFormato(P2_X_Y_GRAY_ASCII);
 		pmfiltrada->NumCores(pmfiltrada->MaiorValor());
 		pmfiltrada->Path("");
 		pmfiltrada->Write(result_image);
@@ -28,7 +28,7 @@ TEST_F(Test2DFilter, IRA_1_0) {
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	//exibe o resultado do teste
-	EXPECT_TRUE( *pm2 == *pmfiltrada );
+	EXPECT_TRUE( *pm2 == *pmfiltrada ) << "Compared image: " << result_image;
 
 	//deleta ponteiros
 	delete pm;
@@ -60,7 +60,7 @@ TEST_F(Test2DFilter, IRA_0_1) {
 	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	//exibe o resultado do teste
-	EXPECT_TRUE( *pm2 == *pmfiltrada );
+	EXPECT_TRUE( *pm2 == *pmfiltrada ) << "Compared image: " << result_image;
 
 	//deleta ponteiros
 	delete pm;

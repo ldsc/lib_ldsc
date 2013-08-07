@@ -18,7 +18,7 @@ TEST_F(Test2DFilter, IDFd34_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
+		filtro->SetFormato(P2_X_Y_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
 		filtro->Write(result_image);
@@ -60,7 +60,7 @@ TEST_F(Test2DFilter, IDFd34_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
+		filtro->SetFormato(P2_X_Y_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
 		filtro->Write(result_image);
@@ -101,7 +101,7 @@ TEST_F(Test2DFilter, IDFd5711_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
+		filtro->SetFormato(P2_X_Y_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
 		filtro->Write(result_image);
@@ -143,7 +143,7 @@ TEST_F(Test2DFilter, IDFd5711_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
-		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
+		filtro->SetFormato(P2_X_Y_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
 		filtro->Write(result_image);

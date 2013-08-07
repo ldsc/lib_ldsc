@@ -19,3 +19,7 @@ target_link_libraries(bin/criaSintetica3D ldsc)
 add_executable(bin/idf3D
    Filtro/idf3D.cpp)
 target_link_libraries(bin/idf3D ldsc)
+
+add_executable(bin/criarBola
+   Geometria/geometria.cpp)
+target_link_libraries(bin/criarBola ldsc)

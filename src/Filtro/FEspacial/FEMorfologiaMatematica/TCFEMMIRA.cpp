@@ -68,6 +68,7 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 							 idf->data2D[ i ][jpy] > 3 ) {
 						atendeu = false;
 					} else {
+						/*
 						// Verificando número de vizinhos com df==3...
 						cont = 0;
 						cont += (idf->data2D[imx][ j ] == 3) ? 1 : 0;
@@ -76,18 +77,27 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 						cont += (idf->data2D[ i ][jpy] == 3) ? 1 : 0;
 						if ( cont >= 3 ) {
 							atendeu = false;
-						} else if ( cont == 2 ) { // Verifica se os 2 vizinhos com df==3 são paralelos
-							if ( idf->data2D[imx][j] == 3 && idf->data2D[ipx][j] == 3 ) {
-								atendeu = false;
-							} else if ( idf->data2D[i][jmy] == 3 && idf->data2D[i][jpy] == 3 ) {
-								atendeu = false;
-							}
+						} else if ( cont == 2 ) {
+						*/
+						// Verifica se os 2 vizinhos com df==3 são paralelos
+						if ( idf->data2D[imx][j] == 3 && idf->data2D[i][jmy] == 3 && idf->data2D[imx][jmy] > 3 ) {
+							atendeu = false;
+						} else if ( idf->data2D[imx][j] == 3 && idf->data2D[i][jpy] == 3 && idf->data2D[imx][jpy] > 3 ) {
+							atendeu = false;
+						} else if ( idf->data2D[ipx][j] == 3 && idf->data2D[i][jmy] == 3 && idf->data2D[ipx][jmy] > 3 ) {
+							atendeu = false;
+						} else if ( idf->data2D[ipx][j] == 3 && idf->data2D[i][jpy] == 3 && idf->data2D[ipx][jpy] > 3 ) {
+							atendeu = false;
 						}
+						/* } */
 					}
 					if ( atendeu ) {
 						pmra->data2D[i][j] = 1;
+					} else {
+						pmra->data2D[i][j] = 2;
 					}
 				} else { //tratamento para df > 3
+					pmra->data2D[i][j] = 2;
 					/*
 					// df == 3, logo, o valor de RA == 1 se o pixel analizado:
 					// Não tiver vizinho > 3;

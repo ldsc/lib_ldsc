@@ -80,6 +80,7 @@ int main (int argc, char *argv[]) {
 			cout << "Salvando a bola em disco com o nome " << os.str() << endl;
 			bola->SetFormato(P2_X_Y_GRAY_ASCII);
 			bola->NumCores(bola->MaiorValor());
+			bola->salvarAlinhado = true;
 			bola->Path("");
 			bola->Write( os.str() );
 			break;
@@ -88,6 +89,7 @@ int main (int argc, char *argv[]) {
 			cout << "Salvando a bola em disco com o nome " << os.str() << endl;
 			bola3D->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 			bola3D->NumCores(bola3D->MaiorValor());
+			bola3D->salvarAlinhado = true;
 			bola3D->Path("");
 			bola3D->Write( os.str() );
 			break;

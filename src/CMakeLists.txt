@@ -79,6 +79,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd4.h
   Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h
+  Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIRA.h
   Filtro/FEspacial3D/TCFEspacial3D.h
   Filtro/FEspacial3D/CFEBorda3D.cpp
   Filtro/FEspacial3D/CFEBSubstitueValor3D.cpp

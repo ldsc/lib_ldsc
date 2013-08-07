@@ -8,7 +8,7 @@
 
 TEST_F(Test2DFilter, IDFd34_1_0) {
 	//variável com nome da imagem a ser comparada
-	string imagemFiltrada = "../../data/images/result_IDFd34_2v5i7_640x480_BIN_1-0.pgm";
+	string result_image = "../../data/images/result_IDFd34_2v5i7_640x480_BIN_1-0.pgm";
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg.original2D);
 
@@ -17,15 +17,15 @@ TEST_F(Test2DFilter, IDFd34_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
-		filtro->Write(imagemFiltrada);
+		filtro->Write(result_image);
 	}
 
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(imagemFiltrada);
+	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -51,7 +51,7 @@ TEST_F(Test2DFilter, IDFd34_1_0) {
 
 TEST_F(Test2DFilter, IDFd34_0_1) {
 	//variável com nome da imagem a ser comparada
-	string imagemFiltrada = "../../data/images/result_IDFd34_2v5i7_640x480_BIN_0-1.pgm";
+	string result_image = "../../data/images/result_IDFd34_2v5i7_640x480_BIN_0-1.pgm";
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg.original2D);
 		//Cria o filtro com poro igual e 0 e fundo igual a 1
@@ -59,15 +59,15 @@ TEST_F(Test2DFilter, IDFd34_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
-		filtro->Write(imagemFiltrada);
+		filtro->Write(result_image);
 	}
 
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
-	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(imagemFiltrada);
+	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	bool iguais = true;
 	int i,j;
@@ -92,7 +92,7 @@ TEST_F(Test2DFilter, IDFd34_0_1) {
 
 TEST_F(Test2DFilter, IDFd5711_1_0) {
 	//variável com nome da imagem a ser comparada
-	string imagemFiltrada = "../../data/images/result_IDFd5711_2v5i7_640x480_BIN_1-0.pgm";
+	string result_image = "../../data/images/result_IDFd5711_2v5i7_640x480_BIN_1-0.pgm";
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg.original2D);
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
@@ -100,14 +100,14 @@ TEST_F(Test2DFilter, IDFd5711_1_0) {
 
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
-	if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
-		filtro->Write(imagemFiltrada);
+		filtro->Write(result_image);
 	}
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(imagemFiltrada);
+	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -133,7 +133,7 @@ TEST_F(Test2DFilter, IDFd5711_1_0) {
 
 TEST_F(Test2DFilter, IDFd5711_0_1) {
 	//variável com nome da imagem a ser comparada
-	string imagemFiltrada = "../../data/images/result_IDFd5711_2v5i7_640x480_BIN_0-1.pgm";
+	string result_image = "../../data/images/result_IDFd5711_2v5i7_640x480_BIN_0-1.pgm";
 	//carrega a imagem original
 	TCMatriz2D<bool>* pm = new TCMatriz2D<bool>(cfg.original2D);
 
@@ -142,15 +142,15 @@ TEST_F(Test2DFilter, IDFd5711_0_1) {
 
 	//aplica novamente o filtro
 	filtro->Go(pm);
-	if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(P5_X_Y_GRAY_BINARY);
 		filtro->NumCores(filtro->MaiorValor());
 		filtro->Path("");
-		filtro->Write(imagemFiltrada);
+		filtro->Write(result_image);
 	}
 
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
-	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(imagemFiltrada);
+	TCMatriz2D<int>* pm2 = new TCMatriz2D<int>(result_image);
 
 	bool iguais = true;
 	int i,j;

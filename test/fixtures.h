@@ -2,6 +2,6 @@
 
 class Test2DFilter  : public testing::Test {
 public:
-  GtestConfigure cfg;
+	GtestConfigure cfg;
 };
 

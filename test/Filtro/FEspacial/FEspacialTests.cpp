@@ -14,7 +14,7 @@ TEST_F(Test2DFilter, LowPass) {
 
   filter->Go(pm, 5);
 
-  if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
     pm->SetFormato(P4_X_Y_BINARY);
     pm->Path("");
     pm->Write(result_image);
@@ -32,7 +32,7 @@ TEST_F(Test2DFilter, TCFEspacial) {
 
   filter->Go(pm, 5);
 
-  if (cfg.criarImagensResultantes) {
+	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
     pm->SetFormato(P4_X_Y_BINARY);
     pm->Path("");
     pm->Write(result_image);

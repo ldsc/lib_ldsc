@@ -8,10 +8,10 @@ GtestConfigure cfg3 = GtestConfigure();
 TEST(TestSegmentation, OpenningDilatationModel_7) {
 	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_7.dgm";
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
+
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
 	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
@@ -24,6 +24,9 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
 		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -58,8 +61,7 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
 	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
@@ -72,6 +74,9 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
 		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -106,8 +111,7 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
 	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
@@ -120,6 +124,9 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
 		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -154,8 +161,7 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
 	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
@@ -168,6 +174,9 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
 		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;

@@ -47,9 +47,9 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 	int ny = idf->NY();
 
 	// Cria imagem 2D que representará a imagem Raio Abertura (cópia da IDF)
+	pmra = new TCMatriz2D<int> ( * dynamic_cast< TCMatriz2D<int> *>(idf) );
+/*
 	pmra = new TCMatriz2D<int> ( this->pm->NX(), this->pm->NY() );
-	//pmra = new TCMatriz2D<int> ( * dynamic_cast< TCMatriz2D<int> *>(idf) );
-
 #pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(static,10) //reduction(+:variavel)
 	for (j=0; j<ny; j++) {
 		for (i=0; i<nx; i++) {
@@ -58,7 +58,7 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 			}
 		}
 	}
-
+*/
 	//percorre a imagem
 	for (i=0; i<nx; i++) {
 		for (j=0; j<ny; j++) {
@@ -122,12 +122,12 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 					++dft; // dft irá corresponder ao primeiro valor de df de ra+1
 					//percorre mascara de raio rm==ra para comparar as visinhanças (considera simetria)
 					for (x=0; x<=rm; x++) {
-						im = ((i-rm+x) <=  0) ? i : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
-						ip = ((i+rm-x) >= nx) ? i : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
+						im = ((i-rm+x) <=  0) ? 0    : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
+						ip = ((i+rm-x) >= nx) ? nx-1 : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
 						for (y=0; y<=rm; y++) {
 							if ( this->mask->data2D[x][y] != 0 ) {
-								jm = ((j-rm+y) <=  0) ? j : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
-								jp = ((j+rm-y) >= ny) ? j : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
+								jm = ((j-rm+y) <=  0) ? 0    : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
+								jp = ((j+rm-y) >= ny) ? ny-1 : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
 								// Verifica se na vizinhança exite df > dft
 								if ( idf->data2D[im][jm] > dft) {
 									atendeu = false;
@@ -144,17 +144,21 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 					if ( atendeu ) {
 						// Percorre toda a mascara e seta a visinhança com o valor mínio entre ra e o valor do pixel correspondente na pmra;
 						for (x=0; x<=rm; x++) {
-							im = ((i-rm+x) <=  0) ? i : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
-							ip = ((i+rm-x) >= nx) ? i : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
+							im = ((i-rm+x) <=  0) ? 0    : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
+							ip = ((i+rm-x) >= nx) ? nx-1 : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
 							for (y=0; y<=rm; y++) {
 								if ( this->mask->data2D[x][y] != 0 ) {
-									jm = ((j-rm+y) <=  0) ? j : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
-									jp = ((j+rm-y) >= ny) ? j : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
+									jm = ((j-rm+y) <=  0) ? 0    : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
+									jp = ((j+rm-y) >= ny) ? ny-1 : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
 									//pmra->data2D[i][j] = ra;
 									pmra->data2D[im][jm] = min( ra, pmra->data2D[im][jm] );
 									pmra->data2D[ip][jp] = min( ra, pmra->data2D[ip][jp] );
 									pmra->data2D[ip][jm] = min( ra, pmra->data2D[ip][jm] );
 									pmra->data2D[im][jp] = min( ra, pmra->data2D[im][jp] );
+									//pmra->data2D[im][jm] = MinNotZero ( ra, pmra->data2D[im][jm] );
+									//pmra->data2D[ip][jp] = MinNotZero ( ra, pmra->data2D[ip][jp] );
+									//pmra->data2D[ip][jm] = MinNotZero ( ra, pmra->data2D[ip][jm] );
+									//pmra->data2D[im][jp] = MinNotZero ( ra, pmra->data2D[im][jp] );
 								}
 							}
 						}

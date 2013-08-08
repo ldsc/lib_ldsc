@@ -42,6 +42,7 @@ class TCFEMMIRA : public TCFEMorfologiaMatematica<T> {
 		/// O método Go determina a imagem IRA
 		TCMatriz2D<int> *Go ( );
 
+	private:
 		/// Retorma o menor valor diferente de zero. Só retorna zero se os dois valores passados forem zero.
 		inline int MinNotZero(const int& a, const int& b) {
 			return ( ( (a < b) && (a != 0) ) || (b == 0) ) ? a : b;

@@ -2,23 +2,27 @@
 #ifndef CFESobel_h
 #define CFESobel_h
 
-#ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <Matriz/TCMatriz2D.h>
+
+#ifndef TCFEspacial_h
+#include <Filtro/FEspacial/TCFEspacial.h>
 #endif
 
 /**
  * @brief Implementa o filtro de Sobel.
- * Herdeiro de CFEspacial.
+ * Herdeiro de TCFEspacial.
 */
-class CFESobel : public CFEspacial
+class CFESobel : public TCFEspacial<int>
 {
 public:
-	/// Construtor
-  CFESobel (CMatriz2D * matriz) : CFEspacial (matriz, 3)
+  /// Construtor
+  CFESobel (TCMatriz2D<int> * matriz) : TCFEspacial<int> (matriz, 3)
   {
   }
 
   /// Processa o filtro.
-  virtual CMatriz2D *Go ();
+  virtual TCMatriz2D<int> *Go (TCMatriz2D<int>* &matriz, unsigned int _tamanhoMascara = 3);
+  virtual void CriaMascara (unsigned int _tamanhoMascara);
 };
-#endif //  FiltroSobel_h
+
+#endif

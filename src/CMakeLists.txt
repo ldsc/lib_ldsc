@@ -57,6 +57,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial/CFEEmboss.cpp
   Filtro/FEspacial/CFEPassaAlta2.cpp
   Filtro/FEspacial/CFERotacaoVerticalEDiferenca.cpp
+  Filtro/FEspacial/CFESobel.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.cpp
   Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.cpp
@@ -178,6 +179,8 @@ add_library (ldsc STATIC
   Mascara/CMRotacaoVerticaleDiferenca.cpp
   Mascara/CMascara3D.cpp
   Mascara/CMPassaBaixa3d.cpp
+  Mascara/CMSobelHorizontal.cpp
+  Mascara/CMSobelVertical.cpp
   Mascara/MCDiscreta/CMCDiscreta.cpp
   Mascara/MCDiscreta/CMCdi.cpp
   Mascara/MCDiscreta/CMCd4.cpp

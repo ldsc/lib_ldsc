@@ -52,6 +52,7 @@ class TCFEspacial : public TCFiltro<T> {
 
 	public:
 		CMascara * mask;	///< Ponteiro para mascara
+		CMascara * mask_2;
 
 		// Métodos
 	public:
@@ -59,6 +60,7 @@ class TCFEspacial : public TCFiltro<T> {
 		TCFEspacial (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara)
 			: TCFiltro<T> (matriz), tamanhoMascara (_tamanhoMascara) {
 			mask = NULL;
+			mask_2 = NULL;
 		}
 
 		/// Destrutor

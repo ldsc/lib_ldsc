@@ -179,6 +179,8 @@ add_library (ldsc STATIC
   Mascara/CMRotacaoVerticaleDiferenca.cpp
   Mascara/CMascara3D.cpp
   Mascara/CMPassaBaixa3d.cpp
+  Mascara/CMSobelHorizontal.cpp
+  Mascara/CMSobelVertical.cpp
   Mascara/MCDiscreta/CMCDiscreta.cpp
   Mascara/MCDiscreta/CMCdi.cpp
   Mascara/MCDiscreta/CMCd4.cpp

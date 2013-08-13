@@ -49,25 +49,29 @@ set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 #   add_definitions("-std=c++0x")
 #endif(CMAKE_COMPILER_IS_GNUCXX)
 
-#set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")
 if(UNIX) # True for UNIX and UNIX like operating systems.
   set (CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")
 endif()
 if(WIN32) # True on windows systems, including win64
   set (CMAKE_CXX_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
 endif()
-#include_directories (${PATH_LIB_LDSC})
-include_directories(${LIBLDSC_SOURCE_DIR}/src/)
-link_directories(${LIBLDSC_SOURCE_DIR}/src/)
-#message(FATAL_ERROR ${PATH_LIB_LDSC})
 
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_BUILD_TYPE Release)
 #set (CMAKE_BUILD_TYPE Debug)
+#set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")
+
+#file(MAKE_DIRECTORY lib)
 #set(LIBRARY_OUTPUT_DIRECTORY lib)
+
+#include_directories (${PATH_LIB_LDSC})
+include_directories(${LIBLDSC_SOURCE_DIR}/src/)
+link_directories(${LIBLDSC_SOURCE_DIR}/lib/)
+
 #message(FATAL_ERROR \${CMAKE_BUILD_TYPE}=${CMAKE_BUILD_TYPE})
 add_subdirectory(src)
-#add_subdirectory(demo)
 add_subdirectory(test)
+add_subdirectory(demo)
 
+# Create libldsc executable.
 add_executable(libldsc src/libldsc.cpp)

@@ -6,14 +6,14 @@
 GtestConfigure cfg3 = GtestConfigure();
 
 TEST(TestSegmentation, OpenningDilatationModel_7) {
-	string processada = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_7.dgm";
+	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_7.dgm";
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
+
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(processada);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, processada, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -21,9 +21,12 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 
 	//Executa o filtro na imagem original
 	pms = filtro.DistSitiosLigacoes_Modelo_7();
-	if (cfg3.criarImagensResultantes) {
-		filtro.Write(processada, pms.first, pms.second);
+	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
+		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -54,14 +57,13 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_6) {
-	string processada = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_6.dgm";
+	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_6.dgm";
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(processada);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, processada, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -69,9 +71,12 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 
 	//Executa o filtro na imagem original
 	pms = filtro.DistSitiosLigacoes_Modelo_6();
-	if (cfg3.criarImagensResultantes) {
-		filtro.Write(processada, pms.first, pms.second);
+	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
+		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -102,14 +107,13 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_5) {
-	string processada = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_5.dgm";
+	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_5.dgm";
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(processada);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, processada, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -117,9 +121,12 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 
 	//Executa o filtro na imagem original
 	pms = filtro.DistSitiosLigacoes_Modelo_5();
-	if (cfg3.criarImagensResultantes) {
-		filtro.Write(processada, pms.first, pms.second);
+	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
+		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;
@@ -150,14 +157,13 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_4) {
-	string processada = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_4.dgm";
+	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_4.dgm";
 	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
-	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
-	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(processada);
+
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, processada, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -165,9 +171,12 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 
 	//Executa o filtro na imagem original
 	pms = filtro.DistSitiosLigacoes_Modelo_4();
-	if (cfg3.criarImagensResultantes) {
-		filtro.Write(processada, pms.first, pms.second);
+	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
+		filtro.Write(result_image, pms.first, pms.second);
 	}
+
+	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
+	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
 	//compara a imagem filtrada com o a imagem carregada anteriormente
 	bool iguais = true;

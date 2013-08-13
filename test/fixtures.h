@@ -2,7 +2,7 @@
 
 class Test2DFilter  : public testing::Test {
 public:
-  GtestConfigure cfg;
+	GtestConfigure cfg;
 };
 
 class TestMatriz2D : public testing::Test {

@@ -21,9 +21,9 @@ int main(int argc, char *argv[]) {
 	//salva a idf da imagem
 	pidf->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 	pidf->NumCores(pidf->MaiorValor());
-	pidf->Path("./");
+	pidf->Path("../../data/images/");
 	pidf->Write("idf.dgm");
-	int result = system("../../../lvp/bin/lvp mascara.dgm idf.dgm");
+	int result = system("../../../lvp/bin/lvp ../../data/images/mascara.dgm ../../data/images/idf.dgm");
 
 	if(pm)
 		delete pm;

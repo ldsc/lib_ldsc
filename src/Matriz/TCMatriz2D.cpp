@@ -223,7 +223,7 @@ TCMatriz2D<T> & TCMatriz2D<T>::operator= (TCMatriz2D<T> & matriz) {
 template< typename T >
 bool TCMatriz2D<T>::operator== (TCMatriz2D<T> & pmatriz) {
 	if ( (this->nx != pmatriz.nx) || (this->ny != pmatriz.ny) )
-			 return false;
+		return false;
 	for (int i = 0; i < nx; i++)	// percorre as matrizes
 		for (int j = 0; j < ny; j++)
 			if (this->data2D[i][j] != pmatriz.data2D[i][j])	// se houver algum diferente
@@ -368,11 +368,30 @@ void TCMatriz2D<T>::SalvaDados (ofstream & fout) const {
 		case P1_X_Y_ASCII:
 		case P2_X_Y_GRAY_ASCII:
 		case P3_X_Y_COLOR_ASCII:
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					fout << data2D[i][j] << ' ';
+			if ( salvarAlinhado ) {
+				T maxVal = MaiorValor();
+				int espacos = 2;
+				if (maxVal < 10) espacos = 2;
+				else if (maxVal < 100) espacos = 3;
+				else if (maxVal < 1000) espacos = 4;
+				else if (maxVal < 10000) espacos = 5;
+				else if (maxVal < 100000) espacos = 6;
+				else if (maxVal < 1000000) espacos = 7;
+				fout.fill(' ');
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fout.width(espacos);
+						fout << std::left << data2D[i][j];
+					}
+					fout << '\n';
 				}
-				fout << '\n';
+			} else {
+				for (int j = 0; j < ny; j++) {
+					for (int i = 0; i < nx; i++) {
+						fout << data2D[i][j] << " ";
+					}
+					fout << '\n';
+				}
 			}
 			break;
 		case P4_X_Y_BINARY:
@@ -662,12 +681,12 @@ bool TCMatriz2D<T>::LePlanoZ (string fileName, int planoZ, bool separado) {
 // Redimensiona a matriz para as dimensões informadas
 template< typename T >
 bool TCMatriz2D<T>::Redimensiona(int NX, int NY, int NZ) {
-    if( nx != NX || ny != NY ) {
+	if( nx != NX || ny != NY ) {
 		TCMatriz2D<T>::DesalocaMatriz2D (data2D, nx, ny);
-        nx = NZ; // evitar warning
-        nx = NX;
+		nx = NZ; // evitar warning
+		nx = NX;
 		ny = NY;
-        data2D.clear();
+		data2D.clear();
 		TCMatriz2D<T>::AlocaMatriz2D (nx, ny);
 		return ! data2D.empty();
 	}

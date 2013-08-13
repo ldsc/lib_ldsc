@@ -159,13 +159,22 @@ class CBaseMatriz
 		static int larguraCampo;
 
 		/**
+	* @brief Ao salvar em disco no formato ASCII com dados separados,
+	* insere o número de espaços necessários para que os dados fiquem alinhados.
+	*	Útil na visualização do código do arquivo (default = false).
+	*/
+		bool salvarAlinhado;
+
+
+		/**
 	* @brief Path de salvamento dos dados em disco (default = ./).
 	*/
 		string path;
 
 		// -------------------------------------------------------------Construtor
 		/// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
-		CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./") :formatoImagem (_formatoImagem), path(_path)
+		CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./")
+			: formatoImagem (_formatoImagem), salvarAlinhado(false) , path(_path)
 		{
 		}
 		// --------------------------------------------------------------Destrutor

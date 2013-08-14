@@ -91,6 +91,7 @@ add_library (ldsc STATIC
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFdijk3D.h
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h
   Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMorfologiaMatematica3D.h
+  Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIRA3D.h
   Filtro/FReconstrucao/CFReconstrucao.cpp
   Funcao/CFChebyshev.cpp
   Funcao/CFGamma.cpp

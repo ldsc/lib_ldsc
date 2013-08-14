@@ -1,5 +1,5 @@
-#ifndef TCFEMMIRA_H
-#define TCFEMMIRA_H
+#ifndef TCFEMMIRA3D_H
+#define TCFEMMIRA3D_H
 
 /*
 ----------------------------------------------------------------------------
@@ -8,39 +8,39 @@ PROJETO:		LIBLDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 Programadores:    Leandro Puerari
 Copyright @2013:  Todos os direitos reservados.
-Nome deste arquivo:	TCFEMMIRA.h
-Nome da classe:      TCFEMMIRA
+Nome deste arquivo:	TCFEMMIRA3D.h
+Nome da classe:      TCFEMMIRA3D
 */
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#include <Matriz/TCMatriz2D.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
-#include <Mascara/CMascara.h>
+#include <Matriz/TCMatriz3D.h>
+#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMorfologiaMatematica3D.h>
+#include <Mascara/CMascara3D.h>
 
 /**
- * @brief A classe TCFEMMIRA determina a matriz Imagem Raio para Abertura (IRA)
+ * @brief A classe TCFEMMIRA3D determina a matriz Imagem Raio para Abertura (IRA)
  * A IRA é uma matriz onde o valor de cada pixel corresponde ao menor raio de bola que seria necessário para que
  * o pixel fosse eliminado em uma operação de abertura (Morfologia Matemática)
  */
 template<typename T>
-class TCFEMMIRA : public TCFEMorfologiaMatematica<T> {
+class TCFEMMIRA3D : public TCFEMorfologiaMatematica3D<T> {
 		// Atributos
 	protected:
 		/// Ponteiro para a matriz Raio Abertura.
-		TCMatriz2D<int> * pmra;
+		TCMatriz3D<int> * pmra;
 
 	public:
 		/// Construtor
-		TCFEMMIRA ( TCMatriz2D<T> * &matriz, int _indice=1, int _fundo=0 );
+		TCFEMMIRA3D ( TCMatriz3D<T> * &matriz, int _indice=1, int _fundo=0 );
 
 		/// Destrutor
-		virtual ~TCFEMMIRA ( ){
+		virtual ~TCFEMMIRA3D ( ){
 		}
 
 		/// O método Go determina a imagem IRA
-		TCMatriz2D<int> *Go ( );
+		TCMatriz3D<int> *Go ( );
 
 	private:
 		/// Retorma o menor valor diferente de zero. Só retorna zero se os dois valores passados forem zero.
@@ -54,6 +54,6 @@ class TCFEMMIRA : public TCFEMorfologiaMatematica<T> {
 		}
 };
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIRA.cpp"
+#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIRA3D.cpp"
 
 #endif

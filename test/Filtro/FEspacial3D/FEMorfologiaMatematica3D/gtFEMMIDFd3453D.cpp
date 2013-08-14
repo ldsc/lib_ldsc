@@ -4,11 +4,10 @@
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h>
 #include "../../../gtest_configure.h"
-
-GtestConfigure cfg = GtestConfigure();
+#include "../../../fixtures.h"
 
 //IDF d345
-TEST(Test3DFilter, IDFd3453D_1_0) {
+TEST_F(Test3DFilter, IDFd3453D_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_IDFd345_IBS0105_1_0.dgm";
 	//carrega a imagem original
@@ -20,7 +19,7 @@ TEST(Test3DFilter, IDFd3453D_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
@@ -46,7 +45,7 @@ TEST(Test3DFilter, IDFd3453D_1_0) {
 		}
 	}
 
-	//exibe o resultado do teste
+	//exibe o resultado do TEST_Fe
 	EXPECT_TRUE(iguais);
 
 	//deleta ponteiros
@@ -55,7 +54,7 @@ TEST(Test3DFilter, IDFd3453D_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, IDFd3453D_0_1) {
+TEST_F(Test3DFilter, IDFd3453D_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_IDFd345_IBS0105_0_1.dgm";
 	//carrega a imagem original
@@ -67,7 +66,7 @@ TEST(Test3DFilter, IDFd3453D_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
@@ -92,7 +91,7 @@ TEST(Test3DFilter, IDFd3453D_0_1) {
 		}
 	}
 
-	//exibe o resultado do teste
+	//exibe o resultado do TEST_Fe
 	EXPECT_TRUE(iguais);
 
 	//deleta ponteiros
@@ -101,7 +100,7 @@ TEST(Test3DFilter, IDFd3453D_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
+TEST_F(Test3DFilter, ErosionByIDFd3453D_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ErosionIDFd345_R3_IBS0105_1_0.dbm";
 	//carrega a imagem original
@@ -114,7 +113,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -124,7 +123,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -133,7 +132,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
+TEST_F(Test3DFilter, ErosionByIDFd3453D_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ErosionIDFd345_R3_IBS0105_0_1.dbm";
 	//carrega a imagem original
@@ -146,7 +145,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -156,7 +155,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -165,7 +164,7 @@ TEST(Test3DFilter, ErosionByIDFd3453D_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
+TEST_F(Test3DFilter, DilatationByIDFd3453D_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_DilatationIDFd345_R3_IBS0105_1_0.dbm";
 	//carrega a imagem original
@@ -178,7 +177,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -188,7 +187,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -197,7 +196,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
+TEST_F(Test3DFilter, DilatationByIDFd3453D_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_DilatationIDFd345_R3_IBS0105_0_1.dbm";
 	//carrega a imagem original
@@ -209,7 +208,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -219,7 +218,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -228,7 +227,7 @@ TEST(Test3DFilter, DilatationByIDFd3453D_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
+TEST_F(Test3DFilter, OpeningByIDFd3453D_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_OpeningIDFd345_R3_IBS0105_1_0.dbm";
 	//carrega a imagem original
@@ -240,7 +239,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -250,7 +249,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -259,7 +258,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
+TEST_F(Test3DFilter, OpeningByIDFd3453D_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_OpeningIDFd345_R3_IBS0105_0_1.dbm";
 	//carrega a imagem original
@@ -272,7 +271,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -282,7 +281,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -291,7 +290,7 @@ TEST(Test3DFilter, OpeningByIDFd3453D_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
+TEST_F(Test3DFilter, ClosingByIDFd3453D_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ClosingIDFd345_R3_IBS0105_1_0.dbm";
 	//carrega a imagem original
@@ -304,7 +303,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -314,7 +313,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -323,7 +322,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
+TEST_F(Test3DFilter, ClosingByIDFd3453D_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ClosingIDFd345_R3_IBS0105_0_1.dbm";
 	//carrega a imagem original
@@ -336,7 +335,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -346,7 +345,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -356,7 +355,7 @@ TEST(Test3DFilter, ClosingByIDFd3453D_0_1) {
 }
 
 //IDF Euclidiana
-TEST(Test3DFilter, IDFEuclidiana_1_0) {
+TEST_F(Test3DFilter, IDFEuclidiana_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_IDFEuclidiana_IBS0105_1_0.dgm";
 	//carrega a imagem original
@@ -367,7 +366,7 @@ TEST(Test3DFilter, IDFEuclidiana_1_0) {
 	//Executa o filtro na imagem original
 	filtro->Go(pm);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		//filtro->SetFormato(D5_X_Y_Z_GRAY_BINARY); // não está funcionando pois a euclidiana está utilizando valores maiores que 255
 		filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
@@ -394,7 +393,7 @@ TEST(Test3DFilter, IDFEuclidiana_1_0) {
 		}
 	}
 
-	//exibe o resultado do teste
+	//exibe o resultado do TEST_Fe
 	EXPECT_TRUE(iguais);
 
 	//deleta ponteiros
@@ -403,7 +402,7 @@ TEST(Test3DFilter, IDFEuclidiana_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, IDFEuclidiana_0_1) {
+TEST_F(Test3DFilter, IDFEuclidiana_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_IDFEuclidiana_IBS0105_0_1.dgm";
 	//carrega a imagem original
@@ -414,7 +413,7 @@ TEST(Test3DFilter, IDFEuclidiana_0_1) {
 	//aplica novamente o filtro
 	filtro->Go(pm);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		filtro->SetFormato(D2_X_Y_Z_GRAY_ASCII);
 		filtro->NumCores(filtro->MaiorValor());
@@ -439,7 +438,7 @@ TEST(Test3DFilter, IDFEuclidiana_0_1) {
 		}
 	}
 
-	//exibe o resultado do teste
+	//exibe o resultado do TEST_Fe
 	EXPECT_TRUE(iguais);
 
 	//deleta ponteiros
@@ -448,7 +447,7 @@ TEST(Test3DFilter, IDFEuclidiana_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
+TEST_F(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ErosionIDFEuclidiana_R3_IBS0105_1_0.dbm";
 	//carrega a imagem original
@@ -460,7 +459,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -470,7 +469,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -479,7 +478,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
+TEST_F(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ErosionIDFEuclidiana_R3_IBS0105_0_1.dbm";
 	//carrega a imagem original
@@ -491,7 +490,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 	filtro->Go(pm);
 	filtro->Erosao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -501,7 +500,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -510,7 +509,7 @@ TEST(Test3DFilter, ErosionByIDFEuclidiana_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
+TEST_F(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_DilatationIDFEuclidiana_R3_IBS0105_1_0.dbm";
 
@@ -524,7 +523,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -534,7 +533,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -543,7 +542,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
+TEST_F(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_DilatationIDFEuclidiana_R3_IBS0105_0_1.dbm";
 
@@ -557,7 +556,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 	filtro->Go(pm);
 	filtro->Dilatacao(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -567,7 +566,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -576,7 +575,7 @@ TEST(Test3DFilter, DilatationByIDFEuclidiana_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
+TEST_F(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_OpeningIDFEuclidiana_R3_IBS0105_1_0.dbm";
 
@@ -590,7 +589,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -600,7 +599,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -609,7 +608,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
+TEST_F(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_OpeningIDFEuclidiana_R3_IBS0105_0_1.dbm";
 
@@ -623,7 +622,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 	filtro->Go(pm);
 	filtro->Abertura(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -633,7 +632,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -642,7 +641,7 @@ TEST(Test3DFilter, OpeningByIDFEuclidiana_0_1) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
+TEST_F(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ClosingIDFEuclidiana_R3_IBS0105_1_0.dbm";
 
@@ -656,7 +655,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -666,7 +665,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros
@@ -675,7 +674,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_1_0) {
 	delete filtro;
 }
 
-TEST(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
+TEST_F(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
 	//variável com nome da imagem a ser comparada
 	string result_image = "../../data/images/result_ClosingIDFEuclidiana_R3_IBS0105_0_1.dbm";
 
@@ -689,7 +688,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
 	filtro->Go(pm);
 	filtro->Fechamento(pm,3);
 
-	//Testa se irá salvar imagem resultante
+	//TEST_Fa se irá salvar imagem resultante
 	if ( cfg.criarImagensResultantes && cfg.FileNotExists(result_image) ) {
 		pm->SetFormato(D1_X_Y_Z_ASCII);
 		pm->Path("");
@@ -699,7 +698,7 @@ TEST(Test3DFilter, ClosingByIDFEuclidiana_0_1) {
 	//carrega a imagem previamente processada com o filtro IDF sendo indice 0 e fundo 1.
 	TCMatriz3D<bool>* pm2 = new TCMatriz3D<bool>(result_image);
 
-	//compara e exibe o resultado do teste
+	//compara e exibe o resultado do TEST_Fe
 	EXPECT_TRUE( *pm2 == *pm );
 
 	//deleta ponteiros

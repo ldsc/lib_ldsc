@@ -28,11 +28,17 @@ TCFEMMIRA3D<T>::TCFEMMIRA3D ( TCMatriz3D<T> * &matriz, int _indice, int _fundo )
 template<typename T>
 TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 	// Veriáveis auxiliares
-	int i, j, k, x, y, z, ip, im, jp, jm, kp, km;
-	int dft, ra;
-	int rm; // raio da mascara;
-	int df = 0; //distancia ao fundo
-	bool atendeu;
+	int i, j, k;								// para percorrer a imagem
+	int x, y, z;								// para percorrer a mascara
+	int ip, im, jp, jm, kp, km; //para percorrer a imagem de acordo com a mascara
+	int df = 0;									//distancia ao fundo
+	int dft;										//distancia ao fundo temporária
+	int ra;											//raio para a abertura
+	int rm;											//raio da mascara;
+	bool atendeu;								//flag para controlar atendimento das condições pra setar ra.
+	int nx = this->pm->NX();		//número de voxeis em x
+	int ny = this->pm->NY();		//número de voxeis em y
+	int nz = this->pm->NZ();		//número de voxeis em z
 
 	// Cria vetor que irá armazenar as mascaras.
 	std::map<int, CBCd3453D* > vmask;
@@ -43,23 +49,18 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 
 	// Determina a IDF
 	idf->Go(this->pm);
-	int nx = idf->NX();
-	int ny = idf->NY();
-	int nz = idf->NZ();
 
-	// Cria imagem 3D que representará a imagem Raio Abertura (cópia da IDF)
+	// Cria imagem 3D que representará a imagem Raio Abertura
 	//pmra = new TCMatriz3D<int> ( * dynamic_cast< TCMatriz3D<int> *>(idf) );
-	pmra = new TCMatriz3D<int> ( this->pm->NX(), this->pm->NY(), this->pm->NZ() );
+	pmra = new TCMatriz3D<int> ( nx, ny, nz );
 
 	//percorre a imagem
-	for (k=0; k<nz; k++) {
-		for (j=0; j<ny; j++) {
-			for (i=0; i<nx; i++) {
+	for (k=0; k<nz; ++k) {
+		for (j=0; j<ny; ++j) {
+			for (i=0; i<nx; ++i) {
 				if (idf->data3D[i][j][k] > 0) { //só interessam pixeis que não correspondem a fundo (matriz sólida)
 					df = idf->data3D[i][j][k];
-					if (df == 3) {
-						// df == 3, logo, o valor de RA será 1 se o pixel analizado:
-						// Não tiver vizinho > 3;
+					if (df == 3) { // df == 3, logo, o valor de RA será 1 se o pixel analizado não tiver vizinho > 3;
 						im = ( i-1 <=  0) ? i+1 : i-1;
 						ip = ( i+1 >= nx) ? i-1 : i+1;
 						jm = ( j-1 <=  0) ? j+1 : j-1;
@@ -77,10 +78,10 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 							pmra->data3D[i][j][k] = 1;
 						}
 					} else { //tratamento para df > 3, logo, o valor de
+						// RA = 2, se (4  <= df <=  6);
+						// RA = 3, se (7  <= df <=  9);
+						// RA = 4, se (10 <= df <= 12); ...
 						atendeu = true;
-						// RA = 2 se (4  <= df <=  6);
-						// RA = 3 se (7  <= df <=  9);
-						// RA = 4 se (10 <= df <= 12); ...
 						//Calcula valor do raio abertura (ra) de acordo com a df do pixel analizado;
 						dft = df-1;
 						do {

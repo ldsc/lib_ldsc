@@ -218,16 +218,20 @@ void TCRotulador3D<T>::CalculaPerimetroObjetos () {
 	}
 }
 
-/*
--------------------------------------------------------------------------
-Função: Go
--------------------------------------------------------------------------
-@short  :Executa toda a sequencia de rotulagem
-@author :André Duarte Bueno
-@see    :
-@param  :
-@return :
-*/
+/* Executa toda a sequencia de rotulagem considerando o raio para abertura (ra) informado.*/
+// bool TCRotulador3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
+template<typename T>
+bool TCRotulador3D<T>::Go (TCMatriz3D<T> *matriz, int _ra) {
+	if ( _ra < 1 )
+		return false;
+	ra = _ra;
+	// Estamos tratando de uma IRA, logo, FUNDO será 0 e consequentemente INDICE será 1;
+	INDICE = 1;
+	FUNDO = 0;
+	return Go(matriz);
+}
+
+/* Executa toda a sequencia de rotulagem */
 // bool TCRotulador3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
 template<typename T>
 bool TCRotulador3D<T>::Go (TCMatriz3D<T> * matriz) {
@@ -300,15 +304,24 @@ bool TCRotulador3D<T>::PreparaImagem (TCMatriz3D<T> *matriz) {
 		Aloca ();			// Aloca de acordo com novo tamanho
 	}
 
-	// Abaixo pode ser eliminado?? (desnecessário)
-	for (int k = 0; k < nz; k++)
-		for (int j = 0; j < ny; j++)
-			for (int i = 0; i < nx; i++)
-				if (pm->data3D[i][j][k] == INDICE)
-					this->data3D[i][j][k] = 1;	// Define this com 0 e 1
-				else
-					this->data3D[i][j][k] = 0;
 
+	// Seta a matriz this de acordo com a imagem original
+	int i, j, k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for ( k = 0; k < nz; k++ )
+		for ( j = 0; j < ny; j++ )
+			for ( i = 0; i < nx; i++ )
+				if (ra != 0 && INDICE != 0 ) { //ra e INDICE serão != 0 se ra for informado em Go, logo estou tratando de uma IRA
+					if (pm->data3D[i][j][k] > ra)
+						this->data3D[i][j][k] = 1;	// Define this com 0 e 1
+					else
+						this->data3D[i][j][k] = 0;
+				} else {
+					if (pm->data3D[i][j][k] == INDICE)
+						this->data3D[i][j][k] = 1;	// Define this com 0 e 1
+					else
+						this->data3D[i][j][k] = 0;
+				}
 	// NOVO Versão 7
 	// Como pode chamar Go mais de uma vez, preciso apagar os vetores area e perimetro
 	// que foram alocados na chamada anterior a Go
@@ -409,8 +422,7 @@ void TCRotulador3D<T>::IdentificaObjetos () {
 	// ---------------------------------------------
 	for (j = 1; j < NY (); j++) {				// ------------------------------------------
 		// PRIMEIRA COLUNA [0][j][0]         // A primeira coluna deve ter
-		if (data3D[0][j][0] != 0) {	// um tratamento separado para
-			// evitar estouro da pilha.
+		if (data3D[0][j][0] != 0) {	// um tratamento separado para evitar estouro da pilha.
 			data3D[0][j][0] = ++rotuloAtual;	// linha nova sempre usa rotulo novo
 			acima = data3D[0][j - 1][0];
 			VerificaContorno (acima, rotuloAtual);	// verifica o contorno

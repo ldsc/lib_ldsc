@@ -875,7 +875,7 @@ void TCMatriz3D<T>::SetFormato(EImageType _formato){
 				formatoImagem = _formato;
 				break;
 			default:
-				cerr << "Foi informato um formato inválido em TCMatriz3D<T>::SetFormato()" << endl;
+				cerr << "Foi informado um formato inválido em TCMatriz3D<T>::SetFormato()" << endl;
 				break;
 		}
 	}

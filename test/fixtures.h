@@ -14,3 +14,8 @@ class Test3DFilter : public testing::Test {
 public:
 	GtestConfigure cfg;
 };
+
+class Test3DLabeler : public testing::Test {
+public:
+	GtestConfigure cfg;
+};

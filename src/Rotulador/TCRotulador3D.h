@@ -45,9 +45,6 @@ class TCRotulador3D : public CRotulador, public TCMatriz3D<int>
 
 		// --------------------------------------------------------------Atributos
 	public:
-		/// Raio para abertura. Utilizado para rotular Imagem de Raio para Abertura (IRA). Inicialmete ra=FUNDO para que a rotulagem funcione com qualquer imagem.
-		int ra;
-
 		/// Se ativo usa rotulagem 3D, se inativo usa 3D a partir de 2D
 		bool direto;
 
@@ -57,24 +54,24 @@ class TCRotulador3D : public CRotulador, public TCMatriz3D<int>
 		// -------------------------------------------------------------Construtor
 		/// Construtor, recebe ponteiro para imagem 3D usado para setar nx,ny,nz
 		TCRotulador3D (TCMatriz3D<T> * _pm, int _indice=1, int _fundo=0)
-			: CRotulador ( _indice, _fundo), ra(_fundo), direto (true), pm (_pm)  {    // Seta atributos
+			: CRotulador ( _indice, _fundo), direto (true), pm (_pm)  {    // Seta atributos
 			TCMatriz3D<int> (_pm->NX (), _pm->NY (), _pm->NZ ()); // Aloca matriz de dados
 			TCMatriz3D<int>::Path( _pm->Path() );
 		}
 
 		/// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
 		TCRotulador3D (std::string fileName, int _indice=1, int _fundo=0)
-			:TCMatriz3D<int> (fileName), CRotulador (_indice, _fundo), ra(_fundo), direto (true),pm (NULL) {
+			:TCMatriz3D<int> (fileName), CRotulador (_indice, _fundo), direto (true), pm (NULL) {
 		}
 
 		/// Recebe a informação das dimensoes da imagem
 		TCRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz, int _indice=1, int _fundo=0)
-			:TCMatriz3D<int> (nx, ny, nz), CRotulador (_indice, _fundo), ra(_fundo), direto (true), pm (NULL) {
+			:TCMatriz3D<int> (nx, ny, nz), CRotulador (_indice, _fundo), direto (true), pm (NULL) {
 		}
 
 		/** data3D deve ser alocado posteriormente*/
 		TCRotulador3D (int _indice=1, int _fundo=0) :
-			CRotulador( _indice, _fundo ), TCMatriz3D<int>(), ra(_fundo), direto (true), pm(NULL) {
+			CRotulador( _indice, _fundo ), TCMatriz3D<int>(), direto (true), pm(NULL) {
 		}
 
 		// --------------------------------------------------------------Destrutor
@@ -118,10 +115,6 @@ class TCRotulador3D : public CRotulador, public TCMatriz3D<int>
 		// Metodos utilizados na rotulagem, redefinidos aqui
 		/// Executa toda a sequencia de rotulagem
 		virtual bool Go (TCMatriz3D<T> *matriz /*, int rotuloInicial=0 */ );
-
-		/// Método alternativo para rotular a imagem. Permite informar o raio para abertura.
-		bool Go (TCMatriz3D<T> * matriz, int _ra );
-
 
 		// --------------------------------------------------------------------Get
 		// unsigned int Rotulo (i,j,k)

@@ -184,7 +184,7 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 		for ( j=0; j<ny; ++j ) {
 			for ( i=0; i<nx; ++i ) {
 				if ( pmra->data3D[i][j][k] < 0 ) {
-					pmra->data3D[i][j][k] = -1 * pmra->data3D[i][j][k];
+					pmra->data3D[i][j][k] *= -1;
 				}
 			}
 		}

@@ -53,7 +53,7 @@ class CRotuladorIRA3D : public TCRotulador3D<int>
 		}
 
 		// ----------------------------------------------------------------Metodos
-		/// Método para rotular da IRA. Precisa informar o raio para abertura.
+		/// Rotula a IRA. Precisa informar o raio para abertura. Se ra for negativo, rotula o complemento da abertura.
 		bool Go (TCMatriz3D<int> * matriz, int _ra );
 
 	protected:

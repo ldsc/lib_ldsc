@@ -2,7 +2,7 @@
 #define CSegPorosGargantas3D_H
 
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIRA3D.h>
-#include <Rotulador/TCRotuladorIRA3D.h>
+#include <Rotulador/CRotuladorIRA3D.h>
 #include <Segmentacao/CObjetoImagem.h>
 #include <Matriz/TCImagem3D.h>
 #include <Matriz/CVetor.h>
@@ -33,7 +33,7 @@ class CSegPorosGargantas3D
 		TCMatriz3D<bool>* pm;
 
 		/// Ponteiro para objeto rotulador o qual herda TCRotulador3D<T> que por sua vez herda TCMatriz3D<int> para representar a matriz rotulada.
-		TCRotuladorIRA3D<int>* matrizRotulo;
+		CRotuladorIRA3D* matrizRotulo;
 
 		/// Porosidade
 		double porosidade;

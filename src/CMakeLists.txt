@@ -214,7 +214,7 @@ add_library (ldsc STATIC
   Rotulador/CRotulador2DCm.cpp
   Rotulador/CConectividade2D.cpp
   Rotulador/TCRotulador3D.h
-  Rotulador/TCRotuladorIRA3D.h
+  Rotulador/CRotuladorIRA3D.cpp
   Rotulador/CConectividade3D.cpp
   Segmentacao/CObjetoImagem.cpp
   Segmentacao/2D/PorosGargantas/CAberturaDilatacao.cpp

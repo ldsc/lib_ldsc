@@ -3,7 +3,7 @@
 #include <string>
 #include <ostream>
 #include <Rotulador/TCRotulador3D.h>
-#include <Rotulador/TCRotuladorIRA3D.h>
+#include <Rotulador/CRotuladorIRA3D.h>
 #include <Matriz/TCMatriz3D.h>
 #include "../gtest_configure.h"
 #include "../fixtures.h"
@@ -110,7 +110,7 @@ TEST_F(Test3DLabeler, RotuladaByIRA) {
 	TCMatriz3D<int>* pm = new TCMatriz3D<int>(original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	TCRotuladorIRA3D<int>* filtro = new TCRotuladorIRA3D<int>(pm);
+	CRotuladorIRA3D* filtro = new CRotuladorIRA3D(pm);
 
 	for ( int r = -15; r <= 20; r+=5 ) {
 		//variável com nome da imagem a ser comparada

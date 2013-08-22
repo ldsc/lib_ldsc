@@ -15,7 +15,7 @@ CSegPorosGargantas3D::CSegPorosGargantas3D( TCMatriz3D<bool>* &matriz , std::str
 {
 	TCFEMMIRA3D<bool> pfira( matriz, INDICE, FUNDO );
 	pmira = pfira.Go();
-	matrizRotulo = new TCRotuladorIRA3D<int>( pmira );
+	matrizRotulo = new CRotuladorIRA3D( pmira );
 }
 
 CSegPorosGargantas3D::CSegPorosGargantas3D( TCImagem3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
@@ -26,7 +26,7 @@ CSegPorosGargantas3D::CSegPorosGargantas3D( TCImagem3D<bool>* &matriz , std::str
 	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz); // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 	TCFEMMIRA3D<bool> pfira( pm, INDICE, FUNDO );
 	pmira = pfira.Go();
-	matrizRotulo = new TCRotuladorIRA3D<int>( pmira );
+	matrizRotulo = new CRotuladorIRA3D( pmira );
 }
 
 CSegPorosGargantas3D::~CSegPorosGargantas3D() {

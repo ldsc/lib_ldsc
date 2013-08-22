@@ -4,18 +4,15 @@ PROJETO:          Biblioteca LIB_LDSC
 ===============================================================================
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          Leandro Puerari
-File:             TCRotuladorIRA3D.cpp
+File:             CRotuladorIRA3D.cpp
 email:            puerari@gmail.com
 */
 
-#ifndef TCRotuladorIRA3D_h
-#include <Rotulador/TCRotuladorIRA3D.h>
-#endif
+#include <Rotulador/CRotuladorIRA3D.h>
 
 /* Executa toda a sequencia de rotulagem considerando o raio para abertura (ra) informado.*/
-// bool TCRotuladorIRA3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
-template<typename T>
-bool TCRotuladorIRA3D<T>::Go (TCMatriz3D<int> *matriz, int _ra) {
+// bool CRotuladorIRA3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
+bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra) {
 	ra = _ra;
 	return TCRotulador3D<int>::Go(matriz);
 }
@@ -35,8 +32,7 @@ Função: PreparaImagem
 @param  :CMatriz3D
 @return :bool
 */
-template<typename T>
-bool TCRotuladorIRA3D<T>::PreparaImagem (TCMatriz3D<int> *matriz) {
+bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 	this->pm = matriz;			// Armazena endereço matriz
 	// Verifica se a matriz tem as mesmas dimensoes do rotulador
 	if (this->pm == NULL)

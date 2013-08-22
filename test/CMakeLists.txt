@@ -14,6 +14,7 @@ add_executable(bin/runGtest
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIRA.cpp
    Rotulador/gtRotulador3D.cpp
    Segmentacao/3D/PorosGargantas/gtAberturaDilatacao3D.cpp
+   Segmentacao/3D/PorosGargantas/gtSegPorosGargantas3D.cpp
    Matriz/TCMatriz2DTests.cpp
    Filtro/FEspacial/FEspacialTests.cpp
    gtest_main.cpp

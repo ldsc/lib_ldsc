@@ -54,6 +54,17 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 	//pmra = new TCMatriz3D<int> ( * dynamic_cast< TCMatriz3D<int> *>(idf) );
 	pmra = new TCMatriz3D<int> ( nx, ny, nz );
 
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(static,10) //reduction(+:variavel)
+	for (k=0; k<nz; ++k) {
+		for (j=0; j<ny; ++j) {
+			for (i=0; i<nx; ++i) {
+				if (idf->data3D[i][j][k] > 0) {
+					pmra->data3D[i][j][k] = -idf->data3D[i][j][k];
+				}
+			}
+		}
+	}
+
 	//percorre a imagem
 	for (k=0; k<nz; ++k) {
 		for (j=0; j<ny; ++j) {
@@ -148,14 +159,14 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 										if ( this->mask->data3D[x][y][k] != 0 ) {
 											im = ((i-rm+x) <=  0) ? i+rm-x : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
 											ip = ((i+rm-x) >= nx) ? i-rm+x : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
-											pmra->data3D[im][jm][km] = (idf->data3D[im][jm][km] != 0) ? MinNotZero ( ra, pmra->data3D[im][jm][km] ) : 0;
-											pmra->data3D[im][jm][kp] = (idf->data3D[im][jm][kp] != 0) ? MinNotZero ( ra, pmra->data3D[im][jm][kp] ) : 0;
-											pmra->data3D[ip][jm][km] = (idf->data3D[ip][jm][km] != 0) ? MinNotZero ( ra, pmra->data3D[ip][jm][km] ) : 0;
-											pmra->data3D[ip][jm][kp] = (idf->data3D[ip][jm][kp] != 0) ? MinNotZero ( ra, pmra->data3D[ip][jm][kp] ) : 0;
-											pmra->data3D[im][jp][km] = (idf->data3D[im][jp][km] != 0) ? MinNotZero ( ra, pmra->data3D[im][jp][km] ) : 0;
-											pmra->data3D[im][jp][kp] = (idf->data3D[im][jp][kp] != 0) ? MinNotZero ( ra, pmra->data3D[im][jp][kp] ) : 0;
-											pmra->data3D[ip][jp][km] = (idf->data3D[ip][jp][km] != 0) ? MinNotZero ( ra, pmra->data3D[ip][jp][km] ) : 0;
-											pmra->data3D[ip][jp][kp] = (idf->data3D[ip][jp][kp] != 0) ? MinNotZero ( ra, pmra->data3D[ip][jp][kp] ) : 0;
+											pmra->data3D[im][jm][km] = (idf->data3D[im][jm][km] != 0) ? MinGtZero ( ra, pmra->data3D[im][jm][km] ) : 0;
+											pmra->data3D[im][jm][kp] = (idf->data3D[im][jm][kp] != 0) ? MinGtZero ( ra, pmra->data3D[im][jm][kp] ) : 0;
+											pmra->data3D[ip][jm][km] = (idf->data3D[ip][jm][km] != 0) ? MinGtZero ( ra, pmra->data3D[ip][jm][km] ) : 0;
+											pmra->data3D[ip][jm][kp] = (idf->data3D[ip][jm][kp] != 0) ? MinGtZero ( ra, pmra->data3D[ip][jm][kp] ) : 0;
+											pmra->data3D[im][jp][km] = (idf->data3D[im][jp][km] != 0) ? MinGtZero ( ra, pmra->data3D[im][jp][km] ) : 0;
+											pmra->data3D[im][jp][kp] = (idf->data3D[im][jp][kp] != 0) ? MinGtZero ( ra, pmra->data3D[im][jp][kp] ) : 0;
+											pmra->data3D[ip][jp][km] = (idf->data3D[ip][jp][km] != 0) ? MinGtZero ( ra, pmra->data3D[ip][jp][km] ) : 0;
+											pmra->data3D[ip][jp][kp] = (idf->data3D[ip][jp][kp] != 0) ? MinGtZero ( ra, pmra->data3D[ip][jp][kp] ) : 0;
 										}
 									}
 								}
@@ -168,12 +179,12 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 	}
 	// Alguns pixeis estão ficando apagados quando deviam estar acessos, então, estou colocando este loop para corrigir
 	// Estudar possibilidade de retirar este loop!
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(static,10) //reduction(+:variavel)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(static,10)
 	for ( k=0; k<nz; ++k ) {
 		for ( j=0; j<ny; ++j ) {
 			for ( i=0; i<nx; ++i ) {
-				if ( idf->data3D[i][j][k] > 0 && pmra->data3D[i][j][k] == 0 ) {
-					pmra->data3D[i][j][k] = 1;
+				if ( pmra->data3D[i][j][k] < 0 ) {
+					pmra->data3D[i][j][k] = -1 * pmra->data3D[i][j][k];
 				}
 			}
 		}

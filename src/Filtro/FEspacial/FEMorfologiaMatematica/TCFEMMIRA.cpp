@@ -33,6 +33,8 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 	int rm; // raio da mascara;
 	int df = 0; //distancia ao fundo
 	bool atendeu;
+	int nx = this->pm->NX();
+	int ny = this->pm->NY();
 
 	// Cria vetor que irá armazenar as mascaras.
 	std::map<int, CBCd34* > vmask;
@@ -43,28 +45,24 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 
 	// Determina a IDF
 	idf->Go(this->pm);
-	int nx = idf->NX();
-	int ny = idf->NY();
 
 	// Cria imagem 2D que representará a imagem Raio Abertura (cópia da IDF)
 	//pmra = new TCMatriz2D<int> ( * dynamic_cast< TCMatriz2D<int> *>(idf) );
+	pmra = new TCMatriz2D<int> ( nx, ny );
 
-	pmra = new TCMatriz2D<int> ( this->pm->NX(), this->pm->NY() );
-	/*
 #pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(static,10) //reduction(+:variavel)
-	for (j=0; j<ny; j++) {
-		for (i=0; i<nx; i++) {
+	for (j=0; j<ny; ++j) {
+		for (i=0; i<nx; ++i) {
 			if (idf->data2D[i][j] > 0) {
-				pmra->data2D[i][j] = 1;
+				pmra->data2D[i][j] = -idf->data2D[i][j];
 			}
 		}
 	}
-*/
+
 	//percorre a imagem
 	for (i=0; i<nx; ++i) {
 		for (j=0; j<ny; ++j) {
 			if (idf->data2D[i][j] > 0) { //só interessam pixeis que não correspondem a fundo (matriz sólida)
-				atendeu = true;
 				df = idf->data2D[i][j];
 				if (df == 3) {
 					// df == 3, logo, o valor de RA será 1 se o pixel analizado:
@@ -99,6 +97,7 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 					// RA = 2 se (4  <= df <=  6);
 					// RA = 3 se (7  <= df <=  9);
 					// RA = 4 se (10 <= df <= 12); ...
+					atendeu = true;
 					//Calcula valor do raio abertura (ra) de acordo com a df do pixel analizado;
 					dft = df-1;
 					do {
@@ -144,22 +143,26 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 					}
 					if ( atendeu ) {
 						// Percorre toda a mascara e seta a visinhança com o valor mínio entre ra e o valor do pixel correspondente na pmra;
-						for (x=0; x<=rm; ++x) {
-							im = ((i-rm+x) <=  0) ? i+rm-x : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
-							ip = ((i+rm-x) >= nx) ? i-rm+x : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
-							for (y=0; y<=rm; ++y) {
+						for (y=0; y<=rm; ++y) {
+							jm = ((j-rm+y) <=  0) ? j+rm-y : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
+							jp = ((j+rm-y) >= ny) ? j-rm+y : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
+							for (x=0; x<=rm; ++x) {
 								if ( this->mask->data2D[x][y] != 0 ) {
-									jm = ((j-rm+y) <=  0) ? j+rm-y : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
-									jp = ((j+rm-y) >= ny) ? j-rm+y : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
+									im = ((i-rm+x) <=  0) ? i+rm-x : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
+									ip = ((i+rm-x) >= nx) ? i-rm+x : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
+									pmra->data2D[im][jm] = (idf->data2D[im][jm] != 0) ? MinGtZero ( ra, pmra->data2D[im][jm] ) : 0;
+									pmra->data2D[ip][jp] = (idf->data2D[ip][jp] != 0) ? MinGtZero ( ra, pmra->data2D[ip][jp] ) : 0;
+									pmra->data2D[ip][jm] = (idf->data2D[ip][jm] != 0) ? MinGtZero ( ra, pmra->data2D[ip][jm] ) : 0;
+									pmra->data2D[im][jp] = (idf->data2D[im][jp] != 0) ? MinGtZero ( ra, pmra->data2D[im][jp] ) : 0;
 									//									pmra->data2D[i][j] = ra;
 									//									pmra->data2D[im][jm] = min( ra, pmra->data2D[im][jm] );
 									//									pmra->data2D[ip][jp] = min( ra, pmra->data2D[ip][jp] );
 									//									pmra->data2D[ip][jm] = min( ra, pmra->data2D[ip][jm] );
 									//									pmra->data2D[im][jp] = min( ra, pmra->data2D[im][jp] );
-									pmra->data2D[im][jm] = (idf->data2D[im][jm] != 0) ? MinNotZero ( ra, pmra->data2D[im][jm] ) : 0;
-									pmra->data2D[ip][jp] = (idf->data2D[ip][jp] != 0) ? MinNotZero ( ra, pmra->data2D[ip][jp] ) : 0;
-									pmra->data2D[ip][jm] = (idf->data2D[ip][jm] != 0) ? MinNotZero ( ra, pmra->data2D[ip][jm] ) : 0;
-									pmra->data2D[im][jp] = (idf->data2D[im][jp] != 0) ? MinNotZero ( ra, pmra->data2D[im][jp] ) : 0;
+									//									pmra->data2D[im][jm] = (idf->data2D[im][jm] != 0) ? MinNotZero ( ra, pmra->data2D[im][jm] ) : 0;
+									//									pmra->data2D[ip][jp] = (idf->data2D[ip][jp] != 0) ? MinNotZero ( ra, pmra->data2D[ip][jp] ) : 0;
+									//									pmra->data2D[ip][jm] = (idf->data2D[ip][jm] != 0) ? MinNotZero ( ra, pmra->data2D[ip][jm] ) : 0;
+									//									pmra->data2D[im][jp] = (idf->data2D[im][jp] != 0) ? MinNotZero ( ra, pmra->data2D[im][jp] ) : 0;
 									//									pmra->data2D[im][jm] = (idf->data2D[im][jm] != 0) ? MinNotOne ( ra, pmra->data2D[im][jm] ) : 0;
 									//									pmra->data2D[ip][jp] = (idf->data2D[ip][jp] != 0) ? MinNotOne ( ra, pmra->data2D[ip][jp] ) : 0;
 									//									pmra->data2D[ip][jm] = (idf->data2D[ip][jm] != 0) ? MinNotOne ( ra, pmra->data2D[ip][jm] ) : 0;
@@ -177,12 +180,21 @@ TCMatriz2D<int> * TCFEMMIRA<T>::Go () {
 #pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(static,10) //reduction(+:variavel)
 	for ( j=0; j<ny; ++j ) {
 		for ( i=0; i<nx; ++i ) {
+			if (pmra->data2D[i][j] < 0 ) {
+				pmra->data2D[i][j] = -1 * pmra->data2D[i][j];
+			}
+		}
+	}
+	/*
+#pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(static,10) //reduction(+:variavel)
+	for ( j=0; j<ny; ++j ) {
+		for ( i=0; i<nx; ++i ) {
 			if (idf->data2D[i][j] > 0 && pmra->data2D[i][j] == 0 ) {
 				pmra->data2D[i][j] = 1;
 			}
 		}
 	}
-
+*/
 	delete idf;
 	return pmra;
 }

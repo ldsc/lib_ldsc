@@ -48,6 +48,11 @@ class TCFEMMIRA3D : public TCFEMorfologiaMatematica3D<T> {
 			return ( ( (a < b) && (a != 0) ) || (b == 0) ) ? a : b;
 		}
 
+		/// Retorma o menor valor maior que zero. Só retorna zero se os dois valores passados forem zero. Não está considerando tratar dois valores negativos.
+		inline int MinGtZero(const int& a, const int& b) {
+			return ( ( (a < b) && (a > 0) ) || (b <= 0) ) ? a : b;
+		}
+
 		/// Retorma o menor valor diferente de um. Só retorna um se os dois valores passados forem um.
 		inline int MinNotOne(const int& a, const int& b) {
 			return ( ( (a < b) && (a != 1) ) || (b == 1) ) ? a : b;

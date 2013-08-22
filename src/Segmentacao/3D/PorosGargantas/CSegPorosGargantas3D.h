@@ -15,17 +15,10 @@
 
 using namespace std;
 
-struct Ponto {
-		int df; ///<Distância ao fundo.
-		int i; ///<Posição do ponto em x.
-		int j; ///<Posição do ponto em y.
-		int k; ///<Posição do ponto em z.
-};
-
 /**
- * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura através da IRA.
-	@author André Duarte Bueno <bueno@lenep.uenf.br>
-	@author Leandro Puerari <puerari@gmail.com>
+ * Classe para determinacao da distribuicao de poros e gargantas (sítios e ligacoes) usando método da abertura através da IRA.
+ * @author Leandro Puerari <puerari@gmail.com>
+ * @author André Duarte Bueno <bueno@lenep.uenf.br>
 */
 class CSegPorosGargantas3D
 {

@@ -56,16 +56,17 @@ bool TCRotuladorIRA3D<T>::PreparaImagem (TCMatriz3D<T> *matriz) {
 	// Seta a matriz this de acordo com a imagem original
 	int i, j, k;
 	if (ra >= 0) {
+		cerr << "ra= " << ra << endl;
 		#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( k = 0; k < this->nz; k++ )
 			for ( j = 0; j < this->ny; j++ )
 				for ( i = 0; i < this->nx; i++ )
 					if (this->pm->data3D[i][j][k] > ra)
-						this->data3D[i][j][k] = 1;	// Define this com 0 e 1
-					else
+						this->data3D[i][j][k] = 1;
+					else // Define this com 0 e 1
 						this->data3D[i][j][k] = 0;
-	} else { // ra negativo
-		int rat = -ra;
+	} else { // ra negativo - irá considerar o complemento da abertura.
+		int rat = -1 * ra; //multiplica por -1 para ficar positivo
 		#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( k = 0; k < this->nz; k++ )
 			for ( j = 0; j < this->ny; j++ )
@@ -87,6 +88,7 @@ bool TCRotuladorIRA3D<T>::PreparaImagem (TCMatriz3D<T> *matriz) {
 		delete this->perimetroObjetos;
 	this->perimetroObjetos = NULL;
 
-	//Write("PreparaImagem.dbm");
+	this->SetFormato(D1_X_Y_Z_ASCII);
+	this->Write("PreparaImagem.dbm");
 	return true;
 }

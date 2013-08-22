@@ -33,19 +33,19 @@ class TCRotuladorIRA3D : public TCRotulador3D<T>
 		// -------------------------------------------------------------Construtor
 		// Estamos tratando de uma IRA, logo, FUNDO será 0 e consequentemente INDICE será 1;
 		/// Recebe ponteiro para imagem 3D usado para setar nx,ny,nz
-		TCRotuladorIRA3D (TCMatriz3D<T> * _pm) : TCRotulador3D<T> ( _pm, 1, 0), ra(0)  {
+		TCRotuladorIRA3D (TCMatriz3D<int> * _pm) : TCRotulador3D<int> ( _pm, 1, 0), ra(0)  {
 		}
 
 		/// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-		TCRotuladorIRA3D (std::string fileName) : TCRotulador3D<T> ( fileName, 1, 0), ra(0) {
+		TCRotuladorIRA3D (std::string fileName) : TCRotulador3D<int> ( fileName, 1, 0), ra(0) {
 		}
 
 		/// Recebe a informação das dimensoes da imagem
-		TCRotuladorIRA3D (unsigned int nx, unsigned int ny, unsigned int nz) : TCRotulador3D<T> ( nx, ny, nz, 1, 0), ra(0) {
+		TCRotuladorIRA3D (unsigned int nx, unsigned int ny, unsigned int nz) : TCRotulador3D<int> ( nx, ny, nz, 1, 0), ra(0) {
 		}
 
 		/// data3D deve ser alocado posteriormente
-		TCRotuladorIRA3D ( ) : TCRotulador3D<T> ( 1, 0), ra(0) {
+		TCRotuladorIRA3D ( ) : TCRotulador3D<int> ( 1, 0), ra(0) {
 		}
 
 		// --------------------------------------------------------------Destrutor
@@ -55,11 +55,11 @@ class TCRotuladorIRA3D : public TCRotulador3D<T>
 
 		// ----------------------------------------------------------------Metodos
 		/// Método para rotular da IRA. Precisa informar o raio para abertura.
-		bool Go (TCMatriz3D<T> * matriz, int _ra );
+		bool Go (TCMatriz3D<int> * matriz, int _ra );
 
 	protected:
 		/// Verifica se a imagem recebida tem as mesmas dimensoes do rotulador. Se diferente, realoca o rotulador
-		virtual bool PreparaImagem (TCMatriz3D<T> * matriz);
+		virtual bool PreparaImagem (TCMatriz3D<int> * matriz);
 };
 
 #include <Rotulador/TCRotuladorIRA3D.cpp>

@@ -103,17 +103,16 @@ TEST_F(Test3DLabeler, Rotulada_0_1) {
 TEST_F(Test3DLabeler, RotuladaByIRA) {
 	string result_image;
 
-	//Utiliza a IRA criada pelo teste Test3DFilter.IRA_1_0
+	//Utiliza como original a IRA criada pelo teste Test3DFilter.IRA_1_0
 	string original3D = "../../data/images/result_IRA_1_0.dgm";
 
 	//carrega a imagem original
-	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(original3D);
+	TCMatriz3D<int>* pm = new TCMatriz3D<int>(original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	TCRotuladorIRA3D<bool>* filtro = new TCRotuladorIRA3D<bool>(pm);
+	TCRotuladorIRA3D<int>* filtro = new TCRotuladorIRA3D<int>(pm);
 
-	//for ( int r = -15; r <= 20; r+=5 ) {
-	for ( int r = 5; r <= 5; r+=5 ) {
+	for ( int r = -15; r <= 20; r+=5 ) {
 		//variável com nome da imagem a ser comparada
 		ostringstream os;
 		os << "../../data/images/result_RotuladaByIRA_r" << r << ".dgm";

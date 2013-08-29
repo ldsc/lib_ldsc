@@ -132,7 +132,7 @@ class CSegPorosGargantas3D
 		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string fileName);
 
 		/// Determina distribuicao de sitios e ligacoes (Modelo 0)
 		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > Modelo_0();

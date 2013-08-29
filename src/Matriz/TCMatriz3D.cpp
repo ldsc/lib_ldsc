@@ -353,14 +353,35 @@ void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 		case D1_X_Y_Z_ASCII:
 		case D2_X_Y_Z_GRAY_ASCII:
 		case D3_X_Y_Z_COLOR_ASCII:
-			for (int k = 0; k < nz; k++) {
-				for (int j = 0; j < ny; j++) {
-					for (int i = 0; i < nx; i++) {
-						fout << data3D[i][j][k] << ' ';
+			if ( salvarAlinhado ) {
+				T maxVal = MaiorValor();
+				int espacos = 2;
+				if (maxVal < 10) espacos = 2;
+				else if (maxVal < 100) espacos = 3;
+				else if (maxVal < 1000) espacos = 4;
+				else if (maxVal < 10000) espacos = 5;
+				else if (maxVal < 100000) espacos = 6;
+				else if (maxVal < 1000000) espacos = 7;
+				fout.fill(' ');
+				for (int k = 0; k < nz; k++) {
+					for (int j = 0; j < ny; j++) {
+						for (int i = 0; i < nx; i++) {
+							fout.width(espacos);
+							fout << std::left << data3D[i][j][k];
+						}
+						fout << '\n';
 					}
-					fout << '\n';
 				}
-				//fout << '\n';
+			} else {
+				for (int k = 0; k < nz; k++) {
+					for (int j = 0; j < ny; j++) {
+						for (int i = 0; i < nx; i++) {
+							fout << data3D[i][j][k] << ' ';
+						}
+						fout << '\n';
+					}
+					//fout << '\n';
+				}
 			}
 			break;
 		case D4_X_Y_Z_BINARY:
@@ -700,7 +721,7 @@ void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 			}
 			break;
 		case D5_X_Y_Z_GRAY_BINARY: // 8 bits por pixel = 1 Byte
-            for (int k = 0; k < nz; k++) {
+			for (int k = 0; k < nz; k++) {
 				for (int j = 0; j < ny; j++) {
 					for (int i = 0; i < nx; i++) {
 						fin.read(&c, 1);
@@ -708,7 +729,7 @@ void TCMatriz3D<T>::LeDadosBinarios (ifstream & fin) {
 					}
 				}
 			}
-            break;
+			break;
 		case D6_X_Y_Z_COLOR_BINARY: // 8 bits red + 8 bits green + 8 bits blue por pixel = 3 Bytes
 			cerr << "Formato de arquivo D6_X_Y_Z_COLOR_BINARY não implementado em TCMatriz3D<T>::LeDadosBinarios" << endl;
 			/* falta implementar matrizes para as cores RGB

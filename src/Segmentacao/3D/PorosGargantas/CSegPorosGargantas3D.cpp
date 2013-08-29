@@ -101,7 +101,7 @@ void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulo informada como parametro.
-void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName){
+void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string fileName){
 	if (salvarResultadosParciais) {
 		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
 		mat->Write(fileName);
@@ -122,7 +122,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > CSegPorosGargantas3D::Go(int _mod
 
 /* ========================= Modelo 0 =========================
  * Utiliza IRA
- * Passos do algorítmo: (...Atualizar...)
+ * Passos do algorítmo: Descrever...
 */
 pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	// Variáveis auxiliares
@@ -186,14 +186,13 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		for ( j = 0; j < ny; j++) {
 			for ( k = 0; k < nz; k++) {
 				rotuloijk = matrizRotulada->data3D[i][j][k];
-				if(rotuloijk == FUNDO) {
+				if(rotuloijk == 0) {
 					++(matrizObjetos[0]);
 				} else {
 					it = matrizObjetos.find(rotuloijk);
 					if(it != matrizObjetos.end()) { // O elemento já  existe, apenas incrementa.
 						++(it->second);
 					} else { // Não encontrou o elemento, então cria.
-						//matrizObjetos[rotuloijk] = CObjetoImagem(PORO,rotuloijk, 1);
 						matrizObjetos[rotuloijk] = CObjetoImagem(PORO, 1);
 					}
 				}
@@ -220,7 +219,6 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
-		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
@@ -246,7 +244,6 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 						if(it != matrizObjetos.end()){  // o elemento foi encontrado
 							++(it->second);							// incrementa o número de objetos representados
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-							//matrizObjetos[rotuloijk] = CObjetoImagem( SITIO , rotuloijk, 1);
 							matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
 						}
 					}
@@ -270,7 +267,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
-					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
+					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo acrescido do número de objetos antes da abertura para a matrizRotulada
 					if ( pmira->data3D[i][j][k] > 0 && pmira->data3D[i][j][k] <= raioEE ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
 						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
@@ -375,7 +372,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
 		cout << "-->Identificando sitios e ligações..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
@@ -411,7 +408,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	} // fim do While
 
 	cout << "==>Corrigindo sítios..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+//#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {

@@ -2667,11 +2667,10 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	//Percorre a matrizRotulada e para cada rótulo cria elementos do tipo PORO.
 	//Caso o elemento já exista, incrementa o número de objetos representados;
 	//Também incrementa o número de objetos do tipo SOLIDO
-	//Analizar possibilidade de utilizar paralelização.
-	//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
-	for ( i = 0; i < nx; i++) {
-		for ( j = 0; j < ny; j++) {
-			for ( k = 0; k < nz; k++) {
+	#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+	for ( i = 0; i < nx; ++i) {
+		for ( j = 0; j < ny; ++j) {
+			for ( k = 0; k < nz; ++k) {
 				rotuloijk = matrizRotulada->data3D[i][j][k];
 				if(rotuloijk == FUNDO) {
 					++(matrizObjetos[0]);
@@ -2719,10 +2718,10 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
 		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
-		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
-		for ( i = 0; i < nx; i++) {
-			for ( j = 0; j < ny; j++) {
-				for ( k = 0; k < nz; k++) {
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
 					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
@@ -2775,9 +2774,9 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 
 		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
-		for ( i = 0; i < nx; i++) {
-			for ( j = 0; j < ny; j++) {
-				for ( k = 0; k < nz; k++) {
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
 					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
@@ -2812,9 +2811,9 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,rim1,rip1,rjm1,rjp1,rkm1,rkp1,it) //schedule(dynamic,10)
-		for ( i = borda; i < (nx-borda); i++) {
-			for ( j = borda; j < (ny-borda); j++) {
-				for ( k = borda; k < (nz-borda); k++) {
+		for ( i = borda; i < (nx-borda); ++i) {
+			for ( j = borda; j < (ny-borda); ++j) {
+				for ( k = borda; k < (nz-borda); ++k) {
 					rotuloijk = matrizRotulada->data3D[i][j][k];
 					// Só devemos considerar os rotulos criados neste passo, i.e, rotulo >= nObjetosAntesAbertura
 					if ( rotuloijk	>= nObjetosAntesAbertura ) {

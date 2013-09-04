@@ -101,7 +101,7 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 							jm = ((j-rm+y) <=  0) ? j+rm-y : j-rm+y; // tentativa de burlar as bordas sem causar falha de segmentação
 							jp = ((j+rm-y) >= ny) ? j-rm+y : j+rm-y; // tentativa de burlar as bordas sem causar falha de segmentação
 							for (x=0; x<=rm; ++x) {
-								if ( this->mask->data3D[x][y][k] != 0 ) {
+								if ( this->mask->data3D[x][y][z] != 0 ) {
 									im = ((i-rm+x) <=  0) ? i+rm-x : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
 									ip = ((i+rm-x) >= nx) ? i-rm+x : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
 									pmra->data3D[im][jm][km] = (idf->data3D[im][jm][km] != 0) ? max ( ra, pmra->data3D[im][jm][km] ) : 0;

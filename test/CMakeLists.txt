@@ -10,6 +10,7 @@ file(MAKE_DIRECTORY bin)
 add_executable(bin/runGtest
    Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
    Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIRA3D.cpp
+   Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMM3D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIRA.cpp
    Rotulador/gtRotulador3D.cpp

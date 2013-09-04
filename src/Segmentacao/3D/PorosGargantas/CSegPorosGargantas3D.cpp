@@ -13,9 +13,11 @@ CSegPorosGargantas3D::CSegPorosGargantas3D( TCMatriz3D<bool>* &matriz , std::str
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo)
 {
-	TCFEMMIRA3D<bool> pfira( matriz, INDICE, FUNDO );
-	pmira = pfira.Go();
-	matrizRotulo = new CRotuladorIRA3D( pmira );
+	//TCFEMMIRA3D<bool> pfira( matriz, INDICE, FUNDO );
+	pmira = NULL;
+	//pmira = pfira.Go();
+	//matrizRotulo = new CRotuladorIRA3D( pmira );
+	matrizRotulo = NULL;
 }
 
 CSegPorosGargantas3D::CSegPorosGargantas3D( TCImagem3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
@@ -24,14 +26,16 @@ CSegPorosGargantas3D::CSegPorosGargantas3D( TCImagem3D<bool>* &matriz , std::str
 		incrementoRaioElementoEstruturante ( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo)
 {
 	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz); // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
-	TCFEMMIRA3D<bool> pfira( pm, INDICE, FUNDO );
-	pmira = pfira.Go();
-	matrizRotulo = new CRotuladorIRA3D( pmira );
+	//TCFEMMIRA3D<bool> pfira( pm, INDICE, FUNDO );
+	pmira = NULL;
+	//pmira = pfira.Go();
+	//matrizRotulo = new CRotuladorIRA3D( pmira );
+	matrizRotulo = NULL;
 }
 
 CSegPorosGargantas3D::~CSegPorosGargantas3D() {
-	delete matrizRotulo;
-	delete pmira;
+	if (matrizRotulo) delete matrizRotulo;
+	if (pmira) delete pmira;
 }
 
 double CSegPorosGargantas3D::Porosidade( TCMatriz3D<int>* &_pm, int _ra ) {
@@ -154,8 +158,15 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	//TCMatriz3D<bool>* matrizAbertura = NULL;
 	//matrizAbertura->SetFormato( D1_X_Y_Z_ASCII );
 
+	cout << "==>Criando IRA...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	TCFEMMIRA3D<bool> *pfira = new TCFEMMIRA3D<bool>( pm, INDICE, FUNDO );
+	pmira = pfira->Go();
+	delete pfira;
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
 	// Rotula matrizRotulo;
 	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	matrizRotulo = new CRotuladorIRA3D( pmira );
 	matrizRotulo->Go( pmira, 0 );
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 

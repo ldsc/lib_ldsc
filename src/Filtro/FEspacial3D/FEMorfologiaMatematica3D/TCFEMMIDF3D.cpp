@@ -302,26 +302,28 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	int posys, posyn;		// y sul e y norte
 	int poszb, poszf;		// z back e z front
 	int xx, yy, zz;		// posicoes xx e yy da bola
+	int i, j, k;
 
 	// Processamento da abertura em si
 	this->pm->Constante (this->FUNDO);	// zera a matriz imagem
+
 	// falta verificar o contorno
-	for (int k = raio; k < nz - raio; k++) {
-		for (int j = raio; j < ny - raio; j++) {
-			for (int i = raio; i < nx - raio; i++) {
+	for ( k = raio; k < nz - raio; ++k ) {
+		for ( j = raio; j < ny - raio; ++j ) {
+			for ( i = raio; i < nx - raio; ++i ) {
 				if (data3D[i][j][k] > raioBolaTangente) {	// se for maior que a bola tangente vai permanecer
 					this->pm->data3D[i][j][k] = this->INDICE;
 				} else if (data3D[i][j][k] > raioBolaInclusa) { // se for maior que a inclusa e menor ou igual a tangente pintar a bola
 					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
-					for (zz = 0; zz <= raio; zz++)	{ // percorre a mascara
+					for (zz = 0; zz <= raio; ++zz)	{ // percorre a mascara
 						poszb = k - zz;
 						poszf = k + zz;
 						rmz = raio + zz;
-						for (yy = 0; yy <= raio; yy++) {
+						for (yy = 0; yy <= raio; ++yy) {
 							posyn = j + yy;
 							posys = j - yy;
 							rmy = raio + yy;
-							for (xx = 0; xx <= raio; xx++) {
+							for (xx = 0; xx <= raio; ++xx) {
 								posxe = i - xx;	// por ser simétrica
 								posxd = i + xx;
 								rmx = raio + xx;
@@ -337,27 +339,49 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 								}
 							}
 						}
-					}	/*
-					// PINTA A BOLA NAO OTIMIZADO: NAO CONSIDERA SIMETRIA
-					for (zz=-raio; zz<=raio; zz++) {          // percorre a mascara
-						kmz= k + zz;
-						rmz= raio + zz;
-						for (yy=-raio; yy<=raio; yy++) {
-							jmy= j + yy;
-							rmy= raio + yy;                          // usar simetria
-							for (xx=-raio; xx <=raio;xx++) {
-								// imx=i+x;  // rmx=raio+x;
-								if(maskd->data3D[raio+xx][rmy] [rmz]!=0) {
-									this->pm->data3D[i+xx]   [jmy] [kmz]=this->INDICE;  // pinta na imagem
-								}
-							}
-						}
 					}
-					*/
 				}
 			}
 		}
 	}
+/*// falta verificar o contorno
+	for ( k = raio; k < nz - raio; ++k ) {
+		for ( j = raio; j < ny - raio; ++j ) {
+			for ( i = raio; i < nx - raio; ++i ) {
+				if (data3D[i][j][k] > raioBolaTangente) {	// se for maior que a bola tangente vai permanecer
+					this->pm->data3D[i][j][k] = this->INDICE;
+				} else if (data3D[i][j][k] > raioBolaInclusa) { // se for maior que a inclusa e menor ou igual a tangente pintar a bola
+					// PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
+					for (zz = 0; zz <= raio; ++zz)	{ // percorre a mascara
+						poszb = k - zz;
+						poszf = k + zz;
+						rmz = raio + zz;
+						for (yy = 0; yy <= raio; ++yy) {
+							posyn = j + yy;
+							posys = j - yy;
+							rmy = raio + yy;
+							for (xx = 0; xx <= raio; ++xx) {
+								posxe = i - xx;	// por ser simétrica
+								posxd = i + xx;
+								rmx = raio + xx;
+								if (maskd->data3D[rmx][rmy][rmz] != 0) {
+									this->pm->data3D[posxe][posyn][poszf] = this->INDICE;
+									this->pm->data3D[posxe][posys][poszf] = this->INDICE;
+									this->pm->data3D[posxd][posyn][poszf] = this->INDICE;
+									this->pm->data3D[posxd][posys][poszf] = this->INDICE;
+									this->pm->data3D[posxe][posyn][poszb] = this->INDICE;
+									this->pm->data3D[posxe][posys][poszb] = this->INDICE;
+									this->pm->data3D[posxd][posyn][poszb] = this->INDICE;
+									this->pm->data3D[posxd][posys][poszb] = this->INDICE;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+ */
 	return this->pm;			// pm é a matriz abertura
 }
 

@@ -16,6 +16,10 @@ add_executable(bin/criaSintetica3D
    ImagemSintetica3D/criaImagemSintetica.cpp)
 target_link_libraries(bin/criaSintetica3D ldsc)
 
+add_executable(bin/criaSintetica3D4p4g
+   ImagemSintetica3D/criaImagemSintetica4p4g.cpp)
+target_link_libraries(bin/criaSintetica3D4p4g ldsc)
+
 add_executable(bin/idf3D
    Filtro/idf3D.cpp)
 target_link_libraries(bin/idf3D ldsc)

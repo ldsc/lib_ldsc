@@ -203,7 +203,7 @@ int main (int argc, char *argv[]) {
 	cout << "Desenhando esfera 2..." << endl;
 	x = (nxyz/4)-(desfera2/2); //centraliza a segunda esfera no segundo quadrante da imagem
 	y = (nxyz/2)-(desfera2/2); //centraliza a segunda esfera no eixo y da imagem
-	z = (desfera2 >= desfera3) ? (nxyz-margem-desfera2) : (nxyz-margem-((desfera3-desfera2)/2)); // margem para o eixo z
+	z = (desfera2 >= desfera3) ? (nxyz-margem-desfera2) : (nxyz-margem-(desfera3/2)-(desfera2/2)); // margem para o eixo z
 
 	for (i=0; i < desfera2; i++) {
 		for (j=0; j < desfera2; j++) {
@@ -218,7 +218,8 @@ int main (int argc, char *argv[]) {
 	cout << "Desenhando esfera 3..." << endl;
 	x = nxyz - ((nxyz/4)+(desfera3/2)); //centraliza a terceira esfera no terceiro quadrante da imagem
 	y = (nxyz/2)-(desfera3/2); //centraliza a terceira esfera no eixo y da imagem
-	z = (desfera3 >= desfera2) ? (nxyz-margem-desfera3) : (nxyz-margem-desfera3-((desfera2-desfera3)/2)); // margem para o eixo z
+	z = (desfera3 >= desfera2) ? (nxyz-margem-desfera3) : (nxyz-margem-(desfera2/2)-(desfera3)/2); // margem para o eixo z
+	//z = (desfera3 >= desfera2) ? (nxyz-margem-desfera3) : (nxyz-margem-desfera3-((desfera2-desfera3)/2)); // margem para o eixo z
 	//z = nxyz-margem-desfera3; // margem para o eixo z
 
 	for (i=0; i < desfera3; i++) {
@@ -314,7 +315,7 @@ int main (int argc, char *argv[]) {
 	cout << "Salvando a imagem em disco..." << endl;
 	img->SetFormato(D4_X_Y_Z_BINARY);
 	ostringstream os;
-	os << "imgSintPorosGarganta-" << nxyz << "_p1-" << desfera1 << "_p2-" << desfera2 << "_p3-" << desfera3 << "_p4-" << desfera4 << "_g1-" << dcilindro1 << "_g2-" << dcilindro2 << "_g3-" << dcilindro3 << "_g4-" << dcilindro4 << ".dbm";
+	os << "imgSintPorosGargantas-" << nxyz << "_p1-" << desfera1 << "_p2-" << desfera2 << "_p3-" << desfera3 << "_p4-" << desfera4 << "_g1-" << dcilindro1 << "_g2-" << dcilindro2 << "_g3-" << dcilindro3 << "_g4-" << dcilindro4 << ".dbm";
 	cout << "Salvando a imagem 3D em disco com o nome " << os.str() << endl;
 	img->Write( os.str() );
 

@@ -2992,7 +2992,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 /* ========================= Modelo 8 =========================
 * Passos do algorítmo: (...Atualizar...)
 * Cria matrizSítos e matrizLigações (zeradas);
-* Cria matrizAbertura, cópia de pm;
+* Cria matrizAbertura, cópia da original (pm);
 * Calcula porosidade;
 * Rotula matriz abertura (matrizRotulo);
 * Cria matrizRotulada, cópia de matrizRotulo;
@@ -3001,15 +3001,15 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 * Calcula IDF da matrizAbertura;
 * Entra no loop para identificar poros e gargantas;
 *		Processa abertura em matrizAbertura;
-*		Atualiza a porosidade da matrizAbertura;
+*		Recalcula a porosidade na matrizAbertura;
 *		Rotula a matrizAbertura (matrizRotulo);
-*		Decrementa/Apaga da matrizObjetos objetos excluidos na operação de abertura;
+*		Decrementa/Apaga da matrizObjetos os objetos excluidos na operação de abertura;
 *		Copia de forma incremental, os rótulos da matrizRotulo para a matrizRotulada;
 *		Cria/Incrementa na matrizObjetos os novos objetos copiados para a metrizRotulada (SITIO);
 *		Identifica o complemento da abertura;
 *		Rotula o complemento da abertura;
 *		Percorre a matriz complemento da abertura e decrementa/apaga da matrizObjetos os objetos que deixarão de existir;
-*		Copia para a matrizRotula, de forma incremental, os rótulos do complemento da abertura.
+*		Copia para a matrizRotulada, de forma incremental, os rótulos do complemento da abertura.
 *		Cria/Incrementa na matrizObjetos os novos objetos copiados para a metrizRotulada (RAMO_MORTO);
 *		Compara matrizes para fazer conexões entre os objetos.
 *			Se o rótulo analizado for diferente do vizinho e o vizinho for um SITIO, faz a conexão entre os objetos;
@@ -3084,7 +3084,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 				rotuloijk = matrizRotulada->data3D[i][j][k];
 				if(rotuloijk == FUNDO) {
 					++(matrizObjetos[0]);
-				} else {
+				} else { //ACHO QUE ESTE ELSE É DESNECESSÁRIO POIS TODOS OS OBJETOS MARCADOS COMO PORO SERÃO APAGADOS/ALTERADOS DURANTE O PROCESSO. RETIRAR PARA VER SE ALTERA O RESULTADO!
 					it = matrizObjetos.find(rotuloijk);
 					if(it != matrizObjetos.end()) { // O elemento já  existe, apenas incrementa.
 						++(it->second);
@@ -3225,7 +3225,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 			for ( j = borda; j < (ny-borda); ++j) {
 				for ( k = borda; k < (nz-borda); ++k) {
 					rotuloijk = matrizRotulada->data3D[i][j][k];
-					// Só devemos considerar os rotulos criados neste passo, i.e, rotulo >= nObjetosAntesAbertura
+					// Só precisamos considerar os rotulos criados neste passo, i.e, rotulo >= nObjetosAntesAbertura
 					if ( rotuloijk	>= nObjetosAntesAbertura ) {
 						it = matrizObjetos.find(rotuloijk);
 						rim1 = matrizRotulada->data3D[i-1][j][k];

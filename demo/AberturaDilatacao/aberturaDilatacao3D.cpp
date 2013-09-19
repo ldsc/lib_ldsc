@@ -133,7 +133,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante  );
 
-				carac->DistSitiosLigacoes_Modelo_0();
+				carac->Go(ZERO);
 
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_0()" << endl;
 				delete pm;
@@ -175,7 +175,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante  );
 
-				carac->DistSitiosLigacoes_Modelo_1();
+				carac->Go(UM);
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_1();." << endl;
 				delete pm;
 				pm  = NULL;
@@ -215,7 +215,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante );
 
-				carac->DistSitiosLigacoes_Modelo_2();
+				carac->Go(DOIS);
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_2()" << endl;
 				delete pm;
 				pm  = NULL;
@@ -255,7 +255,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
 
-				carac->DistSitiosLigacoes_Modelo_3();
+				carac->Go(TRES);
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_3();." << endl;
 				delete pm;
 				pm  = NULL;
@@ -294,8 +294,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
 
-				pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> mat3D = carac->DistSitiosLigacoes_Modelo_4();
-
+				carac->Go(QUATRO);
 
 				ostringstream os;
 				os.str("");
@@ -306,9 +305,8 @@ int main ( int argc, char *argv[] )
 						<< "-" << nomeimg
 						<< ".dgm";
 				cout << "-->Salvando imagem " << os.str().c_str() << endl ;
-				carac->Write(os.str(), mat3D.first, mat3D.second);
+				carac->Write(os.str());
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_4();." << endl;
-				//delete mat3D;
 				delete pm;
 				pm  = NULL;
 				delete carac;

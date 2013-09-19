@@ -7,7 +7,6 @@ GtestConfigure cfg3 = GtestConfigure();
 
 TEST(TestSegmentation, OpenningDilatationModel_7) {
 	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_7.dgm";
-	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
@@ -20,26 +19,26 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 	filtro.SalvarResultadosParciais(false);
 
 	//Executa o filtro na imagem original
-	pms = filtro.DistSitiosLigacoes_Modelo_7();
+	filtro.Go( SETE );
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
-		filtro.Write(result_image, pms.first, pms.second);
+		filtro.Write(result_image);
 	}
 
 	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
-	//compara a imagem filtrada com o a imagem carregada anteriormente
+	//compara a imagem filtrada com o a imagem original
 	bool iguais = true;
 	int i,j,k;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < pm2->NX(); i++) {
 		for (j = 0; j < pm2->NY(); j++) {
 			for (k = 0; k < pm2->NZ(); k++) {
-				if ( pm2->data3D[i][j][k]==0 and (pms.first->data3D[i][j][k]!=0 or pms.second->data3D[i][j][k]!=0) ) {
+				if ( pm2->data3D[i][j][k]==0 and (filtro.GetMatrizSitios()->data3D[i][j][k]!=0 or filtro.GetMatrizLigacoes()->data3D[i][j][k]!=0) ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==1 and pms.first->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==1 and filtro.GetMatrizSitios()->data3D[i][j][k]!=1 ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==2 and pms.second->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==2 and filtro.GetMatrizLigacoes()->data3D[i][j][k]!=1 ) {
 					iguais = false;
 				}
 			}
@@ -52,13 +51,11 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 	//deleta ponteiros
 	delete pm;
 	delete pm2;
-	delete pms.first;
-	delete pms.second;
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_6) {
 	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_6.dgm";
-	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
+
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
@@ -70,26 +67,26 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 	filtro.SalvarResultadosParciais(false);
 
 	//Executa o filtro na imagem original
-	pms = filtro.DistSitiosLigacoes_Modelo_6();
+	filtro.Go( SEIS );
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
-		filtro.Write(result_image, pms.first, pms.second);
+		filtro.Write(result_image);
 	}
 
 	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
-	//compara a imagem filtrada com o a imagem carregada anteriormente
+	//compara a imagem filtrada com o a imagem original
 	bool iguais = true;
 	int i,j,k;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < pm2->NX(); i++) {
 		for (j = 0; j < pm2->NY(); j++) {
 			for (k = 0; k < pm2->NZ(); k++) {
-				if ( pm2->data3D[i][j][k]==0 and (pms.first->data3D[i][j][k]!=0 or pms.second->data3D[i][j][k]!=0) ) {
+				if ( pm2->data3D[i][j][k]==0 and (filtro.GetMatrizSitios()->data3D[i][j][k]!=0 or filtro.GetMatrizLigacoes()->data3D[i][j][k]!=0) ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==1 and pms.first->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==1 and filtro.GetMatrizSitios()->data3D[i][j][k]!=1 ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==2 and pms.second->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==2 and filtro.GetMatrizLigacoes()->data3D[i][j][k]!=1 ) {
 					iguais = false;
 				}
 			}
@@ -102,13 +99,11 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 	//deleta ponteiros
 	delete pm;
 	delete pm2;
-	delete pms.first;
-	delete pms.second;
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_5) {
 	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_5.dgm";
-	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
+
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
@@ -120,26 +115,26 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 	filtro.SalvarResultadosParciais(false);
 
 	//Executa o filtro na imagem original
-	pms = filtro.DistSitiosLigacoes_Modelo_5();
+	filtro.Go( CINCO );
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
-		filtro.Write(result_image, pms.first, pms.second);
+		filtro.Write(result_image);
 	}
 
 	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
-	//compara a imagem filtrada com o a imagem carregada anteriormente
+	//compara a imagem filtrada com o a imagem original
 	bool iguais = true;
 	int i,j,k;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < pm2->NX(); i++) {
 		for (j = 0; j < pm2->NY(); j++) {
 			for (k = 0; k < pm2->NZ(); k++) {
-				if ( pm2->data3D[i][j][k]==0 and (pms.first->data3D[i][j][k]!=0 or pms.second->data3D[i][j][k]!=0) ) {
+				if ( pm2->data3D[i][j][k]==0 and (filtro.GetMatrizSitios()->data3D[i][j][k]!=0 or filtro.GetMatrizLigacoes()->data3D[i][j][k]!=0) ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==1 and pms.first->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==1 and filtro.GetMatrizSitios()->data3D[i][j][k]!=1 ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==2 and pms.second->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==2 and filtro.GetMatrizLigacoes()->data3D[i][j][k]!=1 ) {
 					iguais = false;
 				}
 			}
@@ -152,13 +147,11 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 	//deleta ponteiros
 	delete pm;
 	delete pm2;
-	delete pms.first;
-	delete pms.second;
 }
 
 TEST(TestSegmentation, OpenningDilatationModel_4) {
 	string result_image = "../../data/images/result_SegmentationOpenningDilatation_IBS0105_Model_4.dgm";
-	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
+
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
@@ -170,26 +163,26 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 	filtro.SalvarResultadosParciais(false);
 
 	//Executa o filtro na imagem original
-	pms = filtro.DistSitiosLigacoes_Modelo_4();
+	filtro.Go( QUATRO );
 	if ( cfg3.criarImagensResultantes && cfg3.FileNotExists(result_image) ) {
-		filtro.Write(result_image, pms.first, pms.second);
+		filtro.Write(result_image);
 	}
 
 	//carrega a imagem previamente result_image com o filtro IDF sendo indice 1 e fundo 0
 	TCMatriz3D<int>* pm2 = new TCMatriz3D<int>(result_image);
 
-	//compara a imagem filtrada com o a imagem carregada anteriormente
+	//compara a imagem filtrada com o a imagem original
 	bool iguais = true;
 	int i,j,k;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) schedule(dynamic,10)
 	for (i = 0; i < pm2->NX(); i++) {
 		for (j = 0; j < pm2->NY(); j++) {
 			for (k = 0; k < pm2->NZ(); k++) {
-				if ( pm2->data3D[i][j][k]==0 and (pms.first->data3D[i][j][k]!=0 or pms.second->data3D[i][j][k]!=0) ) {
+				if ( pm2->data3D[i][j][k]==0 and (filtro.GetMatrizSitios()->data3D[i][j][k]!=0 or filtro.GetMatrizLigacoes()->data3D[i][j][k]!=0) ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==1 and pms.first->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==1 and filtro.GetMatrizSitios()->data3D[i][j][k]!=1 ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==2 and pms.second->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==2 and filtro.GetMatrizLigacoes()->data3D[i][j][k]!=1 ) {
 					iguais = false;
 				}
 			}
@@ -202,6 +195,4 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 	//deleta ponteiros
 	delete pm;
 	delete pm2;
-	delete pms.first;
-	delete pms.second;
 }

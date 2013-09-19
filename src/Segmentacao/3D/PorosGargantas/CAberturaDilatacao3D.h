@@ -21,6 +21,9 @@ struct Ponto {
 		int k; ///<Posição do ponto em z.
 };
 
+/// Enumera os modelos de segmentação disponíveis
+enum EModelo { ZERO=0, UM=1, DOIS=2, TRES=3, QUATRO=4, CINCO=5, SEIS=6, SETE=7, OITO=8 };
+
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
  * Substituído rotulador interno pela classe CRotulador3D (otimizada).
@@ -35,6 +38,12 @@ class CAberturaDilatacao3D
 
 		/// Matriz original (ponteiro para matriz original)
 		TCMatriz3D<bool>* pm;
+
+		/// Matriz que armazena os sítios identificados
+		TCMatriz3D<bool>* matrizSitios;
+
+		/// Matriz que armazena as ligações identificadas
+		TCMatriz3D<bool>* matrizLigacoes;
 
 		/// Ponteiro para objeto rotulador o qual herda TCMatriz3D<int> para representar a matriz rotulada.
 		TCRotulador3D<bool>* matrizRotulo;
@@ -55,7 +64,7 @@ class CAberturaDilatacao3D
 		int incrementoRaioElementoEstruturante;
 
 		/// Numero do modelo de calculo
-		int modelo;
+		EModelo modelo;
 
 		/// Valor que indentifica os objetos de interesse na imagem
 		int INDICE;
@@ -67,10 +76,6 @@ class CAberturaDilatacao3D
 		static bool salvarResultadosParciais ;
 
 	public:
-		/*
-		/// Construtor
-		CAberturaDilatacao3D();
-		*/
 		/// Construtor
 		CAberturaDilatacao3D(TCMatriz3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
 
@@ -80,42 +85,7 @@ class CAberturaDilatacao3D
 		/// Destrutor
 		~CAberturaDilatacao3D();
 
-		/// Calculo da porosidade
-		double Porosidade(TCMatriz3D<bool> *&pm);
-
-		/// Determina distribuicao Total de Poros (método normal)
-		void DistTotalPoros();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo) modelo 0 (Anaimp)
-		void DistSitiosLigacoes_Modelo_0();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 1)
-		// void DistSitiosLigacoes_Modelo_1_old_usaCVetor(); // Usa CVetor
-		void DistSitiosLigacoes_Modelo_1();               // Usa vector
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 2)
-		void DistSitiosLigacoes_Modelo_2();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 3)
-		void DistSitiosLigacoes_Modelo_3();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
-		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_4();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 5)
-		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_5();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 6)
-		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_6();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
-		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_7();
-
-		/// Determina distribuicao de sitios e ligacoes (baseado no modelo 7, tenta corrigir bug na identificação dos poros)
-		pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > DistSitiosLigacoes_Modelo_8();
-
-		// Salva vetor em disco (já tem Write?)
-		//void Salvar(CVetor* &v, std::string nomeArquivo);
+		/// Salva vetor em disco
 		void Salvar(std::vector<double> v, std::string nomeArquivo);
 
 		void SequenciaAberturaTonsCinza();
@@ -160,11 +130,30 @@ class CAberturaDilatacao3D
 			salvarResultadosParciais = b;
 		}
 
+		/// Calculo da porosidade
+		double Porosidade(TCMatriz3D<bool> *&pm);
+
+		/// Determina distribuicao Total de Poros (método normal)
+		void DistTotalPoros();
+
 		/** Recebe nome do arquivo e ponteiro para duas matrizes do tipo bool.
 		*		Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 		*		Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 		*/
-		bool Write(string fileName, TCMatriz3D<bool>* &mat1, TCMatriz3D<bool>* &mat2 );
+		bool Write(string fileName);
+
+		/// Realiza a segmentação de poros e gargantas através do modelo informado.
+		void Go( EModelo _modelo );
+
+		/// Retorna ponteiro para a matriz que armazena as ligações
+		inline TCMatriz3D<bool>* GetMatrizLigacoes (){
+			return matrizLigacoes;
+		}
+
+		/// Retorna ponteiro para a matriz que armazena os sítios
+		inline TCMatriz3D<bool>* GetMatrizSitios (){
+			return matrizSitios;
+		}
 
 	private:
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
@@ -176,13 +165,32 @@ class CAberturaDilatacao3D
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
 
-		/*
-		/// Cria matriz 3D de objetos do tipo CObjetoImagem
-		CObjetoImagem *** AlocaMatrizObjetos3D(int nx, int ny, int nz);
+		/// Determina distribuicao de sitios e ligacoes (método novo) modelo 0 (Anaimp)
+		void DistSitiosLigacoes_Modelo_0();
 
-		/// Cria matriz 3D de objetos do tipo CObjetoImagem
-		void DesalocaMatrizObjetos3D(CObjetoImagem ***dat, int nx, int ny, int nz);
-		*/
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 1)
+		void DistSitiosLigacoes_Modelo_1();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 2)
+		void DistSitiosLigacoes_Modelo_2();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 3)
+		void DistSitiosLigacoes_Modelo_3();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
+		void DistSitiosLigacoes_Modelo_4();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 5)
+		void DistSitiosLigacoes_Modelo_5();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 6)
+		void DistSitiosLigacoes_Modelo_6();
+
+		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
+		void DistSitiosLigacoes_Modelo_7();
+
+		/// Determina distribuicao de sitios e ligacoes (baseado no modelo 7, tenta corrigir bug na identificação dos poros)
+		void DistSitiosLigacoes_Modelo_8();
 };
 
 #endif

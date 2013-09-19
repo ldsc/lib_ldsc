@@ -47,7 +47,7 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 	}
 
 	//exibe o resultado do teste
-	EXPECT_TRUE(iguais);
+	EXPECT_TRUE(iguais) << "Imagem resultante: " << result_image;
 
 	//deleta ponteiros
 	delete pm;
@@ -97,7 +97,7 @@ TEST(TestSegmentation, OpenningDilatationModel_6) {
 	}
 
 	//exibe o resultado do teste
-	EXPECT_TRUE(iguais);
+	EXPECT_TRUE(iguais) << "Imagem resultante: " << result_image;
 
 	//deleta ponteiros
 	delete pm;
@@ -147,7 +147,7 @@ TEST(TestSegmentation, OpenningDilatationModel_5) {
 	}
 
 	//exibe o resultado do teste
-	EXPECT_TRUE(iguais);
+	EXPECT_TRUE(iguais) << "Imagem resultante: " << result_image;
 
 	//deleta ponteiros
 	delete pm;
@@ -197,7 +197,7 @@ TEST(TestSegmentation, OpenningDilatationModel_4) {
 	}
 
 	//exibe o resultado do teste
-	EXPECT_TRUE(iguais);
+	EXPECT_TRUE(iguais) << "Imagem resultante: " << result_image;
 
 	//deleta ponteiros
 	delete pm;

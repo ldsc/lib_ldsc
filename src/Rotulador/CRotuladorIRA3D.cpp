@@ -10,11 +10,14 @@ email:            puerari@gmail.com
 
 #include <Rotulador/CRotuladorIRA3D.h>
 
-/* Executa toda a sequencia de rotulagem considerando o raio para abertura (ra) informado.*/
-// bool CRotuladorIRA3D::Go(TCMatriz3D<int> *& matriz, int _rotuloInicial)
-bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra) {
+/* Executa toda a sequencia de rotulagem considerando o raio para abertura (ra) informado
+ * e desconsiderando objetos com raio para abertura menor que rmin.
+*/
+bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra, unsigned int _rmin) {
 	ra = _ra;
+	rmin = _rmin;
 	return TCRotulador3D<int>::Go(matriz);
+	rmin = 0;
 }
 
 /*
@@ -65,7 +68,7 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 		for ( k = 0; k < this->nz; k++ )
 			for ( j = 0; j < this->ny; j++ )
 				for ( i = 0; i < this->nx; i++ )
-					if (this->pm->data3D[i][j][k] > 0 && this->pm->data3D[i][j][k] <= rat)
+					if (this->pm->data3D[i][j][k] > rmin && this->pm->data3D[i][j][k] <= rat)
 						this->data3D[i][j][k] = 1;	// Define this com 0 e 1
 					else
 						this->data3D[i][j][k] = 0;

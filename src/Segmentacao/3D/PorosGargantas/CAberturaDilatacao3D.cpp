@@ -2698,7 +2698,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	//Percorre a matrizRotulada e para cada rótulo cria elementos do tipo PORO.
 	//Caso o elemento já exista, incrementa o número de objetos representados;
 	//Também incrementa o número de objetos do tipo SOLIDO
-	#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {
@@ -2781,8 +2781,8 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 					//Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
-						//if ( matrizRotulada->data3D[i][j][k] >=	nObjetosAntesAbertura ) {
-						if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
+						//if ( matrizAbertura->data3D[i][j][k] == FUNDO ) {
+						if ( matrizAbertura->data3D[i][j][k] == FUNDO and matrizLigacoes->data3D[i][j][k] == FUNDO ) {
 							matrizAbertura->data3D[i][j][k] = INDICE;
 						} else {
 							matrizAbertura->data3D[i][j][k] = FUNDO;
@@ -2957,7 +2957,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 	cout << "\t\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "==>Processando Dilataço..."; cout.flush(); timing = omp_get_wtime();
-	pfmf->Dilatacao(matrizSitios, 3 );
+	pfmf->Dilatacao(matrizSitios, 5 );
 	cout << "\t\t\ttempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "==>Corrigindo sítios..." << endl ;
@@ -3115,13 +3115,17 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Atualizando porosidade
 		porosidade = Porosidade( matrizAbertura );// nX
 
+		//cout << "-->Processando Dilatação...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+		//pfmf->Dilatacao(matrizAbertura, 1 );
+		//cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
 		// Inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
 					//Identificando complemento da abertura subtraido da matrizLigacoes:
-					// Se o pixel analizado for INDICE em pm e FUNDO na matrizAbertura e na matrizLigacoes, inverte os valores da matrizAbertura assinalando como matriz complementar
+					// Se o pixel analizado for INDICE em pm e FUNDO na matrizAbertura, na matrizSitios e na matrizLigacoes, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
 						//if ( matrizRotulada->data3D[i][j][k] >=	nObjetosAntesAbertura ) {
 						if ( matrizAbertura->data3D[i][j][k] == FUNDO and matrizLigacoes->data3D[i][j][k] == FUNDO  and matrizSitios->data3D[i][j][k] == FUNDO ) {
@@ -3177,6 +3181,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 				}
 			}
 		}
+
 
 		borda = 1;
 		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
@@ -3256,7 +3261,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
 		// Em seguida, aproveita o loop para restaurar a matrizAbertura para o estado anterior.
 		cout << "-->Identificando sitios e ligações..." << endl ;
-//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
@@ -3271,18 +3276,17 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CAberturaDilatacao3D::DistSitiosLi
 							matrizLigacoes->data3D[i][j][k] = INDICE;
 						}
 					}
-
 					// restaura a matrizAbertura.
 					matrizAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
 				}
 			}
 		}
 
-//		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
-//		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+		//		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
+		//		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
-//		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
-//		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
+		//		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
+		//		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;

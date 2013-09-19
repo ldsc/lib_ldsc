@@ -263,7 +263,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		}
 		// O complemento da abertura corresponde a: (0 < pmira[i][j][k] <= raioEE)
 		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
-		matrizRotulo->Go( pmira, -raioEE ); //quando o raio é negativo rotula o complemento da abertura
+		matrizRotulo->Go( pmira, -raioEE, raioEE-1 ); //quando o raio é negativo rotula o complemento da abertura
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		//os.str(""); os << "MatrizComplementoAbertura_" << raioEE << ".dbm";

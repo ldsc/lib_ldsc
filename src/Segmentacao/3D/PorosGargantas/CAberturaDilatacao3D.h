@@ -63,6 +63,9 @@ class CAberturaDilatacao3D
 		/// Valor do incremento do raio do elemento estruturante
 		int incrementoRaioElementoEstruturante;
 
+		/// Raio do Elemento Estruturante usado na operação de dilatação (Modelo 7)
+		int raioEEDilatacao;
+
 		/// Numero do modelo de calculo
 		EModelo modelo;
 
@@ -118,6 +121,16 @@ class CAberturaDilatacao3D
 		/// Seta o incrementoRaioElementoEstruturante
 		void IncrementoRaioElementoEstruturante ( int _iree) {
 			incrementoRaioElementoEstruturante = _iree;
+		}
+
+		/// Retorna o raio do Elemento Estruturante utilizado na Dilatacao
+		int RaioEEDilatacao () {
+			return  raioEEDilatacao;
+		}
+
+		/// Seta o raio do Elemento Estruturante utilizado na Dilatacao
+		void RaioEEDilatacao ( int _ree) {
+			raioEEDilatacao = _ree;
 		}
 
 		/// Retorna flag salvarResultadosParciais

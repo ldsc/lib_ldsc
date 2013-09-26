@@ -51,9 +51,6 @@ class CAberturaDilatacao3D
 		/// Porosidade
 		double porosidade;
 
-		/// Nome da imagem que esta processando (usado para salvar resultado final)
-		std::string nomeImagem;
-
 		/// fator usado como critério de parada
 		int raioMaximoElementoEstruturante;
 
@@ -76,14 +73,17 @@ class CAberturaDilatacao3D
 		int FUNDO;
 
 		/// Se ativo salva os resultados parciais
-		static bool salvarResultadosParciais ;
+		bool salvarResultadosParciais;
+
+		/// Se ativo gera detalhes dos objetos em matrizObjetos
+		bool gerarDetalhesObjetos;
 
 	public:
 		/// Construtor
-		CAberturaDilatacao3D(TCMatriz3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
+		CAberturaDilatacao3D(TCMatriz3D<bool>* &matriz, int _indice=1, int _fundo=0);
 
 		/// Construtor
-		CAberturaDilatacao3D(TCImagem3D<bool>* &matriz, std::string _nomeImagem = "", int _indice=1, int _fundo=0);
+		CAberturaDilatacao3D(TCImagem3D<bool>* &matriz, int _indice=1, int _fundo=0);
 
 		/// Destrutor
 		~CAberturaDilatacao3D();
@@ -93,9 +93,6 @@ class CAberturaDilatacao3D
 
 		/// Declara iterator para a matrizObjetos
 		map<int,CObjetoImagem>::iterator it;
-
-		/// Salva vetor em disco
-		void Salvar(std::vector<double> v, std::string nomeArquivo);
 
 		void SequenciaAberturaTonsCinza();
 
@@ -140,13 +137,23 @@ class CAberturaDilatacao3D
 		}
 
 		/// Retorna flag salvarResultadosParciais
-		static bool SalvarResultadosParciais( ) {
+		bool SalvarResultadosParciais( ) {
 			return salvarResultadosParciais;
 		}
 
 		/// Seta flag salvarResultadosParciais
-		static void SalvarResultadosParciais( bool b ) {
+		void SalvarResultadosParciais( bool b ) {
 			salvarResultadosParciais = b;
+		}
+
+		/// Retorna flag gerarDetalhesObjetos
+		bool GerarDetalhesObjetos( ) {
+			return gerarDetalhesObjetos;
+		}
+
+		/// Seta flag gerarDetalhesObjetos
+		void GerarDetalhesObjetos( bool b ) {
+			gerarDetalhesObjetos = b;
 		}
 
 		/// Calculo da porosidade
@@ -183,6 +190,9 @@ class CAberturaDilatacao3D
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+
+		/// Se a flag gerarDetalhesObjetos estiver setada, gera detalhes dos objetos identificados (Num. voxeis, ligações, etc).
+		void GerarDetalhesMatrizObjetos();
 
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
 		void DistSitiosLigacoes_Modelo_7();

@@ -7,13 +7,11 @@
 
 using namespace std;
 
-bool CAberturaDilatacao3D::salvarResultadosParciais = 0;
-
-CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
+CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz, int _indice, int _fundo)
 	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
-		nomeImagem(_nomeImagem),
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
-		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo)
+		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo),
+		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
 	matrizRotulo = new TCRotulador3D<bool>( matriz, INDICE, FUNDO );
 	matrizSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
@@ -23,10 +21,10 @@ CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz , std::str
 	pfmf = new TCFEMMIDFd3453D<bool>( matriz, INDICE, FUNDO );
 }
 
-CAberturaDilatacao3D::CAberturaDilatacao3D( TCImagem3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
-	: nomeImagem(_nomeImagem),
-		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
-		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo)
+CAberturaDilatacao3D::CAberturaDilatacao3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
+	: fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo),
+		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
 	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 			matrizRotulo = new TCRotulador3D<bool>( pm, INDICE, FUNDO );
@@ -42,18 +40,6 @@ CAberturaDilatacao3D::~CAberturaDilatacao3D() {
 	delete matrizSitios;
 	delete matrizLigacoes;
 	delete pfmf;
-}
-
-void CAberturaDilatacao3D::Salvar(vector<double> v, std::string nomeArquivo) {
-	ofstream fout;
-	fout.open ( nomeArquivo.c_str() );
-	if ( fout.fail() ) {
-		cout << "Erro ao abrir arquivo ... " << endl;
-	}
-	for ( int i = 0 ; i < v.size();i++) {
-		fout << v[i]  << "\n";
-	}
-	fout.close();
 }
 
 double CAberturaDilatacao3D::Porosidade( TCMatriz3D<bool>* &_pm ) {
@@ -200,19 +186,20 @@ bool CAberturaDilatacao3D::Write(string fileName) {
 
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CAberturaDilatacao3D::SalvarListaObjetos(string fileName){
-	ofstream fout; //  Abre arquivo disco
-	fout.open(fileName.c_str());
-	if (fout.good()){
-		fout << "Objeto\tX\tY\tZ\tNum. Voxeis\tNum. Objtos Conectados\tLista Objetos Conectados" << endl;
-		for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
-			fout << it->first << "\t";
-			it->second.GravarObjeto(fout);
+	if (gerarDetalhesObjetos) {
+		ofstream fout; //  Abre arquivo disco
+		fout.open(fileName.c_str());
+		if (fout.good()){
+			fout << "Obj.\tX\tY\tZ\tN.Voxeis\tN.ObjsCon\tLstObjsCons" << endl;
+			for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
+				fout << it->first << "\t";
+				it->second.GravarObjeto(fout);
+			}
+			fout.close();
+			return true;
 		}
-		fout.close();
-		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
@@ -242,6 +229,7 @@ void CAberturaDilatacao3D::SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* 
 // Realiza a segmentação de poros e gargantas através do modelo informado.
 void CAberturaDilatacao3D::Go( EModelo _modelo ) {
 	modelo = _modelo;
+	matrizObjetos.clear();
 	matrizSitios->Constante(FUNDO);
 	matrizLigacoes->Constante(FUNDO);
 	switch (modelo) {
@@ -252,7 +240,122 @@ void CAberturaDilatacao3D::Go( EModelo _modelo ) {
 		case NOVE: DistSitiosLigacoes_Modelo_9();
 			break;
 	}
+	matrizObjetos.clear();
+	GerarDetalhesMatrizObjetos();
 }
+
+void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
+	// Se a flag estiver setada
+	if (gerarDetalhesObjetos) {
+		// Variáveis auxiliares
+		map<int,CObjetoImagem>::iterator itt;
+		int rip1, rjp1, rkp1;
+		int rotulo = 0;
+		int i,j,k;
+
+		cout << "==>Rotulando a matrizSitios..." << endl ;
+		matrizRotulo->Go(matrizSitios);
+
+		// Cria matriz que irá acumular os rótulos identificados (cópia de matrizRotulo)
+		TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
+
+		cout << "==>Determinando IDF da matrizSitios..." << endl ;
+		pfmf->Go(matrizSitios);
+
+		// Armazena o número de objetos identificados na rotulagem
+		int numObjs = matrizRotulo->NumeroObjetos();
+		int nx = matrizSitios->NX();
+		int ny = matrizSitios->NY();
+		int nz = matrizSitios->NZ();
+
+		cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem dos sítios..." << endl ;
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					rotulo = matrizRotulo->data3D[i][j][k];
+					if ( rotulo != 0) {
+						it = matrizObjetos.find(rotulo);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotulo] = CObjetoImagem( SITIO, 1 );
+						}
+						it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+					}
+				}
+			}
+		}
+
+		cout << "==>Rotulando a matrizLigacoes..." << endl ;
+		matrizRotulo->Go(matrizLigacoes);
+
+		cout << "==>Determinando IDF da matrizLigacoes..." << endl ;
+		pfmf->Go(matrizLigacoes);
+
+		cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem das ligações..." << endl ;
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					rotulo  = matrizRotulada->data3D[i][j][k];
+					if (rotulo > 0) {
+						matrizRotulo->data3D[i][j][k] = rotulo; //recebe o rótulo dos sítios
+					} else {
+						rotulo = matrizRotulo->data3D[i][j][k];
+						if ( rotulo > 0 ) { //só entra se for diferente de fundo, ou seja, neste caso, maior que numObjs
+							rotulo += numObjs-1;
+							matrizRotulo->data3D[i][j][k] = rotulo; // para que matrizRotulo tenha todos rotulos de todos os objetos de forma sequencial
+							it = matrizObjetos.find(rotulo);
+							if(it != matrizObjetos.end()){  // o elemento foi encontrado
+								++(it->second);							// incrementa o número de objetos representados
+							}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+								matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
+							}
+							it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+						}
+					}
+				}
+			}
+		}
+
+		// Libera memória
+		delete matrizRotulada;
+
+		// Aqui matrizRotulo possui o rotulo de todos os objetos.
+		// Realizar conexões entre os objetos.
+		for ( i = 0; i < (nx-1); ++i) {
+			for ( j = 0; j < (ny-1); ++j) {
+				for ( k = 0; k < (nz-1); ++k) {
+					rotulo = matrizRotulo->data3D[i][j][k];
+					// Só devemos considerar os rotulos do complemento da abertura
+					if ( rotulo	> 0 ) {
+						it = matrizObjetos.find(rotulo);
+						rip1 = matrizRotulo->data3D[i+1][j][k];
+						rjp1 = matrizRotulo->data3D[i][j+1][k];
+						rkp1 = matrizRotulo->data3D[i][j][k+1];
+
+						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
+						if ( rip1 > 0 and rotulo != rip1 ) {
+							itt = matrizObjetos.find(rip1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rip1 );
+						}
+						if ( rjp1 > 0 and rotulo != rjp1 ) {
+							itt = matrizObjetos.find(rjp1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rjp1 );
+						}
+						if ( rkp1 > 0 and rotulo != rkp1 ) {
+							itt = matrizObjetos.find(rkp1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rkp1 );
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 
 /* ========================= Modelo 7 =========================
 * Passos do algorítmo:
@@ -300,9 +403,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
-
-	// Zera matrizObejtos
-	matrizObjetos.clear();
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -601,9 +701,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_8() {
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
-
-	// Zera matrizObejtos
-	matrizObjetos.clear();
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -953,9 +1050,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
-	// Zera matrizObejtos
-	matrizObjetos.clear();
-
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
 	matrizAbertura->SetFormato( D1_X_Y_Z_ASCII );
@@ -969,23 +1063,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 
 	// Cria matriz que irá armazenar os rótulos identificados nas diversas operações de abertura
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
-
-	//Todos os objetos identificados inicialmente serão sítios
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulada->data3D[i][j][k];
-				if ( rotuloijk > 0 ) {
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()){  // o elemento foi encontrado
-						++(it->second);								// incrementa o número de objetos representados
-					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
-					}
-				}
-			}
-		}
-	}
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
 	pfmf->Go( matrizAbertura );//chama calculo idf 1x
@@ -1241,60 +1318,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 					matrizLigacoes->data3D[i][j][k] = FUNDO;
 				} else {
 					matrizLigacoes->data3D[i][j][k] = INDICE;
-				}
-			}
-		}
-	}
-
-	cout << "==>Zerando a matrizObjetos..." << endl ;
-	matrizObjetos.clear();
-
-	cout << "==>Rotulando a matrizSitios..." << endl ;
-	matrizRotulo->Go(matrizSitios);
-
-	cout << "==>Determinando IDF da matrizSitios..." << endl ;
-	pfmf->Go(matrizSitios);
-
-	// Armazena o número de objetos identificados na rotulagem
-	numObjetos = matrizRotulo->NumeroObjetos();
-
-	cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem dos sítios..." << endl ;
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulo->data3D[i][j][k];
-				if ( rotuloijk != 0) {
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()){  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1 );
-					}
-					it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
-				}
-			}
-		}
-	}
-
-	cout << "==>Rotulando a matrizLigacoes..." << endl ;
-	matrizRotulo->Go(matrizLigacoes);
-
-	cout << "==>Determinando IDF da matrizLigacoes..." << endl ;
-	pfmf->Go(matrizLigacoes);
-
-	cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem das ligações..." << endl ;
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulo->data3D[i][j][k] + numObjetos;
-				if ( rotuloijk != numObjetos ) {
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()){  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( LIGACAO, 1);
-					}
-					it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
 				}
 			}
 		}

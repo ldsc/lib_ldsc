@@ -12,7 +12,7 @@ TEST(TestSegmentation, OpenningDilatationModel_9) {
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -60,7 +60,7 @@ TEST(TestSegmentation, OpenningDilatationModel_8) {
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
@@ -109,7 +109,7 @@ TEST(TestSegmentation, OpenningDilatationModel_7) {
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg3.original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, result_image, 1, 0 );
+	CAberturaDilatacao3D filtro = CAberturaDilatacao3D(pm, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);

@@ -110,7 +110,7 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz3D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
+				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao." << endl;
 				if ( pm == NULL  || carac == NULL) {
 					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
@@ -131,6 +131,8 @@ int main ( int argc, char *argv[] )
 				cin >> incrementoRaioElementoEstruturante;
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
+
+				carac->SalvarResultadosParciais ( salvarResultadosParciais );
 
 				carac->Go(SETE);
 
@@ -298,7 +300,7 @@ int main ( int argc, char *argv[] )
 				pm = new TCMatriz3D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
 
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
+				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao3D." << endl;
 				if ( pm == NULL  || carac == NULL) {
 					cerr << "Falha alocação Matriz ou CAberturaDilatacao.\n" ;
@@ -324,7 +326,7 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
+				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao3D." << endl;
 				carac->DistTotalPoros();
 				cout << "Calculou carac->DistTotalPoros();." << endl;
@@ -427,7 +429,7 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
+				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao." << endl;
 				carac->SequenciaAberturaTonsCinza();
 				cout << "Calculou carac->SequenciaAberturaTonsCinza();." << endl;
@@ -449,7 +451,7 @@ int main ( int argc, char *argv[] )
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
-				carac = new CAberturaDilatacao3D( pm, nomeimg );
+				carac = new CAberturaDilatacao3D( pm );
 				cout << "Criou objeto CAberturaDilatacao!" << endl;
 				cout << "Porosidade = " << carac->Porosidade(pm) << endl;
 				delete pm;
@@ -463,7 +465,6 @@ int main ( int argc, char *argv[] )
 				cout << "Deseja salvar resultados parciais em disco (entre com 1 para sim e 0 para não):" << endl;
 				cin >> salvarResultadosParciais;
 				cin.get(); // pega o enter
-				CAberturaDilatacao3D::SalvarResultadosParciais ( salvarResultadosParciais );
 				break;
 			}
 			case 18: {

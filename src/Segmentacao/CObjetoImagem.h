@@ -138,6 +138,7 @@ class CObjetoImagem
 				pontoCentral.x = _x;
 				pontoCentral.y = _y;
 				pontoCentral.z = _z;
+				pontoCentral.df = _df;
 			}
 		}
 

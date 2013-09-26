@@ -24,7 +24,7 @@ int main ( int argc, char *argv[] )
 	string nomeimg;
 	string linha = "---------------------------------------------\n";
 
-	enum EOpcao { 	Modelo_0 = 0, Modelo_1, Modelo_2, Modelo_3, Modelo_4,
+	enum EOpcao { 	Modelo_7 = 0, Modelo_8,// Modelo_9, Modelo_10, Modelo_11,
 									Erosao, Dilatacao, Abertura, Fechamento,
 									Porosidade, DistribuicaoTotalPoros, ImagemSintetica, Visualizar, PlotarGraficos, FTeste,
 									SAIR = 20
@@ -51,11 +51,11 @@ int main ( int argc, char *argv[] )
 		cout.width(20);
 		cout << "OPERACOES DA MORFOLOGIA MATEMATICA \n";
 		cout << linha+linha;
-		cout << "\t0  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 0 - Antigo/Artigo)\n";
-		cout << "\t1  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 1)\n";
-		cout << "\t2  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 2)\n";
-		cout << "\t3  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 3)\n";
-		cout << "\t4  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 4)\n";
+		cout << "\t0  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 7)\n";
+		cout << "\t1  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 8)\n";
+		//cout << "\t2  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 9)\n";
+		//cout << "\t3  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 10)\n";
+		//cout << "\t4  - Distribuicao Total Sitos e Ligacoes (método Abertura-Dilatacao3D Modelo 11)\n";
 		cout << "\n";
 		cout << "\t5  - Erosao\n";
 		cout << "\t6  - Dilatacao\n";
@@ -101,169 +101,7 @@ int main ( int argc, char *argv[] )
 		double porosidade;
 		Opcao = (EOpcao) iOpcao;
 		switch ( Opcao ) {
-			//                        case 0:
-			case Modelo_0: {
-				cout << "Selecionou método abertura-dilatacao 3D, determina distribuicao sitios e ligacoes, Modelo 0" << endl;
-				result = system("ls *.dbm");
-				cout << "Nome da imagem (nome.extensao): " << endl;
-				cin >> nomeimg;
-				cin.get(); // pega o enter
-				pm = new TCMatriz3D<bool>(nomeimg);
-				cout << "Carregou imagem->" << nomeimg << endl;
-
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacao." << endl;
-				if ( pm == NULL  || carac == NULL) {
-					cerr << "Falha alocação Matriz ou CAberturaDilatacao.\n" ;
-					exit(0);
-				}
-
-				cout << "Entre com o raioMaximoElementoEstruturante: " << endl;
-				cin >> raioMaximoElementoEstruturante ;
-				cin.get(); // pega o enter
-				carac->RaioMaximoElementoEstruturante( raioMaximoElementoEstruturante );
-
-				cout << "Entre com o fatorReducaoRaioElemEst: " << endl;
-				cin >> fatorReducaoRaioElemEst  ;
-				cin.get(); // pega o enter
-				carac->FatorReducaoRaioElemEst  ( fatorReducaoRaioElemEst  );
-
-				cout << "Entre com o incrementoRaioElementoEstruturante: " << endl;
-				cin >> incrementoRaioElementoEstruturante;
-				cin.get(); // pega o enter
-				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante  );
-
-				carac->Go(ZERO);
-
-				cout << "Calculou carac->DistSitiosLigacoes_Modelo_0()" << endl;
-				delete pm;
-				pm  = NULL;
-				delete carac;
-				carac = NULL;
-				break;
-			}//fim opcao5
-				//                        case 1:
-			case Modelo_1: {
-				cout << "Selecionou método abertura-dilatacao, determina distribuicao sitios e ligacoes, Modelo 1." << endl;
-				result = system("ls *.dbm");
-				cout << "Nome da imagem (nome.extensao): " << endl;
-				cin >> nomeimg;
-				cin.get(); // pega o enter
-				pm = new TCMatriz3D<bool>(nomeimg);
-				cout << "Carregou imagem->" << nomeimg << endl;
-
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacao." << endl;
-				if ( pm == NULL  || carac == NULL)
-				{
-					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
-					exit(0);
-				}
-
-				cout << "Entre com o raioMaximoElementoEstruturante: " << endl;
-				cin >> raioMaximoElementoEstruturante ;
-				cin.get(); // pega o enter
-				carac->RaioMaximoElementoEstruturante( raioMaximoElementoEstruturante );
-
-				cout << "Entre com o fatorReducaoRaioElemEst: " << endl;
-				cin >> fatorReducaoRaioElemEst  ;
-				cin.get(); // pega o enter
-				carac->FatorReducaoRaioElemEst  ( fatorReducaoRaioElemEst  );
-
-				cout << "Entre com o incrementoRaioElementoEstruturante: " << endl;
-				cin >> incrementoRaioElementoEstruturante  ;
-				cin.get(); // pega o enter
-				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante  );
-
-				carac->Go(UM);
-				cout << "Calculou carac->DistSitiosLigacoes_Modelo_1();." << endl;
-				delete pm;
-				pm  = NULL;
-				delete carac;
-				carac = NULL;
-				break;
-			}//fim opcao1
-				//                        case 2:
-			case Modelo_2: {
-				cout << "Selecionou Modelo 2!" << endl;
-				result = system("ls *.dbm");
-				cout << "Nome da imagem (nome.extensao): " << endl;
-				cin >> nomeimg;
-				cin.get(); // pega o enter
-				pm = new TCMatriz3D<bool>(nomeimg);
-				cout << "Carregou imagem->" << nomeimg << endl;
-
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacao3D." << endl;
-				if ( pm == NULL  || carac == NULL) {
-					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
-					exit(0);
-				}
-
-				cout << "Entre com o raioMaximoElementoEstruturante: " << endl;
-				cin >> raioMaximoElementoEstruturante;
-				cin.get(); // pega o enter
-				carac->RaioMaximoElementoEstruturante( raioMaximoElementoEstruturante );
-
-				cout << "Entre com o fatorReducaoRaioElemEst: " << endl;
-				cin >> fatorReducaoRaioElemEst;
-				cin.get(); // pega o enter
-				carac->FatorReducaoRaioElemEst( fatorReducaoRaioElemEst );
-
-				cout << "Entre com o incrementoRaioElementoEstruturante: " << endl;
-				cin >> incrementoRaioElementoEstruturante;
-				cin.get(); // pega o enter
-				carac->IncrementoRaioElementoEstruturante ( incrementoRaioElementoEstruturante );
-
-				carac->Go(DOIS);
-				cout << "Calculou carac->DistSitiosLigacoes_Modelo_2()" << endl;
-				delete pm;
-				pm  = NULL;
-				delete carac;
-				carac = NULL;
-				break;
-			}//fim opcao2
-				//                        case 3:
-			case Modelo_3: {
-				cout << "Selecionou Modelo 3." << endl;
-				result = system("ls *.dbm");
-				cout << "Nome da imagem (nome.extensao): " << endl;
-				cin >> nomeimg;
-				cin.get(); // pega o enter
-				pm = new TCMatriz3D<bool>(nomeimg);
-				cout << "Carregou imagem->" << nomeimg << endl;
-
-				carac = new CAberturaDilatacao3D(pm,nomeimg);
-				cout << "Criou objeto CAberturaDilatacao." << endl;
-				if ( pm == NULL  || carac == NULL) {
-					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
-					exit(0);
-				}
-
-				cout << "Entre com o raioMaximoElementoEstruturante: " << endl;
-				cin >> raioMaximoElementoEstruturante;
-				cin.get(); // pega o enter
-				carac->RaioMaximoElementoEstruturante( raioMaximoElementoEstruturante );
-
-				cout << "Entre com o fatorReducaoRaioElemEst: " << endl;
-				cin >> fatorReducaoRaioElemEst;
-				cin.get(); // pega o enter
-				carac->FatorReducaoRaioElemEst( fatorReducaoRaioElemEst );
-
-				cout << "Entre com o incrementoRaioElementoEstruturante:" << endl;
-				cin >> incrementoRaioElementoEstruturante;
-				cin.get(); // pega o enter
-				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
-
-				carac->Go(TRES);
-				cout << "Calculou carac->DistSitiosLigacoes_Modelo_3();." << endl;
-				delete pm;
-				pm  = NULL;
-				delete carac;
-				carac = NULL;
-				break;
-			}//fim opcao3
-			case Modelo_4: {//                        case 4:
+			case Modelo_7: {//                        case 4:
 				cout << "Selecionou Modelo 4." << endl;
 				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
@@ -294,7 +132,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				carac->IncrementoRaioElementoEstruturante( incrementoRaioElementoEstruturante );
 
-				carac->Go(QUATRO);
+				carac->Go(SETE);
 
 				ostringstream os;
 				os.str("");
@@ -312,7 +150,7 @@ int main ( int argc, char *argv[] )
 				delete carac;
 				carac = NULL;
 				break;
-			}//fim opcao4
+			}//fim opcao0
 			case 5: {
 				cout << "Selecionou erosao." << endl;
 				result = system("ls *.dbm");

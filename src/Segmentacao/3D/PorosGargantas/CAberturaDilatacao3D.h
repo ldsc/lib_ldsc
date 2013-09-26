@@ -22,7 +22,7 @@ struct Ponto {
 };
 
 /// Enumera os modelos de segmentação disponíveis
-enum EModelo { ZERO=0, UM=1, DOIS=2, TRES=3, QUATRO=4, CINCO=5, SEIS=6, SETE=7, OITO=8 };
+enum EModelo { SETE=7, OITO=8, NOVE=9 };
 
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
@@ -184,32 +184,14 @@ class CAberturaDilatacao3D
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
 		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
 
-		/// Determina distribuicao de sitios e ligacoes (método novo) modelo 0 (Anaimp)
-		void DistSitiosLigacoes_Modelo_0();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 1)
-		void DistSitiosLigacoes_Modelo_1();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 2)
-		void DistSitiosLigacoes_Modelo_2();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 3)
-		void DistSitiosLigacoes_Modelo_3();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 4)
-		void DistSitiosLigacoes_Modelo_4();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 5)
-		void DistSitiosLigacoes_Modelo_5();
-
-		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 6)
-		void DistSitiosLigacoes_Modelo_6();
-
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
 		void DistSitiosLigacoes_Modelo_7();
 
-		/// Determina distribuicao de sitios e ligacoes (baseado no modelo 7, tenta corrigir bug na identificação dos poros)
+		/// Determina distribuicao de sitios e ligacoes (Não utiliza porosidade como condição de parada; Zera matriz de objetos e reconstroe para posteriormente poder ser salva em disco.).
 		void DistSitiosLigacoes_Modelo_8();
+
+		/// Determina distribuicao de sitios e ligacoes (Tentativa de reaproveitamento da matrizObjetos).
+		void DistSitiosLigacoes_Modelo_9();
 };
 
 #endif

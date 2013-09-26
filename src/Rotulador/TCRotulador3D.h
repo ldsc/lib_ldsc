@@ -40,9 +40,7 @@
  *  @see	Rotulagem
 */
 template<typename T>
-class TCRotulador3D : public CRotulador, public TCMatriz3D<int>
-{
-
+class TCRotulador3D : public CRotulador, public TCMatriz3D<int> {
 		// --------------------------------------------------------------Atributos
 	public:
 		/// Se ativo usa rotulagem 3D, se inativo usa 3D a partir de 2D

@@ -88,6 +88,12 @@ class CAberturaDilatacao3D
 		/// Destrutor
 		~CAberturaDilatacao3D();
 
+		/// Cria matriz de objetos do tipo CObjetoImagem
+		map<int,CObjetoImagem> matrizObjetos;
+
+		/// Declara iterator para a matrizObjetos
+		map<int,CObjetoImagem>::iterator it;
+
 		/// Salva vetor em disco
 		void Salvar(std::vector<double> v, std::string nomeArquivo);
 
@@ -149,11 +155,11 @@ class CAberturaDilatacao3D
 		/// Determina distribuicao Total de Poros (método normal)
 		void DistTotalPoros();
 
-		/** Recebe nome do arquivo e ponteiro para duas matrizes do tipo bool.
-		*		Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
-		*		Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
-		*/
+		/// Grava em disco, com o nome informado, a mesclagem da matrizSitios com a matrizLigacoes
 		bool Write(string fileName);
+
+		/// Grava em disco, com o nome informado, os objetos identificados.
+		bool SalvarListaObjetos(string fileName);
 
 		/// Realiza a segmentação de poros e gargantas através do modelo informado.
 		void Go( EModelo _modelo );

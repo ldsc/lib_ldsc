@@ -293,6 +293,7 @@ TCMatriz3D<T> * TCFEMMIDF3D<T>::Abertura (TCMatriz3D<T> * &matriz, unsigned int 
 	int raio = maskd->RaioX ();
 	int raioBolaTangente = maskd->RaioBolaTangente ();
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
+	//cout << "Raio da bola: " << raio << " Raio da bola tangente: " << raioBolaTangente << " Raio da bola inclusa: " << raioBolaInclusa << endl;
 	int rmx;			// raio mais x, raio+x
 	int rmy;			//
 	int rmz;			//

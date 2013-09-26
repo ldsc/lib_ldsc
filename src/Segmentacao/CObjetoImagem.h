@@ -21,6 +21,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 #include <set>
 #include <string>
+#include <fstream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
@@ -31,7 +32,23 @@ Desenvolvido por:
  * O tipo indica se é um sólido, poro, sitio, ligação ou Ramo_Morto.
 	@author Andre Duarte Bueno - <andreduartebueno@gmail.com>
 */
-enum ETipoObjetoImagem { SOLIDO = 0, PORO = 1, SITIO = 2, LIGACAO = 3, RAMO_MORTO = 4, NAO_IDENTIFICADO = 5 };
+enum ETipoObjetoImagem {
+	SOLIDO = 0,
+	PORO = 1,
+	SITIO = 2,
+	LIGACAO = 3,
+	RAMO_MORTO = 4,
+	NAO_IDENTIFICADO = 5
+};
+
+struct SPontoCentral {
+		unsigned int x;
+		unsigned int y;
+		unsigned int z;
+		unsigned int df; //distância ao fundo.
+};
+
+using namespace std;
 
 class CObjetoImagem
 {
@@ -40,28 +57,32 @@ class CObjetoImagem
 		/// Identifica o tipo do objeto
 		ETipoObjetoImagem  tipo;
 
-		// /// Rotulo que identifica o objeto
-		//int rotulo;
-
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs;
 
 		/// Set das conecções
 		std::set< int > sConexao;
+	public:
+		/// Identifica o voxel central do objeto
+		SPontoCentral pontoCentral;
 
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), numObjs(0), sConexao()
-//CObjetoImagem(): tipo( NAO_IDENTIFICADO ), rotulo(0), numObjs(0), sConexao()
-		{}
+		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), numObjs(0), sConexao()	{
+			pontoCentral.x = 0;
+			pontoCentral.y = 0;
+			pontoCentral.z = 0;
+			pontoCentral.df = 0;
+		}
 
 		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) 	// std::vector< int > _v = 0 )
-			: tipo( _t ), numObjs( _n ), sConexao()
-		//CObjetoImagem( ETipoObjetoImagem _t , int _r, int _n=0) 	// std::vector< int > _v = 0 )
-		//	: tipo( _t ), rotulo( _r ), numObjs( _n ), sConexao()
-		{}
+		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) : tipo( _t ), numObjs( _n ), sConexao() {
+			pontoCentral.x = 0;
+			pontoCentral.y = 0;
+			pontoCentral.z = 0;
+			pontoCentral.df = 0;
+		}
 
 		/// Destrutor
 		~CObjetoImagem() {}
@@ -70,6 +91,9 @@ class CObjetoImagem
 		bool Conectar( int _rotulo ) {
 			return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 		}
+
+		/// Grava as informações do objeto no arquivo recebido como parâmetro.
+		void GravarObjeto(ofstream &_fout);
 
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
@@ -108,8 +132,14 @@ class CObjetoImagem
 		/// Seta o número de objetos
 		inline void NumObjs(int _n) { numObjs = _n; }
 
-		// /// Seta o tipo de objeto a partir de uma string
-		// inline void Tipo ( std::string _tipo );
+		/// Seta o ponto central se o valor de df informado for maior que o atual.
+		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {
+			if ( _df > pontoCentral.df ) {
+				pontoCentral.x = _x;
+				pontoCentral.y = _y;
+				pontoCentral.z = _z;
+			}
+		}
 
 		/// Operador que incrementa o número de objetos representados
 		inline CObjetoImagem &operator++() { ++numObjs; return *this;}

@@ -13,18 +13,24 @@ Desenvolvido por:
 						see  $LICENSEFILE$ for the full license text.
 */
 
-// -----------------------------------------------------------------------
-// Bibliotecas C/C++
-// -----------------------------------------------------------------------
-
-// -----------------------------------------------------------------------
-// Bibliotecas libldsc
-// -----------------------------------------------------------------------
 #include <Segmentacao/CObjetoImagem.h>
 
-// ---------------------------------------------------Construtor-Destrutor
+/// Grava as informações do objeto no arquivo recebido como parâmetro.
+void CObjetoImagem::GravarObjeto(ofstream &_fout) {
+	// X\tY\tZ\tNum. Voxeis\tNum. Objs. Conectados\tLista Objs. Conectados
+	_fout << pontoCentral.x << "\t";
+	_fout << pontoCentral.y << "\t";
+	_fout << pontoCentral.z << "\t";
+	_fout << numObjs;
+	std::set<int>::iterator itr;
+	for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
+		_fout << "\t" << *itr;
+	}
+	_fout << endl;
+}
 
-/// Retorna tipo de objeto como uma string
+
+// Retorna tipo de objeto como uma string
 /*
 std::string CObjetoImagem::Tipo()
 {

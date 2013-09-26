@@ -73,12 +73,12 @@ bool CSegPorosGargantas3D::Write(string fileName, TCMatriz3D<bool>* &mat1, TCMat
 		for (int k = 0; k < nz; k++) {
 			for (int j = 0; j < ny; j++) {
 				for (int i = 0; i < nx; i++) {
-					if( mat2->data3D[i][j][k] == INDICE )				// se o voxel for índice em mat2
-						fout << (unsigned char) 2; //ligação
-					else if( mat1->data3D[i][j][k] == INDICE )	// senão, se o voxel for índice em mat1
-						fout << (unsigned char) 1; //sítio
-					else																			// senão, só pode ser fundo
-						fout << (unsigned char) 0; //fundo
+					if( mat1->data3D[i][j][k] == INDICE )	// se o voxel for índice em mat1 (SÍTIO)
+						fout << (unsigned char) 1; //SÍTIO
+					else if( mat2->data3D[i][j][k] == INDICE ) // senão, se o voxel for índice em mat2 (LIGACAO)
+						fout << (unsigned char) 2; //LIGACAO
+					else // senão, só pode ser fundo
+						fout << (unsigned char) 0; //FUNDO
 				}
 			}
 		}
@@ -130,8 +130,8 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > CSegPorosGargantas3D::Go(int _mod
 */
 pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	// Variáveis auxiliares
-	double timing, totaltiming = omp_get_wtime();
 	ostringstream os;
+	double timing, totaltiming = omp_get_wtime();
 	int nObjetosAntesAbertura = 0;	// número de objetos existentes na matriz pm antes de sofrer a abertura
 	int nObjetosDepoisAbertura = 0;	// número de objetos existentes na matriz pm depois de sofrer a abertura
 	int nObjetosAberturaComplementar = 0; //número de objetos existentes na matriz complementar da matriz abertura
@@ -154,24 +154,20 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
 	matrizSitios->Constante( FUNDO );
 
-	// Cria matriz abertura, cópia de pm.
-	//TCMatriz3D<bool>* matrizAbertura = NULL;
-	//matrizAbertura->SetFormato( D1_X_Y_Z_ASCII );
-
 	cout << "==>Criando IRA...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 	TCFEMMIRA3D<bool> *pfira = new TCFEMMIRA3D<bool>( pm, INDICE, FUNDO );
 	pmira = pfira->Go();
 	delete pfira;
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	// Rotula matrizRotulo;
-	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	matrizRotulo = new CRotuladorIRA3D( pmira );
-	matrizRotulo->Go( pmira, 0 );
-	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
-
 	// Calcula a porosidade na matrizAbertura;
 	porosidade = Porosidade( pmira, 0 );
+
+	// Rotula matrizRotulo;
+	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	matrizRotulo = new CRotuladorIRA3D( pmira, INDICE, FUNDO );
+	matrizRotulo->Go( pmira, 0 );
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
 
@@ -199,13 +195,6 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 				rotuloijk = matrizRotulada->data3D[i][j][k];
 				if(rotuloijk == 0) {
 					++(matrizObjetos[0]);
-				} else {
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()) { // O elemento já  existe, apenas incrementa.
-						++(it->second);
-					} else { // Não encontrou o elemento, então cria.
-						matrizObjetos[rotuloijk] = CObjetoImagem(PORO, 1);
-					}
 				}
 			}
 		}
@@ -218,7 +207,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
 
 		// Atualizando porosidade
-		porosidade = Porosidade( pmira, raioEE );// nX
+		porosidade = Porosidade( pmira, raioEE );
 
 		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( pmira, raioEE );//rotula nX
@@ -263,7 +252,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		}
 		// O complemento da abertura corresponde a: (0 < pmira[i][j][k] <= raioEE)
 		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
-		matrizRotulo->Go( pmira, -raioEE, raioEE-1 ); //quando o raio é negativo rotula o complemento da abertura
+		matrizRotulo->Go( pmira, -raioEE, raioEE-1, matrizLigacoes ); //quando o raio é negativo rotula o complemento da abertura
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 		//os.str(""); os << "MatrizComplementoAbertura_" << raioEE << ".dbm";
@@ -279,7 +268,7 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
 					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo acrescido do número de objetos antes da abertura para a matrizRotulada
-					if ( pmira->data3D[i][j][k] > 0 && pmira->data3D[i][j][k] <= raioEE ) {
+					if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE and matrizLigacoes->data3D[i][j][k] == FUNDO) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
 						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
 						rotuloijk = matrizRotulada->data3D[i][j][k];
@@ -383,33 +372,33 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
 		cout << "-->Identificando sitios e ligações..." << endl ;
-//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
 					// a abertura complementar tem RAMOs_MORTOs e LIGACOES
-					if ( pmira->data3D[i][j][k] > 0 && pmira->data3D[i][j][k] <= raioEE ) {
+					if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE  and matrizLigacoes->data3D[i][j][k] == FUNDO) {
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
 							matrizLigacoes->data3D[i][j][k] = INDICE;
+							matrizSitios->data3D[i][j][k] = FUNDO;
 						}else{
 							matrizObjetos[rotuloijk].Tipo( SITIO );
 							matrizSitios->data3D[i][j][k] = INDICE;
+							matrizLigacoes->data3D[i][j][k] = FUNDO;
 						}
 					}
 				}
 			}
 		}
 
-		/*
-		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
-		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+//		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
+//		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
+//		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
+//		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
-		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
-		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
-		*/
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;
@@ -418,20 +407,18 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
 
-	cout << "==>Corrigindo sítios..." << endl ;
-//#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	cout << "==>Corrigindo sítios e ligações..." << endl ;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {
 				if( pm->data3D[i][j][k] == FUNDO) {
 					matrizSitios->data3D[i][j][k] = FUNDO;
-					/*
 					matrizLigacoes->data3D[i][j][k] = FUNDO;
-				} else if ( matrizSitios->data3D[i][j][k] == FUNDO ) {
-					matrizLigacoes->data3D[i][j][k] = INDICE;
+				} else if ( matrizSitios->data3D[i][j][k] == INDICE ) {
+					matrizLigacoes->data3D[i][j][k] = FUNDO;
 				} else {
-					matrizLigacoes->data3D[i][j][k] = FUNDO;
-					*/
+					matrizLigacoes->data3D[i][j][k] = INDICE;
 				}
 			}
 		}

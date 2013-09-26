@@ -13,9 +13,15 @@ email:            puerari@gmail.com
 /* Executa toda a sequencia de rotulagem considerando o raio para abertura (ra) informado
  * e desconsiderando objetos com raio para abertura menor que rmin.
 */
-bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra, unsigned int _rmin) {
+bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra, unsigned int _rmin, TCMatriz3D<bool> * _matSub ) {
 	ra = _ra;
 	rmin = _rmin;
+	matSub = _matSub;
+	if (matSub!=NULL)
+		if (matriz->NX()>matSub->NX() or matriz->NY()>matSub->NY() or matriz->NZ()>matSub->NZ()) {
+			cerr << "Matrizes com tamanhos diferentes em CRotuladorIRA3D::Go" << endl;
+			return false;
+		}
 	return TCRotulador3D<int>::Go(matriz);
 	rmin = 0;
 }
@@ -64,14 +70,25 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 						this->data3D[i][j][k] = 0;
 	} else { // ra negativo - irá considerar o complemento da abertura.
 		int rat = -1 * ra; //multiplica por -1 para ficar positivo
-		#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
-		for ( k = 0; k < this->nz; k++ )
-			for ( j = 0; j < this->ny; j++ )
-				for ( i = 0; i < this->nx; i++ )
-					if (this->pm->data3D[i][j][k] > rmin && this->pm->data3D[i][j][k] <= rat)
-						this->data3D[i][j][k] = 1;	// Define this com 0 e 1
-					else
-						this->data3D[i][j][k] = 0;
+		if (matSub == NULL) {
+			#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+			for ( k = 0; k < this->nz; k++ )
+				for ( j = 0; j < this->ny; j++ )
+					for ( i = 0; i < this->nx; i++ )
+						if (this->pm->data3D[i][j][k] > rmin && this->pm->data3D[i][j][k] <= rat)
+							this->data3D[i][j][k] = 1;	// Define this com 0 e 1
+						else
+							this->data3D[i][j][k] = 0;
+		} else {
+			#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+			for ( k = 0; k < this->nz; k++ )
+				for ( j = 0; j < this->ny; j++ )
+					for ( i = 0; i < this->nx; i++ )
+						if (matSub->data3D[i][j][k]==FUNDO && this->pm->data3D[i][j][k] > rmin && this->pm->data3D[i][j][k] <= rat)
+							this->data3D[i][j][k] = 1;	// Define this com 0 e 1
+						else
+							this->data3D[i][j][k] = 0;
+		}
 	}
 
 	// NOVO Versão 7

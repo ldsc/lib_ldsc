@@ -66,7 +66,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 #include_directories (${PATH_LIB_LDSC})
 include_directories(${LIBLDSC_SOURCE_DIR}/src/)
-link_directories(${LIBLDSC_SOURCE_DIR}/lib/)
+link_directories(${LIBLDSC_SOURCE_DIR}/)
 
 #message(FATAL_ERROR \${CMAKE_BUILD_TYPE}=${CMAKE_BUILD_TYPE})
 add_subdirectory(src)
@@ -74,4 +74,4 @@ add_subdirectory(test)
 add_subdirectory(demo)
 
 # Create libldsc executable.
-add_executable(libldsc src/libldsc.cpp)
+#add_executable(libldsc src/libldsc.cpp)

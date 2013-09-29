@@ -12,6 +12,7 @@
 *.dgm
 cvs
 libldsc.a
+libldsc.so
 CMakeFiles
 libldsc
 Makefile

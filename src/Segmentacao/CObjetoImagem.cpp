@@ -17,34 +17,39 @@ Desenvolvido por:
 
 /// Grava as informações do objeto no arquivo recebido como parâmetro.
 void CObjetoImagem::GravarObjeto(ofstream &_fout) {
-	// X\tY\tZ\tN.Voxeis\tN.ObjsCon\tLstObjsCons
-	_fout << pontoCentral.x << "\t";
-	_fout << pontoCentral.y << "\t";
-	_fout << pontoCentral.z << "\t";
-	_fout << numObjs << "\t";
-	_fout << sConexao.size();
+	// X    Y    Z    Tipo N.Voxeis N.ObjsCon LstObjsCons
+	_fout << std::left << std::setw(5) << pontoCentral.x;
+	_fout << std::left << std::setw(5) << pontoCentral.y;
+	_fout << std::left << std::setw(5) << pontoCentral.z;
+	_fout << std::left << std::setw(5) << Tipo();
+	_fout << std::left << std::setw(9) << numObjs;
+	_fout << std::left << std::setw(9) << sConexao.size();
 	std::set<int>::iterator itr;
 	for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
-		_fout << "\t" << *itr;
+		_fout << " " << *itr;
 	}
 	_fout << endl;
 }
 
 
 // Retorna tipo de objeto como uma string
-/*
-std::string CObjetoImagem::Tipo()
-{
-	switch ( tipo )
-	{
-		case SOLIDO: 		return "Solido";
-		case SITIO: 		return "Sitio";
-		case LIGACAO: 		return "Ligacao";
-		case RAMO_MORTO: 	return "Ramo_Morto";
-		default: 		return "Não identificado";
+std::string CObjetoImagem::StrTipo() {
+	switch ( tipo ) {
+		case SITIO:
+			return "Sítio";
+		case LIGACAO:
+			return "Ligação";
+		case SOLIDO:
+			return "Sólido";
+		case PORO:
+			return "Poro";
+		case RAMO_MORTO:
+			return "Ramo_Morto";
+		default:
+			return "Não_Identificado";
 	}
 }
-*/
+
 /*
 /// Seta o tipo de objeto a partir de uma string
 void CObjetoImagem::Tipo ( std::string _tipo )

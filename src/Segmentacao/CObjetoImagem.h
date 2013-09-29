@@ -22,6 +22,7 @@ Desenvolvido por:
 #include <set>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
@@ -102,8 +103,8 @@ class CObjetoImagem
 		// Retorna o número de obejtos representados
 		inline int NumObjs() { return numObjs; }
 
-		// Retorna tipo de objeto como uma string
-		// inline std::string Tipo() ;
+		/// Retorna tipo de objeto como uma string
+		inline std::string StrTipo();
 
 		// Retorna tipo de objeto como um int
 		// inline int Tipo() { return (int) tipo; };

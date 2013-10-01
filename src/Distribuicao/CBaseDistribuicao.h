@@ -27,51 +27,51 @@ using namespace std;
 
 class CBaseDistribuicao
 {
-   //Atributos
-public:
-   /// Enumera os tipos de distribuição que podem ser calculadas.
-	 enum Tipos { dtp, dts, dtg };
+		//Atributos
+	public:
+		/// Enumera os tipos de distribuição que podem ser calculadas.
+		enum Tipos { dtp, dts, dtg };
 
-   /// Caminho onde o arquivo distribuição será salvo.
-   string path;
+		/// Caminho onde o arquivo distribuição será salvo.
+		string path;
 
-protected:
-   /// Vetor distribuição
-   vector<double> distribuicao;
+	protected:
+		/// Vetor distribuição
+		vector<double> distribuicao;
 
-   /// Área dos objetos (poros ou sólidos)
-   double objetos;
+		/// Área dos objetos (poros ou sólidos)
+		double objetos;
 
-   Tipos tipo;
+		Tipos tipo;
 
-   // Construtores / Destrutor
-public:
-	/// Construtor default
-   CBaseDistribuicao () : path("./") {
-		distribuicao.clear();
-      objetos = 0.0;
-	}
+		// Construtores / Destrutor
+	public:
+		/// Construtor default
+		CBaseDistribuicao () : path("./") {
+			distribuicao.clear();
+			objetos = 0.0;
+		}
 
-	/// Destrutor
-   ~ CBaseDistribuicao () {}
+		/// Destrutor
+		~ CBaseDistribuicao () {}
 
-   // Métodos
-public:
-	/// Recebe lista de arquivos distribuição, cálcula a média das curvas e armazena os valores no vetor distribuição
-   bool Media (set<string> filesName, Tipos _tipo=dts);
+		// Métodos
+	public:
+		/// Recebe lista de arquivos distribuição, cálcula a média das curvas e armazena os valores no vetor distribuição
+		bool Media (set<string> filesName, Tipos _tipo=dts);
 
-   /// Salva em disco os dados de distribuição (.dtp ou .dts).
-   bool Write (string fileName);
+		/// Salva em disco os dados de distribuição (.dtp ou .dts).
+		bool Write (string fileName);
 
-protected:
-   /// Salva em disco os dados de distribuição de tamanho de poros (.dtp)
-   void WriteDTP (ofstream & fout);
+	protected:
+		/// Salva em disco os dados de distribuição de tamanho de poros (.dtp)
+		void WriteDTP (ofstream & fout);
 
-   /// Salva em disco os dados de distribuição de tamanho de sólidos (.dts)
-   void WriteDTS (ofstream & fout);
+		/// Salva em disco os dados de distribuição de tamanho de sólidos (.dts)
+		void WriteDTS (ofstream & fout);
 
-	 /// Salva em disco os dados de distribuição de tamanho de gargantas (.dtg)
-	 void WriteDTG (ofstream & fout);
+		/// Salva em disco os dados de distribuição de tamanho de gargantas (.dtg)
+		void WriteDTG (ofstream & fout);
 
 };
 

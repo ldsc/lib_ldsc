@@ -76,12 +76,15 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 					// RA = 3, se (7  <= df <=  9);
 					// RA = 4, se (10 <= df <= 12); ...
 					//Calcula valor do raio abertura (ra) de acordo com a df do pixel analizado;
-					dft = df-1;
-					do {
+					dft = df;
+					while ( (dft % 3) != 0 )
 						++dft;
-						ra = ( (dft % 3) == 0 ) ? dft/3 : 0;
-					} while ( (dft % 3) != 0 );
-
+					ra = dft/3;
+//					dft = df-1;
+//					do {
+//						++dft;
+//						ra = ( (dft % 3) == 0 ) ? dft/3 : 0;
+//					} while ( (dft % 3) != 0 );
 					// Verifica se existe mascara de raio ra. Se não existir cria...
 					it = vmask.find(ra);
 					if( it == vmask.end() ) { // A mascara ainda não foi criada
@@ -190,11 +193,10 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 					// RA = 3, se (7  <= df <=  9);
 					// RA = 4, se (10 <= df <= 12); ...
 					//Calcula valor do raio abertura (ra) de acordo com a df do pixel analizado;
-					dft = df-1;
-					do {
+					dft = df;
+					while ( (dft % 3) != 0 )
 						++dft;
-						ra = ( (dft % 3) == 0 ) ? dft/3 : 0;
-					} while ( (dft % 3) != 0 );
+					ra = dft/3;
 
 					// Verifica se existe mascara de raio ra. Se não existir cria...
 					it = vmask.find(ra);

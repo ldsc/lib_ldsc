@@ -100,7 +100,15 @@ class CObjetoImagem
 		/// Retorna tipo de objeto
 		inline ETipoObjetoImagem Tipo() { return tipo; }
 
-		// Retorna o número de obejtos representados
+		/// Calcula e retorna o raio de acordo com a distância ao fundo do centro de massa do objeto
+		inline int Raio() { // RA = 1, se (3); RA = 2, se (4  <= df <=  6); RA = 3, se (7  <= df <=  9); RA = 4, se (10 <= df <= 12); ...
+			int dft = pontoCentral.df;
+			while ( (dft % 3) != 0 )
+				++dft;
+			return (dft/3)-1;
+		}
+
+		/// Retorna o número de obejtos representados
 		inline int NumObjs() { return numObjs; }
 
 		/// Retorna tipo de objeto como uma string

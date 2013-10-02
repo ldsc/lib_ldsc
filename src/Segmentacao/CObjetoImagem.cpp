@@ -17,10 +17,11 @@ Desenvolvido por:
 
 /// Grava as informações do objeto no arquivo recebido como parâmetro.
 void CObjetoImagem::GravarObjeto(ofstream &_fout) {
-	// X    Y    Z    Tipo N.Voxeis N.ObjsCon LstObjsCons
+	// X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons
 	_fout << std::left << std::setw(5) << pontoCentral.x;
 	_fout << std::left << std::setw(5) << pontoCentral.y;
 	_fout << std::left << std::setw(5) << pontoCentral.z;
+	_fout << std::left << std::setw(5) << Raio();
 	_fout << std::left << std::setw(5) << Tipo();
 	_fout << std::left << std::setw(9) << numObjs;
 	_fout << std::left << std::setw(9) << sConexao.size();

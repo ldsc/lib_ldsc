@@ -190,6 +190,7 @@ bool CAberturaDilatacao3D::SalvarListaObjetos(string fileName){
 		ofstream fout; //  Abre arquivo disco
 		fout.open(fileName.c_str());
 		if (fout.good()){
+			fout << "# " << matrizObjetos.size() << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
 			fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
 			for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
 				fout << std::left << std::setw(6) << it->first;

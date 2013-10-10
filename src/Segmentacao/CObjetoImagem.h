@@ -143,7 +143,7 @@ class CObjetoImagem
 
 		/// Seta o ponto central se o valor de df informado for maior que o atual.
 		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {
-			if ( _df > pontoCentral.df ) {
+			if ( _df >= pontoCentral.df ) {
 				pontoCentral.x = _x;
 				pontoCentral.y = _y;
 				pontoCentral.z = _z;

@@ -105,7 +105,7 @@ class CObjetoImagem
 			int dft = pontoCentral.df;
 			while ( (dft % 3) != 0 )
 				++dft;
-			return (dft/3)-1;
+			return (dft/3);
 		}
 
 		/// Retorna o número de obejtos representados

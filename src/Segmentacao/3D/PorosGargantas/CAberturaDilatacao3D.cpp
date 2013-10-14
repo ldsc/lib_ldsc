@@ -257,9 +257,6 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 		cout << "==>Rotulando a matrizSitios..." << endl ;
 		matrizRotulo->Go(matrizSitios);
 
-		// Cria matriz que irá acumular os rótulos identificados (cópia de matrizRotulo)
-		TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
-
 		cout << "==>Determinando IDF da matrizSitios..." << endl ;
 		pfmf->Go(matrizSitios);
 
@@ -287,65 +284,65 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 			}
 		}
 
+		// Cria matriz que irá acumular os rótulos identificados (inicialmente é cópia de matrizRotulo)
+		TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
+
 		cout << "==>Rotulando a matrizLigacoes..." << endl ;
 		matrizRotulo->Go(matrizLigacoes);
 
 		cout << "==>Determinando IDF da matrizLigacoes..." << endl ;
 		pfmf->Go(matrizLigacoes);
 
+		int numObjs_1 = numObjs-1;
 		cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem das ligações..." << endl ;
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
-					rotulo  = matrizRotulada->data3D[i][j][k];
-					if (rotulo > 0) {
-						matrizRotulo->data3D[i][j][k] = rotulo; //recebe o rótulo dos sítios
-					} else {
-						rotulo = matrizRotulo->data3D[i][j][k];
-						if ( rotulo > 0 ) { //só entra se for diferente de fundo, ou seja, neste caso, maior que numObjs
-							rotulo += numObjs-1;
-							matrizRotulo->data3D[i][j][k] = rotulo; // para que matrizRotulo tenha todos rotulos de todos os objetos de forma sequencial
-							it = matrizObjetos.find(rotulo);
-							if(it != matrizObjetos.end()){  // o elemento foi encontrado
-								++(it->second);							// incrementa o número de objetos representados
-							}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-								matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
-							}
-							it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+					rotulo = matrizRotulo->data3D[i][j][k];
+					if ( rotulo > 0 ) { //só entra se for diferente de fundo, ou seja, neste caso, maior que numObjs
+						rotulo = rotulo + numObjs_1;
+						matrizRotulo->data3D[i][j][k] = rotulo; // para que os rótulos sejam sequenciais
+						it = matrizObjetos.find(rotulo);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
 						}
+						it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
 					}
 				}
 			}
 		}
 
-		// Libera memória
-		delete matrizRotulada;
+		//salvando em disco
+		matrizLigacoes->Write("MatrizLigacoes.dbm");
+		matrizSitios->Write("MatrizSitios.dbm");
+		matrizRotulo->Write("MatrizLigacoesRotulada.dgm");
+		matrizRotulada->Write("MatrizSitiosRotulada.dgm");
 
-		// Aqui matrizRotulo possui o rotulo de todos os objetos.
 		// Realizar conexões entre os objetos.
 		for ( i = 0; i < (nx-1); ++i) {
 			for ( j = 0; j < (ny-1); ++j) {
 				for ( k = 0; k < (nz-1); ++k) {
 					rotulo = matrizRotulo->data3D[i][j][k];
-					// Só devemos considerar os rotulos do complemento da abertura
 					if ( rotulo	> 0 ) {
 						it = matrizObjetos.find(rotulo);
-						rip1 = matrizRotulo->data3D[i+1][j][k];
-						rjp1 = matrizRotulo->data3D[i][j+1][k];
-						rkp1 = matrizRotulo->data3D[i][j][k+1];
+						rip1 = matrizRotulada->data3D[i+1][j][k];
+						rjp1 = matrizRotulada->data3D[i][j+1][k];
+						rkp1 = matrizRotulada->data3D[i][j][k+1];
 
-						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
-						if ( rip1 > 0 and rotulo != rip1 ) {
+						// Se os rotulos não representam sólido, e o vizinho é um sítio, então, marca a conexão.
+						if ( rip1 > 0 ) {
 							itt = matrizObjetos.find(rip1);
 							itt->second.Conectar( rotulo );
 							it->second.Conectar( rip1 );
 						}
-						if ( rjp1 > 0 and rotulo != rjp1 ) {
+						if ( rjp1 > 0 ) {
 							itt = matrizObjetos.find(rjp1);
 							itt->second.Conectar( rotulo );
 							it->second.Conectar( rjp1 );
 						}
-						if ( rkp1 > 0 and rotulo != rkp1 ) {
+						if ( rkp1 > 0 ) {
 							itt = matrizObjetos.find(rkp1);
 							itt->second.Conectar( rotulo );
 							it->second.Conectar( rkp1 );
@@ -354,6 +351,8 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 				}
 			}
 		}
+		// Libera memória
+		delete matrizRotulada;
 	}
 }
 

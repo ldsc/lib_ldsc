@@ -14,15 +14,8 @@
 
 using namespace std;
 
-struct Ponto {
-		int df; ///<Distância ao fundo.
-		int i; ///<Posição do ponto em x.
-		int j; ///<Posição do ponto em y.
-		int k; ///<Posição do ponto em z.
-};
-
 /// Enumera os modelos de segmentação disponíveis
-enum EModelo { SETE=7, OITO=8, NOVE=9 };
+enum EModelo { SETE=7, OITO=8, NOVE=9, DEZ=10 };
 
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
@@ -202,6 +195,9 @@ class CAberturaDilatacao3D
 
 		/// Determina distribuicao de sitios e ligacoes (Tentativa de reaproveitamento da matrizObjetos).
 		void DistSitiosLigacoes_Modelo_9();
+
+		/// Determina distribuicao de sitios e ligacoes (Executa dilatação em cada passo).
+		void DistSitiosLigacoes_Modelo_10();
 };
 
 #endif

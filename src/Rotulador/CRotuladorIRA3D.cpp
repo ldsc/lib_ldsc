@@ -59,7 +59,7 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 
 	// Seta a matriz this de acordo com a imagem original
 	int i, j, k;
-	if (ra >= 0) {
+	if (ra >= 0) { // ra positivo - considera todos os valores maiores que ra
 		#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( k = 0; k < this->nz; k++ )
 			for ( j = 0; j < this->ny; j++ )
@@ -70,7 +70,7 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 						this->data3D[i][j][k] = 0;
 	} else { // ra negativo - irá considerar o complemento da abertura.
 		int rat = -1 * ra; //multiplica por -1 para ficar positivo
-		if (matSub == NULL) {
+		if (matSub == NULL) { // não foi imformada matriz a ser subtraida, logo, considera toda a imagem
 			#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 			for ( k = 0; k < this->nz; k++ )
 				for ( j = 0; j < this->ny; j++ )

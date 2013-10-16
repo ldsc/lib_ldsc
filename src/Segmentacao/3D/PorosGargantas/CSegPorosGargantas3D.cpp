@@ -5,37 +5,39 @@
 
 using namespace std;
 
-bool CSegPorosGargantas3D::salvarResultadosParciais = 0;
-
-CSegPorosGargantas3D::CSegPorosGargantas3D( TCMatriz3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
+CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indice, int _fundo)
 	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
-		nomeImagem(_nomeImagem),
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
-		incrementoRaioElementoEstruturante ( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo)
+		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo),
+		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
-	//TCFEMMIRA3D<bool> pfira( matriz, INDICE, FUNDO );
-	pmira = NULL;
-	//pmira = pfira.Go();
-	//matrizRotulo = new CRotuladorIRA3D( pmira );
+	matrizSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
+	matrizLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 	matrizRotulo = NULL;
+	pmira = NULL;
 }
 
-CSegPorosGargantas3D::CSegPorosGargantas3D( TCImagem3D<bool>* &matriz , std::string _nomeImagem, int _indice, int _fundo)
-	: nomeImagem(_nomeImagem),
-		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
-		incrementoRaioElementoEstruturante ( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo)
+CSegPorosGargantas3D::CSegPorosGargantas3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
+	: fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao(1), modelo(0), INDICE(_indice), FUNDO(_fundo),
+		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
 	pm = dynamic_cast<TCMatriz3D<bool> *>(matriz); // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
-	//TCFEMMIRA3D<bool> pfira( pm, INDICE, FUNDO );
-	pmira = NULL;
-	//pmira = pfira.Go();
-	//matrizRotulo = new CRotuladorIRA3D( pmira );
+	matrizSitios = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
+	matrizLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
+	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
 	matrizRotulo = NULL;
+	pmira = NULL;
 }
 
 CSegPorosGargantas3D::~CSegPorosGargantas3D() {
-	if (matrizRotulo) delete matrizRotulo;
-	if (pmira) delete pmira;
+	delete matrizSitios;
+	delete matrizLigacoes;
+	if(matrizRotulo) delete matrizRotulo;
+	if(pmira) delete pmira;
 }
 
 double CSegPorosGargantas3D::Porosidade( TCMatriz3D<int>* &_pm, int _ra ) {
@@ -56,26 +58,26 @@ double CSegPorosGargantas3D::Porosidade( TCMatriz3D<int>* &_pm, int _ra ) {
 //	Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 //	Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 //	Método criado para que se possa salvar em disco duas matrizes bool ao invés de utilizar uma matriz int para representar sólidos, sitios e ligações (consome menos memória).
-bool CSegPorosGargantas3D::Write(string fileName, TCMatriz3D<bool>* &mat1, TCMatriz3D<bool>* &mat2 ) {
+bool CSegPorosGargantas3D::Write(string fileName ) {
 	ofstream fout; //  Abre arquivo disco
 	fout.open(fileName.c_str(), ios::binary);
 	int nx, ny, nz;
 	if (fout.good()){
 		//menores valores para nx, ny e nz.
-		nx = ( mat1->NX() <= mat2->NX() ) ? mat1->NX() : mat2->NX();
-		ny = ( mat1->NY() <= mat2->NY() ) ? mat1->NY() : mat2->NY();
-		nz = ( mat1->NZ() <= mat2->NZ() ) ? mat1->NZ() : mat2->NZ();
+		nx = pm->NX();
+		ny = pm->NY();
+		nz = pm->NZ();
 
 		//cabeçalho
 		fout << setw (0) << "D5" << '\n' << nx << ' ' << ny << ' ' << nz << '\n' << 3 << '\n';
 
 		//percorre matrizes e mescla resultados salvando em disco.
-		for (int k = 0; k < nz; k++) {
-			for (int j = 0; j < ny; j++) {
-				for (int i = 0; i < nx; i++) {
-					if( mat1->data3D[i][j][k] == INDICE )	// se o voxel for índice em mat1 (SÍTIO)
+		for (int k = 0; k < nz; ++k) {
+			for (int j = 0; j < ny; ++j) {
+				for (int i = 0; i < nx; ++i) {
+					if( matrizSitios->data3D[i][j][k] == INDICE ) // se o voxel for índice em matrizSitios
 						fout << (unsigned char) 1; //SÍTIO
-					else if( mat2->data3D[i][j][k] == INDICE ) // senão, se o voxel for índice em mat2 (LIGACAO)
+					else if( matrizLigacoes->data3D[i][j][k] == INDICE ) // senão, se o voxel for índice em matrizLigacoes
 						fout << (unsigned char) 2; //LIGACAO
 					else // senão, só pode ser fundo
 						fout << (unsigned char) 0; //FUNDO
@@ -86,6 +88,25 @@ bool CSegPorosGargantas3D::Write(string fileName, TCMatriz3D<bool>* &mat1, TCMat
 	} else {
 		return false;
 	}
+}
+
+// Grava em disco, com o nome informado, os objetos identificados.
+bool CSegPorosGargantas3D::SalvarListaObjetos(string fileName){
+	if (gerarDetalhesObjetos) {
+		ofstream fout; //  Abre arquivo disco
+		fout.open(fileName.c_str());
+		if (fout.good()){
+			fout << "# " << matrizObjetos.size() << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
+			fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
+			for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
+				fout << std::left << std::setw(6) << it->first;
+				it->second.GravarObjeto(fout);
+			}
+			fout.close();
+			return true;
+		}
+	}
+	return false;
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
@@ -113,28 +134,150 @@ void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat
 }
 
 // Executa a segmentação de poros e gargantas de acordo com o modelo informado.
-pair< TCMatriz3D<bool> *, TCMatriz3D<bool> * > CSegPorosGargantas3D::Go(int _modelo){
+void CSegPorosGargantas3D::Go(int _modelo){
 	modelo = _modelo;
+	matrizObjetos.clear();
+	matrizSitios->Constante(FUNDO);
+	matrizLigacoes->Constante(FUNDO);
 	switch ( modelo ) {
 		case 0:
-			return Modelo_0();
+			Modelo_0();
+			break;
 		default:
-			TCMatriz3D<bool> * pmr = NULL;
-			return make_pair( pmr, pmr );
+			return Modelo_0();
+	}
+	matrizObjetos.clear();
+	GerarDetalhesMatrizObjetos();
+}
+
+void CSegPorosGargantas3D::GerarDetalhesMatrizObjetos() {
+	// Se a flag estiver setada
+	if (gerarDetalhesObjetos) {
+		// Variáveis auxiliares
+		map<int,CObjetoImagem>::iterator itt;
+		int rip1, rjp1, rkp1;
+		int rotulo = 0;
+		int i,j,k;
+
+		cout << "==>Rotulando a matrizSitios..." << endl ;
+		TCRotulador3D<bool> * mRotulo = new TCRotulador3D<bool>(matrizSitios);
+		mRotulo->Go(matrizSitios);
+
+		cout << "==>Determinando IDF da matrizSitios..." << endl ;
+		TCFEMMIDFd3453D<bool> pfmf(matrizSitios, INDICE, FUNDO);
+		pfmf.Go(matrizSitios);
+
+		// Armazena o número de objetos identificados na rotulagem
+		int numObjs = mRotulo->NumeroObjetos();
+		int nx = matrizSitios->NX();
+		int ny = matrizSitios->NY();
+		int nz = matrizSitios->NZ();
+		// Cria matriz que irá acumular os rótulos identificados (inicialmente é cópia de matrizRotulo)
+		TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( nx, ny, nz );
+
+		cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem dos sítios..." << endl ;
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					rotulo = mRotulo->data3D[i][j][k];
+					if ( rotulo != 0) {
+						it = matrizObjetos.find(rotulo);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotulo] = CObjetoImagem( SITIO, 1 );
+						}
+						it->second.PontoCentral( i, j, k, pfmf.data3D[i][j][k] );
+					}
+					// matrizRotulada acumula os rótulos identificados (inicialmente é cópia de matrizRotulo).
+					matrizRotulada->data3D[i][j][k] = rotulo;
+				}
+			}
+		}
+
+		cout << "==>Rotulando a matrizLigacoes..." << endl ;
+		mRotulo->Go(matrizLigacoes);
+
+		cout << "==>Determinando IDF da matrizLigacoes..." << endl ;
+		pfmf.Go(matrizLigacoes);
+
+		int numObjs_1 = numObjs-1;
+		cout << "==>Alimentando a matrizObjetos com os objetos identificados na rotulagem das ligações..." << endl ;
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					rotulo = mRotulo->data3D[i][j][k];
+					if ( rotulo > 0 ) { //só entra se for diferente de fundo, ou seja, neste caso, maior que numObjs
+						rotulo = rotulo + numObjs_1;
+						mRotulo->data3D[i][j][k] = rotulo; // para que os rótulos sejam sequenciais
+						it = matrizObjetos.find(rotulo);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
+						}
+						it->second.PontoCentral( i, j, k, pfmf.data3D[i][j][k] );
+					}
+				}
+			}
+		}
+
+		//salvando em disco
+		//matrizLigacoes->Write("MatrizLigacoes.dbm");
+		//matrizSitios->Write("MatrizSitios.dbm");
+		//matrizRotulo->Write("MatrizLigacoesRotulada.dgm");
+		//matrizRotulada->Write("MatrizSitiosRotulada.dgm");
+
+		// Realizar conexões entre os objetos.
+		for ( i = 0; i < (nx-1); ++i) {
+			for ( j = 0; j < (ny-1); ++j) {
+				for ( k = 0; k < (nz-1); ++k) {
+					rotulo = mRotulo->data3D[i][j][k];
+					if ( rotulo	> 0 ) {
+						it = matrizObjetos.find(rotulo);
+						rip1 = matrizRotulada->data3D[i+1][j][k];
+						rjp1 = matrizRotulada->data3D[i][j+1][k];
+						rkp1 = matrizRotulada->data3D[i][j][k+1];
+
+						// Se os rotulos não representam sólido, e o vizinho é um sítio, então, marca a conexão.
+						if ( rip1 > 0 ) {
+							itt = matrizObjetos.find(rip1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rip1 );
+						}
+						if ( rjp1 > 0 ) {
+							itt = matrizObjetos.find(rjp1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rjp1 );
+						}
+						if ( rkp1 > 0 ) {
+							itt = matrizObjetos.find(rkp1);
+							itt->second.Conectar( rotulo );
+							it->second.Conectar( rkp1 );
+						}
+					}
+				}
+			}
+		}
+		// Libera memória
+		delete matrizRotulada;
+		delete mRotulo;
 	}
 }
+
 
 /* ========================= Modelo 0 =========================
  * Utiliza IRA
  * Passos do algorítmo: Descrever...
 */
-pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
+void CSegPorosGargantas3D::Modelo_0() {
 	// Variáveis auxiliares
 	ostringstream os;
 	double timing, totaltiming = omp_get_wtime();
 	int nObjetosAntesAbertura = 0;	// número de objetos existentes na matriz pm antes de sofrer a abertura
 	int nObjetosDepoisAbertura = 0;	// número de objetos existentes na matriz pm depois de sofrer a abertura
 	int nObjetosAberturaComplementar = 0; //número de objetos existentes na matriz complementar da matriz abertura
+	int numObjetos = 0; // Armazena o número de identificados na rotulagem
 	int nx = pm->NX();
 	int ny = pm->NY();
 	int nz = pm->NZ();
@@ -144,24 +287,11 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
-	// Cria matriz para representar ligações.
-	TCMatriz3D<bool>* matrizLigacoes = new TCMatriz3D<bool>( nx, ny, nz );
-	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	matrizLigacoes->Constante( FUNDO );
-
-	// Cria matriz para representar sitios.
-	TCMatriz3D<bool>* matrizSitios = new TCMatriz3D<bool>( nx, ny, nz );
-	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
-	matrizSitios->Constante( FUNDO );
-
 	cout << "==>Criando IRA...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 	TCFEMMIRA3D<bool> *pfira = new TCFEMMIRA3D<bool>( pm, INDICE, FUNDO );
 	pmira = pfira->Go();
 	delete pfira;
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
-
-	// Calcula a porosidade na matrizAbertura;
-	porosidade = Porosidade( pmira, 0 );
 
 	// Rotula matrizRotulo;
 	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
@@ -169,53 +299,26 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 	matrizRotulo->Go( pmira, 0 );
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
+	numObjetos = nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
 
 	// Cria matriz que irá armazenar os rótulos identificados nas diversas operações de abertura
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
-	//Cria matriz de objetos do tipo CObjetoImagem
-	map<int,CObjetoImagem> matrizObjetos;
-
-	//declara iterator para a matrizObjetos
-	map<int,CObjetoImagem>::iterator it;
-
-	//Cria elemento 0 representando sólidos
-	//matrizObjetos[0] = CObjetoImagem(SOLIDO,0,0);
-	matrizObjetos[0] = CObjetoImagem(SOLIDO,0);
-
-	//Percorre a matrizRotulada e para cada rótulo cria elementos do tipo PORO.
-	//Caso o elemento já exista, incrementa o número de objetos representados;
-	//Também incrementa o número de objetos do tipo SOLIDO
-	//Analizar possibilidade de utilizar paralelização.
-	//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
-	for ( i = 0; i < nx; i++) {
-		for ( j = 0; j < ny; j++) {
-			for ( k = 0; k < nz; k++) {
-				rotuloijk = matrizRotulada->data3D[i][j][k];
-				if(rotuloijk == 0) {
-					++(matrizObjetos[0]);
-				}
-			}
-		}
-	}
-
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
-	while ( (porosidade > 0.0) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
+	while ( (numObjetos > 1) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
 		cout << "==>Executando passo = " << raioEE << endl;
 		cout << "-->Porosidade = " << porosidade << endl;
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
-
-		// Atualizando porosidade
-		porosidade = Porosidade( pmira, raioEE );
 
 		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( pmira, raioEE );//rotula nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
+		// Atualiza o número de objetos identificados na imagem após a operação de abertura.
+		numObjetos = matrizRotulo->NumeroObjetos();
 		// Acumula o número de objeto antes e depois da abertura
-		nObjetosDepoisAbertura = nObjetosAntesAbertura + matrizRotulo->NumeroObjetos() - 1; // menos 1 para não contar fundo novamente
-		cout << "-->Num. objetos depois da abertura = " << matrizRotulo->NumeroObjetos() << endl;
+		nObjetosDepoisAbertura = nObjetosAntesAbertura + numObjetos - 1; // menos 1 para não contar fundo novamente
+		cout << "-->Num. objetos depois da abertura = " << numObjetos << endl;
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
@@ -306,7 +409,8 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 				for ( k = borda; k < (nz-borda); k++) {
 					rotuloijk = matrizRotulada->data3D[i][j][k];
 					// Só devemos considerar os rotulos criados neste passo, i.e, rotulo >= nObjetosAntesAbertura
-					if ( rotuloijk	>= nObjetosAntesAbertura ) {
+					//if ( rotuloijk	>= nObjetosAntesAbertura ) {
+					if ( rotuloijk	>= nObjetosDepoisAbertura ) {
 						it = matrizObjetos.find(rotuloijk);
 						rim1 = matrizRotulada->data3D[i-1][j][k];
 						rip1 = matrizRotulada->data3D[i+1][j][k];
@@ -393,11 +497,11 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 			}
 		}
 
-//		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
-//		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+		//		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
+		//		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
-//		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
-//		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
+		//		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
+		//		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
 
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
@@ -406,6 +510,9 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 		// Incrementando raio do Elemento Estruturante
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
+
+	// Libera memória.
+	delete matrizRotulada;
 
 	cout << "==>Corrigindo sítios e ligações..." << endl ;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
@@ -423,12 +530,5 @@ pair< TCMatriz3D<bool> *, TCMatriz3D<bool>* > CSegPorosGargantas3D::Modelo_0() {
 			}
 		}
 	}
-
-	// Libera espaço em memória.
-	delete matrizRotulada;
-
 	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
-
-	// retorna par de ponteiros para matrizes sitios e ligações.
-	return make_pair( matrizSitios, matrizLigacoes );
 }

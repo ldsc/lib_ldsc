@@ -7,22 +7,21 @@ GtestConfigure cfg4 = GtestConfigure();
 
 TEST(TestSegmentation, SegPoresThroatsModel_0) {
 	string result_image = "../../data/images/result_SegmentationPoresThroats_IBS0105_Model_0.dgm";
-	pair<TCMatriz3D<bool>*,TCMatriz3D<bool>*> pms;
 
 	//carrega a imagem original
 	TCMatriz3D<bool>* pm = new TCMatriz3D<bool>(cfg4.original3D);
 
 	//Cria o filtro com poro igual e 1 e fundo igual a 0
-	CSegPorosGargantas3D filtro = CSegPorosGargantas3D(pm, result_image, 1, 0 );
+	CSegPorosGargantas3D filtro = CSegPorosGargantas3D(pm, 1, 0 );
 	filtro.RaioMaximoElementoEstruturante(23);
 	filtro.FatorReducaoRaioElemEst(1);
 	filtro.IncrementoRaioElementoEstruturante(1);
 	filtro.SalvarResultadosParciais(false);
 
 	//Executa o filtro na imagem original
-	pms = filtro.Go(0);
+	filtro.Go(0);
 	if ( cfg4.criarImagensResultantes && cfg4.FileNotExists(result_image) ) {
-		filtro.Write(result_image, pms.first, pms.second);
+		filtro.Write(result_image);
 	}
 
 	//carrega a imagem resultante previamente criada
@@ -35,11 +34,11 @@ TEST(TestSegmentation, SegPoresThroatsModel_0) {
 	for (i = 0; i < pm2->NX(); i++) {
 		for (j = 0; j < pm2->NY(); j++) {
 			for (k = 0; k < pm2->NZ(); k++) {
-				if ( pm2->data3D[i][j][k]==0 and (pms.first->data3D[i][j][k]!=0 or pms.second->data3D[i][j][k]!=0) ) {
+				if ( pm2->data3D[i][j][k]==0 and (filtro.MatrizSitios()->data3D[i][j][k]!=0 or filtro.MatrizLigacoes()->data3D[i][j][k]!=0) ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==1 and pms.first->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==1 and filtro.MatrizSitios()->data3D[i][j][k]!=1 ) {
 					iguais = false;
-				} else if ( pm2->data3D[i][j][k]==2 and pms.second->data3D[i][j][k]!=1 ) {
+				} else if ( pm2->data3D[i][j][k]==2 and filtro.MatrizLigacoes()->data3D[i][j][k]!=1 ) {
 					iguais = false;
 				}
 			}
@@ -52,6 +51,5 @@ TEST(TestSegmentation, SegPoresThroatsModel_0) {
 	//deleta ponteiros
 	delete pm;
 	delete pm2;
-	delete pms.first;
-	delete pms.second;
+
 }

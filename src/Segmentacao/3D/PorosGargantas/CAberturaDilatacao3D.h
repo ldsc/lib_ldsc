@@ -15,7 +15,7 @@
 using namespace std;
 
 /// Enumera os modelos de segmentação disponíveis
-enum EModelo { SETE=7, OITO=8, NOVE=9, DEZ=10 };
+enum EModelo { SETE=7, OITO=8, NOVE=9, DEZ=10, ONZE=11 };
 
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
@@ -196,8 +196,11 @@ class CAberturaDilatacao3D
 		/// Determina distribuicao de sitios e ligacoes (Tentativa de reaproveitamento da matrizObjetos).
 		void DistSitiosLigacoes_Modelo_9();
 
-		/// Determina distribuicao de sitios e ligacoes (Executa dilatação em cada passo).
+		/// Determina distribuicao de sitios e ligacoes (Cópia do modelo 9, poré, executa dilatação em cada passo).
 		void DistSitiosLigacoes_Modelo_10();
+
+		/// Determina distribuicao de sitios e ligacoes (EM ESTUDO!).
+		void DistSitiosLigacoes_Modelo_11();
 };
 
 #endif

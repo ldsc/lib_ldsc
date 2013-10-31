@@ -107,14 +107,14 @@ TCMatriz3D<int> * TCFEMMIRA3D<T>::Go () {
 								if ( this->mask->data3D[x][y][z] != 0 ) {
 									im = ((i-rm+x) <=  0) ? i+rm-x : i-rm+x; // tentativa de burlar as bordas sem causar falha de segmentação
 									ip = ((i+rm-x) >= nx) ? i-rm+x : i+rm-x; // tentativa de burlar as bordas sem causar falha de segmentação
-									pmra->data3D[im][jm][km] = (idf->data3D[im][jm][km] != 0) ? max ( ra, pmra->data3D[im][jm][km] ) : 0;
-									pmra->data3D[im][jm][kp] = (idf->data3D[im][jm][kp] != 0) ? max ( ra, pmra->data3D[im][jm][kp] ) : 0;
-									pmra->data3D[ip][jm][km] = (idf->data3D[ip][jm][km] != 0) ? max ( ra, pmra->data3D[ip][jm][km] ) : 0;
-									pmra->data3D[ip][jm][kp] = (idf->data3D[ip][jm][kp] != 0) ? max ( ra, pmra->data3D[ip][jm][kp] ) : 0;
-									pmra->data3D[im][jp][km] = (idf->data3D[im][jp][km] != 0) ? max ( ra, pmra->data3D[im][jp][km] ) : 0;
-									pmra->data3D[im][jp][kp] = (idf->data3D[im][jp][kp] != 0) ? max ( ra, pmra->data3D[im][jp][kp] ) : 0;
-									pmra->data3D[ip][jp][km] = (idf->data3D[ip][jp][km] != 0) ? max ( ra, pmra->data3D[ip][jp][km] ) : 0;
-									pmra->data3D[ip][jp][kp] = (idf->data3D[ip][jp][kp] != 0) ? max ( ra, pmra->data3D[ip][jp][kp] ) : 0;
+									if (idf->data3D[im][jm][km] != 0) pmra->data3D[im][jm][km] = max ( ra, pmra->data3D[im][jm][km] );
+									if (idf->data3D[im][jm][kp] != 0) pmra->data3D[im][jm][kp] = max ( ra, pmra->data3D[im][jm][kp] );
+									if (idf->data3D[ip][jm][km] != 0) pmra->data3D[ip][jm][km] = max ( ra, pmra->data3D[ip][jm][km] );
+									if (idf->data3D[ip][jm][kp] != 0) pmra->data3D[ip][jm][kp] = max ( ra, pmra->data3D[ip][jm][kp] );
+									if (idf->data3D[im][jp][km] != 0) pmra->data3D[im][jp][km] = max ( ra, pmra->data3D[im][jp][km] );
+									if (idf->data3D[im][jp][kp] != 0) pmra->data3D[im][jp][kp] = max ( ra, pmra->data3D[im][jp][kp] );
+									if (idf->data3D[ip][jp][km] != 0) pmra->data3D[ip][jp][km] = max ( ra, pmra->data3D[ip][jp][km] );
+									if (idf->data3D[ip][jp][kp] != 0) pmra->data3D[ip][jp][kp] = max ( ra, pmra->data3D[ip][jp][kp] );
 								}
 							}
 						}

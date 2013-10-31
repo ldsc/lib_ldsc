@@ -285,7 +285,7 @@ void CSegPorosGargantas3D::Modelo_0() {
 	int meioNX = nx/2;
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
-	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
+	//int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
 	cout << "==>Criando IRA...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 	TCFEMMIRA3D<bool> *pfira = new TCFEMMIRA3D<bool>( pm, INDICE, FUNDO );
@@ -307,7 +307,6 @@ void CSegPorosGargantas3D::Modelo_0() {
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
 	while ( (numObjetos > 1) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
 		cout << "==>Executando passo = " << raioEE << endl;
-		cout << "-->Porosidade = " << porosidade << endl;
 		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
 
 		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
@@ -371,7 +370,8 @@ void CSegPorosGargantas3D::Modelo_0() {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
 					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo acrescido do número de objetos antes da abertura para a matrizRotulada
-					if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE and matrizLigacoes->data3D[i][j][k] == FUNDO) {
+					//if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE and matrizLigacoes->data3D[i][j][k] == FUNDO) {
+					if ( matrizRotulo->data3D[i][j][k] > 0 ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
 						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
 						rotuloijk = matrizRotulada->data3D[i][j][k];
@@ -418,19 +418,6 @@ void CSegPorosGargantas3D::Modelo_0() {
 						rjp1 = matrizRotulada->data3D[i][j+1][k];
 						rkm1 = matrizRotulada->data3D[i][j][k-1];
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
-						rim1jm1 = matrizRotulada->data3D[i-1][j-1][k];
-						rim1jp1 = matrizRotulada->data3D[i-1][j+1][k];
-						rim1km1 = matrizRotulada->data3D[i-1][j][k-1];
-						rim1kp1 = matrizRotulada->data3D[i-1][j][k+1];
-						rip1jp1 = matrizRotulada->data3D[i+1][j+1][k];
-						rip1jm1 = matrizRotulada->data3D[i+1][j-1][k];
-						rip1kp1 = matrizRotulada->data3D[i+1][j][k+1];
-						rip1km1 = matrizRotulada->data3D[i+1][j][k-1];
-						rjm1km1 = matrizRotulada->data3D[i][j-1][k-1];
-						rjm1kp1 = matrizRotulada->data3D[i][j-1][k+1];
-						rjp1km1 = matrizRotulada->data3D[i][j+1][k-1];
-						rjp1kp1 = matrizRotulada->data3D[i][j+1][k+1];
-
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
 						if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO)
 							it->second.Conectar( rim1 );
@@ -444,6 +431,19 @@ void CSegPorosGargantas3D::Modelo_0() {
 							it->second.Conectar( rkm1 );
 						if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO)
 							it->second.Conectar( rkp1 );
+						/*
+						rim1jm1 = matrizRotulada->data3D[i-1][j-1][k];
+						rim1jp1 = matrizRotulada->data3D[i-1][j+1][k];
+						rim1km1 = matrizRotulada->data3D[i-1][j][k-1];
+						rim1kp1 = matrizRotulada->data3D[i-1][j][k+1];
+						rip1jp1 = matrizRotulada->data3D[i+1][j+1][k];
+						rip1jm1 = matrizRotulada->data3D[i+1][j-1][k];
+						rip1kp1 = matrizRotulada->data3D[i+1][j][k+1];
+						rip1km1 = matrizRotulada->data3D[i+1][j][k-1];
+						rjm1km1 = matrizRotulada->data3D[i][j-1][k-1];
+						rjm1kp1 = matrizRotulada->data3D[i][j-1][k+1];
+						rjp1km1 = matrizRotulada->data3D[i][j+1][k-1];
+						rjp1kp1 = matrizRotulada->data3D[i][j+1][k+1];
 						if ( rotuloijk != rim1jm1 and matrizObjetos[rim1jm1].Tipo() == SITIO)
 							it->second.Conectar( rim1jm1 );
 						if ( rotuloijk != rim1jp1 and matrizObjetos[rim1jp1].Tipo() == SITIO)
@@ -468,6 +468,7 @@ void CSegPorosGargantas3D::Modelo_0() {
 							it->second.Conectar( rjp1km1 );
 						if ( rotuloijk != rjp1kp1 and matrizObjetos[rjp1kp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1kp1 );
+						*/
 					}
 				}
 			}
@@ -481,7 +482,8 @@ void CSegPorosGargantas3D::Modelo_0() {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
 					// a abertura complementar tem RAMOs_MORTOs e LIGACOES
-					if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE  and matrizLigacoes->data3D[i][j][k] == FUNDO) {
+					//if ( pmira->data3D[i][j][k] > 0 and pmira->data3D[i][j][k] <= raioEE  and matrizLigacoes->data3D[i][j][k] == FUNDO) {
+					if ( matrizRotulo->data3D[i][j][k] > 0 ) {
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
@@ -514,6 +516,7 @@ void CSegPorosGargantas3D::Modelo_0() {
 	// Libera memória.
 	delete matrizRotulada;
 
+	/*
 	cout << "==>Corrigindo sítios e ligações..." << endl ;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
@@ -530,5 +533,6 @@ void CSegPorosGargantas3D::Modelo_0() {
 			}
 		}
 	}
+	*/
 	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
 }

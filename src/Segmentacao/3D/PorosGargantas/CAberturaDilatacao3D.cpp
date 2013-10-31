@@ -242,6 +242,8 @@ void CAberturaDilatacao3D::Go( EModelo _modelo ) {
 			break;
 		case DEZ: DistSitiosLigacoes_Modelo_10();
 			break;
+		case ONZE: DistSitiosLigacoes_Modelo_11();
+			break;
 	}
 	matrizObjetos.clear();
 	GerarDetalhesMatrizObjetos();
@@ -1344,7 +1346,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
 }
 
-/* ========================= Modelo 10 =========================*/
+/* ========================= Modelo 10 =========================
+*	Cópia do modelo 9, porém dilata a cada passo */
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 	// Variáveis auxiliares
 	ostringstream os;
@@ -1360,11 +1363,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 	int meioNX = nx/2;
 	int i, j, k, rotuloijk, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
-
-	// Cria matriz vazia que irá representar ramos mortos.
-	TCMatriz3D<bool>* matrizRamosMortos = new TCMatriz3D<bool>( nx, ny, nz );
-	matrizRamosMortos->SetFormato( D1_X_Y_Z_ASCII );
-	matrizRamosMortos->Constante(FUNDO);
+	//int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -1394,7 +1393,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 		pfmf->Abertura( matrizAbertura, raioEE );//para cada raio calcula abertura nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-		os.str(""); os << "raio-" << raioEE << "-1-MatrizAbertura.dbm";
+		os.str(""); os << "MatrizAbertura_" << raioEE << ".dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
@@ -1405,15 +1404,268 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 		pfmf->Dilatacao( matrizAbertura, raioEEDilatacao );//para cada raio calcula abertura nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-		os.str(""); os << "raio-" << raioEE << "-2-MatrizAberturaDilatada.dbm";
+		cout << "==>Corrigindo matriz abertura dilatada..." << endl ;
+	#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					if( pm->data3D[i][j][k] == FUNDO) {
+						matrizAbertura->data3D[i][j][k] = FUNDO;
+					}
+				}
+			}
+		}
+
+		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+		matrizRotulo->Go( matrizAbertura );//rotula nX
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
+		os.str(""); os << "MatrizAberturaRotulada_" << raioEE << ".dgm";
+		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
+
+		// Atualiza o número de objetos identificados na imagem após a operação de abertura.
+		numObjetos = matrizRotulo->NumeroObjetos();
+		// Acumula o número de objeto antes e depois da abertura
+		nObjetosDepoisAbertura = nObjetosAntesAbertura + numObjetos - 1; // menos 1 para não contar fundo novamente
+		cout << "-->Num. objetos depois da abertura = " << numObjetos << endl;
+
+		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
+		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
+		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
+						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
+						rotuloijk = matrizRotulada->data3D[i][j][k];
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento existe
+							if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
+								--(it->second);							// decrementa o número de objetos representados
+							}else{												// o elemento representa um ou menos objetos
+								matrizObjetos.erase(it);		// apaga o elemento.
+							}
+						}
+						//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
+						rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;// menos 1 para não contar fundo novamente
+						matrizRotulada->data3D[i][j][k] = rotuloijk;
+
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);							// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
+						}
+					}
+					// Identificando complemento da abertura:
+					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
+					if ( pm->data3D[i][j][k] ==	INDICE ) {
+						if ( matrizAbertura->data3D[i][j][k] == FUNDO and
+								 matrizLigacoes->data3D[i][j][k] == FUNDO )
+						{
+							matrizAbertura->data3D[i][j][k] = INDICE;
+						} else {
+							matrizAbertura->data3D[i][j][k] = FUNDO;
+						}
+					}
+				}
+			}
+		}
+
+		os.str(""); os << "MatrizAberturaComplementar_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
+
+		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
+		matrizRotulo->Go( matrizAbertura );//nX
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
+		os.str(""); os << "MatrizAberturaComplementarRotulada_" << raioEE << ".dgm";
+		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
+
+		// Acumula o número de objetos depois da abertura como o número de objetos do complemento da abertura
+		nObjetosAberturaComplementar = nObjetosDepoisAbertura + matrizRotulo->NumeroObjetos() - 1;
+		cout << "-->Num. objetos na abertura complementar = " << matrizRotulo->NumeroObjetos() << endl;
+
+		// Copia para a matrizRotulada os rótulos do complemento da matriz abertura, acrescidos do nObjetosDepoisAbertura, de forma que os rótulos sejam sequenciais
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					// Se o pixel analizado é INDICE na matriz Abertura, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
+						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
+						rotuloijk = matrizRotulada->data3D[i][j][k];
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento existe
+							if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
+								--(it->second);							// decrementa o número de objetos representados
+							}else{												// o elemento represente um ou menos objetos
+								matrizObjetos.erase(it);		// apaga o elemento.
+							}
+						}
+						//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
+						//Os objetos identificados no complemento da abertura, inicialmente são considerados ramos mortos; depois iremos verificar quais ramos representam ligações.
+						rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosDepoisAbertura - 1;
+						matrizRotulada->data3D[i][j][k] = rotuloijk;
+						it = matrizObjetos.find(rotuloijk);
+						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+							++(it->second);								// incrementa o número de objetos representados
+						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+							matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO, 1);
+						}
+					}
+				}
+			}
+		}
+
+		borda = 1;
+		cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
+		// Identifica os vizinhos e caso o rótulo ainda não tenha sido incluído, faz a conexão.
+		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
+		// Aqui a matrizRotulada tem SOLIDOs, POROs, SITIOs e RAMOs_MORTOs
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,rim1,rip1,rjm1,rjp1,rkm1,rkp1,it) //schedule(dynamic,10)
+		for ( i = borda; i < (nx-borda); ++i) {
+			for ( j = borda; j < (ny-borda); ++j) {
+				for ( k = borda; k < (nz-borda); ++k) {
+					rotuloijk = matrizRotulada->data3D[i][j][k];
+					// Só devemos considerar os rotulos do complemento da abertura
+					if ( rotuloijk	>= nObjetosDepoisAbertura ) {
+						it = matrizObjetos.find(rotuloijk);
+						rim1 = matrizRotulada->data3D[i-1][j][k];
+						rip1 = matrizRotulada->data3D[i+1][j][k];
+						rjm1 = matrizRotulada->data3D[i][j-1][k];
+						rjp1 = matrizRotulada->data3D[i][j+1][k];
+						rkm1 = matrizRotulada->data3D[i][j][k-1];
+						rkp1 = matrizRotulada->data3D[i][j][k+1];
+
+						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
+						if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO)
+							it->second.Conectar( rim1 );
+						if ( rotuloijk != rip1 and matrizObjetos[rip1].Tipo() == SITIO)
+							it->second.Conectar( rip1 );
+						if ( rotuloijk != rjm1 and matrizObjetos[rjm1].Tipo() == SITIO)
+							it->second.Conectar( rjm1 );
+						if ( rotuloijk != rjp1 and matrizObjetos[rjp1].Tipo() == SITIO)
+							it->second.Conectar( rjp1 );
+						if ( rotuloijk != rkm1 and matrizObjetos[rkm1].Tipo() == SITIO)
+							it->second.Conectar( rkm1 );
+						if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO)
+							it->second.Conectar( rkp1 );
+					}
+				}
+			}
+		}
+
+		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
+		// Uma vez identificadas as ligações, podemos armazenar o resultado na matrizLigacoes.
+		// Em seguida, aproveita o loop para restaurar a matrizAbertura para o estado anterior.
+		cout << "-->Identificando sitios e ligações..." << endl ;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+		for ( i = 0; i < nx; ++i) {
+			for ( j = 0; j < ny; ++j) {
+				for ( k = 0; k < nz; ++k) {
+					// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
+					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
+						rotuloijk = matrizRotulada->data3D[i][j][k];
+						if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
+							matrizObjetos[rotuloijk].Tipo( LIGACAO );
+							matrizLigacoes->data3D[i][j][k] = INDICE;
+							matrizSitios->data3D[i][j][k] = FUNDO;
+						}else{
+							matrizObjetos[rotuloijk].Tipo( SITIO );
+							matrizSitios->data3D[i][j][k] = INDICE;
+							matrizLigacoes->data3D[i][j][k] = FUNDO;
+						}
+					}
+					// restaura a matrizAbertura.
+					matrizAbertura->data3D[i][j][k] = pm->data3D[i][j][k];
+				}
+			}
+		}
+
+		os.str(""); os << "MatrizSitios_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+
+		os.str(""); os << "MatrizLigacoes_" << raioEE << ".dbm";
+		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
+
+		// Atualizando o número de objetos antes da abertura para o próximo passo.
+		nObjetosAntesAbertura = nObjetosAberturaComplementar;
+
+		// Incrementando raio do Elemento Estruturante
+		raioEE += incrementoRaioElementoEstruturante;
+	} // fim do While
+
+	// Libera memória.
+	delete matrizAbertura;
+	delete matrizRotulada;
+
+	os.str(""); os << "MatrizSitiosFinal" << ".dbm";
+	SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
+
+	os.str(""); os << "MatrizLigacoesFinal" << ".dbm";
+	SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
+
+	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
+}
+
+/* ========================= Modelo 11 =========================*/
+void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
+	// Variáveis auxiliares
+	ostringstream os;
+	double timing, totaltiming = omp_get_wtime();
+	int nObjetosAntesAbertura = 0;	// número de objetos existentes na matriz pm antes de sofrer a abertura
+	int nObjetosDepoisAbertura = 0;	// número de objetos existentes na matriz pm depois de sofrer a abertura
+	int nObjetosAberturaComplementar = 0; //número de objetos existentes na matriz complementar da matriz abertura
+	int numObjetos = 0; // Armazena o número de identificados na rotulagem
+	int nx = pm->NX();
+	int ny = pm->NY();
+	int nz = pm->NZ();
+	int raioEE = 1;
+	int meioNX = nx/2;
+	int i, j, k, rotuloijk, borda;
+	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
+
+	// Cria matriz abertura, cópia de pm.
+	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
+	matrizAbertura->SetFormato( D1_X_Y_Z_ASCII );
+
+	// Rotula matrizRotulo;
+	cout << "==>Rotulando Imagem...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	matrizRotulo->Go( matrizAbertura );
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
+	numObjetos = nObjetosAntesAbertura = matrizRotulo->NumeroObjetos();
+
+	// Cria matriz que irá armazenar os rótulos identificados nas diversas operações de abertura
+	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
+
+	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
+	pfmf->Go( matrizAbertura );//chama calculo idf 1x
+	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
+	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
+	while ( (numObjetos > 1) and (raioEE <= meioNX) and (raioEE <= raioMaximoElementoEstruturante) ) {
+		cout << "==>Executando passo = " << raioEE << endl;
+		cout << "-->Num. objetos identificados na imagem = " << numObjetos << endl;
+		cout << "-->Num. objetos antes da abertura = " << matrizRotulo->NumeroObjetos() << endl;
+
+		cout << "-->Processando Abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
+		pfmf->Abertura( matrizAbertura, raioEE );//para cada raio calcula abertura nX
+		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+
+		os.str(""); os << "raio-" << raioEE << "-1-MatrizAbertura.dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		cout << "-->Rotulando matriz abertura...\t\t\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( matrizAbertura );//rotula nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-
-		os.str(""); os << "raio-" << raioEE << "-3-MatrizAberturaRotulada.dgm";
+		os.str(""); os << "raio-" << raioEE << "-2-MatrizAberturaRotulada.dgm";
 		matrizRotulo->NumCores(matrizRotulo->MaiorValor()+1);
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
@@ -1451,17 +1703,14 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 						if(it != matrizObjetos.end()){  // o elemento foi encontrado
 							++(it->second);							// incrementa o número de objetos representados
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-							matrizObjetos[rotuloijk] = CObjetoImagem( PORO, 1);
+							matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
 						}
 					}
 					// Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					// Desconsidera como complemento os pixeis assinalados com ligação ou ramo morto
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
-						if ( matrizAbertura->data3D[i][j][k] == FUNDO
-								 and matrizLigacoes->data3D[i][j][k] == FUNDO
-								 and matrizRamosMortos->data3D[i][j][k] == FUNDO)
-						{
+						if ( matrizAbertura->data3D[i][j][k] == FUNDO and matrizLigacoes->data3D[i][j][k] == FUNDO ) {
 							matrizAbertura->data3D[i][j][k] = INDICE;
 						} else {
 							matrizAbertura->data3D[i][j][k] = FUNDO;
@@ -1473,14 +1722,14 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 			}
 		}
 
-		os.str(""); os << "raio-" << raioEE << "-4-MatrizAberturaComplementar.dbm";
+		os.str(""); os << "raio-" << raioEE << "-3-MatrizAberturaComplementar.dbm";
 		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 
 		cout << "-->Rotulando matriz abertura complementar...\t"; cout.flush(); timing = omp_get_wtime();
 		matrizRotulo->Go( matrizAbertura );//nX
 		cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-		os.str(""); os << "raio-" << raioEE << "-5-MatrizAberturaComplementarRotulada.dgm";
+		os.str(""); os << "raio-" << raioEE << "-4-MatrizAberturaComplementarRotulada.dgm";
 		matrizRotulo->NumCores(matrizRotulo->MaiorValor()+1);
 		SalvarResultadosParciaisEmDisco( matrizRotulo, os.str() );
 
@@ -1543,17 +1792,17 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
 
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
-						if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == PORO)
+						if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO)
 							it->second.Conectar( rim1 );
-						if ( rotuloijk != rip1 and matrizObjetos[rip1].Tipo() == PORO)
+						if ( rotuloijk != rip1 and matrizObjetos[rip1].Tipo() == SITIO)
 							it->second.Conectar( rip1 );
-						if ( rotuloijk != rjm1 and matrizObjetos[rjm1].Tipo() == PORO)
+						if ( rotuloijk != rjm1 and matrizObjetos[rjm1].Tipo() == SITIO)
 							it->second.Conectar( rjm1 );
-						if ( rotuloijk != rjp1 and matrizObjetos[rjp1].Tipo() == PORO)
+						if ( rotuloijk != rjp1 and matrizObjetos[rjp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1 );
-						if ( rotuloijk != rkm1 and matrizObjetos[rkm1].Tipo() == PORO)
+						if ( rotuloijk != rkm1 and matrizObjetos[rkm1].Tipo() == SITIO)
 							it->second.Conectar( rkm1 );
-						if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == PORO)
+						if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO)
 							it->second.Conectar( rkp1 );
 					}
 				}
@@ -1575,17 +1824,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
 							matrizLigacoes->data3D[i][j][k] = INDICE;
 							matrizSitios->data3D[i][j][k] = FUNDO;
-							matrizRamosMortos->data3D[i][j][k] = FUNDO;
-						}else if ( matrizObjetos[rotuloijk].SConexao().size() == 1 ) {
-							matrizObjetos[rotuloijk].Tipo( RAMO_MORTO );
-							matrizRamosMortos->data3D[i][j][k] = INDICE;
-							matrizLigacoes->data3D[i][j][k] = FUNDO;
-							matrizSitios->data3D[i][j][k] = FUNDO;
-						}else{
+						} else {
 							matrizObjetos[rotuloijk].Tipo( SITIO );
 							matrizSitios->data3D[i][j][k] = INDICE;
 							matrizLigacoes->data3D[i][j][k] = FUNDO;
-							matrizRamosMortos->data3D[i][j][k] = FUNDO;
 						}
 					}
 					// restaura a matrizAbertura.
@@ -1594,14 +1836,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 			}
 		}
 
-		os.str(""); os << "raio-" << raioEE << "-6-MatrizSitios.dbm";
+		os.str(""); os << "raio-" << raioEE << "-5-MatrizSitios.dbm";
 		SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
-		os.str(""); os << "raio-" << raioEE << "-7-MatrizLigacoes.dbm";
+		os.str(""); os << "raio-" << raioEE << "-6-MatrizLigacoes.dbm";
 		SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
-
-		os.str(""); os << "raio-" << raioEE << "-8-MatrizRamosMortos.dbm";
-		SalvarResultadosParciaisEmDisco( matrizRamosMortos, os.str() );
 
 		// Atualizando o número de objetos antes da abertura para o próximo passo.
 		nObjetosAntesAbertura = nObjetosAberturaComplementar;
@@ -1612,130 +1851,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 
 	// Libera memória.
 	delete matrizAbertura;
+	delete matrizRotulada;
 
-	cout << "==>Verificando quais ramos mortos irão virar sítio e quais irão virar ligações..." << endl;
-	cout << "-->Rotulando matriz ramos mortos...\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	matrizRotulo->Go( matrizRamosMortos );
-	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
-
-	// Copia para a matrizRotulada os rótulos da matrizRamosMortos, acrescidos do nObjetosAntesAbertura, de forma que os rótulos sejam sequenciais
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				// Se o pixel analizado é INDICE na matrizRamosMortos, copia o rótulo do acrescidos do número de objetos antes da abertura para a matrizRotulada
-				if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
-					//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
-					//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
-					rotuloijk = matrizRotulada->data3D[i][j][k];
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()){  // o elemento existe
-						if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
-							--(it->second);							// decrementa o número de objetos representados
-						}else{												// o elemento represente um ou menos objetos
-							matrizObjetos.erase(it);		// apaga o elemento.
-						}
-					}
-					//Agora atualiza a matriz rotulada com os novos rótulos e cria/incremeta os obejtos na matrizObejtos
-					//Os objetos identificados no complemento da abertura, inicialmente são considerados ramos mortos; depois iremos verificar quais ramos representam ligações.
-					rotuloijk = matrizRotulo->data3D[i][j][k] + nObjetosAntesAbertura - 1;
-					matrizRotulada->data3D[i][j][k] = rotuloijk;
-					it = matrizObjetos.find(rotuloijk);
-					if(it != matrizObjetos.end()){  // o elemento foi encontrado
-						++(it->second);								// incrementa o número de objetos representados
-					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO, 1);
-					}
-				}
-			}
-		}
-	}
-
-	borda = 1;
-	cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
-	for ( i = borda; i < (nx-borda); ++i) {
-		for ( j = borda; j < (ny-borda); ++j) {
-			for ( k = borda; k < (nz-borda); ++k) {
-				// Só devemos considerar os rotulos da matrizRamosMortos
-				if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
-					rotuloijk = matrizRotulada->data3D[i][j][k];
-					it = matrizObjetos.find(rotuloijk);
-					rim1 = matrizRotulada->data3D[i-1][j][k];
-					rip1 = matrizRotulada->data3D[i+1][j][k];
-					rjm1 = matrizRotulada->data3D[i][j-1][k];
-					rjp1 = matrizRotulada->data3D[i][j+1][k];
-					rkm1 = matrizRotulada->data3D[i][j][k-1];
-					rkp1 = matrizRotulada->data3D[i][j][k+1];
-
-					// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
-					if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO)
-						it->second.Conectar( rim1 );
-					if ( rotuloijk != rip1 and matrizObjetos[rip1].Tipo() == SITIO)
-						it->second.Conectar( rip1 );
-					if ( rotuloijk != rjm1 and matrizObjetos[rjm1].Tipo() == SITIO)
-						it->second.Conectar( rjm1 );
-					if ( rotuloijk != rjp1 and matrizObjetos[rjp1].Tipo() == SITIO)
-						it->second.Conectar( rjp1 );
-					if ( rotuloijk != rkm1 and matrizObjetos[rkm1].Tipo() == SITIO)
-						it->second.Conectar( rkm1 );
-					if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO)
-						it->second.Conectar( rkp1 );
-				}
-			}
-		}
-	}
-
-	cout << "-->Identificando sitios e ligações..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				// matrizAbertura armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
-				if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
-					rotuloijk = matrizRotulada->data3D[i][j][k];
-					if ( matrizObjetos[rotuloijk].SConexao().size() > 1 ) {
-						matrizObjetos[rotuloijk].Tipo( LIGACAO );
-						matrizLigacoes->data3D[i][j][k] = INDICE;
-						matrizSitios->data3D[i][j][k] = FUNDO;
-						matrizRamosMortos->data3D[i][j][k] = FUNDO;
-					}else{
-						matrizObjetos[rotuloijk].Tipo( SITIO );
-						matrizSitios->data3D[i][j][k] = INDICE;
-						matrizLigacoes->data3D[i][j][k] = FUNDO;
-						matrizRamosMortos->data3D[i][j][k] = FUNDO;
-					}
-				}
-			}
-		}
-	}
-
-/*cout << "==>Corrigindo sítios e ligações..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				if( pm->data3D[i][j][k] == FUNDO) {
-					matrizSitios->data3D[i][j][k] = FUNDO;
-					matrizLigacoes->data3D[i][j][k] = FUNDO;
-				} else if ( matrizSitios->data3D[i][j][k] == INDICE ) {
-					matrizLigacoes->data3D[i][j][k] = FUNDO;
-				} else {
-					matrizLigacoes->data3D[i][j][k] = INDICE;
-				}
-			}
-		}
-	}
-*/
-	os.str(""); os << "raio-" << raioEE << "-9-MatrizSitiosFinal.dbm";
+	os.str(""); os << "raio-" << raioEE << "-7-MatrizSitiosFinal.dbm";
 	SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );
 
-	os.str(""); os << "raio-" << raioEE << "-10-MatrizLigacoesFinal.dbm";
+	os.str(""); os << "raio-" << raioEE << "-8-MatrizLigacoesFinal.dbm";
 	SalvarResultadosParciaisEmDisco( matrizLigacoes, os.str() );
-
-	os.str(""); os << "raio-" << raioEE << "-11-MatrizRamosMortosFinal.dbm";
-	SalvarResultadosParciaisEmDisco( matrizRamosMortos, os.str() );
-
-	delete matrizRamosMortos;
-	delete matrizRotulada;
 
 	cout << "==>Tempo total de execução: " << (omp_get_wtime()-totaltiming)/60 << " min." << endl;
 }

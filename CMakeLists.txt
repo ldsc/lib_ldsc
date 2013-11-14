@@ -49,11 +49,15 @@ set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 #   add_definitions("-std=c++0x")
 #endif(CMAKE_COMPILER_IS_GNUCXX)
 
+FIND_PACKAGE( OpenMP REQUIRED)
+
 if(UNIX) # True for UNIX and UNIX like operating systems.
-  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")
 endif()
 if(WIN32) # True on windows systems, including win64
-  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
+  #set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE on)
@@ -72,6 +76,11 @@ link_directories(${LIBLDSC_SOURCE_DIR}/)
 add_subdirectory(src)
 add_subdirectory(test)
 add_subdirectory(demo)
+
+if(WIN32) # True on windows systems, including win64
+  set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  set_target_properties(ldsc PROPERTIES LINK_FLAGS "-O2 -fopenmp -lgomp")
+endif()
 
 # Create libldsc executable.
 #add_executable(libldsc src/libldsc.cpp)

@@ -1698,10 +1698,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	int nz = pm->NZ();
 	int raioEE = 2;
 	int meioNX = nx/2;
-	int i, j, k, rotuloijk, borda;
+	int i, j, k, rotuloijk, rotulov, borda;
 	int rim1, rip1, rjm1, rjp1, rkm1, rkp1;
 	int rim1jm1, rim1jp1, rim1km1, rim1kp1, rip1jp1, rip1jm1, rip1kp1, rip1km1, rjm1km1, rjm1kp1, rjp1kp1, rjp1km1;
 	int numConexoes, numSitios, numLigacoes, cont;
+	bool continuar;
 
 	// Cria matriz abertura, cópia de pm.
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
@@ -1788,10 +1789,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						//Os objetos existentes na matrizAbertura terão novos rótulos, então precisamos decrementar o número de objetos ou apagar os elementos que deixarão de representar objetos.
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						it = matrizObjetos.find(rotuloijk);
-						if(it != matrizObjetos.end()){  // o elemento existe
-							if(it->second.NumObjs() > 1){ // o elemento representa mais de um objeto
+						if ( it != matrizObjetos.end() ) {  // o elemento existe
+							if ( it->second.NumObjs() > 1 ) { // o elemento representa mais de um objeto
 								--(it->second);							// decrementa o número de objetos representados
-							}else{												// o elemento representa um ou menos objetos
+							} else {												// o elemento representa um ou menos objetos
 								matrizObjetos.erase(it);		// apaga o elemento.
 							}
 						}
@@ -1800,16 +1801,16 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						matrizRotulada->data3D[i][j][k] = rotuloijk;
 
 						it = matrizObjetos.find(rotuloijk);
-						if(it != matrizObjetos.end()){  // o elemento foi encontrado
+						if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
 							++(it->second);							// incrementa o número de objetos representados
-						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+						} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 							matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
 						}
 					}
-/*
 				}
 			}
 		}
+
 		//verificar na matrizObjetos quais vizinhos da matrizAbertura são sitios e precisam ter seu rótulo atualizado
 		for ( i = 1; i < nx-1; ++i) {
 			for ( j = 1; j < ny-1; ++j) {
@@ -1818,36 +1819,84 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						it = matrizObjetos.find(rotuloijk);
 						if (it->second.Tipo() == SITIO) {
+							continuar = true;
 							//verifica a vizinhança
-							rim1 = matrizRotulada->data3D[i-1][j][k];
-							rip1 = matrizRotulada->data3D[i+1][j][k];
-							rjm1 = matrizRotulada->data3D[i][j-1][k];
-							rjp1 = matrizRotulada->data3D[i][j+1][k];
-							rkm1 = matrizRotulada->data3D[i][j][k-1];
-							rkp1 = matrizRotulada->data3D[i][j][k+1];
-							if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO )
-								it->second.Conectar( rim1 );
-							if ( rotuloijk != rip1 and matrizObjetos[rip1].Tipo() == SITIO )
-								it->second.Conectar( rip1 );
-							if ( rotuloijk != rjm1 and matrizObjetos[rjm1].Tipo() == SITIO )
-								it->second.Conectar( rjm1 );
-							if ( rotuloijk != rjp1 and matrizObjetos[rjp1].Tipo() == SITIO )
-								it->second.Conectar( rjp1 );
-							if ( rotuloijk != rkm1 and matrizObjetos[rkm1].Tipo() == SITIO )
-								it->second.Conectar( rkm1 );
-							if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO )
-								it->second.Conectar( rkp1 );
+							rotulov = matrizRotulada->data3D[i-1][j][k];
+							//se os rótulos forem diferentes e o vizinho for SITIO
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
+							rotulov = matrizRotulada->data3D[i+1][j][k];
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
+							rotulov = matrizRotulada->data3D[i][j-1][k];
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
+							rotulov = matrizRotulada->data3D[i][j+1][k];
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
+							rotulov = matrizRotulada->data3D[i][j][k-1];
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
+							rotulov = matrizRotulada->data3D[i][j][k+1];
+							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
+								if ( it->second.NumObjs() > 1 ) {
+									--(it->second);
+								} else {
+									matrizObjetos.erase(it);
+								}
+								++(matrizObjetos[rotulov]);
+								matrizRotulada->data3D[i][j][k] = rotulov;
+								continuar = false;
+							}
 						}
 					}
 				}
 			}
 		}
-
-
+		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
 				for ( k = 0; k < nz; ++k) {
-*/
 					// Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					// Desconsidera como complemento os pixeis assinalados com ligação ou ramo morto

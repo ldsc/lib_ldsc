@@ -79,27 +79,23 @@ bool CBaseMatriz::SalvaCores (ofstream & fout) const {
 
 // Le os comentários do arquivo para anvançar o ponteiro de leitura
 void CBaseMatriz::LeComentarios(ifstream & fin) {
-	int pos, teste;
-	char aux;
+	int pos;
+	string aux;
 	char linha[256];
 	do {
 		pos = fin.tellg();					//armazena a posição de leitura após o caracter
-		cerr << "Antes: " << pos << endl;
-		//fin >> skipws >> aux;				//pega o próximo caracter ignorando possíveis espaços
-		fin >> teste;
-		cerr << "teste=" << teste << endl;
-		fin.seekg(pos, ios::beg);
-		fin >> aux;
-		cerr << "aux=" << aux << endl;
-		cerr << "Durante: " << fin.tellg() << endl;
-		if(aux == '#'){
+		//cerr << "Antes: " << pos << endl;
+		fin >> skipws >> aux;				//pega o próximo caracter ignorando possíveis espaços
+		//cerr << "aux=" << aux << endl;
+		//cerr << "Durante: " << fin.tellg() << endl;
+		if(aux[0] == '#'){
 			fin.getline(linha, 256);	//vai para a próxima linha
 		} else {
 			//--pos;
 			fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
-			cerr << "Depois: " << fin.tellg() << endl;
+			//cerr << "Depois: " << fin.tellg() << endl;
 		}
-	} while(aux == '#');					// enquanto encontrar comentário, fica no loop.
+	} while(aux[0] == '#');					// enquanto encontrar comentário, fica no loop.
 }
 
 /*

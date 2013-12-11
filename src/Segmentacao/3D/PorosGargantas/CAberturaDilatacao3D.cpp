@@ -1473,7 +1473,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 			cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 			cout << "==>Corrigindo matriz abertura dilatada..." << endl ;
-	#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 			for ( i = 0; i < nx; ++i) {
 				for ( j = 0; j < ny; ++j) {
 					for ( k = 0; k < nz; ++k) {
@@ -1833,60 +1833,73 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 								matrizRotulada->data3D[i][j][k] = rotulov;
 								continuar = false;
 							}
-							rotulov = matrizRotulada->data3D[i+1][j][k];
-							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
-								if ( it->second.NumObjs() > 1 ) {
-									--(it->second);
-								} else {
-									matrizObjetos.erase(it);
+							if (continuar) {
+								rotulov = matrizRotulada->data3D[i+1][j][k];
+								if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO ) {
+									if ( it->second.NumObjs() > 1 ) {
+										--(it->second);
+									} else {
+										matrizObjetos.erase(it);
+									}
+									++(matrizObjetos[rotulov]);
+									matrizRotulada->data3D[i][j][k] = rotulov;
+									continuar = false;
 								}
-								++(matrizObjetos[rotulov]);
-								matrizRotulada->data3D[i][j][k] = rotulov;
-								continuar = false;
+								if (continuar) {
+									rotulov = matrizRotulada->data3D[i][j-1][k];
+									if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO ) {
+										if ( it->second.NumObjs() > 1 ) {
+											--(it->second);
+										} else {
+											matrizObjetos.erase(it);
+										}
+										++(matrizObjetos[rotulov]);
+										matrizRotulada->data3D[i][j][k] = rotulov;
+										continuar = false;
+									}
+									if (continuar) {
+										rotulov = matrizRotulada->data3D[i][j+1][k];
+										if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO ) {
+											if ( it->second.NumObjs() > 1 ) {
+												--(it->second);
+											} else {
+												matrizObjetos.erase(it);
+											}
+											++(matrizObjetos[rotulov]);
+											matrizRotulada->data3D[i][j][k] = rotulov;
+											continuar = false;
+										}
+										if (continuar) {
+											rotulov = matrizRotulada->data3D[i][j][k-1];
+											if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO ) {
+												if ( it->second.NumObjs() > 1 ) {
+													--(it->second);
+												} else {
+													matrizObjetos.erase(it);
+												}
+												++(matrizObjetos[rotulov]);
+												matrizRotulada->data3D[i][j][k] = rotulov;
+												continuar = false;
+											}
+											if (continuar) {
+												rotulov = matrizRotulada->data3D[i][j][k+1];
+												if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO ) {
+													if ( it->second.NumObjs() > 1 ) {
+														--(it->second);
+													} else {
+														matrizObjetos.erase(it);
+													}
+													++(matrizObjetos[rotulov]);
+													matrizRotulada->data3D[i][j][k] = rotulov;
+													continuar = false;
+												}
+											}
+										}
+									}
+								}
 							}
-							rotulov = matrizRotulada->data3D[i][j-1][k];
-							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
-								if ( it->second.NumObjs() > 1 ) {
-									--(it->second);
-								} else {
-									matrizObjetos.erase(it);
-								}
-								++(matrizObjetos[rotulov]);
-								matrizRotulada->data3D[i][j][k] = rotulov;
-								continuar = false;
-							}
-							rotulov = matrizRotulada->data3D[i][j+1][k];
-							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
-								if ( it->second.NumObjs() > 1 ) {
-									--(it->second);
-								} else {
-									matrizObjetos.erase(it);
-								}
-								++(matrizObjetos[rotulov]);
-								matrizRotulada->data3D[i][j][k] = rotulov;
-								continuar = false;
-							}
-							rotulov = matrizRotulada->data3D[i][j][k-1];
-							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
-								if ( it->second.NumObjs() > 1 ) {
-									--(it->second);
-								} else {
-									matrizObjetos.erase(it);
-								}
-								++(matrizObjetos[rotulov]);
-								matrizRotulada->data3D[i][j][k] = rotulov;
-								continuar = false;
-							}
-							rotulov = matrizRotulada->data3D[i][j][k+1];
-							if ( rotuloijk != rotulov and matrizObjetos[rotulov].Tipo() == SITIO and continuar ) {
-								if ( it->second.NumObjs() > 1 ) {
-									--(it->second);
-								} else {
-									matrizObjetos.erase(it);
-								}
-								++(matrizObjetos[rotulov]);
-								matrizRotulada->data3D[i][j][k] = rotulov;
-								continuar = false;
+							if ( ! continuar ) { //alterou a matrizRotulada, altera também a matrizAbertura.
+								matrizAbertura->data3D[i][j][k] = INDICE;
 							}
 						}
 					}
@@ -1983,6 +1996,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						rjp1 = matrizRotulada->data3D[i][j+1][k];
 						rkm1 = matrizRotulada->data3D[i][j][k-1];
 						rkp1 = matrizRotulada->data3D[i][j][k+1];
+						/*
 						rim1jm1 = matrizRotulada->data3D[i-1][j-1][k];
 						rim1jp1 = matrizRotulada->data3D[i-1][j+1][k];
 						rim1km1 = matrizRotulada->data3D[i-1][j][k-1];
@@ -1995,7 +2009,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						rjm1kp1 = matrizRotulada->data3D[i][j-1][k+1];
 						rjp1km1 = matrizRotulada->data3D[i][j+1][k-1];
 						rjp1kp1 = matrizRotulada->data3D[i][j+1][k+1];
-
+						*/
 						// Se os rotulos são diferentes, fazem parte da matriz abertura e o vizinho é um sítio, então, marca a conexão.
 						if ( rotuloijk != rim1 and matrizObjetos[rim1].Tipo() == SITIO )
 							it->second.Conectar( rim1 );
@@ -2009,6 +2023,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 							it->second.Conectar( rkm1 );
 						if ( rotuloijk != rkp1 and matrizObjetos[rkp1].Tipo() == SITIO )
 							it->second.Conectar( rkp1 );
+						/*
 						if ( rotuloijk != rim1jm1 and matrizObjetos[rim1jm1].Tipo() == SITIO)
 							it->second.Conectar( rim1jm1 );
 						if ( rotuloijk != rim1jp1 and matrizObjetos[rim1jp1].Tipo() == SITIO)
@@ -2033,6 +2048,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 							it->second.Conectar( rjp1km1 );
 						if ( rotuloijk != rjp1kp1 and matrizObjetos[rjp1kp1].Tipo() == SITIO)
 							it->second.Conectar( rjp1kp1 );
+						*/
 					}
 				}
 			}
@@ -2095,7 +2111,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 		// Incrementando raio do Elemento Estruturante
 		raioEE += incrementoRaioElementoEstruturante;
 	} // fim do While
-/*
+	/*
 	//apaga as conexões dos ramos mortos
 	for (it=matrizObjetos.begin(); it!=matrizObjetos.end(); ++it) {
 		if (it->second.Tipo() == RAMO_MORTO) {

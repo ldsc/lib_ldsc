@@ -60,6 +60,9 @@ enum EImageType {
 	D6_X_Y_Z_COLOR_BINARY	// 18 -DPM 3D BINARY
 };
 
+const char CR = 13;
+const char LF = 10;
+
 //struct sbit0 {
 //		bool b : 1;
 //};

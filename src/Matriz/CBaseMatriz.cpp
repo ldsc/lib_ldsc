@@ -79,17 +79,25 @@ bool CBaseMatriz::SalvaCores (ofstream & fout) const {
 
 // Le os comentários do arquivo para anvançar o ponteiro de leitura
 void CBaseMatriz::LeComentarios(ifstream & fin) {
-	int pos;
+	int pos, teste;
 	char aux;
 	char linha[256];
 	do {
-		fin >> skipws >> aux;				//pega o próximo caracter ignorando possíveis espaços
+		pos = fin.tellg();					//armazena a posição de leitura após o caracter
+		cerr << "Antes: " << pos << endl;
+		//fin >> skipws >> aux;				//pega o próximo caracter ignorando possíveis espaços
+		fin >> teste;
+		cerr << "teste=" << teste << endl;
+		fin.seekg(pos, ios::beg);
+		fin >> aux;
+		cerr << "aux=" << aux << endl;
+		cerr << "Durante: " << fin.tellg() << endl;
 		if(aux == '#'){
 			fin.getline(linha, 256);	//vai para a próxima linha
-		}else{
-			pos = fin.tellg();					//armazena a posição de leitura após o caracter
-			pos--;
+		} else {
+			//--pos;
 			fin.seekg(pos, ios::beg);	//reposiciona a leitura. Aqui aux é diferente de #. Logo, sairá do loop.
+			cerr << "Depois: " << fin.tellg() << endl;
 		}
 	} while(aux == '#');					// enquanto encontrar comentário, fica no loop.
 }
@@ -260,11 +268,13 @@ return 0;
 */
 
 bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquivo formato correto
-	fin.open (fileName.c_str ());
-	//  char aux[50];
-	string aux;
+	fin.open (fileName.c_str (), ios::binary); //abrindo sempre em modo binário para que tellg e seekg funcionem corretamente no windows
+	return fin.good ();
+	/*string aux;
 	if (fin.good ()) { // Se carregou corretamente o arquivo
+		return true;
 		fin >> aux;		//  Lê a primeira string ( Pi ou Di ou Vi -> P1,P2,...D1,D5...V1,V3...)
+		cerr << "aux=" << aux << endl;
 		if (aux[0] == 'V' || aux[0] == 'P' || aux[0] == 'D') { //se for arquivo de matriz válida.
 			if ( aux.at(1) == '1' || aux.at(1) == '2' || aux.at(1) == '3' ) { // se o formato do dados for ASCII
 				fin.seekg (0, ios::beg);	//  vai para posicao 0, a partir do inicio do arquivo
@@ -281,6 +291,7 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquiv
 		fin.close (); 		// Arquivo inválido. Fechar...
 	}
 	return false;			//  nao abriu corretamente retorna erro
+	*/
 }
 
 /*

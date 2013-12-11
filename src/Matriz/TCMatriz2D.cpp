@@ -408,9 +408,7 @@ void TCMatriz2D<T>::SalvaDados (ofstream & fout) const {
 template< typename T >
 bool TCMatriz2D<T>::Read (string fileName, int separado) {
 	ifstream fin; // Ponteiro para arquivo de disco.
-	CBaseMatriz::AbreArquivo (fin, fileName); // Abre o arquivo de disco no formato correto.
-	//fin.open(fileName.c_str());
-	if (fin.good ()) { // Se o arquivo foi corretamente aberto
+	if (CBaseMatriz::AbreArquivo (fin, fileName)) { // Se o arquivo foi corretamente aberto
 		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case P1_X_Y_ASCII:
@@ -430,11 +428,14 @@ bool TCMatriz2D<T>::Read (string fileName, int separado) {
 		//pega os valore de nx e ny ignorando os comentários
 		CBaseMatriz::LeComentarios(fin);
 		fin >> nx;
+		cerr << "nx=" << nx << endl;
 		CBaseMatriz::LeComentarios(fin);
 		fin >> ny;
+		cerr << "ny=" << ny << endl;
 		CBaseMatriz::LeComentarios(fin);
 		if( numCores ){
 			fin >> numCores;					//pega o número de cores do arquivo.
+			cerr << "numCores=" << numCores << endl;
 			CBaseMatriz::LeComentarios(fin);
 		}
 		if ( TCMatriz2D<T>::AlocaMatriz2D(nx, ny) ) {			// Aloca a matriz de dados

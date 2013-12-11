@@ -397,9 +397,7 @@ void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 template< typename T >
 bool TCMatriz3D<T>::Read (string fileName, int separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
-	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
-	//fin.open (fileName.c_str ());		// Abre o arquivo de disco no formato ascii
-	if (fin.good ()) { 								// Se o arquivo foi corretamente aberto
+	if (CBaseMatriz::AbreArquivo (fin, fileName)) { // Se o arquivo foi corretamente aberto
 		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case D1_X_Y_Z_ASCII:

@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+									Ramo: TPadrao_ramo
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
@@ -28,62 +28,63 @@ email:            andreduartebueno@gmail.com
 
 template< typename T >
 void TCImagem3D<T>::SalvaInformacoesRecontrucao (ofstream & fout) const {
-    if (fout) {
-        fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
-        fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
-				fout << setw (0) << "# numeroPixelsBorda: " << numeroPixelsBorda;
-    }
+	if (fout) {
+		fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
+		fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
+		fout << setw (0) << "# numeroPixelsBorda: " << numeroPixelsBorda;
+	}
 }
 
 template< typename T >
 bool TCImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
-    if (fin.good()) {
-        int posInicial = fin.tellg();		//guarda a posição de leitura no arquivo.
-        char linha[256];
-        string aux;
-        fin.seekg(0, ios::beg);			//posiciona o ponteiro de leitura no começo do arquivo
-        do {
-            fin >> aux;
-        } while ( ( aux != "#" ) and ( fin.tellg() > 0 ) and ( fin.tellg() < 64 ) ); //
-        bool encontrou = false;
-        if (aux == "#") {
-            do {
-                fin >> aux;
-                if (aux == "fatorAmplificacao:") {
-                    fin >> fatorAmplificacao;
-                    //cerr << "\nfatorAmplificacao=" << fatorAmplificacao << endl;
-                    encontrou = true;
-                } else if (aux == "sizePixel:") {
-                    fin >> sizePixel;
-                    encontrou = true;
-                    //cerr << "\nsizePixel=" << sizePixel << endl;
-                } else if (aux == "numeroPixelsBorda:") {
-                    fin >> numeroPixelsBorda;
-                    //cerr << "\nnumeroPixelsBorda=" << numeroPixelsBorda << endl;
-                    encontrou = true;
-                }
-                if ( encontrou ) {
-                    fin >> aux;
-                } else {
-                    fin.getline(linha, 256);
-                    fin >> aux;
-                }
-            } while ( aux == "#" );
-        }
-        fin.seekg(posInicial, ios::beg);	//reposiciona o ponteiro de leitura para a posição inicial;
-        return encontrou;
-    }
-    return false;
+	fatorAmplificacao = sizePixel = numeroPixelsBorda = 0;
+	if (fin.good()) {
+		int posInicial = fin.tellg();		//guarda a posição de leitura no arquivo.
+		char linha[256];
+		string aux;
+		fin.seekg(0, ios::beg);			//posiciona o ponteiro de leitura no começo do arquivo
+		do {
+			fin >> aux;
+		} while ( ( aux != "#" ) and ( fin.tellg() > 0 ) and ( fin.tellg() < 64 ) ); //
+		bool encontrou = false;
+		if (aux == "#") {
+			do {
+				fin >> aux;
+				if (aux == "fatorAmplificacao:") {
+					fin >> fatorAmplificacao;
+					//cerr << "\nfatorAmplificacao=" << fatorAmplificacao << endl;
+					encontrou = true;
+				} else if (aux == "sizePixel:") {
+					fin >> sizePixel;
+					encontrou = true;
+					//cerr << "\nsizePixel=" << sizePixel << endl;
+				} else if (aux == "numeroPixelsBorda:") {
+					fin >> numeroPixelsBorda;
+					//cerr << "\nnumeroPixelsBorda=" << numeroPixelsBorda << endl;
+					encontrou = true;
+				}
+				if ( encontrou ) {
+					fin >> aux;
+				} else {
+					fin.getline(linha, 256);
+					fin >> aux;
+				}
+			} while ( aux == "#" );
+		}
+		fin.seekg(posInicial, ios::beg);	//reposiciona o ponteiro de leitura para a posição inicial;
+		return encontrou;
+	}
+	return false;
 }
 
 template< typename T >
 bool TCImagem3D<T>::LeInformacoesRecontrucao (string fileName) {
-    ifstream fin;									// Ponteiro para arquivo de disco
-    CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
-    if (fin.good ()) {								// Se o arquivo foi corretamente aberto
-        return LeInformacoesRecontrucao (fin);
-    }
-    return false;
+	ifstream fin;									// Ponteiro para arquivo de disco
+	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
+	if (fin.good ()) {								// Se o arquivo foi corretamente aberto
+		return LeInformacoesRecontrucao (fin);
+	}
+	return false;
 }
 
 /*

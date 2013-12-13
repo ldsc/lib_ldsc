@@ -1818,7 +1818,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 					if ( pm->data3D[i][j][k] == INDICE && matrizAbertura->data3D[i][j][k] == FUNDO) {
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						it = matrizObjetos.find(rotuloijk);
-						if (it->second.Tipo() == SITIO) {
+						if ( it->second.Tipo() == SITIO and it->second.NumObjs() < 7 ) {
 							continuar = true;
 							//verifica a vizinhança
 							rotulov = matrizRotulada->data3D[i-1][j][k];
@@ -1906,6 +1906,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 				}
 			}
 		}
+		os.str(""); os << "raio-" << raioEE << "-1-MatrizAberturaCorrigida.dbm";
+		SalvarResultadosParciaisEmDisco( matrizAbertura, os.str() );
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {

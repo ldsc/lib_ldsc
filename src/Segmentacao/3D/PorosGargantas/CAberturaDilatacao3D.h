@@ -187,6 +187,9 @@ class CAberturaDilatacao3D
 		/// Se a flag gerarDetalhesObjetos estiver setada, gera detalhes dos objetos identificados (Num. voxeis, ligações, etc).
 		void GerarDetalhesMatrizObjetos();
 
+		/// Recebe matriz rotulada e realiza a interconexão entre os objetos existentes na matrizObjetos.
+		void ConectarObjetos(TCMatriz3D<int>* &mat, bool zerarConexoes=false);
+
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
 		void DistSitiosLigacoes_Modelo_7();
 

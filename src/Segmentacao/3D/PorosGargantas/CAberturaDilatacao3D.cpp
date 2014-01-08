@@ -2130,11 +2130,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 		}
 	}
 
+	//zera a matriz de objetos
+	matrizObjetos.clear();
+
 	cout << "-->Rotulando sitios..." << endl ;
 	matrizRotulo->Go( matrizSitios );
 	numObjetos = matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	//zera a matriz de objetos
-	matrizObjetos.clear();
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {
@@ -2194,48 +2195,184 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	}
 
 	//COMPARACOES E CONEXOES
-	borda = 1;
 	cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
-	for ( i = borda; i < (nx-borda); ++i) {
-		for ( j = borda; j < (ny-borda); ++j) {
-			for ( k = borda; k < (nz-borda); ++k) {
-				if ( matrizRotulada->data3D[i][j][k] != 0 ) {
-					rotuloijk = matrizRotulo->data3D[i][j][k];
-					if ( rotuloijk	> 0 ) {
-						it = matrizObjetos.find(rotuloijk);
-						rip1 = matrizRotulada->data3D[i+1][j][k];
-						rjp1 = matrizRotulada->data3D[i][j+1][k];
-						rkp1 = matrizRotulada->data3D[i][j][k+1];
+	for ( i = 0; i < (nx-1); ++i) {
+		for ( j = 0; j < (ny-1); ++j) {
+			for ( k = 0; k < (nz-1); ++k) {
+				if ( matrizRotulada->data3D[i][j][k] > 0 ) {
+					rotuloijk = matrizRotulada->data3D[i][j][k];
+					it = matrizObjetos.find(rotuloijk);
+					rip1 = matrizRotulada->data3D[i+1][j][k];
+					rjp1 = matrizRotulada->data3D[i][j+1][k];
+					rkp1 = matrizRotulada->data3D[i][j][k+1];
 
-						// Se os rotulos não representam sólido, e o vizinho é um sítio, então, marca a conexão.
-						if ( rip1 > 0 ) {
-							itt = matrizObjetos.find(rip1);
-							itt->second.Conectar( rotuloijk );
-							it->second.Conectar( rip1 );
+					if ( rip1 > 0 ) {
+						itt = matrizObjetos.find(rip1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rip1 );
+					}
+					if ( rjp1 > 0 ) {
+						itt = matrizObjetos.find(rjp1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rjp1 );
+					}
+					if ( rkp1 > 0 ) {
+						itt = matrizObjetos.find(rkp1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rkp1 );
+					}
+				}
+			}
+		}
+	}
+	//fazer comparacoes convertendo ramos mortos em sitios ou ligacoes
+	for ( i = 0; i < nx; ++i ) {
+		for ( j = 0; j < ny; ++j ) {
+			for ( k = 0; k < nz; ++k ) {
+				rotuloijk = matrizRotulada->data3D[i][j][k];
+				if (rotuloijk > 0) {
+					it = matrizObjetos.find(rotuloijk);
+					if ( it->second.Tipo() == RAMO_MORTO ) {
+						numSitios = numLigacoes = 0;
+						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+								++numSitios;
+							} else if ( matrizObjetos[*con].Tipo() == LIGACAO ) {
+								++numLigacoes;
+							}
 						}
-						if ( rjp1 > 0 ) {
-							itt = matrizObjetos.find(rjp1);
-							itt->second.Conectar( rotuloijk );
-							it->second.Conectar( rjp1 );
+						if ( numSitios > 1 ) { //ramo morto ligado a mais de um sítio é ligação
+							it->second.Tipo(LIGACAO);
+						} else if ( numSitios == 1 ) { //ramo morto ligado a um único sítio é sítio
+							it->second.Tipo(SITIO);
+						} else if ( numLigacoes > 0 ) { //ramo morto ligado a nenhum sítio e a pelo menos uma ligação é ligação
+							it->second.Tipo(LIGACAO);
+						} else { //ramo morto sem ligaçõe é considerado sítio
+							it->second.Tipo(SITIO);
 						}
-						if ( rkp1 > 0 ) {
-							itt = matrizObjetos.find(rkp1);
-							itt->second.Conectar( rotuloijk );
-							it->second.Conectar( rkp1 );
-						}
+					}
+					//aproveita o loop para corrigir matrizes de sítios e ligaçoes
+					if ( it->second.Tipo() == SITIO ) {
+						matrizSitios->data3D[i][j][k] = INDICE;
+						matrizLigacoes->data3D[i][j][k] = FUNDO;
+						matrizRamosMortos->data3D[i][j][k] = FUNDO;
+					} else {
+						matrizSitios->data3D[i][j][k] = FUNDO;
+						matrizLigacoes->data3D[i][j][k] = INDICE;
+						matrizRamosMortos->data3D[i][j][k] = FUNDO;
 					}
 				}
 			}
 		}
 	}
 
+	//Segunda etapa necessária para converter para sítio, ligações conectadas a um único sítio.
 
-	//fazer comparacoes convertendo ramos mortos em sitios ou ligacoes
+	//zera a matriz de objetos
+	matrizObjetos.clear();
 
+	cout << "-->Rotulando sitios..." << endl ;
+	matrizRotulo->Go( matrizSitios );
+	numObjetos = matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
+	for ( i = 0; i < nx; ++i) {
+		for ( j = 0; j < ny; ++j) {
+			for ( k = 0; k < nz; ++k) {
+				rotuloijk = matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k];
+				if (rotuloijk != 0) {
+					it = matrizObjetos.find(rotuloijk);
+					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
+						++(it->second);							// incrementa o número de objetos representados
+					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
+					}
+				}
+			}
+		}
+	}
 
+	cout << "-->Rotulando ligacoes..." << endl ;
+	matrizRotulo->Go( matrizLigacoes );
+	numObjetos += matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
+	for ( i = 0; i < nx; ++i) {
+		for ( j = 0; j < ny; ++j) {
+			for ( k = 0; k < nz; ++k) {
+				rotuloijk = matrizRotulo->data3D[i][j][k];
+				if (rotuloijk != 0) {
+					rotuloijk += numObjetos;
+					matrizRotulada->data3D[i][j][k] = rotuloijk;
+					it = matrizObjetos.find(rotuloijk);
+					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
+						++(it->second);							// incrementa o número de objetos representados
+					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+						matrizObjetos[rotuloijk] = CObjetoImagem( LIGACAO, 1);
+					}
+				}
+			}
+		}
+	}
 
+	//COMPARACOES E CONEXOES
+	cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
+	for ( i = 0; i < (nx-1); ++i) {
+		for ( j = 0; j < (ny-1); ++j) {
+			for ( k = 0; k < (nz-1); ++k) {
+				if ( matrizRotulada->data3D[i][j][k] > 0 ) {
+					rotuloijk = matrizRotulada->data3D[i][j][k];
+					it = matrizObjetos.find(rotuloijk);
+					rip1 = matrizRotulada->data3D[i+1][j][k];
+					rjp1 = matrizRotulada->data3D[i][j+1][k];
+					rkp1 = matrizRotulada->data3D[i][j][k+1];
 
+					if ( rip1 > 0 ) {
+						itt = matrizObjetos.find(rip1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rip1 );
+					}
+					if ( rjp1 > 0 ) {
+						itt = matrizObjetos.find(rjp1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rjp1 );
+					}
+					if ( rkp1 > 0 ) {
+						itt = matrizObjetos.find(rkp1);
+						itt->second.Conectar( rotuloijk );
+						it->second.Conectar( rkp1 );
+					}
+				}
+			}
+		}
+	}
 
+	//Ligações conectadas a um único sítio deverão se tornar sítios
+	for ( i = 0; i < nx; ++i ) {
+		for ( j = 0; j < ny; ++j ) {
+			for ( k = 0; k < nz; ++k ) {
+				rotuloijk = matrizRotulada->data3D[i][j][k];
+				if (rotuloijk > 0) {
+					it = matrizObjetos.find(rotuloijk);
+					if ( it->second.Tipo() == LIGACAO ) {
+						numSitios = 0;
+						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+								++numSitios;
+							}
+						}
+						if ( numSitios == 1 ) { //ramo morto ligado a um único sítio é sítio
+							it->second.Tipo(SITIO);
+						}
+					}
+					//aproveita o loop para corrigir matrizes de sítios e ligaçoes
+					if ( it->second.Tipo() == SITIO ) {
+						matrizSitios->data3D[i][j][k] = INDICE;
+						matrizLigacoes->data3D[i][j][k] = FUNDO;
+					} else {
+						matrizSitios->data3D[i][j][k] = FUNDO;
+						matrizLigacoes->data3D[i][j][k] = INDICE;
+					}
+				}
+			}
+		}
+	}
 
 	os.str(""); os << "raio-" << raioEE << "-11-MatrizSitiosFinal.dbm";
 	SalvarResultadosParciaisEmDisco( matrizSitios, os.str() );

@@ -428,14 +428,14 @@ bool TCMatriz2D<T>::Read (string fileName, int separado) {
 		//pega os valore de nx e ny ignorando os comentários
 		CBaseMatriz::LeComentarios(fin);
 		fin >> nx;
-		cerr << "nx=" << nx << endl;
+		//cerr << "nx=" << nx << endl;
 		CBaseMatriz::LeComentarios(fin);
 		fin >> ny;
-		cerr << "ny=" << ny << endl;
+		//cerr << "ny=" << ny << endl;
 		CBaseMatriz::LeComentarios(fin);
 		if( numCores ){
 			fin >> numCores;					//pega o número de cores do arquivo.
-			cerr << "numCores=" << numCores << endl;
+			//cerr << "numCores=" << numCores << endl;
 			CBaseMatriz::LeComentarios(fin);
 		}
 		if ( TCMatriz2D<T>::AlocaMatriz2D(nx, ny) ) {			// Aloca a matriz de dados

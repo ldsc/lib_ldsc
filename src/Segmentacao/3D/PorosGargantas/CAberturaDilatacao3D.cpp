@@ -2376,7 +2376,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						rotuloijk = matrizRotulada->data3D[i][j][k];
 						numConexoes = matrizObjetos[rotuloijk].SConexao().size();
-						numSitios = numLigacoes = 0;
 						if ( numConexoes > 1 ) {
 							matrizObjetos[rotuloijk].Tipo( LIGACAO );
 							matrizLigacoes->data3D[i][j][k] = INDICE;
@@ -2454,7 +2453,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						matrizLigacoes->data3D[i][j][k] = FUNDO;
 						matrizRamosMortos->data3D[i][j][k] = FUNDO;
 					} else if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
-					//} else if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
+						//} else if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
 						matrizSitios->data3D[i][j][k] = FUNDO;
 						//matrizLigacoes->data3D[i][j][k] = FUNDO;
 						matrizRamosMortos->data3D[i][j][k] = FUNDO;
@@ -2561,16 +2560,16 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 						} else { //ramo morto sem ligações é considerado sítio
 							it->second.Tipo(SITIO);
 						}
-					}
-					//aproveita o loop para corrigir matrizes de sítios e ligaçoes
-					if ( it->second.Tipo() == SITIO ) {
-						matrizSitios->data3D[i][j][k] = INDICE;
-						matrizLigacoes->data3D[i][j][k] = FUNDO;
-						matrizRamosMortos->data3D[i][j][k] = FUNDO;
-					} else {
-						matrizSitios->data3D[i][j][k] = FUNDO;
-						matrizLigacoes->data3D[i][j][k] = INDICE;
-						matrizRamosMortos->data3D[i][j][k] = FUNDO;
+						//aproveita o loop para corrigir matrizes de sítios e ligaçoes
+						if ( it->second.Tipo() == SITIO ) {
+							matrizSitios->data3D[i][j][k] = INDICE;
+							matrizLigacoes->data3D[i][j][k] = FUNDO;
+							matrizRamosMortos->data3D[i][j][k] = FUNDO;
+						} else if ( it->second.Tipo() == LIGACAO ) {
+							matrizSitios->data3D[i][j][k] = FUNDO;
+							matrizLigacoes->data3D[i][j][k] = INDICE;
+							matrizRamosMortos->data3D[i][j][k] = FUNDO;
+						}
 					}
 				}
 			}
@@ -2639,7 +2638,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 								++numSitios;
 							}
 						}
-						if ( numSitios == 1 ) { //ramo morto ligado a um único sítio é sítio
+						if ( numSitios == 1 ) { //ligação conectada a um único sítio é sítio
 							it->second.Tipo(SITIO);
 						}
 					}

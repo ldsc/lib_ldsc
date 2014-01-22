@@ -190,6 +190,9 @@ class CAberturaDilatacao3D
 		/// Recebe matriz rotulada e realiza a interconexão entre os objetos existentes na matrizObjetos.
 		void ConectarObjetos(TCMatriz3D<int>* &mat, bool zerarConexoes=false);
 
+		/// Recebe matriz a ser rotulada, matriz que acumulará os rótulos e opcionalmente o valor a ser considerado como rotulo inicial
+		int RotularECriarObjetos(TCMatriz3D<bool>* &matOriginal, TCMatriz3D<int>* &matRotulo, ETipoObjetoImagem tipo, int vlr=0 );
+
 		/// Determina distribuicao de sitios e ligacoes (método novo, modelo 7, utiliza IDF)
 		void DistSitiosLigacoes_Modelo_7();
 

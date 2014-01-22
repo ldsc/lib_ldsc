@@ -292,6 +292,32 @@ void CAberturaDilatacao3D::ConectarObjetos(TCMatriz3D<int>* &mat, bool zerarCone
 	}
 }
 
+int CAberturaDilatacao3D::RotularECriarObjetos(TCMatriz3D<bool>* &matOriginal, TCMatriz3D<int>* &matRotulo, ETipoObjetoImagem tipo, int vlr ) {
+	int i, j, k, rotuloijk;
+	int nx = matOriginal->NX();
+	int ny = matOriginal->NY();
+	int nz = matOriginal->NZ();
+	matrizRotulo->Go( matOriginal );
+	for ( i = 0; i < nx; ++i) {
+		for ( j = 0; j < ny; ++j) {
+			for ( k = 0; k < nz; ++k) {
+				rotuloijk = matrizRotulo->data3D[i][j][k];
+				if (rotuloijk != 0) {
+					rotuloijk += vlr;
+					matRotulo->data3D[i][j][k] = rotuloijk;
+					it = matrizObjetos.find(rotuloijk);
+					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
+						++(it->second);							// incrementa o número de objetos representados
+					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
+						matrizObjetos[rotuloijk] = CObjetoImagem( tipo, 1);
+					}
+				}
+			}
+		}
+	}
+	return matrizRotulo->NumeroObjetos() - 1; // -1 para não contar fundo
+}
+
 void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 	// Se a flag estiver setada
 	if (gerarDetalhesObjetos) {
@@ -2432,15 +2458,15 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	pfmf->Dilatacao( matrizSitios, raioEEDilatacao );
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	cout << "-->Dilatando matriz de ligacoes..." << endl;
-	pfmf->Go( matrizLigacoes );
-	pfmf->Dilatacao( matrizLigacoes, raioEEDilatacao );
-	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+//	cout << "-->Dilatando matriz de ligacoes..." << endl;
+//	pfmf->Go( matrizLigacoes );
+//	pfmf->Dilatacao( matrizLigacoes, raioEEDilatacao );
+//	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
-	//cout << "-->Dilatando matriz ramos mortos..." << endl;
-	//pfmf->Go( matrizRamosMortos );
-	//pfmf->Dilatacao( matrizRamosMortos, raioEEDilatacao );
-	//cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
+//	cout << "-->Dilatando matriz ramos mortos..." << endl;
+//	pfmf->Go( matrizRamosMortos );
+//	pfmf->Dilatacao( matrizRamosMortos, raioEEDilatacao );
+//	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "-->Corrigindo matrizes..." << endl ;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
@@ -2448,15 +2474,15 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {
 				if ( pm->data3D[i][j][k] == INDICE ) {
-					rotuloijk = matrizRotulada->data3D[i][j][k];
 					if ( matrizSitios->data3D[i][j][k] == INDICE ) {
 						matrizLigacoes->data3D[i][j][k] = FUNDO;
 						matrizRamosMortos->data3D[i][j][k] = FUNDO;
 					} else if ( matrizLigacoes->data3D[i][j][k] == INDICE ) {
-						//} else if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
 						matrizSitios->data3D[i][j][k] = FUNDO;
-						//matrizLigacoes->data3D[i][j][k] = FUNDO;
 						matrizRamosMortos->data3D[i][j][k] = FUNDO;
+					} else if ( matrizRamosMortos->data3D[i][j][k] == INDICE ) {
+						matrizSitios->data3D[i][j][k] = FUNDO;
+						matrizLigacoes->data3D[i][j][k] = FUNDO;
 					}
 				} else {
 					matrizSitios->data3D[i][j][k] = FUNDO;
@@ -2469,67 +2495,16 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 
 	//zera a matriz de objetos
 	matrizObjetos.clear();
+	matrizRotulada->Constante(0);
 
-	cout << "-->Rotulando sitios..." << endl ;
-	matrizRotulo->Go( matrizSitios );
-	numObjetos = matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k];
-				if (rotuloijk != 0) {
-					it = matrizObjetos.find(rotuloijk);
-					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
-					}
-				}
-			}
-		}
-	}
+	cout << "-->Rotulando sitios e criando objetos..." << endl ;
+	numObjetos = RotularECriarObjetos(matrizSitios, matrizRotulada, SITIO, 0);
 
-	cout << "-->Rotulando ligacoes..." << endl ;
-	matrizRotulo->Go( matrizLigacoes );
-	numObjetos += matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulo->data3D[i][j][k];
-				if (rotuloijk != 0) {
-					rotuloijk += numObjetos;
-					matrizRotulada->data3D[i][j][k] = rotuloijk;
-					it = matrizObjetos.find(rotuloijk);
-					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( LIGACAO, 1);
-					}
-				}
-			}
-		}
-	}
+	cout << "-->Rotulando ligacoes e criando objetos..." << endl ;
+	numObjetos += RotularECriarObjetos(matrizLigacoes, matrizRotulada, LIGACAO, numObjetos);
 
-	cout << "-->Rotulando Ramos Mortos..." << endl ;
-	matrizRotulo->Go( matrizRamosMortos );
-	numObjetos += matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulo->data3D[i][j][k];
-				if (rotuloijk != 0) {
-					rotuloijk += numObjetos;
-					matrizRotulada->data3D[i][j][k] = rotuloijk;
-					it = matrizObjetos.find(rotuloijk);
-					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( RAMO_MORTO, 1);
-					}
-				}
-			}
-		}
-	}
+	cout << "-->Rotulando Ramos Mortos e criando objetos..." << endl ;
+	numObjetos += RotularECriarObjetos(matrizRamosMortos, matrizRotulada, RAMO_MORTO, numObjetos);
 
 	//COMPARACOES E CONEXOES
 	cout << "-->Comparando matrizes e fazendo conexões..." << endl ;
@@ -2579,46 +2554,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	//Segunda etapa: Ligações conectadas a um único sítio precisam ser convertidas para sítios.
 	//zera a matriz de objetos
 	matrizObjetos.clear();
+	matrizRotulada->Constante(0);
 
-	cout << "-->Rotulando sitios..." << endl ;
-	matrizRotulo->Go( matrizSitios );
-	numObjetos = matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulada->data3D[i][j][k] = matrizRotulo->data3D[i][j][k];
-				if (rotuloijk != 0) {
-					it = matrizObjetos.find(rotuloijk);
-					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1);
-					}
-				}
-			}
-		}
-	}
+	cout << "-->Rotulando sitios e criando objetos..." << endl ;
+	numObjetos = RotularECriarObjetos(matrizSitios, matrizRotulada, SITIO, 0);
 
-	cout << "-->Rotulando ligacoes..." << endl ;
-	matrizRotulo->Go( matrizLigacoes );
-	numObjetos += matrizRotulo->NumeroObjetos()-1;// menos 1 para não contar fundo
-	for ( i = 0; i < nx; ++i) {
-		for ( j = 0; j < ny; ++j) {
-			for ( k = 0; k < nz; ++k) {
-				rotuloijk = matrizRotulo->data3D[i][j][k];
-				if (rotuloijk != 0) {
-					rotuloijk += numObjetos;
-					matrizRotulada->data3D[i][j][k] = rotuloijk;
-					it = matrizObjetos.find(rotuloijk);
-					if ( it != matrizObjetos.end() ) {  // o elemento foi encontrado
-						++(it->second);							// incrementa o número de objetos representados
-					} else {													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
-						matrizObjetos[rotuloijk] = CObjetoImagem( LIGACAO, 1);
-					}
-				}
-			}
-		}
-	}
+	cout << "-->Rotulando ligacoes e criando objetos..." << endl ;
+	numObjetos += RotularECriarObjetos(matrizLigacoes, matrizRotulada, LIGACAO, numObjetos);
 
 	//COMPARACOES E CONEXOES
 	cout << "-->Comparando matrizes e fazendo conexões..." << endl ;

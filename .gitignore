@@ -10,6 +10,7 @@
 *.dbm
 *.pgm
 *.dgm
+*.exe
 cvs
 libldsc.a
 libldsc.so

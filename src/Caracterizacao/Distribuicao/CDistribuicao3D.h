@@ -16,8 +16,7 @@
 #include <Caracterizacao/Distribuicao/CDistribuicao.h>
 
 /**
- * @brief Declara a classe CDistribuicao3D, herdeira de CBaseDistribuicao.
- * Esta classe permite determinar a distribuição de tamanho dos objetos
+ * @brief Declara a classe CDistribuicao3D, herdeira de CBaseDistribuicao. Esta classe permite determinar a distribuição de tamanho dos objetos
  * (poros) em uma imagem 3D.
 */
 

@@ -21,6 +21,7 @@ add_library (ldsc STATIC
   Caracterizacao/Distribuicao/CBaseDistribuicao.cpp
   Caracterizacao/Distribuicao/CDistribuicao.cpp
   Caracterizacao/Distribuicao/CDistribuicao3D.cpp
+  Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.cpp
   Estatistica/CERandomico.cpp
   Estatistica/CEstatistica.cpp
   Estatistica/CEFatorial.cpp

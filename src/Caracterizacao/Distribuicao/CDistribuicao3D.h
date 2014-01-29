@@ -13,7 +13,7 @@
 
 #include <Matriz/TCMatriz3D.h>
 //#include <Distribuicao/CBaseDistribuicao.h>
-#include <Distribuicao/CDistribuicao.h>
+#include <Caracterizacao/Distribuicao/CDistribuicao.h>
 
 /**
  * @brief Declara a classe CDistribuicao3D, herdeira de CBaseDistribuicao.

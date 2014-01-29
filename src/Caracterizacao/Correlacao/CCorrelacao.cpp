@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cstdlib>
 
-#include <Correlacao/CCorrelacao.h>
+#include <Caracterizacao/Correlacao/CCorrelacao.h>
 
 // -----------------------------------------------------------------------
 // Construtor:

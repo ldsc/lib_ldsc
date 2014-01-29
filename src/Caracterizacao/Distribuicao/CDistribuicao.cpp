@@ -1,4 +1,4 @@
-#include <Distribuicao/CDistribuicao.h>
+#include <Caracterizacao/Distribuicao/CDistribuicao.h>
 #ifndef TCFEMorfologiaMatematica_h
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #endif

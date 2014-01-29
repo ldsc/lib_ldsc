@@ -1,4 +1,4 @@
-#include <Distribuicao/CDistribuicao3D.h>
+#include <Caracterizacao/Distribuicao/CDistribuicao3D.h>
 
 #ifndef TCFEMorfologiaMatematica3D_h
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMorfologiaMatematica3D.h>

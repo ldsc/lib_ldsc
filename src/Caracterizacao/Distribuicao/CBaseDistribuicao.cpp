@@ -1,4 +1,4 @@
-#include <Distribuicao/CBaseDistribuicao.h>
+#include <Caracterizacao/Distribuicao/CBaseDistribuicao.h>
 #include <iostream>
 
 // -----------------------------------------------------------------------

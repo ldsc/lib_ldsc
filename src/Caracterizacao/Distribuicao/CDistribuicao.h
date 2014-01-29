@@ -12,7 +12,7 @@
 #define CDistribuicao_h
 
 #include <Matriz/TCMatriz2D.h>
-#include <Distribuicao/CBaseDistribuicao.h>
+#include <Caracterizacao/Distribuicao/CBaseDistribuicao.h>
 
 /**
  * @brief Declara a classe CDistribuicao, herdeira de CBaseDistribuicao.

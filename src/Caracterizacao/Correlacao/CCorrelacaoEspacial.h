@@ -1,7 +1,7 @@
 #ifndef CCorrelacaoEspacial_h
 #define CCorrelacaoEspacial_h
 
-#include <Correlacao/CCorrelacao.h>
+#include <Caracterizacao/Correlacao/CCorrelacao.h>
 #include <Matriz/TCMatriz2D.h>
 
 /**

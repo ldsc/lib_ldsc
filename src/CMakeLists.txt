@@ -14,13 +14,13 @@ add_library (ldsc STATIC
   ConEqu/CCamara3D.cpp
   Contorno/CContornoCentro.cpp
   Contorno/CContorno.cpp
-  Correlacao/CCorrelacao.cpp
-  Correlacao/CCorrelacao3D.cpp
-  Correlacao/CCorrelacaoEspacial.cpp
-  Correlacao/CCorrelacaoFFT.cpp
-  Distribuicao/CBaseDistribuicao.cpp
-  Distribuicao/CDistribuicao.cpp
-  Distribuicao/CDistribuicao3D.cpp
+  Caracterizacao/Correlacao/CCorrelacao.cpp
+  Caracterizacao/Correlacao/CCorrelacao3D.cpp
+  Caracterizacao/Correlacao/CCorrelacaoEspacial.cpp
+  Caracterizacao/Correlacao/CCorrelacaoFFT.cpp
+  Caracterizacao/Distribuicao/CBaseDistribuicao.cpp
+  Caracterizacao/Distribuicao/CDistribuicao.cpp
+  Caracterizacao/Distribuicao/CDistribuicao3D.cpp
   Estatistica/CERandomico.cpp
   Estatistica/CEstatistica.cpp
   Estatistica/CEFatorial.cpp

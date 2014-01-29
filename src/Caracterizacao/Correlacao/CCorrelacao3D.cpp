@@ -1,6 +1,6 @@
-#include <Correlacao/CCorrelacao3D.h>
-#include <Correlacao/CCorrelacaoEspacial.h>
-#include <Correlacao/CCorrelacaoFFT.h>
+#include <Caracterizacao/Correlacao/CCorrelacao3D.h>
+#include <Caracterizacao/Correlacao/CCorrelacaoEspacial.h>
+#include <Caracterizacao/Correlacao/CCorrelacaoFFT.h>
 #include <Matriz/TCMatriz3D.h>
 #include <fstream>
 

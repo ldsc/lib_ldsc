@@ -1,7 +1,7 @@
 #ifndef CCorrelacaoFFT_h
 #define CCorrelacaoFFT_h
 
-#include   <Correlacao/CCorrelacao.h>
+#include   <Caracterizacao/Correlacao/CCorrelacao.h>
 
 /**
  * @brief Recebe uma imagem bidimensional e determina através do uso da FFT a função autocorrelação.

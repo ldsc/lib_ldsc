@@ -12,7 +12,7 @@
 #include <Interpolacao/Interpolacao2D/CInt2DBilinear.h> 	// Objeto de interpolacao
 
 // Arquivo cabecalho
-#include <Correlacao/CCorrelacaoFFT.h>
+#include <Caracterizacao/Correlacao/CCorrelacaoFFT.h>
 
 using namespace std;
 

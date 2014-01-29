@@ -1,5 +1,5 @@
 
-#include <Correlacao/CCorrelacaoEspacial.h>
+#include <Caracterizacao/Correlacao/CCorrelacaoEspacial.h>
 
 using namespace std;
 

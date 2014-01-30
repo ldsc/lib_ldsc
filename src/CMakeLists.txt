@@ -211,6 +211,7 @@ add_library (ldsc STATIC
   Reconstrucao/CReconstrucaoBueno.cpp
   Reconstrucao/CReconstrucaoEsferas.cpp
   Reconstrucao/CReconstrucaoZhirong.cpp
+  Representacao/CRedeDePercolacao.cpp
   Rotulador/CRotulador.cpp
   Rotulador/TCRotulador2D.h
   Rotulador/CRotulador2DCm.cpp

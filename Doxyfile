@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = LibLDSC
-PROJECT_NUMBER         = 2013
+PROJECT_NUMBER         = 14.01
 PROJECT_BRIEF          = "Biblioteca para a Análise de Imagens de Meios Porosos"
 PROJECT_LOGO           =
 OUTPUT_DIRECTORY       = docs

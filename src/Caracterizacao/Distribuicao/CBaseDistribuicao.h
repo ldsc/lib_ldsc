@@ -21,6 +21,9 @@
  * classes CDistribuicao e CDistribuicao3D, as quais possibilitam determinar
  * a distribuição de tamanho dos objetos (poros, gargantas ou sólidos), em imagens
  * binárias 2D e 3D respectivamente.
+ *
+ * @author Leandro Puerari <puerari@gmail.com>
+ * @author André Duarte Bueno <andreduartebueno@gmail.com>
 */
 
 using namespace std;

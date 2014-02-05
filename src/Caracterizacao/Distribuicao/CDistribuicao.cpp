@@ -73,8 +73,8 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
 			}
 		}
 	}
-	objetos = obj = 100.0*cont/area;
-	cout << "área de objetos (%): " << objetos << endl;
+	areaObjetos = obj = 100.0*cont/area;
+	cout << "área de objetos (%): " << areaObjetos << endl;
 	//calcula a imagem idf.
 	while (obj != 0.0) {
 		lastobj = obj;
@@ -100,7 +100,7 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
 			}
 		}
 		obj = 100.0*cont/area;
-		objt = (lastobj-obj)/objetos;
+		objt = (lastobj-obj)/areaObjetos;
 		//if(objt < 0.0000000) objt = 0.0;
 		cout << "raio = " << raio << " | lastobj = " << lastobj << " | obj = " << obj << " | (lastobj-obj)/objetos = " << objt << endl;
 		acumulada += objt;

@@ -3,6 +3,8 @@
 
 #include <Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
 #include <Matriz/TCMatriz3D.h>
+#include <cstdlib>
+#include <ctime>
 
 /**
  * @brief A classe CRedeDePercolacao representa meios porosos tridimensionais
@@ -27,7 +29,13 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > dtpg;
+
+		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
 		TCMatriz3D<bool> *pm;
+
+		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em uma bola com raio correspondente ao valor da chave.
+		static int numPixeisBola[];
+		//static std::vector<int> numPixeisBola;
 
 		// Construtores / Destrutor
 	public:
@@ -45,6 +53,13 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 	public:
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
 		bool Go( int &nx, int &ny, int &nz, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
+
+	private:
+		/// Returna inteiro randômico entre min e max (srand é setado no contrutor da classe).
+		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }
+
+		/// Gera double randômico entre 0.0 e 1.0
+		inline double FRandom ( ) { return ( ( (double)rand() ) / ( (double)RAND_MAX ) ); }
 };
 
 #endif // CRedeDePercolacao_H

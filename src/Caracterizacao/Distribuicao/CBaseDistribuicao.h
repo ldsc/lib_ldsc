@@ -38,12 +38,12 @@ class CBaseDistribuicao
 		/// Caminho onde o arquivo distribuição será salvo.
 		string path;
 
-	protected:
 		/// Vetor distribuição
 		vector<double> distribuicao;
 
-		/// Área dos objetos (poros ou sólidos)
-		double objetos;
+	protected:
+		/// Área dos objetos (poros ou sólidos) em %
+		double areaObjetos;
 
 		Tipos tipo;
 
@@ -52,7 +52,7 @@ class CBaseDistribuicao
 		/// Construtor default
 		CBaseDistribuicao () : path("./") {
 			distribuicao.clear();
-			objetos = 0.0;
+			areaObjetos = 0.0;
 		}
 
 		/// Destrutor
@@ -65,6 +65,9 @@ class CBaseDistribuicao
 
 		/// Salva em disco os dados de distribuição (.dtp ou .dts).
 		bool Write (string fileName);
+
+		/// Retorna valor correspondente a área (porosidade) dos objetos identificados (poros ou sólidos).
+		inline double AreaObjetos () { return areaObjetos; }
 
 	protected:
 		/// Salva em disco os dados de distribuição de tamanho de poros (.dtp)

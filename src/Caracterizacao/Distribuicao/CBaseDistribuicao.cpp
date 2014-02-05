@@ -6,7 +6,7 @@
 // -----------------------------------------------------------------------
 bool CBaseDistribuicao::Media (set<string> filesName, Tipos _tipo){
 	tipo = _tipo;
-	objetos = 0.0;
+	areaObjetos = 0.0;
 	distribuicao.empty();
 	ifstream fdist;
 	set<string>::iterator it;
@@ -31,7 +31,7 @@ bool CBaseDistribuicao::Media (set<string> filesName, Tipos _tipo){
 					if ( aux.substr(0,9) == "# Solids:") { // verifica se é a linha que contém o valor da porosidade
 						fdist.seekg(pos+10); // reposiciona o ponteiro de leitura para pegar a porosidade
 						fdist >> objt; //pega o valor da porosidade
-						objetos += objt; // acumula a porosidade
+						areaObjetos += objt; // acumula a porosidade
 						nobj++; // número de porosidades acumuladas
 						//cerr << "phit: " << phit << " | nphi: " << nphi << endl;
 					}
@@ -56,7 +56,7 @@ bool CBaseDistribuicao::Media (set<string> filesName, Tipos _tipo){
 	for (int i = 0; i < distribuicao.size(); i++) {
 		distribuicao[i] /= divisor; //divide a soma das distribuições pelo número de arquivos.
 	}
-	objetos /= nobj; //divide a soma das áreas dos objetos pelo número de arquivos que possuiam valor de porosidade. Todos devem ter, mas...
+	areaObjetos /= nobj; //divide a soma das áreas dos objetos pelo número de arquivos que possuiam valor de porosidade. Todos devem ter, mas...
 	return true;
 }
 
@@ -100,7 +100,7 @@ bool CBaseDistribuicao::Write (string fileName) {
 void CBaseDistribuicao::WriteDTP (ofstream & fout) {
 	fout << "# Distribution of Pores Size\n";
 	fout << "# Size: " << distribuicao.size() << "\n";
-	fout << "# Porosity: " << objetos << "\n";
+	fout << "# Porosity: " << areaObjetos << "\n";
 	fout << "# Radius\tValue\n";
 	// Escreve o vetor distribuicao em disco
 	for (int i = 0; i < distribuicao.size(); i++)
@@ -117,7 +117,7 @@ void CBaseDistribuicao::WriteDTS (ofstream & fout){
 	 -----------------------------------------------*/
 	fout << "# Distribution of Solids Size\n";
 	fout << "# Size: " << distribuicao.size() << "\n";
-	fout << "# Solids: " << objetos << "\n";
+	fout << "# Solids: " << areaObjetos << "\n";
 	fout << "# Radius\tValue\n";
 	// Escreve o vetor distribuicao em disco
 	for (int i = 0; i < distribuicao.size(); i++)
@@ -130,7 +130,7 @@ void CBaseDistribuicao::WriteDTS (ofstream & fout){
 void CBaseDistribuicao::WriteDTG (ofstream & fout){
 	fout << "# Distribution of Throats Size\n";
 	fout << "# Size: " << distribuicao.size() << "\n";
-	fout << "# Porosity: " << objetos << "\n";
+	fout << "# Porosity: " << areaObjetos << "\n";
 	fout << "# Radius\tValue\n";
 	// Escreve o vetor distribuicao em disco
 	for (int i = 0; i < distribuicao.size(); i++)

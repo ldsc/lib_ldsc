@@ -14,7 +14,7 @@
 
 bool CDistribuicao3D::Go( TCMatriz3D<bool> * _pm3D, Tipos _tipo, Metrica3D _metrica, int indice, int fundo ) {
 	pm3D = _pm3D;
-	Go ( _tipo, _metrica, indice, fundo );
+	return Go ( _tipo, _metrica, indice, fundo );
 }
 
 bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo ) {
@@ -73,8 +73,8 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
 			}
 		}
 	}
-	objetos = obj = 100.0*cont/area;
-	cout << "área de objetos (%): " << objetos << endl;
+	areaObjetos = obj = 100.0*cont/area;
+	cout << "área de objetos (%): " << areaObjetos << endl;
 	//calcula a imagem idf.
 	while (obj != 0.0) {
 		lastobj = obj;
@@ -102,7 +102,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
 			}
 		}
 		obj = 100.0*cont/area;
-		objt = (lastobj-obj)/objetos;
+		objt = (lastobj-obj)/areaObjetos;
 		//if(objt < 0.0000000) objt = 0.0;
 		cout << "raio = " << raio << " | lastobj = " << lastobj << " | obj = " << obj << " | (lastobj-obj)/objetos = " << objt << endl;
 		acumulada += objt;
@@ -119,7 +119,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica3D _metrica, int indice, int fundo
 
 bool CDistribuicao3D::Go( TCMatriz3D<bool> * _pm3D, Tipos _tipo, Metrica _metrica, int indice, int fundo, int numPlanos) {
 	pm3D = _pm3D;
-	Go ( _tipo, _metrica, indice, fundo, numPlanos );
+	return Go ( _tipo, _metrica, indice, fundo, numPlanos );
 }
 
 bool CDistribuicao3D::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo, int numPlanos) {
@@ -152,7 +152,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo, 
 			dist[i] += distribuicao[i];
 			//cerr << dist[i] << endl;
 		}
-		obj += objetos;
+		obj += areaObjetos;
 		//cerr << "Size of dist: " << dist.size() << endl;
 	}
 	//calcula a média das distribuições;
@@ -160,7 +160,7 @@ bool CDistribuicao3D::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo, 
 	for (int i = 0; i < dist.size(); i++){
 		distribuicao[i] = dist[i]/numPlanos;
 	}
-	objetos = obj/numPlanos;
+	areaObjetos = obj/numPlanos;
 
 	return true;
 }

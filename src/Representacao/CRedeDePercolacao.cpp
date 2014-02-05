@@ -1,6 +1,6 @@
 #include "CRedeDePercolacao.h"
 
-//std::vector<int> CRedeDePercolacao::numPixeisBola = {
+//std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona no c++11
 int CRedeDePercolacao::numPixeisBola[] = {
 	0,7,33,123,269,499,853,1335,1977,2783,3793,5035,6501,8235,10253,12583,15241,18231,21609,25379,29557,
 	34171,39237,44799,50849,57415,64537,72219,80493,89363,98869,109039,119865,131391,143633,156619,170365,
@@ -33,7 +33,7 @@ int CRedeDePercolacao::numPixeisBola[] = {
 #define NumElements(x) (sizeof(x) / sizeof(x[0]))
 
 // Construtor matriz binária
-CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int & _raioMaximo, int & _raioDilatacao, int & _fatorReducao, int & _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
+CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
 	: CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo ),
 		pm(NULL)
 {
@@ -58,7 +58,7 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 }
 
 // Executa o cálculo das distribuições e cria a rede de percolação.
-bool CRedeDePercolacao::Go(  int &nx, int &ny, int &nz, CDistribuicao3D::Metrica3D _metrica ) {
+bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica ) {
 	// Determina tamanho mínimo e máximo para a rede de percolação
 	int min = 100;
 	int max = 1000;
@@ -68,6 +68,13 @@ bool CRedeDePercolacao::Go(  int &nx, int &ny, int &nz, CDistribuicao3D::Metrica
 	nx = ( nx > max ) ? max : nx;
 	ny = ( ny > max ) ? max : ny;
 	nz = ( nz > max ) ? max : nz;
+	int area = nx*ny*nz;
+	double phiPoros = 0.0;	//porosidade da matriz de poros(sitios)
+	double phiSitios = 0.0;	//porosidade da matriz de sítios
+	double phiEsfera = 0.0;	//porosidade da esfera (poro/sitio)
+	int x, y, z; //posição na matriz
+	CBCd3453D * esfera;
+	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
 	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = CDistribuicaoTamanhoPorosGargantas::Go(_metrica);
 	if (dtpg.first == NULL || dtpg.second == NULL) {
@@ -93,23 +100,25 @@ bool CRedeDePercolacao::Go(  int &nx, int &ny, int &nz, CDistribuicao3D::Metrica
 	}
 
 	// Sortear valores aleatóorios entre 0 e 1 obtendo o raio na distAcumulada
-	double phiPoros  = dtpg.first->AreaObjetos();
-	double phiSitios = 0.0;
 	std::vector<int> raios;
 	double random;
 	double temp;
 	int raio;
+	int diametro;
+	phiPoros  = dtpg.first->AreaObjetos();
+	phiSitios = 0.0;
 	while (phiSitios < phiPoros) {
+		std::cerr << "phiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
 		temp = 0.0;
 		raio = 1;
-		random = FRandom(); //obtem valor randômico
+		random = DRandom(); //obtem valor randômico
 		//percorre vetor de distribuição acumulada para obter raio correspondente
 		for (int i=0; i<tamVetDist; ++i) {
 			if ( random > distAcumulada[i] ) {
 				temp = distAcumulada[i]; //vai guardando valores menores que o valor sorteado
 			} else if (i > 0) { //aqui o valor sorteado é menor e não estamos no primeiro elemento do vetor
 				//verifica a diferença entre o número randômico e os elementas i e i-1. Seta o raio com o indice do valor mais próximo a random.
-				if ( (random-distAcumulada[i-1]) < (distAcumulada[i]-random) ) {
+				if ( (random - distAcumulada[i-1]) < (distAcumulada[i] - random) ) {
 					raio = i-1;
 				} else {
 					raio = i;
@@ -120,18 +129,86 @@ bool CRedeDePercolacao::Go(  int &nx, int &ny, int &nz, CDistribuicao3D::Metrica
 			}
 		}
 		//calcular a porosidade correspondente a esfera que será criada com o raio sorteado.
-
+		phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
+		std::cerr << "raio: " << raio << " | phiEsfera antes: " << phiEsfera << std::endl;
+		//Se a soma das porosidades for maior que a porosidade da matriz de poros e o raio for maior que 1,
+		//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de poros,
+		//ou ate que o raio seja 1.
+		//Ao sair do loop, incrementa o raio e recalcula a area da esfera, de modo que phiSitios
+		//fique o mais próximo possível de phiPoros.
+		if ( phiSitios+phiEsfera > phiPoros && raio > 1) {
+			while( phiSitios+phiEsfera > phiPoros && raio > 1) {
+				--raio;
+				phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
+			}
+			++raio;
+			phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
+		}
 		raios.push_back(raio);
+		std::cerr << "raio: " << raio << " | phiEsfera depois: " << phiEsfera << std::endl;
+		phiSitios += phiEsfera; //acumula a porosidade
 	}
-	// Próximos passos:
+	std::cerr << "Saiu do loop!\nphiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
 	// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
-	// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
-	// Representar as esferas (sitios) na matriz 3D.
+	std::sort(raios.begin(), raios.end());
+	std::reverse(raios.begin(), raios.end());
+	int im, jm, km;
+	int x_raio, y_raio, z_raio;
+	//percorrea o vetor de raios
+	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
+		//pega o raio do primeiro elemento
+		raio = *it;
+		diametro = ((2*raio)+1);
+		//cria esfera de raio correspondente.
+		esfera = new CBCd3453D(diametro);
+		// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+		do {
+			x = Random(raio, nx-raio-1);
+			y = Random(raio, ny-raio-1);
+			z = Random(raio, nz-raio-1);
+			x_raio = x-raio;
+			y_raio = y-raio;
+			z_raio = z-raio;
+			cabe = true;
+			for (int i=0; i<diametro && cabe; ++i) {
+				im = i+x_raio;
+				for (int j=0; j<diametro && cabe; ++j) {
+					jm = j+y_raio;
+					for (int k=0; k<diametro && cabe; ++k) {
+						km = k+z_raio;
+						if ( esfera->data3D[i][j][k]!=0 && pm->data3D[im][jm][km]!=0 ) {
+							cabe = false;
+						}
+					}
+				}
+			}
+			if (cabe) { //desenha a esfera
+				for (int i=0; i<diametro; ++i) {
+					im = i+x_raio;
+					for (int j=0; j<diametro; ++j) {
+						jm = j+y_raio;
+						for (int k=0; k<diametro; ++k) {
+							km = k+z_raio;
+							if ( esfera->data3D[i][j][k]!=0 ) {
+								pm->data3D[im][jm][km]=1;
+							}
+						}
+					}
+				}
+			}
+		} while (!cabe);
+		delete esfera;
+	}
+
+
+
+
+	// Próximos passos:
 
 	// Partindo da borda superior, conectar a borda aos sítios mais próximos.
-
 	// Percorrer a matriz em Y e para cada sítio encontrado:
 	// =>Sortear número de coordenação (Z);
 	// =>Sortear raio das Z ligações;
 	// =>Conectar o sítio a Z sítios próximos e ir acumulando a porosidade representada pelas ligações;
+	return true;
 }

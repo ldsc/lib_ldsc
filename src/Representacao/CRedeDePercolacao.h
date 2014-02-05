@@ -2,6 +2,7 @@
 #define CRedeDePercolacao_H
 
 #include <Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
+#include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
 #include <Matriz/TCMatriz3D.h>
 #include <cstdlib>
 #include <ctime>
@@ -26,12 +27,13 @@
 */
 class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 {		// Atributos
+	public:
+		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
+		TCMatriz3D<bool> *pm;
+
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > dtpg;
-
-		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
-		TCMatriz3D<bool> *pm;
 
 		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em uma bola com raio correspondente ao valor da chave.
 		static int numPixeisBola[];
@@ -40,7 +42,7 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 		// Construtores / Destrutor
 	public:
 		/// Construtor (recebe imagem binária que será segmentada)
-		CRedeDePercolacao( TCImagem3D<bool> *&_pm, int & _raioMaximo, int & _raioDilatacao, int & _fatorReducao, int & _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0 );
+		CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0 );
 
 		/// Construtor (recebe imagem em tons de cinza fundo=0; sitio=1, ligação=2)
 		CRedeDePercolacao( TCImagem3D<int> *&_pm );
@@ -52,14 +54,14 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 		// Métodos
 	public:
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( int &nx, int &ny, int &nz, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
+		bool Go( int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
 
 	private:
 		/// Returna inteiro randômico entre min e max (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }
 
 		/// Gera double randômico entre 0.0 e 1.0
-		inline double FRandom ( ) { return ( ( (double)rand() ) / ( (double)RAND_MAX ) ); }
+		inline double DRandom ( ) { return ( ( (double)rand() ) / ( (double)RAND_MAX ) ); }
 };
 
 #endif // CRedeDePercolacao_H

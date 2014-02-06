@@ -6,7 +6,7 @@
 using namespace std;
 
 CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indice, int _fundo)
-	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
+	: CMatrizObjetoImagem(), pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
@@ -20,7 +20,7 @@ CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indi
 }
 
 CSegPorosGargantas3D::CSegPorosGargantas3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
-	: fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+	: CMatrizObjetoImagem(), fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao(1), modelo(0), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
@@ -93,18 +93,7 @@ bool CSegPorosGargantas3D::Write(string fileName ) {
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CSegPorosGargantas3D::SalvarListaObjetos(string fileName){
 	if (gerarDetalhesObjetos) {
-		ofstream fout; //  Abre arquivo disco
-		fout.open(fileName.c_str());
-		if (fout.good()){
-			fout << "# " << matrizObjetos.size() << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
-			fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
-			for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
-				fout << std::left << std::setw(6) << it->first;
-				it->second.GravarObjeto(fout);
-			}
-			fout.close();
-			return true;
-		}
+		return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
 	}
 	return false;
 }

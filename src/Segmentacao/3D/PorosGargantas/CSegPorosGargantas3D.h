@@ -3,7 +3,7 @@
 
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIRA3D.h>
 #include <Rotulador/CRotuladorIRA3D.h>
-#include <Segmentacao/CObjetoImagem.h>
+#include <Matriz/CMatrizObjetoImagem.h>
 #include <Matriz/TCImagem3D.h>
 #include <Matriz/CVetor.h>
 
@@ -20,7 +20,7 @@ using namespace std;
  * @author Leandro Puerari <puerari@gmail.com>
  * @author André Duarte Bueno <bueno@lenep.uenf.br>
 */
-class CSegPorosGargantas3D
+class CSegPorosGargantas3D : public CMatrizObjetoImagem
 {
 	protected:
 		// // Ponteiro para objeto filtro IRA
@@ -80,9 +80,6 @@ class CSegPorosGargantas3D
 
 		/// Destrutor
 		~CSegPorosGargantas3D();
-
-		/// Cria matriz de objetos do tipo CObjetoImagem
-		map<int,CObjetoImagem> matrizObjetos;
 
 		/// Declara iterator para a matrizObjetos
 		map<int,CObjetoImagem>::iterator it;

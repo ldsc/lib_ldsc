@@ -3,6 +3,7 @@
 
 #include <Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
 #include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <Matriz/CMatrizObjetoImagem.h>
 #include <Matriz/TCMatriz3D.h>
 #include <cstdlib>
 #include <ctime>
@@ -25,7 +26,7 @@
  * @author Leandro Puerari <puerari@gmail.com>
  * @author André Duarte Bueno <andreduartebueno@gmail.com>
 */
-class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
+class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMatrizObjetoImagem
 {		// Atributos
 	public:
 		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
@@ -47,7 +48,6 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 		/// Construtor (recebe imagem em tons de cinza fundo=0; sitio=1, ligação=2)
 		CRedeDePercolacao( TCImagem3D<int> *&_pm );
 
-
 		/// Destrutor
 		~CRedeDePercolacao();
 
@@ -55,6 +55,9 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas
 	public:
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
 		bool Go( int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
+
+		/// Grava em disco, com o nome informado, os objetos identificados.
+		bool SalvarListaObjetos(std::string fileName);
 
 	private:
 		/// Returna inteiro randômico entre min e max (srand é setado no contrutor da classe).

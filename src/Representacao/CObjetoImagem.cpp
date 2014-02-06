@@ -13,7 +13,7 @@ Desenvolvido por:
 						see  $LICENSEFILE$ for the full license text.
 */
 
-#include <Segmentacao/CObjetoImagem.h>
+#include <Representacao/CObjetoImagem.h>
 
 /// Grava as informações do objeto no arquivo recebido como parâmetro.
 void CObjetoImagem::GravarObjeto(ofstream &_fout) {

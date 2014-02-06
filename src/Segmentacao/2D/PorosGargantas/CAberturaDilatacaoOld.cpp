@@ -1,6 +1,6 @@
 
 #include <Segmentacao/2D/PorosGargantas/CAberturaDilatacaoOld.h>
-#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
+#include <Representacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
 
 #include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <Matriz/TCMatriz2D.h>

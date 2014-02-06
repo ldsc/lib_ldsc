@@ -2,7 +2,7 @@
 #define CAberturaDilatacao3D_H
 
 #include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
-#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
+#include <Matriz/CMatrizObjetoImagem.h>
 #include <Rotulador/TCRotulador3D.h>
 #include <Matriz/TCImagem3D.h>
 #include <Matriz/CVetor.h>
@@ -23,7 +23,7 @@ enum EModelo { SETE=7, OITO=8, NOVE=9, DEZ=10, ONZE=11 };
 	@author André Duarte Bueno <bueno@lenep.uenf.br>
 	@author Leandro Puerari <puerari@gmail.com>
 */
-class CAberturaDilatacao3D
+class CAberturaDilatacao3D : public CMatrizObjetoImagem
 {
 	protected:
 		/// Ponteiro para objeto filtro morfologia matematica
@@ -80,9 +80,6 @@ class CAberturaDilatacao3D
 
 		/// Destrutor
 		~CAberturaDilatacao3D();
-
-		/// Cria matriz de objetos do tipo CObjetoImagem
-		map<int,CObjetoImagem> matrizObjetos;
 
 		/// Declara iterator para a matrizObjetos
 		map<int,CObjetoImagem>::iterator it;

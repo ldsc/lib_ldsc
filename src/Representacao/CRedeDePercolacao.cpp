@@ -35,14 +35,15 @@ int CRedeDePercolacao::numPixeisBola[] = {
 // Construtor matriz binária
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
 	: CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo ),
-		pm(NULL)
+		CMatrizObjetoImagem(), pm(NULL)
 {
 	srand (time(NULL)); //inicia seed randômica;
 }
 
 // Construtor imagem tons de cinza
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<int> *&_pm )
-	: CDistribuicaoTamanhoPorosGargantas( _pm ), pm (NULL)
+	: CDistribuicaoTamanhoPorosGargantas( _pm ),
+		CMatrizObjetoImagem(), pm (NULL)
 {
 	srand (time(NULL)); //inicia seed randômica;
 }
@@ -57,6 +58,11 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 		delete pm;
 }
 
+// Grava em disco, com o nome informado, os objetos identificados.
+bool CRedeDePercolacao::SalvarListaObjetos(std::string fileName) {
+	return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
+}
+
 // Executa o cálculo das distribuições e cria a rede de percolação.
 bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica ) {
 	// Determina tamanho mínimo e máximo para a rede de percolação
@@ -68,7 +74,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	nx = ( nx > max ) ? max : nx;
 	ny = ( ny > max ) ? max : ny;
 	nz = ( nz > max ) ? max : nz;
-	int area = nx*ny*nz;
+	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	double phiPoros = 0.0;	//porosidade da matriz de poros(sitios)
 	double phiSitios = 0.0;	//porosidade da matriz de sítios
 	double phiEsfera = 0.0;	//porosidade da esfera (poro/sitio)
@@ -91,7 +97,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		std::cout << "Não foi criar matriz 3D em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
-	// Calculando distribuição acumulada.
+	// Calculando distribuição acumulada (poros).
 	int tamVetDist = dtpg.first->distribuicao.size();
 	std::vector<double> distAcumulada(tamVetDist+1);
 	distAcumulada[0] = dtpg.first->distribuicao[0];
@@ -99,38 +105,37 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		distAcumulada[i] = distAcumulada[i-1] + dtpg.first->distribuicao[i];
 	}
 
-	// Sortear valores aleatóorios entre 0 e 1 obtendo o raio na distAcumulada
+	// Sortear valores aleatóorios entre 0 e 1. Obter o raio na distAcumulada
 	std::vector<int> raios;
 	double random;
-	double temp;
 	int raio;
 	int diametro;
+	matrizObjetos.clear();
 	phiPoros  = dtpg.first->AreaObjetos();
 	phiSitios = 0.0;
 	while (phiSitios < phiPoros) {
 		std::cerr << "phiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
-		temp = 0.0;
 		raio = 1;
-		random = DRandom(); //obtem valor randômico
+		random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
 		//percorre vetor de distribuição acumulada para obter raio correspondente
 		for (int i=0; i<tamVetDist; ++i) {
-			if ( random > distAcumulada[i] ) {
-				temp = distAcumulada[i]; //vai guardando valores menores que o valor sorteado
-			} else if (i > 0) { //aqui o valor sorteado é menor e não estamos no primeiro elemento do vetor
-				//verifica a diferença entre o número randômico e os elementas i e i-1. Seta o raio com o indice do valor mais próximo a random.
-				if ( (random - distAcumulada[i-1]) < (distAcumulada[i] - random) ) {
-					raio = i-1;
-				} else {
-					raio = i;
+			if ( random <= distAcumulada[i] ) {
+				if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
+					//verifica a diferença entre o número randômico e os elementas i e i-1. Seta o raio com o indice do valor mais próximo a random.
+					if ( (random - distAcumulada[i-1]) < (distAcumulada[i] - random) ) {
+						raio = i;
+					} else {
+						raio = i+1;
+					}
+					break;
+				} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
+					break; //sai do loop com raio == 1
 				}
-				break;
-			} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
-				break; //sai do loop com raio == 1
 			}
 		}
 		//calcular a porosidade correspondente a esfera que será criada com o raio sorteado.
 		phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
-		std::cerr << "raio: " << raio << " | phiEsfera antes: " << phiEsfera << std::endl;
+		std::cerr << "random: " << random << " | raio: " << raio << " | phiEsfera antes: " << phiEsfera << std::endl;
 		//Se a soma das porosidades for maior que a porosidade da matriz de poros e o raio for maior que 1,
 		//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de poros,
 		//ou ate que o raio seja 1.
@@ -154,6 +159,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	std::reverse(raios.begin(), raios.end());
 	int im, jm, km;
 	int x_raio, y_raio, z_raio;
+	int cont = 0;
 	//percorrea o vetor de raios
 	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
 		//pega o raio do primeiro elemento
@@ -197,11 +203,17 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 				}
 			}
 		} while (!cabe);
+		++cont;
+		// Posso criar os objetos diretamente, em ordem decrescente de tamanho.
+		// Outra opção seria, após este loop, rotular os objetos e percorrer a matriz setando cada objeto na matrizObjetos.
+		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
+		matrizObjetos[cont] = CObjetoImagem(SITIO,numPixeisBola[raio]);
+		matrizObjetos[cont].pontoCentral.df = 3*raio;
+		matrizObjetos[cont].pontoCentral.x = x;
+		matrizObjetos[cont].pontoCentral.y = y;
+		matrizObjetos[cont].pontoCentral.z = z;
 		delete esfera;
 	}
-
-
-
 
 	// Próximos passos:
 

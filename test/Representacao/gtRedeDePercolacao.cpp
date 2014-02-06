@@ -17,6 +17,8 @@ TEST(TestRepresentacao, RedeDePercolacao) {
 	//Segmenta a imagem, calcula as distribuicoes e cria a rede
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
 	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
+	rede.SalvarListaObjetos("../../data/result_RepresentacaoRedeDePercolacao.rsl");
+
 	if ( cfg5.criarImagensResultantes && cfg5.FileNotExists(result_image) ) {
 		rede.pm->Write(result_image);
 	}

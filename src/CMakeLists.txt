@@ -203,6 +203,7 @@ add_library (ldsc STATIC
   Matriz/TCMatriz2D.h
   Matriz/TCMatriz3D.h
   Matriz/CBaseMatriz.cpp
+  Matriz/CMatrizObjetoImagem.cpp
   Permeabilidade/CPermeabilidade.cpp
   Permeabilidade/CPermeabilidadeGrafo.cpp
   Permeabilidade/CPermeabilidadeIntrinseca.cpp
@@ -212,6 +213,7 @@ add_library (ldsc STATIC
   Reconstrucao/CReconstrucaoEsferas.cpp
   Reconstrucao/CReconstrucaoZhirong.cpp
   Representacao/CRedeDePercolacao.cpp
+  Representacao/CObjetoImagem.cpp
   Rotulador/CRotulador.cpp
   Rotulador/TCRotulador2D.h
   Rotulador/CRotulador2DCm.cpp
@@ -219,7 +221,6 @@ add_library (ldsc STATIC
   Rotulador/TCRotulador3D.h
   Rotulador/CRotuladorIRA3D.cpp
   Rotulador/CConectividade3D.cpp
-  Segmentacao/CObjetoImagem.cpp
   Segmentacao/2D/PorosGargantas/CAberturaDilatacao.cpp
   Segmentacao/2D/PorosGargantas/CAberturaDilatacaoOld.cpp
   Segmentacao/3D/PorosGargantas/CAberturaDilatacao3D.cpp

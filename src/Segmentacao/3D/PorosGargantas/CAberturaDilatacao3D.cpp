@@ -8,7 +8,7 @@
 using namespace std;
 
 CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz, int _indice, int _fundo)
-	: pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
+	: CMatrizObjetoImagem(), pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
@@ -22,7 +22,7 @@ CAberturaDilatacao3D::CAberturaDilatacao3D( TCMatriz3D<bool>* &matriz, int _indi
 }
 
 CAberturaDilatacao3D::CAberturaDilatacao3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
-	: fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+	: CMatrizObjetoImagem(), fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(SETE), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
@@ -186,18 +186,7 @@ bool CAberturaDilatacao3D::Write(string fileName) {
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CAberturaDilatacao3D::SalvarListaObjetos(string fileName){
 	if (gerarDetalhesObjetos or salvarResultadosParciais) {
-		ofstream fout; //  Abre arquivo disco
-		fout.open(fileName.c_str());
-		if (fout.good()){
-			fout << "# " << matrizObjetos.size() << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
-			fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
-			for (it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
-				fout << std::left << std::setw(6) << it->first;
-				it->second.GravarObjeto(fout);
-			}
-			fout.close();
-			return true;
-		}
+		return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
 	}
 	return false;
 }

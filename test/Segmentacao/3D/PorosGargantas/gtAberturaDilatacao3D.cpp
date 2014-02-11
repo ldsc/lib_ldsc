@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <omp.h>
 #include <string>
-#include <Segmentacao/3D/PorosGargantas/CAberturaDilatacao3D.h>
+#include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.h>
 #include "../../../gtest_configure.h"
 GtestConfigure cfg3 = GtestConfigure();
 

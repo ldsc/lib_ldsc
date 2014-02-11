@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Matriz/TCMatriz2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
 
 #include "../gtest_configure.h"
 #include "../fixtures.h"

@@ -1,1 +1,0 @@
-add_library(Reconstrucao CReconstrucao.cpp CReconstrucaoBueno.cpp CReconstrucaoEsferas.cpp CReconstrucaoZhirong.cpp)

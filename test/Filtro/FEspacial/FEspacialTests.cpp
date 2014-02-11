@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <iostream>
-#include "Filtro/FEspacial/TCFEPassaBaixa.h"
-#include "Filtro/FEspacial/TCFEPassaAlta.h"
-#include "Filtro/FEspacial/CFESobel.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEPassaBaixa.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEPassaAlta.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFESobel.h"
 
-#include "Matriz/TCMatriz2D.h"
+#include "AnaliseImagem/Matriz/TCMatriz2D.h"
 #include "../../gtest_configure.h"
 #include "../../fixtures.h"
 

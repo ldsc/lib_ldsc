@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <cstdlib>
 
-#include <Segmentacao/2D/PorosGargantas/CAberturaDilatacao.h>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
-#include <Geometria/Bola/BCDiscreta/CBCd34.h>
-#include <Matriz/TCMatriz2D.h>
+#include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
 
 #include "Grafico/Gnuplot/CGnuplot.h"
 #include "CUtil.h"

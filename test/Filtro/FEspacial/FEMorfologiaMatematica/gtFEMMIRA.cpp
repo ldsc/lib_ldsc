@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <omp.h>
 #include <string>
-#include <Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIRA.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIRA.h>
 #include "../../../gtest_configure.h"
 #include "../../../fixtures.h"
 

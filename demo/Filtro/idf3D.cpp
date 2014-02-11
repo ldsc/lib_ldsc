@@ -1,5 +1,5 @@
-#include <Matriz/TCMatriz3D.h>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDF3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF3D.h>
 
 int main(int argc, char *argv[]) {
 	TCMatriz3D<bool> *pm = NULL;

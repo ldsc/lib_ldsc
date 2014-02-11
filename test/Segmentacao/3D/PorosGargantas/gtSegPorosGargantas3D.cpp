@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <omp.h>
 #include <string>
-#include <Segmentacao/3D/PorosGargantas/CSegPorosGargantas3D.h>
+#include <AnaliseImagem/Segmentacao/PorosGargantas/CSegPorosGargantas3D.h>
 #include "../../../gtest_configure.h"
 GtestConfigure cfg4 = GtestConfigure();
 

@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <cstdlib>
 
-#include <Segmentacao/3D/PorosGargantas/CAberturaDilatacao3D.h>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
-#include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
-#include <Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <Grafico/Gnuplot/CGnuplot.h>
 
 #include "CUtil.h"

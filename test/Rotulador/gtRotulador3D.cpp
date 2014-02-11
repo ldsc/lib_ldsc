@@ -2,9 +2,9 @@
 #include <omp.h>
 #include <string>
 #include <ostream>
-#include <Rotulador/TCRotulador3D.h>
-#include <Rotulador/CRotuladorIRA3D.h>
-#include <Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotuladorIRA3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include "../gtest_configure.h"
 #include "../fixtures.h"
 

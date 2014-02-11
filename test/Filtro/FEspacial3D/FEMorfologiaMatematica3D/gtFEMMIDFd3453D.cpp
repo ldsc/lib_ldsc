@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <omp.h>
 #include <string>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana3D.h>
 #include "../../../gtest_configure.h"
 #include "../../../fixtures.h"
 

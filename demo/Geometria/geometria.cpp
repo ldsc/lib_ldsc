@@ -3,11 +3,11 @@
 #include <sstream>
 #include <cstdlib>
 
-#include <Geometria/Bola/BCDiscreta/CBCd4.h>
-#include <Geometria/Bola/BCDiscreta/CBCd8.h>
-#include <Geometria/Bola/BCDiscreta/CBCd34.h>
-#include <Geometria/Bola/BCDiscreta/CBCd5711.h>
-#include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd4.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd8.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd5711.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
 using namespace std;
 
 /**

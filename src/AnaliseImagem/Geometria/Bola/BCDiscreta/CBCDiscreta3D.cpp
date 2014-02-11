@@ -19,4 +19,4 @@ Descricao:	 Implementa as funções da classe TGDiscreta.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 // Classe base
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.h>

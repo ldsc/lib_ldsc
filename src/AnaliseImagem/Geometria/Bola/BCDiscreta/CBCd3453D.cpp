@@ -20,4 +20,4 @@ Descricao:	 Implementa as funções da classe TMCd34.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 // Classe base
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>

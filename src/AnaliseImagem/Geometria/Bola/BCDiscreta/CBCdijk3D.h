@@ -37,7 +37,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 
 // #include "CMascara\CMascara.h"
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.h>
 
 //#include <Geometria/Bola/BCDiscreta/CBCdijk.h>
 #include <AnaliseImagem/Filtro/Mascara/MCDiscreta/CMCdijk.h>

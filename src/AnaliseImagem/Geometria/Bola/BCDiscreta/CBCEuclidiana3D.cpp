@@ -21,7 +21,7 @@ Descricao: Implementa as funções da classe CBCEuclidiana3D.
 #include <cmath>
 #include <Base/CMath.h>
 // Classe base
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.h>
 
 /*
 ==================================================================================

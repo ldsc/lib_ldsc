@@ -19,10 +19,10 @@ Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFdijk3D.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 #ifndef TCFEMMIDFdijk3D_h
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFdijk3D.h"	// Classe base
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdijk3D.h>	// Classe base
 #endif
 
-#include "AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCdijk3D.h" // ponteiro para
+#include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk3D.h" // ponteiro para
 // #include "TMascara\TMascMascDiscretad34.h"  // Cria objeto
 
 

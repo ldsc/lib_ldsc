@@ -15,7 +15,7 @@ using namespace std;
 #endif
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h>
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
 
 #include <map>
 

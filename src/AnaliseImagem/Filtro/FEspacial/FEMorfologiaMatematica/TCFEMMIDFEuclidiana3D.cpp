@@ -15,10 +15,10 @@ Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFEuclidiana3D.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 #ifndef TCFEMMIDFEuclidiana3D_h
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFEuclidiana3D.h" // Classe base
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana3D.h> // Classe base
 #endif
 
-#include "AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.h"
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.h>
 
 /*
 ==================================================================================

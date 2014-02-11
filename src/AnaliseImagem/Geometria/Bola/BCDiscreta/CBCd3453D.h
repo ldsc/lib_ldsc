@@ -35,7 +35,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCdijk3D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk3D.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CBCd3453D

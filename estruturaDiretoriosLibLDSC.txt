@@ -1,0 +1,131 @@
+.
+├── data
+│   └── images
+├── demo
+│   ├── AberturaDilatacao
+│   │   ├── CMakeFiles
+│   │   │   ├── abertura_dilatacao3D.dir
+│   │   │   ├── abertura_dilatacao.dir
+│   │   │   ├── abertura_dilatacao_new.dir
+│   │   │   ├── abertura_dilatacao_old.dir
+│   │   │   └── new_abertura_dilatacao.dir
+│   │   └── ImagensSinteticas
+│   ├── bin
+│   ├── ConEqu
+│   │   ├── ConEqu2D
+│   │   └── ConEqu3D
+│   ├── Correlacao
+│   ├── Estatistica
+│   ├── executaveis_antigos
+│   ├── exemplo
+│   │   └── CMakeFiles
+│   ├── Filtro
+│   │   ├── FReconstrucao
+│   │   └── imagensFiltradas
+│   ├── Geometria
+│   │   └── bolasGeradas
+│   ├── Gnuplot
+│   ├── Grafico
+│   │   └── Gnuplot
+│   ├── Grafo
+│   │   ├── input_data
+│   │   └── old
+│   ├── ImagemSintetica3D
+│   ├── Integral
+│   ├── Interpolacao
+│   ├── Matriz
+│   │   └── CMakeFiles
+│   │       ├── matriz3D.dir
+│   │       └── matriz.dir
+│   ├── Polinomios
+│   ├── Reconstrucao3D
+│   │   ├── gt1
+│   │   ├── gt2
+│   │   └── old
+│   ├── Rotulador
+│   └── TesteCodigosLiang
+│       ├── 320220
+│       └── imagem
+├── docs
+│   ├── def
+│   └── html
+├── src
+│   ├── Amostra
+│   │   ├── AmostraRocha
+│   │   └── Material
+│   ├── AnaliseImagem
+│   │   ├── Caracterizacao
+│   │   │   ├── Correlacao
+│   │   │   ├── Distribuicao
+│   │   │   ├── Fractal
+│   │   │   ├── GrafoConexaoSerial
+│   │   │   └── RedePercolacao
+│   │   ├── Filtro
+│   │   │   ├── FAmplitude
+│   │   │   ├── FEspacial
+│   │   │   │   ├── FEConectividade
+│   │   │   │   ├── FEDeteccaoContorno
+│   │   │   │   ├── FEEsqueleto
+│   │   │   │   │   └── TFEEMa
+│   │   │   │   ├── FEInversao
+│   │   │   │   ├── FEMorfologiaMatematica
+│   │   │   │   │   └── old
+│   │   │   │   ├── FERotulagem
+│   │   │   │   └── MaterialDescartado
+│   │   │   ├── FFrequencial
+│   │   │   │   └── FFT
+│   │   │   └── Mascara
+│   │   │       └── MCDiscreta
+│   │   ├── Geometria
+│   │   │   └── Bola
+│   │   │       └── BCDiscreta
+│   │   ├── Matriz
+│   │   ├── Reconstrucao
+│   │   ├── Segmentacao
+│   │   │   └── PorosGargantas
+│   │   └── Simulacao
+│   │       ├── ConfiguracaoEquilibrio
+│   │       └── Permeabilidade
+│   │           └── GrafoConexaoSerial
+│   ├── Base
+│   ├── coilib-imago
+│   │   ├── Conectividade-coilib-imago
+│   │   ├── Conectividade-movido-para-Rotulador
+│   │   │   └── Conectividade-coilib-imago
+│   │   ├── ConEqu-
+│   │   ├── Conversao-
+│   │   └── Lista-
+│   ├── Estatistica
+│   ├── Grafico
+│   │   └── Gnuplot
+│   ├── MetNum
+│   │   ├── Contorno
+│   │   ├── Funcao
+│   │   ├── Integral
+│   │   ├── Interpolacao
+│   │   │   ├── Interpolacao2D
+│   │   │   ├── IntMetNum
+│   │   │   └── old
+│   │   └── Solver
+│   │       ├── Funcao
+│   │       └── SistemaEquacoes
+│   │           ├── SMComum
+│   │           └── SMDiagonal
+│   └── Tempo
+├── templates
+└── test
+    ├── bin
+    ├── Filtro
+    │   ├── FEspacial
+    │   │   └── FEMorfologiaMatematica
+    │   ├── FEspacial3D
+    │   │   └── FEMorfologiaMatematica3D
+    │   └── MM
+    ├── Matriz
+    ├── Representacao
+    ├── Rotulador
+    └── Segmentacao
+        └── 3D
+            └── PorosGargantas
+
+248 directories

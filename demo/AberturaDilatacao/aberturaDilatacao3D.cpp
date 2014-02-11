@@ -6,7 +6,7 @@
 
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h>
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <Grafico/Gnuplot/CGnuplot.h>
 

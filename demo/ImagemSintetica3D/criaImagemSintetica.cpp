@@ -14,7 +14,7 @@ Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 
 #include <AnaliseImagem/Matriz/TCImagem3D.h>
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd5711.h>
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
 
 using namespace std;
 

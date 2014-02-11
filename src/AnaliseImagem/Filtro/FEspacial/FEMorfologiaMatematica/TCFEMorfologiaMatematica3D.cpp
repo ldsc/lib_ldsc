@@ -2,10 +2,10 @@
 
 // #define TFiltroDLL           // define como sendo uma dll
 #ifndef TCFEMorfologiaMatematica3D_h
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMorfologiaMatematica3D.h"
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica3D.h>
 #endif
-#include "AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.h"
-#include "AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h"
+#include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.h"
+#include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h"
 
 /*
 ==================================================================================

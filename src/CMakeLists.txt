@@ -140,10 +140,10 @@ add_library (ldsc STATIC
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd5711.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana.cpp
-  AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.cpp
-  AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCdijk3D.cpp
-  AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.cpp
-  AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCEuclidiana3D.cpp
+  AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.cpp
+  AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk3D.cpp
+  AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.cpp
+  AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.cpp
   AnaliseImagem/Matriz/CImg.cpp
   AnaliseImagem/Matriz/TCImagem3D.h
   AnaliseImagem/Matriz/CImagem.cpp

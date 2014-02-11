@@ -20,7 +20,7 @@ Descricao:Implementa as funções da classe CBCdijk3D.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 // Classe base
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCdijk3D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk3D.h>
 
 /*
 ==================================================================================

@@ -2,7 +2,7 @@
 #define CRedeDePercolacao_H
 
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
 #include <AnaliseImagem/Matriz/CMatrizObjetoImagem.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <cstdlib>

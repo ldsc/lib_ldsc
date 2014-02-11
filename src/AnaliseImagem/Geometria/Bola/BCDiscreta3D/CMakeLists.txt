@@ -1,1 +1,0 @@
-add_library(BCDiscreta3D CBCd3453D.cpp CBCdijk3D.cpp CBCDiscreta3D.cpp CBCEuclidiana3D.cpp)

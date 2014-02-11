@@ -23,7 +23,7 @@ Descricao:	 Implementa as funções da classe TCFEMMIDF3D.
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF3D.h>
 #endif
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h> // Utilizado pelo método CorrigeAbertura
-#include <AnaliseImagem/Geometria/Bola/BCDiscreta3D/CBCDiscreta3D.h> // Cria objeto
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.h> // Cria objeto
 
 /*
 ==================================================================================

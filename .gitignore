@@ -14,8 +14,6 @@
 *.rsl
 *.user*
 nohup.out
-organizacaoDiretoriosAntes
-organizacaoDiretoriosDepois
 cvs
 libldsc.a
 libldsc.so
@@ -36,3 +34,9 @@ CMakeCache.txt
 resumo.cpp
 ImagensSinteticas
 bin/
+
+# Específico Bueno
+organizacaoDiretoriosAntes
+organizacaoDiretoriosDepois
+comandos_git
+

@@ -34,6 +34,21 @@
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotulador2DCm.h>
 #endif
 
+// Lista de classes da hierarquia de grafos
+class CGra3Dby2_M1;
+class CGra3Dby2_M2;
+class CGra3Dby2_M3;
+class CGra3Dby2_M4;
+class CGra3Dby2_M5;
+class CGra3Dby2_M6;
+// Lista de apelidos
+using CGra3Dby2_M1_ConeccaoPorPixel = CGra3Dby2_M1;
+using CGra3Dby2_M2_ConeccaoPelaAreaMedia = CGra3Dby2_M2;
+using CGra3Dby2_M3_ConeccaoPelaAreaInterseccao = CGra3Dby2_M3;
+using CGra3Dby2_M4_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistancia = CGra3Dby2_M4;
+using CGra3Dby2_M6_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade = CGra3Dby2_M6;
+using CGra3Dby2_M6_Tortuosidade = CGra3Dby2_M6;
+
 // ===============================================================================
 // Documentacao da  @class CGra3Dby2D
 // ===============================================================================
@@ -48,29 +63,30 @@
  * e nunca COGLigacao ou COGComponenteGrafo.
  *
  * Lista dos herdeiros:
- * -CGra3Dby2_M1	Modelo_1
+ * -CGra3Dby2_M1	Modelo_1  ->> Criado apelido com using --> CGra3Dby2_M1_ConeccaoPorPixel
  * Para cada pixel uma ligação
  * Condutancia do pixel
  *
- * -CGra3Dby2_M2	Modelo_2
+ * -CGra3Dby2_M2	Modelo_2 ->> Criado apelido com using --> CGra3Dby2_M2_ConeccaoPelaAreaMedia
  * Para cada objeto uma ligação
  * Condutancia média entre os dois objetos
  *
- * -CGra3Dby2_M3	Modelo_3
+ * -CGra3Dby2_M3	Modelo_3 ->> Criado apelido com using --> CGra3Dby2_M3_ConeccaoPelaAreaInterseccao
  * Para cada objeto uma ligação
  * Condutancia calculada sobre a area da intersecção
  *
- * -CGra3Dby2_M4	Modelo_4
+ * -CGra3Dby2_M4	Modelo_4 ->> Criado apelido com using --> CGra3Dby2_M4_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistancia
  * Para cada objeto uma ligação.
  * Condutancia calculada sobre a área da intersecção
  * Adicionalmente calcula as distâncias entre
  * os objetos, para correção das condutâncias.
  *
- * -CGra3Dby2_M5	Modelo_5
+ * -CGra3Dby2_M5	Modelo_5 ->> Criado apelido com using --> CGra3Dby2_M5_ConeccaoPelaXXXXX
  * -# sub ítem do modelo 5
  * -# sub ítem do modelo 5
  *
- * -CGra3Dby2_M6	Modelo_6
+ * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade
+ * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_Tortuosidade
  * Para cada objeto uma ligação.
  * A condutância é corrigida levando em conta as distâncias
  * dos centros de massa, que aqui são armazenados no próprio sítio.
@@ -260,3 +276,4 @@ protected:
 // istream& operator>> (istream& is, CGra3Dby2D& obj);
 
 #endif
+

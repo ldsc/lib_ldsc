@@ -46,7 +46,7 @@ diretório base da biblioteca (no mesmo terminal)
 	export PATH_LIB_LDSC=/caminho/completo/para/biblioteca	
 	ex:
 	export PATH_LIB_LDSC=/home/bueno/Bueno/Desenvolvimento-01/libldsc
-	export PATH_LIB_LDSC=/home/bueno/Documentos/Desenvolvimento-01/libldsc
+	export PATH_LIB_LDSC=/home/bueno/Documentos/03-Pesquisa/4-Desenvolvimento/1-Atual/libldsc
 
 3- Execute a sequência padrão da GNU
 	./configure

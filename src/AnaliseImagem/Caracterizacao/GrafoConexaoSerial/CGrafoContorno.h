@@ -32,25 +32,21 @@
 #endif
 
 #ifndef CContorno_h
-#include <Contorno/CContorno.h>
+#include <MetNum/Contorno/CContorno.h>
 #endif
 
 // ===============================================================================
 // Documentacao CLASSE: CGrafoContorno
 // ===============================================================================
-/** 
- *     @short	Representa um grafo com contornos.
- * 
- * Adiciona a informação do contorno.
+/**
+ * @short: Representa um grafo sujeito a condições de contornos; 
+ * Herdeira da classe CGrafo, a classe CGrafoContorno acrescenta a idéia de que
+ * um grafo pode estar submetido a determinadas condições de contorno.
+ * Na prática acrescenta um vetor que armazena os objetos de contorno.
+ * Note que existe uma hierarquia para objetos de contorno, este
+ * vetor terá ponteiros para objetos da classe base da hierarquia de contornos.
  * @Assunto:        CGrafo
  * @Superclasse:    CGrafoContorno
- * Herdeiro da classe CGrafo, acrescenta a idéia de que
- * um grafo pode estar submetido a determinados contornos.
- * 
- * Acrescenta um vetor para os objetos de contorno.
- * Existe uma hierarquia para objetos de contorno, este
- * vetor terá ponteiros para objetos da classe básica
- * da hierarquia de contornos.
  * @author 	André Duarte Bueno	
  * @see		Grafo
 */

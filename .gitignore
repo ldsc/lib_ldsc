@@ -12,6 +12,8 @@
 *.dgm
 *.exe
 *.rsl
+*.user*
+nohup.out
 cvs
 libldsc.a
 libldsc.so
@@ -32,3 +34,9 @@ CMakeCache.txt
 resumo.cpp
 ImagensSinteticas
 bin/
+
+# Específico Bueno
+organizacaoDiretoriosAntes
+organizacaoDiretoriosDepois
+comandos_git
+

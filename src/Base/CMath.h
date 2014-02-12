@@ -78,26 +78,26 @@ class CMath
   /**
    * Variaveis estaticas definidas para uso externo
   */
-  static const long double EPSILON = 1.0e-15;
-  static const long double RESULTADO_ERRADO = -1.0e30;
-  static const long double DADO_ERRADO = -1.0e30;
+  static constexpr long double EPSILON = 1.0e-15;
+  static constexpr long double RESULTADO_ERRADO = -1.0e30;
+  static constexpr long double DADO_ERRADO = -1.0e30;
 
   /// Constantes matematicas
-  static const long double E =      2.71828182845904523536;
-  static const long double LOG2E =  1.44269504088896340736;
-  static const long double LOG10E = 0.434294481903251827651;
-  static const long double LN2=     0.693147180559945309417;
-  static const long double LN10 =   2.30258509299404568402;
-  static const long double PI  =    3.14159265358979323846;
-  static const long double PI_2=    1.57079632679489661923;
-  static const long double PI_4 =   0.785398163397448309616;
-  static const long double M1PI =   0.318309886183790671538;
-  static const long double M2PI =   0.636619772367581343076;
-  static const long double M1SQRTPI=0.564189583547756286948;
-  static const long double M2SQRTPI=1.12837916709551257390;
-  static const long double MSQRT2 = 1.41421356237309504880;
-  static const long double MSQRT3 = 1.73205080756887729352744634150587;
-  static const long double MSQRT_2= 0.707106781186547524401;
+  static constexpr long double E =      2.71828182845904523536;
+  static constexpr long double LOG2E =  1.44269504088896340736;
+  static constexpr long double LOG10E = 0.434294481903251827651;
+  static constexpr long double LN2=     0.693147180559945309417;
+  static constexpr long double LN10 =   2.30258509299404568402;
+  static constexpr long double PI  =    3.14159265358979323846;
+  static constexpr long double PI_2=    1.57079632679489661923;
+  static constexpr long double PI_4 =   0.785398163397448309616;
+  static constexpr long double M1PI =   0.318309886183790671538;
+  static constexpr long double M2PI =   0.636619772367581343076;
+  static constexpr long double M1SQRTPI=0.564189583547756286948;
+  static constexpr long double M2SQRTPI=1.12837916709551257390;
+  static constexpr long double MSQRT2 = 1.41421356237309504880;
+  static constexpr long double MSQRT3 = 1.73205080756887729352744634150587;
+  static constexpr long double MSQRT_2= 0.707106781186547524401;
 
   //Tipos enumerados
   /**

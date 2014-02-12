@@ -16,6 +16,7 @@
 // -----------------------------------------------------------------------
 #include <cassert>
 #include <cmath>
+#include <sstream>		// novo
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -38,6 +39,7 @@
 #include <Base/CMath.h>
 #endif
 using namespace std;
+
 
 // -------------------------------------------------------------------------
 // Função:       GetObjetoGrafo
@@ -77,13 +79,13 @@ CGra3Dby2D_M6::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
   // -------------------------------------------------------------------------
 /**
 @short  :	Função que adiciona a lista de objetos do grafo, os objetos identificados em rotulador.
-		Redefinida para inclusão das informações de cx,cy,cz
+        Redefinida para inclusão das informações de cx,cy,cz
 @author :	André Duarte Bueno
 @see    :
-@param  : Recebe a imagem rotulada com os objetos a serem incluídos (ra ou rp),	
- 	o número do ultimo rótulo utilizado e o
-	tipo de contorno (identifica o objeto a ser criado:
-	COGSitioEsquerda = 0, CSitioCentro = 1,  COGSitioDireita = 2)
+@param  : Recebe a imagem rotulada com os objetos a serem incluídos (ra ou rp),
+    o número do ultimo rótulo utilizado e o
+    tipo de contorno (identifica o objeto a ser criado:
+    COGSitioEsquerda = 0, CSitioCentro = 1,  COGSitioDireita = 2)
 @return : void
 */
 void
@@ -123,7 +125,7 @@ CGra3Dby2D_M6::AdicionarObjetos
       // AQUI, seta cx,cy,cz de cada sítio
       // Adiciona a posição do centro de massa
       COGSitioLRCM *
-	sitio = dynamic_cast < COGSitioLRCM * >(data);
+    sitio = dynamic_cast < COGSitioLRCM * >(data);
       assert (sitio);
       sitio->cx = rotulador->CMXObjetos (rotulo);
       sitio->cy = rotulador->CMYObjetos (rotulo);
@@ -140,7 +142,7 @@ CGra3Dby2D_M6::AdicionarObjetos
   // -------------------------------------------------------------------------
 /**
 @short  : Redefinida, em relação a CGrafo.
-		Adiciona o calculo das condutâncias das ligações
+        Adiciona o calculo das condutâncias das ligações
 @author :	André Duarte Bueno
 @see    : Condutância
 @param  : nada
@@ -148,6 +150,11 @@ CGra3Dby2D_M6::AdicionarObjetos
 */
 void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
 {
+// ***********NOVO CALCULO TORTUOSIDADE*******
+  tortuosidade = 0.0;
+  numeroDerivacoesUsadasCalculoTortuosidade = 0;
+// FIM NOVO*********
+
   ofstream saida ("fatorCorrecao.txt");
 
   // Chama função da classe base que calcula as condutancias
@@ -176,49 +183,63 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
 
       // Obtêm a informação do cmx e cmy do sitio atual (k)
       double
-	cmxSitio = sitio->cx;
+    cmxSitio = sitio->cx;
       double
-	cmySitio = sitio->cy;
+    cmySitio = sitio->cy;
 
       // Percorre todas as conecções do sitio atual
       COGSitioLRCM *
-	sitioConexo = NULL;
+    sitioConexo = NULL;
       for (unsigned int link = 0; link < sitio->coneccao.size (); link++)
-	{
-	  sitioConexo = dynamic_cast < COGSitioLRCM * >(sitio->coneccao[link]);
-	  assert (sitioConexo);
+    {
+      sitioConexo = dynamic_cast < COGSitioLRCM * >(sitio->coneccao[link]);
+      assert (sitioConexo);
 
-	  // Recupera a informação  do centro de massa na direção x, do sitio conexo
-	  double
-	    cmxSitioConexo = sitioConexo->cx;
-	  double
-	    cmySitioConexo = sitioConexo->cy;
+      // Recupera a informação  do centro de massa na direção x, do sitio conexo
+      double
+        cmxSitioConexo = sitioConexo->cx;
+      double
+        cmySitioConexo = sitioConexo->cy;
 
-	  // Determina a distância dx e dy entre o sítio e o sitio conexo
-	  dx =
-	    cmxSitio >
-	    cmxSitioConexo ? cmxSitio - cmxSitioConexo : cmxSitioConexo -
-	    cmxSitio;
-	  dy =
-	    cmySitio >
-	    cmySitioConexo ? cmySitio - cmySitioConexo : cmySitioConexo -
-	    cmySitio;
+      // Determina a distância dx e dy entre o sítio e o sitio conexo
+        // Correção, como faz dx*dx, não precisa achar módulo!
+      dx = cmxSitio - cmxSitioConexo ;
+      dy = cmySitio - cmySitioConexo ;
 
-	  // Calcula o fator de correção da condutancia em função  da distância entre os sitios
-	  fatorCorrecaoDistancias = sqrt (1.0 + dx * dx + dy * dy);
-	  saida << fatorCorrecaoDistancias << endl;
-	  // Corrige a condutancia, considerando o fator de correção
+      // Calcula o fator de correção da condutancia em função  da distância entre os sitios
+      fatorCorrecaoDistancias = sqrt (1.0 + dx * dx + dy * dy);
+      saida << fatorCorrecaoDistancias << endl;
+      // Corrige a condutancia, considerando o fator de correção
 
-// ***********NOVO EVITA EXCESSO DE CORRECAO*******
-	  if (fatorCorrecaoDistancias < 2.0)
-	    sitio->condutancia[link] /= fatorCorrecaoDistancias;
-	  else
-	    sitio->condutancia[link] /= 2.0;
-
-// FIM NOVO*********             
-	  // sitio->condutancia[link] /= sqrt (1.0 + dx * dx + dy * dy);
-	}			// for link
+// ***********NOVO NO MODELO 6 EVITA EXCESSO DE CORRECAO*******
+// Este fator precisa ser melhor definido, pois é arbitrário
+      if (fatorCorrecaoDistancias < 2.0)
+        sitio->condutancia[link] /= fatorCorrecaoDistancias;
+      else
+        sitio->condutancia[link] /= 2.0;
+// FIM NOVO*********
+// ***********NOVO CALCULO TORTUOSIDADE*******
+      // Para cálculo da tortuosidade vai acumular as distâncias laterais
+      // e o número de derivações (número de conecções)
+      // e depois dividir pelo número de conecções.
+      tortuosidade += fatorCorrecaoDistancias;    // acumula as distâncias
+      numeroDerivacoesUsadasCalculoTortuosidade++;// acumula número conecções
+// FIM NOVO*********
+      // sitio->condutancia[link] /= sqrt (1.0 + dx * dx + dy * dy);
+    }			// for link
     }				// for k
+// ***********NOVO CALCULO TORTUOSIDADE*******
+  tortuosidade /= numeroDerivacoesUsadasCalculoTortuosidade;// corrige a tortuosidade
+
+  ostringstream nomeArquivo;
+  nomeArquivo << FileName() << ".tortuosidade";
+  ofstream arq_tortuosidade( nomeArquivo.str().c_str() );
+  arq_tortuosidade << "A tortuosidade da imagem " << FileName() << " é : " << tortuosidade << "\n";
+  arq_tortuosidade.close();
+
+  cout << "\nA tortuosidade da imagem " << FileName() << " é : " << tortuosidade << "\n";
+
+// FIM NOVO*********
 
   saida.close ();
   return;

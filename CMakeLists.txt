@@ -52,7 +52,7 @@ set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 FIND_PACKAGE( OpenMP REQUIRED)
 
 if(UNIX) # True for UNIX and UNIX like operating systems.
-  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
 endif()
 if(WIN32) # True on windows systems, including win64
   set(CMAKE_CXX_FLAGS_RELEASE "-O2 -fopenmp -lgomp")

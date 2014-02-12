@@ -82,33 +82,35 @@ class CGra3Dby2D : public CGrafoContorno
 {
   // --------------------------------------------------------------Atributos
  private:
-  int eliminaRamosMortos;	///< Elimina ramos mortos
-  int eliminaConeccoesRepetidas;	///< Elimina conecções repetidas
+  /// Indica versão da função que elimina os ramos mortos, a 2 é mais rápida.
+  int eliminaRamosMortos = 2 ;
+  int eliminaConeccoesRepetidas = 1 ;	///< Elimina conecções repetidas
 
  protected:
   /// Dimensoes da imagem tridimensional
-  int nx; ///< Dimensão nx
-  int ny; ///< Dimensão ny
-  int nz; ///< Dimensão nz
+  int nx = 0 ; ///< Dimensão nx
+  int ny = 0 ; ///< Dimensão ny
+  int nz = 0 ; ///< Dimensão nz
 
   /// Rotulador bidimensional para imagem anterior
-  CRotulador2DCm *ra;
+  CRotulador2DCm *ra = nullptr;
+
 
   /// Rotulador bidimensional para imagem posterior
-  CRotulador2DCm *rp;
+  CRotulador2DCm *rp = nullptr;
 
   /// Imagem usada internamente para copiar planos ra, rp e plano intermediário
-  TCMatriz2D< int > *img2D;
+  TCMatriz2D< int > *img2D = nullptr;
 
   /**
    * @brief Informa o plano que esta sendo avaliado.
-   * É passado para o objeto, fazendo=se objeto->x=plano
-   * de forma que a previsão inicial do valor de x poderá considerar o plano
+   * É passado para o objeto, fazendo-se objeto->x=plano,
+   * desta forma a previsão inicial do valor de x poderá considerar o plano.
   */
-  unsigned long int plano;
+  unsigned long int plano = 0;
 
   /// Por default o objeto esta no centro do grafo e não em seus contornos
-  CContorno::ETipoContorno tipoContornoObjeto;
+  CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
   /*Usado para definir o maior rótulo do plano anterior a ra.
      Ex: Se ra é o plano 12, rp é o plano 13,
@@ -119,49 +121,49 @@ class CGra3Dby2D : public CGrafoContorno
    * Em cada plano, os rótulos iniciam em 0 (o fundo), 1 o primeiro objeto,...n
    * A variável maior RotuloUtilizado vai acumulando o número de objetos do grafo.
   */
-  unsigned long int maiorRotuloUtilizado;
+  unsigned long int maiorRotuloUtilizado = 0;
 
  public:
 
   // -------------------------------------------------------------Construtor
 /// Construtor, recebe um nome de arquivo
-  CGra3Dby2D (std::string _fileName) : CGrafoContorno (_fileName), eliminaRamosMortos (2), eliminaConeccoesRepetidas (1)
-  {
-  }
+  CGra3Dby2D (std::string _fileName) 
+  : CGrafoContorno (_fileName)
+  { }
 
     // --------------------------------------------------------------Destrutor
     /// Destrutor, deleta objetos internos
     virtual ~ CGra3Dby2D ()
     {
-		if (ra) {
-			delete ra; 				// deleta objeto
-		}
-		if (rp) {
-			delete rp; 			// deleta objeto
-		}
+	if (ra) {
+		delete ra; 			// deleta objeto
+	}
+	if (rp) {
+		delete rp; 			// deleta objeto
+	}
 
-		if (img2D) {
-			delete img2D; 			// deleta objeto
-		}
-     }
+	if (img2D) {
+		delete img2D; 			// deleta objeto
+	}
+    }
 
     // ----------------------------------------------------------------Métodos
     /**
-     * @brief 	Função Go, realiza a determinação de todo o grafo
+     * @brief 	Função Go, realiza a determinação de todo o grafo.
      * @param 	Recebe uma imagem tridimensional (ou seja toda a imagem 3D)
      * @return Retorna um ponteiro para this
     */
-    virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1);
+    virtual CGrafo* Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1);
 
     /**
-     * @brief Função Go, realiza a determinação de todo o grafo
+     * @brief Função Go, realiza a determinação de todo o grafo.
      * @param Recebe o nome de um arquivo de disco (vai ler plano a plano)
      * @return Retorna um ponteiro para this
     */
     virtual CGrafo *Go (std::string fileName, unsigned long int _tamanhoMascara = 0);
 
     /**
-     * @brief VAZIA: implementada no modelo Adv3, elimina os links repetidos
+     * @brief VAZIA: implementada no modelo 3, elimina os links repetidos.
     */
     virtual void EliminarCondutanciasRepetidas ()
     {
@@ -172,62 +174,47 @@ class CGra3Dby2D : public CGrafoContorno
     // FUNÇÕES AUXILIARES
     /**
     * @brief Função que cria os objetos e os adiciona a lista de objetos.
-     * Recebe como parâmetros um objeto rotulador (com os objetos a
-     * serem adicionados) o valor do maior rotulo utilizado
-     * o tipo de objeto a ser criado*/
-    virtual void AdicionarObjetos (CRotulador2DCm * rotulador, unsigned long int rotuloAtual, CContorno::ETipoContorno tipo);
+     * Recebe como parâmetros um objeto rotulador (com os objetos a serem adicionados), 
+     * o valor do maior rotulo utilizado, e o tipo de objeto a ser criado
+     */
+    virtual void AdicionarObjetos (CRotulador2DCm * rotulador, unsigned long int rotuloAtual, 
+				   CContorno::ETipoContorno tipo);
 
-    /// Função que conecta objetos em planos adjacentes
+    /// Função que conecta objetos em planos adjacentes.
     virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) = 0;
 
     /// Função Usada para calcular a condutancia das ligações
     // virtual void CalcularPropriedadesConeccoes() {};
 
-    /// Função que elimina sítios com 0 links (??)
-    void EliminarObjetosRedundantes ()
-    {
-      switch (eliminaRamosMortos)
-	{
-	case 0:			// não elimina os ramos mortos.
-	  break;
-	case 1:
-	  EliminarObjetosRedundantes_1 ();
-	  break;
-	case 2:
-	  EliminarObjetosRedundantes_2 ();
-	  break;
-	default:
-	  EliminarObjetosRedundantes_2 ();
-	  break;
-	}
-    }
+    /// Função que elimina sítios redundantes (com 0 links)
+    void EliminarObjetosRedundantes ();
 
+private: 
     /// Elimina objetos redundantes, versão 1
     void EliminarObjetosRedundantes_1 ();
 
         /// Elimina objetos redundantes, versão 2
     void EliminarObjetosRedundantes_2 ();
 
-    /**
+protected:
+  /**
      * @brief Reorganiza os links para cmx e cmy.
-     * Funcao nova, como alguns ramos estão sendo deletados
-     * eu chamo esta função para reorganizar os centros de massa
-     * respeitando o novo estado do grafo
-     * Necessaria para o modelo 4. Por isto é definida aqui como sendo vazia
+     * Funcao nova, como alguns ramos estão sendo deletados eu chamo esta função para reorganizar 
+     * os centros de massa respeitando o novo estado do grafo.
+     * Necessaria para o modelo 4, por isto é definida aqui como sendo vazia.
     */
     virtual void ReorganizarCmxCmy ()
     {
     }
 
     /*
-     * @brief Função que calcula o centro de massa dos objetos
-     * vai ser redefinida na Adv4 e Adv5
-     * Não implementada, vai deletar os centros de massa
-     * ao deletar os objetos
+     * @brief Função que calcula o centro de massa dos objetos.
+     * Vai ser redefinida nas herdeiras M4 e M5
+     * Não implementada, vai deletar os centros de massa ao deletar os objetos.
     */
     // virtual void  CalcularCentroMassa(){};
 
-    /*Função que deleta um objeto do grafo(não usada)*/
+    /* Função que deleta um objeto do grafo(não usada) */
     // virtual bool DeletarObjeto(int ri) {return 0;};
 
     /**
@@ -240,20 +227,20 @@ class CGra3Dby2D : public CGrafoContorno
 
     // --------------------------------------------------------------------Get
  public:
-	 /// Retorna nx
+    /// Retorna nx.
     int Getnx ()    { return nx;  }
 
-	 /// Retorna ny
+    /// Retorna ny.
     int Getny ()    { return ny;  }
 
-    	 /// Retorna nz
+    /// Retorna nz.
     int Getnz ()    { return nz;  }
 
-    	 /// Elimina ramos mortos
+    /// Retorna o número que informa o método que irá eliminar os ramos mortos.
     int GeteliminaRamosMortos() { return eliminaRamosMortos;    }
 
     /// Elimina conecções repetidas
-    int GeteliminaConeccoesRepetidas() {  return eliminaConeccoesRepetidas;}
+    int GeteliminaConeccoesRepetidas() {  return eliminaConeccoesRepetidas; }
 
     // --------------------------------------------------------------------Set
     /// Seta elimina ramos mortos

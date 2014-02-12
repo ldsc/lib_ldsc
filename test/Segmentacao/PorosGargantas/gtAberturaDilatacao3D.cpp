@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <string>
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.h>
-#include "../../../gtest_configure.h"
+#include "../../gtest_configure.h"
 GtestConfigure cfg3 = GtestConfigure();
 
 TEST(TestSegmentation, OpenningDilatationModel_7) {

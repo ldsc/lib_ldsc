@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <string>
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CSegPorosGargantas3D.h>
-#include "../../../gtest_configure.h"
+#include "../../gtest_configure.h"
 GtestConfigure cfg4 = GtestConfigure();
 
 TEST(TestSegmentation, SegPoresThroatsModel_0) {

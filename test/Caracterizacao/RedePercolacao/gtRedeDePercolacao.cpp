@@ -2,7 +2,7 @@
 #include <omp.h>
 #include <string>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
-#include "../gtest_configure.h"
+#include "../../gtest_configure.h"
 GtestConfigure cfg5 = GtestConfigure();
 
 TEST(TestRepresentacao, RedeDePercolacao) {

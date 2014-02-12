@@ -8,17 +8,17 @@ file(MAKE_DIRECTORY bin)
 
 # Create executable
 add_executable(bin/runGtest
-   Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIDFd3453D.cpp
-   Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMMIRA3D.cpp
-   Filtro/FEspacial3D/FEMorfologiaMatematica3D/gtFEMM3D.cpp
+   Caracterizacao/RedePercolacao/gtRedeDePercolacao.cpp
+   Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd3453D.cpp
+   Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIRA3D.cpp
+   Filtro/FEspacial/FEMorfologiaMatematica/gtFEMM3D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd34.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIRA.cpp
-   Representacao/gtRedeDePercolacao.cpp
-   Rotulador/gtRotulador3D.cpp
-   Segmentacao/3D/PorosGargantas/gtAberturaDilatacao3D.cpp
-   Segmentacao/3D/PorosGargantas/gtSegPorosGargantas3D.cpp
-   Matriz/TCMatriz2DTests.cpp
-   Filtro/FEspacial/FEspacialTests.cpp
+   Filtro/FEspacial/FERotulagem/gtRotulador3D.cpp
+   Filtro/FEspacial/gtFEspacial.cpp
+   Matriz/gtMatriz2D.cpp
+   Segmentacao/PorosGargantas/gtAberturaDilatacao3D.cpp
+   Segmentacao/PorosGargantas/gtSegPorosGargantas3D.cpp
    gtest_main.cpp
    gtest_configure.h
    fixtures.h

@@ -5,8 +5,8 @@
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotuladorIRA3D.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
-#include "../gtest_configure.h"
-#include "../fixtures.h"
+#include "../../../gtest_configure.h"
+#include "../../../fixtures.h"
 
 TEST_F(Test3DLabeler, Rotulada_1_0) {
 	//variável com nome da imagem a ser comparada

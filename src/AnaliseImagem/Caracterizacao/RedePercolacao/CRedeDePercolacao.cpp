@@ -1,4 +1,5 @@
 #include "CRedeDePercolacao.h"
+#include <map>
 
 //std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona no c++11
 int CRedeDePercolacao::numPixeisBola[] = {
@@ -97,7 +98,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		std::cout << "Não foi criar matriz 3D em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
-	// Calculando distribuição acumulada (poros).
+	std::cerr << "Calculando distribuição acumulada (poros)." << std::endl;
 	int tamVetDist = dtpg.first->distribuicao.size();
 	std::vector<double> distAcumulada(tamVetDist+1);
 	distAcumulada[0] = dtpg.first->distribuicao[0];
@@ -105,7 +106,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		distAcumulada[i] = distAcumulada[i-1] + dtpg.first->distribuicao[i];
 	}
 
-	// Sortear valores aleatóorios entre 0 e 1. Obter o raio na distAcumulada
+	// Sortear valores aleatórios entre 0 e 1. Obter o raio na distAcumulada
 	std::vector<int> raios;
 	double random;
 	int raio;
@@ -113,8 +114,9 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	matrizObjetos.clear();
 	phiPoros  = dtpg.first->AreaObjetos();
 	phiSitios = 0.0;
+	std::cerr << "Sorteando valores aleatórios entre 0 e 1 e obtendo raios na curva de distribuição acumulada." << std::endl;
 	while (phiSitios < phiPoros) {
-		std::cerr << "phiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
+		//std::cerr << "phiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
 		raio = 1;
 		random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
 		//percorre vetor de distribuição acumulada para obter raio correspondente
@@ -135,7 +137,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		}
 		//calcular a porosidade correspondente a esfera que será criada com o raio sorteado.
 		phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
-		std::cerr << "random: " << random << " | raio: " << raio << " | phiEsfera antes: " << phiEsfera << std::endl;
+		//std::cerr << "random: " << random << " | raio: " << raio << " | phiEsfera antes: " << phiEsfera << std::endl;
 		//Se a soma das porosidades for maior que a porosidade da matriz de poros e o raio for maior que 1,
 		//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de poros,
 		//ou ate que o raio seja 1.
@@ -150,25 +152,31 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 			phiEsfera = ((double)numPixeisBola[raio]/(double)area)*100.0;
 		}
 		raios.push_back(raio);
-		std::cerr << "raio: " << raio << " | phiEsfera depois: " << phiEsfera << std::endl;
+		//std::cerr << "raio: " << raio << " | phiEsfera depois: " << phiEsfera << std::endl;
 		phiSitios += phiEsfera; //acumula a porosidade
 	}
 	std::cerr << "Saiu do loop!\nphiSitios: " << phiSitios << " | phiPoros: " << phiPoros << std::endl;
 	// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
 	std::sort(raios.begin(), raios.end());
 	std::reverse(raios.begin(), raios.end());
+	std::multimap<int, int> yToObj; //será uma referência para ordenar os objetos do menor para o maior valor de y.
 	int im, jm, km;
 	int x_raio, y_raio, z_raio;
 	int cont = 0;
+	int nTentativas;
 	//percorrea o vetor de raios
 	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
+		++cont;
 		//pega o raio do primeiro elemento
 		raio = *it;
 		diametro = ((2*raio)+1);
 		//cria esfera de raio correspondente.
 		esfera = new CBCd3453D(diametro);
 		// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+		nTentativas = 0;
 		do {
+			//++nTentativas;
+			//std::cerr << "Desenhando sítio " << cont << " de " << raios.size() << ". Tentativa: " << nTentativas << endl;
 			x = Random(raio, nx-raio-1);
 			y = Random(raio, ny-raio-1);
 			z = Random(raio, nz-raio-1);
@@ -189,6 +197,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 				}
 			}
 			if (cabe) { //desenha a esfera
+				std::cerr << "Desenhando sítio " << cont << " de " << raios.size() << endl;
 				for (int i=0; i<diametro; ++i) {
 					im = i+x_raio;
 					for (int j=0; j<diametro; ++j) {
@@ -203,7 +212,6 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 				}
 			}
 		} while (!cabe);
-		++cont;
 		// Posso criar os objetos diretamente, em ordem decrescente de tamanho.
 		// Outra opção seria, após este loop, rotular os objetos e percorrer a matriz setando cada objeto na matrizObjetos.
 		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
@@ -212,8 +220,15 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		matrizObjetos[cont].pontoCentral.x = x;
 		matrizObjetos[cont].pontoCentral.y = y;
 		matrizObjetos[cont].pontoCentral.z = z;
+		yToObj.insert(pair<int, int>(y,cont));
 		delete esfera;
 	}
+/*
+	std::cerr << "Elements in yToObj: " << std::endl;
+	for (multimap<int, int>::iterator it = yToObj.begin(); it != yToObj.end(); ++it) {
+		std::cerr << "  [y=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
+	}
+*/
 
 	// Próximos passos:
 
@@ -222,5 +237,6 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	// =>Sortear número de coordenação (Z);
 	// =>Sortear raio das Z ligações;
 	// =>Conectar o sítio a Z sítios próximos e ir acumulando a porosidade representada pelas ligações;
+	yToObj.clear();
 	return true;
 }

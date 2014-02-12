@@ -12,6 +12,10 @@
 *.dgm
 *.exe
 *.rsl
+*.user*
+nohup.out
+organizacaoDiretoriosAntes
+organizacaoDiretoriosDepois
 cvs
 libldsc.a
 libldsc.so

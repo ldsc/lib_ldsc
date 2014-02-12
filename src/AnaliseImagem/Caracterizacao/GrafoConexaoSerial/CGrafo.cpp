@@ -65,7 +65,6 @@ using namespace std;
   };
 */
 
-
 // -------------------------------------------------------------------------
 // Função:   CalculoCondutancias
 // -------------------------------------------------------------------------
@@ -79,20 +78,21 @@ using namespace std;
     Transforma a propriedades raioHidraulico dos sítios em condutâncias.
     Ou seja, percorre todo o grafo e transforma a propriedade raioHidraulico em condutância (dos sítios).
     Esta condutância é usada pelo objeto sítio para calcular a sua pressão (x).
-				
+
     Ou seja:
-    Quando se determina o grafo a propriedade é o raio hidraulico.
+    Quando se determina o grafo a propriedade armazenada nos objetos é o raio hidraulico.
     Quando se deseja determinar a permeabilidade é a condutancia.
 
-    PS:
+    Tarefa:
     Verificar uma forma de eliminar a dependencia destes parâmetros.
-					
+
     @author : André Duarte Bueno
-    @see    : TPermabilidade
-    @param  : viscosidade, dimensão do pixel e fator de amplificaç o do pixel
+    @see    : CPermabilidade
+    @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
 */
-void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
+void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, 
+				  unsigned long int _fatorAmplificacao)
 {
   // Variáveis auxiliares
   long double raio_hidraulico;
@@ -105,7 +105,7 @@ void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePix
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
   {
-      // Pega o raio hidraulico do objeto k, e já converte para metros
+      // Pega o raio hidraulico do objeto k e já converte para metros
       raio_hidraulico = objeto[k]->propriedade * sizePixelXfatorAmplificacao;
       // Calcula a condutancia do sitio    usando a equação ri^3/(3*viscosidade)
       //      objeto[k]->propriedade =
@@ -137,9 +137,9 @@ void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePix
    			Formato novo: veja CContorno::ETipoContorno
    @return : Retorna um ponteiro para um sítio novo alocado
 */
-CObjetoGrafo * CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CObjetoGrafo* CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
-  CObjetoGrafo *data;
+  CObjetoGrafo *data = nullptr;
   switch (tipoContorno)
   {
     case CContorno::CENTER:
@@ -161,22 +161,20 @@ CObjetoGrafo * CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 
 // -------------------------------------------------------------------------
 /** @short  : 	Salva em disco o grafo.
-    A saída de dados éra no mesmo formato do Liang
+    A saída de dados era no mesmo formato do Liang
     Formato antigo Write_Liang_Format:
-  
     NumerodeSitios
     Tipo de Sitio
     Numero De Links
-    Lista dos rótulos
-    Lista das propriedades
+    Lista dos rótulos dos objetos
+    Lista das propriedades dos objetos
 
     Formato novo Write (Andre Format):
- 
-    NumeroSitios  	// salvo pelo grafo
-    Tipo
-    Rotulo
-    propriedade 	// raio hidraulico ou condutancia
-    x           	// pressão
+    NumeroTotalObjetos 	// salvo pelo grafo
+    TipoDoObjeto
+    RotuloDoObjeto
+    propriedadeDoObjeto	// raio hidraulico ou condutancia
+    x           	// propriedade a er calculada (ex:pressão).
     NumeroConeccoes
     Lista_dos_rotulos_das_coneccoes
 
@@ -223,26 +221,28 @@ void CGrafo::Write (string fileName)
 // -------------------------------------------------------------------------
 // Função:                    LeVetorPropriedades()
 // -------------------------------------------------------------------------
-/** 				
-    @short  : Lê os dados do grafo do disco.			
-    A cada conjunto de iterações, salva os dados
-    da simulação em disco (vetor das pressões do grafo).
-    Se o micro caiu (queda de luz), pode solicitar a
-    reinicialização da simulação, criando o grafo, determinando o mesmo
-    e então chamando a função LeDadosDisco, que vai ler
-    os dados do arquivo de disco "grafo.vector".
+/**
+    @short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
+    O sistema de proteçao contra quedas de energia salva, a cada conjunto de iterações, 
+    os dados dos objetos do grafo em disco (salva o vetor das pressões do grafo).
+    Se o micro caiu (queda de luz), o programa pode solicitar a reinicialização da simulação, 
+    criando o grafo, determinando o mesmo e então chamando a função LeDadosDisco(),
+    que vai ler os dados do arquivo de disco "grafo.vector".
     @author :	André Duarte Bueno
     @see    : grafos
     @param  :
-    @return :	ostream&
+    @return :	bool // ostream&
 */
 bool CGrafo::LeVetorPropriedades ()
 {
   // Abre arquivo de disco
+  // Tarefa: o nome do arquivo "grafo.vectorX" deve considerar o nome do arquivo pois pode processar
+  // mais de um arquivo no mesmo diretório ao mesmo tempo.
   ifstream fin ("grafo.vectorX");
   if (fin.fail ())
+  { cerr << "Falha abertura arquivo que tem os dados do grafo: grafo.vectorX.\n";
     return 0;
-
+  }
   // Lê os dados do vetor (atributo propriedade).
   long double temp;
   for (unsigned long int k = 0; k < objeto.size (); k++)
@@ -251,7 +251,7 @@ bool CGrafo::LeVetorPropriedades ()
       // objeto[k]->propriedade = temp;
       objeto[k]->x = temp;
 
-      if (fin.eof ())
+      if (fin.eof ()) // Tarefa: não deve ocorrer! testar!
 	continue;
     }
   return 1;
@@ -264,7 +264,7 @@ bool CGrafo::SalvaVetorPropriedades ()
   if (fout.fail ())
     return 0;
 
-  // Salva os dados de propriedade de cada objeto em disco
+  // Salva os dados do atributo x de cada objeto em disco (ex: pressão que esta sendo calculada).
   for (unsigned long int k = 0; k < objeto.size (); k++)
     // fout  <<              objeto[k]->propriedade  << endl;
     fout << objeto[k]->x << endl;
@@ -299,23 +299,25 @@ ostream & operator<< (ostream & os, CGrafo & grafo)
 // Função:               SetMatrizAVetorB
 // -------------------------------------------------------------------------
 /** Recebe uma matriz A (vazia) e um vetor B (vazio) e 
-    preenche os mesmos com os coeficientes necessários
+    preenche os mesmos com os coeficientes necessários.
     @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
     e preenche os mesmos com os coeficientes necessários
     para determinação do sistema de equações.
-    1- O grafo já deve ter sido determinado
+    Condições:
+    1- O grafo já deve ter sido determinado.
     2- Os valores iniciais de pressão já devem ter sido definidos
-    (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
-    3- Deve receber uma matriz e um vetor vazios	
-    @author :	André Duarte Bueno
+    (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0).
+    3- Deve receber uma matriz e um vetor vazios.
+    @author : André Duarte Bueno
     @see    : grafos
     @param  :
-    @return :	bool indicando sucesso da operação.
+    @return : bool indicando sucesso da operação.
+    Tarefa: receber matriz de double!! eliminando multiplicador 1e17
 */
 bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
 {
-  // vector< vector<float> > A;
-  // vector<float> B;
+  // vector< vector<double> > A;
+  // vector<double> B;
 
   // Passo 0: Definição de variáveis auxiliares
   // índice i da matriz A (ou vetor B)
@@ -324,7 +326,7 @@ bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
   // índice j da matriz A
   unsigned long int mj;
 
-  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2
+  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2 ; Tarefa: calcular para demais modelos!
   long double Cij;
 
   // Passo 1:
@@ -332,6 +334,8 @@ bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
   // cout << "\nlastObjectOfSolver="               <<       lastObjectOfSolver;
   // cout << "\nfirstObjectOfSolver="      <<  firstObjectOfSolver;
 
+  // A dimensão do sistema de equações considera os planos 1->n-1,
+  // pois os planos 0 e n-1 tem pressões constantes.
   unsigned int dim = lastObjectOfSolver - firstObjectOfSolver + 1;
   // cout <<"\ndim="<<dim;
 
@@ -349,24 +353,21 @@ bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
   for (unsigned long int j = 0; j < objeto.size (); j++)
     {
       // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
-
       COGSitio *objeto_j = dynamic_cast < COGSitio * >(objeto[j]);
-      assert (objeto_j);
+      assert (objeto_j);  // se não der certo o cast, vai lançcar excessão!
 
       switch (objeto_j->Contorno ())
 	{
 	  // Fronteira esquerda
 	case CContorno::WEST:
 
-	  // Fronteira direira
+	  // Fronteira direita
 	case CContorno::EST:
 	  // Percorre as conecções do objeto       
 	  for (i = 0; i < objeto_j->coneccao.size (); i++)
 	    {
-	      // Calcula Cij
-	      Cij =
-		(objeto_j->coneccao[i]->propriedade +
-		 objeto_j->propriedade) / 2.0;
+	      // Calcula Cij - Tarefa: explicar a equacao usada.
+	      Cij = (objeto_j->coneccao[i]->propriedade + objeto_j->propriedade) / 2.0;
 	      Cij = Cij * 1.0e17;	// LIXO, para gerar int
 	      // cij esta sendo armazenado em int por isto multiplico por e17
 
@@ -384,19 +385,16 @@ bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
 	      A->data2D[mi][mi] -= static_cast < int >(Cij);
 	    }
 	  break;
-
 	  // Fronteira Centro
 	case CContorno::CENTER:
 	  // Percorre as conecções do objeto       
 	  for (i = 0; i < objeto_j->coneccao.size (); i++)
 	    {
-	      // Se o link  for  um objeto de centro (não contorno) entra
+	      // Se o link for um objeto de centro (não contorno) entra
 	      if (objeto_j->coneccao[i]->Contorno () == CContorno::CENTER)
 		{
 		  // Calcula Cij
-		  Cij =
-		    (objeto_j->propriedade +
-		     objeto_j->coneccao[i]->propriedade) / 2.0;
+		  Cij = (objeto_j->propriedade + objeto_j->coneccao[i]->propriedade) / 2.0;
 		  Cij = Cij * 1.0e17;	// LIXO para gerar int
 		  // cij esta sendo armazenado em int por isto multiplico por e17
 

@@ -46,26 +46,29 @@ class CGra3Dby2D_M6 : public CGra3Dby2D_M3
 public:
 
 // -------------------------------------------------------------Construtor
-	/// Construtor
-	CGra3Dby2D_M6 (std::string _fileName):CGra3Dby2D_M3 (_fileName)
+    /// Construtor
+    CGra3Dby2D_M6 (std::string _fileName):CGra3Dby2D_M3 (_fileName)
+    , tortuosidade(0.0), numeroDerivacoesUsadasCalculoTortuosidade(0)
   {
   }
 
 // --------------------------------------------------------------Destrutor
-	/// Destrutor
+    /// Destrutor
   virtual ~ CGra3Dby2D_M6 ()
   {
   }
 
 // ----------------------------------------------------------------Métodos
   /**
-   * @brief Redefinida, na classe  CGra3Dby2_M3 calcula as condutâncias 
+   * @brief Redefinida, na classe  CGra3Dby2_M3 calcula as condutâncias
    * dos sítios sem considerar o deslocamento dos centros de massa
    * aqui considera as posições dos centros de massa
   */
   virtual void CalculoCondutancias (long double _viscosidade,
-				    long double _sizePixel,
-				    unsigned long int _fatorAmplificacao);
+                    long double _sizePixel,
+                    unsigned long int _fatorAmplificacao);
+
+  double Tortuosidade() { return tortuosidade; }
 
 protected:
   /// Redefinida, para  o tipoContorno=centro retorna um COGSitioLRCM
@@ -77,12 +80,20 @@ protected:
    * o valor do maior rotulo utilizado o tipo de objeto a ser criado
   */
   virtual void AdicionarObjetos (CRotulador2DCm * rotulador,
-				 unsigned long int rotuloAtual,
-				 CContorno::ETipoContorno tipo);
+                 unsigned long int rotuloAtual,
+                 CContorno::ETipoContorno tipo);
 
   // Função Go
   // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);
   // virtual CGrafo* Go( std::string fileName,unsigned long int _tamanhoMascara = 0) ;
+//   double tortuosidade_x; Para cálculo nas 3 direções vai ter de
+//   double tortuosidade_y; calcular o grafo em cada uma das direções
+//   double tortuosidade_z;
+  /// representa a tortuosidade na direção z
+  double tortuosidade = 0.0 ;
+private:
+  /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
+  long int numeroDerivacoesUsadasCalculoTortuosidade = 0;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

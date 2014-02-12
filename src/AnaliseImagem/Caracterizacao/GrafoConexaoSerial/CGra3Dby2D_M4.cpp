@@ -236,20 +236,15 @@ CGra3Dby2D_M4::CalculoCondutancias
       for (unsigned int link = 0; link < ptrSitioLR->coneccao.size (); link++)
 	{
 
-	  // Recupera a informação  do centro de massa na direção x, do sitio conexo
+	  // Recupera a informação  do centro de massa na direção x do sitio conexo
 	  // Pega o rotulo do sitio conexo, e recupera o cmx do objeto
 	  cmxSitioConexo = cmx[ptrSitioLR->coneccao[link]->rotulo];
 	  cmySitioConexo = cmy[ptrSitioLR->coneccao[link]->rotulo];
 
-	  // Determina a distância dx e dy entre o sítio e o sitio conexo
-	  dx =
-	    cmxSitio >
-	    cmxSitioConexo ? cmxSitio - cmxSitioConexo : cmxSitioConexo -
-	    cmxSitio;
-	  dy =
-	    cmySitio >
-	    cmySitioConexo ? cmySitio - cmySitioConexo : cmySitioConexo -
-	    cmySitio;
+	  // Determina a distância dx e dy entre o sítio e o sitio conexo 
+	  // Correção Bueno/23/1/2014 - como faz dx*dx não precisa achar módulo
+	  dx = cmxSitio - cmxSitioConexo ;
+	  dy = cmySitio - cmySitioConexo ;
 
 	  // Calcula o fator de correção da condutancia em função  da distância entre os sitios
 	  fatorCorrecaoDistancias = sqrt (1.0 + dx * dx + dy * dy);

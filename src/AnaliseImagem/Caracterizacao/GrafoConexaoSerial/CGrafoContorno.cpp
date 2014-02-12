@@ -42,12 +42,22 @@ using namespace std;
 // Função     Construtor
 // -----------------------------------------------------------------------
 // Recebe o número de contornos,
-// Cria os objetos e adiciona ao vetor de contornos
-// Um fileName e repassado a classe base
+// Cria os objetos e adiciona ao vetor de contornos.
+// O fileName é repassado a classe base.
 CGrafoContorno::CGrafoContorno (string _fileName,
 				unsigned long int _numero_contornos):
-CGrafo (_fileName)
+		      CGrafo (_fileName)
+		      //, contorno(_numero_contornos, new CContorno())
 {
+//   contorno.resize(_numero_contornos); // redimensiona (size)
+//   for (unsigned long int i = 0; i < _numero_contornos; i++)
+//     {
+//       CContorno *obj_cont = new CContorno ();
+//       assert (obj_cont);
+//       contorno[i] = obj_cont;
+//     }
+//ou  generate(contorno.begin(), contorno.end(), new CContorno ());
+//ou contorno.resize(_numero_contornos, new CContorno()); 
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
       CContorno *obj_cont = new CContorno ();
@@ -59,9 +69,8 @@ CGrafo (_fileName)
 // -----------------------------------------------------------------------
 // Função     Destrutor
 // -----------------------------------------------------------------------
-// Os objetos contorno criados
-// por esta classe no construtor, precisam ser deletados.
-// Ou seja os contornos são objetos todo parte do CGrafoContorno
+// Os objetos contorno criados por esta classe no construtor, precisam ser deletados.
+// Ou seja os contornos são objetos todo parte do CGrafoContorno.
 CGrafoContorno::~CGrafoContorno ()
 {
   for (unsigned long int i = 0; i < contorno.size (); i++)
@@ -73,10 +82,9 @@ CGrafoContorno::~CGrafoContorno ()
 -------------------------------------------------------------------------
 Função:	operator<<
 -------------------------------------------------------------------------
-@short  : Salva dados do objeto em os (disco),
+@short  : Salva dados do objeto em "os" (disco);
 Salva o número de objetos que fazem parte de grafo e
 a seguir os dados de cada objeto.
-					
 @author :	André Duarte Bueno
 @see    : grafos
 @param  :

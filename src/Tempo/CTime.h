@@ -19,9 +19,11 @@ dos Materiais.
 // ----------------------------------------------------------------------------
 // Bibliotecas C/C++
 // ----------------------------------------------------------------------------
-#include <ctime>
+//#include <ctime>
+#include <iostream>
 #include <fstream>
 #include <string>
+#include <chrono>
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -38,12 +40,12 @@ dos Materiais.
  * CTime wait("nomeFuncao");
  * 
  * Quando a função sai de escopo o objeto wait do tipo CTime é destruido
- * e o tempo decorrido no processamento da função é passado para a tela,
- * utilizando uma ostream.
+ * e o tempo decorrido no processamento da função (em milisegundos),
+ * é passado para a tela utilizando uma ostream.
  * @author       André Duarte Bueno	
  * 
  * Exemplo de uso:
- * #include <TTempo/CTime.h>
+ * #include <Tempo/CTime.h>
  * main()
  * {
 	* {
@@ -55,14 +57,16 @@ dos Materiais.
 class CTime
 {
   // Atributos
-  /// string com o nome da função executada
-  std::string msg;
+  /// string com o nome da função executada.
+  std::string msg{};
 
-  /// Ponteiro para uma ostream
-  std::ostream * fout;
+  /// Ponteiro para uma ostream.
+  std::ostream * fout = nullptr;
 
-  /// Hora em que a função iniciou
-  time_t inicio;
+  /// Hora em que a função iniciou.
+//  std::chrono::high_resolution_clock inicio;
+//  std::chrono::milliseconds	inicio;
+  decltype(std::chrono::high_resolution_clock::now()) inicio;
 
   // Métodos
  public:

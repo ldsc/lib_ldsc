@@ -125,6 +125,11 @@ class CObjetoImagem
 			return sConexao;
 		}
 
+		/// Retorna o número de conexões do objeto.
+		inline int NumConexoes() {
+			return sConexao.size();
+		}
+
 		// Retorna rotulo da conexao i
 		//int  SConexao( int i ) { return sConexao[i]; }
 

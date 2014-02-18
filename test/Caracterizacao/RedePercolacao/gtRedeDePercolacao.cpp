@@ -5,8 +5,8 @@
 #include "../../gtest_configure.h"
 GtestConfigure cfg5 = GtestConfigure();
 
-TEST(TestRepresentacao, RedeDePercolacao) {
-	string result_image = "../../data/images/result_RepresentacaoRedeDePercolacao.dbm";
+TEST(TestCaracterizacao, RedeDePercolacao) {
+	string result_image = "../../data/images/result_CaracterizacaoRedeDePercolacao.dbm";
 
 	//carrega a imagem original
 	TCImagem3D<bool>* pm = new TCImagem3D<bool>(cfg5.original3D);
@@ -16,8 +16,8 @@ TEST(TestRepresentacao, RedeDePercolacao) {
 
 	//Segmenta a imagem, calcula as distribuicoes e cria a rede
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
-	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
-	rede.SalvarListaObjetos("../../data/result_RepresentacaoRedeDePercolacao.rsl");
+	rede.Go( 500, 500, 500, CDistribuicao3D::d345 );
+	rede.SalvarListaObjetos("../../data/result_CaracterizacaoRedeDePercolacao.rsl");
 
 	if ( cfg5.criarImagensResultantes && cfg5.FileNotExists(result_image) ) {
 		rede.pm->Write(result_image);

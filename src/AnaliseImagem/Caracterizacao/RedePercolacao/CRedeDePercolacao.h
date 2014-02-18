@@ -60,11 +60,19 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		bool SalvarListaObjetos(std::string fileName);
 
 	private:
-		/// Returna inteiro randômico entre min e max (srand é setado no contrutor da classe).
+		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }
 
 		/// Gera double randômico entre 0.0 e 1.0
 		inline double DRandom ( ) { return ( ( (double)rand() ) / ( (double)RAND_MAX ) ); }
+
+		/// Calcula distância entre dois pontos no espaço 3D.
+		inline double DistanciaEntrePontos(const int &x1, const int &y1, const int &z1, const int &x2, const int &y2, const int &z2){
+			int vx = x2-x1;
+			int vy = y2-y1;
+			int vz = z2-z1;
+			return sqrt( vx*vx + vy*vy + vz*vz );
+		}
 };
 
 #endif // CRedeDePercolacao_H

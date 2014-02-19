@@ -32,13 +32,19 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
 		TCMatriz3D<bool> *pm;
 
+		/// Flag que seta se os pixeis que compõem um esfera ou um cilindro devem ser calculados ou obtidos do vetor (default=false).
+		bool calcPixeis;
+
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > dtpg;
 
 		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em uma bola com raio correspondente ao valor da chave.
-		static int numPixeisBola[];
-		//static std::vector<int> numPixeisBola;
+		static std::vector<int> numPixeisBola;
+		//static int numPixeisBola[];
+
+		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em um disco com raio correspondente ao valor da chave.
+		static std::vector<int> numPixeisDisco;
 
 		// Construtores / Destrutor
 	public:
@@ -65,6 +71,26 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 
 		/// Gera double randômico entre 0.0 e 1.0
 		inline double DRandom ( ) { return ( ( (double)rand() ) / ( (double)RAND_MAX ) ); }
+
+		/// Retorna o número de pixeis em uma esfera. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
+		inline int NumPixeisEsfera( const int & _raio) {
+			return (calcPixeis) ? (int)round((4.0*M_PI*(float)_raio*(float)_raio*(float)_raio)/3.0) : numPixeisBola[_raio];
+		}
+
+		/// Retorna o número de pixeis em um cilindro. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
+		inline int NumPixeisCilindro( const int & _raio, const int & _comprimento) {
+			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisDisco[_raio];
+		}
+
+		/// Retorna a porosidade da esfera (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
+		inline double PhiEsfera( const int & _raio, const int & _area) {
+			return ((double)NumPixeisEsfera(_raio)/(double)_area)*100.0;
+		}
+
+		/// Retorna a porosidade do cilindro (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
+		inline double PhiCilindro( const int & _raio, const int & _comprimento, const int & _area) {
+			return ((double)NumPixeisCilindro(_raio, _comprimento)/(double)_area)*100.0;
+		}
 
 		/// Calcula distância entre dois pontos no espaço 3D.
 		inline double DistanciaEntrePontos(const int &x1, const int &y1, const int &z1, const int &x2, const int &y2, const int &z2){

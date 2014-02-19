@@ -42,3 +42,32 @@ TEST_F(TestMatriz2D, bolas) {
 	}
 }
 */
+
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
+#include <iostream>
+TEST_F(TestMatriz2D, discos) {
+	CBCDiscreta * bola = NULL;
+	ofstream file("numPixeisDiscos.txt", ios_base::out | ios_base::trunc);
+	if (file.good()) {
+		file << "std::vector<int> numPixeisDiscos {0";
+		int numPixeis, i, j;
+		for (int d=3; d<602; d+=2) {
+			numPixeis = 0;
+			bola = new CBCd34(d);
+			for (i=0; i<bola->NX(); ++i) {
+				for (j=0; j<bola->NY(); ++j) {
+					if (bola->data2D[i][j]!=0)
+						++numPixeis;
+				}
+			}
+			file << "," << numPixeis;
+			delete bola;
+		}
+		file << "};";
+		file.close();
+
+		EXPECT_TRUE(true);
+	} else {
+		EXPECT_TRUE(false);
+	}
+}

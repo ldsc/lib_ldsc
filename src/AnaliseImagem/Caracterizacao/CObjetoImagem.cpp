@@ -15,7 +15,7 @@ Desenvolvido por:
 
 #include <AnaliseImagem/Caracterizacao/CObjetoImagem.h>
 
-/// Grava as informações do objeto no arquivo recebido como parâmetro.
+// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).
 void CObjetoImagem::GravarObjeto(ofstream &_fout) {
 	// X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons
 	_fout << std::left << std::setw(5) << pontoCentral.x;
@@ -32,6 +32,29 @@ void CObjetoImagem::GravarObjeto(ofstream &_fout) {
 	_fout << endl;
 }
 
+// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
+void CObjetoImagem::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
+	// fronteira sequencial propriedade?  Camada N.ObjsCon LstObjsCons LstPropriedade?
+	_fout << std::right << std::setw(4) << "?"; //camada superior=1, intermediária=0, inferior=2
+	_fout << std::right << std::setw(6) << seq;
+	_fout << std::right << std::setw(11) << "?"; //condutância?
+	_fout << std::right << std::setw(11) << "?"; //camada de 0 a n
+	_fout << std::right << std::setw(5) << sConexao.size();
+	if ( sConexao.size() > 0 ) {
+		std::set<int>::iterator itr;
+		for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
+			_fout << std::right << std::setw(6) << *itr;
+		}
+		/*
+		std::vector<double>::iterator itrp;
+		for (itr=sPropriedade.begin(); itr!=sPropriedade.end(); ++itrp) {
+			_fout << " " << *itrp;
+		}
+		*/
+	}
+	_fout << endl;
+
+}
 
 // Retorna tipo de objeto como uma string
 std::string CObjetoImagem::StrTipo() {

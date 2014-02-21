@@ -65,6 +65,9 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		/// Grava em disco, com o nome informado, os objetos identificados.
 		bool SalvarListaObjetos(std::string fileName);
 
+		/// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
+		bool SalvarListaObjetosGrafo(std::string fileName);
+
 	private:
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }

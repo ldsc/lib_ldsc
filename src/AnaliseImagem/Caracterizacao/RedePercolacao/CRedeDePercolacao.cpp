@@ -85,6 +85,11 @@ bool CRedeDePercolacao::SalvarListaObjetos(std::string fileName) {
 	return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
 }
 
+// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
+bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string fileName) {
+	return CMatrizObjetoImagem::SalvarListaObjetosGrafo(fileName);
+}
+
 // Executa o cálculo das distribuições e cria a rede de percolação.
 bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica ) {
 	// Determina tamanho mínimo e máximo para a rede de percolação

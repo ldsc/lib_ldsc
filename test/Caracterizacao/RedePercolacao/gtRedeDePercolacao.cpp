@@ -18,6 +18,7 @@ TEST(TestCaracterizacao, RedeDePercolacao) {
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
 	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
 	rede.SalvarListaObjetos("../../data/result_CaracterizacaoRedeDePercolacao.rsl");
+	rede.SalvarListaObjetosGrafo("../../data/result_CaracterizacaoRedeDePercolacao.grafo.txt");
 
 	if ( cfg5.criarImagensResultantes && cfg5.FileNotExists(result_image) ) {
 		rede.pm->Write(result_image);
@@ -48,6 +49,7 @@ TEST(TestCaracterizacao, RedeDePercolacaoPhiCalc) {
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
 	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
 	rede.SalvarListaObjetos("../../data/result_CaracterizacaoRedeDePercolacaoPhiCalc.rsl");
+	rede.SalvarListaObjetosGrafo("../../data/result_CaracterizacaoRedeDePercolacaoPhiCalc.grafo.txt");
 
 	if ( cfg5.criarImagensResultantes && cfg5.FileNotExists(result_image) ) {
 		rede.pm->Write(result_image);

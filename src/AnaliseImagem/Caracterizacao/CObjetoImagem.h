@@ -20,6 +20,7 @@ Desenvolvido por:
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <set>
+#include <vector>
 #include <string>
 #include <fstream>
 #include <iomanip>
@@ -93,8 +94,11 @@ class CObjetoImagem
 			return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 		}
 
-		/// Grava as informações do objeto no arquivo recebido como parâmetro.
+		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).
 		void GravarObjeto(ofstream &_fout);
+
+		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
+		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
 
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto

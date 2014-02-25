@@ -163,7 +163,7 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
   // Inicio do calculo da correção das condutancias
   // Ponteiro para sitio derivado
   COGSitioLRCM *
-    sitio = NULL;
+    sitio = nullptr;
 
   // Distancia dx entre os dois sítios
   double
@@ -189,7 +189,7 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
 
       // Percorre todas as conecções do sitio atual
       COGSitioLRCM *
-    sitioConexo = NULL;
+    sitioConexo = nullptr;
       for (unsigned int link = 0; link < sitio->coneccao.size (); link++)
     {
       sitioConexo = dynamic_cast < COGSitioLRCM * >(sitio->coneccao[link]);

@@ -34,14 +34,14 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
 	double acumulada = 0.0;
 	distribuicao.clear();
 
-	TCMatriz2D<bool> * matriz = NULL;
+	TCMatriz2D<bool> * matriz = nullptr;
 	matriz = new TCMatriz2D<bool>(nx, ny); // faz uma cópia da matriz
 	if ( ! matriz ) { // se a matriz não foi criada corretamente rotorna false
 		cerr << "Erro em CDistribuicao::Go! Cópia de TCMatriz2D< int > não foi criada!" << endl;
 		return false;
 	}
 
-	TCFEMorfologiaMatematica<bool> * filtro = NULL;
+	TCFEMorfologiaMatematica<bool> * filtro = nullptr;
 	switch (_metrica){
 		case espacial:
 			filtro = new TCFEMorfologiaMatematica<bool>(matriz, raio, indice, fundo);
@@ -82,8 +82,8 @@ bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
 		// calula a idf da imagem
 		filtro->Go(matriz, raio);
 		// aplica a abertura na imagem
-		if ( filtro->Abertura(matriz, raio) == NULL ) { //aplica a abertura na imagem.
-			cerr << "Erro em CDistribuicao::Go! Método Abertura retornou NULL..." << endl;
+		if ( filtro->Abertura(matriz, raio) == nullptr ) { //aplica a abertura na imagem.
+			cerr << "Erro em CDistribuicao::Go! Método Abertura retornou nullptr..." << endl;
 			if ( filtro )
 				delete filtro;
 			if ( matriz )

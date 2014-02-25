@@ -43,7 +43,7 @@ TCMatriz2D< int > *CCamara2D::CriaCamara ( TCMatriz2D< int > * &img )
    
   // Aloca memoria para a camara
   // Potencial bug - perda de memória: deveria verificar se data2D já existe, 
-  // caso afirmativo, deletar, e setar com NULL
+  // caso afirmativo, deletar, e setar com nullptr
 	data2D.clear();
 	AlocaMatriz2D(nx,ny);
   

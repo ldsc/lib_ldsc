@@ -35,10 +35,10 @@ void CObjetoImagem::GravarObjeto(ofstream &_fout) {
 // Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 void CObjetoImagem::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 	// fronteira sequencial propriedade?  Camada N.ObjsCon LstObjsCons LstPropriedade?
-	_fout << std::right << std::setw(4) << "?"; //camada superior=1, intermediária=0, inferior=2
+	_fout << std::right << std::setw(4) << camada; //camada superior=1, intermediária=0, inferior=2
 	_fout << std::right << std::setw(6) << seq;
 	_fout << std::right << std::setw(11) << "?"; //condutância?
-	_fout << std::right << std::setw(11) << "?"; //camada de 0 a n
+	_fout << std::right << std::setw(11) << pontoCentral.y; //camada de 0 a n
 	_fout << std::right << std::setw(5) << sConexao.size();
 	if ( sConexao.size() > 0 ) {
 		std::set<int>::iterator itr;

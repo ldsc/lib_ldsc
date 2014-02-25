@@ -32,13 +32,13 @@ CTime::CTime (string _msg, ostream * _out):
 CTime::CTime (string _msg, ofstream * _out):
   /*inicio (chrono::milliseconds::now()),*/ fout( _out), msg( _msg)
 {
-//  inicio = time (NULL);
+//  inicio = time (nullptr);
 }
 
 // Destrutor, apresenta o tempo de execução da função em milisegundos.
 CTime::~CTime ()
 {
-//  time_t fim = time (NULL);
+//  time_t fim = time (nullptr);
 //  (*fout) << '\n' << msg << " " << difftime (fim, inicio) << 's' << endl;
 //    auto fim = std::chrono::milliseconds::now();
     auto fim = std::chrono::high_resolution_clock::now();

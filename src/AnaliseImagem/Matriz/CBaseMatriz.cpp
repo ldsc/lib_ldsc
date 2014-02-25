@@ -111,7 +111,7 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	void CBaseMatriz::LeEfetivamenteCabecalho(ifstream& fin, unsigned int& nx,
 	unsigned int& ny,unsigned int& nz,unsigned int& numeroCores)
 	{
-	if(fin!=NULL)
+	if(fin!=nullptr)
 	{
 	//  Lê o formato e define nx,ny,nz
 	char formato[50];

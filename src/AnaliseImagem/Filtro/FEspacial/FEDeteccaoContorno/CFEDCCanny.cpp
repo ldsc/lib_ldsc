@@ -60,13 +60,13 @@ CFEDCCanny::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
   // Cria imagem local
   magim = new CImagem (im->NX (), im->NY ());
 
-  if (magim == NULL)
+  if (magim == nullptr)
     {				// cout<<"Out of storage: Magnitude\n";
       exit (1);
     }
 
   oriim = new CImagem (im->NX (), im->NY ());
-  if (oriim == NULL)
+  if (oriim == nullptr)
     {				// cout<<"Out of storage: Orientation\n";
       exit (1);
     }

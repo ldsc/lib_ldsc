@@ -78,7 +78,7 @@ class TCFEspacial3D : public TCFiltro3D<T>
 		TCFEspacial3D (TCMatriz3D<T> * &matriz, unsigned int _tamanhoMascara)	// ponteiro para imagem, e
 			: TCFiltro3D<T> (matriz), tamanhoMascara (_tamanhoMascara)	// tamanho da mascara
 		{
-			mask = NULL;
+			mask = nullptr;
 		}
 
 		/// Destrutor

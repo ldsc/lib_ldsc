@@ -138,7 +138,7 @@ bool Gnuplot::set_GNUPlotPath(const std::string &path)
 void Gnuplot::set_terminal_std(const std::string &type)
 {
 #if defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
-    if (type.find("x11") != std::string::npos && getenv("DISPLAY") == NULL)
+		if (type.find("x11") != std::string::npos && getenv("DISPLAY") == nullptr)
     {
         throw GnuplotException("Can't find DISPLAY variable");
     }
@@ -1271,9 +1271,9 @@ void Gnuplot::init()
     // char * getenv ( const char * name );  get value of an environment variable
     // Retrieves a C string containing the value of the environment variable whose 
     // name is specified as argument.
-    // If the requested variable is not part of the environment list, the function returns a NULL pointer.
+		// If the requested variable is not part of the environment list, the function returns a nullptr pointer.
 #if ( defined(unix) || defined(__unix) || defined(__unix__) ) && !defined(__APPLE__)
-    if (getenv("DISPLAY") == NULL)
+		if (getenv("DISPLAY") == nullptr)
     {
         this->valid = false;
         throw GnuplotException("Can't find DISPLAY variable");
@@ -1339,7 +1339,7 @@ bool Gnuplot::get_program_path()
     // Retrieves a C string containing the value of the environment variable PATH
     path = getenv("PATH");
 
-    if (path == NULL)
+		if (path == nullptr)
     {
         throw GnuplotException("Path is not set");
         return false;
@@ -1442,7 +1442,7 @@ std::string Gnuplot::create_tmpfile(std::ofstream &tmp)
 
     // open temporary files for output
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
-    if (_mktemp(name) == NULL)
+		if (_mktemp(name) == nullptr)
 #elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
     if (mkstemp(name) == -1)
 #endif

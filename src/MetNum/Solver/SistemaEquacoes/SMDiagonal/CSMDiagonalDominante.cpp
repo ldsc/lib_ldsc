@@ -57,10 +57,10 @@ CSMDiagonalDominante::Go (vector < CSMParametroSolver * >*objeto)
   // necessário pois as funções internas de this, necessitam do vetor de objetos
   obj = objeto;
 
-  if (X == NULL || dimensaoVetor < obj->size ())
+  if (X == nullptr || dimensaoVetor < obj->size ())
     {				// se menor, realoca X
       delete [] X;		// deleta X
-      X = NULL;			// zera
+      X = nullptr;			// zera
       X = new long double[obj->size ()];	// Aloca X como sendo do tamanho do vetor recebido
       assert (X);
     }

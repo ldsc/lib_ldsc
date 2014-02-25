@@ -90,7 +90,7 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 // Funcao de cálculo da funcao correlacao
 // Recebe uma imagem 2D (vetor) e as dimensoes nx e ny
 bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
-	// Se Im_data nunca foi criada é NULL, então vai ser alocada pelo método abaixo.
+	// Se Im_data nunca foi criada é nullptr, então vai ser alocada pelo método abaixo.
 	// Se Im_data já existe, mas tem dimensões diferentes, então é realocada.
 	// Se não é nula e as dimensões são as mesmas, então já foi alocada, e não
 	// precisa realocar, é só zerar.
@@ -146,7 +146,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	if ( objetoFourier->Go_Inverse (Re_data, Im_data) ) 		// calcula transformada inversa
 		return 1;						// se retorno == 1 sai
 	delete objetoFourier;
-	// objetoFourier = NULL;
+	// objetoFourier = nullptr;
 	
 	// ----------------------------------
 	// Determina o fmin, valor minimo de R
@@ -169,7 +169,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	// Quando usamos FFT, a correlacao é determinada em toda imagem
 	// aqui iremos calcular a correlacao média, para tal, usamos objeto de interpolacao
 	// Objeto de interpolacao - faz uma media das correlacoes em todas as direcoes
-	CInt2DBilinear * interpolacao = NULL;
+	CInt2DBilinear * interpolacao = nullptr;
 	interpolacao = new CInt2DBilinear;
 	if ( ! interpolacao ) {
 		cerr << "Erro alocacao de interpolacao." ;
@@ -190,7 +190,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 		correlacao[k] /= (2.0 * k + 1.0);
 	}
 	delete  interpolacao;
-	//interpolacao = NULL;
+	//interpolacao = nullptr;
 	
 	// NOVO, pois acima nao calcula o ponto 0, pois k comeca em 1
 	correlacao[0] = MatrizReal(0, 0);
@@ -229,9 +229,9 @@ bool CCorrelacaoFFT::Go ( TCMatriz2D< bool > *img, int indice ) {
 // @short  :
 // saida .rzf
 bool CCorrelacaoFFT::Writerzf (string fileName) {
-	if (correlacao == NULL)
+	if (correlacao == nullptr)
 		return 0;
-	if (Re_data == NULL)
+	if (Re_data == nullptr)
 		return 0;
 
 	ofstream frzf ( (fileName + ".rzf").c_str () );
@@ -263,11 +263,11 @@ bool CCorrelacaoFFT::Writerzf (string fileName) {
 // @short: Recebe a propria matriz (Im_data ou Re_data) e a nova dimensao,
 // a matriz é realocada de o   ponteiro for null ou se houve mudanca de dimensao. 
 bool CCorrelacaoFFT::RealocarMatrizSeNecessario( float*& matriz, int novoNX, int novoNY ) {
-	if ( matriz == NULL or (NX*NY) != (novoNX * novoNY) ) {
+	if ( matriz == nullptr or (NX*NY) != (novoNX * novoNY) ) {
 		delete [] matriz;
 		matriz = new float [  novoNX * novoNY  ];
 		
-		if ( matriz == NULL ) {
+		if ( matriz == nullptr ) {
 			cerr << "Erro alocacao da matriz Re_data ou Im_data\n";
 			exit(0);
 		}

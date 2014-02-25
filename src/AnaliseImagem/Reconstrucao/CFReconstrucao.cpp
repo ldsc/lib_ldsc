@@ -4,12 +4,12 @@ TCMatriz3D<int> * CFReconstrucao::Go (TCMatriz2D< int > * matriz2D, Eeixo _eixo)
 	int i, j, k;
 	int nxyz = matriz2D->NX(); // Dimensões das matrizes (quadrada ou cúbica).
 			
-	TCMatriz3D<int> * pm3D = NULL;
+	TCMatriz3D<int> * pm3D = nullptr;
 	pm3D = new TCMatriz3D<int>(nxyz, nxyz, nxyz);
 	
-	if ( ! pm3D ) { // se não conseguiu alocar a matriz 3D exibe erro e retorna NULL
+	if ( ! pm3D ) { // se não conseguiu alocar a matriz 3D exibe erro e retorna nullptr
 		cerr << "CFReconstrucao::Go(TCMatriz2D< int > * matriz2D) não conseguiu alocar CMatriz3D!" << endl; 
-		return NULL; 	
+		return nullptr; 	
 	}
 	//int umterco = nxyz / 3;
 	switch (_eixo){
@@ -49,11 +49,11 @@ TCMatriz3D<int> * CFReconstrucao::Go (TCMatriz2D< int > * matriz2D, Eeixo _eixo)
 }
 
 TCMatriz3D<int> * CFReconstrucao::Go(string arquivo, Eeixo _eixo) {
-	TCMatriz2D< int > * pm = NULL;
+	TCMatriz2D< int > * pm = nullptr;
 	pm = new TCMatriz2D< int >(arquivo);
 	if( ! pm ) {
 		cerr << "CFReconstrucao::G0(string arquivo) não conseguiu alocar TCMatriz2D< int >!" << endl; 
-		return NULL;
+		return nullptr;
 	}
 	return Go(pm, _eixo);	
 }

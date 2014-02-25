@@ -15,8 +15,8 @@ CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indi
 	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
 	matrizLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
 	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	matrizRotulo = NULL;
-	pmira = NULL;
+	matrizRotulo = nullptr;
+	pmira = nullptr;
 }
 
 CSegPorosGargantas3D::CSegPorosGargantas3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
@@ -29,8 +29,8 @@ CSegPorosGargantas3D::CSegPorosGargantas3D(TCImagem3D<bool>* &matriz , int _indi
 	matrizSitios->SetFormato( D1_X_Y_Z_ASCII );
 	matrizLigacoes = new TCMatriz3D<bool>( pm->NX(), pm->NY(), pm->NZ() );
 	matrizLigacoes->SetFormato( D1_X_Y_Z_ASCII );
-	matrizRotulo = NULL;
-	pmira = NULL;
+	matrizRotulo = nullptr;
+	pmira = nullptr;
 }
 
 CSegPorosGargantas3D::~CSegPorosGargantas3D() {

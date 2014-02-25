@@ -49,7 +49,7 @@ int * CVetor::AlocaVetor (int nx)
 
 	// STEP 1: aloca eixo x.
 	int *dat = new int[nx];
-	if (dat != NULL)
+	if (dat != nullptr)
 		return dat;
 	else
 	{
@@ -77,11 +77,11 @@ Funcao:   DesalocaVetor
 */
 bool CVetor::DesalocaVetor (int *dat, int nx)
 {
-	if (dat != NULL)
+	if (dat != nullptr)
 	{
 		// Passo 1: apaga eixo x
 		delete [] dat;
-		dat = NULL;
+		dat = nullptr;
 		// opcional, evita uso do vetor sem verificacao
 		nx = 0;
 		return 1;
@@ -102,7 +102,7 @@ Funcao:  Construtor vazio
 CVetor::CVetor ()
 {
 	nx = 0;
-	data1D = NULL;
+	data1D = nullptr;
 }
 
 /*
@@ -121,7 +121,7 @@ Se dim=1 vetor, se dim=2 matriz, se dim=3 matriz 3D.
 CVetor::CVetor (string fileName)
 {
 	nx = 0;
-	data1D = NULL;
+	data1D = nullptr;
 	// A funcao Read aloca o vetor e armazena dados do arquivo de disco no vetor
 	CVetor::Read (fileName);
 }

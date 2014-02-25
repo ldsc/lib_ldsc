@@ -47,7 +47,7 @@ TCMatriz3D<int> *CCamara3D::CriaCamara(TCMatriz3D<int> * &img) // ,int raioMaxim
 
   path = img->path;
   // Aloca memoria para a camara
-  // Potencial bug: Vazamento de memória: se data3D ja existe, então deveria deletar e setar com NULL.
+  // Potencial bug: Vazamento de memória: se data3D ja existe, então deveria deletar e setar com nullptr.
 	AlocaMatriz3D (nx, ny, nz);
 
   // Preenchimento das paredes da camara com o valor indice=FUNDO (PRETO)

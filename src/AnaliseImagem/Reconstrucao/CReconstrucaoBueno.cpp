@@ -37,7 +37,7 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
    // Cria objeto filtro nao linear   que assume numeroPontos=35
    // cout<<"\nCriando objeto  filtroNaoLinearRzRy...";
    CFNaoLinearRzRy *funcaoNaoLinearRzRy =    new CFNaoLinearRzRy (yc, porosidade, 35, gt);
-   if (funcaoNaoLinearRzRy == NULL) {
+   if (funcaoNaoLinearRzRy == nullptr) {
       // cout<<" ...erro alocação memória objeto filtroNaoLinearRzRy, encerra.";
       exit (1);
    }
@@ -54,7 +54,7 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
 
    // cout<<"\nVai tentar abrir o arquivo fout (escrita) com nome ="<<nomeArquivoRy;
    ofstream fout (nomeArquivoRy.c_str());
-   if (fout == NULL) {
+   if (fout == nullptr) {
       // cout<<"\nNao abriu arquivo disco "<<nomeArquivoRy<<", verifique o nome do arquivo\n";
       exit (1);
    }

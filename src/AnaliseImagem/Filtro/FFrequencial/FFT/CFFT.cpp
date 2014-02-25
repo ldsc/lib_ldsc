@@ -175,11 +175,11 @@ static size_t SpaceAlloced = 0;
 static size_t MaxPermAlloced = 0;
 
 /* temp space, (void *) since both float and double routines use it */
-static void *Tmp0 = NULL;	/* temp space for real part */
-static void *Tmp1 = NULL;	/* temp space for imaginary part */
-static void *Tmp2 = NULL;	/* temp space for Cosine values */
-static void *Tmp3 = NULL;	/* temp space for Sine values */
-static int *Perm = NULL;	/* Permutation vector */
+static void *Tmp0 = nullptr;	/* temp space for real part */
+static void *Tmp1 = nullptr;	/* temp space for imaginary part */
+static void *Tmp2 = nullptr;	/* temp space for Cosine values */
+static void *Tmp3 = nullptr;	/* temp space for Sine values */
+static int *Perm = nullptr;	/* Permutation vector */
 
 #define NFACTOR	11
 static int factor[NFACTOR];
@@ -240,30 +240,30 @@ int
 CFFT::fft_free ()
 {
   SpaceAlloced = MaxPermAlloced = 0;
-  if (Tmp0 != NULL)
+  if (Tmp0 != nullptr)
     {
       free (Tmp0);
-      Tmp0 = NULL;
+      Tmp0 = nullptr;
     }
-  if (Tmp1 != NULL)
+  if (Tmp1 != nullptr)
     {
       free (Tmp1);
-      Tmp1 = NULL;
+      Tmp1 = nullptr;
     }
-  if (Tmp2 != NULL)
+  if (Tmp2 != nullptr)
     {
       free (Tmp2);
-      Tmp2 = NULL;
+      Tmp2 = nullptr;
     }
-  if (Tmp3 != NULL)
+  if (Tmp3 != nullptr)
     {
       free (Tmp3);
-      Tmp3 = NULL;
+      Tmp3 = nullptr;
     }
-  if (Perm != NULL)
+  if (Perm != nullptr)
     {
       free (Perm);
-      Perm = NULL;
+      Perm = nullptr;
     }
   return 1;
 }

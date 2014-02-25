@@ -67,13 +67,13 @@ class CRotulador2DCm : public TCRotulador2D<int>
 
     /// Construtor, recebe nx e ny
 	CRotulador2DCm (int nx, int ny) : TCRotulador2D<int> (nx, ny, 1, 0)
-    // CRotulador2DCm( int nx,int ny) : CRotulador2D(nx,ny),cmx(NULL),cmy(NULL)
+    // CRotulador2DCm( int nx,int ny) : CRotulador2D(nx,ny),cmx(nullptr),cmy(nullptr)
     {
     }
 
     /// Construtor default
 		CRotulador2DCm ():TCRotulador2D<int> ()
-    // CRotulador2DCm():CRotulador2D(),cmx(NULL),cmy(NULL)
+    // CRotulador2DCm():CRotulador2D(),cmx(nullptr),cmy(nullptr)
     {
     }
 

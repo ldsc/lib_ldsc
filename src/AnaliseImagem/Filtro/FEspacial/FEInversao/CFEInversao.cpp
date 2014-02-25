@@ -3,14 +3,14 @@
 CImagem * CFEInversao::Go ( CImagem * imagem ) {
 	// a imagem deve ser passada no construtor.
 	if ( ! imagem )
-		return NULL;
+		return nullptr;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != P1_X_Y_ASCII && imagem->GetFormato() != P4_X_Y_BINARY)
-		return NULL;
-	CImagem * piInv = NULL;
+		return nullptr;
+	CImagem * piInv = nullptr;
 	piInv = new CImagem( *imagem );
 	if ( ! piInv )
-		return NULL;
+		return nullptr;
 
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < piInv->NX(); i++ )
@@ -22,15 +22,15 @@ CImagem * CFEInversao::Go ( CImagem * imagem ) {
 TCMatriz2D<bool> * CFEInversao::Go ( TCMatriz2D<bool> * imagem ) {
 	// a imagem deve ser passada no construtor.
 	if ( ! imagem )
-		return NULL;
+		return nullptr;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != P1_X_Y_ASCII && imagem->GetFormato() != P4_X_Y_BINARY)
-		return NULL;
+		return nullptr;
 	
-	TCMatriz2D<bool> * pmInv = NULL;
+	TCMatriz2D<bool> * pmInv = nullptr;
 	pmInv = new TCMatriz2D<bool>( *imagem );
 	if ( ! pmInv )
-		return NULL;
+		return nullptr;
 	
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < pmInv->NX(); i++ )

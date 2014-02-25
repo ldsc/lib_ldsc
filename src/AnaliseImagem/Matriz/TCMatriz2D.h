@@ -53,7 +53,7 @@ class TCMatriz2D : public CBaseMatriz
 	public:
 		vector< vector<T> > data2D; /// Matriz 2D
 		// -------------------------------------------------------------Construtor
-		/// Construtor default, data2D=NULL nx=ny=0;
+		/// Construtor default, data2D=nullptr nx=ny=0;
 		TCMatriz2D ();
 
 		/// Construtor le TCMatriz2D do disco.

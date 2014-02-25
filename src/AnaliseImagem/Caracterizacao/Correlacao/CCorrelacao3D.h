@@ -33,7 +33,7 @@ public:
     //Métodos
 public:
     /// Construtor
-    CCorrelacao3D ( ) : correlacao(NULL), path("./") {
+    CCorrelacao3D ( ) : correlacao(nullptr), path("./") {
     }
 
     /// Destrutor

@@ -39,11 +39,11 @@ class CRotuladorIRA3D : public TCRotulador3D<int>
 		// -------------------------------------------------------------Construtor
 		// Estamos tratando de uma IRA, logo, FUNDO será 0 e consequentemente INDICE será 1;
 		/// Recebe ponteiro para imagem 3D usado para setar nx,ny,nz
-		CRotuladorIRA3D (TCMatriz3D<int> * _pm, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( _pm, _indice, _fundo), ra(0), rmin(0), matSub(NULL)  {
+		CRotuladorIRA3D (TCMatriz3D<int> * _pm, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( _pm, _indice, _fundo), ra(0), rmin(0), matSub(nullptr)  {
 		}
 
 		/// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-		CRotuladorIRA3D (std::string fileName, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( fileName, _indice, _fundo), ra(0), rmin(0), matSub(NULL) {
+		CRotuladorIRA3D (std::string fileName, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( fileName, _indice, _fundo), ra(0), rmin(0), matSub(nullptr) {
 		}
 
 		/// Recebe a informação das dimensoes da imagem
@@ -66,7 +66,7 @@ class CRotuladorIRA3D : public TCRotulador3D<int>
 		 * Se rmin for informado, considera somente objetos maiores que o valor (tem efeito somente se ra for negativa, ou seja, se estiver rotulando o complemento da abertura).
 		 * Se for informado o ponteiro para a matSub os objetos encontrados na matriz não serão considerados na rotulagem.
 		 */
-		bool Go (TCMatriz3D<int> * matriz, int _ra, unsigned int _rmin=0, TCMatriz3D<bool> * _matSub=NULL );
+		bool Go (TCMatriz3D<int> * matriz, int _ra, unsigned int _rmin=0, TCMatriz3D<bool> * _matSub=nullptr );
 
 	protected:
 		/// Verifica se a imagem recebida tem as mesmas dimensoes do rotulador. Se diferente, realoca o rotulador

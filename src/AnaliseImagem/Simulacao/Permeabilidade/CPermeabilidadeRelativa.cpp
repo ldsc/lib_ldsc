@@ -19,12 +19,12 @@ Desenvolvido por:
 CPermeabilidadeRelativa::CPermeabilidadeRelativa ( ofstream & out ) {
 	foutPermRel = & out; // Cria arquivo que receberá os dados de permeabilidade relativa
 
-	permA	= NULL;	// Ponteiro para CPermeabilidadeGrafo;
-	permB	= NULL;	// Ponteiro para CPermeabilidadeGrafo;
-	confeq	= NULL;	// Ponteiro para CConfiguracoesEquilibrio3D;
+	permA	= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
+	permB	= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
+	confeq	= nullptr;	// Ponteiro para CConfiguracoesEquilibrio3D;
 
 	imagemA = new TCImagem3D<int>(); //Estou criando imagens A e B no construtor para poder setar paramentor de recontrução antes da execução de Go()
-	imagemB = new TCImagem3D<int>(); //Como as imagens podem ser destruídas em Go(), sempre verificar se são != NULL;
+	imagemB = new TCImagem3D<int>(); //Como as imagens podem ser destruídas em Go(), sempre verificar se são != nullptr;
 
 	// valores usados em CSMDiagonalDominante
 	limiteIteracoes = 5000;
@@ -40,12 +40,12 @@ CPermeabilidadeRelativa::~CPermeabilidadeRelativa () {
 }
 
 void CPermeabilidadeRelativa::DestruirObjetos () {
-	//if ( permA   ) { delete permA;	permA	= NULL; }
-	//if ( permB   ) { delete permB;	permB	= NULL; }
+	//if ( permA   ) { delete permA;	permA	= nullptr; }
+	//if ( permB   ) { delete permB;	permB	= nullptr; }
 	//COMENTADO PARA NÃO DAR FALHA DE SEGMENTAÇÃO
-   if ( confeq  ) { delete confeq;	confeq	= NULL; }
-	if ( imagemA ) { delete imagemA;	imagemA	= NULL; }
-	if ( imagemB ) { delete imagemB;	imagemB	= NULL; }
+   if ( confeq  ) { delete confeq;	confeq	= nullptr; }
+	if ( imagemA ) { delete imagemA;	imagemA	= nullptr; }
+	if ( imagemB ) { delete imagemB;	imagemB	= nullptr; }
 }
 
 // Métodos

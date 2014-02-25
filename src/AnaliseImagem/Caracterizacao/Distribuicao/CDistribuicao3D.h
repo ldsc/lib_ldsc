@@ -43,7 +43,7 @@ class CDistribuicao3D : public CDistribuicao //public CBaseDistribuicao
 		// Construtores / Destrutor
 	public:
 		/// Construtor default
-		CDistribuicao3D () : CDistribuicao( ), pm3D( NULL ) {
+		CDistribuicao3D () : CDistribuicao( ), pm3D( nullptr ) {
 		}
 
 		/// Construtor (recebe CMatriz3D)

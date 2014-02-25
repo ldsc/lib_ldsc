@@ -22,10 +22,10 @@ using namespace std;
 // Construtor
 CPermeabilidadeIntrinseca::CPermeabilidadeIntrinseca ()
 {
-	grafo	= NULL;	// Ponteiro para CGrafo;
-	solver	= NULL;	// Ponteiro para CSMDiagonalDominante;
-	fluido	= NULL;	// Ponteiro para CMFluido;
-	perm		= NULL;	// Ponteiro para CPermeabilidadeGrafo;
+	grafo	= nullptr;	// Ponteiro para CGrafo;
+	solver	= nullptr;	// Ponteiro para CSMDiagonalDominante;
+	fluido	= nullptr;	// Ponteiro para CMFluido;
+	perm		= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
 
 	// valores usados em CSMDiagonalDominante
 	limiteIteracoes = 5000; // depois retirar
@@ -40,10 +40,10 @@ CPermeabilidadeIntrinseca::~CPermeabilidadeIntrinseca ()
 
 //Métodos
 void CPermeabilidadeIntrinseca::DestruirObjetos () {
-	 if ( grafo  ) { delete grafo;  grafo  = NULL; }
-	 if ( solver ) { delete solver; solver = NULL; }
-	 if ( fluido ) { delete fluido; fluido = NULL; }
-	 if ( perm   ) { delete perm;	 perm   = NULL; }
+	 if ( grafo  ) { delete grafo;  grafo  = nullptr; }
+	 if ( solver ) { delete solver; solver = nullptr; }
+	 if ( fluido ) { delete fluido; fluido = nullptr; }
+	 if ( perm   ) { delete perm;	 perm   = nullptr; }
 }
 
 bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
@@ -122,7 +122,7 @@ long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> *
 }
 
 long double CPermeabilidadeIntrinseca::Go( string pathFileName, long double fatorRelaxacao ) {
-	TCImagem3D<int> * img3D = NULL;
+	TCImagem3D<int> * img3D = nullptr;
 	img3D = new TCImagem3D<int>( pathFileName ); 				// não é deletado ?
 	if ( img3D )
 		return Go( img3D );
@@ -131,7 +131,7 @@ long double CPermeabilidadeIntrinseca::Go( string pathFileName, long double fato
 }
 
 long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long double fatorRelaxacao ) {
-	TCMatriz3D<int> * matriz3D = NULL;
+	TCMatriz3D<int> * matriz3D = nullptr;
 	matriz3D = dynamic_cast< TCMatriz3D<int> *>(imagem3D);
 	if ( ! matriz3D)
 		return 0.0;
@@ -139,7 +139,7 @@ long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long dou
 }
 
 long double CPermeabilidadeIntrinseca::Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
-	TCMatriz3D<int> * mat3D = NULL;
+	TCMatriz3D<int> * mat3D = nullptr;
 	mat3D = new TCMatriz3D<int>( pathFileName ); 				// não é deletado ?
 	if ( ! mat3D )
 		return 0.0;

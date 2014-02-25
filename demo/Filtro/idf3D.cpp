@@ -2,8 +2,8 @@
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF3D.h>
 
 int main(int argc, char *argv[]) {
-	TCMatriz3D<bool> *pm = NULL;
-	TCFEMMIDFd3453D<bool> *pidf = NULL;
+	TCMatriz3D<bool> *pm = nullptr;
+	TCFEMMIDFd3453D<bool> *pidf = nullptr;
 	pm = new TCMatriz3D<bool>("../../data/images/IBS0105-50x50x50.dbm");
 
 	pidf = new TCFEMMIDFd3453D<bool>( pm );

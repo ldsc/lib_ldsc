@@ -65,7 +65,7 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 
 	matrizAuxiliar = new TCMatriz3D<bool>( *pm );
 
-	if ( matrizAuxiliar == NULL ) {
+	if ( matrizAuxiliar == nullptr ) {
 		cerr << "Erro alocação matrizAuxiliar em CAberturaDilatacao3D::DistTotalPoros()!";
 		return ;
 	}

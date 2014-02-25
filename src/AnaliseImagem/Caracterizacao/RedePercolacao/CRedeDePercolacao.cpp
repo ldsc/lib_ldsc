@@ -3,7 +3,7 @@
 
 // Analizar se é melhor calcular a porosidade assim ou se devo calcular a área da esfera e do cilindro.
 //int CRedeDePercolacao::numPixeisBola[] = {
-std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona no c++11
+std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona a partir do c++11
 	0,7,33,123,269,499,853,1335,1977,2783,3793,5035,6501,8235,10253,12583,15241,18231,21609,25379,29557,
 	34171,39237,44799,50849,57415,64537,72219,80493,89363,98869,109039,119865,131391,143633,156619,170365,
 	184875,200205,216359,233353,251215,269961,289635,310229,331771,354301,377823,402369,427943,454585,
@@ -57,17 +57,17 @@ std::vector<int> CRedeDePercolacao::numPixeisDisco {0,5,13,29,53,81,113,153,201,
 // Construtor matriz binária
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
 	: CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo ),
-		CMatrizObjetoImagem(), pm(NULL), calcPixeis(false)
+		CMatrizObjetoImagem(), pm(nullptr), calcPixeis(false)
 {
-	srand (time(NULL)); //inicia seed randômica;
+	srand (time(nullptr)); //inicia seed randômica;
 }
 
 // Construtor imagem tons de cinza
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<int> *&_pm )
 	: CDistribuicaoTamanhoPorosGargantas( _pm ),
-		CMatrizObjetoImagem(), pm (NULL), calcPixeis(false)
+		CMatrizObjetoImagem(), pm (nullptr), calcPixeis(false)
 {
-	srand (time(NULL)); //inicia seed randômica;
+	srand (time(nullptr)); //inicia seed randômica;
 }
 
 // Destrutor
@@ -110,17 +110,17 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
 	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = CDistribuicaoTamanhoPorosGargantas::Go(_metrica);
-	if (dtpg.first == NULL || dtpg.second == NULL) {
+	if (dtpg.first == nullptr || dtpg.second == nullptr) {
 		std::cout << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
 	// Cria matriz 3D que servirá para verificar sobreposições na rede.
 	pm = new TCMatriz3D<bool>(nx, ny, nz);
-	if (pm == NULL) {
+	if (pm == nullptr) {
 		delete dtpg.first;
 		delete dtpg.second;
-		dtpg.first = NULL;
-		dtpg.second = NULL;
+		dtpg.first = nullptr;
+		dtpg.second = nullptr;
 		std::cout << "Não foi criar matriz 3D em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
@@ -200,6 +200,10 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	int objeto; //indice do objeto com menor distância entre o ponto 0,0,0 e o centro do objeto (sitio).
 	double distancia = 1000000.0; //guarda a menor distancia encontrada  entre o ponto 0,0,0 e o centro dos sítios.
 	double distTemp;
+	std::vector<int> objsCamadaSuperior;
+	std::vector<int> objsCamadaInferior;
+	int camadaSuperior = 1000000;
+	int camadaInferior = 0;
 	std::cerr << "Representando os sítios na matriz..." << std::endl;
 	//percorre o vetor de raios
 	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
@@ -286,6 +290,28 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		//std::cerr << "Objeto: " << objeto << " | Distancia: " << distancia << std::endl;
 		matrizObjetos[cont] = matrizObjetosTemp[objeto];
 		matrizObjetosTemp.erase(objeto);
+		// Guarda listas de objetos que se encontram na camada superior e inferior (necessário para montar grafo)
+		it = matrizObjetos.find(cont);
+		if (it->second.pontoCentral.y < camadaSuperior) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
+			camadaSuperior = it->second.pontoCentral.y;							// Atualiza a atual camada superior
+			objsCamadaSuperior.clear();															// Limpa a lista de objetos pertencentes a camada superior
+			objsCamadaSuperior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
+		} else if (it->second.pontoCentral.y == camadaSuperior) { // Verifica se a camada y do objeto é igual a atual camada superior
+			objsCamadaSuperior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
+		} else if (it->second.pontoCentral.y > camadaInferior) {	// Verifica se a camada y do objeto é maior que a atual camanda inferior
+			camadaInferior = it->second.pontoCentral.y;							// Atualiza a atual camada inferior
+			objsCamadaInferior.clear();															// Limpa a lista de objetos pertencentes a camada inferior
+			objsCamadaInferior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
+		} else if (it->second.pontoCentral.y == camadaInferior) { // Verifica se a camada y do objeto é igual a atual camada inferior
+			objsCamadaInferior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
+		}
+	}
+	// Percorre lista de obejos petencentes a camada superior atualizando suas camadas
+	for (int obj : objsCamadaSuperior ) {
+		matrizObjetos[obj].Camada(ECamada::SUPERIOR);
+	}
+	for (int obj : objsCamadaInferior ) {
+		matrizObjetos[obj].Camada(ECamada::INFERIOR);
 	}
 
 	//============================================== LIGAÇÕES =================================================
@@ -310,24 +336,25 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	std::cerr << "Criando ligacoes..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
 	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
-		// Inicialmente cada sítio terá número de coordenação 1.
+		// Inicialmente cada sítio terá número de coordenação 2.
 		if (cabe) {
-			nCoord = Random(2,4); // Sorteira números randomicos entre 2 e 4 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
+			nCoord = Random(3,5); // Sorteira números randomicos entre 2 e 4 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
 			obj = Random(1,tamMatObjs-1);
 		} else {
-			nCoord = 1;
+			nCoord = 2;
 		}
-		//std::cerr << "Obj: " << obj << std::endl;
 		it = matrizObjetos.find(obj);
-		if (it == matrizObjetos.end())
+		if (it == matrizObjetos.end()) {
 			continue;
+		}
 		itt = it;
 		raioit = it->second.Raio();
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
-				if (itt == matrizObjetos.end() || itt->first > tamMatObjs)
+				if (itt == matrizObjetos.end() || itt->first > tamMatObjs) {
 					break;
+				}
 			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
 			if (itt == matrizObjetos.end() || itt->first > tamMatObjs)
 				break;
@@ -357,7 +384,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 					}
 				}
 			}
-			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou 1
+			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
 			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
 				--raio;
 			}
@@ -397,9 +424,11 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 			if (phiRede >= phiDist)
 				break;
 		}
+		//std::cerr << "Aqui4!" << std::endl;
 		if (phiRede >= phiDist)
 			break;
 		if ( obj==tamMatObjs && phiRede < phiDist ) {
+			exit;
 			cabe = true;
 			obj = 1;
 		}

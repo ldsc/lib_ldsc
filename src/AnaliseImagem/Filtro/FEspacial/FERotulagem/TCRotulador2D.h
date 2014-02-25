@@ -64,17 +64,17 @@ class TCRotulador2D : public CRotulador, public TCMatriz2D<int>
 
   /// Construtor, abre imagem do disco
 	TCRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TCMatriz2D< int >(fileName), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(fileName), pm(nullptr) {
   }
 
   /// Construtor, recebe dimensões da imagem
 	TCRotulador2D (int nx, int ny, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TCMatriz2D< int >(nx, ny), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(nx, ny), pm(nullptr) {
   }
 
   /** data2D deve ser alocado posteriormente*/
 	TCRotulador2D (int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TCMatriz2D< int >(), pm(NULL) {
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(), pm(nullptr) {
   }
 
   //--------------------------------------------------------------Destrutor

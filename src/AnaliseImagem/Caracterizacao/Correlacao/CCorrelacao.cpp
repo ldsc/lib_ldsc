@@ -9,7 +9,7 @@
 // Construtor:
 // -----------------------------------------------------------------------
 CCorrelacao::CCorrelacao (  int tamVetCorrelaco )
-   : size( tamVetCorrelaco ), correlacao(NULL), path("./") {
+   : size( tamVetCorrelaco ), correlacao(nullptr), path("./") {
    AlocarOuRealocarCorrelacaoSeNecessarioEZerar( size );
 }
 
@@ -92,7 +92,7 @@ bool CCorrelacao::AlocarOuRealocarCorrelacaoSeNecessarioEZerar ( int tam ) {
       // Destroe correlacao existente para posteriormente alocar nova.
       if ( correlacao ) {
          delete [] correlacao;
-         correlacao = NULL;
+         correlacao = nullptr;
       }
    }
 

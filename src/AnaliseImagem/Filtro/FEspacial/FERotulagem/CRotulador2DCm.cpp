@@ -140,7 +140,7 @@ CRotulador2DCm::CMXObjetos (int k) const
 /*
   double CRotulador2DCm::CMXObjetos(  int k)			const
   {
-  if(k < (numeroObjetos) 	  && cmx != NULL     )
+  if(k < (numeroObjetos) 	  && cmx != nullptr     )
   // return areaObjetos[k - rotuloInicial];
   return (long double)cmx->data1D[ k ]/1000000.0;
   return 0.0;
@@ -168,7 +168,7 @@ CRotulador2DCm::CMYObjetos (int k) const
 /*
   double CRotulador2DCm::CMYObjetos(  int k)			const
   {
-  if(k < (numeroObjetos) 	  && cmy != NULL     )
+  if(k < (numeroObjetos) 	  && cmy != nullptr     )
   return (long double)cmy->data1D[ k ]/1000000.0;
   return 0.0;
   };

@@ -62,7 +62,7 @@ COperacao::LimpaTela ()
 void
 COperacao::TestaAlocacao (void *ptr, string s)
 {
-  if (ptr == NULL)
+  if (ptr == nullptr)
     {
       cerr << "\n\tFaltou memoria para alocar o objeto " << s << endl;
       exit (0);

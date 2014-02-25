@@ -49,9 +49,9 @@ CConfiguracoesEquilibrio2D::CConfiguracoesEquilibrio2D ( /*TCMatriz2D< int >* im
 	contadorPassosExecutados = 0;		// zera o contador de passos executados. (necessário para Next)
 
 	// Objetos agregados
-	idf = NULL;
-	rotulador = NULL;
-	camara = NULL;
+	idf = nullptr;
+	rotulador = nullptr;
+	camara = nullptr;
 	camara = new CCamara2D ();	//  Cria objetos agregados
 	COperacao::TestaAlocacao (camara, "objeto camara, construtor CConfiguracoesEquilibrio2");
 /* Falta implementar sobrecarga do operador << em TCMatriz2D
@@ -181,9 +181,9 @@ void CConfiguracoesEquilibrio2D::CriaCamara(TCMatriz2D< int > * &imagem)
 	*os << *ptr_camara << endl;
   }
 */
-  //  if(imagem!=NULL)
+  //  if(imagem!=nullptr)
   //     delete imagem;
-  //  imagem=NULL;//  Deleta a imagem recebida, economia.
+  //  imagem=nullptr;//  Deleta a imagem recebida, economia.
 }
 
 //  ====================================
@@ -194,7 +194,7 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
 {
   if (idf)
     delete idf;			//  Se a idf já existe, deleta
-  idf = NULL;
+  idf = nullptr;
 
   TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
 
@@ -237,7 +237,7 @@ CConfiguracoesEquilibrio2D::CriaRotulador ()
 {
   if(rotulador)
     delete rotulador;		//  Deleta objeto de rotulagem anterior
-  rotulador = NULL;
+  rotulador = nullptr;
   TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   rotulador = new CConectividade2D (ptr_camara);	//  Cria novo objeto rotulador
   COperacao::TestaAlocacao (rotulador, "objeto rotulador, funcao CConfiguracoesEquilibrio2D::Go");
@@ -440,7 +440,7 @@ void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TCMatriz2D< i
 void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TCMatriz2D< int > * &imagem)
 {
 
-  //  if(imagem) delete imagem; imagem = NULL;
+  //  if(imagem) delete imagem; imagem = nullptr;
   //  imagem = new TCMatriz2D< int >();                                         //  camara->nxImg(),camara->nyImg()
   //  sprintf(fileName, "10-imagem-%d.dat",     contadorPassosExecutados-1);
   //  imagem->Read( fileName );                				//  Le a imagem do disco
@@ -452,7 +452,7 @@ void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TCMatriz2D< int > * &imagem)
       if ( imagem->data2D[i][j] == Yi )					//  Se for Yi,na imagem (instante de tempo anterior)
 	camara->data2D[i + DeslocX][j + DeslocY] = Yi;			//  pinta como Yi na camara
 
-  //  if(imagem) delete imagem; imagem = NULL;
+  //  if(imagem) delete imagem; imagem = nullptr;
   TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>(camara);
   Salvar (ptr_camara, "9-imagem-K{WBxG__U_K(G,B0),B0}-caYi-%d.pgm");
   //  CorrecaoBolas(); ??

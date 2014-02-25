@@ -57,11 +57,11 @@ CConfiguracoesEquilibrio3D::CConfiguracoesEquilibrio3D ( /*TCMatriz3D<int> * ima
 
    contadorPassosExecutados = 0;		// zera o contador de passo executados. (necessário para Next)
 
-   idf = NULL;
+   idf = nullptr;
 
-   rotulador = NULL;
+   rotulador = nullptr;
 
-   camara = NULL;
+   camara = nullptr;
 
    camara = new CCamara3D ();		//  Cria objetos agregados
 
@@ -132,7 +132,7 @@ CConfiguracoesEquilibrio3D::~CConfiguracoesEquilibrio3D () {
 void CConfiguracoesEquilibrio3D::CriaCamara (TCMatriz3D<int> * &imagem) {
    if (camara) {
       delete camara;
-      camara = NULL;
+      camara = nullptr;
       camara = new CCamara3D ();
    }
    if (contadorPassosExecutados == 0)
@@ -162,16 +162,16 @@ void CConfiguracoesEquilibrio3D::CriaCamara (TCMatriz3D<int> * &imagem) {
 
    //  *os<<" \nDados objeto camara criacao camara\n";
    //  *os<<*camara<<endl;
-   //  if(imagem!=NULL)
+   //  if(imagem!=nullptr)
    //     delete imagem;
-   //  imagem=NULL;//  Deleta a imagem recebida, economia.
+   //  imagem=nullptr;//  Deleta a imagem recebida, economia.
 }
 
 /// Metodo que cria a idf
 void CConfiguracoesEquilibrio3D::CriaIDF () {
    if (idf)
       delete idf;				//  Se já existe deleta
-   idf = NULL;
+   idf = nullptr;
 
 	 TCMatriz3D<int> * ptr_camara = static_cast<TCMatriz3D<int> *>(camara);
 
@@ -203,7 +203,7 @@ void CConfiguracoesEquilibrio3D::CriaIDF () {
 void CConfiguracoesEquilibrio3D::CriaRotulador () {
    if (rotulador)
       delete rotulador;				//  Deleta objeto de conectividade anterior
-   rotulador = NULL;
+   rotulador = nullptr;
    rotulador = new CConectividade3D (camara);	//  Cria novo objeto rotulador
    COperacao::TestaAlocacao (rotulador, "objeto rotulador, funcao CConfiguracoesEquilibrio3D::Go");
 }
@@ -487,14 +487,14 @@ void CConfiguracoesEquilibrio3D::Salvar (TCMatriz3D<int> * &imagem, string msg) 
 // retorna ponteiro para uma CMatriz3D que aponta para uma imagem da região informada, extraída da câmara.
 // esta função deve ser chamada após Next ou Go.
 TCMatriz3D<int> * CConfiguracoesEquilibrio3D::GetImagem(int regiao) const {
-   TCMatriz3D<int> * imagem = NULL;
+   TCMatriz3D<int> * imagem = nullptr;
 	 imagem = new TCMatriz3D<int>(camara->NxImg(), camara->NyImg(), camara->NzImg()); // aloca matriz 3D com as dimensões da imagem da câmara
-   if ( ! imagem ) return NULL;
+   if ( ! imagem ) return nullptr;
 
    if ( GetImagem( imagem , regiao ) )
       return imagem;
    else
-      return NULL;
+      return nullptr;
 }
 
 // Altera os valores da matriz passsada como parametro para corresponder a imagem binária referente a regiao passada como parâmetro.

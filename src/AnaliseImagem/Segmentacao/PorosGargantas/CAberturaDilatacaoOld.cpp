@@ -264,7 +264,7 @@ void CAberturaDilatacaoOld::DistTotalPoros()
 
 	matrizAuxiliar = new TCMatriz2D< int >( *pm );
 
-	if ( matrizAuxiliar == NULL )
+	if ( matrizAuxiliar == nullptr )
 	{
 		cerr << "Erro alocação matrizAuxiliar  dentro de void CAberturaDilatacaoOld::DistTotalPoros().";
 		return ;
@@ -284,7 +284,7 @@ void CAberturaDilatacaoOld::DistTotalPoros()
 
 	// Tamanho 3 do elemento estruturante conforme codigo ANAIMP
 	pfmf = new TCFEMorfologiaMatematica<int>(matrizAuxiliar,3);
-	if ( pfmf  == NULL ) {
+	if ( pfmf  == nullptr ) {
 		cerr << "Falha alocação: pfmf = new CFEMorfologiaMatematica(matrizAuxiliar,3);";
 		return;
 	}

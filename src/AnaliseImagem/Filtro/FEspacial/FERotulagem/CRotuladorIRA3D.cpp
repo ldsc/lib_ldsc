@@ -17,7 +17,7 @@ bool CRotuladorIRA3D::Go (TCMatriz3D<int> *matriz, int _ra, unsigned int _rmin, 
 	ra = _ra;
 	rmin = _rmin;
 	matSub = _matSub;
-	if (matSub!=NULL)
+	if (matSub!=nullptr)
 		if (matriz->NX()>matSub->NX() or matriz->NY()>matSub->NY() or matriz->NZ()>matSub->NZ()) {
 			cerr << "Matrizes com tamanhos diferentes em CRotuladorIRA3D::Go" << endl;
 			return false;
@@ -44,7 +44,7 @@ Função: PreparaImagem
 bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 	this->pm = matriz;			// Armazena endereço matriz
 	// Verifica se a matriz tem as mesmas dimensoes do rotulador
-	if (this->pm == NULL)
+	if (this->pm == nullptr)
 		return false;
 
 	// Se o objeto rotulador3D foi criado sem passar a matriz 3D, ou nx,ny,nz
@@ -70,7 +70,7 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 						this->data3D[i][j][k] = 0;
 	} else { // ra negativo - irá considerar o complemento da abertura.
 		int rat = -1 * ra; //multiplica por -1 para ficar positivo
-		if (matSub == NULL) { // não foi imformada matriz a ser subtraida, logo, considera toda a imagem
+		if (matSub == nullptr) { // não foi imformada matriz a ser subtraida, logo, considera toda a imagem
 			#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 			for ( k = 0; k < this->nz; k++ )
 				for ( j = 0; j < this->ny; j++ )
@@ -96,11 +96,11 @@ bool CRotuladorIRA3D::PreparaImagem (TCMatriz3D<int> *matriz) {
 	// que foram alocados na chamada anterior a Go
 	if (this->areaObjetos)
 		delete this->areaObjetos;
-	this->areaObjetos = NULL;
+	this->areaObjetos = nullptr;
 
 	if (this->perimetroObjetos)
 		delete this->perimetroObjetos;
-	this->perimetroObjetos = NULL;
+	this->perimetroObjetos = nullptr;
 
 	//this->SetFormato(D1_X_Y_Z_ASCII);
 	//this->Write("PreparaImagem.dbm");

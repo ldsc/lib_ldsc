@@ -59,17 +59,17 @@ class TCRotulador3D : public CRotulador, public TCMatriz3D<int> {
 
 		/// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
 		TCRotulador3D (std::string fileName, int _indice=1, int _fundo=0)
-			:CRotulador (_indice, _fundo), TCMatriz3D<int> (fileName), direto (true), pm (NULL) {
+			:CRotulador (_indice, _fundo), TCMatriz3D<int> (fileName), direto (true), pm (nullptr) {
 		}
 
 		/// Recebe a informação das dimensoes da imagem
 		TCRotulador3D (unsigned int nx, unsigned int ny, unsigned int nz, int _indice=1, int _fundo=0)
-			:CRotulador (_indice, _fundo), TCMatriz3D<int> (nx, ny, nz), direto (true), pm (NULL) {
+			:CRotulador (_indice, _fundo), TCMatriz3D<int> (nx, ny, nz), direto (true), pm (nullptr) {
 		}
 
 		/** data3D deve ser alocado posteriormente*/
 		TCRotulador3D (int _indice=1, int _fundo=0) :
-			CRotulador( _indice, _fundo ), TCMatriz3D<int>(), direto (true), pm(NULL) {
+			CRotulador( _indice, _fundo ), TCMatriz3D<int>(), direto (true), pm(nullptr) {
 		}
 
 		// --------------------------------------------------------------Destrutor

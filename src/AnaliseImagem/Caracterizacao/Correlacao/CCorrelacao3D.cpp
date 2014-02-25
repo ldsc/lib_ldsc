@@ -18,12 +18,12 @@ CCorrelacao3D::~CCorrelacao3D () {
 // Se o número de planos informado for zero ou negativo, o defalt será 10% dos planos.
 // -----------------------------------------------------------------------
 bool CCorrelacao3D::Go (TCMatriz3D<bool> *img, Tipos tipo, int indice, int numPlanos) {
-   CCorrelacao * cor = NULL;
+   CCorrelacao * cor = nullptr;
    int nx = img->NX();
    size = nx/2;
-   if (correlacao != NULL){ // se o vetor correlação já estiver alocado, desaloca.
+   if (correlacao != nullptr){ // se o vetor correlação já estiver alocado, desaloca.
       delete [] correlacao;
-      correlacao = NULL;
+      correlacao = nullptr;
    }
    correlacao = new float[size];
    if ( ! correlacao ) {

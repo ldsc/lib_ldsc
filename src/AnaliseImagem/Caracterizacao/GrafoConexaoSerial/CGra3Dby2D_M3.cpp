@@ -195,7 +195,7 @@ CGra3Dby2D_M3::CalculoCondutancias (long double _viscosidade, long double _sizeP
    // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitioLR
    // que tem uma lista de conecções.
    // aqui usa um ponteiro do tipo COGSitioLR para acessar as conecções.
-   COGSitioLR * ptrSitioLR = NULL;
+   COGSitioLR * ptrSitioLR = nullptr;
 
    // Percorre  todos os objetos do  grafo
    for (unsigned long int k = 0; k < objeto.size (); k++) {

@@ -56,7 +56,7 @@ protected:
 public:
 	/// Construtor
   CSMDiagonalDominante ( unsigned long int _limiteIteracoes=100, long double _limiteErro = 0.00001, unsigned long int _size = 0 )
-		: CSolver ( _limiteIteracoes, _limiteErro ), k (0), dimensaoVetor (_size), obj (0), erroMedio (0), X (NULL)
+		: CSolver ( _limiteIteracoes, _limiteErro ), k (0), dimensaoVetor (_size), obj (0), erroMedio (0), X (nullptr)
   {
   	if (dimensaoVetor > 0)
 	{

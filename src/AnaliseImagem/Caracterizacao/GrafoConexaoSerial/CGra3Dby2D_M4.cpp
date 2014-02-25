@@ -198,7 +198,7 @@ CGra3Dby2D_M4::CalculoCondutancias
 
   // Ponteiro para sitio derivado
   COGSitioLR *
-    ptrSitioLR = NULL;
+    ptrSitioLR = nullptr;
 
   // Centro de massa na direção x,y do sitio
   float

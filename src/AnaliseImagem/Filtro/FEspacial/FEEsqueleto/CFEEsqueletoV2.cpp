@@ -40,7 +40,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 // Erro 2: Na imagem final ficam pontos 4 e 3 que poderiam ser eliminados
 
 TCMatriz2D< int > * CFEEsqueletoV2::Go (TCMatriz2D< int > * &imagem, unsigned int /*_tamanhoMascara*/ ) {
-	if (idf == NULL) {
+	if (idf == nullptr) {
 		idf = new TCFEMMIDFd34<int> (imagem);	// Cria a idf, e testa alocacao
 		COperacao::TestaAlocacao (idf,
 															"Erro alocacao idf, funcao Go, objeto CFEEsqueletoV2");

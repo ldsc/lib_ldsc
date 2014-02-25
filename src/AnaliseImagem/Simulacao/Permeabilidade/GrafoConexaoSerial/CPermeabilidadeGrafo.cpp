@@ -139,12 +139,12 @@ não tem dois ponteiros para mesmo bloco, esta deletando o objeto, setando o pon
 mas o ponteiro externo continua diferente de null,
 e vai deletar novamente o ponteiro externo.
 
-	if ( fluido != NULL )
-		{ delete fluido; fluido = NULL; }
-	if ( solver != NULL )
-		{ delete solver; solver = NULL; }
-	if ( grafo != NULL )
-		{ delete grafo; grafo = NULL; }
+	if ( fluido != nullptr )
+		{ delete fluido; fluido = nullptr; }
+	if ( solver != nullptr )
+		{ delete solver; solver = nullptr; }
+	if ( grafo != nullptr )
+		{ delete grafo; grafo = nullptr; }
 		*/
 }
 

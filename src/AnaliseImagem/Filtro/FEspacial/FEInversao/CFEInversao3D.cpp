@@ -2,15 +2,15 @@
 
 TCImagem3D<bool> *CFEInversao3D::Go( TCImagem3D<bool> *imagem ) {
 	if ( ! imagem )
-		return NULL;
+		return nullptr;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
-		return NULL;
+		return nullptr;
 	
-	TCImagem3D<bool> * pi3Dinv = NULL;
+	TCImagem3D<bool> * pi3Dinv = nullptr;
 	pi3Dinv = new TCImagem3D<bool>( *imagem);
 	if ( ! pi3Dinv )
-		return NULL;
+		return nullptr;
 	
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < pi3Dinv->NX(); i++ )
@@ -22,15 +22,15 @@ TCImagem3D<bool> *CFEInversao3D::Go( TCImagem3D<bool> *imagem ) {
 
 TCMatriz3D<bool> * CFEInversao3D::Go ( TCMatriz3D<bool> * imagem ) {
 	if ( ! imagem )
-		return NULL;
+		return nullptr;
 	// só aceita imagens P&B
 	if ( imagem->GetFormato() != D1_X_Y_Z_ASCII && imagem->GetFormato() != D4_X_Y_Z_BINARY)
-		return NULL;
+		return nullptr;
 	
-	TCMatriz3D<bool> * pi3Dinv = NULL;
+	TCMatriz3D<bool> * pi3Dinv = nullptr;
 	pi3Dinv = new TCMatriz3D<bool>( *imagem);
 	if ( ! pi3Dinv )
-		return NULL;
+		return nullptr;
 	
 	// percorre a imagem invertendo os valores.
 	for ( int i = 0; i < pi3Dinv->NX(); i++ )

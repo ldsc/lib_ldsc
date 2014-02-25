@@ -59,10 +59,10 @@ double
 CSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto)
 {
   obj = objeto;
-  if (X == NULL || dimensaoVetor < obj->size ())
+  if (X == nullptr || dimensaoVetor < obj->size ())
     {
       delete [] X;
-      X = NULL;
+      X = nullptr;
       X = new long double[obj->size ()];
       assert (X);
     }
@@ -78,9 +78,9 @@ CSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto)
 
   for (int p = 0; p < CSMDiagonalDominanteThreadsExec::nproc; p++)
     {
-      pthread = NULL;
+      pthread = nullptr;
       pthread = new CSMDiagonalDominanteThreadsExec(p);
-      if (pthread == NULL)
+      if (pthread == nullptr)
 	{
 	  cerr << "\nfalha alocação pthread objeto CSMDiagonalDominanteThreadsExec " << p;
 	}

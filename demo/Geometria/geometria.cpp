@@ -43,8 +43,8 @@ int main (int argc, char *argv[]) {
 	int opcao;
 	cin >> opcao;
 
-	CBCDiscreta* bola = NULL;
-	CBCDiscreta3D * bola3D = NULL;
+	CBCDiscreta* bola = nullptr;
+	CBCDiscreta3D * bola3D = nullptr;
 	string nomebola;
 	switch (opcao) {
 		case 1 :

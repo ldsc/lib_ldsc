@@ -43,6 +43,12 @@ enum ETipoObjetoImagem {
 	NAO_IDENTIFICADO = 5
 };
 
+enum ECamada {
+	CENTRAL = 0,
+	SUPERIOR = 1,
+	INFERIOR = 2
+};
+
 struct SPontoCentral {
 		unsigned int x;
 		unsigned int y;
@@ -59,6 +65,9 @@ class CObjetoImagem
 		/// Identifica o tipo do objeto
 		ETipoObjetoImagem  tipo;
 
+		/// Identifica em qual camada o objeto se encontra
+		ECamada camada;
+
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs;
 
@@ -71,7 +80,7 @@ class CObjetoImagem
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), numObjs(0), sConexao()	{
+		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), camada( CENTRAL ), numObjs(0), sConexao()	{
 			pontoCentral.x = 0;
 			pontoCentral.y = 0;
 			pontoCentral.z = 0;
@@ -79,7 +88,7 @@ class CObjetoImagem
 		}
 
 		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) : tipo( _t ), numObjs( _n ), sConexao() {
+		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) : camada( CENTRAL ), tipo( _t ), numObjs( _n ), sConexao() {
 			pontoCentral.x = 0;
 			pontoCentral.y = 0;
 			pontoCentral.z = 0;
@@ -134,6 +143,11 @@ class CObjetoImagem
 			return sConexao.size();
 		}
 
+		/// Retorna a camada na qual o objeto se encontra
+		inline ECamada Camada() {
+			return camada;
+		}
+
 		// Retorna rotulo da conexao i
 		//int  SConexao( int i ) { return sConexao[i]; }
 
@@ -149,6 +163,9 @@ class CObjetoImagem
 
 		/// Seta o número de objetos
 		inline void NumObjs(int _n) { numObjs = _n; }
+
+		/// Seta a camada na qual o objeto se encontra
+		inline void Camada(ECamada _c) { camada = _c; }
 
 		/// Seta o ponto central se o valor de df informado for maior que o atual.
 		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {

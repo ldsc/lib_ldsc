@@ -14,7 +14,7 @@ TEST_F(TestMatriz2D, ConstrutorCopia) {
 #include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
 #include <iostream>
 TEST_F(TestMatriz2D, bolas) {
-	CBCDiscreta3D * bola = NULL;
+	CBCDiscreta3D * bola = nullptr;
 	ofstream file("numPixeisBolas.txt", ios_base::out | ios_base::trunc);
 	if (file.good()) {
 		file << "std::vector<int> numPixeisBolaByRaio {0";
@@ -46,7 +46,7 @@ TEST_F(TestMatriz2D, bolas) {
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <iostream>
 TEST_F(TestMatriz2D, discos) {
-	CBCDiscreta * bola = NULL;
+	CBCDiscreta * bola = nullptr;
 	ofstream file("numPixeisDiscos.txt", ios_base::out | ios_base::trunc);
 	if (file.good()) {
 		file << "std::vector<int> numPixeisDiscos {0";

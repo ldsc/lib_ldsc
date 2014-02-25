@@ -59,8 +59,8 @@ class TCFEspacial : public TCFiltro<T> {
 		/// Construtor, recebe ponteiro para imagem, e tamanho da mascara.
 		TCFEspacial (TCMatriz2D< T > * &matriz, unsigned int _tamanhoMascara)
 			: TCFiltro<T> (matriz), tamanhoMascara (_tamanhoMascara) {
-			mask = NULL;
-			mask_2 = NULL;
+			mask = nullptr;
+			mask_2 = nullptr;
 		}
 
 		/// Destrutor

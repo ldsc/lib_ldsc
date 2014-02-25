@@ -55,7 +55,7 @@ CReconstrucaoZhirong::CReconstrucaoZhirong (std::string nomeArquivo, int fatorAm
    Re_data = new double [NX * NY * NZ];
    Im_data = new double [NX * NY * NZ];
 
-   if (Ry == NULL || Cz == NULL || Re_data == NULL || Im_data == NULL) {
+   if (Ry == nullptr || Cz == nullptr || Re_data == nullptr || Im_data == nullptr) {
       /*cerr<<"\nNão conseguiu alocar memoria para matrizes real e imaginaria.\n";cin.get() */ ;
       exit (1);
    }				// return 1;}
@@ -89,7 +89,7 @@ void CReconstrucaoZhirong::LeituraArquivoCz () {
    // Le do disco a porosidade. Qdo u=0, correlacao(u=0)=porosidade
    ifstream fin (nomeArquivoCz.c_str());	// abre arquivo do disco
    // fin.open(nomeArquivoCz);    // abre arquivo do disco
-   if (fin == NULL) {		// abre arquivo disco
+   if (fin == nullptr) {		// abre arquivo disco
       /*cout<<"\nNao abriu arquivo disco "<<nomeArquivoCz<<", verifique nome do arquivo.\n"; */
       exit (1);
    }
@@ -125,7 +125,7 @@ void CReconstrucaoZhirong::Calculo_Ry1D () {
    // Cria objeto filtro não linear  // que assume numeroPontos=35
    // cout<<"\nCriando objeto  filtroNaoLinearRzRy...";
    CFNaoLinearRzRy *funcaoNaoLinearRzRy =    new CFNaoLinearRzRy (yc, porosidade, 35 );
-   if (funcaoNaoLinearRzRy == NULL) {
+   if (funcaoNaoLinearRzRy == nullptr) {
       // cout<<" ...erro alocação memória objeto filtroNaoLinearRzRy, encerra.";
       exit (1);
    }
@@ -138,7 +138,7 @@ void CReconstrucaoZhirong::Calculo_Ry1D () {
    nomeArquivoRy=  "saidaRzRy.rzy";	// Abre arquivo disco para armazenar resultados
    // cout<<"\nVai tentar abrir o arquivo fout (escrita) com nome ="<<nomeArquivoRy;
    ofstream fout (nomeArquivoRy.c_str());	// fout.open(nomeArquivoRy);
-   if (fout == NULL) {
+   if (fout == nullptr) {
       // cout<<"\nNao abriu arquivo disco "<<nomeArquivoRy<<", verifique o nome do arquivo\n";
       exit (1);
    }
@@ -334,7 +334,7 @@ bool CReconstrucaoZhirong::SalvarImagemEmDisco (string arqimg) {
       arqimg = fileName;
 	}
 	ofstream fimg (arqimg.c_str());	// abre arquivo disco
-  	if (fimg == NULL) {
+  	if (fimg == nullptr) {
       cerr << "\nNao conseguiu abrir arquivo de disco: " << arqimg <<endl;
       return false;
    }
@@ -367,7 +367,7 @@ void CReconstrucaoZhirong::Covariograma () {
    double *covarX;
 
    covarX = new double [NX / 2];	// TVetor*covarX = new TVetor(NX/2);
-   if (covarX == NULL)
+   if (covarX == nullptr)
       return;
 
    for (desloc = 0; desloc < (NX / 2); desloc++)	// covarX->Cte(0);
@@ -401,7 +401,7 @@ void CReconstrucaoZhirong::Covariograma () {
    // Função de salvamento em disco dos valores de correlação...
    string arquivoCovariograma = "correlacao.cor";
    ofstream fout (arquivoCovariograma.c_str());
-   if (fout == NULL) {
+   if (fout == nullptr) {
       // cout<<"\nNao posso criar arquivo"<<arquivoCovariograma<<",na funcao CReconstrucaoZhirong::Covariograma().\n";
       exit (1);
    }
@@ -426,33 +426,33 @@ int CReconstrucaoZhirong::Go () {
    time_t ti, tf;
 
    cout << "\nLendo arquivo com valores de Cz do disco ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    LeituraArquivoCz ();
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (LeituraArquivoCz)" << (difftime (tf, ti));
 
-   ti = time (NULL);
+   ti = time (nullptr);
    cout << "\nCriando objeto CENormal para calculo de yc ...";
    CENormal *normal = new CENormal ();	// Cria objeto CENormal que representa a curva normal
    cout << " ...objeto CENormal criado.";
    normal->limiteErro = 1e-10;
    yc = normal->GoInv (porosidade);	// retorna yc da eq 3.15
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (normal->GoInv(porosidade);)" << (difftime (tf, ti));
 
    cout << "\nCalculando yc=normal->GoInv(" << porosidade << ")=" << yc;
    delete normal; // objeto
 
    cout << "\nCalculando   Ry1D ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    Calculo_Ry1D ();
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (Calculo_Ry1D)" << (difftime (tf, ti));
 
    cout << "\nCalculando   Ry3D_de_1D ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    Calcula_Ry3D_de_1D ();
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (Calcula_Ry3D_de_1D)" << (difftime (tf, ti));
 
    // Cria objeto para calculo das transformadas de Fourier
@@ -467,43 +467,43 @@ int CReconstrucaoZhirong::Go () {
    // Abaixo calcula a transformada de fourier de Ry3D. Que é igual ao power spectrum.
    // passar parametros para objeto fourier
    cout << "\nCalculando   |Y.^2|=FFT(Ry3D) ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    if (objetoFourier->Go (Re_data, Im_data))
       return 1;
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (objetoFourier->Go)" <<
            (difftime (tf, ti));
 
    cout << "\nCalculando   |Y.|=sqrt Y.^2 ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    RaizQuadradaDeY2 ();
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (RaizQuadradaDeY2)" <<
            (difftime (tf, ti));
 
    // Abaixo determina a transformada de fourier de Y a partir de |Y|+angulo de fase.
    cout << "\nCalculando   Y. de |Y.|+angulo de fase ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    objetoFourier->FFTY_of_ModY (Re_data, Im_data);
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (FFTY_of_ModY)" << (difftime (tf, ti));
 
    // Tenho fft de Y, quero Y, faço fft-1
    cout << "\nCalculando   Y=FFT-1(Y.) ... ";
-   ti = time (NULL);
+   ti = time (nullptr);
    objetoFourier->SetScaling (0);
    if (objetoFourier->Go_Inverse (Re_data, Im_data))
       return 1;			// se retorno=1 sai
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (objetoFourier->Go_Inverse)" << (difftime (tf, ti));
 
    // Calcula a media e covariancia
    cout << "\nConferindo a media e a covariancia... ";
-   ti = time (NULL);
+   ti = time (nullptr);
    //CEstatisticaBasica *estatistica = new CEstatisticaBasica ();
    CEstatistica *estatistica = new CEstatistica ();
    estatistica->Covariancia (Re_data, NX, NY, NZ);	// calcula covariancia e a média
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (estatistica->Covariancia(Re_data,NX,NY,NZ);)" << (difftime (tf, ti));
 
    cout << " media=" << estatistica->Media();
@@ -518,12 +518,12 @@ int CReconstrucaoZhirong::Go () {
    // Como a parte real de Y pode ter pequenos erros, nao e exatamente 0 e 1,
    // faco uma normalizacao para deixar mais correto.[opcional].
    cout << "\nCalculando normalizacao da parte real ...";
-   ti = time (NULL);
+   ti = time (nullptr);
    unsigned int pos = 0;
    double sqrt_covariancia = sqrt (estatistica->Covariancia());
    for (pos = 0; pos < (NZ * NY * NX); pos++)
       Re_data[pos] = (Re_data[pos] - estatistica->Media()) / sqrt_covariancia;
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (normalizacao)" << (difftime (tf, ti));
 
    cout << "\nConferindo a media e a covariancia depois da normalização... ";
@@ -533,15 +533,15 @@ int CReconstrucaoZhirong::Go () {
    delete estatistica; // objeto
 
    cout << "\nCalculando   filtro nao linear ... ";
-   ti = time (NULL);
+   ti = time (nullptr);
    filtro_nao_linear ();					// Calcula o filtro nao linear Z real-> Z(0,1)
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (filtro_nao_linear)" << (difftime (tf, ti));
 
    cout << "\nSalvando imagem reconstruída em disco... ";
-   ti = time (NULL);
+   ti = time (nullptr);
    SalvarImagemEmDisco ( fileName );
-   tf = time (NULL);
+   tf = time (nullptr);
    cout << "\nTempo decorrido processo (SalvarImagemEmDisco)" << (difftime (tf, ti));
 
    cout << "\nFim da função CReconstrucaoZhirong::Go." << endl;

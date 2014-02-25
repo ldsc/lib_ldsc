@@ -22,7 +22,7 @@ Nome da classe:     CFEInversao3D
  * A classe CFEInversao3D processa a inversão através da função Go.
  * 
  * Go() irá retornar um ponteiro para uma nova Imagem 3D com os valores invertidos.
- * Se a imagem passada no construtor não for uma imagem binária, Go retorará NULL.
+ * Se a imagem passada no construtor não for uma imagem binária, Go retorará nullptr.
  * 
 */
 

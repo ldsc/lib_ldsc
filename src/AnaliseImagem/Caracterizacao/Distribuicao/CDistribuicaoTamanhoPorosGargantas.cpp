@@ -2,7 +2,7 @@
 
 //Construtor matriz binária
 CDistribuicaoTamanhoPorosGargantas::CDistribuicaoTamanhoPorosGargantas(TCImagem3D<bool> *&_pm, int & _raioMaximo, int & _raioDilatacao, int & _fatorReducao, int & _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
-	: modelo(_modelo), indice(_indice), fundo(_fundo), pms(NULL), pml(NULL)
+	: modelo(_modelo), indice(_indice), fundo(_fundo), pms(nullptr), pml(nullptr)
 {
 	filtro = new CAberturaDilatacao3D( _pm, indice, fundo );
 	filtro->IncrementoRaioElementoEstruturante(_incrementoRaio);
@@ -13,10 +13,10 @@ CDistribuicaoTamanhoPorosGargantas::CDistribuicaoTamanhoPorosGargantas(TCImagem3
 
 //Construtor imagem tons de cinza
 CDistribuicaoTamanhoPorosGargantas::CDistribuicaoTamanhoPorosGargantas(TCImagem3D<int> *&_pm )
-	: indice(1), fundo(0), filtro(NULL)
+	: indice(1), fundo(0), filtro(nullptr)
 {
-	pms = NULL;
-	pml = NULL;
+	pms = nullptr;
+	pml = nullptr;
 	if (_pm) {
 		if (_pm->NumCores() == 3) { // tem que ser uma imagem com 0 (fundo), 1 (sítio) e 2 (ligação)
 			int nx = _pm->NX();
@@ -58,19 +58,19 @@ CDistribuicaoTamanhoPorosGargantas::~CDistribuicaoTamanhoPorosGargantas(){
 
 // Go: Executa o cálculo das distribuições
 std::pair< CDistribuicao3D*, CDistribuicao3D* > CDistribuicaoTamanhoPorosGargantas::Go(CDistribuicao3D::Metrica3D _metrica) {
-	CDistribuicao3D *distP = NULL; //<Ponteiro para objeto da classe que calcula a distribuição de tamanho de poros.
-	CDistribuicao3D *distG = NULL; //<Ponteiro para objeto da classe que calcula a distribuição de tamanho de gargantas.
+	CDistribuicao3D *distP = nullptr; //<Ponteiro para objeto da classe que calcula a distribuição de tamanho de poros.
+	CDistribuicao3D *distG = nullptr; //<Ponteiro para objeto da classe que calcula a distribuição de tamanho de gargantas.
 	bool okP = false;
 	bool okG = false;
-	if (filtro != NULL) {
+	if (filtro != nullptr) {
 		filtro->Go(modelo);
 		distP = new CDistribuicao3D ( filtro->GetMatrizSitios() );
 		distG = new CDistribuicao3D ( filtro->GetMatrizLigacoes() );
-	} else if ( pms!=NULL && pml!=NULL ) {
+	} else if ( pms!=nullptr && pml!=nullptr ) {
 		distP = new CDistribuicao3D ( pms );
 		distG = new CDistribuicao3D ( pml );
 	}
-	if (distP != NULL && distG != NULL) {
+	if (distP != nullptr && distG != nullptr) {
 		okP = distP->Go( CBaseDistribuicao::dtp, _metrica, indice, fundo );
 		okG = distG->Go( CBaseDistribuicao::dtg, _metrica, indice, fundo );
 	}
@@ -81,8 +81,8 @@ std::pair< CDistribuicao3D*, CDistribuicao3D* > CDistribuicaoTamanhoPorosGargant
 			delete distP;
 		if (distG)
 			delete distG;
-		distP = NULL;
-		distG = NULL;
+		distP = nullptr;
+		distG = nullptr;
 		return std::make_pair(distP, distG);
 	}
 }

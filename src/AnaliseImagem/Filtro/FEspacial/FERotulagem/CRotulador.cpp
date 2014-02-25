@@ -34,15 +34,15 @@ using namespace std;
 */
 CRotulador::CRotulador ( int _indice, int _fundo ) : INDICE(_indice), FUNDO(_fundo) {
 	//Zera ponteiro para vetor conversão
-	vConversao = NULL;
+	vConversao = nullptr;
 	//importante evita uso vetor área e perímetro sem rotular a imagem
 	rotuloMaximoUtilizado = numeroObjetos = 0;
 	//Vetor com a area dos objetos
-	areaObjetos = NULL;
+	areaObjetos = nullptr;
 	//Vetor com os perimetros dos objetos
-	perimetroObjetos = NULL;
+	perimetroObjetos = nullptr;
 	//Vetor com os raios hidraulicos
-	//raioHidraulicoObjetos = NULL;
+	//raioHidraulicoObjetos = nullptr;
 	//a matriz de dados ainda não foi rotulada
 	rotulado = false;
 	//rotuloInicial =0;
@@ -60,15 +60,15 @@ CRotulador::CRotulador ( int _indice, int _fundo ) : INDICE(_indice), FUNDO(_fun
 	@return :
 */
 CRotulador::~CRotulador () {
-	if (areaObjetos != NULL)
+	if (areaObjetos != nullptr)
 		delete areaObjetos; // objeto
 
-	if (perimetroObjetos != NULL)
+	if (perimetroObjetos != nullptr)
 		delete perimetroObjetos;// objeto
-	//if(raioHidraulicoObjetos!=NULL)
+	//if(raioHidraulicoObjetos!=nullptr)
 	//   delete          raioHidraulicoObjetos;// objeto
 
-	//if(vConversao!=NULL)
+	//if(vConversao!=nullptr)
 	//   delete  vConversao;     //deletado na função de rotulagem // objeto
 	//temporario
 	//fout.close();
@@ -163,11 +163,11 @@ void CRotulador::CalculaRaioHidraulicoObjetos () {
 	//TWaitCursor w;
 	//Cria cursor de espera
 	//Se ainda não determinada,              calcula a área dos objetos
-	if (areaObjetos == NULL)
+	if (areaObjetos == nullptr)
 		CalculaAreaObjetos ();
 
 	//Se ainda não determinada,      calcula o perimetro dos objetos
-	if (perimetroObjetos == NULL)
+	if (perimetroObjetos == nullptr)
 		CalculaPerimetroObjetos ();
 	//só procede o calculo se a matriz rótulo foi determinada
 }
@@ -199,7 +199,7 @@ double CRotulador::RaioHidraulicoObjetos (int k) const {
 	@return :
 */
 int CRotulador::AreaObjetos (int k) const {
-	if (k < (numeroObjetos) && areaObjetos != NULL)
+	if (k < (numeroObjetos) && areaObjetos != nullptr)
 		//return areaObjetos[k - rotuloInicial];
 		return areaObjetos->data1D[k];
 	return 0;
@@ -216,7 +216,7 @@ int CRotulador::AreaObjetos (int k) const {
 	@return :
 */
 int CRotulador::PerimetroObjetos (int k) const {
-	if (k < (numeroObjetos) && perimetroObjetos != NULL)
+	if (k < (numeroObjetos) && perimetroObjetos != nullptr)
 		return perimetroObjetos->data1D[k];
 	//return perimetroObjetos[k - rotuloInicial];
 	return 1;			//Evita bug chamada a GetraioHidraulicoObjetos
@@ -431,9 +431,9 @@ void CRotulador::VerificaContorno (int contorno, int rotuloAtual) {
 	void 	CRotulador::RaioHidraulicoObjetos()
 	{
 	//TWaitCursor w;//cria cursor de espera
-	if(areaObjetos==NULL)//Se ainda não determinada, determina
+	if(areaObjetos==nullptr)//Se ainda não determinada, determina
 	AreaObjetos();//calcula a área dos objetos
-	if(perimetroObjetos==NULL)//Se ainda não determinada, determina
+	if(perimetroObjetos==nullptr)//Se ainda não determinada, determina
 	PerimetroObjetos();//calcula o perimetro dos objetos
 	//só procede o calculo se a matriz rótulo foi determinada
 	if(areaObjetos && perimetroObjetos)

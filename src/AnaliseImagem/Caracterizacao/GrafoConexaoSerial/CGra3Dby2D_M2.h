@@ -49,7 +49,7 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
 	/// Construtor
-  CGra3Dby2D_M2 (std::string _fileName) : CGra3Dby2D (_fileName),  rotInt (NULL) {
+  CGra3Dby2D_M2 (std::string _fileName) : CGra3Dby2D (_fileName),  rotInt (nullptr) {
   }
 
 // --------------------------------------------------------------Destrutor

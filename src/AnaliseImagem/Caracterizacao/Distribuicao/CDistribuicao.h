@@ -43,7 +43,7 @@ class CDistribuicao : public CBaseDistribuicao
 		// Construtores / Destrutor
 	public:
 		/// Construtor default
-		CDistribuicao () : CBaseDistribuicao( ), pm( NULL ) {
+		CDistribuicao () : CBaseDistribuicao( ), pm( nullptr ) {
 		}
 
 		/// Construtor (recebe TCMatriz2D< int >)

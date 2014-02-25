@@ -71,10 +71,10 @@ CGrafo * CGra3Dby2D_M2::Go (string fileName, unsigned long int funcao) {
    fin.close ();
 
    // Cria objeto de rotulagem para plano intermediario
-   if (rotInt != NULL)
+   if (rotInt != nullptr)
       delete rotInt;
    rotInt = new CRotulador2DCm (NNX, NNY);
-   if( rotInt == NULL )
+   if( rotInt == nullptr )
       cerr << "Erro alocação rotInt";
    assert (rotInt); // variavel DEBUG
 
@@ -83,7 +83,7 @@ CGrafo * CGra3Dby2D_M2::Go (string fileName, unsigned long int funcao) {
 
    // Deleta o rotulador intermediario
    delete rotInt;
-   rotInt = NULL;
+   rotInt = nullptr;
    return this;
 }
 
@@ -102,11 +102,11 @@ Função:  	Go
 */
 CGrafo * CGra3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara) {
    // Cria o rotulador intermediário
-   if (rotInt != NULL)
+   if (rotInt != nullptr)
       delete rotInt;
 
    rotInt = new CRotulador2DCm (_img3D->NX (), _img3D->NY ());
-   if( rotInt == NULL )
+   if( rotInt == nullptr )
       cerr << "Erro alocação rotInt";
 
    assert (rotInt);
@@ -116,7 +116,7 @@ CGrafo * CGra3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanho
 
    // Deleta o rotulador intermediario
    delete rotInt;
-   rotInt = NULL;
+   rotInt = nullptr;
    // CGrafo*
    return this;
 }

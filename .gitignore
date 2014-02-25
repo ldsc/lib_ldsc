@@ -13,6 +13,7 @@
 *.exe
 *.rsl
 *.user*
+*.grafo.txt
 nohup.out
 cvs
 libldsc.a

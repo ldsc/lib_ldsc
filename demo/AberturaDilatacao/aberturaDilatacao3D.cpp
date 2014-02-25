@@ -80,13 +80,13 @@ int main ( int argc, char *argv[] )
 		cin >> iOpcao;
 		cin.get();
 
-		TCMatriz3D<bool> * pm = NULL;
-		TCFEMMIDFd3453D<bool> * filtro = NULL;
-		CAberturaDilatacao3D * carac = NULL;
+		TCMatriz3D<bool> * pm = nullptr;
+		TCFEMMIDFd3453D<bool> * filtro = nullptr;
+		CAberturaDilatacao3D * carac = nullptr;
 		int dimensao;
 
-		CBCd3453D * bola = NULL;
-		CUtil * util = NULL;
+		CBCd3453D * bola = nullptr;
+		CUtil * util = nullptr;
 		ostringstream os;
 
 		// Em teste
@@ -112,7 +112,7 @@ int main ( int argc, char *argv[] )
 
 				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao." << endl;
-				if ( pm == NULL  || carac == NULL) {
+				if ( pm == nullptr  || carac == nullptr) {
 					cerr << "Falha alocação Matriz ou CAberturaDilatacao3D.\n" ;
 					exit(0);
 				}
@@ -148,9 +148,9 @@ int main ( int argc, char *argv[] )
 				carac->Write(os.str());
 				cout << "Calculou carac->DistSitiosLigacoes_Modelo_4();." << endl;
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete carac;
-				carac = NULL;
+				carac = nullptr;
 				break;
 			}//fim opcao0
 			case 5: {
@@ -166,7 +166,7 @@ int main ( int argc, char *argv[] )
 				cout << " Carregou a matriz do disco...." << endl;
 				filtro = new TCFEMMIDFd3453D<bool>( pm );
 				cout << " Criou o filtro...." << endl;
-				if ( pm == NULL  || filtro == NULL) {
+				if ( pm == nullptr  || filtro == nullptr) {
 					cerr << "Falha alocação Matriz ou filtro.\n" ;
 					exit(0);
 				}
@@ -183,9 +183,9 @@ int main ( int argc, char *argv[] )
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
 				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete filtro;
-				filtro = NULL;
+				filtro = nullptr;
 				break;
 			} //fim opcao1
 			case 6: {
@@ -201,7 +201,7 @@ int main ( int argc, char *argv[] )
 				cout << " Carregou a matriz do disco...." << endl;
 				filtro = new TCFEMMIDFd3453D<bool>( pm );
 				cout << " Criou o filtro...." << endl;
-				if ( pm == NULL  || filtro == NULL) {
+				if ( pm == nullptr  || filtro == nullptr) {
 					cerr << "Falha alocação Matriz ou filtro.\n" ;
 					exit(0);
 				}
@@ -217,9 +217,9 @@ int main ( int argc, char *argv[] )
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
 				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete filtro;
-				filtro = NULL;
+				filtro = nullptr;
 				break;
 			} //fim opcao6
 			case 7: {
@@ -235,7 +235,7 @@ int main ( int argc, char *argv[] )
 				cout << " Carregou a matriz do disco...." << endl;
 				filtro = new TCFEMMIDFd3453D<bool>( pm );
 				cout << " Criou o filtro...." << endl;
-				if ( pm == NULL  || filtro == NULL) {
+				if ( pm == nullptr  || filtro == nullptr) {
 					cerr << "Falha alocação Matriz ou filtro.\n" ;
 					exit(0);
 				}
@@ -251,9 +251,9 @@ int main ( int argc, char *argv[] )
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
 				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete filtro;
-				filtro = NULL;
+				filtro = nullptr;
 				break;
 			} //fim opcao7
 			case 8: {
@@ -269,7 +269,7 @@ int main ( int argc, char *argv[] )
 				cout << " Carregou a matriz do disco...." << endl;
 				filtro = new TCFEMMIDFd3453D<bool>( pm );
 				cout << " Criou o filtro...." << endl;
-				if ( pm == NULL  || filtro == NULL) {
+				if ( pm == nullptr  || filtro == nullptr) {
 					cerr << "Falha alocação Matriz ou filtro.\n" ;
 					exit(0);
 				}
@@ -286,9 +286,9 @@ int main ( int argc, char *argv[] )
 				cout << ( string("lvp ") + nomeimgaux + " &") << endl;
 				result = system ( ( string("lvp ") + nomeimgaux + " &").c_str() );
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete filtro;
-				filtro = NULL;
+				filtro = nullptr;
 				break;
 			} //fim opcao8
 			case 9: {
@@ -302,16 +302,16 @@ int main ( int argc, char *argv[] )
 
 				carac = new CAberturaDilatacao3D(pm);
 				cout << "Criou objeto CAberturaDilatacao3D." << endl;
-				if ( pm == NULL  || carac == NULL) {
+				if ( pm == nullptr  || carac == nullptr) {
 					cerr << "Falha alocação Matriz ou CAberturaDilatacao.\n" ;
 					exit(0);
 				}
 				porosidade = carac->Porosidade(pm);
 				cout << "Porosidade da imagem: " << nomeimg << " = " << porosidade << endl;
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete carac;
-				carac = NULL;
+				carac = nullptr;
 				break;
 			}//fim opcao9
 			case 10: {
@@ -322,7 +322,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				pm = new TCMatriz3D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
-				if ( pm == NULL ) {
+				if ( pm == nullptr ) {
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
@@ -331,9 +331,9 @@ int main ( int argc, char *argv[] )
 				carac->DistTotalPoros();
 				cout << "Calculou carac->DistTotalPoros();." << endl;
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete carac;
-				carac = NULL;
+				carac = nullptr;
 				break;
 			}
 			case 11: {
@@ -346,9 +346,9 @@ int main ( int argc, char *argv[] )
 				bola->Write(os.str());
 				util->ArrumarImagem(os.str());
 				delete bola;
-				bola = NULL;
+				bola = nullptr;
 				delete util;
-				util = NULL;
+				util = nullptr;
 				break;
 			}
 			case 12: {
@@ -359,7 +359,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				/*
 				pm = new TCMatriz3D<int>(nomeimg);
-				if ( pm == NULL) {
+				if ( pm == nullptr) {
 					cerr << "Antes precisa carregar a imagem, executando opcões 1-4.\n";
 					break;
 				}
@@ -402,7 +402,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 
 				pm = new TCMatriz3D<bool>(nomeimg, borda);
-				if ( pm == NULL  ) {
+				if ( pm == nullptr  ) {
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
@@ -425,7 +425,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				pm = new TCMatriz3D<bool>(nomeimg);
 				cout << "Carregou imagem->" << nomeimg << endl;
-				if ( pm == NULL ) {
+				if ( pm == nullptr ) {
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
@@ -434,9 +434,9 @@ int main ( int argc, char *argv[] )
 				carac->SequenciaAberturaTonsCinza();
 				cout << "Calculou carac->SequenciaAberturaTonsCinza();." << endl;
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete carac;
-				carac = NULL;
+				carac = nullptr;
 				break;
 			} //fim opcao15
 			case 16: {
@@ -447,7 +447,7 @@ int main ( int argc, char *argv[] )
 				cin.get(); // pega o enter
 				pm = new TCMatriz3D<bool>( nomeimg );
 				cout << "Carregou imagem->" << nomeimg << endl;
-				if ( pm == NULL ) {
+				if ( pm == nullptr ) {
 					cerr << "Falha alocação Matriz.\n" ;
 					exit(0);
 				}
@@ -455,9 +455,9 @@ int main ( int argc, char *argv[] )
 				cout << "Criou objeto CAberturaDilatacao!" << endl;
 				cout << "Porosidade = " << carac->Porosidade(pm) << endl;
 				delete pm;
-				pm  = NULL;
+				pm  = nullptr;
 				delete carac;
-				carac = NULL;
+				carac = nullptr;
 				break;
 			}
 			case 17: {

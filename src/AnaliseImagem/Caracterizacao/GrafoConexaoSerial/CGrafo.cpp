@@ -75,16 +75,23 @@ using namespace std;
 					
     Específico:
     No caso específico do cálculo da permeabilidade de representações tridimensionais.
-    Transforma a propriedades raioHidraulico dos sítios em condutâncias.
-    Ou seja, percorre todo o grafo e transforma a propriedade raioHidraulico em condutância (dos sítios).
+    Transforma a propriedades raioHidraulico dos "sítios" em condutâncias.
+    Ou seja, percorre todo o grafo e transforma a propriedade raioHidraulico em condutância.
     Esta condutância é usada pelo objeto sítio para calcular a sua pressão (x).
 
     Ou seja:
     Quando se determina o grafo a propriedade armazenada nos objetos é o raio hidraulico.
-    Quando se deseja determinar a permeabilidade é a condutancia.
+    Quando se deseja determinar a permeabilidade a propriedade armazenada é a condutancia.
 
     Tarefa:
     Verificar uma forma de eliminar a dependencia destes parâmetros.
+    
+    Note que a função esta calculando a condutancia segundo a lei de Poiselle -> para ligações (eq 5.16 da tese Liang). 
+
+    Abaixo a equacao 5.17 da tese do Liang, que usa condutancia segundo Koplik (1983)
+    // Calcula a condutancia do sitio usando a equação ri^3/(3*viscosidade)
+    //      objeto[k]->propriedade = (raio_hidraulico * raio_hidraulico * raio_hidraulico ) /
+    // (3.0 * _viscosidade );
 
     @author : André Duarte Bueno
     @see    : CPermabilidade
@@ -107,14 +114,7 @@ void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePix
   {
       // Pega o raio hidraulico do objeto k e já converte para metros
       raio_hidraulico = objeto[k]->propriedade * sizePixelXfatorAmplificacao;
-      // Calcula a condutancia do sitio    usando a equação ri^3/(3*viscosidade)
-      //      objeto[k]->propriedade =
-      // (raio_hidraulico * raio_hidraulico * raio_hidraulico )
-      //       
-      // (3.0 * _viscosidade );
-      // 
-      // else
-      // Calcula a condutancia do sitio    usando a equação
+      // Calcula a condutancia do "sitio" usando a equação 5.16 da tese Liang
       //  =pi*dH^4/(128*viscosidade*comprimentoL)
       // 4.0*(raio_hidraulico) ;
       dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;

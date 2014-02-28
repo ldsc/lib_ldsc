@@ -1,5 +1,17 @@
-32136
+32136 numeroObjetos void CGrafo::Write	(	std::string 	fileName	)	
+
    1     0        0.2          0    0
+
+tipoContorno   0 left/1 center/2 right :: COGSitio.cpp operator<< (ostream & out, COGSitio & s)
+	rotuloObjeto  
+??falta tipoObjeto ???
+		objeto.propriedade(conhecida/raio hidraulico ou condutancia ou ...)
+				objeto.x(a ser calculada/pressão) valor inicial igual número do plano z
+				    numeroConeccoes
+					rótuloDaConeccao
+						condutancuas ou raioHidraulico ou ...
+				
+
    1     1   0.954545          0    0
    1     2      0.375          0    0
    1     3    1.17391          0    0

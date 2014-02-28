@@ -6,10 +6,10 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
                   	[LDSC].
 @author:          André Duarte Bueno
-File:             CSMDiagonalDominanteThreads.cpp
-begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno
-email:            andreduartebueno@gmail.com
+@file:             CSMDiagonalDominanteThreads.cpp
+@begin:            Sat Sep 16 2000
+@copyright:        (C) 2000 by André Duarte Bueno
+@email:            andreduartebueno@gmail.com
 */
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++.

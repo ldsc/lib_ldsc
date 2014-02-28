@@ -1,7 +1,7 @@
 #ifndef CGrafo_h
 #define CGrafo_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -20,7 +20,7 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 // -----------------------------------------------------------------------
 #include <fstream>
 #include <vector>
-#include <cassert> // Todo: usar static_assert
+#include <cassert> /// @todo: usar static_assert de C++11!
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -178,7 +178,6 @@ massa.
 do COGSitio_LR_CM o que inclue os centros de massa.
  * ->CalculoCondutancias()= Corrige as condutancias considerando os centros de massa.
  * Nota: conferir códigos e se a saída é a mesma do Modelo 4.
- Todo: renomear classe para COGSitio_LR_CM -> COGSitioLinkCondutanciaCentroMassa
  * @author 	André Duarte Bueno
  * @see		grafos
 */
@@ -207,6 +206,7 @@ class  CGrafo
   
   public:
   /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
+  /// @todo: trocar por unique_ptr shared_ptr?
   std::vector<CObjetoGrafo*> objeto ;
 
   // -------------------------------------------------------------Construtor
@@ -226,7 +226,10 @@ class  CGrafo
   /**
    * @brief Função usada para criar os objetos do grafo.
    * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
-   * Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoContorno
+   * Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoContorno.
+   * @todo: esta sendo sobrescrita nas classes herdeiras,
+   * para juntar tudo numa função única, não virtual, precisa criar ETipoObjetoGrafo
+   * e então juntar tudo numa função única (ver livro padrões projeto).
   */
   virtual CObjetoGrafo* GetObjetoGrafo(CContorno::ETipoContorno tipoContorno);
 

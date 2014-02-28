@@ -7,10 +7,10 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico
 										[LDSC].
 @author:          Andre Duarte Bueno
-File:             CPermeabilidadeGrafo.cpp
-begin:            Sat Sep 16 2000
+@file:             CPermeabilidadeGrafo.cpp
+@begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-email:            andreduartebueno@gmail.com
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -43,16 +43,15 @@ using namespace std;
 @param  : objetos fluido,solver,grafo, nx,ny,nz, fator amplificacao, tamanhoDoPixel, numeroDePixeisDaBorda
 @return : nada
 */
-CPermeabilidadeGrafo::CPermeabilidadeGrafo (
-		CMFluido * &_fluido,
-		CSMDiagonalDominante *& _solver,
-		CGra3Dby2D *& _grafo,
-		unsigned long int _nx,
-		unsigned long int _ny,
-		unsigned long int _nz,
-		unsigned long int _fatorAmplificacao,
-		long double _sizePixel,
-		unsigned long int _numeroPixelsBorda )
+CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido, 
+					  CSMDiagonalDominante *& _solver,
+						CGra3Dby2D *& _grafo,
+						unsigned long int _nx,
+							unsigned long int _ny,
+																							unsigned long int _nz,
+																							unsigned long int _fatorAmplificacao,
+																							long double _sizePixel,
+																							unsigned long int _numeroPixelsBorda )
 	:
 		fluido (_fluido),
 		solver (_solver),
@@ -343,7 +342,7 @@ CPermeabilidadeGrafo::DefinicaoCondicoesContorno ()
 	CContorno *contorno_esquerdo = new CContorno ();
 	assert (contorno_esquerdo);
 	grafo->contorno.push_back (contorno_esquerdo);
-	*contorno_esquerdo = pressao_face_esquerda;
+	*contorno_esquerdo = pressao_face_esquerda; // contorno se comporta como um double, veja classe CContorno.
 
 	// Calculando parâmetros para contorno de centro
 	// O objeto contorno de centro, tem uma funcao Go que estima os valores iniciais (de pressão)
@@ -397,11 +396,11 @@ CPermeabilidadeGrafo::DefinicaoValoresIniciais ()
 	for (unsigned long int k = 0; k < numeroObjetos; k++)
 	{
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
-		if (grafo->objeto[k]->Contorno () == CContorno::CENTER)	// 1
+        if (grafo->objeto[k]->Contorno () == CContorno::ETipoContorno::CENTER)	// 1
 			grafo->objeto[k]->x = grafo->contorno[1]->Go (grafo->objeto[k]->x);
 
 		// Se contorno=CContorno::WEST  objeto esta na esquerda
-		else if (grafo->objeto[k]->Contorno () == CContorno::WEST)	// 0
+        else if (grafo->objeto[k]->Contorno () == CContorno::ETipoContorno::WEST)	// 0
 			grafo->objeto[k]->x = (*(grafo->contorno[0]));
 
 		// Se contorno=CContorno::EST objeto esta na direita
@@ -443,7 +442,8 @@ CPermeabilidadeGrafo::DefinicaoValoresIniciais ()
 void
 CPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 {
-	// Pega ponteiro para vetor do tipo CSMParametroSolver*
+ // Pega ponteiro para vetor do tipo CSMParametroSolver*
+ // Todo: alterar para dynamic_cast
 	vector < CSMParametroSolver * >*ptr_obj = (vector < CSMParametroSolver * >*) & (grafo->objeto);
 
 	// vector<CSMParametroSolver*> * ptr_obj = static_cast<vector<CSMParametroSolver*> *  >( &(grafo->objeto));
@@ -512,8 +512,8 @@ CPermeabilidadeGrafo::Next ()
 		SolucaoSistemaEquacoes ();
 
 		// 2.2) Determina o fluxo na fronteira solicitada
-		long double fluxoe = FluxoFronteira (CContorno::WEST);
-		long double fluxod = FluxoFronteira (CContorno::EST);
+        long double fluxoe = FluxoFronteira (CContorno::ETipoContorno::WEST);
+        long double fluxod = FluxoFronteira (CContorno::ETipoContorno::EST);
 
 		// 2.3) Calcula a permeabilidade
 		permEsq = (fluxoe * fluido->Viscosidade () * comprimento) / (area * diferencaPressao);

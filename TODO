@@ -2,7 +2,7 @@
 libldsc
 ===============================================================================
 Nome deste arquivo: 	TODO
-Conte�do:		Lista das tarefas a serem realizadas.
+Conteudo:		Lista das tarefas a serem realizadas.
 Autor:			André Duarte Bueno, Leando Puerari.
 
 ===============================================================================
@@ -23,121 +23,200 @@ AUTHORS		Lista dos autores da libldsc.
 
 ===============================================================================
 
-Emergencial:
-0)
-ok- Leandro: testar novas classes de Correlacao, ver resultado no lvp.
-- Verificar códigos Leandro e botar para funcionar (dentro da libldsc).
-	- A simulação da permeabilidade deve incluir ida e volta 
-	(ver código em src/coilib-imago/ConEq- TIConfiguracoesEquilibrio3D.h .cpp e 
-	TIConfEq3DSimPermRel.h .cpp).
+[Específico tese Leandro]
+=======================================
+Objetivo: A ideia é resolver questões associadas diretamente a tese do 
+Leandro, usando códigos existentes.
+O Leandro fica com controle do branch master até terminar sua tese.
 
-- Verificar códigos Rafael e botar para funcionar (test/AberturaDilatacao).
+[] - Gerar pacote da versao (1.5 que funcione redondinho com lvp) e arquivar em libs.
+Será a ultima versao com estrutura de diretórios antiga.
+Gerar a versão da lib no git.
+[] - Copiar libldsc-1.5 para Desenvolvimento-02-Bibliotecas-Releases/LIB_LDSC
+[] - Gerar pacote com libldsc-1.5 + lvp e no nome adicionar Leandro.
+Gerar a versão do lvp no git.
+[] - Copiar lvp para Desenvolvimento-03-Programas-Releases.
 
-- Verificar códigos Eneida e botar para funcionar (test/RedesNeurais).
+[] - Criar hierarquia de classes/modelos para calcular distribuição de sítios e ligações a partir 
+de imagens 2D.
+[] - Criar hierarquia de classes/modelos para calcular distribuição de sítios e ligações a partir 
+de imagens 3D.
+[] - Criar hierarquia para montagem redes de percolação a partir distribuição de sítios e 
+ligações.
+[] - Criar estrutura para teste dos códigos desenvolvidos pelo Leandro. Deve adotar padrão uniforme 
+em toda lib_ldsc.
 
-- Revisar a lib_ldsc
-	- Melhorar test/correlacao
-	- Melhorar test/estatistica (testar todas as classes de estatistica)
-	
-- Precisa Mover
-	- Base/CSimulacao para Simulacao?
-	- Base/CSolver para Solver?
-- Corrigir a lib_ldsc
-- Documentar a lib_ldsc
-- Gerar pacote da versao (1.5 que funcione redondinho com lvp) e arquivar em libs.
-	Será a ultima versao com esta estrutura de diretórios.
-- Gerar pacote com libldsc-1.5 + lvp e no nome adicionar Leandro.
-- Copiar libldsc-1.5 para Desenvolvimento-02-Bibliotecas-Releases/LIB_LDSC
-- Copiar lvp para Desenvolvimento-03-Programas-Releases.
+[Específico mestrado Rafael]
+=======================================
+[] - Verificar códigos Rafael -2D e botar para funcionar (test/AberturaDilatacao).
 
-1)
-- Criar nova estrutura de diretórios
-- MetodoNumerico
-- AnaliseImagem
-- MeioPoroso
-- RedesNeurais
+[Específico mestrado Eneida]
+=======================================
+[] - Verificar códigos Eneida e botar para funcionar (test/RedesNeurais).
+
+[Específico mestrado Tiago]
+=======================================
+[] - Verificar códigos Tiago e botar para funcionar (DanoFormacao).
+
+[Nova estrutura diretórios]
+=======================================
+[ ] - Criar nova estrutura de diretórios
+[bueno@localhost src]$ tree -L 3 -d
+[x] - ├── Amostra
+[x] - │   ├── AmostraRocha
+[x] - │   └── Material
+[x] - ├── AnaliseImagem
+[x] - │   ├── Caracterizacao (geralmente uma informação geométrica)
+[x] - │   │   ├── Correlacao
+[x] - │   │   ├── Distribuicao
+[x] - │   │   ├── Fractal
+[x] - │   │   ├── GrafoConexaoSerial
+[x] - │   │   └── RedePercolacao
+[x] - │   ├── Filtro (criar namespace alias PreProcessamento)
+[x] - │   │   ├── FAmplitude
+[x] - │   │   ├── FEspacial
+[x] - │   │   ├── FFrequencial
+[x] - │   │   └── Mascara
+[ ] - │   ├── Geometria (mover para dentro Caracterizacao)
+[x] - │   │   └── Bola
+[ ] - │   ├── Matriz (mover para MetNum)
+[x] - │   ├── Reconstrucao
+[x] - │   ├── Segmentacao
+[x] - │   │   └── PorosGargantas
+[x] - │   └── Simulacao (geralmente uma propriedade física)
+[x] - │       ├── ConfiguracaoEquilibrio
+[ ] - │       ├── Tortuosidade
+[ ] - │       ├── DanoFormacao
+[x] - │       └── Permeabilidade
+[x] - ├── Base
+[x] - ├── Estatistica 
+[x] - ├── Grafico
+[x] - │   └── Gnuplot
+[x] - ├── MetNum
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+[ ] - ├── RedesNeurais
+[x] - └── Tempo
+
+[Específico Documentação]
+=======================================
+Objetivo: revisar os conhecimentos da biblioteca e ao mesmo tempo atualizar documenção.
+[ ] - Documentar a lib_ldsc considerando inovações do doxygen, 
+como exemplo: @todo @test @bug
+[ ] - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
+[ ] - Baixar wget -r http://cppreference.com
+
+[Específico Padrão de Desenvolvimento]
+=======================================
+[ ] - Definir metodologia de trabalho (ferramentas de apoio).
+[ ] - Definir fluxo de trabalho (passo a passo).
+[ ] - Definir padrao e metodologia para desenvolvimento da nova lib.
+
+[Específico Softwares Apoio]
+=======================================
+Objetivo: manter atualizados os softwares de apoio, anote abaixo a versão mais atual em que o 
+sistema foi gerado corretamente:
+[1.8.3] - doxygen (versão do arquivo doxyfile).
+[20]    - fedora (versão do sistema operacional).
+[4.8.2] - g++ (versão do compilador da gnu).
+[ ]     - qt
+
+[Específico Bibliotecas]
+=======================================
+Objetivo: selecionar bibliotecas que sejam:
+OO em C++, 
+bem montadas/organizadas,
+fáceis de usar, 
+rápidas,
+e que estejam sendo constantemente atualizadas.
+[ ] - Verificar bibliotecas de Boost relacionadas a métodos numéricos.
+[ ] - Verificar bibliotecas da GNU relacionadas a métodos numéricos.
+[ ] - Selecionar biblioteca específica para suporte a parte das necessidades de métodos numéricos.
+[ ] - Analisar em detalhes a magick++.
+[ ] - Adotar parte de magick++ para processamento de imagens?
+[ ] - Pensar em como vai ser a relacao com qt (a ideia é que a lib seja independente de qt)
+- Criar métodos InputDialog() ? para leitura dos atributos da classe?
 
 
-2) Atualizacao dos softwares de apoio para última versão:
-- O objetivo é se familiarizar com estes softwares.
-- Todos usando Fedora 12 ou 13.
-- Atualizar o g++ para ultima versão.
+[Específico Atualização Conhecimentos]
+=======================================
+[ ] - Ler livros sobre padroes para desenvolvimento (nomes classes/atributos/métodos)...
+[ ] - Ler livros sobre UML2
+[ ] - Ler livros sobre C++11
+[ ] - Ler livros sobre Boost
+[ ] - Ler livros sobre Padroes de projeto
+[ ] - Ler livros sobre outras bibliotecas específicas aos problemas efetivamente usados
 
-3)
-- Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
-- Ler livros sobre padroes para desenvolvimento (nomes classes/atributos/métodos)...
-- Ler livros sobre UML2
-- Ler livros sobre C++0x
-- Ler livros sobre Boost
-- Ler livros sobre OpenMP
-- Ler livros sobre outras bibliotecas
-- Ler livros sobre Padroes de projeto
 
-4) Bibliotecas
-- Verificar bibliotecas da GNU.
-- Utilizar metodos numericos da GNU?
-- Se nao tiver em C++, criar classes para encapsular?
-- Usar blitz++ ? quando for trabalhar com matrizes ?
-- Analisar em detalhes a magick++.
-- Adotar magick++ para processamento de imagens?
+[Específico C++11 e Atualização da lib_ldsc]
+============================================
+Objetivo: Corrigir a lib_ldsc considerando inovações de C++11/C++14.
+[] - Criar arquivo modelo que lista as inovações a serem consideradas. 
+Para cada classe cria arquivo CNomeClasse.C++11.todo?
 
-5)
-- Definir o padrão de desenvolvimento
-- Definir metodologia de trabalho - fluxo de trabalho
-- Testar padrao e metodologia com desenvolvimento da nova lib
-		
-6)
-- Reescrever as classes básicas e depois os códigos específicos.
-- Somente as classes novas devem fazer parte da nova lib?
-- Reescrever CVetor/CMatriz2D/CMatriz3D
-- Reescrever CImagem2D/CImagem3D
-- Modificar CVetor CMatriz2D e CMatriz3D, de forma que a alocacao seja da forma
+[ ] - Reescrever as classes básicas e depois os códigos específicos.
+[ ] - Somente as classes novas devem fazer parte da nova lib?
+[ ] - Reescrever CVetor/CMatriz2D/CMatriz3D usando template
+[ ] - Reescrever CImagem2D/CImagem3D usando template
+[ ] - Modificar CVetor CMatriz2D e CMatriz3D, de forma que a alocacao seja da forma
 double pm1d =  new double[nx*ny*nz];
 assim, códigos legados, como os herdados de Liang possam ser tratados sem 
 o uso macros. Antes de fazer as modificacoes gerar saidas padroes, que devem ser posteriormente
 conferidas.
-- Fazer correções conceituais e lógicas
-- Acrescentar códigos de Anaimp
-- Acrescentar códigos de Imago
-- Acrescentar códigos de SAIL
+[ ] - Fazer correções conceituais e lógicas
 
-7)
-- O diretório test deve ter a mesma estrutura de src,
+
+[Específico Teste]
+============================================
+[ ] - O diretório test deve ter a mesma estrutura de src,
 e cada subdiretório deve testar as classes correspondentes.
-- Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários
-- O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
-
-8)
-- Os programas que foram colocados dentro de test
-devem ser retirados. 
-- Criar programa externo que acessa a lib.
-- O programa deve ser bem documentado, de forma a servir
-de base para aprendizado.
+[ ] - Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários
+[ ] - O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
+[ ] - Os programas que foram colocados dentro de test devem ser retirados. 
+[ ] - Criar programa externo que acessa a lib. O programa deve ser bem documentado, de forma a 
+servir de base para aprendizado.
 
 
-9)
-- As provas feitas para os alunos tem exemplos que podem ser acrescentados a lib.
+[Específico Otimizacao]
+============================================
+[ ] - Aprender a usar gprof.
+[ ] - Aprender a usar Valgrind.
+[ ] - Fazer analise de desempenho e consumo de memória.
+[ ] - Eliminar dependencia de commonC++.
+[ ] - usar thread do novo padrão de C++11.
 
-10)
-- Verificar se programas feitos por alunos podem, após revisão,
-serem acrescentados a lib.
-
-11) Otimizacao
-- Aprender a usar gprof
-- Aprender a usar Valgrind
-- Fazer analise de desempenho e consumo de memória
-- Eliminar dependencia de commonC++, 
-- usar thread do novo padrão de C++0x.
-
-12)
-- Pensar em como vai ser a relacao com qt
-- Criar métodos InputDialog() ? para leitura dos atributos da classe?
-
-
-13) Novas funcoes:
-- Implementar nova FFT (baseada no codigo do livro do parker).
-- Testar calculo correlacao usando nova FFT?
-- Testar reconstrucao usando nova FFT?
-- 
 14) IDF Euclidiana
 - Esta utilizando valores maiores que 255, e está dando problema ao salvar a imagem tons de cinza em formato binário (O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
+
+[Itens diversos/antigos]
+=======================================
+[] - Testar novas classes de Correlacao, ver resultado no lvp.
+[] - A simulação da permeabilidade deve incluir ida e volta 
+(ver código em src/coilib-imago/ConEq- TIConfiguracoesEquilibrio3D.h .cpp e 
+TIConfEq3DSimPermRel.h .cpp).
+[ ] - As provas feitas para os alunos tem exemplos que podem ser acrescentados a lib.
+[ ] - Verificar quais trabalhos feitos por alunos tem códigos úteis. Fazer revisão.
+[ ] - Implementar nova FFT (baseada no codigo do livro do parker).
+[ ] - Testar calculo correlacao usando nova FFT?
+[ ] - Testar reconstrucao usando nova FFT?
+[ ] - Implementar classe derivada de CGrafo3Dby2D_M8 que usa idf para estimar as condutâncias!
+Fazer análise comparativa do gráfico de poisele em tubo com gráfico idf usando diferentes métricas 
+para identificar métrica que melhor estima poiselle.
+[ ] - Implementar código híbrido, que calcula configurações de equilíbrio e a seguir usa lattice 
+boltzman para ajuste fino. Acelerando calculo do lattice boltzman.
+
+[Específico LVP]
+============================================
+[ ] - Revisar códigos de Anaimp
+[ ] - Revisar códigos de Imago
+[ ] - Revisar códigos de SAIL
+[ ] - Acrescentar códigos interesssantes de Anaimp
+[ ] - Acrescentar códigos interesssantes de Imago
+[ ] - Acrescentar códigos interesssantes de SAIL

@@ -1,4 +1,4 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial

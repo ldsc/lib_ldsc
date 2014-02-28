@@ -55,10 +55,10 @@ class CContornoCentro : public CContorno
   // --------------------------------------------------------------Atributos
  protected:
   /// Coeficiente da reta  y = a + b.x
-  long double a;
+  long double a{};
 
   /// Coeficiente da reta  y = a + b.x
-  long double b;
+  long double b{};
 
  public:
 
@@ -70,17 +70,13 @@ class CContornoCentro : public CContorno
 
     // --------------------------------------------------------------Destrutor
  /// Destrutor
-    virtual ~ CContornoCentro ()
-      {
-      }
+    virtual ~ CContornoCentro () = default;
 
     // ----------------------------------------------------------------Métodos
- public:
 
     /// Calcula, atualiza valor da propriedade no contorno.
     // x=k, e y=numeroObjetos
-    virtual long double Go (long double x = 0, long double y = 0)
-    {
+    virtual long double Go (long double x = 0, long double y = 0)  {
       return (a + b * x);
     }
 
@@ -88,31 +84,18 @@ class CContornoCentro : public CContorno
 
     // -------------------------------------------------------------Sobrecarga
     // --------------------------------------------------------------------Get
-    // --------------------------------------------------------------------Set
+      /// Obtem o valor de a
+      long double  A ()          {	return a;    }
 
+      /// Obtem o valor de b
+      long double  B ()          {	return b;    }
+
+    // --------------------------------------------------------------------Set
     /// Seta valor de a
-    void A (long double _a)
-    {
-	    a = _a;
-    }
+    void A (long double _a)    {	a = _a;    }
 
     /// Seta valor de b
-    void B (long double _b)
-    {
-	    b = _b;
-    }
-
-    /// Obtem o valor de a
-    long double  A ()
-    {
-	return a;
-    }
-
-    /// Obtem o valor de b
-    long double  B ()
-    {
-	return b;
-    }
+    void B (long double _b)    {	b = _b;    }
 
     // -----------------------------------------------------------------Friend
     //       friend ostream& operator<< (ostream& os, const CContornoCentro& obj);

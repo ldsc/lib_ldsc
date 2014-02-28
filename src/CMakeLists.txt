@@ -11,18 +11,22 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao3D.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.cpp
+
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGComponenteGrafo.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGLigacao.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDireita.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLRCM.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsquerda.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLR.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLRCM.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLR.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLR.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLRCM.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.cpp
+
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.cpp
+
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_EST.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_WEST.cpp
+
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.cpp

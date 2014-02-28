@@ -4,8 +4,8 @@ PROJETO:          Biblioteca LIB_LDSC
 ===============================================================================
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          Leandro Puerari
-File:             CRotuladorIRA3D.cpp
-email:            puerari@gmail.com
+@file:             CRotuladorIRA3D.cpp
+@email:            puerari@gmail.com
 */
 
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotuladorIRA3D.h>

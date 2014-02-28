@@ -23,8 +23,9 @@ COGSitioEsqLRCM.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigid
 COGComponenteGrafo.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
 
 
-Renomear?
-=========
+===========================
+Arquivos renomeados
+===========================
 git mv COGSitioDireita.cpp	COGSitio_EST.cpp
 git mv COGSitioEsquerda.cpp	COGSitio_WEST.cpp 
 git mv COGSitioLR.cpp		COGSitio_LR.cpp

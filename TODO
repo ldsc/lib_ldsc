@@ -112,6 +112,8 @@ Objetivo: revisar os conhecimentos da biblioteca e ao mesmo tempo atualizar docu
 como exemplo: @todo @test @bug
 [ ] - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
 [ ] - Baixar wget -r http://cppreference.com
+[x] - Montar resumo C++11
+[x] - Montar resumo Git
 
 [Específico Padrão de Desenvolvimento]
 =======================================
@@ -182,7 +184,9 @@ e cada subdiretório deve testar as classes correspondentes.
 [ ] - Os programas que foram colocados dentro de test devem ser retirados. 
 [ ] - Criar programa externo que acessa a lib. O programa deve ser bem documentado, de forma a 
 servir de base para aprendizado.
-
+[ ] - verificar IDF Euclidiana ; Esta utilizando valores maiores que 255, 
+e está dando problema ao salvar a imagem tons de cinza em formato binário. 
+(O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
 
 [Específico Otimizacao]
 ============================================
@@ -192,10 +196,26 @@ servir de base para aprendizado.
 [ ] - Eliminar dependencia de commonC++.
 [ ] - usar thread do novo padrão de C++11.
 
-14) IDF Euclidiana
-- Esta utilizando valores maiores que 255, e está dando problema ao salvar a imagem tons de cinza em formato binário (O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
+[Itens diversos]
+=======================================
+[ ] -Renomear TFEEsqueletoV13D -> TFEEsqueleto_3D_M1  
+[ ] -Renomear TFEEsqueletoV23D -> TFEEsqueleto_3D_M2  ...
+[ ] -Eliminar CAberturaDilatacao-old
+[ ] -Renomear CContornoCentro -> CEstimativaValorInicial
+[ ] -Renomear 
+[ ] -Verificar possível relacao entre CDistribuicao e CDistribuicaoIDF
+[ ] -Atualizar CENormal CEFStudent CEStudent CEChiQuadrado considerando classes específicas de C++11
+(eventualmente devem ser eliminadas e substituidas no código pelas versões C++11).
+[ ] -Substituir uso CERandomico por versão C++11
+[ ] -relacao CEstatistica e CEstatistica2D
+[ ] - CFuncoesEspeciais -> namespace CMath? usar/adicionar coisas de C++11
+[ ] -CPermeabilidade -> CPermeabilidadeIntrinsica -> CPermeabilidadeRelativa
+[ ] -CReconstrucaoEsferas herdeira de CReconstrucao?
+[ ] -os diagramas gerados pelo doxygem poderiam ser apresentados considerando pacotes, pensar usar namespace ou pacotes do doxygen.
+[ ] - CTime adicionar coisas de C++11
+[ ] -Renomear CFEEsqueletoV1 -> CFEEsqueleto_M1
 
-[Itens diversos/antigos]
+[Itens antigos]
 =======================================
 [] - Testar novas classes de Correlacao, ver resultado no lvp.
 [] - A simulação da permeabilidade deve incluir ida e volta 

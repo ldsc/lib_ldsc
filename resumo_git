@@ -1,0 +1,113 @@
+Comandos do git!
+------------------
+Iniciando
+------------------
+git remote -v
+    Informa lista repositórios remotos(url).
+git init
+    Inicia repositório.
+git clone usuário@host:/caminho/para/repositorio
+    Clona repositório existente.    
+
+Configurações:
+------------------
+git config --global user.name  <nome_usuário>
+git config --global user.email <email_usuário>
+git config --global core.editor <nome_editor_padrão>
+git config --global push.default simple 
+    Quando não especificado o branch, só envia branch de trabalho 
+
+Arquivos
+------------------
+git add <nomeArquivo>
+git add [*]
+    Adiciona arquivo no índice (necessário sempre que o arquivo foi modificado!).
+git rm <nomeArquivo>
+    Remove arquivo.
+git mv <nomeAntes> <nomeNovo>
+    Renomeia arquivo.
+git diff [<nome_commit>]
+    Informa diferenças entre arquivos locais e os do <nome_commit>.
+git diff
+    Mostra diferenças.
+git remote add <nome> <url>
+git remote add pendrive "caminho/nomeRepositório"
+    Refere-se a repositório num dispositivo, como o pendrive.
+
+Operações usuais
+------------------
+git commit [-a] [-m "comentario"]
+    Envia p/repositório local. -m já coloca comentário. -a já adiciona arquivos rastreados.
+git push [<nome_repositório>] [<nome_branch>]
+git push [<nome_repositório>] --all [--tags]
+    Envia todos os ramos para repositório remoto. --tags envia todas as tags.
+git pull (ou rebase)
+    Trás do repositório remoto p/workspace(diretório de trabalho)(mesmo que fetch+merge).
+
+Informações
+------------------
+git show
+    Informa de forma detalhada o último commite (o que foi modificado - diff).
+git shortlog [-n]
+        Mostra primeira linha commit. Opção -n commits de cada autor. 
+git blame arquivo
+    Informa quem modificou arquivo, em que data e dados commit.
+git status [-s]
+    Informa estado atual. Opção -s versão compactada
+git log [-n --since==<date>   --graph --all nomeArquivo]
+    Mostra logs dos commits. Opção -n últimos n commits. 
+    Opção  --since, desde data, formato "yesterday" "5.days"
+    Opção --graph forma gráfica. Opção --all todos os ramos/tags.
+
+Ramos/Tags:
+------------------
+git branch [-a]
+    Informa lista ramos existentes e indica o atual com *.
+git branch <nome_branch>
+    Cria o ramo <nome_branch> mas não alterna para ele.
+git checkout -b <nome_funcionalidade>
+    Cria um ramo a partir do ramo de trabalho e alterna para ele.
+git checkout <nome_branch>
+    Alterna para o ramo <nome_branch>.
+git rebase master
+    Trás eventuais modificações no master para o ramo em que esta trabalhando.
+git branch -m novoNomeRamo
+    Renomeia o ramo de trabalho.
+git branch -d <nome_branch>
+    Exclui o ramo <nome_branch>.
+git clean [-f] [-n] 
+    Exclui os arquivos não rastreados. Opção -n apenas exibe. -f força.
+git fetch [<repo>] [<branch>]    
+    Baixa dados do repositório para repositório local (use pull para trazer p/diretório trabalho).
+
+Notas/Observações:
+------------------
+HEAD -> Aponta para o branch atual.
+refs/heads/<nome_branchs>
+refs/tags/<nome_tags>
+refs/remotes/<nome_repositórios>
+
+Ferramentas:
+------------------
+diff, kdiff, kdiff3, tkdiff, meld, xxdiff, vimdiff, p4merge
+
+Exemplo: 
+------------------
+Criando ramo, implementando e testando funcionalidade e mesclando com ramo master
+    Depois precisa verificar se esta tudo certo (compilar/testar)
+    e finalmente você deve ir para ramo master e puxar dados do ramo que foi finalizado.
+    ex: estou no convertendoHierarquiaObjetosGrafoParaCpp11
+git checkout -b convertendoHierarquiaObjetosGrafoParaCpp11
+    implementa as novidades, compila, testa
+git rebase master
+    Trás eventuais modificações no master para o ramo em que esta trabalhando.
+git mergetool
+    Ferramenta controle merge (requer p4merge).
+    compilar e testar
+git rebase --continue
+git checkout master  
+    Alterna para o master
+git merge convertendoHierarquiaObjetosGrafoParaCpp11
+    Mescla ramo de atualização com master; compilar e testar
+git commit -m "mesclado master com convertendoHierarquiaObjetosGrafoParaCpp11"
+

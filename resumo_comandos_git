@@ -1,0 +1,33 @@
+git status
+	Estado Atual
+
+git add nomeArquivo
+	Adiciona arquivo no índice
+
+git commit -m "comentario"
+	Enviando para repositório local, -m já coloca comentário
+
+git push
+	Enviando para repositório remoto(servidor)
+
+git pull
+	Trás do servidor remoto para workspace 
+
+git diff
+	Mostra diferenças
+
+git checkout -b convertendoCpp11
+	Criando um ramo
+
+git rebase master
+	Trás eventuais modificações no master para o ramo em que esta trabalhando.
+	Depois precisa verificar se esta tudo certo (compilar/testar)
+	e finalmente você deve ir para master e puxar dados do ramo que foi finalizado.
+	ex: estou no convertendoCpp11
+	git rebase master
+	compilar e testar
+	git checkout master  (alterna para o master)
+	git merge convertendoCpp11
+	compilar e testar
+	git comit -m "mesclado master com convertendoCpp11"
+

@@ -4,7 +4,7 @@
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CGra3Dby2D_M2...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	
             Laboratorio de Desenvolvimento de Software Cientifico 	

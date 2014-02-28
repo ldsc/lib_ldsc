@@ -4,7 +4,7 @@
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CGra3Dby2D_M6...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico 
@@ -71,7 +71,7 @@ public:
   double Tortuosidade() { return tortuosidade; }
 
 protected:
-  /// Redefinida, para  o tipoContorno=centro retorna um COGSitioLRCM
+  /// Redefinida, para  o tipoContorno=centro retorna um COGSitio_LR_CM
   virtual CObjetoGrafo * GetObjetoGrafo (CContorno::ETipoContorno tipoContorno);
 
   /**

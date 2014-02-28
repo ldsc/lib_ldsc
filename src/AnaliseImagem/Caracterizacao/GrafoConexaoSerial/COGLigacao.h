@@ -1,14 +1,13 @@
 #ifndef COGLigacao_h
 #define COGLigacao_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: COGLigacao...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       COGLigacao.h
 @begin      Sat Sep 16 2000
@@ -30,45 +29,46 @@ Desenvolvido por:
 #endif
 
 // Definição de CObjetoGrafo
-
-
 #ifndef CObjetoGrafo_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 #endif
 
 /**
- * @brief      Representa uma objeto ligação de um grafo.
- * é herdeiro de CObjetoGrafo,tendo uma propriedade (herdada de 
- * CParametroSolver)  e um rótulo (herdado de CObjetoGrafo).
+ * @brief Representa uma objeto ligação de um grafo.
+ * É herdeiro de CObjetoGrafo, tendo uma variável x (herdada de 
+ * CParametroSolver), um rótulo e uma propriedade (herdados de CObjetoGrafo).
  * 
  * A característica básica de uma COGLigacao é que este pode ter
  * n coneccao's, ou seja estar conectado a n objetos do tipo
  * CObjetoGrafo, mas cada conecção é 1 para 2 (duas garras),
- * ou seja cada ligação conecta dois objetos do tipo  CObjetoGrafo ao mesmo tempo.
+ * ou seja cada conecção[i] ligadois objetos do tipo CObjetoGrafo ao mesmo tempo.
+ * Na prática .
  * 
- * Observe a diferença, um COGSitio pode ter n coneccao's  mas cada conecção a um 
- * único objeto,já uma ligação vai ter n conexões's,  
- * e cada coneccao ocorre em pares.
+ * Observe a diferença, 
+ * um COGSitio pode ter n coneccao's  mas cada conecção a um único objeto,
+ * já uma ligação vai ter n conexões's, e cada coneccao ocorre em pares.
  * 
  * Exemplo:
  * Para sítios (uma garra)
- * sítio-->sítio		// sítio conectado a sítio
- * sítio-->ligação           // sítio conectado a ligação
+ * sítio-->sítio              // sítio conectado a sítio
+ * sítio-->ligação            // sítio conectado a ligação
  * 
  * Para ligações (duas garras)
- * lig	<--ligação-->	lig   	// Ligação entre duas ligações
- * sítio	<--ligação-->	lig   // A primeira ligação após um sítio
- * lig	<--ligação-->	sítio 	// A última ligação
- * sítio	<--ligação-->	sítio // Conecção entre sítios com uma única ligação
+ * sítio <--ligação--> lig    // A primeira ligação após um sítio
+ * lig <--ligação--> lig      // Ligação entre duas ligações
+ * lig <--ligação--> sítio    // A última ligação
+ * sítio <--ligação--> sítio  // Conecção entre sítios com uma única ligação
  * 
- * @author 	André Duarte Bueno	
- * @see		grafos
-*/
+ * @author  André Duarte Bueno	
+ * @see     grafos
+ * @todo    renomear COGLigacao->COGLigacaoMultipla; 
+ *          Criar novo COGLigacao, deve estar conectado a dois objetos e nada mais!
+ *          ou seja nem precisa armazenar a pressão (herdade de CSMParametroSolver).
+ */
 class COGLigacao : public CObjetoGrafo
 {
 // --------------------------------------------------------------Atributos
-
-protected:
+public:
   // Tem uma lista de ponteiros para objetos do tipo CObjetoGrafo que é generico
   // Vetor de ponteiros para CObjetoGrafo
 
@@ -78,37 +78,28 @@ protected:
   /// Conecções a direita
   std::vector < CObjetoGrafo * >coneccaoB;
 
-public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-	COGLigacao ()
-    {
-  }
+ COGLigacao () = default;
 
 // --------------------------------------------------------------Destrutor
 
 /// Destrutor  
-  virtual ~ COGLigacao ()
-  {
-  }
-
+  virtual ~ COGLigacao () = default;
 
 // ----------------------------------------------------------------Métodos
-protected:
 
-/**
-* @brief   Função que recebe um ponteiro para um CObjetoGrafo,
- * e o inclue na lista de coneccoes's
- * */
+/** @brief   Função que recebe um ponteiros para objetos CObjetoGrafo,
+ * e o inclue na lista de coneccoes's. **/
   virtual void Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB);
 
-  /// Determina o fluxo associado a this, Função herdada.
-  virtual long double Fluxo () const;
+  /// Determina o fluxo associado a this, função herdada.
+  virtual long double Fluxo () const override;
 
   // Funcao Go
 
-  /// Salva os dados do objeto em disco
-  virtual std::ostream & Write (std::ostream & os) const;
+  /// Salva os dados do objeto em disco, função herdada.
+  virtual std::ostream & Write (std::ostream & os) const override;
 
   // Salva atributos do objeto em disco no formato antigo
   // virtual ostream&  Write_Liang_Format(ostream& os)     const ;

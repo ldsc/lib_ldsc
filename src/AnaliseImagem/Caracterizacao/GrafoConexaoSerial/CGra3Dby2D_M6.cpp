@@ -1,12 +1,12 @@
 /*
    ===============================================================================
    PROJETO:          Biblioteca LIB_LDSC
-   Ramo: TPadrao_ramo
+   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
    ===============================================================================
    @Desenvolvido_por:   Laboratorio de Desenvolvimento de Software Cientifico
      [LDSC].
    @author:          André Duarte Bueno
-   @File:             CGra3Dby2D_M6.cpp
+   @file:             CGra3Dby2D_M6.cpp
    @begin:            Sat Sep 16 2000
    @copyright:        (C) 2000 by André Duarte Bueno
    @email:            andreduartebueno@gmail.com
@@ -23,16 +23,16 @@
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M6.h>
 
-#ifndef COGSitioLRCM_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLRCM.h>
+#ifndef COGSitio_LR_CM_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.h>
 #endif
 
-#ifndef COGSitioEsqLRCM_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLRCM.h>
+#ifndef COGSitio_LR_CM_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_WEST.h>
 #endif
 
-#ifndef COGSitioDirLRCM_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLRCM.h>
+#ifndef COGSitio_LR_CM_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -45,7 +45,7 @@ using namespace std;
 // Função:       GetObjetoGrafo
 // -------------------------------------------------------------------------
 /**
-@short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado (COGSitioLR...).
+@short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado (COGSitio_LR...).
 @author :	André Duarte Bueno
 @see    : grafos
 @param  : CContorno::ETipoContorno tipoContorno
@@ -57,26 +57,26 @@ CGra3Dby2D_M6::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
   CObjetoGrafo *data;
   switch (tipoContorno)
     {
-    case CContorno::CENTER:
-      data = new COGSitioLRCM ();
+    case CContorno::ETipoContorno::CENTER:
+      data = new COGSitio_LR_CM ();
       break;
-    case CContorno::WEST:
-      data = new COGSitioEsqLRCM ();
+    case CContorno::ETipoContorno::WEST:
+      data = new COGSitio_LR_CM_WEST ();
       break;
-    case CContorno::EST:
-      data = new COGSitioDirLRCM ();
+    case CContorno::ETipoContorno::EST:
+      data = new COGSitio_LR_CM_EST ();
       break;
     default:
-      data = new COGSitioLRCM ();
+      data = new COGSitio_LR_CM ();
       break;
     }
   assert (data);
   return data;
 }
 
-  // -------------------------------------------------------------------------
-  // Função     AdicionarObjetos
-  // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// Função     AdicionarObjetos
+// -------------------------------------------------------------------------
 /**
 @short  :	Função que adiciona a lista de objetos do grafo, os objetos identificados em rotulador.
         Redefinida para inclusão das informações de cx,cy,cz
@@ -85,7 +85,7 @@ CGra3Dby2D_M6::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos (ra ou rp),
     o número do ultimo rótulo utilizado e o
     tipo de contorno (identifica o objeto a ser criado:
-    COGSitioEsquerda = 0, CSitioCentro = 1,  COGSitioDireita = 2)
+    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
 @return : void
 */
 void
@@ -124,8 +124,8 @@ CGra3Dby2D_M6::AdicionarObjetos
 
       // AQUI, seta cx,cy,cz de cada sítio
       // Adiciona a posição do centro de massa
-      COGSitioLRCM *
-    sitio = dynamic_cast < COGSitioLRCM * >(data);
+      COGSitio_LR_CM *
+    sitio = dynamic_cast < COGSitio_LR_CM * >(data);
       assert (sitio);
       sitio->cx = rotulador->CMXObjetos (rotulo);
       sitio->cy = rotulador->CMYObjetos (rotulo);
@@ -137,9 +137,9 @@ CGra3Dby2D_M6::AdicionarObjetos
 }
 
 
-  // -------------------------------------------------------------------------
-  // Função:   CalculoCondutancias
-  // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// Função:   CalculoCondutancias
+// -------------------------------------------------------------------------
 /**
 @short  : Redefinida, em relação a CGrafo.
         Adiciona o calculo das condutâncias das ligações
@@ -162,7 +162,7 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
 
   // Inicio do calculo da correção das condutancias
   // Ponteiro para sitio derivado
-  COGSitioLRCM *
+  COGSitio_LR_CM *
     sitio = nullptr;
 
   // Distancia dx entre os dois sítios
@@ -177,8 +177,8 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para COGSitioLRCM, para ter acesso ao vetor condutancia[link] e cx,cy,cz
-      sitio = dynamic_cast < COGSitioLRCM * >(objeto[k]);
+      // Converte o ponteiro ObjetoGrafo para COGSitio_LR_CM, para ter acesso ao vetor condutancia[link] e cx,cy,cz
+      sitio = dynamic_cast < COGSitio_LR_CM * >(objeto[k]);
       assert (sitio);
 
       // Obtêm a informação do cmx e cmy do sitio atual (k)
@@ -188,11 +188,11 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
     cmySitio = sitio->cy;
 
       // Percorre todas as conecções do sitio atual
-      COGSitioLRCM *
+      COGSitio_LR_CM *
     sitioConexo = nullptr;
       for (unsigned int link = 0; link < sitio->coneccao.size (); link++)
     {
-      sitioConexo = dynamic_cast < COGSitioLRCM * >(sitio->coneccao[link]);
+      sitioConexo = dynamic_cast < COGSitio_LR_CM * >(sitio->coneccao[link]);
       assert (sitioConexo);
 
       // Recupera a informação  do centro de massa na direção x, do sitio conexo

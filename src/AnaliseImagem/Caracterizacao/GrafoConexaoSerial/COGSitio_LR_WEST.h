@@ -1,16 +1,15 @@
-#ifndef COGSitioEsqLR_h
-#define COGSitioEsqLR_h
+#ifndef COGSitio_LR_WEST_h
+#define COGSitio_LR_WEST_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: COGSitioEsqLR...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       COGSitioEsqLR.h
+@file       COGSitio_LR_WEST.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -23,16 +22,16 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitioEsqLR
+// Documentacao CLASSE: COGSitio_LR_WEST
 // ===============================================================================
 /** 
  * @brief Representa um sítio conectado a face esquerda do grafo e que 
  * armazena a informação da conexão.
  * 
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitioLR->COGSitioEsqLR
+ * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_LR_WEST
  * Assume valor de contorno = 0.
  * O 	valor de contorno é usado no calculo dos fluxo da malha como
  * um todo.Ou seja, um algoritimo externo percorre toda
@@ -40,32 +39,26 @@ Desenvolvido por:
  * calcula alguma propriedade neste contorno.
  * @author 	André Duarte Bueno	
  * @see:        CGrafo
+ * @todo renomear COGSitio_LR_WEST -> COGSitio_LREsq
  */
-class COGSitioEsqLR:public COGSitioLR
+class COGSitio_LR_WEST : public COGSitio_LR
 {
 // --------------------------------------------------------------Atributos
 
 public:
 // -------------------------------------------------------------Construtor
 /// Destrutor
-	COGSitioEsqLR ()
-  {
-  }
+ COGSitio_LR_WEST () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Construtor
-  virtual ~ COGSitioEsqLR ()
-  {
-  }
+  virtual ~ COGSitio_LR_WEST () = default;
 
 // ----------------------------------------------------------------Métodos
 // --------------------------------------------------------------Atributos
-
-public:
    /// Retorna o tipo 
-  virtual CContorno::ETipoContorno Contorno ()const
-  {
-    return CContorno::WEST;
+  virtual CContorno::ETipoContorno Contorno () const override  {
+     return CContorno::ETipoContorno::WEST;
   }
 
    /**
@@ -73,8 +66,7 @@ public:
     * o valor de x retorna a pressão na fronteira direita
     * Oberve que nao altera o valor de x.
    */
-  virtual long double Go (long double d = 0)
-  {
+  virtual long double Go (long double d = 0) override  {
     return x;
   }
 
@@ -82,13 +74,12 @@ public:
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
 
-//       friend ostream& operator<< (ostream& os, COGSitioEsqLR& obj);
-//       friend istream& operator>> (istream& is, COGSitioEsqLR& obj);
+//       friend ostream& operator<< (ostream& os, COGSitio_LR_WEST& obj);
+//       friend istream& operator>> (istream& is, COGSitio_LR_WEST& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, COGSitioEsqLR& obj);
-// istream& operator>> (istream& is, COGSitioEsqLR& obj);
-
+// ostream& operator<< (ostream& os, COGSitio_LR_WEST& obj);
+// istream& operator>> (istream& is, COGSitio_LR_WEST& obj);
 #endif

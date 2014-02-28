@@ -2,18 +2,18 @@
 #define CGra3Dby2D_M3_h
 
 /*
-  ===============================================================================
-  PROJETO:    Biblioteca LIB_LDSC
-  Assunto/Ramo: CGra3Dby2D_M3...
-  ===============================================================================
-  Desenvolvido por:	
-  Laboratorio de Desenvolvimento de Software Cientifico 	
-  [LDSC].
-  @author     André Duarte Bueno
-  @file       CGra3Dby2D_M3.h
-  @begin      Oct 20 2000
-  @copyright  (C) 2000 by André Duarte Bueno
-  @email      andreduartebueno@gmail.com
+===============================================================================
+PROJETO:    Biblioteca LIB_LDSC
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+===============================================================================
+Desenvolvido por:
+Laboratorio de Desenvolvimento de Software Cientifico
+[LDSC].
+@author     André Duarte Bueno
+@file       CGra3Dby2D_M3.h
+@begin      Oct 20 2000
+@copyright  (C) 2000 by André Duarte Bueno
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -89,7 +89,7 @@ protected:
     */
    virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado);
 
-   /// Redefinida,  retorna um COGSitioLR ou derivado
+   /// Redefinida,  retorna um COGSitio_LR ou derivado
    virtual CObjetoGrafo *GetObjetoGrafo (CContorno::ETipoContorno tipoContorno);
 
    // Função Go

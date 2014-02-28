@@ -2,16 +2,16 @@
 #define CGra3Dby2D_h
 
 /*
-	===============================================================================
-	PROJETO:    Biblioteca LIB_LDSC
-	Assunto/Ramo: CGra3Dby2D...
-	===============================================================================
-	Desenvolvido por:	 Laboratorio de Desenvolvimento de Software Cientifico 	 [LDSC].
-	@author     André Duarte Bueno
-	@file       CGra3Dby2D.h
-	@begin      Sat Sep 16 2000
-	@copyright  (C) 2000 by André Duarte Bueno
-	@email      andreduartebueno@gmail.com
+===============================================================================
+PROJETO:    Biblioteca LIB_LDSC
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+===============================================================================
+Desenvolvido por:	 Laboratorio de Desenvolvimento de Software Cientifico 	 [LDSC].
+@author     André Duarte Bueno
+@file       CGra3Dby2D.h
+@begin      Sat Sep 16 2000
+@copyright  (C) 2000 by André Duarte Bueno
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -142,8 +142,8 @@ class CGra3Dby2D : public CGrafoContorno
 	public:
 
 		// -------------------------------------------------------------Construtor
-		/// Construtor, recebe um nome de arquivo
-		CGra3Dby2D (std::string _fileName)
+		/// Construtor, recebe um nome de arquivo; só se for chamado CGra3Dby2D{string};
+		explicit CGra3Dby2D (std::string _fileName)
 			: CGrafoContorno (_fileName)
 		{ }
 

@@ -1,16 +1,16 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
 Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico
 			[LDSC].
 @author:          André Duarte Bueno
-File:             COGComponenteGrafo.cpp
-begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno
-email:            andreduartebueno@gmail.com
+@file:             COGComponenteGrafo.cpp
+@begin:            Sat Sep 16 2000
+@copyright:        (C) 2000 by André Duarte Bueno
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -33,11 +33,10 @@ using namespace std;
 @param	:	recebe um vetor de  CObjetoGrafo*
 @return : void
 */
-void
-COGComponenteGrafo::Conectar (vector < CObjetoGrafo * >obj_vetor)
+void COGComponenteGrafo::Conectar (vector < CObjetoGrafo * >obj_vetor)
 {
   coneccao.push_back (obj_vetor);
-};
+}
 
 // ------------------------------------------------------------------------------
 // Funcao:     Write
@@ -50,39 +49,26 @@ COGComponenteGrafo::Conectar (vector < CObjetoGrafo * >obj_vetor)
 */
 ostream & COGComponenteGrafo::Write (ostream & fout) const
 {
-  // ofstream fout(fileName,ios::app);
-  //      if(fout)
-  {
     // Tipo de contorno
-    fout << setw (4) << Contorno () << endl;
+    fout << setw (4) << static_cast<unsigned char>( contorno ) << '\n';
 
     // Número de vetores coneccoes
-    unsigned long int
-      total_de_vetores = coneccao.size ();
-    fout << " " << setw (4) << total_de_vetores;
+    fout << ' ' << setw (4) << coneccao.size ();
 
     // Para cada vetor percorrer a lista
-    unsigned long int
-      numeroLinks;
-    for (unsigned long int cont_vector = 0; cont_vector < total_de_vetores;
-	 cont_vector++)
+    for (unsigned long int cont_coneccoes= 0; cont_coneccoes < coneccao.size (); cont_coneccoes++)
       {
-	// Para cada vetor percorrer os objetos
-	// coneccao[cont_vector] retorna um ponteiro para um vetor
-	numeroLinks = coneccao[cont_vector].size ();
-	fout << " " << setw (4) << numeroLinks;
+        // Para cada vetor percorrer os objetos
+        // coneccao[cont_vector] retorna um ponteiro para um vetor
+        fout << " " << setw (4) << coneccao[cont_coneccoes].size ();
 
-	// lista dos rótulos
-	for (unsigned long int cont_link = 0; cont_link < numeroLinks;
-	     cont_link++)
-	  fout << " " << setw (4) << coneccao[cont_vector][cont_link]->rotulo;
+        // lista dos rótulos
+        for ( auto objeto_conectado :  coneccao[cont_coneccoes] )
+          fout << " " << setw (4) << objeto_conectado->rotulo;
 
-	// lista das propriedades (condutancias)
-	for (unsigned long int cont_link = 0; cont_link < numeroLinks;
-	     cont_link++)
-	  fout << " " << setw (4) << coneccao[cont_vector][cont_link]->
-	    propriedade;
-      }
+        // lista das propriedades (condutancias)
+        for ( auto objeto_conectado :  coneccao[cont_coneccoes] )
+          fout << " " << setw (4) << objeto_conectado->propriedade;
   }
   return fout;
 }

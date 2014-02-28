@@ -2,16 +2,15 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
+Desenvolvido por:
+                  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
-File:             CGra3Dby2_M1.cpp
-begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno
-email:            andreduartebueno@gmail.com
+@file:             CGra3Dby2_M1.cpp
+@begin:            Sat Sep 16 2000
+@copyright:        (C) 2000 by André Duarte Bueno
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -106,7 +105,7 @@ Função:   CalculoCondutancias
 void
 CGra3Dby2D_M1::CalculoCondutancias (long double _viscosidade,
 				       long double _sizePixel,
-				       unsigned long int _fatorAmplificacao)
+				       unsigned long int _fatorAmplificacao) 
 {
   // Variáveis auxiliares
   long double raio_hidraulico;

@@ -1,16 +1,15 @@
-/*
+/**
   ===============================================================================
   PROJETO:          Biblioteca LIB_LDSC
-  Ramo: TPadrao_ramo
+  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
   ===============================================================================
-
-  Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-  	[LDSC].
-  @author:          André Duarte Bueno
-  File:             COGSitio.cpp
-  begin:            Sat Sep 16 2000
-  copyright:        (C) 2000 by André Duarte Bueno
-  email:            andreduartebueno@gmail.com
+  Desenvolvido por:
+                     Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+  @author:           André Duarte Bueno
+  @file:             COGSitio.cpp
+  @begin:            Sat Sep 16 2000
+  @copyright:        (C) 2000 by André Duarte Bueno
+  @email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -25,20 +24,20 @@
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 using namespace std;
 
+/// @todo: definir um padrão para debugagem.
 // DEBUG ofstream        COGSitio::fout;
-// DEBUG int                     COGSitio::numeroSitios=0;
+// DEBUG int             COGSitio::numeroSitios=0;
 
 // -------------------------------------------------------------------------
 // Função:               Conectar
 // -------------------------------------------------------------------------
-/** Recebe um objA e o conecta a this
+/** Recebe um objA e o conecta a this.
     @author :	André Duarte Bueno
     @see    :
     @param  : objeto a quem será conectado
     @return : void
 */
-void
-COGSitio::Conectar (CObjetoGrafo * objA, CObjetoGrafo *)
+void COGSitio::Conectar (CObjetoGrafo * objA, CObjetoGrafo *)
 {
   coneccao.push_back (objA);
 }
@@ -49,15 +48,15 @@ COGSitio::Conectar (CObjetoGrafo * objA, CObjetoGrafo *)
 /** A função Go calcula o novo valor de x, considerando o relacionamento 
     com os demais objetos a quem esta conectado.
     @short  :
-    Observe que calcula o novo  valor de this->x (a pressão),
+    Observe que calcula o novo valor de this->x (a pressão) e o retorna,
     mas não altera o valor de this->x.
-					
+
     O novo valor de x, retornado por Go() pode ser usado externamente.
-					
-    Por exemplo, um solver externo
-    vai usar esta nova previsão de x para definir no momento adequado o
-    novo valor de this->x.
-					
+
+    Por exemplo, 
+    um solver externo vai usar esta nova previsão de x para definir, 
+    no momento adequado, o novo valor de this->x.
+
     Mudança de formato no acesso aos outros sítios:
     -----------------------------------------------
     A versão 1 de CGrafo usava o rótulo para identificar o objeto a ser acessado,
@@ -65,18 +64,18 @@ COGSitio::Conectar (CObjetoGrafo * objA, CObjetoGrafo *)
     Agora o vetor conecção de cada sítio armazena direto o endereço dos sítios
     a quem esta conectado.
     Abaixo precisava do grafo para acessar os objetos
-    somatorio_da_condutancia_vezes_x += coneccao[i]->propriedade *
-    grafo->objeto[this->coneccao[i]->rotulo]->x;
-    Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
-    apenas para salvamento do mesmo em disco.
+    somatorio_da_condutancia_vezes_x += 
+        coneccao[i]->propriedade * grafo->objeto[this->coneccao[i]->rotulo]->x;
 
-    @author :	André Duarte Bueno
+    Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
+    apenas para salvar o mesmo em disco.
+
+    @author : André Duarte Bueno
     @see    :
     @param  : long double
-    @return :	long double
+    @return : long double
 */
-long double
-COGSitio::Go (long double /*d */ )
+long double COGSitio::Go (long double /*d */ )
 {
   // Ex:
   // propriedade = condutancia
@@ -87,22 +86,18 @@ COGSitio::Go (long double /*d */ )
   static long double somatorio_da_condutancia_vezes_x;
   static long double condutanciaMedia;
 
-  // zera o somatorio (a cada passagem por Go)
-  somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0;
-
   // Se não tem nenhum link, retorna x atual (a pressão atual)
-  unsigned long int numeroLinks = coneccao.size ();
-  if (numeroLinks == 0)
+  if (coneccao.size() == 0)
     return x;
 
+  // zera o somatorio (a cada passagem por Go)
+  somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
   // Percorre as conecções
-  for (unsigned long int i = 0; i < numeroLinks; i++)
+  for ( auto objetoConectado: coneccao )
     {
-      // faz uma média das condutancias                
-      condutanciaMedia =
-	(this->coneccao[i]->propriedade + this->propriedade) / 2.0;
-      somatorio_da_condutancia_vezes_x +=
-	condutanciaMedia * this->coneccao[i]->x;
+      // faz uma média das condutancias
+      condutanciaMedia = (objetoConectado->propriedade + this->propriedade) / 2.0;
+      somatorio_da_condutancia_vezes_x += condutanciaMedia * objetoConectado->x;
 
       // Acumula a condutancia total
       somatorio_da_condutancia += condutanciaMedia;
@@ -113,32 +108,28 @@ COGSitio::Go (long double /*d */ )
   return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
 }
 
-
 // -------------------------------------------------------------------------
 // Função:       Fluxo
 // -------------------------------------------------------------------------
 /**
-   @short  :   Determina o fluxo associado a este sítio.
-   Fluxo = Condutancia da ligação vezes, a
-   pressao deste sítio menos  a pressao do sítio conexo
-   @author :	André Duarte Bueno
+   @short  : Determina o fluxo associado a este sítio.
+   Fluxo = Condutancia média vezes a pressao deste sítio menos  a pressao do objeto conexo
+   @author : André Duarte Bueno
    @see    :
    @param  : void
    @return : long double ( o fluxo associado a this)
 */
-long double
-COGSitio::Fluxo () const 
+long double COGSitio::Fluxo () const 
 {
-  long double fluxo = 0;
+  long double fluxo { 0.0 };
   static long double condutanciaMedia;
-  for (unsigned long int i = 0; i < coneccao.size (); i++)
+  for ( auto objetoConectado: coneccao )
     {
       // Ex:
       // propriedade = condutancia
-      // x                                         =       pressao
-      condutanciaMedia =
-	(this->coneccao[i]->propriedade + this->propriedade) / 2.0;
-      fluxo += condutanciaMedia * (this->x - coneccao[i]->x);
+      // x           = pressao
+      condutanciaMedia = (objetoConectado->propriedade + this->propriedade) / 2.0;
+      fluxo += condutanciaMedia * (this->x - objetoConectado->x);
     }
   return fluxo;
 }
@@ -162,25 +153,23 @@ COGSitio::Fluxo () const
    @param  :ostream& out
    @return :ostream&
 */
-ostream & COGSitio::Write_Liang_Format (ostream & out) const 
+ostream & COGSitio::Write_Liang_Format (ostream & out) const
 {
   // Tipo de contorno
-  out << ' ' << setw (4) << Contorno ();
+  //out << ' ' << setw (4) << Contorno ();
+  out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
 
   // Número de links (coneccoes)
-  unsigned long int
-    numeroLinks = coneccao.size ();
+  unsigned long int numeroLinks = coneccao.size ();
   out << ' ' << setw (4) << numeroLinks;
 
   // Lista dos rótulos
-  unsigned long int
-    cont_link;
-  for (cont_link = 0; cont_link < numeroLinks; cont_link++)
-    out << ' ' << setw (6) << coneccao[cont_link]->rotulo;
+  for (auto objeto : coneccao)
+    out << ' ' << setw (6) << objeto->rotulo;
 
   // Lista das propriedades (condutancias)
-  for (cont_link = 0; cont_link < numeroLinks; cont_link++)
-    out << ' ' << setw (10) << coneccao[cont_link]->propriedade;
+  for (auto objeto : coneccao)
+    out << ' ' << setw (10) << objeto->propriedade;
 
   return out;
 }
@@ -210,9 +199,7 @@ ostream & COGSitio::Write (ostream & out) const
   out.setf (ios::right);
 
   // Tipo de contorno
-  out << ' ' << setw (3) << Contorno ();
-
-
+  out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
 
   // Rótulo de this
   out << ' ' << setw (5) << rotulo;
@@ -224,20 +211,14 @@ ostream & COGSitio::Write (ostream & out) const
   out << ' ' << setw (10) << x;
 
   // Número de links (coneccoes)
-  unsigned long int
-    numeroLinks = coneccao.size ();
+  unsigned long int numeroLinks = coneccao.size ();
   out << ' ' << setw (4) << numeroLinks;
 
   // lista dos rótulos de quem estou conexo
-  for (unsigned long int cont_link = 0; cont_link < numeroLinks; cont_link++)
-    out << ' ' << setw (5) << coneccao[cont_link]->rotulo;
+  for (auto objeto : coneccao )
+    out << ' ' << setw (5) << objeto->rotulo;
 
   // lista das propriedades (condutancias)
-
-
-
-
-
   // for(       int cont_link = 0;cont_link < numeroLinks ;cont_link++)
   //       out <<' ' << setw(4) << coneccao[cont_link]->propriedade ;
   return out;
@@ -257,7 +238,7 @@ ostream & operator<< (ostream & out, COGSitio & s)
 {
 
   // Tipo de contorno
-  out << ' ' << setw (3) << s.Contorno ();
+  out << setw (4) << static_cast<unsigned char>( s.Contorno() ) << '\n';
 
   // Rótulo de this
   out << ' ' << setw (5) << s.rotulo;
@@ -289,6 +270,7 @@ ostream & operator<< (ostream & out, COGSitio & s)
     @see    :
     @param  : istream& is, COGSitio& s
     @return : istream&
+    @todo   : implementar esta função.
 */
 
 /*istream& operator>> (istream& is, COGSitio& s)
@@ -345,34 +327,41 @@ ostream & operator<< (ostream & out, COGSitio & s)
     @param  : 	unsigned int link
     @return :		void
 */
-void
-COGSitio::DeletarConeccao (unsigned int link)
+void COGSitio::DeletarConeccao (unsigned int link)
 {
-  vector < CObjetoGrafo * >::iterator it_link = this->coneccao.begin ();
-  this->coneccao.erase (it_link + link);
+//   vector < CObjetoGrafo * >::iterator it_link = this->coneccao.begin ();
+//   this->coneccao.erase (it_link + link);
+  this->coneccao.erase ( coneccao.begin() + link );
 }
 
-/** Marca e deleta os links para objetos invalidados (marcados para deleção).
-    @short  :		Deleta a coneccao de um ramo morto
-    @author :		André Duarte Bueno
-    @see    :	
-    @param  : 	unsigned int link
-    @return :		void
+/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conecções,
+ * se o rótulo do objeto correspond	e a rótulo válido (não deletado),
+ * então a conexão é preservada.
+ * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
+ * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
+    @short  : Deleta a coneccao de um ramo morto
+    @author : André Duarte Bueno
+    @see    : 
+    @param  : unsigned int link
+    @return : void
+    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool
-COGSitio::DeletarConeccoesInvalidadas (int deletado)
+bool COGSitio::DeletarConeccoesInvalidadas (int deletado)
 {
-  int cont = 0;
+  unsigned int indice_rotulo_valido {0};
+  
   // Percorre todas as coneccoes
-  for (int nl = 0; nl < coneccao.size (); nl++)
+  for ( auto objeto: coneccao )
     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
     // Se foi deletado vai ser pulado.
-    if (coneccao[nl]->rotulo != deletado)
+    if (objeto->rotulo != deletado)
       {
-	coneccao[cont++] = coneccao[nl];
+       coneccao[indice_rotulo_valido++] = objeto;
       }
 
-  // Redimensiona o vetor das coneccoes.  (as que apontam para objetos deletados são eliminadas)
-  coneccao.resize (cont);
+  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+  coneccao.resize (indice_rotulo_valido);
+  /// @todo: aqui pode apagar, usando erase, os objetos além do size().
   return 1;
 }

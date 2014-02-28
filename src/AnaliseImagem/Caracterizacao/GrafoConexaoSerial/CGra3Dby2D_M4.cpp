@@ -1,16 +1,16 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: CGrafo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 			[LDSC].
 @author:          Andre Duarte Bueno
-File:             CGra3Dby2D_M4.cpp
-begin:            Sat Sep 16 2000
+@file:             CGra3Dby2D_M4.cpp
+@begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-email:            andreduartebueno@gmail.com
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -35,16 +35,16 @@ using namespace std;
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 #endif
 
-#ifndef COGSitioLR_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLR.h>
+#ifndef COGSitio_LR_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
 #endif
 
-#ifndef COGSitioEsqLR_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLR.h>
+#ifndef COGSitio_LR_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.h>
 #endif
 
-#ifndef COGSitioDirLR_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLR.h>
+#ifndef COGSitio_LR_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -72,7 +72,7 @@ Funcao     AdicionarObjetos
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
 	o número do ultimo rótulo utilizado e o
 	tipo de contorno (identifica o objeto a ser criado:
-	COGSitioEsquerda = 0, CSitioCentro = 1,  COGSitioDireita = 2)
+    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
 
 @return : void
 */
@@ -197,7 +197,7 @@ CGra3Dby2D_M4::CalculoCondutancias
   // Inicio do calculo da correção das condutancias
 
   // Ponteiro para sitio derivado
-  COGSitioLR *
+  COGSitio_LR *
     ptrSitioLR = nullptr;
 
   // Centro de massa na direção x,y do sitio
@@ -225,8 +225,8 @@ CGra3Dby2D_M4::CalculoCondutancias
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para COGSitioLR, para ter acesso ao vetor condutancia[link]
-      ptrSitioLR = dynamic_cast < COGSitioLR * >(objeto[k]);
+      // Converte o ponteiro ObjetoGrafo para COGSitio_LR, para ter acesso ao vetor condutancia[link]
+      ptrSitioLR = dynamic_cast < COGSitio_LR * >(objeto[k]);
 
       // Obtem a informação do cmx e cmy do sitio atual (k)
       cmxSitio = cmx[k];
@@ -313,7 +313,7 @@ CGra3Dby2D_M4::Write (std::string fileName)
   // Inicio novo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // ptrSitioLR = dynamic_cast<COGSitioLR*> (objeto[k]);
+      // ptrSitioLR = dynamic_cast<COGSitio_LR*> (objeto[k]);
       // Obtem a informação do cmx do sitio atual (k)
       out << "\nobj[" << setw (5) << k << "]" << " cx=" << setw (5) << cmx[k]
 	<< " cy=" << cmy[k] << " cz=" << cmz[k];;

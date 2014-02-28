@@ -1,16 +1,15 @@
-#ifndef COGSitioDireita_h
-#define COGSitioDireita_h
+#ifndef COGSitio_EST_h
+#define COGSitio_EST_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: COGSitioDireita...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       COGSitioDireita.h
+@file       COGSitio_EST.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -30,68 +29,59 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitioDireita
+// Documentacao CLASSE: COGSitio_EST
 // ===============================================================================
 /** 
- * @brief Representa um sítio conectado a face direita do grafo.
+ * @brief Representa um sítio(COGSitio) conectado a face direita do grafo.
  * 
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitioDireita
- * Assume valor de contorno = 2.
- * O valor de contorno é usado no calculo dos fluxo da malha como
- * um todo.Ou seja, um algoritimo externo percorre toda
- * a malha, e se o contorno for igual ao solicitado
- * calcula alguma propriedade neste contorno.
- * @author 	André Duarte Bueno	
- * @see			grafos
+ * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_EST
+ * Assume valor de contorno = CContorno::EST.
+ * O valor de contorno é usado no calculo dos fluxo da malha como um todo. 
+ * Ou seja, um algoritimo externo percorre toda a malha, 
+ * e se o contorno for igual ao solicitado calcula alguma propriedade neste contorno.
+ * @author André Duarte Bueno
+ * @see    grafos
+ * @todo   renomear COGSitio_EST -> COGSitioContornoEST
 */
-class COGSitioDireita : public COGSitio
+class COGSitio_EST : public COGSitio
 {
 // --------------------------------------------------------------Atributos
-
 public:
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-	COGSitioDireita ()
-  {
-  }
-
-// --------------------------------------------------------------Destrutor
-  
+ COGSitio_EST () = default;
+ 
+// --------------------------------------------------------------Destrutor  
 /// Destrutor
-  virtual ~ COGSitioDireita ()
-  {
-  }
-
+  virtual ~ COGSitio_EST ()  = default;
+  
 // ----------------------------------------------------------------Métodos
 
-public:
   // Redefinição de funções herdadas
    /// Retorna o tipo de contorno
-  virtual CContorno::ETipoContorno Contorno ()const
-  {
-    return CContorno::EST;
+  virtual CContorno::ETipoContorno Contorno ()const  override {
+    return CContorno::ETipoContorno::EST;
   }
 
    /**
     * @brief Função herdade da classe CParametroSolver usada para 
     * calcular o valor de x retorna a pressão na fronteira direita
    */
-  virtual long double Go (long double d = 0)
-  {
+  virtual long double Go (long double d = 0)  override {
     return x;
   }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-  // friend ostream& operator<< (ostream& os, COGSitioDireita& obj);
-  // friend istream& operator>> (istream& is, COGSitioDireita& obj);
+  // friend ostream& operator<< (ostream& os, COGSitio_EST& obj);
+  // friend istream& operator>> (istream& is, COGSitio_EST& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, COGSitioDireita& obj);
-// istream& operator>> (istream& is, COGSitioDireita& obj);
+// ostream& operator<< (ostream& os, COGSitio_EST& obj);
+// istream& operator>> (istream& is, COGSitio_EST& obj);
 
 #endif

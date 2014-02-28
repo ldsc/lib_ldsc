@@ -1,10 +1,10 @@
 #ifndef COGSitio_h
 #define COGSitio_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: COGSitio...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	
             Laboratorio de Desenvolvimento de Software Cientifico 	
@@ -43,8 +43,8 @@ Desenvolvido por:
  * @brief  Representa um objeto sítio de um grafo.
  * 
  * é herdeiro de CObjetoGrafo,
- * tendo uma propriedade (herdada de CParametroSolver)
- * e um rótulo (herdado de CObjetoGrafo).
+ * tendo uma propriedade x (herdada de CParametroSolver)
+ * um rótulo e uma propriedade (herdadas de CObjetoGrafo).
  * A característica básica de um sítio é que este pode ter
  * n coneccao's, ou seja pode estar conectado a n objetos do tipo
  * CObjetoGrafo, mas esta conecção é 1 para 1 (uma garra).
@@ -59,24 +59,27 @@ Desenvolvido por:
  * suas propriedades internas.
  * A montagem do grafo deve ser realizada pelo objeto CGrafo.
  * 
- * @author 	André Duarte Bueno	
- * @see		grafos
+ * @author:  André Duarte Bueno	
+ * @see:     grafos
+ * @todo:    implementar operadores >>.  
 */
 class COGSitio : public CObjetoGrafo
 {
 // --------------------------------------------------------------Atributos
 public:
-	/**
-	* @brief Lista de ponteiros para objetos do tipo CObjetoGrafo.
-	 * Ou seja, ponteiros para objetos da hierarquia CObjetoGrafo.
-	 * O vetor coneccao é o vetor dos objetos a quem estou conectado.
-	*/
-  std::vector < CObjetoGrafo * >coneccao;
+  /**
+  * @brief Lista de ponteiros para objetos do tipo CObjetoGrafo.
+  * Ou seja, ponteiros para objetos da hierarquia CObjetoGrafo.
+  * O vetor coneccao é o vetor dos objetos a quem estou conectado.
+  * @todo: verificar vantagens de trocar vector por list.
+  */
+  std::vector < CObjetoGrafo * >coneccao; // default size()=0
 
 // -------------------------------------------------------------Construtor
+
 /// Construtor
-  COGSitio ()
-  {
+  COGSitio () = default;
+//   {
     // DEBUG numeroSitios++;
     // DEBUG if( numeroSitios == 1 )
     // DEBUG         {
@@ -87,49 +90,49 @@ public:
     // DEBUG                 }                       
     // DEBUG         fout.precision(18);
     // DEBUG         }
-  }
+//   }
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-  virtual ~ COGSitio ()
-  {
+  virtual ~ COGSitio () = default;
+//   {
     // DEBUG if( numeroSitios == 1 )
     // DEBUG         fout.close();
     // DEBUG numeroSitios--;
-  }
+//   }
 
 // ----------------------------------------------------------------Métodos
-	/**
-	* @brief Função herdada da classe CParametroSolver,
-	* usada para calcular o valor de x (pressão).
-	 * Redefinição de funções herdadas.
-	*/
-  virtual long double Go (long double d = 0);
+  /**
+  * @brief Função herdada da classe CParametroSolver,
+  * usada para calcular o novo valor de x (pressão).
+  * Não muda ovalor de x, apenas gera novo valor!
+  */
+  virtual long double Go (long double d = 0) override;
 
-	/**
-	* @brief Função herdada de CObjetoGrafo, recebe um ponteiro para
-	 * um CObjetoGrafo, e o inclue na lista de coneccoes's
-	*/
-  virtual void Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB = 0);
+  /**
+  * @brief Função herdada de CObjetoGrafo, recebe um ponteiro para
+  * um CObjetoGrafo, e o inclue na lista de coneccoes's
+  */
+  virtual void Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB = nullptr ) override;
 
-	/// Função que calcula o fluxo associado ao sitio
-  virtual long double Fluxo () const;
+  /// Salva o objeto em disco
+  virtual std::ostream & Write (std::ostream & os) const  override;
 
-	/// Deleta uma conexão. Recebe um rótulo de um link?
+  /// Salva atributos do objeto em disco no formato antigo
+  virtual std::ostream & Write_Liang_Format (std::ostream & os) const  override;
+
+  /// Função que calcula o fluxo associado ao sitio
+  virtual long double Fluxo () const  override;
+
+  /// Deleta uma conexão. Recebe um rótulo de um link?
   virtual void DeletarConeccao (unsigned int link);	// V1
 
-    /**
-     * @brief Deleta os links para objetos que foram marcados para deleção.
-     * Recebe um número que identifica os objetos que foram marcados 
-     * para deleção
-    */
+  /**
+  * @brief Deleta os links para objetos que foram marcados para deleção.
+  * Recebe um número que identifica os objetos que foram marcados 
+  * para deleção
+  */
   virtual bool DeletarConeccoesInvalidadas (int deletado);// novo V2
-
-    /// Salva o objeto em disco
-  virtual std::ostream & Write (std::ostream & os) const;
-
-	/// Salva atributos do objeto em disco no formato antigo
-  virtual std::ostream & Write_Liang_Format (std::ostream & os) const;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
@@ -145,6 +148,8 @@ std::ostream & operator<< (std::ostream & os, COGSitio & obj);
 // istream& operator>> (istream& is, COGSitio& obj);
 
 
-// Cria o tipo COGSitioCentro, que é igual a COGSitio
-typedef COGSitio COGSitioCentro;
+// Cria o tipo COGSitio_CENTER, que é igual a COGSitio
+// typedef COGSitio COGSitio_CENTER;
+using COGSitio_CENTER = COGSitio;
+
 #endif

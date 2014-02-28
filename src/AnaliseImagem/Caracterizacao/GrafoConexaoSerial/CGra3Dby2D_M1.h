@@ -4,7 +4,7 @@
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CGra3Dby2D_M1...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	
             Laboratorio de Desenvolvimento de Software Cientifico 	
@@ -70,9 +70,9 @@ public:
 /** @brief Calcula as condutancias.
  * Função nova, movida de CPermeabilidadeGrafo para cá.
  * */
-  virtual void CalculoCondutancias (long double _viscosidade,
+  void CalculoCondutancias (long double _viscosidade,
 				    long double _sizePixel,
-				    unsigned long int fatorAmplificacao);
+				    unsigned long int fatorAmplificacao) override;
 
 protected:
   /// Conecta planos,  Versão com Links duplicados.

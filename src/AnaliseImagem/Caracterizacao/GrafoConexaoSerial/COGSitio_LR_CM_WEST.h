@@ -1,16 +1,16 @@
-#ifndef COGSitioEsqLRCM_h
-#define COGSitioEsqLRCM_h
+#ifndef COGSitio_LR_CM_WEST_h
+#define COGSitio_LR_CM_WEST_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: COGSitioEsqLRCM...
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico 
             [LDSC].
 @author     André Duarte Bueno
-@file       COGSitioEsqLRCM.h
+@file       COGSitio_LR_CM_WEST.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -19,10 +19,10 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLRCM.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitioEsqLRCM
+// Documentacao CLASSE: COGSitio_LR_CM_WEST
 // ===============================================================================
 /** 
  * @brief Representa um sítio conectado a face esquerda do grafo e que 
@@ -34,32 +34,27 @@ Desenvolvido por:
  * o grafo, e se o contorno for igual ao solicitado
  * calcula alguma propriedade neste contorno.
  * @see:        Grafo
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitioLR->COGSitioEsqLR
+ * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_LR_WEST
  * @author 	André Duarte Bueno
 */
-class COGSitioEsqLRCM : public COGSitioLRCM
+class COGSitio_LR_CM_WEST : public COGSitio_LR_CM
 {
 // --------------------------------------------------------------Atributos
 public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-	COGSitioEsqLRCM ()
-  {
-  }
+    COGSitio_LR_CM_WEST () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-    virtual ~ COGSitioEsqLRCM ()
-  {
-  }
+    virtual ~ COGSitio_LR_CM_WEST () = default;
 
 // ----------------------------------------------------------------Métodos
 
 public:
    /// Retorna o tipo 
-virtual CContorno::ETipoContorno Contorno ()const
-  {
-    return CContorno::WEST;
+virtual CContorno::ETipoContorno Contorno ()const   {
+        return CContorno::ETipoContorno::WEST;
   }
 
    /**
@@ -67,8 +62,7 @@ virtual CContorno::ETipoContorno Contorno ()const
     * calcular o valor de x como é um objeto da fronteira, 
     * não altera seu valor de x 
    */
-  virtual long double Go (long double d = 0)
-  {
+  virtual long double Go (long double d = 0)  {
     return x;
   }
 
@@ -76,13 +70,13 @@ virtual CContorno::ETipoContorno Contorno ()const
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
 
-//       friend ostream& operator<< (ostream& os, COGSitioEsqLRCM& obj);
-//       friend istream& operator>> (istream& is, COGSitioEsqLRCM& obj);
+//       friend ostream& operator<< (ostream& os, COGSitio_LR_CM_WEST& obj);
+//       friend istream& operator>> (istream& is, COGSitio_LR_CM_WEST& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, COGSitioEsqLRCM& obj);
-// istream& operator>> (istream& is, COGSitioEsqLRCM& obj);
+// ostream& operator<< (ostream& os, COGSitio_LR_CM_WEST& obj);
+// istream& operator>> (istream& is, COGSitio_LR_CM_WEST& obj);
 
 #endif

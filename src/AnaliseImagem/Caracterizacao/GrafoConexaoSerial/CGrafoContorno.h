@@ -2,18 +2,18 @@
 #define CGrafoContorno_h
 
 /*
-  ===============================================================================
-  PROJETO:    Biblioteca LIB_LDSC
-  Assunto/Ramo: CGrafoContorno...
-  ===============================================================================
-  Desenvolvido por:	
-  Laboratorio de Desenvolvimento de Software Cientifico 	
-  [LDSC].
-  @author     André Duarte Bueno
-  @file       CGrafoContorno.h
-  @begin      Sat Sep 16 2000
-  @copyright  (C) 2000 by André Duarte Bueno
-  @email      andreduartebueno@gmail.com
+===============================================================================
+PROJETO:    Biblioteca LIB_LDSC
+        Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+===============================================================================
+Desenvolvido por:
+Laboratorio de Desenvolvimento de Software Cientifico
+[LDSC].
+@author     André Duarte Bueno
+@file       CGrafoContorno.h
+@begin      Sat Sep 16 2000
+@copyright  (C) 2000 by André Duarte Bueno
+@email      andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------

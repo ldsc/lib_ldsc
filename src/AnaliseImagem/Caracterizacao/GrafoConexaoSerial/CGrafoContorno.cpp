@@ -1,15 +1,15 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
                   	[LDSC].
 @author:          André Duarte Bueno
-File:             CGrafoContorno.cpp
-begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno
-email:            andreduartebueno@gmail.com
+@file:             CGrafoContorno.cpp
+@begin:            Sat Sep 16 2000
+@copyright:        (C) 2000 by André Duarte Bueno
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -28,12 +28,12 @@ email:            andreduartebueno@gmail.com
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 #endif
 
-#ifndef COGSitioEsquerda_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsquerda.h>
+#ifndef COGSitio_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.h>
 #endif
 
-#ifndef COGSitioDireita_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDireita.h>
+#ifndef COGSitio_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
 #endif
 
 using namespace std;

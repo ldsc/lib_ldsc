@@ -1,16 +1,16 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 			[LDSC].
 @author:          Andre Duarte Bueno
-File:             CGra3Dby2D_M5.cpp
-begin:            Sat Sep 16 2000
+@file:             CGra3Dby2D_M5.cpp
+@begin:            Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-email:            andreduartebueno@gmail.com
+@email:            andreduartebueno@gmail.com
 */
 
 
@@ -50,7 +50,7 @@ Funcao     AdicionarObjetos (redefinida)
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
 	o número do ultimo rótulo utilizado e o
 	tipo de contorno (identifica o objeto a ser criado:
-	COGSitioEsquerda = 0, CSitioCentro = 1,  COGSitioDireita = 2)
+    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
 
 @return : void
 */

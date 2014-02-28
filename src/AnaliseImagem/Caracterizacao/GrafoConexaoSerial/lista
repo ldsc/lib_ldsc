@@ -1,0 +1,36 @@
+CGrafo.h 		: [x]revisado [x] comentado - inclui tarefas/todo [ ] corrigido.
+CGrafoContorno.h 	: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M1.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M2.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M3.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M4.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M5.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+CGra3Dby2D_M6.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
+
+CObjetoGrafo.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitio.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGLigacao.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioDireita.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioEsquerda.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioDirLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioEsqLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+
+COGSitioLRCM.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioDirLRCM.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGSitioEsqLRCM.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+COGComponenteGrafo.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+
+
+Renomear?
+=========
+git mv COGSitioDireita.cpp	COGSitio_EST.cpp
+git mv COGSitioEsquerda.cpp	COGSitio_WEST.cpp 
+git mv COGSitioLR.cpp		COGSitio_LR.cpp
+git mv COGSitioDirLR.cpp	COGSitio_LR_EST.cpp 
+git mv COGSitioEsqLR.cpp	COGSitio_LR_WEST.cpp
+git mv COGSitioLRCM.cpp		COGSitio_LR_CM.cpp
+git mv COGSitioDirLRCM.cpp	COGSitio_LR_CM_EST.cpp
+git mv COGSitioEsqLRCM.cpp	COGSitio_LR_CM_WEST.cpp
+

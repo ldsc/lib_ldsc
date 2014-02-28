@@ -1,12 +1,12 @@
 /*
 ===============================================================================
 @PROJETO:          Biblioteca LIB_LDSC
-                  @Ramo: TPadrao_ramo
+            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 @Desenvolvido_por:	Laboratorio de Desenvolvimento de Software Cientifico 
 [LDSC].
 @author:          André Duarte Bueno
-@File:             CGra3Dby2D_M3.cpp
+@file:             CGra3Dby2D_M3.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -22,9 +22,9 @@
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLR.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLR.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.h>
 #include <Base/CMath.h>
 
 using namespace std;
@@ -81,7 +81,7 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
    unsigned long int nli;
 
    long double raioHidraulicoLigacoes;
-   COGSitioLR *ptrSitio;
+   COGSitio_LR *ptrSitio;
 
    // Copia dados da conexão das duas imagens para a img2D
    // ou seja gera imagem da intersecção entre os dois planos de rotulagem
@@ -147,9 +147,9 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
                // NOVO  : Definição dos raiosHidraulicos das coneccoes
                raioHidraulicoLigacoes =
                      rotInt->RaioHidraulicoObjetos (rotInt->data2D[ii][jj]);
-               ptrSitio = dynamic_cast < COGSitioLR * >(objeto[pa - 1]);
+               ptrSitio = dynamic_cast < COGSitio_LR * >(objeto[pa - 1]);
                ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
-               ptrSitio = dynamic_cast < COGSitioLR * >(objeto[pp - 1]);
+               ptrSitio = dynamic_cast < COGSitio_LR * >(objeto[pp - 1]);
                ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
             }
          }
@@ -177,10 +177,10 @@ CGra3Dby2D_M3::CalculoCondutancias (long double _viscosidade, long double _sizeP
    // long double PI=3.141592653589;
    long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _sizePixel * _fatorAmplificacao);
 
-   // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitioLR
+   // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitio_LR
    // que tem uma lista de conecções.
-   // aqui usa um ponteiro do tipo COGSitioLR para acessar as conecções.
-   COGSitioLR * ptrSitioLR = nullptr;
+   // aqui usa um ponteiro do tipo COGSitio_LR para acessar as conecções.
+   COGSitio_LR * ptrSitioLR = nullptr;
 
    // Percorre  todos os objetos do  grafo
    for (unsigned long int k = 0; k < objeto.size (); k++) {
@@ -201,8 +201,8 @@ CGra3Dby2D_M3::CalculoCondutancias (long double _viscosidade, long double _sizeP
 
       // Percorre todas as conecções do objeto
       for (unsigned int link = 0; link < ptrSitio->coneccao.size (); link++) {
-         // Converte o ponteiro ObjetoGrafo para COGSitioLR
-         ptrSitioLR = dynamic_cast < COGSitioLR * >(objeto[k]);
+         // Converte o ponteiro ObjetoGrafo para COGSitio_LR
+         ptrSitioLR = dynamic_cast < COGSitio_LR * >(objeto[k]);
          // Obtêm o raio hidraulico da ligação
          raio_hidraulico = ptrSitioLR->condutancia[link];
          // Converte para SI (metros)
@@ -240,8 +240,8 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
    if (GeteliminaConeccoesRepetidas () == 1)
       for (int i = 0; i < objeto.size (); i++)
       {
-         // Cria ponteiro para objeto do tipo COGSitioLR
-         COGSitioLR *obj_i = dynamic_cast < COGSitioLR * >(objeto[i]);
+         // Cria ponteiro para objeto do tipo COGSitio_LR
+         COGSitio_LR *obj_i = dynamic_cast < COGSitio_LR * >(objeto[i]);
          assert (obj_i);
 
          // Chama DeletarConeccoesRepetidas, que retorna o número de links eliminados
@@ -268,20 +268,20 @@ CGra3Dby2D_M3::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
    CObjetoGrafo *data;
    switch (tipoContorno)
    {
-   case CContorno::CENTER:
-      data = new COGSitioLR ();
+   case CContorno::ETipoContorno::CENTER:
+      data = new COGSitio_LR ();
       break;
 
-   case CContorno::WEST:
-      data = new COGSitioEsqLR ();
+   case CContorno::ETipoContorno::WEST:
+      data = new COGSitio_LR_WEST ();
       break;
 
-   case CContorno::EST:
-      data = new COGSitioDirLR ();
+   case CContorno::ETipoContorno::EST:
+      data = new COGSitio_LR_EST ();
       break;
 
    default:
-      data = new COGSitioLR ();
+      data = new COGSitio_LR ();
       break;
    }
    assert (data);
@@ -361,16 +361,16 @@ CGra3Dby2D_M3::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
    for (unsigned long int j = 0; j < objeto.size (); j++)
    {
       // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
-      COGSitioLR *objeto_j = dynamic_cast < COGSitioLR * >(objeto[j]);
+      COGSitio_LR *objeto_j = dynamic_cast < COGSitio_LR * >(objeto[j]);
       assert (objeto_j);
 
       switch (objeto_j->Contorno ())
       {
       // Fronteira esquerda
-      case CContorno::WEST:
+      case CContorno::ETipoContorno::WEST:
 
          // Fronteira direira
-      case CContorno::EST:
+      case CContorno::ETipoContorno::EST:
          // Percorre as conecções do objeto
          for (i = 0; i < objeto_j->coneccao.size (); i++)
          {
@@ -393,12 +393,12 @@ CGra3Dby2D_M3::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
          break;
 
          // Fronteira Centro
-      case CContorno::CENTER:
+      case CContorno::ETipoContorno::CENTER:
          // Percorre as conecções do objeto
          for (i = 0; i < objeto_j->coneccao.size (); i++)
          {
             // Se o link  for  um objeto de centro (não contorno) entra
-            if (objeto_j->coneccao[i]->Contorno () == CContorno::CENTER)
+            if (objeto_j->coneccao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
             {
                // Calcula Cij
                // Cij = ( objeto_j->propriedade + objeto_j->coneccao[i]->propriedade ) /2.0 ;

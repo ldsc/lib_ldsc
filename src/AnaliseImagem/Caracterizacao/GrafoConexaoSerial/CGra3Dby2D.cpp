@@ -1,16 +1,16 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+                  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
    [LDSC].
 @author:          André Duarte Bueno
-File:             CGra3Dby2D.cpp
-begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno   CTime
-email:            andreduartebueno@gmail.com
+@file:             CGra3Dby2D.cpp
+@begin:            Sat Sep 16 2000
+@copyright:        (C) 2000 by André Duarte Bueno   CTime
+@email:            andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -83,6 +83,8 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao)
    if(ra) delete ra;
    ra = nullptr;
    ra = new CRotulador2DCm (nx, ny);
+// {} é usado em lista de inicialização e usado para criar objetos
+//   ra = new CRotulador2DCm {nx, ny}; ok
    assert (ra);
    if(rp) delete rp;
    rp = nullptr;
@@ -113,7 +115,7 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao)
    ra->CalculaRaioHidraulicoObjetos ();
 
    // Define o contorno como sendo da face WEST (plano 0)
-   tipoContornoObjeto = CContorno::WEST;
+   tipoContornoObjeto = CContorno::ETipoContorno::WEST;
 
    // Adciona ao grafo os objetos do plano 0
    AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
@@ -126,7 +128,7 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao)
    // ------------
    // PLANO i
    // ------------
-   tipoContornoObjeto = CContorno::CENTER;
+   tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
    // Le dados do plano ij
    for (k = 1; k < nz; k++)
    {
@@ -148,7 +150,7 @@ CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao)
       // Se for o ultimo plano, redefine o contorno e calcula lastObjectOfSolver
       if (k == (nz - 1))
       {
-         tipoContornoObjeto = CContorno::EST;
+         tipoContornoObjeto = CContorno::ETipoContorno::EST;
          lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
       }
 
@@ -237,7 +239,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
 
    // Chama função que adiciona objetos rotulados (ra) ao vetor de objetos,
    // Passa o tipo do contorno (WEST)
-   tipoContornoObjeto = CContorno::WEST;
+   tipoContornoObjeto = CContorno::ETipoContorno::WEST;
 
    // Adiciona objetos no grafo
    AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
@@ -250,7 +252,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
    // ----------------------------------------------------------------------------
    // Define o tipo de contorno como sendo de objeto central
    // (não é contorno esquerdo nem direito)
-   tipoContornoObjeto = CContorno::CENTER;
+   tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
    // k é o indice da direcao z
    for (k = 1; k < nz; k++)
@@ -274,7 +276,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
       // de forma a criar um CObjetoGrafo situado na face direita
       if (k == (nz - 1))
       {
-         tipoContornoObjeto = CContorno::EST;
+         tipoContornoObjeto = CContorno::ETipoContorno::EST;
          lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
       }
 
@@ -313,7 +315,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
    o número do ultimo rótulo utilizado e o
    tipo de contorno (identifica o objeto a ser criado:
-   COGSitioEsquerda = 0, COGSitioCentro = 1,  COGSitioDireita = 2)
+   COGSitio_EST = 0, COGSitio_CENTER = 1,  COGSitio_EST = 2)
 @return : void
 */
 void CGra3Dby2D::AdicionarObjetos (CRotulador2DCm * rotulador, 
@@ -488,8 +490,8 @@ void CGra3Dby2D::EliminarObjetosRedundantes_1 ()
                if (objetoSitio2->coneccao[link] == objetoSitio1)
                {
                   // Se for COGSitio deleta somente a conecção (modelos 1 e 2)
-                  // Se for COGSitioLR deleta a conecção e a condutancia (modelos 3,4,5,..)
-                  objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitioLR
+                  // Se for COGSitio_LR deleta a conecção e a condutancia (modelos 3,4,5,..)
+                  objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitio_LR
 
                   // Mesmo depois de deletar a primeira ligação, deve verificar as demais
                   // pois pode haver mais de uma ligação entre dois objetos (como no modelo1).
@@ -644,7 +646,7 @@ CGra3Dby2D::MarcarParaDelecaoObjeto (int i)
                   // Se o objeto já  foi deletado
                   objeto[i]->rotulo != deletado &&
                   // e esta no centro, vai verificar
-                  objeto[i]->Contorno () == CContorno::CENTER)
+                  objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER)
    {
       COGSitio *obj = dynamic_cast < COGSitio * >(objeto[i]);
       assert (obj);

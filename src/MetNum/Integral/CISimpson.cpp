@@ -1,11 +1,9 @@
 #include <iostream>
-
 #include <MetNum/Integral/CISimpson.h>
 
 double
 CISimpson::Go (double x, double y)
 {
-
 // [n=5]
   limiteInferior = y;
 

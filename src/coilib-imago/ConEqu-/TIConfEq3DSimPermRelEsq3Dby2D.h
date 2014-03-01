@@ -60,12 +60,12 @@ private:
     //Usado para gerar o nome do arquivo a ser passado para o grafo
     //inclue informa��es de modelo .mod1, .mod2, .mod3, .mod4
     //O grafo esta atualmente salvando os dados do grafo em disco.
-    std::string fileNameSaidaGrafo;
+    std::string nomeArquivoSaidaGrafo;
 
 
 public:
     //-------------------------------------------------------------Construtor
-    TIConfEq3DSimPermRelEsq3Dby2D (int _tipoGrafo, std::string _fileNameSaidaGrafo,	//?????
+    TIConfEq3DSimPermRelEsq3Dby2D (int _tipoGrafo, std::string _nomeArquivoSaidaGrafo,	//?????
                                    TIChamber * _chamber,
                                    bool _molhabilidadeB = 1,
                                    bool _compressibilidadeA = 1,
@@ -88,8 +88,8 @@ public:
                                   , fileArq)
     {
         tipoGrafo = _tipoGrafo;
-        //strcpy(fileNameSaidaGrafo,_fileNameSaidaGrafo);
-        fileNameSaidaGrafo = _fileNameSaidaGrafo;
+        //strcpy(nomeArquivoSaidaGrafo,_nomeArquivoSaidaGrafo);
+        nomeArquivoSaidaGrafo = _nomeArquivoSaidaGrafo;
     };
 
     //--------------------------------------------------------------Destrutor

@@ -66,7 +66,7 @@ class CConfiguracoesEquilibrio2D	//  :CFiltroEspacial
      */
     void DiferencaEmRelacaoArtigo (TCMatriz2D< int > * &imagem);
 
-    std::string fileName;	/// Nome do(s) arquivo(s) de disco
+    std::string nomeArquivo;	/// Nome do(s) arquivo(s) de disco
 
     bool visualizar;	/// Se verdadeiro, mostra resultados
 

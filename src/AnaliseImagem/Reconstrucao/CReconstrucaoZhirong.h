@@ -54,7 +54,7 @@ protected:
 
   std::string nomeArquivoCz;	///< nome arquivo covariograma z
   std::string nomeArquivoRy;	///< nome arquivo autocorrelacao ry
-  std::string fileName;
+  std::string nomeArquivo;
 // FILE *fin;// ponteiro para arquivo de disco
 // FILE *foutw,*foutr;// ponteiro arquivo disco ry, fpryw salva, e fpryr le
 //   ifstream fin;
@@ -97,6 +97,6 @@ public:
     // void MediaECovariancia();   // Verifica media e covariancia
 
     /// Retorna o nome do arquivo (.dbm) reconstruido.
-    inline std::string getFileName() { return fileName; }
+    inline std::string getFileName() { return nomeArquivo; }
 };
 #endif

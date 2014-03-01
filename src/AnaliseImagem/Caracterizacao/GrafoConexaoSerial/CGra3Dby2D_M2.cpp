@@ -55,13 +55,13 @@ Função:  	Go
     ------obj 45 plano 8    ------obj 45 plano 8
     ------------------------------obj 60 no plano 9
 */
-CGrafo * CGra3Dby2D_M2::Go (string fileName, unsigned long int funcao) {
+CGrafo * CGra3Dby2D_M2::Go (string nomeArquivo, unsigned long int funcao) {
    // Vai ler o cabecalho do arquivo de disco
    // precisa da informacao das dimensoes NX e Ny da imagem,
    // para criar o rotulador intermediario.
-   ifstream fin (fileName.c_str ());
+   ifstream fin (nomeArquivo.c_str ());
    if (fin.bad ()) {		// novo
-      cerr << "Nao conseguiu abrir o arquivo de disco " << fileName;
+      cerr << "Nao conseguiu abrir o arquivo de disco " << nomeArquivo;
       return 0;
    }
    // Leitura do cabecalho da imagem do disco
@@ -79,7 +79,7 @@ CGrafo * CGra3Dby2D_M2::Go (string fileName, unsigned long int funcao) {
    assert (rotInt); // variavel DEBUG
 
    // Chama Função Go da classe base
-   CGra3Dby2D::Go (fileName, funcao);
+   CGra3Dby2D::Go (nomeArquivo, funcao);
 
    // Deleta o rotulador intermediario
    delete rotInt;

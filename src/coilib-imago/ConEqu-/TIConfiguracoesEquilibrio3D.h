@@ -178,7 +178,7 @@ private:
 protected:
 
     //Salvar
-    void SaveImg (I3DRawImage * &_imagem, std::string _fileName);
+    void SaveImg (I3DRawImage * &_imagem, std::string _nomeArquivo);
     virtual std::string GetClassName () const
     {
         return std::string ("TIConfiguracoesEquilibrio3D");

@@ -120,8 +120,8 @@ public:
   */
 
   // Abre e lê o arquivo de disco
-  // virtual void Read(string fileName="fluido.dat");
-  // virtual void Read(string fileName("fluido.dat"));     
+  // virtual void Read(string nomeArquivo="fluido.dat");
+  // virtual void Read(string nomeArquivo("fluido.dat"));     
 
 // -------------------------------------------------------------Sobrecarga
   /// Operador igualdade (atribuição)

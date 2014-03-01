@@ -1,5 +1,5 @@
-#ifndef COGSitio_LR_CM_h
-#define COGSitio_LR_CM_h
+#ifndef COGSitio_CC_CM_h
+#define COGSitio_CC_CM_h
 
 /*
 ===============================================================================
@@ -10,7 +10,7 @@ Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico 	
             [LDSC].
 @author     André Duarte Bueno
-@file       COGSitio_LR_CM.h
+@file       COGSitio_CC_CM.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -31,24 +31,24 @@ Bibliotecas LIB_LDSC
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef COGSitio_LR_h
+#ifndef COGSitio_CC_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
 #endif
 
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_LR_CM
+// Documentacao CLASSE: COGSitio_CC_CM
 // ===============================================================================
 /** 
  * @brief  é um sítio, herdeiro de COGSitio_LR, acrescenta as
  * posições cx,cy,cz.
  * @Assunto:        grafo
- * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_LR_CM
+ * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_CM
  * 
  * @author 	André Duarte Bueno
  * @see		grafos
 */
-class COGSitio_LR_CM : public COGSitio_LR
+class COGSitio_CC_CM : public COGSitio_LR
 {
 // --------------------------------------------------------------Atributos
 public:
@@ -58,13 +58,13 @@ public:
 
 // -------------------------------------------------------------/**Construtor*/
 /// Destrutor
-  COGSitio_LR_CM ():cx (0), cy (0), cz (0)
+  COGSitio_CC_CM ():cx (0), cy (0), cz (0)
   {
   }
 
 // --------------------------------------------------------------/**Destrutor*/
 /// Construtor
-  virtual ~ COGSitio_LR_CM ()
+  virtual ~ COGSitio_CC_CM ()
   {
   }
 
@@ -75,16 +75,16 @@ public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-  // friend std::ostream& operator<< (std::ostream& os, COGSitio_LR_CM& obj);
+  // friend std::ostream& operator<< (std::ostream& os, COGSitio_CC_CM& obj);
 
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// std::ostream& operator<< (std::ostream& os, COGSitio_LR_CM& obj);
-// istream& operator>> (istream& is, COGSitio_LR_CM& obj);
+// std::ostream& operator<< (std::ostream& os, COGSitio_CC_CM& obj);
+// istream& operator>> (istream& is, COGSitio_CC_CM& obj);
 
-// Cria o tipo COGSitio_LR_CMCentro, que é igual a COGSitio_LR_CM
-using COGSitio_LR_Centro = COGSitio_LR_CM ;
+// Cria o tipo COGSitio_CC_CMCentro, que é igual a COGSitio_CC_CM
+using COGSitio_CC_Centro = COGSitio_CC_CM ;
 
 #endif

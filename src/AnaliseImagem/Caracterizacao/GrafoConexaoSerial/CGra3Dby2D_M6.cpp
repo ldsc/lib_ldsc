@@ -23,16 +23,16 @@
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M6.h>
 
-#ifndef COGSitio_LR_CM_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.h>
+#ifndef COGSitio_CC_CM_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM.h>
 #endif
 
-#ifndef COGSitio_LR_CM_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_WEST.h>
+#ifndef COGSitio_CC_CM_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM_WEST.h>
 #endif
 
-#ifndef COGSitio_LR_CM_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_EST.h>
+#ifndef COGSitio_CC_CM_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -42,32 +42,32 @@ using namespace std;
 
 
 // -------------------------------------------------------------------------
-// Função:       GetObjetoGrafo
+// Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
 /**
 @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado (COGSitio_LR...).
-@author :	André Duarte Bueno
+@author : André Duarte Bueno
 @see    : grafos
 @param  : CContorno::ETipoContorno tipoContorno
 @return : Retorna um ponteiro para um sítio novo
 */
 CObjetoGrafo *
-CGra3Dby2D_M6::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CGra3Dby2D_M6::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
   CObjetoGrafo *data;
   switch (tipoContorno)
     {
     case CContorno::ETipoContorno::CENTER:
-      data = new COGSitio_LR_CM ();
+      data = new COGSitio_CC_CM ();
       break;
     case CContorno::ETipoContorno::WEST:
-      data = new COGSitio_LR_CM_WEST ();
+      data = new COGSitio_CC_CM_WEST ();
       break;
     case CContorno::ETipoContorno::EST:
-      data = new COGSitio_LR_CM_EST ();
+      data = new COGSitio_CC_CM_EST ();
       break;
     default:
-      data = new COGSitio_LR_CM ();
+      data = new COGSitio_CC_CM ();
       break;
     }
   assert (data);
@@ -102,13 +102,12 @@ CGra3Dby2D_M6::AdicionarObjetos
     data;
 
   // Não deve considerar o objeto 0 que é o fundo.
-  // inclue o rotulo final, o objeto final, ok
-  // troquei cont por rotulo
+  // inclue o rotulo final, o objeto final
   for (int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++)
 
     {
       // Obtem um sítio novo passando o tipo
-      data = GetObjetoGrafo (tipoContornoObjeto);
+      data = CriarObjetoGrafo (tipoContornoObjeto);
       assert (data);
 
       // No rotulador o objeto 0 é o fundo
@@ -124,8 +123,8 @@ CGra3Dby2D_M6::AdicionarObjetos
 
       // AQUI, seta cx,cy,cz de cada sítio
       // Adiciona a posição do centro de massa
-      COGSitio_LR_CM *
-    sitio = dynamic_cast < COGSitio_LR_CM * >(data);
+      COGSitio_CC_CM *
+    sitio = dynamic_cast < COGSitio_CC_CM * >(data);
       assert (sitio);
       sitio->cx = rotulador->CMXObjetos (rotulo);
       sitio->cy = rotulador->CMYObjetos (rotulo);
@@ -136,9 +135,8 @@ CGra3Dby2D_M6::AdicionarObjetos
     }
 }
 
-
 // -------------------------------------------------------------------------
-// Função:   CalculoCondutancias
+// Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
 /**
 @short  : Redefinida, em relação a CGrafo.
@@ -148,7 +146,7 @@ CGra3Dby2D_M6::AdicionarObjetos
 @param  : nada
 @return : void
 */
-void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
+void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
 {
 // ***********NOVO CALCULO TORTUOSIDADE*******
   tortuosidade = 0.0;
@@ -158,11 +156,11 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
   ofstream saida ("fatorCorrecao.txt");
 
   // Chama função da classe base que calcula as condutancias
-  CGra3Dby2D_M3::CalculoCondutancias (_viscosidade, _sizePixel, _fatorAmplificacao);
+  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _sizePixel, _fatorAmplificacao);
 
   // Inicio do calculo da correção das condutancias
   // Ponteiro para sitio derivado
-  COGSitio_LR_CM *
+  COGSitio_CC_CM *
     sitio = nullptr;
 
   // Distancia dx entre os dois sítios
@@ -177,8 +175,8 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para COGSitio_LR_CM, para ter acesso ao vetor condutancia[link] e cx,cy,cz
-      sitio = dynamic_cast < COGSitio_LR_CM * >(objeto[k]);
+      // Converte o ponteiro ObjetoGrafo para COGSitio_CC_CM, para ter acesso ao vetor condutancia[link] e cx,cy,cz
+      sitio = dynamic_cast < COGSitio_CC_CM * >(objeto[k]);
       assert (sitio);
 
       // Obtêm a informação do cmx e cmy do sitio atual (k)
@@ -188,11 +186,11 @@ void CGra3Dby2D_M6::CalculoCondutancias (long double _viscosidade, long double _
     cmySitio = sitio->cy;
 
       // Percorre todas as conecções do sitio atual
-      COGSitio_LR_CM *
+      COGSitio_CC_CM *
     sitioConexo = nullptr;
       for (unsigned int link = 0; link < sitio->coneccao.size (); link++)
     {
-      sitioConexo = dynamic_cast < COGSitio_LR_CM * >(sitio->coneccao[link]);
+      sitioConexo = dynamic_cast < COGSitio_CC_CM * >(sitio->coneccao[link]);
       assert (sitioConexo);
 
       // Recupera a informação  do centro de massa na direção x, do sitio conexo

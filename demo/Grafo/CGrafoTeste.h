@@ -76,41 +76,41 @@ public:
 private:
 
     /// Informacoes iniciais
-    void MostraInstrucoesArquivosExternos();
+    void MostrarInstrucoesArquivosExternos();
 
     /// Nome da imagem
-    std::string SolicitaNomeImagem();
+    std::string SolicitarNomeImagem();
 
     /// Modelo do grafo
-    int SolicitaModeloGrafo();
+    int SolicitarModeloGrafo();
 
     // Le imagem do disco // ok
-    TCMatriz3D<int> *LeImagemDisco(std::string fileName);
+    CMatriz3D *LerImagemDisco(std::string nomeArquivo);
 
     /// Solicita dados da imagem
-    void SolicitaPropriedadesImagem(int &fatorAmplificacao, double &sizePixel,
-                                    std::string fileName);
+    void SolicitarPropriedadesImagem(int &fatorAmplificacao, double &sizePixel,
+                                    std::string nomeArquivo);
 
     /// Cria um fluido
-    CMFluido *CriaFluido();
+    CMFluido *CriarFluido();
 
     /// Cria um solver
-    CSMDiagonalDominante *CriaSolver(int tipoSolver = 2);
-    // CSMDiagonalDominanteThreads* CriaSolver();
+    CSMDiagonalDominante *CriarSolver(int tipoSolver = 2);
+    // CSMDiagonalDominanteThreads* CriarSolver();
 
     /// Cria o grafo
-    CGra3Dby2D *CriaGrafo (int modelo, std::string fileName);
+    CGra3Dby2D *CriarGrafo (int modelo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void DeterminaGrafo(CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D,
-                        std::string fileName);
-    void DeterminaGrafo(CGra3Dby2D * grafo, std::string fileName);
+    void DeterminarGrafo(CGra3Dby2D * grafo, CMatriz3D * pm3D,
+                        std::string nomeArquivo);
+    void DeterminarGrafo(CGra3Dby2D * grafo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void SalvaGrafo(CGra3Dby2D * grafo);
+    void SalvarGrafo(CGra3Dby2D * grafo);
 
     /// Cria objeto permeabilidade
-    CPermeabilidadeGrafo *CriaPermeabilidade
+    CPermeabilidadeGrafo *CriarPermeabilidade
     (CMFluido * fluido, CSMDiagonalDominante * solver,
      // CSMDiagonalDominanteThreads* solver,
      CGra3Dby2D * grafo,
@@ -119,16 +119,16 @@ private:
      double sizePixel);
 
     /// Determina a permeabilidade
-    double DeterminaPermeabilidade(CPermeabilidadeGrafo * permeabilidade);
+    double DeterminarPermeabilidade(CPermeabilidadeGrafo * permeabilidade);
 
     // Funcoes privadas auxiliares
     /// Verifica se a simulacao ja terminou, vai reiniciar ou iniciar.
-    bool Permeabilidade_By_ModelX_Decisao(std::string fileName, int modelo,
+    bool Permeabilidade_By_ModelX_Decisao(std::string nomeArquivo, int modelo,
                                           TCMatriz3D<int> * pm3D,
                                           std::ofstream & fout);
 
     /// Executa a determinacao da permeabilidade para o caso especificado
-    bool Permeabilidade_By_ModelX(std::string fileName, int modelo,
+    bool Permeabilidade_By_ModelX(std::string nomeArquivo, int modelo,
                                   TCMatriz3D<int> * pm3D, std::ofstream & fout,
                                   int tipoSolver = 2, bool reiniciar = false);
 

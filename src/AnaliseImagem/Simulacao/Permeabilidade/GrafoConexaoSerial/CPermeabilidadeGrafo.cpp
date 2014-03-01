@@ -249,13 +249,13 @@ ostream & operator<< (ostream & os, const CPermeabilidadeGrafo & obj)
 		Recebe nome do arquivo de disco
 @author : Andre Duarte Bueno
 @see    :
-@param  : char* fileName
+@param  : char* nomeArquivo
 @return : void
 */
 /*
-void CPermeabilidadeGrafo::Read(string fileName)
+void CPermeabilidadeGrafo::Read(string nomeArquivo)
 {
-	ifstream fin(fileName.c_str());	// Abre o arquivo de disco
+	ifstream fin(nomeArquivo.c_str());	// Abre o arquivo de disco
 	if(fin)                               // se ok
 		fin>>*this;                     // Envia dados para este objeto
  //  else
@@ -279,7 +279,7 @@ void CPermeabilidadeGrafo::Read(string fileName)
 */
 
 // -------------------------------------------------------------------------
-// Funcao:       CriacaoObjetosAgregados ()
+// Funcao:       CriarObjetosAgregados ()
 // -------------------------------------------------------------------------
 /**
 @short  :		Cria objetos agregados, herdada da TSimulacao e obrigatoriamente
@@ -292,7 +292,7 @@ void CPermeabilidadeGrafo::Read(string fileName)
 @return : void
 */
 void
-CPermeabilidadeGrafo::CriacaoObjetosAgregados ()
+CPermeabilidadeGrafo::CriarObjetosAgregados ()
 {
 	/*
 	if(fluido)
@@ -313,7 +313,7 @@ CPermeabilidadeGrafo::CriacaoObjetosAgregados ()
 }
 
 // -------------------------------------------------------------------------
-// Funcao:DefinicaoCondicoesContorno()
+// Funcao:DefinirCondicoesContorno()
 // -------------------------------------------------------------------------
 /**
 @short  : Usada para definir as condicoes de contorno
@@ -330,7 +330,7 @@ CPermeabilidadeGrafo::CriacaoObjetosAgregados ()
 		Logo: 1 atm = 101325 Pa
 */
 void
-CPermeabilidadeGrafo::DefinicaoCondicoesContorno ()
+CPermeabilidadeGrafo::DefinirCondicoesContorno ()
 {
 	//
 	// Uma atmosfera
@@ -376,7 +376,7 @@ CPermeabilidadeGrafo::DefinicaoCondicoesContorno ()
 }
 
 // -------------------------------------------------------------------------
-// Funcao:       DefinicaoValoresIniciais
+// Funcao:       DefinirValoresIniciais
 // -------------------------------------------------------------------------
 /**
 @short  : Definição dos valores iniciais de pressão
@@ -386,7 +386,7 @@ CPermeabilidadeGrafo::DefinicaoCondicoesContorno ()
 @return : void
 */
 void
-CPermeabilidadeGrafo::DefinicaoValoresIniciais ()
+CPermeabilidadeGrafo::DefinirValoresIniciais ()
 {
 	// Para todos os objetos do grafo associa valores iniciais de pressão
 	unsigned long int numeroObjetos = grafo->objeto.size ();
@@ -410,7 +410,7 @@ CPermeabilidadeGrafo::DefinicaoValoresIniciais ()
 
 	// Transforma as propriedades raioHidraulico em condutancias
 	// o calculo das condutancias agora é realizado no proprio grafo
-	grafo->CalculoCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
+	grafo->CalcularCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
 
 	// No grafo ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
 	// os links duplicado, somando as suas condutâncias, o que é feito na funcao EliminarCondutanciasRepetidas
@@ -450,7 +450,7 @@ CPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 	long double erroSolver = solver->Go (ptr_obj);
 
 	//era usado para dar continuidadea simulação no caso de uma interrupcao indesejada.
-	//grafo->SalvaVetorPropriedades ();
+	//grafo->SalvarVetorPropriedades_x ();
 
 	cout << "\nIts[" << setw (4) << solver->Iteracoes ()
 			 << "] LEs[" << setw (10) << solver->LimiteErro ()
@@ -641,4 +641,8 @@ long double CPermeabilidadeGrafo::FluxoFronteira (CContorno::ETipoContorno tipoF
 		}
 	}
 	return fluxos;
+}
+void CPermeabilidadeGrafo::Ny(long unsigned int _ny)
+{
+    ny = _ny;
 }

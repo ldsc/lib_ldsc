@@ -57,13 +57,13 @@ class TCMatriz2D : public CBaseMatriz
 		TCMatriz2D ();
 
 		/// Construtor le TCMatriz2D do disco.
-		TCMatriz2D (std::string fileName);
+		TCMatriz2D (std::string nomeArquivo);
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY) da imagem.
 		TCMatriz2D (std::string fileRAW, int _nx, int _ny, EImageType tipo=P4_X_Y_BINARY );
 
 		/// Construtor le plano de uma matriz 3D o primeiro plano é o z=0
-		TCMatriz2D (std::string fileName, int planoZ);
+		TCMatriz2D (std::string nomeArquivo, int planoZ);
 
 		/// Construtor cria copia TCMatriz2D
 		TCMatriz2D (TCMatriz2D < T > &);
@@ -118,7 +118,7 @@ class TCMatriz2D : public CBaseMatriz
 		virtual void SalvaDados (std::ofstream & fout) const;
 
 		/// lê o plano z, de uma matriz 3D
-		bool LePlanoZ (std::string fileName, int planoZ, bool separado = true);
+		bool LePlanoZ (std::string nomeArquivo, int planoZ, bool separado = true);
 
 		/// Redimensiona a matriz
 		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0);
@@ -162,10 +162,10 @@ class TCMatriz2D : public CBaseMatriz
 		}
 
 		/// Lê arquivo do tipo PNM (PBM, PGM, PPM). Caso seja arquivo PBM sem espaço entre os valores, o segundo parâmetro deverá ser 0 (zero).
-		bool Read (std::string fileName, int separado = 1); // Como é chamada pelo construtor nao pode ser virtual
+		bool Read (std::string nomeArquivo, int separado = 1); // Como é chamada pelo construtor nao pode ser virtual
 
 		/// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY).
-		bool ReadRAW (std::string fileName, int _nx, int _ny, EImageType tipo = P4_X_Y_BINARY); // Como é chamada pelo construtor nao pode ser virtual
+		bool ReadRAW (std::string nomeArquivo, int _nx, int _ny, EImageType tipo = P4_X_Y_BINARY); // Como é chamada pelo construtor nao pode ser virtual
 
 		// Novidade trazida para cá de COperacao
 		/// Lê imagem 2D do disco, usa vetor de dados

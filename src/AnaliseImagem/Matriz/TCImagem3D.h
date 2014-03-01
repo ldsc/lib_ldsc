@@ -74,9 +74,9 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		}
 
 		/// Constróe imagem 3D a partir de imagem 3D no disco
-		TCImagem3D (std::string fileName)
-			: TCMatriz3D<T> (fileName),/* CImg(),*/ x0(0), y0(0), z0(0) {
-			LeInformacoesRecontrucao(fileName);
+		TCImagem3D (std::string nomeArquivo)
+			: TCMatriz3D<T> (nomeArquivo),/* CImg(),*/ x0(0), y0(0), z0(0) {
+			LeInformacoesRecontrucao(nomeArquivo);
 		}
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
@@ -118,7 +118,7 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		bool LeInformacoesRecontrucao (ifstream & fin);
 
 		/// Lê de arquivo .dbm as informações de reconstrução da imagem. Recebe o nome do arquivo.
-		bool LeInformacoesRecontrucao (string fileName);
+		bool LeInformacoesRecontrucao (string nomeArquivo);
 
 		/// Salva dados do cabecalho
 		virtual void SalvaCabecalho (std::ofstream & fout) const;

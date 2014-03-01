@@ -418,11 +418,11 @@ void CConfiguracoesEquilibrio3D::SolucaoFinal (TCMatriz3D<int> * &imagem) {
       fluidoA->Compressibilidade () == 1 ? out <<"-ca1" : out <<"-ca0";
       out << ".dgm";
 
-      fileName = out.str(); // não precisa do fileName, tirar?
+      nomeArquivo = out.str(); // não precisa do nomeArquivo, tirar?
       // novidade
 			imagem->SetFormato (D2_X_Y_Z_GRAY_ASCII);
       imagem->NumCores( imagem->MaiorValor() );
-      imagem->Write (fileName);	//  A cada passo, deve salvar a configuracao final de equilibrio
+      imagem->Write (nomeArquivo);	//  A cada passo, deve salvar a configuracao final de equilibrio
    }
 }
 
@@ -458,7 +458,7 @@ void CConfiguracoesEquilibrio3D::DiferencaEmRelacaoArtigo (TCMatriz3D<int> *&ima
 /// Metodo que salva imagem em disco
 /// Note que inclui informações como wb1 wb0 ca0 ca1
 void CConfiguracoesEquilibrio3D::Salvar (TCMatriz3D<int> * &imagem, string msg) {
-   char fileName[255];
+   char nomeArquivo[255];
 
    string buffer = msg;
    buffer +=  (fluidoB->Molhabilidade () 	 == 1)	? "-wb1" : "-wb0";
@@ -467,19 +467,19 @@ void CConfiguracoesEquilibrio3D::Salvar (TCMatriz3D<int> * &imagem, string msg) 
 
    // Substitue o %d pelo contadorPassosExecutados
    //  porque nao usar o raio? porque o raio pode estar diminuindo.
-   sprintf (fileName, buffer.c_str (), contadorPassosExecutados);
+   sprintf (nomeArquivo, buffer.c_str (), contadorPassosExecutados);
 
    if (salvarResultadosParciaisDisco == 1) {
 			imagem->SetFormato(D2_X_Y_Z_GRAY_ASCII);
       int cores = imagem->MaiorValor();
       imagem->NumCores( (cores >= 2) ? cores : cores+2 );
-      imagem->Write (fileName);
+      imagem->Write (nomeArquivo);
    }
 
    if (visualizar == 1)     {
       (*os) << "\nTarefa: Arrumar a linha 416 do arquivo CConfiguracoesEquilibrio3D.cpp:\n\n" ;
       //(*os) << (*imagem) << "\n" ;
-      //(*os) << fileName;
+      //(*os) << nomeArquivo;
       cin.get ();
    }
 }

@@ -18,7 +18,10 @@ class CMatrizObjetoImagem
 		// Métodos
 	public:
 		/// Grava em disco, com o nome informado, os objetos identificados.
-		bool SalvarListaObjetos(std::string fileName, int nx, int ny, int nz);
+		bool SalvarListaObjetos(std::string nomeArquivo, int nx, int ny, int nz);
+
+		/// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
+		bool SalvarListaObjetosGrafo(std::string nomeArquivo);
 };
 
 #endif // CMatrizObjetoImagem_H

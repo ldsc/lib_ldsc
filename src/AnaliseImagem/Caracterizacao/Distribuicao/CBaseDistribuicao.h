@@ -64,7 +64,7 @@ class CBaseDistribuicao
 		bool Media (set<string> filesName, Tipos _tipo=dts);
 
 		/// Salva em disco os dados de distribuição (.dtp ou .dts).
-		bool Write (string fileName);
+		bool Write (string nomeArquivo);
 
 		/// Retorna valor correspondente a área (porosidade) dos objetos identificados (poros ou sólidos).
 		inline double AreaObjetos () { return areaObjetos; }

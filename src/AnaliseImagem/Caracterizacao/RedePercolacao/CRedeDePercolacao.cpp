@@ -101,13 +101,13 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 }
 
 // Grava em disco, com o nome informado, os objetos identificados.
-bool CRedeDePercolacao::SalvarListaObjetos(std::string fileName) {
-	return ptrMatObjsRede->SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
+bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) {
+	return CMatrizObjetoImagem::SalvarListaObjetos(nomeArquivo, pm->NX(), pm->NY(), pm->NZ());
 }
 
 // Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
-bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string fileName) {
-	return ptrMatObjsRede->SalvarListaObjetosGrafo(fileName);
+bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) {
+	return CMatrizObjetoImagem::SalvarListaObjetosGrafo(nomeArquivo);
 }
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)

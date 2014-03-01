@@ -90,7 +90,7 @@ DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
 
 /*
 -------------------------------------------------------------------------
-Função:   CalculoCondutancias
+Função:   CalcularCondutancias
 -------------------------------------------------------------------------
 @short  : Transforma a propriedades raioHidraulico dos sítios em condutâncias.
 	Função que percorre todo o grafo e transforma a propriedade
@@ -103,7 +103,7 @@ Função:   CalculoCondutancias
 @return : void
 */
 void
-CGra3Dby2D_M1::CalculoCondutancias (long double _viscosidade,
+CGra3Dby2D_M1::CalcularCondutancias (long double _viscosidade,
 				       long double _sizePixel,
 				       unsigned long int _fatorAmplificacao) 
 {

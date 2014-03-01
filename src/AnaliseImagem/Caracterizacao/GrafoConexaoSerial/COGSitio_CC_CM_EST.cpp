@@ -1,13 +1,13 @@
-/**
+/*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
+		[LDSC].
 @author:          André Duarte Bueno
-@file:             COGSitio_LR_CM.cpp
+@file:             COGSitio_CC_CM_EST.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -16,17 +16,9 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-/*#include <fstream>
-#include <iomanip>
-#include <map>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
+// #include <fstream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <Base/_LIB_LDSC_CLASS.h>
-*/
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM_EST.h>

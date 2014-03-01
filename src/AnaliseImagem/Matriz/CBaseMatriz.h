@@ -234,7 +234,7 @@ class CBaseMatriz
 	 * @brief A funcao Write salva a matriz no disco.
 	 * Chama algumas funções virtuais definidas nas classes descendentes.
 	*/
-		bool Write (std::string fileName, int dadosSeparados = 1) const;
+		bool Write (std::string nomeArquivo, int dadosSeparados = 1) const;
 
 		/**	@brief Grava em arquivo o número de cores da imagem. Deve ser chamada logo após SalvaCabecalho */
 		bool SalvaCores (std::ofstream & fout) const;
@@ -249,7 +249,7 @@ class CBaseMatriz
 		@brief Abre o arquivo verifica o formato e reabre no formato
 		correto (ASCII ou Binário)
 		*/
-		bool AbreArquivo (std::ifstream & fin, std::string fileName);
+		bool AbreArquivo (std::ifstream & fin, std::string nomeArquivo);
 
 		/**
 		@brief Verifica e retorna o formato de salvamento do arquivo. Recebe objeto do tipo std::ifstream

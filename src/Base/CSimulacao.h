@@ -31,7 +31,7 @@
  * @brief Classe generica (e pura) para simulacao de sistemas.
  *
  * Usualmente o usuario vai chamar:
- * CriacaoObjetosAgregados (); para criar objetos agregados
+ * CriarObjetosAgregados (); para criar objetos agregados
  * Definir as condições de contorno,
  * Definir os valores iniciais, e
  * SolucaoSistemaEquacoes para resolver o sistema de equacoes.
@@ -86,13 +86,13 @@ class CSimulacao
 	protected:
 
 		/** Cria objetos agregados */
-		virtual void CriacaoObjetosAgregados () = 0;
+		virtual void CriarObjetosAgregados () = 0;
 
 		/** Define as condições de contorno */
-		virtual void DefinicaoCondicoesContorno () = 0;
+		virtual void DefinirCondicoesContorno () = 0;
 
 		/** Define valores iniciais */
-		virtual void DefinicaoValoresIniciais () = 0;
+		virtual void DefinirValoresIniciais () = 0;
 
 		/** Resolve o sistema de equações */
 		virtual void SolucaoSistemaEquacoes () = 0;
@@ -101,9 +101,9 @@ class CSimulacao
 
 		/** Resolve o sistema como um todo através da chamada das funções a seguir */
 		virtual bool SolucaoSistema () {
-			CriacaoObjetosAgregados ();
-			DefinicaoCondicoesContorno ();
-			DefinicaoValoresIniciais ();
+			CriarObjetosAgregados ();
+			DefinirCondicoesContorno ();
+			DefinirValoresIniciais ();
 			SolucaoSistemaEquacoes ();
 			sistemaResolvido = true;
 			return 1 ;

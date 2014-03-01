@@ -78,12 +78,12 @@ bool CCorrelacaoEspacial::Go(TCMatriz2D< bool > *img, int indice) {
 	return true;
 }
 
-// bool CCorrelacaoEspacial::Write (string fileName) 
+// bool CCorrelacaoEspacial::Write (string nomeArquivo) 
 // {
 // 	if ( ! correlacao ) 
 // 		return false;
 // 	
-// 	ofstream fcor ((fileName + ".cor").c_str()); 		//+rapido
+// 	ofstream fcor ((nomeArquivo + ".cor").c_str()); 		//+rapido
 // 	
 // 	if ( ! fcor.is_open() )
 // 		return false;

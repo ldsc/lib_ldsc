@@ -24,7 +24,9 @@
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_WEST.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_EST.h>
 #include <Base/CMath.h>
 
 using namespace std;
@@ -157,7 +159,7 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
 }
 
 // -------------------------------------------------------------------------
-// Função:   CalculoCondutancias
+// Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
 /**@short  : Redefinida, em relação a CGrafo
      adiciona o calculo das condutâncias das ligações
@@ -168,7 +170,7 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
 @return : void
 */
 void
-CGra3Dby2D_M3::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao) {
+CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao) {
    // Variáveis auxiliares
    long double raio_hidraulico;
    long double dH;
@@ -237,7 +239,7 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
    int totalLinksDeletados = 0;
 
    // Percorre todos os objetos do grafo
-   if (GeteliminaConeccoesRepetidas () == 1)
+   if (EliminarConeccoesRepetidas () == 1)
       for (int i = 0; i < objeto.size (); i++)
       {
          // Cria ponteiro para objeto do tipo COGSitio_LR
@@ -252,7 +254,7 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
 }
 
 // -------------------------------------------------------------------------
-// Função:       GetObjetoGrafo
+// Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
 /**@short  : 	Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
 @author :	André Duarte Bueno
@@ -263,7 +265,7 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
 @return : 	Retorna um ponteiro para um sítio novo alocado.
 */
 CObjetoGrafo *
-CGra3Dby2D_M3::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CGra3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
    CObjetoGrafo *data;
    switch (tipoContorno)
@@ -273,11 +275,11 @@ CGra3Dby2D_M3::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
       break;
 
    case CContorno::ETipoContorno::WEST:
-      data = new COGSitio_LR_WEST ();
+      data = new COGSitio_CC_WEST ();
       break;
 
    case CContorno::ETipoContorno::EST:
-      data = new COGSitio_LR_EST ();
+      data = new COGSitio_CC_EST ();
       break;
 
    default:
@@ -288,10 +290,10 @@ CGra3Dby2D_M3::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
    return data;
 }
 
-/*CGrafo* CGra3Dby2D_M3::Go( string fileName,unsigned long int funcao)
+/*CGrafo* CGra3Dby2D_M3::Go( string nomeArquivo,unsigned long int funcao)
 {
  // Chama função que determina o grafo
- CGra3Dby2D_M2::Go( fileName , funcao);
+ CGra3Dby2D_M2::Go( nomeArquivo , funcao);
 return this;     	
 }
 */
@@ -307,7 +309,7 @@ return this;
 
 
 // -------------------------------------------------------------------------
-// Função:               SetMatrizAVetorB
+// Função:               SetarMatrizAVetorB
 // -------------------------------------------------------------------------
 
 /** Recebe uma matriz A (vazia) e um vetor B (vazio) e preenche os mesmos com os coeficientes necessários
@@ -325,7 +327,7 @@ return this;
 */
 
 bool
-CGra3Dby2D_M3::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
+CGra3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
 {
    // vector< vector<float> > A;
    // vector<float> B;

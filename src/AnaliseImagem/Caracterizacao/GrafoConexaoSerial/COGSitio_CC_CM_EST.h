@@ -1,5 +1,5 @@
-#ifndef COGSitio_LR_CM_WEST_h
-#define COGSitio_LR_CM_WEST_h
+#ifndef COGSitio_CC_CM_EST_h
+#define COGSitio_CC_CM_EST_h
 
 /*
 ===============================================================================
@@ -10,7 +10,7 @@ Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico 
             [LDSC].
 @author     André Duarte Bueno
-@file       COGSitio_LR_CM_WEST.h
+@file       COGSitio_CC_CM_EST.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -19,49 +19,44 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_LR_CM_WEST
+// Documentacao CLASSE: COGSitio_CC_CM_EST
 // ===============================================================================
 /** 
- * @brief Representa um sítio conectado a face esquerda do grafo e que 
- * armazena a informação da conexão.
- * 
- * Assume valor de contorno = CContorno::WEST.
- * O valor de contorno é usado no calculo dos fluxo da malha como
- * um todo. Ou seja, um algoritimo externo percorre todo
- * o grafo, e se o contorno for igual ao solicitado
- * calcula alguma propriedade neste contorno.
- * @see:        Grafo
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_LR_WEST
+ * @brief  Representa um sítio que armazena a informação associada a conexão.
+ * @short      	redefine funcao Contorno
  * @author 	André Duarte Bueno
-*/
-class COGSitio_LR_CM_WEST : public COGSitio_LR_CM
+ * @see		CGrafo
+ * @Superclasse:
+ * CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_CM->COGSitio_CC_CM_EST
+ */
+class COGSitio_CC_CM_EST : public COGSitio_CC_CM
 {
 // --------------------------------------------------------------Atributos
 public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-    COGSitio_LR_CM_WEST () = default;
+    COGSitio_CC_CM_EST () = default;
 
 // --------------------------------------------------------------Destrutor
-/// Destrutor
-    virtual ~ COGSitio_LR_CM_WEST () = default;
+/// Destrutor  
+  virtual ~ COGSitio_CC_CM_EST () = default;
 
 // ----------------------------------------------------------------Métodos
-
 public:
-   /// Retorna o tipo 
-virtual CContorno::ETipoContorno Contorno ()const   {
-        return CContorno::ETipoContorno::WEST;
+  // Redefinição de funções herdadas
+   /// Retorna o tipo de contorno
+  virtual CContorno::ETipoContorno Contorno () const {
+        return CContorno::ETipoContorno::EST;
   }
 
-   /**
-    * @brief Função herdade da classe CParametroSolver usada para 
-    * calcular o valor de x como é um objeto da fronteira, 
-    * não altera seu valor de x 
-   */
+   /** 
+    * @brief Função herdada da classe CParametroSolver,
+    * usada para calcular o valor de x.
+    * Observe que retorna direto o valor de x, ou seja,
+    * um objeto da fronteira não recalcula seu fluxo*/
   virtual long double Go (long double d = 0)  {
     return x;
   }
@@ -69,14 +64,13 @@ virtual CContorno::ETipoContorno Contorno ()const   {
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-
-//       friend ostream& operator<< (ostream& os, COGSitio_LR_CM_WEST& obj);
-//       friend istream& operator>> (istream& is, COGSitio_LR_CM_WEST& obj);
+  // friend ostream& operator<< (ostream& os, COGSitio_CC_CM_EST& obj);
+  // friend istream& operator>> (istream& is, COGSitio_CC_CM_EST& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, COGSitio_LR_CM_WEST& obj);
-// istream& operator>> (istream& is, COGSitio_LR_CM_WEST& obj);
+// ostream& operator<< (ostream& os, COGSitio_CC_CM_EST& obj);
+// istream& operator>> (istream& is, COGSitio_CC_CM_EST& obj);
 
 #endif

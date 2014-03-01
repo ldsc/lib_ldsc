@@ -50,12 +50,13 @@ class CGra3Dby2D_M3 : public CGra3Dby2D_M2
    // virtual void CalcularPropriedadesConeccoes() ;
 public:
 
-   // -------------------------------------------------------------/** Construtor  */
+   // -------------------------------------------------------------Construtor
    /// Construtor
-   CGra3Dby2D_M3 (std::string _fileName):CGra3Dby2D_M2 (_fileName) {
+   CGra3Dby2D_M3 (std::string _nomeArquivo):CGra3Dby2D_M2 (_nomeArquivo) {
+	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M3;
    }
 
-   // --------------------------------------------------------------/** Destrutor */
+   // --------------------------------------------------------------Destrutor
    /// Destrutor
    virtual ~ CGra3Dby2D_M3 () {
    }
@@ -67,7 +68,7 @@ public:
      * A condutancia é calculada usando a equação de Poiselle...(Bear, pg...).
      * Aqui calcula a condutância dos sítios e dos links
     */
-   virtual void CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao);
+   virtual void CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao);
 
    /**
      * @brief Pesquisa o vetor dos links e elimina os links repetidos.
@@ -78,7 +79,7 @@ public:
     */
    virtual void EliminarCondutanciasRepetidas ();	// TESTE
 
-   virtual bool SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const;	// TESTAR
+   virtual bool SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const;	// TESTAR
 
 protected:
    // Métodos redefinidos
@@ -90,11 +91,11 @@ protected:
    virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado);
 
    /// Redefinida,  retorna um COGSitio_LR ou derivado
-   virtual CObjetoGrafo *GetObjetoGrafo (CContorno::ETipoContorno tipoContorno);
+   virtual CObjetoGrafo *CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno);
 
    // Função Go
    // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);
-   // virtual CGrafo* Go( std::string fileName,unsigned long int _tamanhoMascara = 0) ;
+   // virtual CGrafo* Go( std::string nomeArquivo,unsigned long int _tamanhoMascara = 0) ;
 
    // --------------------------------------------------------------------Get
    // --------------------------------------------------------------------Set

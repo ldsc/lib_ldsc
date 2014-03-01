@@ -179,26 +179,26 @@ TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
         //Cria objeto de classificacao do tipo TGrafo--------------------------------------
         time_t inicio = time (NULL);
         TGra3Dby2D *grafo;
-        char fileName2[256];
+        char nomeArquivo2[256];
         //O tipo de grafo � passado no construtor
         switch (tipoGrafo)
         {
         case 1:
-            sprintf (fileName2, "%s.mod1", fileName);
-            grafo = new TGra3Dby2DSingle (fileName2);
+            sprintf (nomeArquivo2, "%s.mod1", nomeArquivo);
+            grafo = new TGra3Dby2DSingle (nomeArquivo2);
             break;
         case 2:
-            sprintf (fileName2, "%s.mod2", fileName);
-            grafo = new TGra3Dby2DAdvanced (fileName2);
+            sprintf (nomeArquivo2, "%s.mod2", nomeArquivo);
+            grafo = new TGra3Dby2DAdvanced (nomeArquivo2);
             break;
         case 3:
-            sprintf (fileName2, "%s.mod3", fileName);
-            grafo = new TGra3Dby2DAdv3 (fileName2);
+            sprintf (nomeArquivo2, "%s.mod3", nomeArquivo);
+            grafo = new TGra3Dby2DAdv3 (nomeArquivo2);
             break;
         default:
         case 4:
-            sprintf (fileName2, "%s.mod4", fileName);
-            grafo = new TGra3Dby2DAdv4 (fileName2);
+            sprintf (nomeArquivo2, "%s.mod4", nomeArquivo);
+            grafo = new TGra3Dby2DAdv4 (nomeArquivo2);
             break;
         };
         assert (grafo);

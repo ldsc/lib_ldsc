@@ -51,18 +51,18 @@ Fun��o:   SaveImg
 @return : Retorna um true/false que indica se a operacao ocorreu corretamente.
 */
 bool
-TOperacoesImg::SaveImg (I3DRawImage * img, string fileName)
+TOperacoesImg::SaveImg (I3DRawImage * img, string nomeArquivo)
 {
     switch (img->BPP ())
     {
     case 1:
-        SaveImg1bpp (img, fileName);
+        SaveImg1bpp (img, nomeArquivo);
     case 8:
-        SaveImg8bpp (img, fileName);
+        SaveImg8bpp (img, nomeArquivo);
     case 16:
-        SaveImg16bpp (img, fileName);
+        SaveImg16bpp (img, nomeArquivo);
     case 32:
-        SaveImg32bpp (img, fileName);
+        SaveImg32bpp (img, nomeArquivo);
     default:
         return 0;
     }
@@ -75,11 +75,11 @@ Fun��o: SaveImg1bpp
 @short  :	Salva imagem binaria em disco
 */
 bool
-TOperacoesImg::SaveImg1bpp (I3DRawImage * img1bpp, string fileName)
+TOperacoesImg::SaveImg1bpp (I3DRawImage * img1bpp, string nomeArquivo)
 {
     if (img1bpp->BPP () != 1)
         return 0;
-    ofstream fout (fileName.c_str ());
+    ofstream fout (nomeArquivo.c_str ());
     if (fout.good ())
     {
         I3DPixelIterator1 *piimg1bpp =
@@ -111,11 +111,11 @@ Fun��o: SaveImg8bpp
 @short  :	Salva imagem 8bpp em disco
 */
 bool
-TOperacoesImg::SaveImg8bpp (I3DRawImage * img8bpp, string fileName)
+TOperacoesImg::SaveImg8bpp (I3DRawImage * img8bpp, string nomeArquivo)
 {
     if (img8bpp->BPP () != 8)
         return 0;
-    ofstream fout (fileName.c_str ());
+    ofstream fout (nomeArquivo.c_str ());
     if (fout.good ())
     {
         I3DPixelIterator8 *piimg8bpp =
@@ -147,11 +147,11 @@ Fun��o: SaveImg16bpp
 @short  : Salva imagem 16bpp em disco
 */
 bool
-TOperacoesImg::SaveImg16bpp (I3DRawImage * img16bpp, string fileName)
+TOperacoesImg::SaveImg16bpp (I3DRawImage * img16bpp, string nomeArquivo)
 {
     if (img16bpp->BPP () != 16)
         return 0;
-    ofstream fout (fileName.c_str ());
+    ofstream fout (nomeArquivo.c_str ());
     if (fout.good ())
     {
         I3DPixelIterator16 *piimg16bpp =
@@ -183,11 +183,11 @@ Fun��o:   SaveImg32bpp
 @short  : Salva imagem 32bpp em disco
 */
 bool
-TOperacoesImg::SaveImg32bpp (I3DRawImage * img32bpp, string fileName)
+TOperacoesImg::SaveImg32bpp (I3DRawImage * img32bpp, string nomeArquivo)
 {
     if (img32bpp->BPP () != 32)
         return 0;
-    ofstream fout (fileName.c_str ());
+    ofstream fout (nomeArquivo.c_str ());
     if (fout.good ())
     {
         I3DPixelIterator32 *piimg32bpp =
@@ -219,10 +219,10 @@ Fun��o: OpenImg1bpp
 @short  : Cria imagem binaria e l� a mesma do disco
 */
 I3DRawImage *
-TOperacoesImg::OpenImg1bpp (string fileName,
+TOperacoesImg::OpenImg1bpp (string nomeArquivo,
                             unsigned int nx, unsigned int ny, unsigned int nz)
 {
-    ifstream fin (fileName.c_str ());
+    ifstream fin (nomeArquivo.c_str ());
     if (fin.good ())
     {
         I3DRawImage *imagem = new I3DRawImage (T3Dint32 (nx, ny, nz), 1);
@@ -258,11 +258,11 @@ Fun��o:   OpenImg16bpp
 @short  : Cria imagem 16bpp e l� a mesma do disco
 */
 I3DRawImage *
-TOperacoesImg::OpenImg16bpp (string fileName,
+TOperacoesImg::OpenImg16bpp (string nomeArquivo,
                              unsigned int nx, unsigned int ny,
                              unsigned int nz)
 {
-    ifstream fin (fileName.c_str ());
+    ifstream fin (nomeArquivo.c_str ());
     if (fin.good ())
     {
         I3DRawImage *imagem = new I3DRawImage (T3Dint32 (nx, ny, nz), 16);
@@ -301,11 +301,11 @@ Fun��o:	OpenImg16bppFrom1bpp
 @return :
 */
 I3DRawImage *
-TOperacoesImg::OpenImg16bppFrom1bpp (string fileName,
+TOperacoesImg::OpenImg16bppFrom1bpp (string nomeArquivo,
                                      unsigned int nx, unsigned int ny,
                                      unsigned int nz, unsigned int indiceCor)
 {
-    ifstream fin (fileName.c_str ());
+    ifstream fin (nomeArquivo.c_str ());
     if (fin.good ())
     {
         I3DRawImage *imagemBinaria;
@@ -923,5 +923,5 @@ TOperacoesImg::GetTMatriz3D (I3DRawImage * img1bpp)
 
 
 
-/*I3DRawImage* TOperacoesImg::OpenImg1bpp( string fileName,
+/*I3DRawImage* TOperacoesImg::OpenImg1bpp( string nomeArquivo,
 						unsigned int nx, unsigned int ny, unsigned int nz )       */

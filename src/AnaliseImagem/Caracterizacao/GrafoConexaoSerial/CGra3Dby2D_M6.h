@@ -47,16 +47,14 @@ public:
 
 // -------------------------------------------------------------Construtor
     /// Construtor
-    CGra3Dby2D_M6 (std::string _fileName):CGra3Dby2D_M3 (_fileName)
-    , tortuosidade(0.0), numeroDerivacoesUsadasCalculoTortuosidade(0)
-  {
+    CGra3Dby2D_M6 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo), tortuosidade(0.0), 
+    numeroDerivacoesUsadasCalculoTortuosidade(0)  {
+    tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M6;
   }
 
 // --------------------------------------------------------------Destrutor
     /// Destrutor
-  virtual ~ CGra3Dby2D_M6 ()
-  {
-  }
+  virtual ~ CGra3Dby2D_M6 () = default;
 
 // ----------------------------------------------------------------Métodos
   /**
@@ -64,15 +62,15 @@ public:
    * dos sítios sem considerar o deslocamento dos centros de massa
    * aqui considera as posições dos centros de massa
   */
-  virtual void CalculoCondutancias (long double _viscosidade,
+  virtual void CalcularCondutancias (long double _viscosidade,
                     long double _sizePixel,
                     unsigned long int _fatorAmplificacao);
 
   double Tortuosidade() { return tortuosidade; }
 
 protected:
-  /// Redefinida, para  o tipoContorno=centro retorna um COGSitio_LR_CM
-  virtual CObjetoGrafo * GetObjetoGrafo (CContorno::ETipoContorno tipoContorno);
+  /// Redefinida, para  o tipoContorno=centro retorna um COGSitio_CC_CM
+  virtual CObjetoGrafo * CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno);
 
   /**
    * @brief Função que cria os objetos e os adiciona a lista de objetos.
@@ -85,7 +83,7 @@ protected:
 
   // Função Go
   // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);
-  // virtual CGrafo* Go( std::string fileName,unsigned long int _tamanhoMascara = 0) ;
+  // virtual CGrafo* Go( std::string nomeArquivo,unsigned long int _tamanhoMascara = 0) ;
 //   double tortuosidade_x; Para cálculo nas 3 direções vai ter de
 //   double tortuosidade_y; calcular o grafo em cada uma das direções
 //   double tortuosidade_z;

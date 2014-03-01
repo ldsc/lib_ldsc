@@ -72,10 +72,10 @@ COperacao::TestaAlocacao (void *ptr, string s)
 // Usada para pegar a extensao de um arquivo, recebe o nome do arquivo e
 // o tamanho da extensao (default=3)
 /*
-string   COperacao::GetExtensao(std::string fileName,int tamanhoExtensao)
+string   COperacao::GetExtensao(std::string nomeArquivo,int tamanhoExtensao)
 {
-   string  extensao (fileName.substring(?.?));
-   // strxfrm( extensao, fileName, strlen(fileName)-tamanhoExtensao);
+   string  extensao (nomeArquivo.substring(?.?));
+   // strxfrm( extensao, nomeArquivo, strlen(nomeArquivo)-tamanhoExtensao);
 	
    return extensao;
 }
@@ -88,10 +88,10 @@ string   COperacao::GetExtensao(std::string fileName,int tamanhoExtensao)
 // Recebe o nome do arquivo e a extensao retorna 1 se a extensao do arquivo
 // e a extensao passadas sao as mesmas
 /*
-bool  COperacao::VerificaExtensaoArquivo(string fileName, char* extensao)
+bool  COperacao::VerificaExtensaoArquivo(string nomeArquivo, char* extensao)
 {
    // Pega a extensao do arquivo
-   tamanhoExtensao extensaoArquivo = COperacao::GetExtensao (fileName , sizeof(extensao) );
+   tamanhoExtensao extensaoArquivo = COperacao::GetExtensao (nomeArquivo , sizeof(extensao) );
 
       // Se forem iguais strcmp retorna 0
    return  extensaoArquivo == extensao ;

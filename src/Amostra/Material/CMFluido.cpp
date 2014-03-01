@@ -122,9 +122,9 @@ Função Read
 Lê atributos do objeto do arquivo de disco
 Recebe nome do arquivo de disco
 */
-/*void CMFluido::Read(string fileName)
+/*void CMFluido::Read(string nomeArquivo)
 {
-  ifstream fin(fileName.c_str()); 	//Abre o arquivo de disco
+  ifstream fin(nomeArquivo.c_str()); 	//Abre o arquivo de disco
   if(fin)                               //se ok
   	fin >> this;                    //Envia dados para este objeto
   else

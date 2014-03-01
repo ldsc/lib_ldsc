@@ -7,7 +7,7 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGrafo.h
 @begin      Sat Sep 16 2000
@@ -41,8 +41,8 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * @brief Um CGrafo é uma representação para uma estrutura de dados.
  * Um CGrafo é composto de uma lista de objetos do tipo CObjetoGrafo.
  * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoGrafo.
- * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e uma hierarquia de objetos de grafo 
- * cujo pai e CObjetoGrafo.
+ * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e 
+ * uma hierarquia de objetos de grafo cujo pai e CObjetoGrafo.
  * 
  * Exemplo:
  * Determinação do grafo de uma imagem 3D:
@@ -55,8 +55,8 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * e estabelecer as conexoes entre eles.
  * 
  * Uso:
- * A saída pode ser obtida com a função Write, que salva em disco a estrutura de sítios determinada 
- * e os links entre os sítios.
+ * A saída pode ser obtida com a função Write, 
+ * que salva em disco a estrutura de sítios determinada e os links entre os sítios.
  * Também é possível usar diretamente o grafo obtido para determinar propriedades de interesse, 
  * sem a necessidade de salvar os dados em disco.
  * Este mecanismo é utilizado por CPermeabilidadeGrafo.
@@ -67,16 +67,17 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * uma espécie de esqueleto, ou seja, objetos com propriedades conectados e 
  * com informação das coordenadas/posição.
  * 
- * 
+ * @todo: Reformular a hierarquia de objetos do grafo e a hierarquia de grafos de forma
+ * a representar mais corretamente os conceitos teóricos.  
+ *  
  * RESUMO DAS CLASSES
  * CGrafo
  * ------------------------------------
  * Objetivo específico:	Dada uma imagem 3D, gerar uma estrutura de sítios e ligações equivalente.
  * 
- * Cria os atributo: fileName, vector objeto, firstObjectOfSolver, lastObjectOfSolver;
- * 
- * GetObjetoGrafo->retorna objeto do grafo (CSitio)
- * CalculoCondutancias->converte raioHidraulico em condutancia (somente CSitio).
+ * Cria os atributo: nomeArquivo, vector objeto, firstObjectOfSolver, lastObjectOfSolver;
+ * CriarObjetoGrafo->retorna objeto do grafo (CSitio)
+ * CalcularCondutancias->converte raioHidraulico em condutancia (somente CSitio).
  *
  * CGraThining3D (classe não implementada)
  * ------------------------------------
@@ -103,7 +104,7 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * DeterminarConeccoesObjetos->Estabelece as coneccoes (aqui os links são repetidos para cada coneccao entre pixeis)
  * EliminarConeccoesObjetos->Elimina os ramos mortos. Num ramo morto o fluxo é nulo.
  *
- * CGra3Dby2_M1
+ * CGra3Dby2_M1 (cada píxel uma conexão)
  * ------------------------------------
  * Na função Go :
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
@@ -116,7 +117,7 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * Todo: criar classe herdeira de M1, chamada M8, deve calcular a idf em 3D,
  * e usar mesmo procedimento de M1, mas agora considerando como "peso" o valor da idf.
  *
- * CGra3Dby2_M2
+ * CGra3Dby2_M2 (condutância pela condutância média dos objetos conectados)
  * ------------------------------------
  * Na função Go :
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
@@ -138,7 +139,7 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * DeterminarConeccoesObjetos()->Estabelece as coneccoes, usa rotint para
  * eliminar repeticoes dos links.
  * 
- * CGra3Dby2_M3
+ * CGra3Dby2_M3 (condutância pela área intersecção)
  * ------------------------------------
  * Neste modelo adiciona-se uma lista de condutancias, associando a cada
  * coneccao uma condutancia proporcional a area de intersecao entre os objetos.
@@ -148,10 +149,10 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * DeterminarConeccoesObjetos()->Conecta os objetos em planos distintos,
  * determina os raioshidraulicos dos "sítios",
  * determina e armazena os raioHidraulicos das ligações(novo).
- * GetObjetoGrafo()->retorna COGSitio_LR.
- * CalculoCondutancias()->determina as condutâncias das ligações.
+ * CriarObjetoGrafo()->retorna COGSitio_LR.
+ * CalcularCondutancias()->determina as condutâncias das ligações.
  * 
- * CGra3Dby2_M4
+ * CGra3Dby2_M4 (corrige condutâncias considerando distâncias centros massa)
  * ------------------------------------
  * Neste modelo, herdeiro de M3, adiciona-se uma lista com os centros de massa cmx e cmy.
  * Na função DeterminaConeccoes(), armazena-se os centros de massas de cada objeto.
@@ -160,48 +161,60 @@ Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
  * Os centros de massa tambem podem ser usados para gerar visualizações do grafo, 
  * para cálculo da tortuosidade, e distâncias entre objetos.
  * 
- * ->CalculoCondutancias() = Corrige as condutancias considerando os centros de massa.
- * ->AdicionarObjetos() = Chama AdicionarObjetos da classe base e depois marca os centros de 
-massa.
+ * ->CalcularCondutancias() = Corrige as condutancias considerando os centros de massa.
+ * ->AdicionarObjetos() = Chama AdicionarObjetos da classe base e depois marca os centros de massa.
  * ->ReorganizarCmxCmy() = Depois de eliminarRamosMortos, precisa reorganizar os centros de massa.
  * Nota: Pensar em mover atributos centro massa para objetos(verificar modelo 6).
  *
- * CGra3Dby2_M6
+ * CGra3Dby2_M6 (informação dos centros de massa armazenadas nos objetos)
  * ------------------------------------
  * Faz exatamente a mesma coisa que o modelo 4.
  * A diferença é que não cria na classe grafo os vetores cmx e cmy.
  * As informações dos centros de massa são armazenadas nos próprios sítios;
- * assim criou-se os objetos COGSitio_LR_CM (sitio com link para resistencia e centro de massa).
+ * assim criou-se os objetos COGSitio_CC_CM (sitio com link para resistencia e centro de massa).
  * 
- * ->GetObjetoGrafo() = Retorna COGSitio_LR_CM.
+ * ->CriarObjetoGrafo() = Retorna COGSitio_CC_CM.
  * ->AdicionarObjetos() = Reescreve totalmente a Adcionar objetos, armazena as informações 
-do COGSitio_LR_CM o que inclue os centros de massa.
- * ->CalculoCondutancias()= Corrige as condutancias considerando os centros de massa.
+ * do COGSitio_CC_CM o que inclue os centros de massa.
+ * ->CalcularCondutancias()= Corrige as condutancias considerando os centros de massa.
  * Nota: conferir códigos e se a saída é a mesma do Modelo 4.
- * @author 	André Duarte Bueno
- * @see		grafos
+ * @author André Duarte Bueno
+ * @see    grafos
 */
 class  CGrafo
 {
   // --------------------------------------------------------------Atributos
   private:
   /// Nome do arquivo de disco (nome do arquivo do grafo).
-  std::string fileName{""};
+  std::string nomeArquivo{""};
 
   protected:
+  /// Enumeração para os diferentes tipos de grafo.
+  // Note que desta forma tem de incluir aqui informações das classes derivadas,
+  // sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+  enum class ETipoGrafo : unsigned char {
+      grafo, grafoContorno, grafo3DBy2D, 
+	  grafo3DBy2D_M1, grafo3DBy2D_M2, grafo3DBy2D_M3, grafo3DBy2D_M4, grafo3DBy2D_M5, grafo3DBy2D_M6 
+  };
+	  
+  /// Identifica o tipo de grafo, deve ser definido no construtor.
+  ETipoGrafo tipoGrafo { ETipoGrafo::grafo } ;
+
   // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim, 
   // não precisam ser calculados.
   // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
   // nos objetos destes planos.
-  // Todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
-  // sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
+  /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
+  /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
   // firstObjectOfSolver=indicePrimeiroObjetoPlano[1];
   // lastObjectOfSolver=indicePrimeiroObjetoPlano[size() - 1];
 
   /// Rótulo do primeiro objeto do plano z=1 (logo após o plano z=0)
+	/// @todo: renomear firstObjectOfSolver -> primeiroObjetoPlano$1
   unsigned int firstObjectOfSolver {0};
-	
+
   /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
+	/// @todo: renomear lastObjectOfSolver -> ultimoObjetoPlano$n_1
   unsigned int lastObjectOfSolver {0};
   
   public:
@@ -211,41 +224,44 @@ class  CGrafo
 
   // -------------------------------------------------------------Construtor
   /// Constroi o grafo, recebe um nome de arquivo de disco.
-  CGrafo(std::string _fileName) : fileName ( _fileName) { }
+  CGrafo(std::string _nomeArquivo) : nomeArquivo ( _nomeArquivo) { }
 
   // --------------------------------------------------------------Destrutor
   /// Destroi o objeto, elimina os objetos do grafo.
-  virtual ~CGrafo()
-  {
+  virtual ~CGrafo()  {
   // O grafo é o proprietário dos sítios e deve eliminá-los.
-  for (unsigned long int i = 0; i < objeto.size(); i++)
-    delete objeto[i];
+  for ( auto elemento :  objeto )
+    delete elemento;
   }
+  
   // ----------------------------------------------------------------Métodos
   protected:
   /**
    * @brief Função usada para criar os objetos do grafo.
    * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
    * Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoContorno.
+   * Note que como temos diferentes modelos de rede e diferentes tipos de objetos,
+   * CriarObjetoGrafo é reescrita nas classes derivadas, de forma a criar os objetos
+   * de acordo com o modelo.
+   * 
    * @todo: esta sendo sobrescrita nas classes herdeiras,
-   * para juntar tudo numa função única, não virtual, precisa criar ETipoObjetoGrafo
-   * e então juntar tudo numa função única (ver livro padrões projeto).
+   * para juntar tudo numa função única, precisa criar ETipoObjetoGrafo
+   * e então juntar tudo numa função  estática única (ver livro padrões projeto).
+   * Note que terá de ser movida para dentro hierarquia de objetos do grafo.
+   * NomePadrão: CObjetoGrafo::CriarObjeto -> criar objeto da hierarquia grafo.
   */
-  virtual CObjetoGrafo* GetObjetoGrafo(CContorno::ETipoContorno tipoContorno);
+  virtual CObjetoGrafo* CriarObjetoGrafo(CContorno::ETipoContorno tipoContorno);
 
     // ///Deleta um objeto do grafo
     // Deleta consideranto a posição no vetor.
     // virtual bool DeletarObjeto(int ri) = 0;
     // Deleta consideranto o endereço do objeto.
     // virtual bool DeletarObjeto(CObjetoGrafo* sitio) = 0;
-  
+
   public:
     /// Seta a matriz A e o vetor B, a serem utilizados por um solver externo
-    virtual bool SetMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;
-    // 	bool SetMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;	// GMRES
-	
-    /// Retorna o nome do arquivo de disco
-    const std::string FileName() const {return fileName;}
+    virtual bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B) const;
+    // 	bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;	// GMRES
 
     /**
      * @brief Movida de CPermeabilidadeGrafo para cá.
@@ -253,7 +269,7 @@ class  CGrafo
      * Tem mais de uma herdeira.
      * Todo: Mover de volta para calculoPermeabilidade?
     */
-    virtual void CalculoCondutancias(long double _viscosidade, long double _sizePixel, 
+    virtual void CalcularCondutancias(long double _viscosidade, long double _sizePixel, 
 				     unsigned long int _fatorAmplificacao);
     /**
      * @brief Função que recebe uma imagem 3D e gera a lista de objetos e seus relacionamentos.
@@ -263,12 +279,11 @@ class  CGrafo
     /** 
      * @brief Função que recebe o nome do arquivo de uma imagem 3D, carrega imagem do disco
      * e gera a lista de objetos e seus relacionamentos.
-     * Nas classes derivadas a função abaixo deve ser reescrita, 
-     * o objetivo e eliminar a leitura de toda a imagem tridimensional,
-     * e ir realizando a determinacao do grafo com a leitura dos planos.
+     * Nas classes derivadas a função abaixo deve ser reescrita, o objetivo e eliminar a leitura 
+     * de toda a imagem tridimensional, e ir realizando a determinacao do grafo com a leitura dos planos.
     */
-    virtual CGrafo* Go( std::string fileName, unsigned long int _tamanhoMascara = 0) {
-      TCMatriz3D<int> * img3D = new TCMatriz3D<int> (fileName);
+    virtual CGrafo* Go( std::string nomeArquivo, unsigned long int _tamanhoMascara = 0) {
+      TCMatriz3D<int> * img3D = new TCMatriz3D<int> (nomeArquivo);
       assert(img3D);
 //       img3D->Constante(0); // bug?? Verificar??
       return Go(img3D, _tamanhoMascara);
@@ -277,25 +292,45 @@ class  CGrafo
     /**
      * @brief Salva o grafo e seus objetos em disco.
      * Salva a informação do número de objetos e os dados de cada objeto em disco
-     * chamando Write de cada objeto.
-    */
-    virtual void Write(std::string fileName);
+     * chamando Write de cada objeto.    */
+    virtual void Write(std::string nomeArquivo);
 
     /**
-     * @brief No caso de queda de energia, foi projetado um sistema de 
-     * reconstrução do grafo(), recalcula todo o grafo), seguida de leitura de um arquivo de disco 
-     * que armazena as propriedades x de cada objeto do grafo.
-     * Esta função lê os valores de x de cada objeto do grafo.
-    */
-    bool LeVetorPropriedades();
+     * @brief No caso de queda de energia, foi projetado um sistema de reconstrução do grafo(); 
+     * A primeira etapa é o recalculo de todo o grafo a partir da imagem (é rápido); 
+     * Em seguida, faz a leitura de um arquivo de disco que armazena as propriedades x (pressões)
+     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo. */
+    bool LerVetorPropriedades_x();
 
-    /// Salva propriedades dos objetos em disco (permite uso LeVetorPropriedades()).
-    bool SalvaVetorPropriedades();
+    /// Salva propriedades dos objetos em disco (permite uso LerVetorPropriedades_x()).
+    bool SalvarVetorPropriedades_x();
 
     // --------------------------------------------------------------------Get
+    /// Retorna o nome do arquivo de disco
+    std::string FileName() const { return nomeArquivo; }
+
+    /// Retorna o tipo de grafo
+    ETipoGrafo TipoGrafo( ) { return tipoGrafo; }
+
+    /// Retorna o tipo do grafo como uma string, útil para gerar nomes arquivos saída.
+    std::string TipoGrafoString( )
+	{ switch( tipoGrafo )
+	  {
+		case ETipoGrafo::grafo          : return {"grafo"};
+		case ETipoGrafo::grafoContorno  : return {"grafoContorno"};
+		case ETipoGrafo::grafo3DBy2D    : return {"grafo3DBy2D"};
+		case ETipoGrafo::grafo3DBy2D_M1 : return {"grafo3DBy2D_M1"};
+		case ETipoGrafo::grafo3DBy2D_M2 : return {"grafo3DBy2D_M2"};
+		case ETipoGrafo::grafo3DBy2D_M3 : return {"grafo3DBy2D_M3"};
+		case ETipoGrafo::grafo3DBy2D_M4 : return {"grafo3DBy2D_M4"}; 
+		case ETipoGrafo::grafo3DBy2D_M5 : return {"grafo3DBy2D_M5"};
+		case ETipoGrafo::grafo3DBy2D_M6 : return {"grafo3DBy2D_M6"};
+	  }
+	}
+
     // --------------------------------------------------------------------Set
     // -----------------------------------------------------------------Friend
-    /// Escreve em os "os" dados do objeto grafo e seus agregados
+    /// Escreve em "os" os dados do objeto grafo e seus agregados
     friend std::ostream& operator<< (std::ostream& os, const CGrafo& obj);
 
     // friend istream& operator>> (istream& is, CGrafo& obj);

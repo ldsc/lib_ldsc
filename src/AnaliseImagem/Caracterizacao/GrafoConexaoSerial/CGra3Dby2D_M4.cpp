@@ -35,16 +35,16 @@ using namespace std;
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 #endif
 
-#ifndef COGSitio_LR_h
+#ifndef COGSitio_CC_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
 #endif
 
-#ifndef COGSitio_LR_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.h>
+#ifndef COGSitio_CC_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_WEST.h>
 #endif
 
-#ifndef COGSitio_LR_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.h>
+#ifndef COGSitio_CC_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -165,7 +165,7 @@ void  CGra3Dby2D_M4::CalcularCentroMassa()
 */
 /*
 -------------------------------------------------------------------------
-Funcao:   CalculoCondutancias
+Funcao:   CalcularCondutancias
 -------------------------------------------------------------------------
 
 @short  : Redefinida, em relação a CGra3Dby2D_M3
@@ -186,12 +186,12 @@ Funcao:   CalculoCondutancias
 @return : void
 */
 void
-CGra3Dby2D_M4::CalculoCondutancias
+CGra3Dby2D_M4::CalcularCondutancias
   (long double _viscosidade, long double _sizePixel,
    unsigned long int _fatorAmplificacao)
 {
   // Chama função da classe base que calcula as condutancias
-  CGra3Dby2D_M3::CalculoCondutancias (_viscosidade, _sizePixel,
+  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _sizePixel,
 				       _fatorAmplificacao);
 
   // Inicio do calculo da correção das condutancias
@@ -290,9 +290,9 @@ CGra3Dby2D_M4::CalculoCondutancias
 // Salva o grafo em disco
 // Salva adicionalmente a informacao dos centros de massa
 void
-CGra3Dby2D_M4::Write (std::string fileName)
+CGra3Dby2D_M4::Write (std::string nomeArquivo)
 {
-  ofstream out (fileName.c_str ());
+  ofstream out (nomeArquivo.c_str ());
   if (!out)
     return;
 
@@ -325,7 +325,7 @@ CGra3Dby2D_M4::Write (std::string fileName)
 
 /*
 -------------------------------------------------------------------------
-Funcao:   CalculoCondutancias
+Funcao:   CalcularCondutancias
 -------------------------------------------------------------------------
 @short  : Chamada ao final de EliminarRamosMortos
           Após a eliminação dos ramos mortos, um conjunto de objetos foi destruído

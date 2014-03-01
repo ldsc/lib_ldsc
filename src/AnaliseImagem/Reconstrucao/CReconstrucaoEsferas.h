@@ -36,7 +36,7 @@ class  CReconstrucaoEsferas {
     /// Tamanho do pixel configurado na captura da imagem
     double tam_pixel;
 	/// Nome do arquivo que terá a imagem reconstruída
-	string fileName;
+	string nomeArquivo;
 
 protected:
     // Metodos
@@ -57,7 +57,7 @@ public:
     bool Go ( string nome_arq );
 
 	/// Retorna o nome do arquivo
-	inline string getFileName () { return fileName; }
+	inline string getFileName () { return nomeArquivo; }
 
 	bool Grava_dbm ( string nomeimg, unsigned char* inimeio );
 

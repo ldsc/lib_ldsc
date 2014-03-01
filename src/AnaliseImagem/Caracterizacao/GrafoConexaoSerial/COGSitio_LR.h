@@ -1,5 +1,5 @@
-#ifndef COGSitio_LR_h
-#define COGSitio_LR_h
+#ifndef COGSitio_CC_h
+#define COGSitio_CC_h
 
 /**
 ===============================================================================

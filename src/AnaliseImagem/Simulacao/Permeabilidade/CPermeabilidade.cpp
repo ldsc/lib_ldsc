@@ -131,20 +131,20 @@ Função:   Read
 @short  :
 	Lê atributos do objeto do arquivo de disco
 	Recebe nome do arquivo de disco
-	void CPermeabilidade::Read(string fileName)
+	void CPermeabilidade::Read(string nomeArquivo)
 @author : André Duarte Bueno
 @see    : Read
-@param  : string fileName
+@param  : string nomeArquivo
 @return : void
 */
 void
-CPermeabilidade::Read (string fileName)
+CPermeabilidade::Read (string nomeArquivo)
 {
   // Abre o arquivo de disco
-  ifstream fin (fileName.c_str ());
+  ifstream fin (nomeArquivo.c_str ());
   if (!fin)
     {
-      cerr << "\nNao abriu arquivo de disco " << fileName << endl;
+      cerr << "\nNao abriu arquivo de disco " << nomeArquivo << endl;
       exit (0);
     }
   // se ok

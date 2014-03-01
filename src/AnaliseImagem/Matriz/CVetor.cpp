@@ -118,12 +118,12 @@ Se dim=1 vetor, se dim=2 matriz, se dim=3 matriz 3D.
 @param  :
 @return :
 */
-CVetor::CVetor (string fileName)
+CVetor::CVetor (string nomeArquivo)
 {
 	nx = 0;
 	data1D = nullptr;
 	// A funcao Read aloca o vetor e armazena dados do arquivo de disco no vetor
-	CVetor::Read (fileName);
+	CVetor::Read (nomeArquivo);
 }
 
 /*
@@ -629,9 +629,9 @@ Funcao:
 @param  :
 @return :
 */
-bool CVetor::Read (string fileName, bool separado) {
+bool CVetor::Read (string nomeArquivo, bool separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
-	CBaseMatriz::AbreArquivo (fin, fileName); 			// Abre o arquivo de disco no formato correto
+	CBaseMatriz::AbreArquivo (fin, nomeArquivo); 			// Abre o arquivo de disco no formato correto
 	int pos;										// posição de leitura do arquivo.
 	char aux;										// auxiliar.
 	char linha[256];

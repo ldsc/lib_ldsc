@@ -103,9 +103,9 @@ long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> *
 	cout << "\n\nsolver->LimiteIteracoes() = " << solver->LimiteIteracoes();
 	cout << "\nsolver->LimiteErro() = " << solver->LimiteErro();
 	
-	cout << "\n\nperm->GetfatorAmplificacao() = " << perm->GetfatorAmplificacao();
-	cout << "\nperm->GetsizePixel() = " << perm->GetsizePixel();
-	cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetnumeroPixelsBorda() << endl;
+	 cout << "\n\nperm->FatorAmplificacao() = " << perm->FatorAmplificacao();
+	 cout << "\nperm->SizePixel() = " << perm->SizePixel();
+	 cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetnumeroPixelsBorda() << endl;
 	
 	
 	cout << "Calculando grafo->Go( matriz3D )...." << endl;

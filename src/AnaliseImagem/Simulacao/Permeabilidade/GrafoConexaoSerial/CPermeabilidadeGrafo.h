@@ -82,10 +82,10 @@ Desenvolvido por:
  * virtual void SolucaoSistema();
  *
  * Resolve o sistema como um todo,
- * 8.1)	virtual void CriacaoObjetosAgregados () ;// Cria objetos agregados
- * 8.2)	virtual void DefinicaoCondicoesContorno () ;// Define as condições de contorno
- * 8.2.1)  void AuxCalculoCondutancias(); // Chama funcao de calculo das condutancias
- * 8.3)	virtual void DefinicaoValoresIniciais() ;// Define valores iniciais
+ * 8.1)	virtual void CriarObjetosAgregados () ;// Cria objetos agregados
+ * 8.2)	virtual void DefinirCondicoesContorno () ;// Define as condições de contorno
+ * 8.2.1)  void AuxCalcularCondutancias(); // Chama funcao de calculo das condutancias
+ * 8.3)	virtual void DefinirValoresIniciais() ;// Define valores iniciais
  * 8.4)  virtual double Go () ;	// Calcula a permeabilidade (e os fluxos)
  * 8.4.1)  double AuxFluxoFronteira(int);// calcula os fluxos
  *
@@ -139,19 +139,18 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 		long double erroPermeabilidade; 		///< erro na determinação da permeabilidade
 		unsigned int iteracoes; 			///< número de iterações
 
-	public:
-		// -------------------------------------------------------------Construtor
-		/// Construtor
-		CPermeabilidadeGrafo (
-				CMFluido * &_fluido,
-				CSMDiagonalDominante *& _solver,
-				CGra3Dby2D *& _grafo,
-				unsigned long int _nx,
-				unsigned long int _ny,
-				unsigned long int _nz,
-				unsigned long int _fatorAmplificacao,
-				long double _sizePixel,
-				unsigned long int _numeroPixelsBorda = 0 );
+public:
+// -------------------------------------------------------------Construtor
+   /// Construtor
+   CPermeabilidadeGrafo (CMFluido * &_fluido,
+			CSMDiagonalDominante *& _solver,
+			CGra3Dby2D *& _grafo,
+			unsigned long int _nx, 
+			unsigned long int _ny,
+			unsigned long int _nz,
+			unsigned long int _fatorAmplificacao,
+			long double _sizePixel,
+			unsigned long int _numeroPixelsBorda = 0);
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
@@ -167,16 +166,16 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 
 	protected:
 
-		// Sequencia usual de um TSimulador
-		/// Cria objetos agregados
-		virtual void CriacaoObjetosAgregados ();
+  // Sequencia usual de um TSimulador
+  /// Cria objetos agregados
+  virtual void CriarObjetosAgregados ();
 
-		/// Define as condições de contorno
-		// e adicionalmente chama funcao de calculo das condutancias
-		virtual void DefinicaoCondicoesContorno ();
+  /// Define as condições de contorno
+  // e adicionalmente chama funcao de calculo das condutancias
+  virtual void DefinirCondicoesContorno ();
 
-		/// Define valores iniciais
-		virtual void DefinicaoValoresIniciais ();
+  /// Define valores iniciais
+  virtual void DefinirValoresIniciais ();
 
 		/// Resolve o sistema de equações
 		virtual void SolucaoSistemaEquacoes ();
@@ -189,20 +188,110 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 		/// Executa um passo do solver interno para as permeabilidades
 		virtual long double Next ();
 
-		// -------------------------------------------------------------Sobrecarga
-		// --------------------------------------------------------------------Get
-		// Funções de obtenção dos atributos internos
-		/// Retorna ponteiro para objeto fluido
-		CMFluido *Getfluido () const
-		{
-			return fluido;
-		}
+// -------------------------------------------------------------Sobrecarga
+// --------------------------------------------------------------------Get
+  // Funções de obtenção dos atributos internos
+  /// Retorna ponteiro para objeto fluido
+  CMFluido *Fluido () const
+  {
+    return fluido;
+  }
+  
+    /// Retorna ponteiro para objeto solver
+  CSMDiagonalDominante *Solver () const
+  {
+    return solver;
+  }
+  
+      /// Retorna ponteiro para objeto grafo
+  CGra3Dby2D *Getgrafo () const
+  {
+    return grafo;
+  }
+  
+    /// Retorna numero pixeis da borda
+  unsigned long int GetnumeroPixelsBorda () const
+  {
+    return numeroPixelsBorda;
+  }
+  
+  /// Retorna nx
+  unsigned long int Nx () const  {     return nx;   }
+  
+  /// Retorna ny
+  unsigned long int Ny () const   {     return ny;  }
+  
+  /// Retorna nz
+  unsigned long int Nz () const   {    return nz;   }
+  
+  /// Retorna dimensão do pixel
+  long double SizePixel () const {     return sizePixel;  }
+  
+  /// Retorna o fator de amplificacao
+  unsigned long int FatorAmplificacao () const { return fatorAmplificacao;  }
+  
+   /// Retorna o erro permeabilidade
+  long double ErroPermeabilidade () const  {    return erroPermeabilidade;  }
+  
+  /// Retorna o numero de iteracoes
+  unsigned long int Iteracoes () const  {     return iteracoes;  }
 
-		/// Retorna ponteiro para objeto solver
-		CSMDiagonalDominante *Getsolver () const
-		{
-			return solver;
-		}
+public:
+// --------------------------------------------------------------------Set
+  // Funções de setagem dos atributos internos
+  /// Define o fluido
+  void Fluido (CMFluido * _p)  {
+    if (fluido)
+      delete fluido;
+    fluido = _p;
+  }
+  
+  /// Define o solver
+  void Solver (CSMDiagonalDominante * _p)  {
+    if (solver)
+      delete solver;
+    solver = _p;
+  }
+  
+	/// Define o grafo
+   void Grafo (CGra3Dby2D * _p)
+  {
+    if (grafo)
+      delete grafo;
+    grafo = _p;
+  }
+  
+  	/// Define o numero de píxeis da borda
+  void NumeroPixelsBorda (unsigned long int _npb)  {
+    numeroPixelsBorda = _npb;
+  }
+  
+  	/// Define a dimensão nx
+  
+  void Nx (unsigned long int _nx)
+  {
+    nx = _nx;
+  }
+  	/// Define a dimensão ny
+  void Ny (unsigned long int _ny)
+  {
+    ny = _ny;
+  }
+  	/// Define a dimensão nz
+  void Nz (unsigned long int _nz)
+  {
+    nz = _nz;
+  }
+  	/// Define a dimensão do pixel
+  void SizePixel (long double _sizePixel)
+  {
+    sizePixel = _sizePixel;
+  }
+  	/// Define o fator amplificacao
+  void FatorAmplificacao (unsigned long int _fatorAmplificacao)
+  {
+    fatorAmplificacao = _fatorAmplificacao;
+  }
 
 		/// Retorna ponteiro para objeto grafo
 		CGra3Dby2D *Getgrafo () const

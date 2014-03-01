@@ -61,15 +61,15 @@ void ImprimeDeque(const deque<T> & dequeRef, ofstream& eob);
 O atributo plano e utilizado para armazenar no objeto criado
 a informacao do plano a que pertence. Sera usado para estimacao
 da pressao inicial.*/
-CGrafo * CGra3Dby2D::Go (string fileName, unsigned long int funcao) 
+CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int funcao) 
 {
    unsigned long int i, j, k;
    maiorRotuloUtilizado = 0;
 
-   ifstream fin (fileName.c_str ());
+   ifstream fin (nomeArquivo.c_str ());
    if (fin.fail())
    {
-      cerr << "Nao conseguiu abrir o arquivo " << fileName.c_str ();
+      cerr << "Nao conseguiu abrir o arquivo " << nomeArquivo.c_str ();
       return 0;
    }
 
@@ -330,7 +330,7 @@ void CGra3Dby2D::AdicionarObjetos (CRotulador2DCm * rotulador,
    for (unsigned long int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++)
    {
       // Obtem um sítio novo passando o tipo
-      data = GetObjetoGrafo (tipoContornoObjeto);
+      data = CriarObjetoGrafo (tipoContornoObjeto);
       assert (data);
 
       // No rotulador o objeto 0 é o fundo, como rotulo esta iniciando em 1, 

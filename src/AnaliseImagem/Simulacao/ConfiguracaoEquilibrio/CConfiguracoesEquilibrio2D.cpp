@@ -442,8 +442,8 @@ void CConfiguracoesEquilibrio2D::CorrecaocaxYi (TCMatriz2D< int > * &imagem)
 
   //  if(imagem) delete imagem; imagem = nullptr;
   //  imagem = new TCMatriz2D< int >();                                         //  camara->nxImg(),camara->nyImg()
-  //  sprintf(fileName, "10-imagem-%d.dat",     contadorPassosExecutados-1);
-  //  imagem->Read( fileName );                				//  Le a imagem do disco
+  //  sprintf(nomeArquivo, "10-imagem-%d.dat",     contadorPassosExecutados-1);
+  //  imagem->Read( nomeArquivo );                				//  Le a imagem do disco
 
   int DeslocX = camara->DeslocamentoNX ();
   int DeslocY = camara->DeslocamentoNY ();
@@ -474,11 +474,11 @@ void CConfiguracoesEquilibrio2D::SolucaoFinal (TCMatriz2D< int > * &imagem)
   
   if ( salvarResultadosFinaisDisco ) 
   {
-	//  sprintf (fileName, "10-imagem-%d.pgm", contadorPassosExecutados);
+	//  sprintf (nomeArquivo, "10-imagem-%d.pgm", contadorPassosExecutados);
 	ostringstream os;
 	os.setf(ios::right);
 	os << "10-SolucaoFinal-Passo-" << setw(4) << right << setfill('0') << contadorPassosExecutados << ".pgm";
-	fileName = os.str();
+	nomeArquivo = os.str();
 									// novidade
 	imagem->SetFormato (P2_X_Y_GRAY_ASCII);
  	imagem->NumCores (imagem->MaiorValor());
@@ -548,7 +548,7 @@ void CConfiguracoesEquilibrio2D::RestabeleceIDFPositiva ()
 // Salva a matriz imagem em disco, monta o nome considerando parametros da simulacao.
 void CConfiguracoesEquilibrio2D::Salvar (TCMatriz2D< int > * &imagem, string msg)
 {
-  char fileName[255];
+  char nomeArquivo[255];
 
   string buffer;
   buffer = (fluidoB->Molhabilidade () == 1) 	? "wb1-" : "wb0-";
@@ -557,18 +557,18 @@ void CConfiguracoesEquilibrio2D::Salvar (TCMatriz2D< int > * &imagem, string msg
 
   // Substitue o %d pelo contadorPassosExecutados
   //  porque nao usar o raio? porque o raio pode estar diminuindo.
-  sprintf (fileName, buffer.c_str (), contadorPassosExecutados);
+  sprintf (nomeArquivo, buffer.c_str (), contadorPassosExecutados);
 
   if (salvarResultadosParciaisDisco == 1) { 
 		imagem->SetFormato( P2_X_Y_GRAY_ASCII );
   	int cores = imagem->MaiorValor();
   	imagem->NumCores( (cores >= 2) ? cores : cores+2 );
-    	imagem->Write (fileName);
+    	imagem->Write (nomeArquivo);
   }
 /* Falta implementar sobrecarga do operador << em TCMatriz2D
   if (visualizar == 1)
     {
-      (*os) << (*imagem) << "\n" << fileName;
+      (*os) << (*imagem) << "\n" << nomeArquivo;
       cin.get ();
     }
 */

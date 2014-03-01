@@ -62,11 +62,11 @@ bool CCorrelacao::Media (set<string> filesName) {
 // -----------------------------------------------------------------------
 // Salva vetor correlacao em disco.
 // -----------------------------------------------------------------------
-bool CCorrelacao::Write (string fileName) {
+bool CCorrelacao::Write (string nomeArquivo) {
    if ( ! correlacao )
       return false;
 
-   ofstream fcor ((path + fileName + ".cor").c_str());
+   ofstream fcor ((path + nomeArquivo + ".cor").c_str());
 
    if ( ! fcor.is_open() ) {
       return false;

@@ -54,9 +54,9 @@ istream & operator>> (istream & is, CSolver & s)
 // Recebe nome do arquivo de disco
 // Retorna: void
 void
-CSolver::Read (string fileName)
+CSolver::Read (string nomeArquivo)
 {
-  ifstream fin (fileName.c_str ());
+  ifstream fin (nomeArquivo.c_str ());
   if (fin.good ())
     {
       fin >> (*this);

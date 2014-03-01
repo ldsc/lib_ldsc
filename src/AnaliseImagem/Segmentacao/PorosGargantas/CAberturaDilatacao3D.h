@@ -20,7 +20,7 @@ enum EModelo { SETE=7, OITO=8, NOVE=9, DEZ=10, ONZE=11 };
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
  * Substituído rotulador interno pela classe CRotulador3D (otimizada).
-	@author André Duarte Bueno <bueno@lenep.uenf.br>
+	@author André Duarte Bueno <andreduartebueno@gmail.com>
 	@author Leandro Puerari <puerari@gmail.com>
 */
 class CAberturaDilatacao3D : public CMatrizObjetoImagem
@@ -153,10 +153,10 @@ class CAberturaDilatacao3D : public CMatrizObjetoImagem
 		void DistTotalPoros();
 
 		/// Grava em disco, com o nome informado, a mesclagem da matrizSitios com a matrizLigacoes
-		bool Write(string fileName);
+		bool Write(string nomeArquivo);
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
-		bool SalvarListaObjetos(string fileName);
+		bool SalvarListaObjetos(string nomeArquivo);
 
 		/// Realiza a segmentação de poros e gargantas através do modelo informado.
 		void Go( EModelo _modelo );
@@ -173,13 +173,13 @@ class CAberturaDilatacao3D : public CMatrizObjetoImagem
 
 	private:
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string nomeArquivo);
 
 		/// Se a flag gerarDetalhesObjetos estiver setada, gera detalhes dos objetos identificados (Num. voxeis, ligações, etc).
 		void GerarDetalhesMatrizObjetos();

@@ -117,8 +117,8 @@ class CCamara
   //  CCamara (/*TImagem2D* img,*/int raioMaximo=10)
   //        {dimensoesPadroes(raioMaximo);criaCamara(img);}
   //  1-Construtor sobrecarregado, cria camara assumindo dados padrões e lendo a imagem do disco
-  //  CCamara (std::string fileName,int raioMaximo=10)
-  //        {dimensoesPadroes(raioMaximo);criaCamara(fileName);}
+  //  CCamara (std::string nomeArquivo,int raioMaximo=10)
+  //        {dimensoesPadroes(raioMaximo);criaCamara(nomeArquivo);}
   //  Construtor de copia
   //  CCamara (const CCamara& aCCamara );
   

@@ -1,22 +1,23 @@
 #ifndef CAberturaDilatacao_H
 #define CAberturaDilatacao_H
 
-#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
-#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador2D.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
 #include <vector>
 
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <AnaliseImagem/Matriz/CVetor.h>
+
 using namespace std;
 
 /**
  * Classe para determinacao da distribuicao de sítios e ligacoes usando método da abertura-dilatacao.
  * Substituído rotulador interno pela classe CRotulador2D (otimizada).
-	@author André Duarte Bueno <bueno@lenep.uenf.br>
+	@author André Duarte Bueno <andreduartebueno@gmail.com>
 	@author Rafael Borgate <borgate@gmail.com>
 	@author Leandro Puerari <puerari@gmail.com>
 */

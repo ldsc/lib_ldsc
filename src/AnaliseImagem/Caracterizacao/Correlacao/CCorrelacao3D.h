@@ -44,7 +44,7 @@ public:
 		bool Go (TCMatriz3D<bool> *img, Tipos tipo, int indice=1, int numPlanos=0);
 
     /// Salva em disco os dados de correlação (.cor).
-    bool Write (string fileName);
+    bool Write (string nomeArquivo);
 };
 
 #endif

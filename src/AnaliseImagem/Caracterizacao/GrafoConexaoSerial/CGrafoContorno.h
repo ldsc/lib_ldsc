@@ -60,14 +60,14 @@ class CGrafoContorno : public CGrafo
 
   // -------------------------------------------------------------Construtor
   /// Cria os objetos de contorno e incluí no vetor contorno.
-  CGrafoContorno (std::string _fileName, unsigned long int _numero_contornos = 0);
+  CGrafoContorno (std::string _nomeArquivo, unsigned long int _numero_contornos = 0);
 
   // --------------------------------------------------------------Destrutor
   /// Delete os objetos de contorno do vetor contorno.
   virtual ~ CGrafoContorno ();
 
   // ----------------------------------------------------------------Métodos
-  // virtual void Write(std::string fileName);
+  // virtual void Write(std::string nomeArquivo);
 
  public:
 

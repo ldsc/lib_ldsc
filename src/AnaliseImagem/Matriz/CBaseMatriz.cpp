@@ -34,9 +34,9 @@ int CBaseMatriz::larguraCampo = 2;	// BUG
 
 // Armazena matriz em disco, recebe o nome do arquivo de disco.
 // No arquivo header detalhes dos formatos de salvamento em disco.
-bool CBaseMatriz::Write(string fileName, int separado) const {
+bool CBaseMatriz::Write(string nomeArquivo, int separado) const {
 	ofstream fout; //  Abre arquivo disco
-	string fullFileName = path + fileName;
+	string fullFileName = path + nomeArquivo;
 	//fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII para salvar cabeçalho e cores
 	if ( formatoImagem == V4_X_BINARY ||
 			 formatoImagem == V5_X_GRAY_BINARY ||
@@ -177,21 +177,21 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	Pré-condições:
 	Excessões:        Tipos de excessoes
 	Concorrência:
-	Tempo processamento(s):fileName
+	Tempo processamento(s):nomeArquivo
 	Tamanho(bits):
 	Comentarios:
 
 	Programador:      Andre Duarte Bueno
 */
-//  bool Read (const char*& fileName,bool separado=1); //  Le matriz do disco
-//  bool CBaseMatriz::Read(const char*& fileName,bool separado=1); //  Le matriz do disco
+//  bool Read (const char*& nomeArquivo,bool separado=1); //  Le matriz do disco
+//  bool CBaseMatriz::Read(const char*& nomeArquivo,bool separado=1); //  Le matriz do disco
 /*
-	bool CBaseMatriz::Read(const char*& fileName,bool separado)
+	bool CBaseMatriz::Read(const char*& nomeArquivo,bool separado)
 	{
 	//  Abertura do arquivo de disco
 	ifstream fin;
 	//  ->Verifica o formato do arquivo
-	fin.open(fileName);   					   				//  Abre arquivo como sendo ASCII
+	fin.open(nomeArquivo);   					   				//  Abre arquivo como sendo ASCII
 
 	string aux(50);
 	if(fin.good());                           //  Se abriu corretamente o arquivo
@@ -215,7 +215,7 @@ void CBaseMatriz::LeComentarios(ifstream & fin) {
 	if (aux[1] != '0' && aux[1] != '1' && aux[1] != '2' && aux[1] != '3')
 	{                                     //  se i!= 1 e !=2 e !=3, abriu com o formato errado
 	fin.close();                         //  Fecha o arquivo e
-	fin.open(fileName,ios::binary);				//  Reabre como binario
+	fin.open(nomeArquivo,ios::binary);				//  Reabre como binario
 	}
 	else                                    //  Abriu com o formato correto
 	//  verificar ifstream                //  Reposiciona ponteiro arquivo, no inicio do arquivo
@@ -263,8 +263,8 @@ return 0;
 	@return :
 */
 
-bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquivo formato correto
-	fin.open (fileName.c_str (), ios::binary); //abrindo sempre em modo binário para que tellg e seekg funcionem corretamente no windows
+bool CBaseMatriz::AbreArquivo (ifstream & fin, string nomeArquivo) { // Abre arquivo formato correto
+	fin.open (nomeArquivo.c_str (), ios::binary); //abrindo sempre em modo binário para que tellg e seekg funcionem corretamente no windows
 	return fin.good ();
 	/*string aux;
 	if (fin.good ()) { // Se carregou corretamente o arquivo
@@ -277,7 +277,7 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string fileName) { // Abre arquiv
 				return true;
 			} else if ( aux.at(1) == '4' || aux.at(1) == '5' || aux.at(1) == '6') { // Verifica se o formato é BINÁRIO
 				fin.close (); //  Fecha o arquivo e
-				fin.open (fileName.c_str (), ios::binary); // Reabre como binario
+				fin.open (nomeArquivo.c_str (), ios::binary); // Reabre como binario
 				if (fin.good ())
 					return true;
 				else

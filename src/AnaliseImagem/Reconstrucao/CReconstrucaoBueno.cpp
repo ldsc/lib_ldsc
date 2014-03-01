@@ -93,15 +93,15 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
 
 bool CReconstrucaoBueno::SalvarImagemEmDisco (string arqimg) {
    stringstream tmp;
-   if ( fileName == arqimg ) {
+   if ( nomeArquivo == arqimg ) {
       if (gt == 1) {
-         tmp << fileName << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
-         fileName = tmp.str();
-         arqimg = fileName;
+         tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
+         nomeArquivo = tmp.str();
+         arqimg = nomeArquivo;
       } else {
-         tmp << fileName << "_GT-2_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
-         fileName = tmp.str();
-         arqimg = fileName;
+         tmp << nomeArquivo << "_GT-2_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
+         nomeArquivo = tmp.str();
+         arqimg = nomeArquivo;
       }
    }
    ofstream fimg (arqimg.c_str());	// abre arquivo disco

@@ -56,7 +56,7 @@ Liang Zirong, Paulo C. Philippi,
  * // Opção 3
  * // Cria camara utilizando tamanhos default para as paredes
  * // a imagem é carregada do arquivo de disco
- * CCamara3D * camara = new CCamara3D ( fileName ) ;	
+ * CCamara3D * camara = new CCamara3D ( nomeArquivo ) ;	
 */
 class CCamara3D : public CCamara, public TCMatriz3D<int>
 {
@@ -76,9 +76,9 @@ class CCamara3D : public CCamara, public TCMatriz3D<int>
     //  }
 
     // 1-Construtor sobrecarregado, cria camara assumindo dados padrões e lendo a imagem do disco
-    // CCamara3D (std::string fileName,int& raioMaximo=10):CCamara(raioMaximo)
+    // CCamara3D (std::string nomeArquivo,int& raioMaximo=10):CCamara(raioMaximo)
     //  {
-    //   CMatriz3D imagem(fileName);
+    //   CMatriz3D imagem(nomeArquivo);
     //   CCamara3D::CriaCamara(&imagem);
     //  }
 

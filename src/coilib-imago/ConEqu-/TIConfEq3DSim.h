@@ -66,7 +66,7 @@ class TIConfEq3DSim:public TIConfiguracoesEquilibrio3D
 //--------------------------------------------------------------Atributos
 private:
     //nome do arquivo de disco
-    std::string fileName;
+    std::string nomeArquivo;
 
 protected:
 
@@ -98,7 +98,7 @@ public:
                        1, uint32 _raioMaximo = 0, uint32 _raioMinimo =
                        0, bool _salvarDisco = false
                                               //novo em 27-7-2002
-                                              , string fileNameArq = '\0'):
+                                              , string nomeArquivoArq = '\0'):
             TIConfiguracoesEquilibrio3D (_chamber, _molhabilidadeB, _compressibilidadeA,
                                          _incremento, _raioMaximo, _raioMinimo,
                                          _salvarDisco)
@@ -116,13 +116,13 @@ public:
                 curvaPressaoCapilarImgB.Size () * sizeof (float));
         memset (curvaPressaoCapilarImgY.Data (), 0,
                 curvaPressaoCapilarImgY.Size () * sizeof (float));
-        //fileName="\0";//novo
+        //nomeArquivo="\0";//novo
         //novo em 27-7-2002
-        //fileName = fileNameArq;
-        imageName = fileNameArq;
+        //nomeArquivo = nomeArquivoArq;
+        imageName = nomeArquivoArq;
         //aquiaqui
         cout << "TIConfEq3DSim: imageName = " << imageName << endl;
-        cout << "TIConfEq3DSim: fileName = " << fileName << endl;
+        cout << "TIConfEq3DSim: nomeArquivo = " << nomeArquivo << endl;
     };
 
 //--------------------------------------------------------------Destrutor

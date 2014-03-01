@@ -18,7 +18,7 @@ using namespace std;
 /**
  * Classe para determinacao da distribuicao de poros e gargantas (sítios e ligacoes) usando método da abertura através da IRA.
  * @author Leandro Puerari <puerari@gmail.com>
- * @author André Duarte Bueno <bueno@lenep.uenf.br>
+ * @author André Duarte Bueno <andreduartebueno@gmail.com>
 */
 class CSegPorosGargantas3D : public CMatrizObjetoImagem
 {
@@ -148,23 +148,23 @@ class CSegPorosGargantas3D : public CMatrizObjetoImagem
 		}
 
 		/// Grava em disco, com o nome informado, a mesclagem da matrizSitios com a matrizLigacoes
-		bool Write(string fileName );
+		bool Write(string nomeArquivo );
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
-		bool SalvarListaObjetos(string fileName);
+		bool SalvarListaObjetos(string nomeArquivo);
 
 		/// Método que executa a segmentação de poros e gargantas de acordo com o modelo informado.
 		void Go(int _modelo);
 
 	private:
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
-		void SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string nomeArquivo);
 
 		/// Se a flag gerarDetalhesObjetos estiver setada, gera detalhes dos objetos identificados (Num. voxeis, ligações, etc).
 		void GerarDetalhesMatrizObjetos();

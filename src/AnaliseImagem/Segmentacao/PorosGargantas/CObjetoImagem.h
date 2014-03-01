@@ -10,7 +10,7 @@ Desenvolvido por:
 @author     Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
 @begin      2010
 @copyright  (C) 2010 by Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
-@email      <bueno@lenep.uenf.br>
+@email      <andreduartebueno@gmail.com>
 @file 	  CObjetoImagem.h
 @license    GNU General Public License - version 2
 						see  $LICENSEFILE$ for the full license text.

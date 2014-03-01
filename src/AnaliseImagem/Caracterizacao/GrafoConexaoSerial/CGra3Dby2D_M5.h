@@ -36,7 +36,7 @@ Desenvolvido por:
  * @author 	André Duarte Bueno	
  * @see			grafos
 */
-class CGra3Dby2D_M5:public CGra3Dby2D_M4
+class CGra3Dby2D_M5 : public CGra3Dby2D_M4
 {
 // --------------------------------------------------------------Atributos
 protected:
@@ -49,16 +49,14 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
 	/// Construtor
-	CGra3Dby2D_M5 (char *_fileName):CGra3Dby2D_M4 (_fileName)
-  {
+	CGra3Dby2D_M5 (char *_nomeArquivo):CGra3Dby2D_M4 (_nomeArquivo)  {
+    tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M5;
     char arqDisco[256];
-      sprintf (arqDisco, "PixeisDeletados_%s", _fileName);
-      pixeisDeletados.open (arqDisco);
-    if (pixeisDeletados.bad ())
-      {
-	std::cerr << "\nNão conseguiu abrir arquivo de disco:" 
-		  << arqDisco << std::endl;
-	exit (0);
+    sprintf (arqDisco, "PixeisDeletados_%s", _nomeArquivo);
+    pixeisDeletados.open (arqDisco);
+    if( pixeisDeletados.bad() )   {
+      std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
+	  exit (0);
       }
   }
 

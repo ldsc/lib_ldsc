@@ -23,26 +23,26 @@ CPorosGargantas3D::~CPorosGargantas3D() {
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
-void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName){
+void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
-void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName){
+void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulo informada como parametro.
-void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName){
+void CPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 

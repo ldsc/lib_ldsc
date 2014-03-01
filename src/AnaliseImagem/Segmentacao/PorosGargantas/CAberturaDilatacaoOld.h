@@ -15,7 +15,7 @@ using namespace std;
 
 /**
  * Classe para determinacao da distribuicao de s�tios e ligacoes usando m�todo da abertura-dilatacao.
-	@author André Duarte Bueno <bueno@lenep.uenf.br>
+	@author André Duarte Bueno <andreduartebueno@gmail.com>
 	@author Rafael Borgate <borgate@gmail.com>
 */
 class CAberturaDilatacaoOld

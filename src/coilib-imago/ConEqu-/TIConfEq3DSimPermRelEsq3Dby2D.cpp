@@ -192,26 +192,26 @@ TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
         time_t inicio = time (NULL);
         TGra3Dby2D *grafo;
 
-        string fileNameGrafoFormatado;
+        string nomeArquivoGrafoFormatado;
         //O tipo de grafo � passado no construtor
         switch (tipoGrafo)
         {
         case 1:
-            fileNameGrafoFormatado = fileNameSaidaGrafo + ".mod1";
-            grafo = new TGra3Dby2DSingle (fileNameGrafoFormatado.c_str ());
+            nomeArquivoGrafoFormatado = nomeArquivoSaidaGrafo + ".mod1";
+            grafo = new TGra3Dby2DSingle (nomeArquivoGrafoFormatado.c_str ());
             break;
         case 2:
-            fileNameGrafoFormatado = fileNameSaidaGrafo + ".mod2";
-            grafo = new TGra3Dby2DAdvanced (fileNameGrafoFormatado.c_str ());
+            nomeArquivoGrafoFormatado = nomeArquivoSaidaGrafo + ".mod2";
+            grafo = new TGra3Dby2DAdvanced (nomeArquivoGrafoFormatado.c_str ());
             break;
         case 3:
-            fileNameGrafoFormatado = fileNameSaidaGrafo + ".mod3";
-            grafo = new TGra3Dby2DAdv3 (fileNameGrafoFormatado.c_str ());
+            nomeArquivoGrafoFormatado = nomeArquivoSaidaGrafo + ".mod3";
+            grafo = new TGra3Dby2DAdv3 (nomeArquivoGrafoFormatado.c_str ());
             break;
         default:
         case 4:
-            fileNameGrafoFormatado = fileNameSaidaGrafo + ".mod4";
-            grafo = new TGra3Dby2DAdv4 (fileNameGrafoFormatado.c_str ());
+            nomeArquivoGrafoFormatado = nomeArquivoSaidaGrafo + ".mod4";
+            grafo = new TGra3Dby2DAdv4 (nomeArquivoGrafoFormatado.c_str ());
             break;
         };
         assert (grafo);

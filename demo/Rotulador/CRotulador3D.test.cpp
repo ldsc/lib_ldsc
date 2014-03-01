@@ -29,14 +29,14 @@ main (int argc, char *argv[])
           << "\n================================================================================" << endl;
 
 // Cria string
-    string fileName = "imagem-[P262_K70-2-45-50-lp-d6].pm3";
+    string nomeArquivo = "imagem-[P262_K70-2-45-50-lp-d6].pm3";
 
     if (argc > 1)
-        fileName = argv[1];
+        nomeArquivo = argv[1];
 
-    cout << "Carrega imagem " << fileName << endl;
+    cout << "Carrega imagem " << nomeArquivo << endl;
 // Cria rotulador
-    CRotulador3D rot (fileName);
+    CRotulador3D rot (nomeArquivo);
 
     cout << "Realizando rotulagem... ";
     {
@@ -49,7 +49,7 @@ main (int argc, char *argv[])
 
     cout << " ...ok;" << endl;
 
-    string fileOut = "out.CRotulador3D." + fileName;
+    string fileOut = "out.CRotulador3D." + nomeArquivo;
 
     rot.larguraCampo = 3;
 

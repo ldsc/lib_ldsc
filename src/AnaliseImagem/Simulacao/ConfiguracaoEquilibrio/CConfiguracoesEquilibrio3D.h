@@ -51,7 +51,7 @@ using namespace std;
 */
 class CConfiguracoesEquilibrio3D
 {
-    string fileName;					/// Nome do arquivo de disco
+    string nomeArquivo;					/// Nome do arquivo de disco
 
     bool visualizar;					/// flag, se ativo mostra na tela saídas parciais
 

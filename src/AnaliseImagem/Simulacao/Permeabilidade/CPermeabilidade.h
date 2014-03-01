@@ -86,17 +86,17 @@ protected:
 
     // Definição das funções da classe base (herdadas)
     /// Cria objetos agregados
-    virtual void CriacaoObjetosAgregados ()
+    virtual void CriarObjetosAgregados ()
     {
     }
 
     /// Define as condições de contorno
-    virtual void DefinicaoCondicoesContorno ()
+    virtual void DefinirCondicoesContorno ()
     {
     }
 
     /// Define valores iniciais
-    virtual void DefinicaoValoresIniciais ()
+    virtual void DefinirValoresIniciais ()
     {
     }
 
@@ -108,7 +108,7 @@ protected:
 
 public:
     /// Abre e lê o arquivo de disco
-    virtual void Read (std::string fileName);
+    virtual void Read (std::string nomeArquivo);
 
     /// Função de calculo da permeabilidade
     virtual long double Go ()

@@ -90,7 +90,7 @@ public:
 // ----------------------------------------------------------------M?todos
 public:
   /// Lê atributos internos (mudar para ifstream>>)
-    void Read (std::string fileName); 
+    void Read (std::string nomeArquivo); 
 
 // --------------------------------------------------------------------Get
   /// Retorna o limite de erro

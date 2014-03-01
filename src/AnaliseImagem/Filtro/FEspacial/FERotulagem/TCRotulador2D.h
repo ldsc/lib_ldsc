@@ -63,8 +63,8 @@ class TCRotulador2D : public CRotulador, public TCMatriz2D<int>
   }
 
   /// Construtor, abre imagem do disco
-	TCRotulador2D (std::string fileName, int _indice=1, int _fundo=0) :
-     CRotulador( _indice, _fundo ), TCMatriz2D< int >(fileName), pm(nullptr) {
+	TCRotulador2D (std::string nomeArquivo, int _indice=1, int _fundo=0) :
+     CRotulador( _indice, _fundo ), TCMatriz2D< int >(nomeArquivo), pm(nullptr) {
   }
 
   /// Construtor, recebe dimensões da imagem

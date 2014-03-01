@@ -63,11 +63,11 @@ bool CCorrelacao3D::Go (TCMatriz3D<bool> *img, Tipos tipo, int indice, int numPl
 // -----------------------------------------------------------------------
 // Salva vetor correlacao em disco.
 // -----------------------------------------------------------------------
-bool CCorrelacao3D::Write (string fileName) {
+bool CCorrelacao3D::Write (string nomeArquivo) {
    if ( ! correlacao )
       return false;
 
-   ofstream fcor ((path + fileName + ".cor").c_str());
+   ofstream fcor ((path + nomeArquivo + ".cor").c_str());
 
    if ( ! fcor.is_open() )
       return false;

@@ -1046,17 +1046,17 @@ TIConfiguracoesEquilibrio3D::GetNucleoImgY () const const
 //Salvar imagem em disco
 void
 TIConfiguracoesEquilibrio3D::SaveImg (I3DRawImage * &_imagem,
-                                      string _fileName)
+                                      string _nomeArquivo)
 {
     if (saveToDisc)
     {
-        char fileNameContador[256];
-        sprintf (fileNameContador, _fileName.c_str (), pass);
+        char nomeArquivoContador[256];
+        sprintf (nomeArquivoContador, _nomeArquivo.c_str (), pass);
 
         //Para salvar em modo ASCII
-        //TOperacoesImg::SaveImg( _imagem, fileNameContador);
+        //TOperacoesImg::SaveImg( _imagem, nomeArquivoContador);
         //novo, agora usa objeto para salvar imagem3D
-        IWriteI3D wi3d (fileNameContador);
+        IWriteI3D wi3d (nomeArquivoContador);
         if (wi3d.Good ())
             wi3d << *_imagem;
     }

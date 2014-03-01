@@ -59,7 +59,7 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
 	/// Construtor
-    CHistograma (std::string fileName):CVetor  (fileName), numeroCores (256)
+    CHistograma (std::string nomeArquivo):CVetor  (nomeArquivo), numeroCores (256)
   {
   }
 

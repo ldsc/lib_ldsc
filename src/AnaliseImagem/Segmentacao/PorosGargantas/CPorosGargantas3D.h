@@ -17,7 +17,7 @@ using namespace std;
 /**
  * Classe que realiza a segmentação de poros e gargantas em imagens de meios porosos
 	@author Leandro Puerari <puerari@gmail.com>
-	@author André Duarte Bueno <bueno@lenep.uenf.br>
+	@author André Duarte Bueno <andreduartebueno@gmail.com>
 */
 class CPorosGargantas3D
 {
@@ -62,13 +62,13 @@ class CPorosGargantas3D
 
 	private:
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string nomeArquivo);
 
 		/// Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulada informada como parametro.
-		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string fileName);
+		void SalvarResultadosParciaisEmDisco(TCRotulador3D<bool>* &mat, string nomeArquivo);
 
 };
 

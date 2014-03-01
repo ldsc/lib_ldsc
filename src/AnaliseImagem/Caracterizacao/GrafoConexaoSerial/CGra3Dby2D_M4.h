@@ -56,25 +56,22 @@ class CGra3Dby2D_M4:public CGra3Dby2D_M3
 public:
   // Vetor de float para armazenar a informação do cmx de cada sitio do grafo
   std::vector < float >cmx;
-    std::vector < float >cmy;
-    std::vector < float >cmz;
+  std::vector < float >cmy;
+  std::vector < float >cmz;
 
 public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-CGra3Dby2D_M4 (std::string _fileName):CGra3Dby2D_M3 (_fileName)
-  {
+CGra3Dby2D_M4 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo)  {
+	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M4;
   }
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-  virtual ~ CGra3Dby2D_M4 ()
-  {
-  }
-
+  virtual ~ CGra3Dby2D_M4 () = default;
 
   /// Adiciona a saida dos centros de massa
-  virtual void Write (std::string fileName);
+  virtual void Write (std::string nomeArquivo);
 
   // Adiciona o calculo dos centros de massa
   // virtual void  CalcularCentroMassa();
@@ -87,7 +84,7 @@ protected:
    * @brief Calcula a condutancia conforme na classe anterior, 
    * e depois corrige levando em conta o centro de massa dos objetos
    * */
-  virtual void CalculoCondutancias (long double _viscosidade,
+  virtual void CalcularCondutancias (long double _viscosidade,
 				    long double _sizePixel,
 				    unsigned long int _fatorAmplificacao);
 

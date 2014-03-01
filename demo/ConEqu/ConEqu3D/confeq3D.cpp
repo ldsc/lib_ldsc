@@ -70,11 +70,11 @@ int main(int argc, char *argv[])
     }
     else
     {
-        string fileName;
+        string nomeArquivo;
         cout << "\nEntre com o nome da imagem 3D - binária (ex: P262_K70-2-45-50-lp-d6.pm3 ):";
-        getline(cin,fileName);
+        getline(cin,nomeArquivo);
         // Cria imagem 3D
-        img3D = new CMatriz3D(fileName);
+        img3D = new CMatriz3D(nomeArquivo);
         if (img3D == NULL)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;

@@ -74,7 +74,7 @@ public:
    bool Media (set<string> filesName);
 
    /// Salva em disco os dados de correlação (.cor).
-   bool Write (string fileName);
+   bool Write (string nomeArquivo);
 
    /// Retorna dimensao do vetor correlacao (igual ao size).
    inline int Size() {

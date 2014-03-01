@@ -43,21 +43,15 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Recebe o número de contornos,
 // Cria os objetos e adiciona ao vetor de contornos.
-// O fileName é repassado a classe base.
-CGrafoContorno::CGrafoContorno (string _fileName,
+// O nomeArquivo é repassado a classe base.
+CGrafoContorno::CGrafoContorno (string _nomeArquivo,
 				unsigned long int _numero_contornos):
-		      CGrafo (_fileName)
+		      CGrafo (_nomeArquivo)
 		      //, contorno(_numero_contornos, new CContorno())
 {
+  tipoGrafo  =  ETipoGrafo::grafoContorno ; 
 //   contorno.resize(_numero_contornos); // redimensiona (size)
-//   for (unsigned long int i = 0; i < _numero_contornos; i++)
-//     {
-//       CContorno *obj_cont = new CContorno ();
-//       assert (obj_cont);
-//       contorno[i] = obj_cont;
-//     }
-//ou  generate(contorno.begin(), contorno.end(), new CContorno ());
-//ou contorno.resize(_numero_contornos, new CContorno()); 
+//   generate(contorno.begin(), contorno.end(), new CContorno ());
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
       CContorno *obj_cont = new CContorno ();

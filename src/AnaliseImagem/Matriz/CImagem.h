@@ -63,13 +63,13 @@ class CImagem : public TCMatriz2D< int >//, public CImg // comentei para poder f
 		}
 
 		/// Constrói a imagem a partir de arquivo de disco
-		CImagem (std::string fileName)
-			: TCMatriz2D< int > (fileName), x0(0), y0(0) {
+		CImagem (std::string nomeArquivo)
+			: TCMatriz2D< int > (nomeArquivo), x0(0), y0(0) {
 		}
 
 		/// Constrói a imagem bidimensional a partir de plano de imagem tridimensional
-		CImagem (std::string fileName, int planoZ)
-			: TCMatriz2D< int > (fileName, planoZ), x0(0), y0(0) {
+		CImagem (std::string nomeArquivo, int planoZ)
+			: TCMatriz2D< int > (nomeArquivo, planoZ), x0(0), y0(0) {
 		}
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.

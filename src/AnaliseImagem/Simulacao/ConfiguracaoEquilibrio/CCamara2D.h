@@ -57,7 +57,7 @@
  * 
  * Opção 3:
  * Cria camara utilizando tamanhos default para as paredes a imagem é carregada do arquivo de disco
- * CCamara2D * camara = new CCamara2D( fileName );	
+ * CCamara2D * camara = new CCamara2D( nomeArquivo );	
 */
 class CCamara2D : public CCamara, public TCMatriz2D< int >
 {
@@ -73,9 +73,9 @@ class CCamara2D : public CCamara, public TCMatriz2D< int >
   //   CCamara2D::CriaCamara(img);
   //  }
   //  Construtor sobrecarregado, cria camara assumindo dimensões padrões e lendo a imagem do disco
-  //  CCamara2D (std::string fileName,int raioMaximo=10):CCamara(raioMaximo)
+  //  CCamara2D (std::string nomeArquivo,int raioMaximo=10):CCamara(raioMaximo)
   //  {
-  //   TCMatriz2D< int > imagem(fileName);
+  //   TCMatriz2D< int > imagem(nomeArquivo);
   //   CCamara2D::CriaCamara(&imagem);
   //  }
   

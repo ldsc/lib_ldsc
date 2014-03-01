@@ -63,20 +63,20 @@ bool CBaseDistribuicao::Media (set<string> filesName, Tipos _tipo){
 // -----------------------------------------------------------------------
 // Salva em disco o vetor distribuicao de acordo com o tipo de distribuicao calculada.
 // -----------------------------------------------------------------------
-bool CBaseDistribuicao::Write (string fileName) {
+bool CBaseDistribuicao::Write (string nomeArquivo) {
 	if ( distribuicao.empty() ) {
 		cerr << "Erro em CDistribuicao::Write()! O vetor distribuição não possui elementos!" << endl;
 		return false;
 	}
 
 	switch (tipo){
-		case dts: fileName += ".dts"; break;
-		case dtp: fileName += ".dtp"; break;
-		case dtg: fileName += ".dtg"; break;
-		default:	fileName += ".dtp";
+		case dts: nomeArquivo += ".dts"; break;
+		case dtp: nomeArquivo += ".dtp"; break;
+		case dtg: nomeArquivo += ".dtg"; break;
+		default:	nomeArquivo += ".dtp";
 	}
 
-	ofstream fdist ( fileName.c_str() );
+	ofstream fdist ( nomeArquivo.c_str() );
 
 	if ( ! fdist.is_open() || ! fdist.good() ) {
 		cerr << "Erro em CDistribuicao::Write()! O arquivo de saída não pôde ser aberto!" << endl;

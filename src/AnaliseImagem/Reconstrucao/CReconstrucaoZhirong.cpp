@@ -39,7 +39,7 @@ CReconstrucaoZhirong::CReconstrucaoZhirong (std::string nomeArquivo, int fatorAm
 
    numeroPontosLidosArquivoCz = 0;	// numero de pontos realmente lidos do arquivo de disco
    nomeArquivoCz = nomeArquivo;
-   fileName = nomeArquivo;
+   nomeArquivo = nomeArquivo;
    fatorAmplificacaoNumeroPontos = fatorAmp;
    numeroPontosCz = npcz;
    sizePixel = sp;
@@ -328,10 +328,10 @@ void CReconstrucaoZhirong::filtro_nao_linear () {
 // ----------------------------------------
 bool CReconstrucaoZhirong::SalvarImagemEmDisco (string arqimg) {
    stringstream tmp;
-	if ( fileName == arqimg ) {
-      tmp << fileName << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << sizePixel << ".dbm";
-      fileName = tmp.str();
-      arqimg = fileName;
+	if ( nomeArquivo == arqimg ) {
+      tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << sizePixel << ".dbm";
+      nomeArquivo = tmp.str();
+      arqimg = nomeArquivo;
 	}
 	ofstream fimg (arqimg.c_str());	// abre arquivo disco
   	if (fimg == nullptr) {
@@ -540,7 +540,7 @@ int CReconstrucaoZhirong::Go () {
 
    cout << "\nSalvando imagem reconstruída em disco... ";
    ti = time (nullptr);
-   SalvarImagemEmDisco ( fileName );
+   SalvarImagemEmDisco ( nomeArquivo );
    tf = time (nullptr);
    cout << "\nTempo decorrido processo (SalvarImagemEmDisco)" << (difftime (tf, ti));
 

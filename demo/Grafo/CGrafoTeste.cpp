@@ -21,7 +21,7 @@ email:            andre@lmpt.ufsc.br
 #include <iostream>
 #include <iomanip>
 #include <string>
-#include <sstream>		// novo
+#include <sstream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -137,28 +137,28 @@ double
 CGrafoTest::Permeabilidade (int tipoSolver)
 {
 // cout << "\n\ntipo SOLVER = " << tipoSolver <<endl;
-    MostraInstrucoesArquivosExternos ();
-    string fileName = SolicitaNomeImagem ();
-    int modelo = SolicitaModeloGrafo ();
+    MostrarInstrucoesArquivosExternos ();
+    string nomeArquivo = SolicitarNomeImagem ();
+    int modelo = SolicitarModeloGrafo ();
 
     int fatorAmplificacao = 2;
     double sizePixel = 5.0e-6;
-    SolicitaPropriedadesImagem (fatorAmplificacao, sizePixel, fileName);
-    TCMatriz3D<int> *pm3D = LeImagemDisco (fileName);
+    SolicitarPropriedadesImagem (fatorAmplificacao, sizePixel, nomeArquivo);
+    CMatriz3D *pm3D = LerImagemDisco (nomeArquivo);
 
-    CGra3Dby2D *grafo = CriaGrafo (modelo, fileName);
+    CGra3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
 
-    DeterminaGrafo (grafo, pm3D, fileName);
+    DeterminarGrafo (grafo, pm3D, nomeArquivo);
 
-    SalvaGrafo (grafo);
+    SalvarGrafo (grafo);
 
-    CMFluido *fluido = CriaFluido ();
+    CMFluido *fluido = CriarFluido ();
 
-    CSMDiagonalDominante *solver = CriaSolver (tipoSolver);
+    CSMDiagonalDominante *solver = CriarSolver (tipoSolver);
 
-    CPermeabilidadeGrafo *permeabilidade = CriaPermeabilidade(fluido, solver, grafo, pm3D, fatorAmplificacao, sizePixel);
+    CPermeabilidadeGrafo *permeabilidade = CriarPermeabilidade(fluido, solver, grafo, pm3D, fatorAmplificacao, sizePixel);
 
-    double permeabilidade_calculada = DeterminaPermeabilidade (permeabilidade);
+    double permeabilidade_calculada = DeterminarPermeabilidade (permeabilidade);
 
     delete pm3D;
     delete permeabilidade;
@@ -180,12 +180,12 @@ Função: Grafo
 bool
 CGrafoTest::Grafo ()
 {
-    int modelo = SolicitaModeloGrafo ();
-    string fileName = SolicitaNomeImagem ();
-    TCMatriz3D<int> *pm3D = LeImagemDisco (fileName);
-    CGra3Dby2D *grafo = CriaGrafo (modelo, fileName);
-    DeterminaGrafo (grafo, pm3D, fileName);
-    SalvaGrafo (grafo);
+    int modelo = SolicitarModeloGrafo ();
+    string nomeArquivo = SolicitarNomeImagem ();
+    CMatriz3D *pm3D = LerImagemDisco (nomeArquivo);
+    CGra3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
+    DeterminarGrafo (grafo, pm3D, nomeArquivo);
+    SalvarGrafo (grafo);
 
     delete grafo;			// deleta objeto
     delete pm3D;			// deleta objeto
@@ -194,11 +194,11 @@ CGrafoTest::Grafo ()
 
 /*
 -------------------------------------------------------------------------
-Função: MostraInstrucoesArquivosExternos()
+Função: MostrarInstrucoesArquivosExternos()
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::MostraInstrucoesArquivosExternos ()
+CGrafoTest::MostrarInstrucoesArquivosExternos ()
 {
     cout
         << "\n\n----------------------------------------------------------"
@@ -220,28 +220,28 @@ CGrafoTest::MostraInstrucoesArquivosExternos ()
 
 /*
 -------------------------------------------------------------------------
-Função: SolicitaNomeImagem()
+Função: SolicitarNomeImagem()
 -------------------------------------------------------------------------
 */
 string
-CGrafoTest::SolicitaNomeImagem ()
+CGrafoTest::SolicitarNomeImagem ()
 {
     cout << "\nEntre com o nome da imagem"
          << "\nExemplo:\n";
 		int r = system ("dir *.txt *.pm3");
 		r = r; //evitar warming
-    string fileName;
-    getline (cin, fileName);
-    return fileName;
+    string nomeArquivo;
+    getline (cin, nomeArquivo);
+    return nomeArquivo;
 }
 
 /*
 -------------------------------------------------------------------------
-Função: SolicitaModeloGrafo()
+Função: SolicitarModeloGrafo()
 -------------------------------------------------------------------------
 */
 int
-CGrafoTest::SolicitaModeloGrafo ()
+CGrafoTest::SolicitarModeloGrafo ()
 {
     cout << "\n\n---------------------------------------------------------------------------"
          << "\nselecione um dos modelos para calculo da permeabilidade:"
@@ -268,18 +268,18 @@ CGrafoTest::SolicitaModeloGrafo ()
 
 /*
 -------------------------------------------------------------------------
-Função: LeImagemDisco
+Função: LerImagemDisco
 -------------------------------------------------------------------------
 */
 TCMatriz3D<int> *
-CGrafoTest::LeImagemDisco (string fileName)
+CGrafoTest::LerImagemDisco (string nomeArquivo)
 {
     TCMatriz3D<int> *pm3D;
     {
         CTime *t = new CTime ("Tempo leitura imagem = ", &cout);
-        cout << "Lendo imagem (" << fileName << ") do disco...";
+        cout << "Lendo imagem (" << nomeArquivo << ") do disco...";
         cout.flush ();
-        pm3D = new TCMatriz3D<int> (fileName);
+        pm3D = new CMatriz3D (nomeArquivo);
         assert (pm3D);
         delete t;				// deleta objeto
     }
@@ -288,18 +288,18 @@ CGrafoTest::LeImagemDisco (string fileName)
 
 /*
 -------------------------------------------------------------------------
-Função: SolicitaPropriedadesImagem
+Função: SolicitarPropriedadesImagem
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::SolicitaPropriedadesImagem (int &fatorAmplificacao,
-                                        double &sizePixel, string fileName)
+CGrafoTest::SolicitarPropriedadesImagem (int &fatorAmplificacao,
+                                        double &sizePixel, string nomeArquivo)
 {
-    string fileNameDat (fileName + ".dat");
+    string nomeArquivoDat (nomeArquivo + ".dat");
     cout << "\n\nVai ler as propriedades fatorAmplificacao e sizePixel do arquivo "
-         << fileNameDat << endl;
+         << nomeArquivoDat << endl;
 
-    ifstream finimg3D (fileNameDat.c_str ());
+    ifstream finimg3D (nomeArquivoDat.c_str ());
     string msg;
     if (finimg3D /*.good() */ )
     {
@@ -319,10 +319,10 @@ CGrafoTest::SolicitaPropriedadesImagem (int &fatorAmplificacao,
 
 /*
 -------------------------------------------------------------------------
-Função: CriaFluido
+Função: CriarFluido
 -------------------------------------------------------------------------
 */
-CMFluido * CGrafoTest::CriaFluido ()
+CMFluido * CGrafoTest::CriarFluido ()
 {
     // Solicita propriedades do fluido
     cout << "Vai ler a propriedade viscosidade do arquivo input_data/fluido.info...";
@@ -348,12 +348,12 @@ CMFluido * CGrafoTest::CriaFluido ()
 
 /*
 -------------------------------------------------------------------------
-Função: CriaSolver
+Função: CriarSolver
 -------------------------------------------------------------------------
 */
 
 CSMDiagonalDominante *
-CGrafoTest::CriaSolver (int tipoSolver)
+CGrafoTest::CriarSolver (int tipoSolver)
 {
     // Solicita propriedades do solver
     cout << "\n\nVai ler as propriedades fatorRelaxacao,limiteIteracoes,limiteErro nproc" << endl;
@@ -420,56 +420,56 @@ CGrafoTest::CriaSolver (int tipoSolver)
 
 /*
 -------------------------------------------------------------------------
-Função: CriaGrafo
+Função: CriarGrafo
 -------------------------------------------------------------------------
 */
 CGra3Dby2D *
-CGrafoTest::CriaGrafo (int modelo, string fileName)
+CGrafoTest::CriarGrafo (int modelo, string nomeArquivo)
 {
     cout << "Criando objeto grafo...";
     CGra3Dby2D *grafo;
     {
         CTime *t = new CTime ("Tempo Criação do grafo = ", &cout);
-        string fileNameExt (fileName);
+        string nomeArquivoExt (nomeArquivo);
         switch (modelo)
         {
         case 1:
             cout << "...Criando objeto CGra3Dby2_M1...";
-            fileNameExt += ".mod1";
-            grafo = new CGra3Dby2D_M1 (fileNameExt);
+            nomeArquivoExt += ".mod1";
+            grafo = new CGra3Dby2D_M1 (nomeArquivoExt);
             break;
 
         case 2:
             cout << "...Criando objeto CGra3Dby2_M2...";
-            fileNameExt += ".mod2";
-            grafo = new CGra3Dby2D_M2 (fileNameExt);
+            nomeArquivoExt += ".mod2";
+            grafo = new CGra3Dby2D_M2 (nomeArquivoExt);
             break;
 
         case 3:
             cout << "...Criando objeto CGra3Dby2_M3...";
-            fileNameExt += ".mod3";
-            grafo = new CGra3Dby2D_M3 (fileNameExt);
+            nomeArquivoExt += ".mod3";
+            grafo = new CGra3Dby2D_M3 (nomeArquivoExt);
             break;
         case 4:
             cout << "...Criando objeto CGra3Dby2_M4...";
-            fileNameExt += ".mod4";
-            grafo = new CGra3Dby2D_M4 (fileNameExt);
+            nomeArquivoExt += ".mod4";
+            grafo = new CGra3Dby2D_M4 (nomeArquivoExt);
             break;
 //               case 5:
 //                       cout<<"...Criando objeto CGra3Dby2_M5...";
-//                       fileNameExt +=  ".mod5";
-//                       grafo   = new CGra3Dby2D_M5(fileNameExt);
+//                       nomeArquivoExt +=  ".mod5";
+//                       grafo   = new CGra3Dby2D_M5(nomeArquivoExt);
 //                       break;
 
         case 6:
             cout << "...Criando objeto CGra3Dby2_M6...";
-            fileNameExt += ".mod6";
-            grafo = new CGra3Dby2D_M6 (fileNameExt);
+            nomeArquivoExt += ".mod6";
+            grafo = new CGra3Dby2D_M6 (nomeArquivoExt);
             break;
         default:
             cout << "...Criando objeto CGra3Dby2_M3...";
-            fileNameExt += ".mod3";
-            grafo = new CGra3Dby2D_M3 (fileNameExt);
+            nomeArquivoExt += ".mod3";
+            grafo = new CGra3Dby2D_M3 (nomeArquivoExt);
             break;
         };
         assert (grafo);
@@ -481,14 +481,14 @@ CGrafoTest::CriaGrafo (int modelo, string fileName)
 
 /*
 -------------------------------------------------------------------------
-Função: DeterminaGrafo
+Função: DeterminarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, string fileName)
+CGrafoTest::DeterminarGrafo (CGra3Dby2D * grafo, CMatriz3D * pm3D, string nomeArquivo)
 {
     CTime *t = new CTime ("Tempo Determinação do grafo = ", &cout);
-    cout << "Determinando o grafo da imagem(" << fileName << ")..." << "\nChamando o grafo->Go()" << endl;
+    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
     grafo->Go (pm3D);
     delete t;				// deleta objeto
     cout << "\nDimensão do TGRAFO=" << grafo->objeto.size () << endl << " ...done" << endl;
@@ -496,15 +496,15 @@ CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, string f
 
 /*
 -------------------------------------------------------------------------
-Função: DeterminaGrafo
+Função: DeterminarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, string fileName)
+CGrafoTest::DeterminarGrafo (CGra3Dby2D * grafo, string nomeArquivo)
 {
     CTime *t = new CTime ("Tempo Determinação do grafo = ", &cout);
-    cout << "Determinando o grafo da imagem(" << fileName << ")..." << "\nChamando o grafo->Go()" << endl;
-    grafo->Go (fileName);
+    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
+    grafo->Go (nomeArquivo);
     delete t;				// deleta objeto
     cout << "\nDimensão do TGRAFO=" << grafo->objeto.size () << endl  << " ...done" << endl;
 }
@@ -515,16 +515,16 @@ CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, string fileName)
 //       A->Constante(0);
 //       CVetor* B = new CVetor(pm3D->NX());
 //       B->Constante(0);
-//       grafo->SetMatrizAVetorB(A,B);
+//       grafo->SetarMatrizAVetorB(A,B);
 //       }
 
 /*
 -------------------------------------------------------------------------
-Função: SalvaGrafo
+Função: SalvarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::SalvaGrafo (CGra3Dby2D * grafo)
+CGrafoTest::SalvarGrafo (CGra3Dby2D * grafo)
 {
     cout << "\nGrafo salvo em path/nomeImagem.grafo.txt: " << endl;
     grafo->Write (grafo->FileName () + ".grafo.txt");
@@ -532,10 +532,10 @@ CGrafoTest::SalvaGrafo (CGra3Dby2D * grafo)
 
 /*
 -------------------------------------------------------------------------
-Função: CriaPermeabilidade
+Função: CriarPermeabilidade
 -------------------------------------------------------------------------
 */
-CPermeabilidadeGrafo * CGrafoTest::CriaPermeabilidade  (CMFluido * fluido, CSMDiagonalDominante * solver,  // CSMDiagonalDominanteThreads* solver,
+CPermeabilidadeGrafo * CGrafoTest::CriarPermeabilidade  (CMFluido * fluido, CSMDiagonalDominante * solver,  // CSMDiagonalDominanteThreads* solver,
         CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, int fatorAmplificacao, double sizePixel)
 {
     CPermeabilidadeGrafo * permeabilidade;
@@ -553,10 +553,10 @@ CPermeabilidadeGrafo * CGrafoTest::CriaPermeabilidade  (CMFluido * fluido, CSMDi
 
 /*
 -------------------------------------------------------------------------
-Função: DeterminaPermeabilidade
+Função: DeterminarPermeabilidade
 -------------------------------------------------------------------------
 */
-double CGrafoTest::DeterminaPermeabilidade (CPermeabilidadeGrafo * permeabilidade)
+double CGrafoTest::DeterminarPermeabilidade (CPermeabilidadeGrafo * permeabilidade)
 {
     {
         CTime *t =   new CTime ("Tempo permeabilidade->SolucaoSistema(); = ", &cout);
@@ -580,7 +580,7 @@ double CGrafoTest::DeterminaPermeabilidade (CPermeabilidadeGrafo * permeabilidad
     }
 
     // Resolvido o sistema salva em disco o grafo com as pressões finais
-    // SalvaGrafo(grafo);
+    // SalvarGrafo(grafo);
     return permeabilidade_calculada;
 }
 
@@ -604,14 +604,14 @@ void CGrafoTest::teste_solver()
 	// Criação do arquivo de disco com o log das simulações realizadas
 	ofstream fout("solver.log.txt");
 	ofstream fout2("solver_FR_LES_PERM.log.txt");
-	char fileName[256];
-	strcpy(fileName,"input.dat");
+	char nomeArquivo[256];
+	strcpy(nomeArquivo,"input.dat");
 
   TCMatriz3D<int>* pm3D;
   // Abre o arquivo de disco e lê a imagem Resultados
 	{
 	CTime* t = new CTime("Tempo leitura imagem = ",&fout);
-	pm3D = new TCMatriz3D<int>(fileName);
+	pm3D = new CMatriz3D(nomeArquivo);
   assert(pm3D);
 	}
 
@@ -650,9 +650,9 @@ void CGrafoTest::teste_solver()
 	else
 	  solver = new CSMDSOR(limiteIteracoes,limiteErro,fatorRelaxacao);
 
-	char fileNameExt[256];
-	sprintf(fileNameExt,"%s.mod4_FR%i_LES%e.txt",fileName,fr,(float)limiteErro);
-	grafo	= new CGra3Dby2_M4(fileNameExt);
+	char nomeArquivoExt[256];
+	sprintf(nomeArquivoExt,"%s.mod4_FR%i_LES%e.txt",nomeArquivo,fr,(float)limiteErro);
+	grafo	= new CGra3Dby2_M4(nomeArquivoExt);
 	permeabilidade =
   		new CPermeabilidadeGrafo(fluido,solver,grafo, pm3D->NX(),pm3D->NY(),pm3D->NZ(),
 		fatorAmplificacao,sizePixel);
@@ -676,13 +676,13 @@ void CGrafoTest::teste_solver()
 	tf = time(NULL);
 	cout<<"------>fr="	<<	fatorRelaxacao<< " LES="<<limiteErro<<" perm(M4_mD)="
 			<<permeabilidade_calculada
-	<<" erroPer="<<permeabilidade->GeterroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
+	<<" erroPer="<<permeabilidade->ErroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
 	fout<<"------>fr="	<<	fatorRelaxacao<< " LES="<<limiteErro<<" perm(M4_mD)="
 		<<permeabilidade_calculada
-	<<" erroPer="<<permeabilidade->GeterroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
+	<<" erroPer="<<permeabilidade->ErroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
 	fout2<<"------>fr="	<<	fatorRelaxacao<< " LES="<<limiteErro<<" perm(M4_mD)="
 		<<permeabilidade_calculada
-	<<" erroPer="<<permeabilidade->GeterroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
+	<<" erroPer="<<permeabilidade->ErroPermeabilidade()	<< " time="<<(difftime(tf,ti)) <<endl;
 
 	{
 	CTime* t = new CTime("Tempo destruição dos objetos = ",&fout);
@@ -723,7 +723,7 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
     }
 
     // Vai percorrer a lista de imagens e mostrar o nome na tela (para verificação)
-    string fileName;
+    string nomeArquivo;
     cout << "=============================================================\n"
          << "Vai determinar a permeabilidade das imagens:\n"
          << "============================================================="
@@ -732,15 +732,15 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
     do
     {
         // Lê o nome das imagens do arquivo passado,
-        getline (fin, fileName);
+        getline (fin, nomeArquivo);
 
         // se encontrar um string =end ou string==fim, encerra a leitura do arquivo.
-        if (fileName == "end" || fileName == "fim")
+        if (nomeArquivo == "end" || nomeArquivo == "fim")
         {
             flagEnd = true;
             continue;
         }
-        cout << fileName << endl;
+        cout << nomeArquivo << endl;
     }
     while (fin.eof () == false && flagEnd == false);
     fin.close ();
@@ -764,10 +764,10 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
     flagEnd = false;
     do
     {
-        getline (fin, fileName);
+        getline (fin, nomeArquivo);
 
         // Se for end ou fim, pula para práximo laço while (práxima imagem)
-        if (fileName == "end" || fileName == "fim")
+        if (nomeArquivo == "end" || nomeArquivo == "fim")
         {
             flagEnd = true;
             continue;
@@ -775,49 +775,49 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
         // Se não for end realiza o processamento da imagem
         else
         {
-            string msg ("Tempo total processamento da imagem (" + fileName + " = ");
+            string msg ("Tempo total processamento da imagem (" + nomeArquivo + " = ");
             CTime *t = new CTime (msg, &cout);
             TCMatriz3D<int> *pm3D = NULL;
             cout << "=============================================================\n"
-                 << "Lendo Imagem (" << fileName << ") do disco" << endl;
+                 << "Lendo Imagem (" << nomeArquivo << ") do disco" << endl;
             fout << "=============================================================\n"
-            << "Lendo Imagem (" << fileName << ") do disco" << endl;
+            << "Lendo Imagem (" << nomeArquivo << ") do disco" << endl;
             {
-                ifstream teste (fileName.c_str ());
+                ifstream teste (nomeArquivo.c_str ());
                 if (teste.fail ())
                 {
-                    cout << "\n A Imagem " << fileName << " é inválida (Nome errado?).\a" << endl;
-                    fout << "\n A Imagem " << fileName << " é inválida (Nome errado?)." << endl;
+                    cout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?).\a" << endl;
+                    fout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?)." << endl;
                     teste.close ();	// ?
                     continue;	// Passa para proximo passo do laço while ? confirmar->ok
                 }
                 else
                 {
-                    cout << "\n A Imagem " << fileName << " é válida.\a" << endl;
+                    cout << "\n A Imagem " << nomeArquivo << " é válida.\a" << endl;
                     teste.close ();
 
                     // -->Originalmente carregava a imagem do disco aqui
                     // CTime* t = new CTime("Demora na abertura da imagem do disco = ",&cout);
                     // cout<<"Criando img3D ..."<<endl;
-                    // pm3D = new TCMatriz3D<int>(fileName);
+                    // pm3D = new CMatriz3D(nomeArquivo);
                     // assert(pm3D);
                     // pm3D=NULL;
                     // cout <<"...done";
-                    // -->Agora a imagem e carregada na funcao DeterminaGrafo(grafo,fileName)
+                    // -->Agora a imagem e carregada na funcao DeterminarGrafo(grafo,nomeArquivo)
                     // que abre a imagem e le plano a plano
                 }
                 delete t;				// deleta objeto
             }
 
             // Chama função de decisão do cálculo da permeabilidade
-            // Permeabilidade_By_ModelX_Decisao ( fileName , 1 ,pm3D ,fout); // modelo 1
-            // Permeabilidade_By_ModelX_Decisao ( fileName , 2 ,pm3D ,fout); // modelo 2
-            Permeabilidade_By_ModelX_Decisao (fileName, 3, pm3D, fout);	// modelo 3
+            // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 1 ,pm3D ,fout); // modelo 1
+            // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 2 ,pm3D ,fout); // modelo 2
+            Permeabilidade_By_ModelX_Decisao (nomeArquivo, 3, pm3D, fout);	// modelo 3
             // cout<<"\a";
-            // Permeabilidade_By_ModelX_Decisao ( fileName , 4 ,pm3D ,fout); // modelo 4
+            // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 4 ,pm3D ,fout); // modelo 4
             // cout<<"\a";
-            // Permeabilidade_By_ModelX_Decisao ( fileName , 5 ,pm3D ,fout); // modelo 5
-            // Permeabilidade_By_ModelX_Decisao ( fileName , 6 ,pm3D ,fout); // modelo 5
+            // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 5 ,pm3D ,fout); // modelo 5
+            // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 6 ,pm3D ,fout); // modelo 5
             cout << "\a";
             // delete pm3D;??
         }
@@ -838,7 +838,7 @@ Resolve se é para iniciar a simulação
 ou para continuar uma simulação que não terminou
 */
 bool
-CGrafoTest::Permeabilidade_By_ModelX_Decisao (string fileName, int modelo,
+CGrafoTest::Permeabilidade_By_ModelX_Decisao (string nomeArquivo, int modelo,
         TCMatriz3D<int> * pm3D, ofstream & fout)
 {
     // Variáveis auxiliares
@@ -848,10 +848,10 @@ CGrafoTest::Permeabilidade_By_ModelX_Decisao (string fileName, int modelo,
 
     // Definição do nome da imagem, considerando o modelo
     ostringstream os;
-    os << fileName << ".mod" << modelo;
+    os << nomeArquivo << ".mod" << modelo;
     string nomeComModelo (os.str ());
 
-    /*	string nomeComModelo(fileName);
+    /*	string nomeComModelo(nomeArquivo);
     	if 	( modelo == 1 )			nomeComModelo +=  ".mod1";
     	else if	( modelo == 2 )			nomeComModelo +=  ".mod2";
     	else if	( modelo == 3 )			nomeComModelo +=  ".mod3";
@@ -880,12 +880,12 @@ CGrafoTest::Permeabilidade_By_ModelX_Decisao (string fileName, int modelo,
     {
         reiniciar = true;
         // Determina a permeabilidade reiniciando de onde havia parado
-        Permeabilidade_By_ModelX (fileName, modelo, pm3D,
+        Permeabilidade_By_ModelX (nomeArquivo, modelo, pm3D,
                                   fout, tipoSolver, reiniciar);
         // CriaArquivoFim
         nomeTeste = nomeComModelo + ".fim";
         ofstream fim (nomeTeste.c_str ());
-        fim << "Simulação para a imagem ( " << fileName << " ) Finalizada";
+        fim << "Simulação para a imagem ( " << nomeArquivo << " ) Finalizada";
         fim.close ();
         return 1;
     }
@@ -897,12 +897,12 @@ CGrafoTest::Permeabilidade_By_ModelX_Decisao (string fileName, int modelo,
     << " ) iniciada , e em andamento...";
     meio.close ();
 
-    Permeabilidade_By_ModelX (fileName, modelo, pm3D, fout, tipoSolver);
+    Permeabilidade_By_ModelX (nomeArquivo, modelo, pm3D, fout, tipoSolver);
 
     // CriaArquivoFim
     nomeTeste = nomeComModelo + ".fim";
     ofstream fim (nomeTeste.c_str ());
-    fim << "Simulação para a imagem ( " << fileName << " ) Finalizada";
+    fim << "Simulação para a imagem ( " << nomeArquivo << " ) Finalizada";
     fim.close ();
     return 1;
 }
@@ -915,7 +915,7 @@ Recebe o nome da imagem a ser processada, o modelo
 a imagem , um fout, e um flag de reinicialização.
 */
 bool
-CGrafoTest::Permeabilidade_By_ModelX (string fileName,
+CGrafoTest::Permeabilidade_By_ModelX (string nomeArquivo,
                                       int modelo,
                                       TCMatriz3D<int> * pm3D,
                                       ofstream & fout,
@@ -923,23 +923,22 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
                                       bool reiniciar /* =false */ )
 {
     CTime *t = new CTime
-    ("Tempo total execução da função  Permeabilidade_By_ModelX = ",
-     &cout);
+    ("Tempo total execução da função  Permeabilidade_By_ModelX = ",     &cout);
 
     // Solicita propriedades da Imagem3D------------------------------------
     int fatorAmplificacao = 1;
     double sizePixel = 5e-6;
-    SolicitaPropriedadesImagem (fatorAmplificacao, sizePixel, fileName);
-    CMFluido *fluido = CriaFluido ();
+    SolicitarPropriedadesImagem (fatorAmplificacao, sizePixel, nomeArquivo);
+    CMFluido *fluido = CriarFluido ();
 
-    CSMDiagonalDominante *solver = CriaSolver ();	// vai usar default=3
+    CSMDiagonalDominante *solver = CriarSolver ();	// vai usar default=3
 
-    CGra3Dby2D *grafo = CriaGrafo (modelo, fileName);
+    CGra3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
     // Determina o grafo passando o nome da imagem
 
-    DeterminaGrafo (grafo, fileName);
+    DeterminarGrafo (grafo, nomeArquivo);
 
-    SalvaGrafo (grafo);
+    SalvarGrafo (grafo);
 
     // SE FOI SETADA PARA REINICIAR A SIMULAÇÃO, Lê O VETOR DE DADOS DO DISCO
     if (reiniciar)
@@ -950,7 +949,7 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
              endl;
         cout << "(reiniciando simulação anterior)" << endl;
         // Lê   do arquivo grafo.vectorX (o vetor solução X)
-        grafo->LeVetorPropriedades ();
+        grafo->LerVetorPropriedades_x ();
         delete t;
     }
 
@@ -961,8 +960,8 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
         CTime *t =
             new CTime ("Tempo criação objeto  CPermeabilidadeGrafo = ", &cout);
         permeabilidade =
-            new CPermeabilidadeGrafo (fluido, solver, grafo, grafo->Getnx (),
-                                      grafo->Getny (), grafo->Getnz (),
+            new CPermeabilidadeGrafo (fluido, solver, grafo, grafo->Nx (),
+                                      grafo->Ny (), grafo->Nz (),
                                       fatorAmplificacao, sizePixel);
         assert (permeabilidade);
         delete t;				// deleta objeto
@@ -992,25 +991,25 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
         CTime *t = new CTime ("Tempo salvamento grafo em disco = ", &cout);
         // Definição do nome da imagem, considerando o modelo
         ostringstream os;
-        os << fileName << ".mod" << modelo << ".grafo.Pressoes";
-        string fileNameGrafoFinal (os.str ());
+        os << nomeArquivo << ".mod" << modelo << ".grafo.Pressoes";
+        string nomeArquivoGrafoFinal (os.str ());
 
         /*
-        	string fileNameGrafoFinal(fileName );
+        	string nomeArquivoGrafoFinal(nomeArquivo );
         	switch(modelo)
         		{
-        		case 1:               fileNameGrafoFinal += ".mod1"; break;
-        		case 2:               fileNameGrafoFinal += ".mod2"; break;
-        		case 3:               fileNameGrafoFinal += ".mod3"; break;
-        		case 4:               fileNameGrafoFinal += ".mod4"; break;
-        		case 5:               fileNameGrafoFinal += ".mod5"; break;
-        		case 6:               fileNameGrafoFinal += ".mod6"; break;
+        		case 1:               nomeArquivoGrafoFinal += ".mod1"; break;
+        		case 2:               nomeArquivoGrafoFinal += ".mod2"; break;
+        		case 3:               nomeArquivoGrafoFinal += ".mod3"; break;
+        		case 4:               nomeArquivoGrafoFinal += ".mod4"; break;
+        		case 5:               nomeArquivoGrafoFinal += ".mod5"; break;
+        		case 6:               nomeArquivoGrafoFinal += ".mod6"; break;
         		}
-        		fileNameGrafoFinal += ".grafo.Pressoes";
+        		nomeArquivoGrafoFinal += ".grafo.Pressoes";
         */
         cout << "Grafo com condutancias e pressões finais  salvo em : " <<
-             fileNameGrafoFinal << endl;
-        grafo->Write (fileNameGrafoFinal);
+             nomeArquivoGrafoFinal << endl;
+        grafo->Write (nomeArquivoGrafoFinal);
         delete t;				// deleta objeto
     }
 // #endif
@@ -1022,10 +1021,10 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
     	// A->Write("R_A_1.txt");
     	CVetor* B    = new CVetor(1);
     	// B->Write("R_B_1.txt");
-    	// cout << "\nVai executar a função 	grafo->SetMatrizAVetorB(A,B);" << endl ;
+    	// cout << "\nVai executar a função 	grafo->SetarMatrizAVetorB(A,B);" << endl ;
     	// cin.get();
-    	grafo->SetMatrizAVetorB(A,B);
-    	// cout << "\nExecutou a função 	grafo->SetMatrizAVetorB(A,B);" << endl ;
+    	grafo->SetarMatrizAVetorB(A,B);
+    	// cout << "\nExecutou a função 	grafo->SetarMatrizAVetorB(A,B);" << endl ;
     	}
     */
 // // // // // // // // // // // // // // // // // // // //
@@ -1034,21 +1033,21 @@ CGrafoTest::Permeabilidade_By_ModelX (string fileName,
          "\n__________________________________________________________________________________";
     cout << "\nM" << modelo << " P(mD)=" << setw (8) << permeabilidade_calculada
          << " E(%)=" << setw (4) << permeabilidade->
-         GeterroPermeabilidade () << " it=" << setw (5) << permeabilidade->
-         Getiteracoes () << " time(s)=" <<
+         ErroPermeabilidade () << " it=" << setw (5) << permeabilidade->
+         Iteracoes () << " time(s)=" <<
          (difftime (tfPermeabilidade, tiPermeabilidade)) <<
          "\n_________________________________________________________________________________"
          << endl;
     cout.flush ();
     fout << "\nM" << modelo << " P(mD)=" << setw (8) << permeabilidade_calculada
     << " E(%)=" << setw (4) << permeabilidade->
-    GeterroPermeabilidade () << " it=" << setw (5) << permeabilidade->
-    Getiteracoes () << " time(s)=" <<
+    ErroPermeabilidade () << " it=" << setw (5) << permeabilidade->
+    Iteracoes () << " time(s)=" <<
     (difftime (tfPermeabilidade, tiPermeabilidade)) << endl;
     fout.flush ();
 
 // NOVO NOVO NOVO
-    /*ofstream s( (fileName + "perm.novo.txt").c_str() );
+    /*ofstream s( (nomeArquivo + "perm.novo.txt").c_str() );
     if(s)
     	{
     	s<<(*permeabilidade);

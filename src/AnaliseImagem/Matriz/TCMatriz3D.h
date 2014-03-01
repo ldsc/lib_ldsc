@@ -52,7 +52,7 @@ Desenvolvido por:
  * Tmatriz3D.Read("nomearquivo")
  *
  * Para salvar a matriz em disco use
- * Tmatriz3D.Write(std::string fileName)
+ * Tmatriz3D.Write(std::string nomeArquivo)
  *
  * Para acessar o conteudo da matriz use data3D
  * Tmatriz3D.data3D[i][j][k]=33;
@@ -95,7 +95,7 @@ class TCMatriz3D : public CBaseMatriz
 		TCMatriz3D ();
 
 		/// Construtor le TCMatriz3D do disco
-		TCMatriz3D (std::string fileName);
+		TCMatriz3D (std::string nomeArquivo);
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
 		TCMatriz3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY );
@@ -157,10 +157,10 @@ class TCMatriz3D : public CBaseMatriz
 		}
 
 		/// Lê matriz 3D de uma arquivo.
-		bool Read (std::string fileName, int separado = 1); //Como é chamada pelo construtor nao pode ser virtual
+		bool Read (std::string nomeArquivo, int separado = 1); //Como é chamada pelo construtor nao pode ser virtual
 
 		/// Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY).
-		bool ReadRAW (std::string fileName, int _nx, int _ny, int _nz, EImageType tipo = D4_X_Y_Z_BINARY); // Como é chamada pelo construtor nao pode ser virtual
+		bool ReadRAW (std::string nomeArquivo, int _nx, int _ny, int _nz, EImageType tipo = D4_X_Y_Z_BINARY); // Como é chamada pelo construtor nao pode ser virtual
 
 		/// lê o plano z da matriz 3D e retona a matriz 2D correspondente ao plano lido.
 		TCMatriz2D<T>* LePlano (unsigned int planoZ, E_eixo direcao = EIXO_Z);

@@ -65,11 +65,11 @@ using namespace std;
 */
 
 // -------------------------------------------------------------------------
-// Função:   CalculoCondutancias
+// Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
-/** Função:   CalculoCondutancias (ex: converte raio hidraulico em condutância).
+/** Função:   CalcularCondutancias (ex: converte raio hidraulico em condutância).
     @short:   Todo objeto do grafo tem uma propriedade que é armazenada.
-    A função CalculoCondutancias é uma função criada para alteração
+    A função CalcularCondutancias é uma função criada para alteração
     desta propriedade levando em conta os fenômenos que se deseja estudar.
 
     Específico:
@@ -83,14 +83,13 @@ using namespace std;
 
     @todo    Verificar uma forma de eliminar a dependencia destes parâmetros.
     @todo    Verificar possibilidade de mover para classe CPermeabilidadeGrafo.
-    @todo    Renomear as classes CSitio para CLigacao pois esta de fato usando equação para ligação.
-    
+
     Note que a função esta calculando a condutancia segundo a lei de Poiselle -> para ligações 
     (eq 5.16 da tese Liang).
     condutancia=       ( CMath::PI * dH * dH * dH * dH )
                                        /
                 (128.0 * _viscosidade * _sizePixel * _fatorAmplificacao );
-    
+
     Abaixo a equacao da condutancia para sitios segundo Koplik (1983), eq 5.17 da tese do Liang
     Calcula a condutancia do sitio usando a equação ri^3/(3*viscosidade)
     condutancia=(raio_hidraulico*raio_hidraulico*raio_hidraulico)/(3.0*_viscosidade);
@@ -100,7 +99,9 @@ using namespace std;
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
 */
-void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao) {
+void CGrafo::CalcularCondutancias (long double _viscosidade, long double _sizePixel, 
+				  unsigned long int _fatorAmplificacao)
+{
   // Variáveis auxiliares
   // Raio hidraulico
   long double raio_hidraulico{0.0};
@@ -122,8 +123,10 @@ void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePix
 }
 
 // -------------------------------------------------------------------------
-/**	Função: GetObjetoGrafo
+/**	Função: CriarObjetoGrafo
    @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
+   CriarObjetoGrafo será herdada, cada modelo de grafo cria um conjunto diferente de 
+   objetos do grafo.
    @author : André Duarte Bueno
    @see    : grafos
    @param  : CContorno::ETipoContorno identificando o tipo de sítio a ser criado.
@@ -132,12 +135,10 @@ void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePix
    			Formato novo: veja CContorno::ETipoContorno
    @return : Retorna um ponteiro para um sítio novo.
 
-   @todo  Mover CGrafo::GetObjetoGrafo para hierarquia de objetos do grafo!
    @todo  Criar enumeração para objetos do grafo, receber como parâmetro o tipo do objeto.
    @todo  Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
-   @todo  Acrescentar os demais tipos de objetos de grafo.
 */
-CObjetoGrafo* CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
   CObjetoGrafo *data = nullptr;
   switch ( tipoContorno )
@@ -163,7 +164,7 @@ CObjetoGrafo* CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 }
 
 // -------------------------------------------------------------------------
-/** @short  : 	Salva em disco o grafo.
+/** @short  : Salva em disco o grafo.
     A saída de dados era no mesmo formato do Liang
     Formato antigo Write_Liang_Format:
     NumerodeSitios
@@ -174,11 +175,11 @@ CObjetoGrafo* CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 
     Formato novo (Andre):
     NumeroTotalObjetos 	// salvo pelo grafo
-    TipoDoObjeto
+    TipoDoObjeto        // tipo do contorno
     RotuloDoObjeto
     propriedadeDoObjeto	// raio hidraulico ou condutancia
     x           	// propriedade a ser calculada (ex:pressão).
-    NumeroConeccoes
+    NumeroConeccoes     // vetor com endereço dos objetos a quem esta conectado.
     Lista_dos_rotulos_das_coneccoes  // note que ainda falta as propriedades das conecções.
 
     @author : André Duarte Bueno
@@ -191,12 +192,13 @@ CObjetoGrafo* CGrafo::GetObjetoGrafo (CContorno::ETipoContorno tipoContorno)
     @todo implementar versão que recebe uma ostream. 
           Ex: grafo->Write(fout); ou fout <<grafo->Write;
 */
-void CGrafo::Write (string fileName)
+void CGrafo::Write (string nomeArquivo)
 {
-  ofstream out ( fileName.c_str() );  //ofstream out { fileName.c_str() };
+  string grafoName = nomeArquivo + ".cgrafo";
+  ofstream out ( grafoName.c_str() );  //ofstream out { nomeArquivo.c_str() };
   if ( out.fail() )
   {
-      cerr << " Não conseguiu abrir o arquivo de disco " << fileName;
+      cerr << " Não conseguiu abrir o arquivo de disco " << nomeArquivo;
       return;
   }
   out.setf (ios::right);
@@ -228,7 +230,7 @@ void CGrafo::Write (string fileName)
 */
 
 // -------------------------------------------------------------------------
-// Função:                    LeVetorPropriedades()
+// Função:                    LerVetorPropriedades_x()
 // -------------------------------------------------------------------------
 /**
     @short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
@@ -245,7 +247,7 @@ void CGrafo::Write (string fileName)
      @todo: o nome do arquivo "grafo.vectorX" deve considerar o nome da imagem pois pode 
      processar mais de um arquivo no mesmo diretório ao mesmo tempo.
 */
-bool CGrafo::LeVetorPropriedades ()
+bool CGrafo::LerVetorPropriedades_x ()
 {
   // Abre arquivo de disco
   ifstream fin ("grafo.vectorX"); // todo: considerar nome imagem
@@ -273,7 +275,7 @@ imagem grande!
 }
 
 /// Salva no arquivo "grafo.vectorX" o valor da pressão de cada objeto.
-bool CGrafo::SalvaVetorPropriedades ()
+bool CGrafo::SalvarVetorPropriedades_x ()
 {
   // Abre arquivo de disco
   ofstream fout ("grafo.vectorX");
@@ -312,7 +314,7 @@ ostream & operator<< (ostream & os, CGrafo & grafo)
 }
 
 // -------------------------------------------------------------------------
-// Função:               SetMatrizAVetorB
+// Função:               SetarMatrizAVetorB
 // -------------------------------------------------------------------------
 /** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
     e preenche os mesmos com os coeficientes necessários
@@ -330,7 +332,7 @@ ostream & operator<< (ostream & os, CGrafo & grafo)
     @todo: transformar em template que recebe tipo : float, double, long double.
     @todo: transformar CVetor em template!
 */
-bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
+bool CGrafo::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
 {
   // vector< vector<double> > A;
   // vector<double> B;
@@ -437,7 +439,7 @@ bool CGrafo::SetMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
 }
 
 /*ANTIGA, FUNCIONA, USA
-bool CGrafo::SetMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
+bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
 {
   // Passo 0: Definição de variáveis auxiliares
   // índice i da matriz A (ou vetor B)

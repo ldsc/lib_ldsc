@@ -106,7 +106,7 @@ long double COGSitio_LR::Fluxo () const
 // Função:   Write_Liang_Format
 // -------------------------------------------------------------------------
 /** Função Write, que salva os dados do sitio em disco, no mesmo formato utilizado pelo Liang.
-    @short  :  void COGSitio_LR::Write(string fileName) const
+    @short  :  void COGSitio_LR::Write(string nomeArquivo) const
     Formato antigo Write_Liang_Format:
     ---------------------------------
     NumeroSitios

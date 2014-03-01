@@ -40,13 +40,13 @@ TCMatriz2D<T>::TCMatriz2D() : CBaseMatriz( P2_X_Y_GRAY_ASCII ) {
 
 // Construtor que le matriz de arquivo
 template< typename T >
-TCMatriz2D<T>::TCMatriz2D (string fileName) : CBaseMatriz() {
+TCMatriz2D<T>::TCMatriz2D (string nomeArquivo) : CBaseMatriz() {
 	nx = ny = 0;
 	data2D.clear();
-	TCMatriz2D<T>::Read(fileName);
-	size_t pos = fileName.rfind("/");
+	TCMatriz2D<T>::Read(nomeArquivo);
+	size_t pos = nomeArquivo.rfind("/");
 	if (pos!=string::npos)
-		path = fileName.substr(0, pos+1);
+		path = nomeArquivo.substr(0, pos+1);
 }
 
 // Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura e tipo da imagem.
@@ -84,12 +84,12 @@ TCMatriz2D<T>::TCMatriz2D (int NX, int NY) : CBaseMatriz( P2_X_Y_GRAY_ASCII ) {
 
 // Construtor. Recebe o nome do arquivo de disco e o número do plano a ser lido
 template< typename T >
-TCMatriz2D<T>::TCMatriz2D (string fileName, int planoZ) : CBaseMatriz() {
+TCMatriz2D<T>::TCMatriz2D (string nomeArquivo, int planoZ) : CBaseMatriz() {
 	data2D.clear();
-	TCMatriz2D<T>::LePlanoZ (fileName, planoZ);
-	size_t pos = fileName.rfind("/");
+	TCMatriz2D<T>::LePlanoZ (nomeArquivo, planoZ);
+	size_t pos = nomeArquivo.rfind("/");
 	if (pos!=string::npos)
-		path = fileName.substr(0, pos+1);
+		path = nomeArquivo.substr(0, pos+1);
 }
 
 // Construtor. Cria copia com borda extendida de forma que imagem fica centralizada.
@@ -406,9 +406,9 @@ void TCMatriz2D<T>::SalvaDados (ofstream & fout) const {
 
 // Carrega matriz armazenada em arquivo
 template< typename T >
-bool TCMatriz2D<T>::Read (string fileName, int separado) {
+bool TCMatriz2D<T>::Read (string nomeArquivo, int separado) {
 	ifstream fin; // Ponteiro para arquivo de disco.
-	if (CBaseMatriz::AbreArquivo (fin, fileName)) { // Se o arquivo foi corretamente aberto
+	if (CBaseMatriz::AbreArquivo (fin, nomeArquivo)) { // Se o arquivo foi corretamente aberto
 		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case P1_X_Y_ASCII:
@@ -450,15 +450,15 @@ bool TCMatriz2D<T>::Read (string fileName, int separado) {
 		cerr << "Não foi possível alocar matriz 2D em TCMatriz2D<T>::Read()." << endl;
 		return false;
 	} else {
-		cerr << "Não foi possível abrir arquivo " << fileName << " em TCMatriz2D<T>::Read()." << endl;
+		cerr << "Não foi possível abrir arquivo " << nomeArquivo << " em TCMatriz2D<T>::Read()." << endl;
 		return false;
 	}
 }
 
 // Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo (P4_X_Y_BINARY (default), P5_X_Y_GRAY_BINARY ou P6_X_Y_COLOR_BINARY).
 template< typename T >
-bool TCMatriz2D<T>::ReadRAW(string fileName, int _nx, int _ny, EImageType tipo) {
-	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
+bool TCMatriz2D<T>::ReadRAW(string nomeArquivo, int _nx, int _ny, EImageType tipo) {
+	ifstream fin (nomeArquivo.c_str(), ios::binary); // Ponteiro para arquivo de disco.
 	if (fin.good ()) { // Se o arquivo foi corretamente aberto
 		nx = _nx;
 		ny = _ny;
@@ -600,10 +600,10 @@ O primeiro plano na direcao z é o plano 0.
 Se nz=1, uma plano na direcao z, plano 0.
 */
 template< typename T >
-bool TCMatriz2D<T>::LePlanoZ (string fileName, int planoZ, bool separado) {
+bool TCMatriz2D<T>::LePlanoZ (string nomeArquivo, int planoZ, bool separado) {
 	int nz;
 	ifstream fin;							// Ponteiro para arquivo de disco
-	CBaseMatriz::AbreArquivo (fin, fileName);	// Abre o arquivo de disco no formato correto
+	CBaseMatriz::AbreArquivo (fin, nomeArquivo);	// Abre o arquivo de disco no formato correto
 	if (fin.good ()) {						// Se o arquivo foi corretamente aberto
 		// Obtem o formato de salvamento
 		formatoImagem = CBaseMatriz::VerificaFormato(fin);

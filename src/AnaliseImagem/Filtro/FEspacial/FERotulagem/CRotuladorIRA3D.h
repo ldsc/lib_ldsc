@@ -43,7 +43,7 @@ class CRotuladorIRA3D : public TCRotulador3D<int>
 		}
 
 		/// Recebe o nome da matriz de disco, abre arquivo de disco e seta matriz
-		CRotuladorIRA3D (std::string fileName, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( fileName, _indice, _fundo), ra(0), rmin(0), matSub(nullptr) {
+		CRotuladorIRA3D (std::string nomeArquivo, int _indice=1, int _fundo=0) : TCRotulador3D<int> ( nomeArquivo, _indice, _fundo), ra(0), rmin(0), matSub(nullptr) {
 		}
 
 		/// Recebe a informação das dimensoes da imagem

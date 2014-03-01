@@ -271,15 +271,15 @@ TIConfEq3DSim::GetFileName ()
     //Condi��o normal
     //IF SEM SENTIDO
     //if(inverted == false)
-    fileName = imageName + Getchamber ()->GetClassName () + ".dat";
+    nomeArquivo = imageName + Getchamber ()->GetClassName () + ".dat";
 //aquiaqui
-    cout << " no metodo TIConfEq3DSim::GetFileName()...fileName=: " << fileName
+    cout << " no metodo TIConfEq3DSim::GetFileName()...nomeArquivo=: " << nomeArquivo
          << endl;
     //o fluxo foi invertido, observe a nega��o ! na molhabilidade
     //else
-    //  fileName = imageName + Getchamber()->GetClassName() + ".dat";
+    //  nomeArquivo = imageName + Getchamber()->GetClassName() + ".dat";
 
-    return fileName;
+    return nomeArquivo;
 }
 
 //Fun��o nova retorna a press�o

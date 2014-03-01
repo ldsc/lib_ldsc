@@ -58,7 +58,7 @@
 // Adicao de novos nomes para os metodos(funcoes)
 // Uso de documentacao no formato javadoc/doxygen
 // Bueno A.D.
-// e-mail: bueno@lenep.uenf.br
+// e-mail: andreduartebueno@gmail.com
 // 20/07/08
 //
 ///////////////////////////////////////////////////////////

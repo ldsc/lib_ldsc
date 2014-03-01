@@ -61,7 +61,7 @@ class CRotulador2DCm : public TCRotulador2D<int>
   }
 
   /// Construtor recebe nome da imagem
-	CRotulador2DCm (std::string fileName) : TCRotulador2D<int> (fileName)
+	CRotulador2DCm (std::string nomeArquivo) : TCRotulador2D<int> (nomeArquivo)
   {
   }
 

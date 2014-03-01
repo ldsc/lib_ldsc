@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Andre Duarte Bueno Fone: 22-27969751,22-99542635*
- *	http://www.lenep.uenf.br/~bueno  bueno@lenep.uenf.br   			*
+ *	http://www.lenep.uenf.br/~bueno  andreduartebueno@gmail.com   			*
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

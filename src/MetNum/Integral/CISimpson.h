@@ -21,9 +21,7 @@ class CISimpson : public CIntegral
 public:
 	
  /// Construtor
-  CISimpson (CFuncao * _funcao):CIntegral (_funcao)
-  {
-  }
+  CISimpson (CFuncao * _funcao):CIntegral (_funcao)  {  }
 
  /// Calcula a integral
   virtual double Go (double x = 1, double y = 0);

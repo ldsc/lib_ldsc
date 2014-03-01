@@ -58,9 +58,9 @@ double CSegPorosGargantas3D::Porosidade( TCMatriz3D<int>* &_pm, int _ra ) {
 //	Salva a mesclagem das matrizes em disco de forma que 0 será o fundo, 1 serão os índices da primeira matriz e 2 serão os índices da segunda matriz.
 //	Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 //	Método criado para que se possa salvar em disco duas matrizes bool ao invés de utilizar uma matriz int para representar sólidos, sitios e ligações (consome menos memória).
-bool CSegPorosGargantas3D::Write(string fileName ) {
+bool CSegPorosGargantas3D::Write(string nomeArquivo ) {
 	ofstream fout; //  Abre arquivo disco
-	fout.open(fileName.c_str(), ios::binary);
+	fout.open(nomeArquivo.c_str(), ios::binary);
 	int nx, ny, nz;
 	if (fout.good()){
 		//menores valores para nx, ny e nz.
@@ -91,34 +91,34 @@ bool CSegPorosGargantas3D::Write(string fileName ) {
 }
 
 // Grava em disco, com o nome informado, os objetos identificados.
-bool CSegPorosGargantas3D::SalvarListaObjetos(string fileName){
+bool CSegPorosGargantas3D::SalvarListaObjetos(string nomeArquivo){
 	if (gerarDetalhesObjetos) {
-		return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
+		return CMatrizObjetoImagem::SalvarListaObjetos(nomeArquivo, pm->NX(), pm->NY(), pm->NZ());
 	}
 	return false;
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz bool informada como parametro.
-void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string fileName){
+void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<bool>* &mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz int informada como parametro.
-void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string fileName){
+void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(TCMatriz3D<int>* &mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 
 // Analisa a flag salvarResultadosParciais e caso esta seja verdadeira, salva em disco a matriz rotulo informada como parametro.
-void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string fileName){
+void CSegPorosGargantas3D::SalvarResultadosParciaisEmDisco(CRotuladorIRA3D *&mat, string nomeArquivo){
 	if (salvarResultadosParciais) {
-		cout << "-->Salvando imagem " << fileName.c_str() << endl ;
-		mat->Write(fileName);
+		cout << "-->Salvando imagem " << nomeArquivo.c_str() << endl ;
+		mat->Write(nomeArquivo);
 	}
 }
 

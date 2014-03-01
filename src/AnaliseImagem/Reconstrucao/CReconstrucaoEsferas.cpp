@@ -233,9 +233,9 @@ loop:
    stringstream name;
    name << nome_arq << "_ES_" << dimens << "_fa-" << fat_amp << "_fb-" << setprecision(2) << fat_borda << "_fs-" << setprecision(2) << fat_sob << ".dbm";
 
-   fileName = name.str();
-   cerr << fileName.c_str() << endl;
-   return Grava_dbm ( fileName, inimeio );
+   nomeArquivo = name.str();
+   cerr << nomeArquivo.c_str() << endl;
+   return Grava_dbm ( nomeArquivo, inimeio );
 } // Fim Go()...
 
 //=================== Verificação da borda ===================================//

@@ -48,15 +48,15 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 	idfMask->Go(ptr_mask);
 
 	/*	//grava em disco a IDF da mascara.
-	char fileName[64];
+	char nomeArquivo[64];
 	int max;
 	static int contMasK = 1;
-	sprintf (fileName, "idfMascara%d.dgm", contMasK++);
+	sprintf (nomeArquivo, "idfMascara%d.dgm", contMasK++);
 	idfMask->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
 		max = idfMask->MaiorValor();
 	idfMask->NumCores( (max > 1)? max : max+2 );
 	idfMask->Path(matriz->Path());
-	idfMask->Write(fileName);
+	idfMask->Write(nomeArquivo);
 */
 
 	// calcula idf euclidiana da imagem abertura.
@@ -65,12 +65,12 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 
 	/*	//grava em disco a IDF da imagem abertura.
  static int contAbertura = 1;
- sprintf (fileName, "idfAbertura%d.dgm", contAbertura++);
+ sprintf (nomeArquivo, "idfAbertura%d.dgm", contAbertura++);
  idfAbertura->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
 		max = idfAbertura->MaiorValor();
 		idfAbertura->NumCores( (max > 1)? max : max+2 );
  idfAbertura->Path(matriz->Path());
- idfAbertura->Write(fileName);
+ idfAbertura->Write(nomeArquivo);
 */
 
 	// Pega plano central da mascara
@@ -78,12 +78,12 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 
 	/*	//grava em disco o plano da mascara.
  static int contPlanoMask = 1;
- sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
+ sprintf (nomeArquivo, "planoMascara%d.pgm", contPlanoMask++);
  pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
 		max = pcm->MaiorValor();
 		pcm->NumCores( (max > 1)? max : max+2 );
  pcm->Path(matriz->Path());
- pcm->Write(fileName);
+ pcm->Write(nomeArquivo);
 */
 	/////////////////////////////////////////////////////////
 	// matriz 	-> é a imagem abertura atual.		  	//
@@ -161,7 +161,7 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
 
 	/*	// Método - 1
  TCMatriz3D<int> *ptr_mask = static_cast<TCMatriz3D<int> *>(mask);
- char fileName[64];
+ char nomeArquivo[64];
  int max;
  // calcula idf d345 da mascara
  CFEMMIDFd3453D *idfMask = NULL;
@@ -169,12 +169,12 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
  idfMask->Go(ptr_mask);
  //grava em disco a IDF da mascara.
  static int contMasK = 1;
- sprintf (fileName, "idfMascara%d.dgm", contMasK++);
+ sprintf (nomeArquivo, "idfMascara%d.dgm", contMasK++);
  idfMask->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
 		max = idfMask->MaiorValor();
 		idfMask->NumCores( (max > 1)? max : max+2 );
  idfMask->Path(matriz->Path());
- idfMask->Write(fileName);
+ idfMask->Write(nomeArquivo);
 	// PROVAVELMENTE NÃO SERÁ USADO. SE FOR USAR IDF DA ABERTURA, TERÁ DE CALCULAR A IDF DE CADA PLANO DA IMAGEM ABERTURA E NÃO A IDF DA IMAGEM TODA (3D)
  // calcula idf d345 da imagem abertura.
  CFEMMIDFd3453D *idfAbertura = NULL;
@@ -182,12 +182,12 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
  idfAbertura->Go(matriz);
  //grava em disco a IDF da imagem abertura.
  static int contAbertura = 1;
- sprintf (fileName, "idfAbertura%d.dgm", contAbertura++);
+ sprintf (nomeArquivo, "idfAbertura%d.dgm", contAbertura++);
  idfAbertura->SetFormato( WRITEFORM_DI_X_Y_Z_GRAY_ASCII );
 		max = idfAbertura->MaiorValor();
 		idfAbertura->NumCores( (max > 1)? max : max+2 );
  idfAbertura->Path(matriz->Path());
- idfAbertura->Write(fileName);
+ idfAbertura->Write(nomeArquivo);
 
  // Pega plano central da mascara
  TCMatriz2D< int > * pcm = NULL;
@@ -195,12 +195,12 @@ void TCFEMMIDFEuclidiana3D<T>::CorrigeAbertura (TCMatriz3D<T> * &matriz, int &re
  pcm = ptr_mask->LePlano(mask->RaioZ(), EIXO_Z);
  //grava em disco o plano da mascara.
 	static int contPlanoMask = 1;
- sprintf (fileName, "planoMascara%d.pgm", contPlanoMask++);
+ sprintf (nomeArquivo, "planoMascara%d.pgm", contPlanoMask++);
  pcm->SetFormato( WRITEFORM_PI_X_Y_GRAY_ASCII );
 		max = pcm->MaiorValor();
 		pcm->NumCores( (max > 1)? max : max+2 );
  pcm->Path(matriz->Path());
- pcm->Write(fileName);
+ pcm->Write(nomeArquivo);
  /////////////////////////////////////////////////////////
  // matriz 	-> é a imagem abertura atual.		  	//
  // this 		-> é a IDF da imagem original.	  	//

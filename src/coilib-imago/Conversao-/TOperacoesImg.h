@@ -68,32 +68,32 @@ public:
     //INTERFACE DISCO
     //---------------------------------------------------------------------
     //Salva imagem em disco
-    static bool SaveImg (I3DRawImage * img, std::string fileName);
-    static bool SaveImgBinaria (I3DRawImage * imgBinaria, std::string fileName)
+    static bool SaveImg (I3DRawImage * img, std::string nomeArquivo);
+    static bool SaveImgBinaria (I3DRawImage * imgBinaria, std::string nomeArquivo)
     {
-        return SaveImg1bpp (imgBinaria, fileName);
+        return SaveImg1bpp (imgBinaria, nomeArquivo);
     };
-    static bool SaveImg1bpp (I3DRawImage * imgBinaria, std::string fileName);
-    static bool SaveImg8bpp (I3DRawImage * img8bpp, std::string fileName);
-    static bool SaveImg16bpp (I3DRawImage * img16bpp, std::string fileName);
-    static bool SaveImg32bpp (I3DRawImage * img32bpp, std::string fileName);
+    static bool SaveImg1bpp (I3DRawImage * imgBinaria, std::string nomeArquivo);
+    static bool SaveImg8bpp (I3DRawImage * img8bpp, std::string nomeArquivo);
+    static bool SaveImg16bpp (I3DRawImage * img16bpp, std::string nomeArquivo);
+    static bool SaveImg32bpp (I3DRawImage * img32bpp, std::string nomeArquivo);
 
     //Cria imagem binaria e l� a mesma do disco
-    static I3DRawImage *OpenImgBinary (std::string fileName,
+    static I3DRawImage *OpenImgBinary (std::string nomeArquivo,
                                        unsigned int nx, unsigned int ny,
                                        unsigned int nz)
     {
-        return OpenImg1bpp (fileName, nx, ny, nz);
+        return OpenImg1bpp (nomeArquivo, nx, ny, nz);
     };
-    static I3DRawImage *OpenImg1bpp (std::string fileName,
+    static I3DRawImage *OpenImg1bpp (std::string nomeArquivo,
                                      unsigned int nx, unsigned int ny,
                                      unsigned int nz);
-    static I3DRawImage *OpenImg16bpp (std::string fileName, unsigned int nx,
+    static I3DRawImage *OpenImg16bpp (std::string nomeArquivo, unsigned int nx,
                                       unsigned int ny, unsigned int nz);
 
     //Funcao que l� uma imagem 16bpp do disco, mas s� marca como v�lido
     //os pontos que coincidem com o indiceCor recebido.
-    static I3DRawImage *OpenImg16bppFrom1bpp (std::string fileName,
+    static I3DRawImage *OpenImg16bppFrom1bpp (std::string nomeArquivo,
             unsigned int nx, unsigned int ny,
             unsigned int nz,
             unsigned int indiceCor = 0);

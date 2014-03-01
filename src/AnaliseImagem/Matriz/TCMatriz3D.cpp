@@ -40,13 +40,13 @@ TCMatriz3D<T>::TCMatriz3D () : CBaseMatriz()  {
 
 // Construtor que le matriz de arquivo
 template< typename T >
-TCMatriz3D<T>::TCMatriz3D (string fileName) : CBaseMatriz() {
+TCMatriz3D<T>::TCMatriz3D (string nomeArquivo) : CBaseMatriz() {
 	nx = ny = nz = 0;
 	data3D = NULL;
-	TCMatriz3D<T>::Read(fileName);
-	size_t pos = fileName.rfind("/");
+	TCMatriz3D<T>::Read(nomeArquivo);
+	size_t pos = nomeArquivo.rfind("/");
 	if (pos!=string::npos)
-		path = fileName.substr(0, pos+1);
+		path = nomeArquivo.substr(0, pos+1);
 }
 
 // Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
@@ -395,9 +395,9 @@ void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 
 // Carrega matriz armazenada em arquivo
 template< typename T >
-bool TCMatriz3D<T>::Read (string fileName, int separado) {
+bool TCMatriz3D<T>::Read (string nomeArquivo, int separado) {
 	ifstream fin;									// Ponteiro para arquivo de disco
-	if (CBaseMatriz::AbreArquivo (fin, fileName)) { // Se o arquivo foi corretamente aberto
+	if (CBaseMatriz::AbreArquivo (fin, nomeArquivo)) { // Se o arquivo foi corretamente aberto
 		formatoImagem = CBaseMatriz::VerificaFormato(fin); // Obtem o formato de salvamento
 		switch (formatoImagem)	{	// Em funcao do formato de salvamento lê os dados referente ao número de cores/tons de cinza
 			case D1_X_Y_Z_ASCII:
@@ -438,15 +438,15 @@ bool TCMatriz3D<T>::Read (string fileName, int separado) {
 		cerr << "Não foi possível alocar matriz 2D em TCMatriz3D<T>::Read()." << endl;
 		return false;
 	} else {
-		cerr << "Não foi possível abrir arquivo " << fileName << " em TCMatriz3D<T>::Read()." << endl;
+		cerr << "Não foi possível abrir arquivo " << nomeArquivo << " em TCMatriz3D<T>::Read()." << endl;
 		return false;
 	}
 }
 
 // Lê arquivo binário do tipo RAW. Recebe o nome do arquivo e o tipo
 template< typename T >
-bool TCMatriz3D<T>::ReadRAW(string fileName, int _nx, int _ny, int _nz, EImageType tipo) {
-	ifstream fin (fileName.c_str(), ios::binary); // Ponteiro para arquivo de disco.
+bool TCMatriz3D<T>::ReadRAW(string nomeArquivo, int _nx, int _ny, int _nz, EImageType tipo) {
+	ifstream fin (nomeArquivo.c_str(), ios::binary); // Ponteiro para arquivo de disco.
 	if (fin.good ()) { // Se o arquivo foi corretamente aberto
 		nx = _nx;
 		ny = _ny;

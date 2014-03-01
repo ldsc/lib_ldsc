@@ -6,10 +6,10 @@ PROJETO:          Biblioteca LIB_LMPT
 
 Desenvolvido por:	Laboratorio de Meios Porosos
 		e Propriedades Termofisicas	[LMPT].
-@author:          André Duarte Bueno
+@author:          Andrï¿½ Duarte Bueno
 File:             CMFluido.cpp
 begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by André Duarte Bueno
+copyright:        (C) 2000 by Andrï¿½ Duarte Bueno
 email:            andre@lmpt.ufsc.br
 */
 
@@ -25,16 +25,16 @@ using namespace std;
 #include <Material/CMFluido.h>
 
 //-----------------------------------------------------------------------
-// Funções para a classe: CMFluido
+// Funï¿½ï¿½es para a classe: CMFluido
 //-----------------------------------------------------------------------
 /*
 -------------------------------------------------------------------------
-Função: Construtor de cópia
+Funï¿½ï¿½o: Construtor de cï¿½pia
 -------------------------------------------------------------------------
-@short  :O Construtor de cópia cria uma cópia do objeto
-@author :André Duarte Bueno
+@short  :O Construtor de cï¿½pia cria uma cï¿½pia do objeto
+@author :Andrï¿½ Duarte Bueno
 @see    :constructor
-@param  :Uma referência para um objeto
+@param  :Uma referï¿½ncia para um objeto
 @return :sem retorno
 */
 
@@ -48,18 +48,18 @@ CMFluido::CMFluido (const CMFluido & fluido)
 
 /*
 -------------------------------------------------------------------------
-Função: OPerador igualdade (atribuição)
+Funï¿½ï¿½o: OPerador igualdade (atribuiï¿½ï¿½o)
 -------------------------------------------------------------------------
 @short  :Operador de igualdade, copia todos os atributos do objeto
-@author :André Duarte Bueno
+@author :Andrï¿½ Duarte Bueno
 @see    :operador=
-@param  :Uma referência para um objeto
-@return :o próprio objeto (pode haver encadeamento)
+@param  :Uma referï¿½ncia para um objeto
+@return :o prï¿½prio objeto (pode haver encadeamento)
 */
 
 CMFluido & CMFluido::operator= (const CMFluido & fluido)
 {
-  //Verifica se não é o próprio objeto
+  //Verifica se nï¿½o ï¿½ o prï¿½prio objeto
   if (this == &fluido)
     return *this;
 
@@ -74,12 +74,12 @@ CMFluido & CMFluido::operator= (const CMFluido & fluido)
 
 /*
 -------------------------------------------------------------------------
-OPerador comparação igualdade
+OPerador comparaï¿½ï¿½o igualdade
 -------------------------------------------------------------------------
-@short  :Operador de comparação de igualdade, compara todos os atributos
-@author :André Duarte Bueno
+@short  :Operador de comparaï¿½ï¿½o de igualdade, compara todos os atributos
+@author :Andrï¿½ Duarte Bueno
 @see    :operador==
-@param  :Uma referência para um objeto
+@param  :Uma referï¿½ncia para um objeto
 @return :bool
 */
 
@@ -95,12 +95,12 @@ CMFluido::operator== (const CMFluido & fluido)  const
 
 /*
 -------------------------------------------------------------------------
-Sobrecarga operador saída stream
+Sobrecarga operador saï¿½da stream
 -------------------------------------------------------------------------
 @short  :Operador de iostream
-@author :André Duarte Bueno
+@author :Andrï¿½ Duarte Bueno
 @see    :operador<<
-@param  :uma ostream e uma referência para um objeto
+@param  :uma ostream e uma referï¿½ncia para um objeto
 @return :ostream
 */
 
@@ -117,14 +117,14 @@ ostream & operator<< (ostream & os, const CMFluido & f)
 
 /*
 -------------------------------------------------------------------------
-Função Read
+Funï¿½ï¿½o Read
 -------------------------------------------------------------------------
-Lê atributos do objeto do arquivo de disco
+Lï¿½ atributos do objeto do arquivo de disco
 Recebe nome do arquivo de disco
 */
-/*void CMFluido::Read(string fileName)
+/*void CMFluido::Read(string nomeArquivo)
 {
-  ifstream fin(fileName.c_str()); 	//Abre o arquivo de disco
+  ifstream fin(nomeArquivo.c_str()); 	//Abre o arquivo de disco
   if(fin)                               //se ok
   	fin >> this;                    //Envia dados para este objeto
   else
@@ -147,7 +147,7 @@ Recebe nome do arquivo de disco
 Sobrecarga operador entrada streams
 -----------------------------------------------------------------------
 @short  :Operador>> para istream
-@author :André Duarte Bueno
+@author :Andrï¿½ Duarte Bueno
 @see    :operador>>
 @param  :uma istream e um ponteiro para um objeto
 @return :ostream

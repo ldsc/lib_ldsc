@@ -49,7 +49,8 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
 	/// Construtor
-  CGra3Dby2D_M2 (std::string _fileName) : CGra3Dby2D (_fileName),  rotInt (nullptr) {
+  CGra3Dby2D_M2 (std::string _nomeArquivo) : CGra3Dby2D (_nomeArquivo),  rotInt (nullptr) {
+	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M2 ;   
   }
 
 // --------------------------------------------------------------Destrutor
@@ -76,7 +77,7 @@ protected:
  * @brief  Determina o grafo lendo a imagem do disco,	plano a plano.
  * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
 */
-  virtual CGrafo *Go (std::string fileName, unsigned long int funcao);
+  virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao);
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

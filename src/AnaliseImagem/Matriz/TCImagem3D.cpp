@@ -78,9 +78,9 @@ bool TCImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
 }
 
 template< typename T >
-bool TCImagem3D<T>::LeInformacoesRecontrucao (string fileName) {
+bool TCImagem3D<T>::LeInformacoesRecontrucao (string nomeArquivo) {
 	ifstream fin;									// Ponteiro para arquivo de disco
-	CBaseMatriz::AbreArquivo (fin, fileName);			// Abre o arquivo de disco no formato correto
+	CBaseMatriz::AbreArquivo (fin, nomeArquivo);			// Abre o arquivo de disco no formato correto
 	if (fin.good ()) {								// Se o arquivo foi corretamente aberto
 		return LeInformacoesRecontrucao (fin);
 	}

@@ -46,22 +46,22 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 			 << "o arquivo imagem deve ter somente dados \n"
 			 << "a extensão é adicionada automaticamente e deve ser .dat" << endl;
 
-	string fileName;
+	string nomeArquivo;
 	if (argc > 1)          // argv[0]=nomePrograma
-		fileName = argv[1];  // primeiro argumento nome imagem
+		nomeArquivo = argv[1];  // primeiro argumento nome imagem
 	if (argc > 2)
 		_NX = atoi (argv[2]); // segundo argumento NX
 	if (argc > 3)
 		_NY = atoi (argv[3]); // terceiro argumento NY
 
 	cout << "\nParametros passados para o programa:\n"
-			 << "Nome do arquivo de entrada com a extensão = " << fileName << ".dat\n"
+			 << "Nome do arquivo de entrada com a extensão = " << nomeArquivo << ".dat\n"
 			 << "NX = " << _NX << " NY = " << _NY << endl;
 
 	RealocarMatrizSeNecessario(Re_data, _NX, _NY);
 
 	// Método estatico da classe matriz2d que lê matriz no formato antigo (somente dados)
-	bool leituraArquivo = TCMatriz2D< float >::Read2D( (fileName + ".dat").c_str (), Re_data, NX, NY );
+	bool leituraArquivo = TCMatriz2D< float >::Read2D( (nomeArquivo + ".dat").c_str (), Re_data, NX, NY );
 
 	if ( leituraArquivo == 0 )
 	{
@@ -73,10 +73,10 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 	Go ( Re_data, NX, NY );
 
 	// Saída da funcao autocorrelacao
-	Write ( fileName );
+	Write ( nomeArquivo );
 
 	// Saída da funcao autocorrelacao e dados adicionais
-	Writerzf ( fileName );
+	Writerzf ( nomeArquivo );
 
 	// Re_data é destruido no destrutor, o objetivo e evitar realocacoes a cada novo calculo.
 	return 1;
@@ -228,13 +228,13 @@ bool CCorrelacaoFFT::Go ( TCMatriz2D< bool > *img, int indice ) {
 // -----------------------------------------------------------------------
 // @short  :
 // saida .rzf
-bool CCorrelacaoFFT::Writerzf (string fileName) {
+bool CCorrelacaoFFT::Writerzf (string nomeArquivo) {
 	if (correlacao == nullptr)
 		return 0;
 	if (Re_data == nullptr)
 		return 0;
 
-	ofstream frzf ( (fileName + ".rzf").c_str () );
+	ofstream frzf ( (nomeArquivo + ".rzf").c_str () );
 	if ( ! frzf )
 		return 0;
 

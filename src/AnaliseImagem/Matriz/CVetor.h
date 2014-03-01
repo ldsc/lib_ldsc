@@ -50,7 +50,7 @@ Desenvolvido por:
  * CVetor.Read("nomeArquivo");, lê um vetor do disco
  * 
  * Para salvar o vetor em disco use
- * CVetor.Write(std::string fileName)
+ * CVetor.Write(std::string nomeArquivo)
  * Para acessar o conteudo do vetor use data
  * CVetor.data1D[i]=33;
  * int x=CVetor.data1D[i];
@@ -77,7 +77,7 @@ public:
   CVetor ();
 
   /// Construtor le CVetor do disco
-    CVetor (std::string fileName);
+    CVetor (std::string nomeArquivo);
 
   /// Construtor cria copia CVetor
     CVetor (CVetor &);
@@ -159,7 +159,7 @@ public:
   // Como é chamada pelo construtor nao pode ser virtual
   // Definida na classe base
   /// Lê vetor do disco
-  bool Read (std::string fileName, bool separado = 1);
+  bool Read (std::string nomeArquivo, bool separado = 1);
 
   /// Preenche com valor constante
   virtual void Constante (int cte);

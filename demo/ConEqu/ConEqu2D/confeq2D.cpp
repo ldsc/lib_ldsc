@@ -68,11 +68,11 @@ int main(int argc, char *argv[])
     }
     else
     {
-        string fileName;
+        string nomeArquivo;
         cout << "\nEntre com o nome da imagem 2D (ex: imagem.pbm ):";
-        getline(cin,fileName);
+        getline(cin,nomeArquivo);
         // Cria imagem 2D
-        img2D = new CMatriz2D(fileName);
+        img2D = new CMatriz2D(nomeArquivo);
         if (img2D == NULL)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;

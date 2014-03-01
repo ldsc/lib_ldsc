@@ -25,19 +25,19 @@ int main (int argc, char *argv[]) {
           << "\n================================================================================" << endl;
 
     // Cria string com nome da imagem
-    string fileName = "imagem-[P262_K70-2-45-50-lp-d6].pm3";
+    string nomeArquivo = "imagem-[P262_K70-2-45-50-lp-d6].pm3";
 
     if (argc > 1)
-        fileName = argv[1];
+        nomeArquivo = argv[1];
 
     cout 	<< "\nSaída gerada pelo programa de demo: \n"
-          << "Carrega imagem " << fileName << " do disco" << endl;
+          << "Carrega imagem " << nomeArquivo << " do disco" << endl;
 
     // Cria imagem
-		TCMatriz3D<int> *pm3 = new TCMatriz3D<int> (fileName);
+		TCMatriz3D<int> *pm3 = new TCMatriz3D<int> (nomeArquivo);
 
     // Cria nova string com nome do arquivo de saída
-    string fileOut = "out." + fileName;
+    string fileOut = "out." + nomeArquivo;
 
     cout << "Salva imagem com nome " << fileOut << endl;
 

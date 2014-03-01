@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       COGSitio_LR.h
+@file       COGSitio_CC.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -36,7 +36,7 @@ Bibliotecas LIB_LDSC
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_LR
+// Documentacao CLASSE: COGSitio_CC
 // ===============================================================================
 /** 
  * @brief       Herdeira de COGSitio, acrescenta informação associada a conexão.
@@ -48,11 +48,11 @@ Bibliotecas LIB_LDSC
  * Cada classe CGrafo herdeira vai calcular esta condutancia de uma forma diferente.
  *
  * @Assunto:     Grafo.
- * @Superclasse: CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR.
+ * @Superclasse: CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC.
  * @author       André Duarte Bueno.
  * @see          grafos.
 */
-class COGSitio_LR : public COGSitio
+class COGSitio_CC : public COGSitio
 {
 // --------------------------------------------------------------Atributos
 public:
@@ -66,10 +66,10 @@ public:
 // -------------------------------------------------------------Construtor
 
 /// Construtor
-  COGSitio_LR () = default;
+  COGSitio_CC () = default;
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-  virtual ~ COGSitio_LR ()  = default;
+  virtual ~ COGSitio_CC ()  = default;
     
 // ----------------------------------------------------------------Métodos
   /**
@@ -102,16 +102,16 @@ public:
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
   /// Sobrecarga do operador <<.
-  friend std::ostream & operator<< (std::ostream & os, COGSitio_LR & obj);
+  friend std::ostream & operator<< (std::ostream & os, COGSitio_CC & obj);
 };
 
 // -----------------------------------------------------------------Friend
 /// Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, COGSitio_LR & obj);
-// istream& operator>> (istream& is, COGSitio_LR& obj);
+std::ostream & operator<< (std::ostream & os, COGSitio_CC & obj);
+// istream& operator>> (istream& is, COGSitio_CC& obj);
 
-/// Cria o tipo COGSitio_LRCentro, que é igual a COGSitio_LR
-//typedef COGSitio_LR COGSitio_LRCentro;
-using COGSitio_LRCentro = COGSitio_LR ;
+/// Cria o tipo COGSitio_CCCentro, que é igual a COGSitio_CC
+//typedef COGSitio_CC COGSitio_CCCentro;
+using COGSitio_CCCentro = COGSitio_CC ;
 
 #endif

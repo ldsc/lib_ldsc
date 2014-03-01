@@ -7,7 +7,7 @@
   Desenvolvido por: 
                     Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
   @author:          André Duarte Bueno
-  @file:            COGSitio_LR.cpp
+  @file:            COGSitio_CC.cpp
   @begin:           Sat Sep 16 2000
   @copyright:       (C) 2000 by André Duarte Bueno
   @email:           andreduartebueno@gmail.com
@@ -28,7 +28,7 @@ using namespace std;
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <Base/_LIB_LDSC_CLASS.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 
 // -------------------------------------------------------------------------
 // Função:  Go
@@ -47,7 +47,7 @@ using namespace std;
     @param  : long double
     @return : long double
 */
-long double COGSitio_LR::Go (long double /*d */ )
+long double COGSitio_CC::Go (long double /*d */ )
 {
   // Cria variáveis auxiliares (uma única vez, pois são estáticas)
   static long double somatorio_da_condutancia;
@@ -90,7 +90,7 @@ long double COGSitio_LR::Go (long double /*d */ )
     @return : long double (o fluxo associado a this)
     @todo   : verificar se vale a pena substituir long double por long double&& (uso move)
 */
-long double COGSitio_LR::Fluxo () const
+long double COGSitio_CC::Fluxo () const
 {
   long double fluxo = 0.0;
 
@@ -106,7 +106,7 @@ long double COGSitio_LR::Fluxo () const
 // Função:   Write_Liang_Format
 // -------------------------------------------------------------------------
 /** Função Write, que salva os dados do sitio em disco, no mesmo formato utilizado pelo Liang.
-    @short  :  void COGSitio_LR::Write(string nomeArquivo) const
+    @short  :  void COGSitio_CC::Write(string nomeArquivo) const
     Formato antigo Write_Liang_Format:
     ---------------------------------
     NumeroSitios
@@ -121,7 +121,7 @@ long double COGSitio_LR::Fluxo () const
     @param  : ostream & out
     @return : ostream &
 */
-ostream & COGSitio_LR::Write_Liang_Format (ostream & out)  const
+ostream & COGSitio_CC::Write_Liang_Format (ostream & out)  const
 {
   // Chama função da classe base
   COGSitio::Write_Liang_Format (out);
@@ -152,7 +152,7 @@ Lista_dos_rotulos_das_coneccoes
 @param  : Recebe uma referencia para uma ostream
 @return : void
 */
-ostream & COGSitio_LR::Write (ostream & out) const
+ostream & COGSitio_CC::Write (ostream & out) const
 {
   // Chama função da classe base
   COGSitio::Write (out);
@@ -168,13 +168,13 @@ ostream & COGSitio_LR::Write (ostream & out) const
 // -------------------------------------------------------------------------
 /** Escreve os atributos do objeto em disco.
     @short  :		Escreve os atributos do objeto em disco.
-    Sobrecarga operador entrada streams (antiga COGSitio_LREsqueleto).
+    Sobrecarga operador entrada streams (antiga COGSitio_CCEsqueleto).
     @author :	André Duarte Bueno
     @see    :	
-    @param  : 	ostream& e COGSitio_LR&
+    @param  : 	ostream& e COGSitio_CC&
     @return :		ostream&
 */
-ostream & operator<< (ostream & out, COGSitio_LR & s)
+ostream & operator<< (ostream & out, COGSitio_CC & s)
 {
  // Escreve dados do ancestral
  out << static_cast < COGSitio > (s);
@@ -198,7 +198,7 @@ ostream & operator<< (ostream & out, COGSitio_LR & s)
   @param  : unsigned int link
   @return : void
 */
-void COGSitio_LR::DeletarConeccao (unsigned int link)
+void COGSitio_CC::DeletarConeccao (unsigned int link)
 {
   // Chama funcao da classe base, que deleta a coneccao
   // COGSitio::DeletarConeccao(unsigned int link);
@@ -218,7 +218,7 @@ void COGSitio_LR::DeletarConeccao (unsigned int link)
   @param  : unsigned int link
   @return : void
 */
-bool COGSitio_LR::DeletarConeccoesInvalidadas (int deletado)
+bool COGSitio_CC::DeletarConeccoesInvalidadas (int deletado)
 {
   long int cont = 0;
   // Percorre todas as coneccoes
@@ -247,7 +247,7 @@ bool COGSitio_LR::DeletarConeccoesInvalidadas (int deletado)
   @todo   : da forma como esta funciona, mas pode ser bem mais simples!
 */
 // NOVO EM TESTE
-int COGSitio_LR::DeletarConeccoesRepetidas ()
+int COGSitio_CC::DeletarConeccoesRepetidas ()
 {
   // Número de links deletados
   // acumula número de links no início
@@ -291,7 +291,7 @@ int COGSitio_LR::DeletarConeccoesRepetidas ()
 
 /**
  * /// @todo terminar de implementar, testar velocidade, ficar com a versao + rápida.
-int COGSitio_LR::DeletarConeccoesRepetidas_V2 ()
+int COGSitio_CC::DeletarConeccoesRepetidas_V2 ()
 {
   // cria um vetor de pair.
   vector < pair<CObjetoGrafo *, long double> > par_conexao_condutancia(conexao.size());

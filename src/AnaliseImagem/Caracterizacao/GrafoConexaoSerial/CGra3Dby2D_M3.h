@@ -90,7 +90,7 @@ protected:
     */
    virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado);
 
-   /// Redefinida,  retorna um COGSitio_LR ou derivado
+   /// Redefinida,  retorna um COGSitio_CC ou derivado
    virtual CObjetoGrafo *CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno);
 
    // Função Go

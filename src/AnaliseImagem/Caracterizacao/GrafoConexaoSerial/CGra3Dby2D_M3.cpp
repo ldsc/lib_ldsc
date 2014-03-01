@@ -22,7 +22,7 @@
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_WEST.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.h>
@@ -83,7 +83,7 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
    unsigned long int nli;
 
    long double raioHidraulicoLigacoes;
-   COGSitio_LR *ptrSitio;
+   COGSitio_CC *ptrSitio;
 
    // Copia dados da conexão das duas imagens para a img2D
    // ou seja gera imagem da intersecção entre os dois planos de rotulagem
@@ -149,9 +149,9 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
                // NOVO  : Definição dos raiosHidraulicos das coneccoes
                raioHidraulicoLigacoes =
                      rotInt->RaioHidraulicoObjetos (rotInt->data2D[ii][jj]);
-               ptrSitio = dynamic_cast < COGSitio_LR * >(objeto[pa - 1]);
+               ptrSitio = dynamic_cast < COGSitio_CC * >(objeto[pa - 1]);
                ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
-               ptrSitio = dynamic_cast < COGSitio_LR * >(objeto[pp - 1]);
+               ptrSitio = dynamic_cast < COGSitio_CC * >(objeto[pp - 1]);
                ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
             }
          }
@@ -179,10 +179,10 @@ CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _size
    // long double PI=3.141592653589;
    long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _sizePixel * _fatorAmplificacao);
 
-   // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitio_LR
+   // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitio_CC
    // que tem uma lista de conecções.
-   // aqui usa um ponteiro do tipo COGSitio_LR para acessar as conecções.
-   COGSitio_LR * ptrSitioLR = nullptr;
+   // aqui usa um ponteiro do tipo COGSitio_CC para acessar as conecções.
+   COGSitio_CC * ptrSitioLR = nullptr;
 
    // Percorre  todos os objetos do  grafo
    for (unsigned long int k = 0; k < objeto.size (); k++) {
@@ -203,8 +203,8 @@ CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _size
 
       // Percorre todas as conecções do objeto
       for (unsigned int link = 0; link < ptrSitio->coneccao.size (); link++) {
-         // Converte o ponteiro ObjetoGrafo para COGSitio_LR
-         ptrSitioLR = dynamic_cast < COGSitio_LR * >(objeto[k]);
+         // Converte o ponteiro ObjetoGrafo para COGSitio_CC
+         ptrSitioLR = dynamic_cast < COGSitio_CC * >(objeto[k]);
          // Obtêm o raio hidraulico da ligação
          raio_hidraulico = ptrSitioLR->condutancia[link];
          // Converte para SI (metros)
@@ -242,8 +242,8 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
    if (EliminarConeccoesRepetidas () == 1)
       for (int i = 0; i < objeto.size (); i++)
       {
-         // Cria ponteiro para objeto do tipo COGSitio_LR
-         COGSitio_LR *obj_i = dynamic_cast < COGSitio_LR * >(objeto[i]);
+         // Cria ponteiro para objeto do tipo COGSitio_CC
+         COGSitio_CC *obj_i = dynamic_cast < COGSitio_CC * >(objeto[i]);
          assert (obj_i);
 
          // Chama DeletarConeccoesRepetidas, que retorna o número de links eliminados
@@ -271,7 +271,7 @@ CGra3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
    switch (tipoContorno)
    {
    case CContorno::ETipoContorno::CENTER:
-      data = new COGSitio_LR ();
+      data = new COGSitio_CC ();
       break;
 
    case CContorno::ETipoContorno::WEST:
@@ -283,7 +283,7 @@ CGra3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
       break;
 
    default:
-      data = new COGSitio_LR ();
+      data = new COGSitio_CC ();
       break;
    }
    assert (data);
@@ -363,7 +363,7 @@ CGra3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
    for (unsigned long int j = 0; j < objeto.size (); j++)
    {
       // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
-      COGSitio_LR *objeto_j = dynamic_cast < COGSitio_LR * >(objeto[j]);
+      COGSitio_CC *objeto_j = dynamic_cast < COGSitio_CC * >(objeto[j]);
       assert (objeto_j);
 
       switch (objeto_j->Contorno ())

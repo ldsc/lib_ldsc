@@ -18,7 +18,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 
 // ===============================================================================
 // Documentacao CLASSE: COGSitio_CC_EST
@@ -32,10 +32,10 @@ Desenvolvido por:
  * calcula alguma propriedade neste contorno.
  * @author 	André Duarte Bueno	
  * @see			grafos
- * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_EST
- * @todo renomear COGSitio_CC_EST -> COGSitio_LRDir
+ * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_EST
+ * @todo renomear COGSitio_CC_EST -> COGSitio_CCDir
  */
-class COGSitio_CC_EST : public COGSitio_LR
+class COGSitio_CC_EST : public COGSitio_CC
 {
 // --------------------------------------------------------------Atributos
 public:

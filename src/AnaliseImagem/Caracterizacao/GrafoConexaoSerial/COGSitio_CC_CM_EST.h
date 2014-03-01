@@ -30,7 +30,7 @@ Desenvolvido por:
  * @author 	André Duarte Bueno
  * @see		CGrafo
  * @Superclasse:
- * CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_CM->COGSitio_CC_CM_EST
+ * CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_CM->COGSitio_CC_CM_EST
  */
 class COGSitio_CC_CM_EST : public COGSitio_CC_CM
 {

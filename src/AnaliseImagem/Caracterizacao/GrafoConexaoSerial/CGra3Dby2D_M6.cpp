@@ -45,7 +45,7 @@ using namespace std;
 // Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
 /**
-@short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado (COGSitio_LR...).
+@short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado (COGSitio_CC...).
 @author : André Duarte Bueno
 @see    : grafos
 @param  : CContorno::ETipoContorno tipoContorno

@@ -22,7 +22,7 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 
 // ===============================================================================
 // Documentacao CLASSE: COGSitio_CC_WEST
@@ -31,7 +31,7 @@ Desenvolvido por:
  * @brief Representa um sítio conectado a face esquerda do grafo e que 
  * armazena a informação da conexão.
  * 
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_WEST
+ * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_WEST
  * Assume valor de contorno = 0.
  * O 	valor de contorno é usado no calculo dos fluxo da malha como
  * um todo.Ou seja, um algoritimo externo percorre toda
@@ -39,9 +39,9 @@ Desenvolvido por:
  * calcula alguma propriedade neste contorno.
  * @author 	André Duarte Bueno	
  * @see:        CGrafo
- * @todo renomear COGSitio_CC_WEST -> COGSitio_LREsq
+ * @todo renomear COGSitio_CC_WEST -> COGSitio_CCEsq
  */
-class COGSitio_CC_WEST : public COGSitio_LR
+class COGSitio_CC_WEST : public COGSitio_CC
 {
 // --------------------------------------------------------------Atributos
 

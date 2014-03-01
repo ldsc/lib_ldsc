@@ -149,7 +149,7 @@ Desenvolvido por:
  * DeterminarConeccoesObjetos()->Conecta os objetos em planos distintos,
  * determina os raioshidraulicos dos "sítios",
  * determina e armazena os raioHidraulicos das ligações(novo).
- * CriarObjetoGrafo()->retorna COGSitio_LR.
+ * CriarObjetoGrafo()->retorna COGSitio_CC.
  * CalcularCondutancias()->determina as condutâncias das ligações.
  * 
  * CGra3Dby2_M4 (corrige condutâncias considerando distâncias centros massa)

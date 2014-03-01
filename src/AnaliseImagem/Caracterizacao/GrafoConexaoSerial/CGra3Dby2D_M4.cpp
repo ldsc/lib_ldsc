@@ -36,7 +36,7 @@ using namespace std;
 #endif
 
 #ifndef COGSitio_CC_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 #endif
 
 #ifndef COGSitio_CC_WEST_h
@@ -197,7 +197,7 @@ CGra3Dby2D_M4::CalcularCondutancias
   // Inicio do calculo da correção das condutancias
 
   // Ponteiro para sitio derivado
-  COGSitio_LR *
+  COGSitio_CC *
     ptrSitioLR = nullptr;
 
   // Centro de massa na direção x,y do sitio
@@ -225,8 +225,8 @@ CGra3Dby2D_M4::CalcularCondutancias
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para COGSitio_LR, para ter acesso ao vetor condutancia[link]
-      ptrSitioLR = dynamic_cast < COGSitio_LR * >(objeto[k]);
+      // Converte o ponteiro ObjetoGrafo para COGSitio_CC, para ter acesso ao vetor condutancia[link]
+      ptrSitioLR = dynamic_cast < COGSitio_CC * >(objeto[k]);
 
       // Obtem a informação do cmx e cmy do sitio atual (k)
       cmxSitio = cmx[k];
@@ -313,7 +313,7 @@ CGra3Dby2D_M4::Write (std::string nomeArquivo)
   // Inicio novo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // ptrSitioLR = dynamic_cast<COGSitio_LR*> (objeto[k]);
+      // ptrSitioLR = dynamic_cast<COGSitio_CC*> (objeto[k]);
       // Obtem a informação do cmx do sitio atual (k)
       out << "\nobj[" << setw (5) << k << "]" << " cx=" << setw (5) << cmx[k]
 	<< " cy=" << cmy[k] << " cz=" << cmz[k];;

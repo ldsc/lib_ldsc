@@ -34,7 +34,7 @@ Desenvolvido por:
  * o grafo, e se o contorno for igual ao solicitado
  * calcula alguma propriedade neste contorno.
  * @see:        Grafo
- * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_WEST
+ * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_WEST
  * @author 	André Duarte Bueno
 */
 class COGSitio_CC_CM_WEST : public COGSitio_CC_CM

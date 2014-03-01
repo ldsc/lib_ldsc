@@ -32,7 +32,7 @@ Bibliotecas LIB_LDSC
 #endif
 
 #ifndef COGSitio_CC_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 #endif
 
 
@@ -40,15 +40,15 @@ Bibliotecas LIB_LDSC
 // Documentacao CLASSE: COGSitio_CC_CM
 // ===============================================================================
 /** 
- * @brief  é um sítio, herdeiro de COGSitio_LR, acrescenta as
+ * @brief  é um sítio, herdeiro de COGSitio_CC, acrescenta as
  * posições cx,cy,cz.
  * @Assunto:        grafo
- * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_LR->COGSitio_CC_CM
+ * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_CM
  * 
  * @author 	André Duarte Bueno
  * @see		grafos
 */
-class COGSitio_CC_CM : public COGSitio_LR
+class COGSitio_CC_CM : public COGSitio_CC
 {
 // --------------------------------------------------------------Atributos
 public:

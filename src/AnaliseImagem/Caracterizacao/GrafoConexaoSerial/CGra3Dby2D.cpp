@@ -490,8 +490,8 @@ void CGra3Dby2D::EliminarObjetosRedundantes_1 ()
                if (objetoSitio2->coneccao[link] == objetoSitio1)
                {
                   // Se for COGSitio deleta somente a conecção (modelos 1 e 2)
-                  // Se for COGSitio_LR deleta a conecção e a condutancia (modelos 3,4,5,..)
-                  objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitio_LR
+                  // Se for COGSitio_CC deleta a conecção e a condutancia (modelos 3,4,5,..)
+                  objetoSitio2->DeletarConeccao (link);	// desativada em COGSitio e COGSitio_CC
 
                   // Mesmo depois de deletar a primeira ligação, deve verificar as demais
                   // pois pode haver mais de uma ligação entre dois objetos (como no modelo1).

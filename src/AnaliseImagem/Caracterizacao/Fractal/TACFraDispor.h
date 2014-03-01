@@ -15,12 +15,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		TACFraDisPor
+Documentacao Classe:		TACFraDisPor
 ============================================================================
 Nome Classe:           TACFraDisPor
 Assunto:
 Superclasse:
-Descrição:             Implementa a classe TACFraDisPor.  E' derivada da classe TACFractal.
+Descriï¿½ï¿½o:             Implementa a classe TACFraDisPor.  E' derivada da classe TACFractal.
 Acesso:
 Cardinalidade:
 Abstrata/Concreta:
@@ -47,14 +47,14 @@ public:
   TACFraDisPor ();
   virtual ~ TACFraDisPor ();	//Destrutor
 
-  //Métodos virtuais herdados                  //{{TACFraDisPorVIRTUAL_BEGIN}}
+  //Mï¿½todos virtuais herdados                  //{{TACFraDisPorVIRTUAL_BEGIN}}
 protected:
 public:
-  virtual float CalculaDimensaoFractal (TMatriz2D * &pm) = 0;	//calcula a dimensão fractal
+  virtual float CalculaDimensaoFractal (TMatriz2D * &pm) = 0;	//calcula a dimensï¿½o fractal
   virtual TVetor *CalculaVetorDados (TMatriz2D * &pm) = 0;	//calcula vetor de dados
 
   //{{TACFraDisPorVIRTUAL_END}}
-  //Métodos virtuais associados a tabela de resposta de TACFraDisPor
+  //Mï¿½todos virtuais associados a tabela de resposta de TACFraDisPor
   //{{TACFraDisPorRSP_TBL_BEGIN}}
 protected:
   //{{TACFraDisPorRSP_TBL_END}}

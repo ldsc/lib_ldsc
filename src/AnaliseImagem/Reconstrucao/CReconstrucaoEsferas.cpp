@@ -380,7 +380,7 @@ bool CReconstrucaoEsferas::Grava_dbm ( string nomeimg, unsigned char *inimeio ) 
    if ( fout.good() && fout.is_open()) {
       fout << setw (0) << "D1\n" << dimens << " " << dimens << " " << dimens << "\n";
       fout << setw (0) << "# fatorAmplificacao: " << fat_amp << "\n";
-      fout << setw (0) << "# sizePixel: " 	     << tam_pixel << "\n";
+      fout << setw (0) << "# dimensaoPixel: " 	     << tam_pixel << "\n";
       fout << setw (0) << "# numeroPixelsBorda: " << 0 << "\n";
       for ( int z = 0; z < dimens; z++ ) {
          for ( int y = 0; y < dimens; y++ ) {

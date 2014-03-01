@@ -17,7 +17,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:		CFEConectividade3D
+Documentacao Classe:		CFEConectividade3D
 ============================================================================
 Assunto:               CFEConectividade3D
 Superclasse:           CRotulador3D

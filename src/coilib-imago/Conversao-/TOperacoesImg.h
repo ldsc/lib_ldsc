@@ -40,7 +40,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TOperacoesImg
+Documentacao Classe: TOperacoesImg
 =========================================================================
 Assunto:        Interface com  COILIB e IMAGO
 Superclasse:    TOperacoesImg

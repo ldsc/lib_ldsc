@@ -36,12 +36,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:    TFEEsqueletoV33D
+Documentacao Classe:    TFEEsqueletoV33D
 ============================================================================
-Assunto:             Classe para esqueletização
+Assunto:             Classe para esqueletizaï¿½ï¿½o
 Superclasse:         TFiltro->TFiltroEspacial
-Descrição:           Classe desenvolvida para teste de alguns tipos de algorítimos
-							de esqueletização.
+Descriï¿½ï¿½o:           Classe desenvolvida para teste de alguns tipos de algorï¿½timos
+							de esqueletizaï¿½ï¿½o.
 
 Acesso:           	import
 Cardinalidade:    	1:1    ,
@@ -54,7 +54,7 @@ class TFEEsqueletoV33D:public TFEEsqueleto3D
 protected:
   TFMMIDF3D * idf;		//
 
-//Métodos
+//Mï¿½todos
 public:			//Construtor
 
 TFEEsqueletoV33D (TMatriz3D * &matriz, unsigned int _tamanhoMascara = 0):TFEEsqueleto3D (matriz, _tamanhoMascara),

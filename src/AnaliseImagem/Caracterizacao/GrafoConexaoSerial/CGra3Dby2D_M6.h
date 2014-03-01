@@ -31,7 +31,7 @@ Desenvolvido por:
 #endif /* cerr */
 
 // ===============================================================================
-// Documentacao CLASSE: CGra3Dby2D_M6
+// Documentacao Classe: CGra3Dby2D_M6
 // ===============================================================================
 /**
  * @brief Determina o grafo, modelo 6.
@@ -63,7 +63,7 @@ public:
    * aqui considera as posições dos centros de massa
   */
   virtual void CalcularCondutancias (long double _viscosidade,
-                    long double _sizePixel,
+                    long double _dimensaoPixel,
                     unsigned long int _fatorAmplificacao);
 
   double Tortuosidade() { return tortuosidade; }

@@ -19,7 +19,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		CFMMIDFd8
+Documentacao Classe:		CFMMIDFd8
 ============================================================================
 Nome Classe:         CFMMIDFd8
 Assunto:             Matriz IDF de uma imagem usando mascara de chanfro d8

@@ -91,7 +91,7 @@ double TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage * &imgC
 
         //PROPRIEDADES DA SIMULA��O
         int fatorAmplificacao = imgConnect->AmplifyFactor ();
-        double sizePixel = imgConnect->VoxelSize ();
+        double dimensaoPixel = imgConnect->VoxelSize ();
         long double viscosidade = 0.001002;
         long double fatorRelaxacao = 0.7;
         unsigned long int limiteIteracoes = 100;
@@ -139,7 +139,7 @@ double TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage * &imgC
         TPermeabilidadeGrafo *permeabilidade =
             new TPermeabilidadeGrafo (fluido, solver, grafo, pm3D->GetNX (),
                                       pm3D->GetNY (), pm3D->GetNZ (),
-                                      fatorAmplificacao, sizePixel);
+                                      fatorAmplificacao, dimensaoPixel);
         assert (permeabilidade);
 
         //Chama fun��o de inicializa��o do sistema de calculo da permeabilidade------------------

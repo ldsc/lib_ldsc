@@ -16,7 +16,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		CFMMIDFEuclidiana
+Documentacao Classe:		CFMMIDFEuclidiana
 ============================================================================
 Nome Classe:         CFMMIDFEuclidiana
 Assunto:             Matriz IDF de uma imagem usando mascara de chanfro d34

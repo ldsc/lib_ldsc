@@ -37,7 +37,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio
+// Documentacao Classe: COGSitio
 // ===============================================================================
 /** 
  * @brief  Representa um objeto sítio de um grafo.

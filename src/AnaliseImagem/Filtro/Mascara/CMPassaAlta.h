@@ -19,7 +19,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:    CMPassaAlta
+Documentacao Classe:    CMPassaAlta
 ==================================================================================
 Assunto:        Mascara para filtro passa alta
 Superclasse:    CMascara

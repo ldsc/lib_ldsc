@@ -25,7 +25,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_CC_WEST
+// Documentacao Classe: COGSitio_CC_WEST
 // ===============================================================================
 /** 
  * @brief Representa um sítio conectado a face esquerda do grafo e que 

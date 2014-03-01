@@ -114,8 +114,8 @@ TIConfEq3DSim::PrepareConfEqSim ()
     Getchamber ()->PorosityRegionPorousMedia ();
 
     //Cria  arquivo de disco, e preenche o cabe�alho
-    //fout.open( GetFileName().c_str() );         em 22-7-2002
-    fout.open (GetFileName ().c_str (), ios::app);
+    //fout.open( GetNomeArquivo().c_str() );         em 22-7-2002
+    fout.open (GetNomeArquivo ().c_str (), ios::app);
     if (fout.fail ())
         return;
 
@@ -216,11 +216,11 @@ TIConfEq3DSim::IntermediatNextOutput ()
                     + (timeEnd.milliseconds - timeInit.milliseconds);
 
     //SAIDA DE DADOS PARA O DISCO
-    fout.open (GetFileName ().c_str (), ios::app);
+    fout.open (GetNomeArquivo ().c_str (), ios::app);
 
     if (fout.fail ())
     {
-        cout << "\nN�o conseguiu abrir arquivo de disco:" << GetFileName () <<
+        cout << "\nN�o conseguiu abrir arquivo de disco:" << GetNomeArquivo () <<
              endl;
         exit (0);
     }
@@ -265,7 +265,7 @@ TIConfEq3DSim::IntermediatNextClose ()
 }
 
 string
-TIConfEq3DSim::GetFileName ()
+TIConfEq3DSim::GetNomeArquivo ()
 {
     //Abaixo o novo inclue o nome da imagem
     //Condi��o normal
@@ -273,7 +273,7 @@ TIConfEq3DSim::GetFileName ()
     //if(inverted == false)
     nomeArquivo = imageName + Getchamber ()->GetClassName () + ".dat";
 //aquiaqui
-    cout << " no metodo TIConfEq3DSim::GetFileName()...nomeArquivo=: " << nomeArquivo
+    cout << " no metodo TIConfEq3DSim::GetNomeArquivo()...nomeArquivo=: " << nomeArquivo
          << endl;
     //o fluxo foi invertido, observe a nega��o ! na molhabilidade
     //else

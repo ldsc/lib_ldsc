@@ -26,7 +26,7 @@ Desenvolvido por:
 #include <SMatriz/SMDiagonal/CSMDiagonalDominante.h>
 
 // ===============================================================================
-// Documentacao CLASSE: CSMDTDMA
+// Documentacao Classe: CSMDTDMA
 // ===============================================================================
 /**
  * @brief 	Solucao do sistema de equacoes usando o metodo TDMA.

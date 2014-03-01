@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CFERotacaoVerticaleDiferenca_h
 #define CFERotacaoVerticaleDiferenca_h
 
@@ -24,11 +24,11 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    CFERotacaoVerticaleDiferenca
+Documentacao Classe:    CFERotacaoVerticaleDiferenca
 ============================================================================
-Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
+Assunto:             Filtros espaciais (atuam sobre o espaï¿½o geomï¿½trico da imagem).
 Superclasse:         CFiltro-> CFEspacial
-Descrição:
+Descriï¿½ï¿½o:
 Acesso:           import
 Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
 Abstrata/Concreta:  concreta

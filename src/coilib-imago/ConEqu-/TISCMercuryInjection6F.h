@@ -34,7 +34,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCMercuryInjection6F
+Documentacao Classe: TISCMercuryInjection6F
 =========================================================================
 Assunto:        Camaras
 Superclasse:    TISCMercuryInjection6F

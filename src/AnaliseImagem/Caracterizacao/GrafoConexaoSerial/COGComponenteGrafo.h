@@ -37,7 +37,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: COGComponenteGrafo.h
+// Documentacao Classe: COGComponenteGrafo.h
 // ===============================================================================
 /** 
  * @brief Representa um objeto avançado de um grafo.

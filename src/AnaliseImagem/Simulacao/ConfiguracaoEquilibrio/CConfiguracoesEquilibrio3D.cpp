@@ -12,7 +12,7 @@ Nome da classe:      CConfiguracoesEquilibrio3D
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 ==================================================================================
-Documentacao CLASSE:	  CConfiguracoesEquilibrio3D
+Documentacao Classe:	  CConfiguracoesEquilibrio3D
 ==================================================================================
 Assunto:               CConfiguracoesEquilibrio3D
 Superclasse:

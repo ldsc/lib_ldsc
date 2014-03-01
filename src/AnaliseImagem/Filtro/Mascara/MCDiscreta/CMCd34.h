@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CMCd34
+Documentacao Classe:		CMCd34
 ==================================================================================
 Nome Classe:            CMCd34
 Assunto:                Mascaras

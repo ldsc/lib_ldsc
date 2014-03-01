@@ -50,7 +50,7 @@ CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido,
 							unsigned long int _ny,
 																							unsigned long int _nz,
 																							unsigned long int _fatorAmplificacao,
-																							long double _sizePixel,
+																							long double _dimensaoPixel,
 																							unsigned long int _numeroPixelsBorda )
 	:
 		fluido (_fluido),
@@ -60,7 +60,7 @@ CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido,
 		ny (_ny),
 		nz (_nz),
 		fatorAmplificacao (_fatorAmplificacao),
-		sizePixel (_sizePixel),
+		dimensaoPixel (_dimensaoPixel),
 		numeroPixelsBorda (_numeroPixelsBorda),
 		fluxoFronteira (0)
 {
@@ -94,7 +94,7 @@ CPermeabilidadeGrafo::CPermeabilidadeGrafo(const CPermeabilidadeGrafo& obj )
 	ny			=	obj.ny;
 	nz			=	obj.nz;
 	fatorAmplificacao	=	obj.fatorAmplificacao;
-	sizePixel					=	obj.sizePixel;
+	dimensaoPixel					=	obj.dimensaoPixel;
 	numeroPixelsBorda	=	obj.numeroPixelsBorda;
 	fluxoFronteira		=	obj.fluxoFronteira;
 
@@ -201,7 +201,7 @@ ostream & operator<< (ostream & os, const CPermeabilidadeGrafo & obj)
 	os << obj.ny << endl;
 	os << obj.nz << endl;
 	os << obj.fatorAmplificacao << endl;
-	os << obj.sizePixel << endl;
+	os << obj.dimensaoPixel << endl;
 	os << obj.numeroPixelsBorda << endl;
 	os << obj.fluxoFronteira << endl;
 	return os;
@@ -221,7 +221,7 @@ ostream & operator<< (ostream & os, const CPermeabilidadeGrafo & obj)
 {
 	is >> p.fatorAmplificacao;
 	is >> p.numeroPixelsBorda;
-	is >> p.sizePixel;
+	is >> p.dimensaoPixel;
 	is >> p.fluxoFronteira;
 	
 	// p.fluido->Read("fluido.dat");
@@ -410,7 +410,7 @@ CPermeabilidadeGrafo::DefinirValoresIniciais ()
 
 	// Transforma as propriedades raioHidraulico em condutancias
 	// o calculo das condutancias agora é realizado no proprio grafo
-	grafo->CalcularCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
+	grafo->CalcularCondutancias (fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao);
 
 	// No grafo ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
 	// os links duplicado, somando as suas condutâncias, o que é feito na funcao EliminarCondutanciasRepetidas
@@ -418,13 +418,13 @@ CPermeabilidadeGrafo::DefinirValoresIniciais ()
 
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = (*(grafo->contorno[0])) - (*(grafo->contorno[2]));
-	dimensaoX = (nx - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoY = (ny - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoZ = (nz - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
+	dimensaoX = (nx - numeroPixelsBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoY = (ny - numeroPixelsBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoZ = (nz - numeroPixelsBorda) * fatorAmplificacao * dimensaoPixel;
 
 	// Como as pressões estão no meio de cada nó,
 	// O comprimento a ser considerado deve descontar 1 pixel
-	comprimento = (nz - 2 * numeroPixelsBorda - 1) * fatorAmplificacao * sizePixel;
+	comprimento = (nz - 2 * numeroPixelsBorda - 1) * fatorAmplificacao * dimensaoPixel;
 	area = dimensaoY * dimensaoX;
 	iteracoes = 1;
 }
@@ -482,8 +482,8 @@ Calcular a permeabilidade do grafo
 				(Length*(NX-4)*n  *1e5) ;
 		// fatorConversaoParaMiliDarcy = 1.013*1e+15
 
-		comprimento =    (nx - 4) * fatorAmplificacao*sizePixel
-		area        =    (ny - 4) * fatorAmplificacao*sizePixel * (nz - 4) * fatorAmplificacao * sizePixel
+		comprimento =    (nx - 4) * fatorAmplificacao*dimensaoPixel
+		area        =    (ny - 4) * fatorAmplificacao*dimensaoPixel * (nz - 4) * fatorAmplificacao * dimensaoPixel
 		permeabilidade = (fluxo * viscosidade * comprimento)
 					/
 												 (area * diferencaPressao)

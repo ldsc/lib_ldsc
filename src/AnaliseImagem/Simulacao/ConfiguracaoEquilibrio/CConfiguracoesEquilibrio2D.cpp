@@ -13,7 +13,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 
 ==================================================================================
-Documentacao CLASSE:	  CConfiguracoesEquilibrio2D
+Documentacao Classe:	  CConfiguracoesEquilibrio2D
 ==================================================================================
 Assunto:               CConfiguracoesEquilibrio2D
 Superclasse:

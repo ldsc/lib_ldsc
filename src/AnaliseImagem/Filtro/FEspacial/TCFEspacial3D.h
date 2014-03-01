@@ -28,7 +28,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:    TCFEspacial3D
+Documentacao Classe:    TCFEspacial3D
 ==================================================================================
 Assunto:             Classe básica para os filtros da morfologia matemática
 Superclasse:         TFiltro3D

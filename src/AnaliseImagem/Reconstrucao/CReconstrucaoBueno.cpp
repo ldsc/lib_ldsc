@@ -95,11 +95,11 @@ bool CReconstrucaoBueno::SalvarImagemEmDisco (string arqimg) {
    stringstream tmp;
    if ( nomeArquivo == arqimg ) {
       if (gt == 1) {
-         tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
+         tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << dimensaoPixel << ".dbm";
          nomeArquivo = tmp.str();
          arqimg = nomeArquivo;
       } else {
-         tmp << nomeArquivo << "_GT-2_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << sizePixel << ".dbm";
+         tmp << nomeArquivo << "_GT-2_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << setprecision(2) << dimensaoPixel << ".dbm";
          nomeArquivo = tmp.str();
          arqimg = nomeArquivo;
       }
@@ -111,7 +111,7 @@ bool CReconstrucaoBueno::SalvarImagemEmDisco (string arqimg) {
    }
    fimg << setw (0) << "D1\n" << NX << " " << NY << " " << NZ << "\n";
    fimg << setw (0) << "# fatorAmplificacao: " << fatorAmplificacaoNumeroPontos << "\n";
-   fimg << setw (0) << "# sizePixel: " 	    << sizePixel << "\n";
+   fimg << setw (0) << "# dimensaoPixel: " 	    << dimensaoPixel << "\n";
    fimg << setw (0) << "# numeroPixelsBorda: " << 0 << "\n";
 
    for (k = 0; k < NZ; k++)

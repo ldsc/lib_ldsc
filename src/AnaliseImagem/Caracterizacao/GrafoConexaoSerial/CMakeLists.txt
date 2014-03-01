@@ -1,6 +1,5 @@
 add_library(
 Grafo 
-
 CObjetoGrafo.cpp 
 COGComponenteGrafo.cpp 
 COGLigacao.cpp 
@@ -8,13 +7,13 @@ COGSitio.cpp
 COGSitio_EST.cpp  
 COGSitio_WEST.cpp 
 
-COGSitio_LR.cpp 
-COGSitio_LR_EST.cpp 
-COGSitio_LR_WEST.cpp 
+COGSitio_CC.cpp 
+COGSitio_CC_EST.cpp 
+COGSitio_CC_WEST.cpp 
 
-COGSitio_LR_CM.cpp  
-COGSitio_LR_CM_EST.cpp 
-COGSitio_LR_CM_WEST.cpp 
+COGSitio_CC_CM.cpp  
+COGSitio_CC_CM_EST.cpp 
+COGSitio_CC_CM_WEST.cpp 
 
 CGrafo.cpp 
 CGrafoContorno.cpp 

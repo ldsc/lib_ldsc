@@ -44,7 +44,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TICChamber
+Documentacao Classe: TICChamber
 =========================================================================
 Assunto:        Assunto
 Superclasse:    |CLASSNAME|

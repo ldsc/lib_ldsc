@@ -57,15 +57,17 @@ void ImprimeDeque(const deque<T> & dequeRef, ofstream& eob);
   }
 */
 
-/**Determina o grafo lendo os planos da imagem diretamente do disco
+/**Determina o grafo lendo os planos da imagem diretamente do disco.
 O atributo plano e utilizado para armazenar no objeto criado
 a informacao do plano a que pertence. Sera usado para estimacao
 da pressao inicial.*/
-CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int funcao) 
+CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int naoUsado) 
 {
    unsigned long int i, j, k;
    maiorRotuloUtilizado = 0;
-
+   
+   CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
+   
    ifstream fin (nomeArquivo.c_str ());
    if (fin.fail())
    {
@@ -123,7 +125,7 @@ CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int funcao)
    // Determina o primeiro objeto do solver
    // Tarefa: verificar retorno de ra->RotuloFinal() = último rótulo utilizado
    // se for último rótulo utilizado precisa somar 1
-   firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
+   rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
 
    // ------------
    // PLANO i
@@ -147,11 +149,11 @@ CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int funcao)
       // Determina raio hidraulico
       rp->CalculaRaioHidraulicoObjetos ();
 
-      // Se for o ultimo plano, redefine o contorno e calcula lastObjectOfSolver
+      // Se for o ultimo plano, redefine o contorno e calcula rotuloUltimoObjetoPlanoN_1
       if (k == (nz - 1))
       {
          tipoContornoObjeto = CContorno::ETipoContorno::EST;
-         lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
+         rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
       }
 
       // Adiciona objetos do plano ij atual
@@ -193,15 +195,17 @@ CGrafo * CGra3Dby2D::Go (string nomeArquivo, unsigned long int funcao)
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
-CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
+CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int naoUsado) {
+
+   // Usados para percorrer  a imagem
+   unsigned long int i, j, k;
+
+   CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
    // Armazena a informacao das dimensoes da imagem
    nx = _img3D->NX ();
    ny = _img3D->NY ();
    nz = _img3D->NZ ();
-
-   // Usados para percorrer  a imagem
-   unsigned long int i, j, k;
 
    maiorRotuloUtilizado = 0;
 
@@ -245,7 +249,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
    AdicionarObjetos (ra, maiorRotuloUtilizado, tipoContornoObjeto);
 
    // Determina o primeiro objeto do solver
-   firstObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
+   rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
 
    // ----------------------------------------------------------------------------
    // Percorre todos os demais planos
@@ -277,7 +281,7 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) {
       if (k == (nz - 1))
       {
          tipoContornoObjeto = CContorno::ETipoContorno::EST;
-         lastObjectOfSolver = maiorRotuloUtilizado + ra->RotuloFinal ();
+         rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
       }
 
       // Adiciona os sítios, a lista de sítios
@@ -434,15 +438,15 @@ void CGra3Dby2D::EliminarObjetosRedundantes_1 ()
 
    // O numero de objetos no ultimo plano é o numero total de objetos
    // menos o indice do ultimo objeto do solver.
-   unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloUltimoObjetoPlanoN_1;
 
    // Vai varrer os planos e eliminar objetos
    do {
       numeroObjetosDeletados = 0;
 
       // Percorre todos os objetos do grafo
-      // Tarefa: i< lastObjectOfSolver
-      for (long int i = firstObjectOfSolver; i < (objeto.size () - numeroObjetosNoPlanoZn); i++) 
+      // Tarefa: i< rotuloUltimoObjetoPlanoN_1
+      for (long int i = rotuloPrimeiroObjetoPlano1; i < (objeto.size () - numeroObjetosNoPlanoZn); i++) 
       {
          rotulo = objeto[i]->rotulo;	// =i+1
 
@@ -539,7 +543,7 @@ void CGra3Dby2D::EliminarObjetosRedundantes_1 ()
       objeto[i]->rotulo = i;
    // O numero do ultimo objeto do solver precisa ser corrigido.
    // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
-   lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;
+   rotuloUltimoObjetoPlanoN_1 = objeto.size () - numeroObjetosNoPlanoZn;
 }
 
 // -----------------------------------------------------------------------------
@@ -567,7 +571,7 @@ void CGra3Dby2D::EliminarObjetosRedundantes_2 ()
 {
    // O numero de objetos no ultimo plano é o numero total de objetos
    // menos o indice do ultimo objeto do solver
-   unsigned int numeroObjetosNoPlanoZn = objeto.size () - lastObjectOfSolver;
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloUltimoObjetoPlanoN_1;
 
    unsigned long int numeroObjetosDeletados;
    unsigned long int numeroTotalObjetosDeletados = 0;
@@ -629,7 +633,7 @@ void CGra3Dby2D::EliminarObjetosRedundantes_2 ()
 
    // O numero do ultimo objeto do solver precisa ser corrigido.
    // BUG ? e se algum objeto do plano zn foi deletado ?// objetos do plano zn não são verificados.
-   lastObjectOfSolver = objeto.size () - numeroObjetosNoPlanoZn;	// VERIFICAR AQUI
+   rotuloUltimoObjetoPlanoN_1 = objeto.size () - numeroObjetosNoPlanoZn;	// VERIFICAR AQUI
 }
 
 bool
@@ -779,4 +783,292 @@ bool CGra3Dby2D::DeletarObjeto(unsigned long int rotulo) // ou rotulo
 return 1;
 }
 */
-// #endif
+
+// -------------------------------------------------------------------------
+// Função:                    LerVetorPropriedades_x()
+// -------------------------------------------------------------------------
+/**
+    @short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
+    O sistema de proteçao contra quedas de energia salva, a cada conjunto de iterações, 
+    os dados dos objetos do grafo em disco (salva o vetor das pressões do grafo).
+    Se o micro caiu (queda de luz), o programa pode solicitar a reinicialização da simulação, 
+    criando o grafo, determinando o mesmo e então chamando a função LeDadosDisco(),
+    que vai ler os dados do arquivo de disco "grafo.vectorX".
+    @author :	André Duarte Bueno
+    @see    : grafos
+    @param  :
+    @return :	bool // ostream&
+ 
+     @test: o nome do arquivo "grafo.vectorX" foi modificado para considerar o nome da imagem 
+     pois pode processar mais de um arquivo no mesmo diretório ao mesmo tempo. 
+     Como mudou precisa testar!
+*/
+bool CGra3Dby2D::LerVetorPropriedades_x ()
+{
+  // Abre arquivo de disco  
+  // ifstream fin ("grafo.vectorX"); 
+  /// @todo: considerar nome imagem
+  ifstream fin ( (NomeGrafo()+ ".vectorX").c_str() );
+  if (fin.fail ())
+  { cerr << "Falha abertura arquivo que tem os dados do grafo: grafo.vectorX.\n";
+    return 0;
+  }
+  // Lê os dados do vetor (atributo propriedade).
+  long double temp;
+  for ( auto objeto_grafo : objeto ) // objeto é um vetor
+    {
+	  fin >> objeto_grafo->x ;
+
+///  @bug: Teste do uso do tag bug do doxygen.
+///  @test: o código abaixo poderia ser comentado pois não deve ocorrer!
+      if (fin.eof ()) 
+       return 0;
+    }
+  return 1;
+}
+
+/// Salva no arquivo "grafo.vectorX" o valor da pressão de cada objeto.
+bool CGra3Dby2D::SalvarVetorPropriedades_x ()
+{
+  // Abre arquivo de disco
+  //  ofstream fout ("grafo.vectorX");
+  ofstream fout ( (NomeGrafo()+ ".vectorX").c_str() );
+  if (fout.fail ())
+    return 0;
+
+  // Salva os dados do atributo x de cada objeto em disco (ex: pressão que esta sendo calculada).
+  for (auto objeto_grafo : objeto )
+    fout << objeto_grafo->x << endl;
+  return 1;
+}
+
+// -------------------------------------------------------------------------
+// Função:               SetarMatrizAVetorB
+// -------------------------------------------------------------------------
+/** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
+    e preenche os mesmos com os coeficientes necessários
+    para determinação do sistema de equações.
+    Pré-condições:
+    1- O grafo já deve ter sido determinado.
+    2- Os valores iniciais de pressão já devem ter sido definidos
+    (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0).
+    3- Deve receber uma matriz e um vetor vazios.
+    @author : André Duarte Bueno
+    @see    : grafos
+    @param  :
+    @return : bool indicando sucesso da operação.
+    @todo: como faz cast para COGSitio, deveria estar em CGrafo3Dby2D ?
+    @todo: receber matriz de double !! eliminando multiplicador 1e17.
+    @todo: transformar em template que recebe tipo : float, double, long double.
+    @todo: transformar CVetor em template!
+    @test: testar para ver se esta funcionando!
+*/
+bool CGra3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
+{
+  // vector< vector<double> > A;
+  // vector<double> B;
+
+  // Passo 0: Definição de variáveis auxiliares
+  // índice i da matriz A (ou vetor B)
+  unsigned long int mi;
+
+  // índice j da matriz A
+  unsigned long int mj;
+
+  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2 ; Tarefa: calcular para demais modelos!
+  long double Cij;
+
+  // Passo 1:
+  // Determinação da dimensão da matriz e do vetor
+  // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
+  // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
+
+  // A dimensão do sistema de equações considera os planos 1->n-1,
+  // pois os planos 0 e n-1 tem pressões constantes.
+  unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
+  // cout <<"\ndim="<<dim;
+
+  // Redimensiona a matriz A
+  A->Redimensiona (dim, dim);
+  // Zera a matriz A
+  A->Constante (0);
+
+  // Redimensiona o vetor B
+  B->Redimensiona (dim);
+  // Zera o vetor B
+  B->Constante (0);
+
+  unsigned int i;
+  for (unsigned long int j = 0; j < objeto.size (); j++)
+    {
+      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao).
+      COGSitio *objeto_j = dynamic_cast < COGSitio * >(objeto[j]);
+      assert (objeto_j);  // se não der certo o cast, vai lançar excessão!
+
+      switch (objeto_j->Contorno ())
+	{
+	  // Fronteira esquerda
+    case CContorno::ETipoContorno::WEST:
+
+	  // Fronteira direita
+    case CContorno::ETipoContorno::EST:
+	  // Percorre as conecções do objeto       
+	  for (i = 0; i < objeto_j->coneccao.size (); i++)
+	    {
+	      // Calcula Cij - Tarefa: explicar a equacao usada.
+	      Cij = (objeto_j->coneccao[i]->propriedade + objeto_j->propriedade) / 2.0;
+	      Cij = Cij * 1.0e17;	// LIXO, para gerar int
+	      // cij esta sendo armazenado em int por isto multiplico por e17
+
+	      // Desloca o índice da matriz(vetor), pois só entram os sítios
+	      // que não estão na interface.
+	      mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
+
+	      // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x,
+	      // x deve estar definido
+	      // B->data1D[ mi ] -= Cij * objeto_j->x; 
+	      B->data1D[mi] -= static_cast < int >(Cij * objeto_j->x);
+
+	      // Acumula -Cij na matriz A[mi][mi]
+	      // A->data2D[mi][mi] -= Cij;
+	      A->data2D[mi][mi] -= static_cast < int >(Cij);
+	    }
+	  break;
+	  // Fronteira Centro
+    case CContorno::ETipoContorno::CENTER:
+	  // Percorre as conecções do objeto       
+	  for (i = 0; i < objeto_j->coneccao.size (); i++)
+	    {
+	      // Se o link for um objeto de centro (não contorno) entra
+          if (objeto_j->coneccao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
+		{
+		  // Calcula Cij
+		  Cij = (objeto_j->propriedade + objeto_j->coneccao[i]->propriedade) / 2.0;
+		  Cij = Cij * 1.0e17;	// LIXO para gerar int
+		  // cij esta sendo armazenado em int por isto multiplico por e17
+
+		  // Desloca os índices da matriz
+		  mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+		  mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
+
+		  // Define A->data2D[mi][mj]      
+		  A->data2D[mi][mj] = static_cast < int >(Cij);	// LIXO o static
+
+		  // Acumula A->data2D[mj][mj]
+		  A->data2D[mj][mj] -= static_cast < int >(Cij); // LIXO o static
+		}
+	    }
+	  break;
+	}			// switch
+    }				// for
+
+    /// @todo: abaixo deve considerar o nome do arquivo/imagem que foi processada!
+  A->Write ("grafo.matrixA");
+  B->Write ("grafo.vectorB");
+
+  return 1;
+}
+
+/*ANTIGA, FUNCIONA, USA
+bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
+{
+  // Passo 0: Definição de variáveis auxiliares
+  // índice i da matriz A (ou vetor B)
+  unsigned long int mi;	
+
+  // índice j da matriz A
+  unsigned long int mj;
+	
+  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2
+  long double Cij;
+	
+  // Passo 1:
+  // Determinação da dimensão da matriz e do vetor
+  // cout << "\nrotuloUltimoObjetoPlanoN_1="		<<	 rotuloUltimoObjetoPlanoN_1;
+  // cout << "\nrotuloPrimeiroObjetoPlano1="	<<  rotuloPrimeiroObjetoPlano1;
+
+	
+  unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1 ;
+  // cout <<"\ndim="<<dim;
+	
+  // Redimensiona a matriz A
+  A->Redimensiona(dim,dim);
+  // Zera a matriz A
+  A->Constante(0);
+	
+  // Redimensiona o vetor B
+  B->Redimensiona(dim);
+  // Zera o vetor B
+  B->Constante(0);
+ 	
+  unsigned int i;
+  for( unsigned long int j = 0 ; j < objeto.size();  j++ )
+    {
+      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
+
+      COGSitio* objeto_j = dynamic_cast<COGSitio*>(objeto[j]);
+      assert(objeto_j);
+  		
+      switch( objeto_j->Contorno() )
+	{
+	  // Fronteira esquerda
+	case CContorno::WEST :	
+  			
+	  // Fronteira direira
+	case CContorno::EST :	
+	  // Percorre as conecções do objeto	
+	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
+	    {
+	      // Calcula Cij
+	      Cij = (objeto_j->coneccao[i]->propriedade +  objeto_j->propriedade   ) /2.0 ;
+	      Cij = Cij* 1.0e17;	// LIXO, para gerar int
+	      // cij esta sendo armazenado em int por isto multiplico por e17
+	  							
+	      // Desloca o índice da matriz(vetor), pois só entram os sítios
+	      // que não estão na interface.
+	      mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1; // 3;
+	  							
+	      // Acumula Cij no vetor B[mi] -= Cij	* objeto_j->x,
+	      // x deve estar definido
+	      // B->data1D[ mi ] -= Cij * objeto_j->x;	
+	      B->data1D[ mi ] -= static_cast<int>( Cij * objeto_j->x);	
+	  							
+	      // Acumula -Cij na matriz A[mi][mi]
+	      // A->data2D[mi][mi] -= Cij;	
+	      A->data2D[mi][mi] -= static_cast<int>(Cij);	
+	    }
+	  break;
+  			
+	  // Fronteira Centro
+	case CContorno::CENTER :	
+	  // Percorre as conecções do objeto	
+	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
+	    {
+	      // Se o link  for  um objeto de centro (não contorno) entra
+	      if( objeto_j->coneccao[i]->Contorno() == CContorno::CENTER)
+		{										
+		  // Calcula Cij
+		  Cij = ( objeto_j->propriedade + objeto_j->coneccao[i]->propriedade ) /2.0 ;
+		  Cij = Cij* 1.0e17;// LIXO para gerar int
+		  // cij esta sendo armazenado em int por isto multiplico por e17
+    	  								
+		  // Desloca os índices da matriz
+		  mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1 ;
+		  mj = objeto_j->rotulo  - rotuloPrimeiroObjetoPlano1 ;
+    				  					
+		  // Define A->data2D[mi][mj]	
+		  A->data2D[mi][mj]	 = static_cast<int>(Cij); // LIXO o static
+    				  					
+		  // Acumula A->data2D[mj][mj]
+		  A->data2D[mj][mj]	-= static_cast<int>(Cij);// LIXO o static
+		}
+	    }
+	  break;
+	}// switch
+    }// for
+	
+  A->Write("Matriz_A.txt");	
+  B->Write("Vetor_B.txt");	
+  return 1;
+}
+*/

@@ -34,11 +34,11 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:    TFEEsqueleto3D
+Documentacao Classe:    TFEEsqueleto3D
 ============================================================================
-Assunto:             Classe para esqueletização
+Assunto:             Classe para esqueletizaï¿½ï¿½o
 Superclasse:         TFiltro->TFiltroEspacial
-Descrição:
+Descriï¿½ï¿½o:
 
 Acesso:           	import
 Cardinalidade:    	1:1    ,
@@ -51,9 +51,9 @@ class TFEEsqueleto3D:public TFEspacial3D
 //Atributos
 protected:
   int valorEsqueleto;		//valor final dos pixel's que pertencem ao esqueleto
-  int valorObjeto;		//valor final dos pixel's que não pertencem ao esqueleto
+  int valorObjeto;		//valor final dos pixel's que nï¿½o pertencem ao esqueleto
   //mas fazem parte do objeto inicial (antes descascamento)
-//Métodos
+//Mï¿½todos
 public:			//construtor
   TFEEsqueleto3D (TMatriz3D * &matriz, unsigned int _tamanhoMascara = 0):TFEspacial3D (matriz, _tamanhoMascara), valorEsqueleto (1),
     valorObjeto

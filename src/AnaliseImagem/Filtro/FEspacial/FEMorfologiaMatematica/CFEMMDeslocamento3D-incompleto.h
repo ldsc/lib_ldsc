@@ -24,7 +24,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:    CFEMMDeslocamento
+Documentacao Classe:    CFEMMDeslocamento
 ==================================================================================
 Assunto:             Classe básica para os filtros da morfologia matemática
 Superclasse:         TFiltro

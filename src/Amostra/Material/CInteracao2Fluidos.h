@@ -30,7 +30,7 @@ Desenvolvido por:
 
 /*
 ===============================================================================
-Documentacao CLASSE: CMFluido
+Documentacao Classe: CMFluido
 ===============================================================================
 Assunto:        Materiais
 Superclasse:    CMFluido

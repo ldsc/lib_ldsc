@@ -142,8 +142,8 @@ CGrafoTest::Permeabilidade (int tipoSolver)
     int modelo = SolicitarModeloGrafo ();
 
     int fatorAmplificacao = 2;
-    double sizePixel = 5.0e-6;
-    SolicitarPropriedadesImagem (fatorAmplificacao, sizePixel, nomeArquivo);
+    double dimensaoPixel = 5.0e-6;
+    SolicitarPropriedadesImagem (fatorAmplificacao, dimensaoPixel, nomeArquivo);
     CMatriz3D *pm3D = LerImagemDisco (nomeArquivo);
 
     CGra3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
@@ -156,7 +156,7 @@ CGrafoTest::Permeabilidade (int tipoSolver)
 
     CSMDiagonalDominante *solver = CriarSolver (tipoSolver);
 
-    CPermeabilidadeGrafo *permeabilidade = CriarPermeabilidade(fluido, solver, grafo, pm3D, fatorAmplificacao, sizePixel);
+    CPermeabilidadeGrafo *permeabilidade = CriarPermeabilidade(fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel);
 
     double permeabilidade_calculada = DeterminarPermeabilidade (permeabilidade);
 
@@ -210,7 +210,7 @@ CGrafoTest::MostrarInstrucoesArquivosExternos ()
         << "\n\tincluindo: \n\tfatorRelaxação,LimiteIterações,LimiteErro,"
         << "\n\ttipoSolver(1=CSMDGaussSeidel,2=CSMDSOR,3=CSMDiagonalDominanteThreads),\n\tnproc)"
         << "\n\nAtributos do objeto solverPerm em:  \n\tinput_data/solver_permeabilidade.info (LimiteIterações,LimiteErro%)"
-        << "\n\nO arquivo com as informações da imagem (fatorAmplificação e sizePixel)"
+        << "\n\nO arquivo com as informações da imagem (fatorAmplificação e dimensaoPixel)"
         << "\ndeve estar armazenado em path/nomeImagem.ext.dat"
         << "\nObserve que é o mesmo nome da imagem (devendo ser adicionada a extensão .dat) "
         << "\nAlguns resultados são salvos em: "
@@ -293,10 +293,10 @@ Função: SolicitarPropriedadesImagem
 */
 void
 CGrafoTest::SolicitarPropriedadesImagem (int &fatorAmplificacao,
-                                        double &sizePixel, string nomeArquivo)
+                                        double &dimensaoPixel, string nomeArquivo)
 {
     string nomeArquivoDat (nomeArquivo + ".dat");
-    cout << "\n\nVai ler as propriedades fatorAmplificacao e sizePixel do arquivo "
+    cout << "\n\nVai ler as propriedades fatorAmplificacao e dimensaoPixel do arquivo "
          << nomeArquivoDat << endl;
 
     ifstream finimg3D (nomeArquivoDat.c_str ());
@@ -304,7 +304,7 @@ CGrafoTest::SolicitarPropriedadesImagem (int &fatorAmplificacao,
     if (finimg3D /*.good() */ )
     {
         finimg3D >> fatorAmplificacao;
-        finimg3D >> sizePixel;
+        finimg3D >> dimensaoPixel;
         finimg3D.close ();
         msg = " ...done";
     }
@@ -314,7 +314,7 @@ CGrafoTest::SolicitarPropriedadesImagem (int &fatorAmplificacao,
     }
     cout << msg << endl
          << "fa=" << setw (3) << fatorAmplificacao
-         << " sp=" << setw (8) << sizePixel << endl;
+         << " sp=" << setw (8) << dimensaoPixel << endl;
 }
 
 /*
@@ -527,7 +527,7 @@ void
 CGrafoTest::SalvarGrafo (CGra3Dby2D * grafo)
 {
     cout << "\nGrafo salvo em path/nomeImagem.grafo.txt: " << endl;
-    grafo->Write (grafo->FileName () + ".grafo.txt");
+    grafo->Write (grafo->NomeArquivo () + ".grafo.txt");
 }
 
 /*
@@ -536,14 +536,14 @@ Função: CriarPermeabilidade
 -------------------------------------------------------------------------
 */
 CPermeabilidadeGrafo * CGrafoTest::CriarPermeabilidade  (CMFluido * fluido, CSMDiagonalDominante * solver,  // CSMDiagonalDominanteThreads* solver,
-        CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, int fatorAmplificacao, double sizePixel)
+        CGra3Dby2D * grafo, CMatriz3D * pm3D, int fatorAmplificacao, double dimensaoPixel)
 {
     CPermeabilidadeGrafo * permeabilidade;
     {
         CTime *t = new CTime ("Tempo Criação do CPermeabilidadeGrafo = ", &cout);
         cout << "Criando objeto CPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
         // CSMDiagonalDominante* solverold = static_cast<CSMDiagonalDominante*>(solver);// novo
-        permeabilidade = new CPermeabilidadeGrafo (fluido, solver /*old */ , grafo, pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, sizePixel);
+        permeabilidade = new CPermeabilidadeGrafo (fluido, solver /*old */ , grafo, pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel);
         delete       t;				// deleta objeto
         assert (permeabilidade);
         cout << " ...done" << endl;
@@ -617,7 +617,7 @@ void CGrafoTest::teste_solver()
 
 	// Definição das propriedades
   int 	fatorAmplificacao = 6;			// da imagem
-  double sizePixel = 2.5e-6;
+  double dimensaoPixel = 2.5e-6;
   long double viscosidade = 0.001002;		// do fluido
   unsigned long int limiteIteracoes = 100;
 
@@ -655,7 +655,7 @@ void CGrafoTest::teste_solver()
 	grafo	= new CGra3Dby2_M4(nomeArquivoExt);
 	permeabilidade =
   		new CPermeabilidadeGrafo(fluido,solver,grafo, pm3D->NX(),pm3D->NY(),pm3D->NZ(),
-		fatorAmplificacao,sizePixel);
+		fatorAmplificacao,dimensaoPixel);
 	}
 
 	{
@@ -927,8 +927,8 @@ CGrafoTest::Permeabilidade_By_ModelX (string nomeArquivo,
 
     // Solicita propriedades da Imagem3D------------------------------------
     int fatorAmplificacao = 1;
-    double sizePixel = 5e-6;
-    SolicitarPropriedadesImagem (fatorAmplificacao, sizePixel, nomeArquivo);
+    double dimensaoPixel = 5e-6;
+    SolicitarPropriedadesImagem (fatorAmplificacao, dimensaoPixel, nomeArquivo);
     CMFluido *fluido = CriarFluido ();
 
     CSMDiagonalDominante *solver = CriarSolver ();	// vai usar default=3
@@ -962,7 +962,7 @@ CGrafoTest::Permeabilidade_By_ModelX (string nomeArquivo,
         permeabilidade =
             new CPermeabilidadeGrafo (fluido, solver, grafo, grafo->Nx (),
                                       grafo->Ny (), grafo->Nz (),
-                                      fatorAmplificacao, sizePixel);
+                                      fatorAmplificacao, dimensaoPixel);
         assert (permeabilidade);
         delete t;				// deleta objeto
     }

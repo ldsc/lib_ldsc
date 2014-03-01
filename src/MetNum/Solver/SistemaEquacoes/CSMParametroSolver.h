@@ -30,7 +30,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: CSMParametroSolver
+// Documentacao Classe: CSMParametroSolver
 // ===============================================================================
 /**
  * @brief

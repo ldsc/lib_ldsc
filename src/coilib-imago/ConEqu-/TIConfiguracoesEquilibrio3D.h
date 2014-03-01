@@ -50,7 +50,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TIConfiguracoesEquilibrio3D
+Documentacao Classe: TIConfiguracoesEquilibrio3D
 =========================================================================
 Assunto:        Configuracoes Equilibrio 3D
 Superclasse:    TIConfiguracoesEquilibrio3D

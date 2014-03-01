@@ -15,12 +15,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		TACFraFunCov
+Documentacao Classe:		TACFraFunCov
 ============================================================================
 Nome Classe:          TACFraFunCov
 Assunto:              Caracterizacao
 Superclasse:
-Descrição:            Implementa a classe TACFraFunCov.  E' derivada da classe TACFractal.
+Descriï¿½ï¿½o:            Implementa a classe TACFraFunCov.  E' derivada da classe TACFractal.
 Acesso:
 Cardinalidade:
 Abstrata/Concreta:
@@ -47,15 +47,15 @@ public:
   TACFraFunCov ();
   virtual ~ TACFraFunCov ();	//Destrutor
 
-  //Métodos virtuais herdados               //{{TACFraFunCovVIRTUAL_BEGIN}}
+  //Mï¿½todos virtuais herdados               //{{TACFraFunCovVIRTUAL_BEGIN}}
 protected:
 
 public:
-  virtual float CalculaDimensaoFractal (TMatriz2D * &pm);	//calcula a dimensão fractal
+  virtual float CalculaDimensaoFractal (TMatriz2D * &pm);	//calcula a dimensï¿½o fractal
   virtual TVetor *CalculaVetorDados (TMatriz2D * &pm);	//calcula vetor de dados
 
   //{{TACFraFunCovVIRTUAL_END}}
-  //Métodos virtuais associados a tabela de resposta de TACFraFunCov
+  //Mï¿½todos virtuais associados a tabela de resposta de TACFraFunCov
   //{{TACFraFunCovRSP_TBL_BEGIN}}
 protected:
   //{{TACFraFunCovRSP_TBL_END}}

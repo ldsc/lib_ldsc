@@ -69,7 +69,7 @@ public:
  * Função nova, movida de CPermeabilidadeGrafo para cá.
  * */
   void CalcularCondutancias (long double _viscosidade,
-				    long double _sizePixel,
+				    long double _dimensaoPixel,
 				    unsigned long int fatorAmplificacao) override;
 
 protected:

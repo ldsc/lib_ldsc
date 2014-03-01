@@ -24,17 +24,17 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
 
-#ifndef CSitio_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
-#endif
-
-#ifndef COGSitio_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.h>
-#endif
-
-#ifndef COGSitio_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
-#endif
+// #ifndef CSitio_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
+// #endif
+// 
+// #ifndef COGSitio_WEST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.h>
+// #endif
+// 
+// #ifndef COGSitio_EST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
+// #endif
 
 using namespace std;
 
@@ -55,7 +55,7 @@ CGrafoContorno::CGrafoContorno (string _nomeArquivo,
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
       CContorno *obj_cont = new CContorno ();
-      assert (obj_cont);
+      assert (obj_cont); ///@todo: static_assert ou try..catch
       contorno.push_back (obj_cont);
     }
 }

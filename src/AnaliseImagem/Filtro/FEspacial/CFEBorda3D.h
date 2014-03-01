@@ -25,7 +25,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:    CFEBorda3D
+Documentacao Classe:    CFEBorda3D
 ==================================================================================
 Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
 Superclasse:         TFiltro-> CFEspacial<int>

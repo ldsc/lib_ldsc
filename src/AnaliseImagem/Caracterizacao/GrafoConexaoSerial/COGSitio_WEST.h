@@ -30,7 +30,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_WEST
+// Documentacao Classe: COGSitio_WEST
 // ===============================================================================
 /** 
  * @brief Representa um sítio conectado a face esquerda do grafo.

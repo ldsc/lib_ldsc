@@ -133,8 +133,8 @@ void TIConfEq3DSimPermRel::PrepareConfEqSim ()
     delete imgNucleo;
 
     //Abre arquivo de disco
-    //errado ofstream fout(GetFileName().c_str(),ios::app);
-    fout.open (GetFileName ().c_str (), ios::app);
+    //errado ofstream fout(GetNomeArquivo().c_str(),ios::app);
+    fout.open (GetNomeArquivo ().c_str (), ios::app);
     if (fout.fail ())
         return;
 
@@ -245,7 +245,7 @@ RelativePermeability::Prepare()
 
 
 	//Abre arquivo de disco
-  ofstream fout(confEq->GetFileName().c_str(),ios::app);
+  ofstream fout(confEq->GetNomeArquivo().c_str(),ios::app);
   if(fout.fail())
    		return ;
   //Adiciona permeabilidade

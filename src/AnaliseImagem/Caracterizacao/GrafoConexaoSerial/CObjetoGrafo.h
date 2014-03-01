@@ -39,7 +39,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: CObjetoGrafo
+// Documentacao Classe: CObjetoGrafo
 // ===============================================================================
 /**
  * @brief Representa um objeto básico de um grafo.

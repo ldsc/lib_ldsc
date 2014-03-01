@@ -187,11 +187,11 @@ Funcao:   CalcularCondutancias
 */
 void
 CGra3Dby2D_M4::CalcularCondutancias
-  (long double _viscosidade, long double _sizePixel,
+  (long double _viscosidade, long double _dimensaoPixel,
    unsigned long int _fatorAmplificacao)
 {
   // Chama função da classe base que calcula as condutancias
-  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _sizePixel,
+  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _dimensaoPixel,
 				       _fatorAmplificacao);
 
   // Inicio do calculo da correção das condutancias

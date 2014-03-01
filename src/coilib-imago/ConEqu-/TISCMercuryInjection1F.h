@@ -41,7 +41,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCMercuryInjection1F
+Documentacao Classe: TISCMercuryInjection1F
 =========================================================================
 Assunto:        camaras
 Superclasse:    TChamber

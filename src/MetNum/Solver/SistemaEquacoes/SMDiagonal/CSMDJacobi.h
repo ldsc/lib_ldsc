@@ -29,7 +29,7 @@
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 
 //  ===============================================================================
-//   Documentacao CLASSE: CSMDJacobi
+//   Documentacao Classe: CSMDJacobi
 //  ===============================================================================
 /**
  * @brief 	Resolve o sistema de equacoes utilizando a rotina de Jacobi.

@@ -36,7 +36,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCMercuryInjectionInternal
+Documentacao Classe: TISCMercuryInjectionInternal
 =========================================================================
 Assunto:        Camaras
 Superclasse:    TISCMercuryInjectionInternal

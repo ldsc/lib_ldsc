@@ -34,7 +34,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCMercuryInjection2F
+Documentacao Classe: TISCMercuryInjection2F
 =========================================================================
 Assunto:        Camaras
 Superclasse:	TISCMercuryInjection2F

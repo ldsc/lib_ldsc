@@ -27,7 +27,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCDraynage
+Documentacao Classe: TISCDraynage
 =========================================================================
 Assunto:        TISCDraynage
 Superclasse:    TIChamber
@@ -43,7 +43,7 @@ Descri��o: 			Declara a classe TISCDraynage.
 */
 /*
 ============================================================================
-Documentacao CLASSE:	  TISCDraynage
+Documentacao Classe:	  TISCDraynage
 ============================================================================
 Assunto:               TISCDraynage.
 Superclasse:           a propria

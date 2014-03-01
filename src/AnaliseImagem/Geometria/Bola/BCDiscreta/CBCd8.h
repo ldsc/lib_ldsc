@@ -19,7 +19,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCd8
+Documentacao Classe:		CBCd8
 ==================================================================================
 Nome Classe:           CBCd8
 Assunto:               Mascaras e filtros

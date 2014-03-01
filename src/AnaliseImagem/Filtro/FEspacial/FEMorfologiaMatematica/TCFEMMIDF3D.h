@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		TCFEMMIDF3D
+Documentacao Classe:		TCFEMMIDF3D
 ==================================================================================
 Nome Classe:         TCFEMMIDF3D
 Assunto:             Matriz IDF de uma imagem

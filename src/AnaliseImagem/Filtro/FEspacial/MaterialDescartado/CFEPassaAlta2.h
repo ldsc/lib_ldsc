@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CFEPassaAlta2_h
 #define CFEPassaAlta2_h
 
@@ -24,12 +24,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    TFPassaAlta2
+Documentacao Classe:    TFPassaAlta2
 ============================================================================
-Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
+Assunto:             Filtros espaciais (atuam sobre o espaï¿½o geomï¿½trico da imagem).
 Superclasse:         CFiltro-> CFEspacial
-Descrição:           Cria e utiliza uma máscara passa alta para atuar sobre a imagem.
-                     O resultado geral é o aumento dos contornos. A identificação dos contornos.
+Descriï¿½ï¿½o:           Cria e utiliza uma mï¿½scara passa alta para atuar sobre a imagem.
+                     O resultado geral ï¿½ o aumento dos contornos. A identificaï¿½ï¿½o dos contornos.
 Acesso:           import
 Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
 Abstrata/Concreta:  concreta

@@ -43,7 +43,7 @@
 
 /*
   =========================================================================
-  Documentacao CLASSE: |CLASSNAME|
+  Documentacao Classe: |CLASSNAME|
   =========================================================================
   Assunto:        Assunto
   Superclasse:    |CLASSNAME|

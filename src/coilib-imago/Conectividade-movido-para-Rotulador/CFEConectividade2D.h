@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:   CFEConectividade2D
+Documentacao Classe:   CFEConectividade2D
 ============================================================================
 Assunto:               CFEConectividade2D
 Superclasse:           TRotulador2D

@@ -37,7 +37,7 @@ Bibliotecas LIB_LDSC
 
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_CC_CM
+// Documentacao Classe: COGSitio_CC_CM
 // ===============================================================================
 /** 
  * @brief  é um sítio, herdeiro de COGSitio_CC, acrescenta as

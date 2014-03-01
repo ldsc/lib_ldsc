@@ -88,7 +88,7 @@ private:
   //---------------------------------------------------------------------------------------------
   // Atributos estaticos (compartilhados por todos os objetos)
   static int tmpfile_num;               ///< Numero total de arquivos temporarios (numero restrito).
-  static std::string m_sGNUPlotFileName;///< Nome do arquivo executavel do gnuplot. 
+  static std::string m_sGNUPlotNomeArquivo;///< Nome do arquivo executavel do gnuplot. 
   static std::string m_sGNUPlotPath;	///< Caminho para executavel do gnuplot.
   static std::string terminal_std;	///< Terminal padrao (standart), usado para visualizacoes.
   

@@ -17,7 +17,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		TCFEMMIDFd3453D
+Documentacao Classe:		TCFEMMIDFd3453D
 ==================================================================================
 Nome Classe:         TCFEMMIDFd3453D
 Assunto:             Matriz IDF de uma imagem usando mascara de chanfro d34

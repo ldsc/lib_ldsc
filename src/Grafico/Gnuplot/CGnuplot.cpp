@@ -25,7 +25,7 @@
 // 2. Temporary file is created in the current
 //    folder but not in /tmp.
 // 3. Added #ifdef WIN32 e.t.c. where is needed.
-// 4. Added private member m_sGNUPlotFileName is
+// 4. Added private member m_sGNUPlotNomeArquivo is
 //    a name of executed GNUPlot file.
 //
 // Viktor Chyzhdzenka
@@ -89,11 +89,11 @@ int Gnuplot::tmpfile_num = 0;
 
 // Se estamos no windows
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
-std::string Gnuplot::m_sGNUPlotFileName = "pgnuplot.exe";
+std::string Gnuplot::m_sGNUPlotNomeArquivo = "pgnuplot.exe";
 std::string Gnuplot::m_sGNUPlotPath = "C:/program files/gnuplot/bin/";
 // Se estamos no unix, GNU/Linux, Mac Os X
 #elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
-std::string Gnuplot::m_sGNUPlotFileName = "gnuplot";
+std::string Gnuplot::m_sGNUPlotNomeArquivo = "gnuplot";
 std::string Gnuplot::m_sGNUPlotPath = "/usr/bin/";
 #endif
 
@@ -115,7 +115,7 @@ std::string Gnuplot::terminal_std = "aqua";
 //
 bool Gnuplot::set_GNUPlotPath(const std::string &path)
 {
-    std::string tmp = path + "/" + Gnuplot::m_sGNUPlotFileName;
+    std::string tmp = path + "/" + Gnuplot::m_sGNUPlotNomeArquivo;
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
     if ( Gnuplot::file_exists(tmp,0) ) // check existence
 #elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
@@ -1288,7 +1288,7 @@ void Gnuplot::init()
     }
 
     // open pipe
-    std::string tmp = Gnuplot::m_sGNUPlotPath + "/" + Gnuplot::m_sGNUPlotFileName;
+    std::string tmp = Gnuplot::m_sGNUPlotPath + "/" + Gnuplot::m_sGNUPlotNomeArquivo;
 
     // FILE *popen(const char *command, const char *mode);
     // The popen() function shall execute the command specified by the string command,
@@ -1323,7 +1323,7 @@ void Gnuplot::init()
 bool Gnuplot::get_program_path()
 {
     // first look in m_sGNUPlotPath for Gnuplot
-    std::string tmp = Gnuplot::m_sGNUPlotPath + "/" + Gnuplot::m_sGNUPlotFileName;
+    std::string tmp = Gnuplot::m_sGNUPlotPath + "/" + Gnuplot::m_sGNUPlotNomeArquivo;
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
     if ( Gnuplot::file_exists(tmp,0) ) // check existence
@@ -1356,7 +1356,7 @@ bool Gnuplot::get_program_path()
         // scan list for Gnuplot program files
         for (std::list<std::string>::const_iterator i = ls.begin(); i != ls.end(); ++i)
         {
-            tmp = (*i) + "/" + Gnuplot::m_sGNUPlotFileName;
+            tmp = (*i) + "/" + Gnuplot::m_sGNUPlotNomeArquivo;
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
             if ( Gnuplot::file_exists(tmp,0) ) // check existence
 #elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)

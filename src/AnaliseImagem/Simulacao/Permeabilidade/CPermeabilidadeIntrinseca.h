@@ -81,7 +81,7 @@ protected:
 public:
 	/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. 
 	/// (Deve ser chamado antes de CalcularPermeabilidade())
-	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel,  unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7 );
+	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel,  unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7 );
 	
 	/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 	long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
@@ -90,13 +90,13 @@ public:
 	long double Go( TCImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
-	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
+	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo TCImagem3D.
-	long double Go( string pathFileName, long double fatorRelaxacao = 0.7);
+	long double Go( string pathNomeArquivo, long double fatorRelaxacao = 0.7);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo CMatriz3D.
-	long double Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
+	long double Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
 	/// Permite alterar as propriedades do fluido.
 	void SetarPropriedadesFluido( double viscosidade = 1.0, bool densidade = 1, bool compressibilidade = 1, bool molhabilidade = 1 );

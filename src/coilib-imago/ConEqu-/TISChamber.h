@@ -27,7 +27,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISChamber
+Documentacao Classe: TISChamber
 =========================================================================
 Assunto:        TISChamber
 Superclasse:    TISChamber

@@ -30,7 +30,7 @@
 
 /*
   =========================================================================
-  Documentacao CLASSE: |TIConfEq3DSimPermRelEsq3Dby2D|
+  Documentacao Classe: |TIConfEq3DSimPermRelEsq3Dby2D|
   =========================================================================
   Assunto:      TIConfEq3DSimPermRelEsq3Dby2D
   Superclasse:  a propria

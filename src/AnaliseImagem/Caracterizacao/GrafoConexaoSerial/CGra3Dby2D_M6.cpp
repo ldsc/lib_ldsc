@@ -146,7 +146,7 @@ CGra3Dby2D_M6::AdicionarObjetos
 @param  : nada
 @return : void
 */
-void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao)
+void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao)
 {
 // ***********NOVO CALCULO TORTUOSIDADE*******
   tortuosidade = 0.0;
@@ -156,7 +156,7 @@ void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double 
   ofstream saida ("fatorCorrecao.txt");
 
   // Chama função da classe base que calcula as condutancias
-  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _sizePixel, _fatorAmplificacao);
+  CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _dimensaoPixel, _fatorAmplificacao);
 
   // Inicio do calculo da correção das condutancias
   // Ponteiro para sitio derivado
@@ -230,12 +230,12 @@ void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double 
   tortuosidade /= numeroDerivacoesUsadasCalculoTortuosidade;// corrige a tortuosidade
 
   ostringstream nomeArquivo;
-  nomeArquivo << FileName() << ".tortuosidade";
+  nomeArquivo << NomeArquivo() << ".tortuosidade";
   ofstream arq_tortuosidade( nomeArquivo.str().c_str() );
-  arq_tortuosidade << "A tortuosidade da imagem " << FileName() << " é : " << tortuosidade << "\n";
+  arq_tortuosidade << "A tortuosidade da imagem " << NomeArquivo() << " é : " << tortuosidade << "\n";
   arq_tortuosidade.close();
 
-  cout << "\nA tortuosidade da imagem " << FileName() << " é : " << tortuosidade << "\n";
+  cout << "\nA tortuosidade da imagem " << NomeArquivo() << " é : " << tortuosidade << "\n";
 
 // FIM NOVO*********
 

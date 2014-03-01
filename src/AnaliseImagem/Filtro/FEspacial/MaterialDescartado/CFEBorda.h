@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CFEBorda_h
 #define CFEBorda_h
 
@@ -24,12 +24,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    CFEBorda
+Documentacao Classe:    CFEBorda
 ============================================================================
-Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
+Assunto:             Filtros espaciais (atuam sobre o espaï¿½o geomï¿½trico da imagem).
 Superclasse:         CFiltro-> CFEspacial
-Descrição:           Elimina a borda de uma imagem, substituindo pontos da borda por valorBorda
-                     O valor default para a borda é zero (0).
+Descriï¿½ï¿½o:           Elimina a borda de uma imagem, substituindo pontos da borda por valorBorda
+                     O valor default para a borda ï¿½ zero (0).
                      Ex:
                      CFEBorda(valorBorda).Go(imagem,espessuraBorda);
 

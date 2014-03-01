@@ -28,7 +28,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: CImg
+// Documentacao Classe: CImg
 // ===============================================================================
 /**  
  * @brief Representra uma generalizacao para CImg

@@ -15,12 +15,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		TACFractal
+Documentacao Classe:		TACFractal
 ============================================================================
 Nome Classe:         TACFractal
 Assunto:             Caracterizacao
 Superclasse:         ---
-Descrição:           Declara a classe TACFractal.
+Descriï¿½ï¿½o:           Declara a classe TACFractal.
 Acesso:
 Cardinalidade:
 Abstrata/Concreta:
@@ -40,7 +40,7 @@ class TACFractal
 {
 //Atributos novos
 public:
-  TVetor * vetorDados;		//vetor com dados para calculo da dimensão fractal
+  TVetor * vetorDados;		//vetor com dados para calculo da dimensï¿½o fractal
 protected:
   float dimensaoFractal;	//dimensao fractal calculada
   //Construtor e destrutor
@@ -49,17 +49,17 @@ public:
     TACFractal ();
     virtual ~ TACFractal ();	//Destrutor
 
-  //Métodos virtuais herdados                                   //{{TACFractalVIRTUAL_BEGIN}}
+  //Mï¿½todos virtuais herdados                                   //{{TACFractalVIRTUAL_BEGIN}}
 protected:
 public:
-    virtual float CalculaDimensaoFractal (TMatriz2D * &pm) = 0;	//calcula a dimensão fractal
+    virtual float CalculaDimensaoFractal (TMatriz2D * &pm) = 0;	//calcula a dimensï¿½o fractal
   virtual TVetor *CalculaVetorDados (TMatriz2D * &pm) = 0;	//calcula vetor de dados
   float GetDimensaoFractal ()
   {
     return dimensaoFractal;
-  };				//retorna a dimensão fractal
+  };				//retorna a dimensï¿½o fractal
   //{{TACFractalVIRTUAL_END}}
-  //Métodos virtuais associados a tabela de resposta de TACFractal
+  //Mï¿½todos virtuais associados a tabela de resposta de TACFractal
   //{{TACFractalRSP_TBL_BEGIN}}
 protected:
   //{{TACFractalRSP_TBL_END}}

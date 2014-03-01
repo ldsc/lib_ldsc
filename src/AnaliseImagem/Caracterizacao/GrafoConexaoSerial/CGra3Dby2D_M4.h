@@ -35,7 +35,7 @@ Desenvolvido por:
 
 /*
 ===============================================================================
-Documentacao CLASSE: CGra3Dby2D_M4
+Documentacao Classe: CGra3Dby2D_M4
 ===============================================================================
 */
  /** 
@@ -85,7 +85,7 @@ protected:
    * e depois corrige levando em conta o centro de massa dos objetos
    * */
   virtual void CalcularCondutancias (long double _viscosidade,
-				    long double _sizePixel,
+				    long double _dimensaoPixel,
 				    unsigned long int _fatorAmplificacao);
 
   /// Depois de criar os objetos, determina e armazena seus centro de massa

@@ -36,7 +36,7 @@ protected:
 
   // int sementeGeradorAleatorio;         // semente utilizada pelo gerador de números aleatórios
   int fatorAmplificacaoNumeroPontos;	///< fator de redução, se =1 pega todos os pontos (a imagem recontruída receberá este valor em comentario).
-  double sizePixel;					///< Resolução utilizada na obtenção da imagem pelo microscópio (a imagem reconstruida receberá este valor em comentario).
+  double dimensaoPixel;					///< Resolução utilizada na obtenção da imagem pelo microscópio (a imagem reconstruida receberá este valor em comentario).
   // se =2 pega a metade dos pontos.
   int numeroPontosCz;		///< numero total de dados na funcao correlacao
   int NX, NY, NZ;		///< dimensoes da matriz
@@ -97,6 +97,6 @@ public:
     // void MediaECovariancia();   // Verifica media e covariancia
 
     /// Retorna o nome do arquivo (.dbm) reconstruido.
-    inline std::string getFileName() { return nomeArquivo; }
+    inline std::string getNomeArquivo() { return nomeArquivo; }
 };
 #endif

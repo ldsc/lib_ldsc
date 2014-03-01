@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCEuclidiana
+Documentacao Classe:		CBCEuclidiana
 ==================================================================================
 Nome Classe:           CBCEuclidiana
 Assunto:               Mascaras e filtros

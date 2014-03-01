@@ -22,7 +22,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC_CM.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_CC_CM_WEST
+// Documentacao Classe: COGSitio_CC_CM_WEST
 // ===============================================================================
 /** 
  * @brief Representa um sítio conectado a face esquerda do grafo e que 

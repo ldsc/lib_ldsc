@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCdi
+Documentacao Classe:		CBCdi
 ==================================================================================
 Assunto:            Mascaras e filtros
 Superclasse:        CMascara

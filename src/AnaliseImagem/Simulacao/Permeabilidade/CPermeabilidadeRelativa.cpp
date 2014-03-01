@@ -49,8 +49,8 @@ void CPermeabilidadeRelativa::DestruirObjetos () {
 }
 
 // Métodos
-bool CPermeabilidadeRelativa::Go( string pathFileName ) {
-	TCImagem3D<int> * imagem3D = new TCImagem3D<int>( pathFileName );
+bool CPermeabilidadeRelativa::Go( string pathNomeArquivo ) {
+	TCImagem3D<int> * imagem3D = new TCImagem3D<int>( pathNomeArquivo );
 	bool retorno = Go( imagem3D );
 	delete imagem3D;
 	return retorno;
@@ -78,14 +78,14 @@ bool CPermeabilidadeRelativa::Go ( TCImagem3D<int> *imagem3D ) {
 	return Go( dynamic_cast< TCMatriz3D<int> *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda());
 }
 
-bool CPermeabilidadeRelativa::Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda ) {
-	TCMatriz3D<int> * mat3D = new TCMatriz3D<int>( pathFileName );
-	bool retorno = Go( mat3D, fatorAmplificacao, sizePixel, numeroPixelsBorda );
+bool CPermeabilidadeRelativa::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
+	TCMatriz3D<int> * mat3D = new TCMatriz3D<int>( pathNomeArquivo );
+	bool retorno = Go( mat3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda );
 	delete mat3D;
 	return retorno;
 }
 
-bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda ) {
+bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
 	if ( ! matriz3D ) {
 		DestruirObjetos();
 		cerr << "Erro: Imagem matriz3D nula!" << endl;
@@ -120,7 +120,7 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 	cout << "Calculando permeabilidade intrinseca..." << endl;
 	CPermeabilidadeIntrinseca permIn;
 	permIn.SetarPropriedadesSolver(limiteErro, limiteIteracoes);
-	long double permeabilidadeIntrinseca = permIn.Go( matriz3D, fatorAmplificacao, sizePixel, numeroPixelsBorda );
+	long double permeabilidadeIntrinseca = permIn.Go( matriz3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda );
 	cout << "Permeabilidade intrinseca = " << permeabilidadeIntrinseca << endl;
 
 	// Criando objeto Configurações de Equilíbrio 3D e executando o loop para o cálculo da Permeabilidade Relativa

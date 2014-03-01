@@ -23,7 +23,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:    CFMorfologiaMatematica
+Documentacao Classe:    CFMorfologiaMatematica
 ============================================================================
 Assunto:             Classe b�sica para os filtros da morfologia matem�tica
 Superclasse:         TFiltro

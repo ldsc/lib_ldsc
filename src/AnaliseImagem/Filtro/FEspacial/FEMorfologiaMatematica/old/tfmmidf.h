@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #if !defined(CFMMIDF_h)
 #define CFMMIDF_h
 
@@ -17,21 +17,21 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		CFMMIDF
+Documentacao Classe:		CFMMIDF
 ============================================================================
 Nome Classe:         CFMMIDF
 Assunto:             Matriz IDF de uma imagem
 Superclasse:         CFMMIDF
-Descrição:
+Descriï¿½ï¿½o:
 
 Acesso:              import
 Cardinalidade:
-Concorrência:
+Concorrï¿½ncia:
 Transformacoes:
 Especificacoes da linguagem:
 Persistencia:
 Tamanho:
-Abstrata/Concreta:   Concreta (mas na pratica é abstrata pois nao e criada)
+Abstrata/Concreta:   Concreta (mas na pratica ï¿½ abstrata pois nao e criada)
 Arquivo de documentacao auxiliar:
 */
 
@@ -60,14 +60,14 @@ class CFMMIDF:public CFMorfologiaMatematica, public CMatriz2D
 protected:
   int minimo;			// valor minimo utilizado calculo minimoIda e minimoVolta
 
-  unsigned int raioMaximo;	// raio máximo da idf
+  unsigned int raioMaximo;	// raio mï¿½ximo da idf
   unsigned int raioBola;	// raio da bola atual,entre 0 e raioMaximo
 
-  static bool atualizaIDF;	// Se verdadeira após cada processamento recalcula a idf
+  static bool atualizaIDF;	// Se verdadeira apï¿½s cada processamento recalcula a idf
 
   int indiceAtivo;
   int indiceInativo;
-// Métodos
+// Mï¿½todos
 protected:
   // void IDFNosPlanosDeContorno(int& base);     // Calcula a idf nos planos de contorno
 
@@ -78,19 +78,19 @@ protected:
   inline void min (const int &t);
 
   inline void VerificaImagem (CMatriz2D * &matriz);	// usada por erosao,dilatacao,abertura e fechamento
-  // para verificar se a imagem passada é a mesma, se diferente recalcula Go.
+  // para verificar se a imagem passada ï¿½ a mesma, se diferente recalcula Go.
   inline void ExecutadaPorGo (CMatriz2D * &matriz);	// antiga InicializaIDF
   // Funcao executada exclusivamente por Go
   // 1-verifica se a idf tem as mesmas dimensoes de pm
   // 2-se forem iguais continua, se forem diferentes, desaloca e realoca a matriz de dados
   // 3-copia pm para idf, usando data2D[i][j]=pm->data2D[i][j]
-  // agora já pode executar Go
+  // agora jï¿½ pode executar Go
 
 
 public:
     virtual unsigned int Mi () = 0;	//  Precisa ser redefinida nas classes bases
   // deve retornar o mi.
-  // ponteiro para matriz imagem, tamanho da mascara a ser criada,raioMáximo a ser utilizado
+  // ponteiro para matriz imagem, tamanho da mascara a ser criada,raioMï¿½ximo a ser utilizado
     CFMMIDF (CMatriz2D * &matriz, unsigned int _tamanhoMascara =
 	     3, unsigned int _raioMax = 32000);
     virtual ~ CFMMIDF ()

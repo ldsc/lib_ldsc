@@ -88,7 +88,7 @@ using namespace std;
     (eq 5.16 da tese Liang).
     condutancia=       ( CMath::PI * dH * dH * dH * dH )
                                        /
-                (128.0 * _viscosidade * _sizePixel * _fatorAmplificacao );
+                (128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao );
 
     Abaixo a equacao da condutancia para sitios segundo Koplik (1983), eq 5.17 da tese do Liang
     Calcula a condutancia do sitio usando a equação ri^3/(3*viscosidade)
@@ -99,7 +99,7 @@ using namespace std;
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
 */
-void CGrafo::CalcularCondutancias (long double _viscosidade, long double _sizePixel, 
+void CGrafo::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, 
 				  unsigned long int _fatorAmplificacao)
 {
   // Variáveis auxiliares
@@ -107,14 +107,14 @@ void CGrafo::CalcularCondutancias (long double _viscosidade, long double _sizePi
   long double raio_hidraulico{0.0};
   // Diametro hidraulico
   long double dH{0.0};
-  long double sizePixelXfatorAmplificacao = _sizePixel * _fatorAmplificacao;
-  long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * sizePixelXfatorAmplificacao);
+  long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
+  long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * dimensaoPixelXfatorAmplificacao);
 
   // Percorre  todos os objetos do grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
   {
       // Pega o raio hidraulico do objeto k e já converte para metros
-      raio_hidraulico = objeto[k]->propriedade * sizePixelXfatorAmplificacao;
+      raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
       dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
       // Calcula condutancia a partir do diâmetro hidraulico.
       objeto[k]->propriedade = (variavelAuxiliar * dH * dH * dH * dH);
@@ -159,7 +159,7 @@ CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
       data = new COGSitio_CENTER ();
       break;
   }
-  assert (data);
+  assert (data); /// @todo: Implementar bloco try..catch para controle das alocações? static_assert?
   return data;
 }
 
@@ -192,12 +192,10 @@ CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
     @todo implementar versão que recebe uma ostream. 
           Ex: grafo->Write(fout); ou fout <<grafo->Write;
 */
-void CGrafo::Write (string nomeArquivo)
+void CGrafo::Write ()
 {
-  string grafoName = nomeArquivo + ".cgrafo";
-  ofstream out ( grafoName.c_str() );  //ofstream out { nomeArquivo.c_str() };
-  if ( out.fail() )
-  {
+  ofstream out ( NomeGrafo().c_str() );
+  if ( out.fail() )  {
       cerr << " Não conseguiu abrir o arquivo de disco " << nomeArquivo;
       return;
   }
@@ -209,8 +207,8 @@ void CGrafo::Write (string nomeArquivo)
   // Percorre os objetos e salva em disco as informações de cada objeto.
   for ( unsigned long int i = 0; i < objeto.size (); i++ )
   {
-      objeto[i]->Write (out);
-      out << '\n';		// fout << (*objeto[i]) << '\n';
+      objeto[i]->Write (out);	  // out << (*objeto[i]) << '\n';
+      out << '\n';
   }
   out.close ();
 }
@@ -228,66 +226,6 @@ void CGrafo::Write (string nomeArquivo)
   }
 }
 */
-
-// -------------------------------------------------------------------------
-// Função:                    LerVetorPropriedades_x()
-// -------------------------------------------------------------------------
-/**
-    @short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
-    O sistema de proteçao contra quedas de energia salva, a cada conjunto de iterações, 
-    os dados dos objetos do grafo em disco (salva o vetor das pressões do grafo).
-    Se o micro caiu (queda de luz), o programa pode solicitar a reinicialização da simulação, 
-    criando o grafo, determinando o mesmo e então chamando a função LeDadosDisco(),
-    que vai ler os dados do arquivo de disco "grafo.vectorX".
-    @author :	André Duarte Bueno
-    @see    : grafos
-    @param  :
-    @return :	bool // ostream&
- 
-     @todo: o nome do arquivo "grafo.vectorX" deve considerar o nome da imagem pois pode 
-     processar mais de um arquivo no mesmo diretório ao mesmo tempo.
-*/
-bool CGrafo::LerVetorPropriedades_x ()
-{
-  // Abre arquivo de disco
-  ifstream fin ("grafo.vectorX"); // todo: considerar nome imagem
-  if (fin.fail ())
-  { cerr << "Falha abertura arquivo que tem os dados do grafo: grafo.vectorX.\n";
-    return 0;
-  }
-  // Lê os dados do vetor (atributo propriedade).
-  long double temp;
-  for ( auto objeto_grafo : objeto ) // objeto é um vetor
-    {
-      fin >> temp;
-      objeto_grafo->x = temp;
-      
-///  @bug: Teste do uso do tag bug do doxygen.
-/**  @test: o código abaixo foi comentado pois não deve ocorrer, a ideia é que cada imagem 
-tenha um diretório separado! Se colocar mais de uma imagem no mesmo diretório o código abaixo pode 
-ser necessário, pois pode ter gerado grafo.vectorX para imagem pequena e depois tentar ler para 
-imagem grande!
-       if (fin.eof ()) 
- 	return 0;
-*/
-    }
-  return 1;
-}
-
-/// Salva no arquivo "grafo.vectorX" o valor da pressão de cada objeto.
-bool CGrafo::SalvarVetorPropriedades_x ()
-{
-  // Abre arquivo de disco
-  ofstream fout ("grafo.vectorX");
-  if (fout.fail ())
-    return 0;
-
-  // Salva os dados do atributo x de cada objeto em disco (ex: pressão que esta sendo calculada).
-  for (unsigned long int k = 0; k < objeto.size (); k++)
-    // fout  <<              objeto[k]->propriedade  << endl;
-    fout << objeto[k]->x << endl;
-  return 1;
-}
 
 // -------------------------------------------------------------------------
 // Função:       operator<<
@@ -312,232 +250,3 @@ ostream & operator<< (ostream & os, CGrafo & grafo)
 
   return os;
 }
-
-// -------------------------------------------------------------------------
-// Função:               SetarMatrizAVetorB
-// -------------------------------------------------------------------------
-/** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
-    e preenche os mesmos com os coeficientes necessários
-    para determinação do sistema de equações.
-    Pré-condições:
-    1- O grafo já deve ter sido determinado.
-    2- Os valores iniciais de pressão já devem ter sido definidos
-    (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0).
-    3- Deve receber uma matriz e um vetor vazios.
-    @author : André Duarte Bueno
-    @see    : grafos
-    @param  :
-    @return : bool indicando sucesso da operação.
-    @todo: receber matriz de double !! eliminando multiplicador 1e17.
-    @todo: transformar em template que recebe tipo : float, double, long double.
-    @todo: transformar CVetor em template!
-*/
-bool CGrafo::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
-{
-  // vector< vector<double> > A;
-  // vector<double> B;
-
-  // Passo 0: Definição de variáveis auxiliares
-  // índice i da matriz A (ou vetor B)
-  unsigned long int mi;
-
-  // índice j da matriz A
-  unsigned long int mj;
-
-  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2 ; Tarefa: calcular para demais modelos!
-  long double Cij;
-
-  // Passo 1:
-  // Determinação da dimensão da matriz e do vetor
-  // cout << "\nlastObjectOfSolver="               <<       lastObjectOfSolver;
-  // cout << "\nfirstObjectOfSolver="      <<  firstObjectOfSolver;
-
-  // A dimensão do sistema de equações considera os planos 1->n-1,
-  // pois os planos 0 e n-1 tem pressões constantes.
-  unsigned int dim = lastObjectOfSolver - firstObjectOfSolver + 1;
-  // cout <<"\ndim="<<dim;
-
-  // Redimensiona a matriz A
-  A->Redimensiona (dim, dim);
-  // Zera a matriz A
-  A->Constante (0);
-
-  // Redimensiona o vetor B
-  B->Redimensiona (dim);
-  // Zera o vetor B
-  B->Constante (0);
-
-  unsigned int i;
-  for (unsigned long int j = 0; j < objeto.size (); j++)
-    {
-      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao).
-      COGSitio *objeto_j = dynamic_cast < COGSitio * >(objeto[j]);
-      assert (objeto_j);  // se não der certo o cast, vai lançar excessão!
-
-      switch (objeto_j->Contorno ())
-	{
-	  // Fronteira esquerda
-    case CContorno::ETipoContorno::WEST:
-
-	  // Fronteira direita
-    case CContorno::ETipoContorno::EST:
-	  // Percorre as conecções do objeto       
-	  for (i = 0; i < objeto_j->coneccao.size (); i++)
-	    {
-	      // Calcula Cij - Tarefa: explicar a equacao usada.
-	      Cij = (objeto_j->coneccao[i]->propriedade + objeto_j->propriedade) / 2.0;
-	      Cij = Cij * 1.0e17;	// LIXO, para gerar int
-	      // cij esta sendo armazenado em int por isto multiplico por e17
-
-	      // Desloca o índice da matriz(vetor), pois só entram os sítios
-	      // que não estão na interface.
-	      mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver;	// 3;
-
-	      // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x,
-	      // x deve estar definido
-	      // B->data1D[ mi ] -= Cij * objeto_j->x; 
-	      B->data1D[mi] -= static_cast < int >(Cij * objeto_j->x);
-
-	      // Acumula -Cij na matriz A[mi][mi]
-	      // A->data2D[mi][mi] -= Cij;
-	      A->data2D[mi][mi] -= static_cast < int >(Cij);
-	    }
-	  break;
-	  // Fronteira Centro
-    case CContorno::ETipoContorno::CENTER:
-	  // Percorre as conecções do objeto       
-	  for (i = 0; i < objeto_j->coneccao.size (); i++)
-	    {
-	      // Se o link for um objeto de centro (não contorno) entra
-          if (objeto_j->coneccao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
-		{
-		  // Calcula Cij
-		  Cij = (objeto_j->propriedade + objeto_j->coneccao[i]->propriedade) / 2.0;
-		  Cij = Cij * 1.0e17;	// LIXO para gerar int
-		  // cij esta sendo armazenado em int por isto multiplico por e17
-
-		  // Desloca os índices da matriz
-		  mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver;
-		  mj = objeto_j->rotulo - firstObjectOfSolver;
-
-		  // Define A->data2D[mi][mj]      
-		  A->data2D[mi][mj] = static_cast < int >(Cij);	// LIXO o static
-
-		  // Acumula A->data2D[mj][mj]
-		  A->data2D[mj][mj] -= static_cast < int >(Cij); // LIXO o static
-		}
-	    }
-	  break;
-	}			// switch
-    }				// for
-
-    /// @todo: abaixo deve considerar o nome do arquivo/imagem que foi processada!
-  A->Write ("grafo.matrixA");
-  B->Write ("grafo.vectorB");
-
-  return 1;
-}
-
-/*ANTIGA, FUNCIONA, USA
-bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
-{
-  // Passo 0: Definição de variáveis auxiliares
-  // índice i da matriz A (ou vetor B)
-  unsigned long int mi;	
-
-  // índice j da matriz A
-  unsigned long int mj;
-	
-  // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2
-  long double Cij;
-	
-  // Passo 1:
-  // Determinação da dimensão da matriz e do vetor
-  // cout << "\nlastObjectOfSolver="		<<	 lastObjectOfSolver;
-  // cout << "\nfirstObjectOfSolver="	<<  firstObjectOfSolver;
-
-	
-  unsigned int dim = lastObjectOfSolver - firstObjectOfSolver + 1 ;
-  // cout <<"\ndim="<<dim;
-	
-  // Redimensiona a matriz A
-  A->Redimensiona(dim,dim);
-  // Zera a matriz A
-  A->Constante(0);
-	
-  // Redimensiona o vetor B
-  B->Redimensiona(dim);
-  // Zera o vetor B
-  B->Constante(0);
- 	
-  unsigned int i;
-  for( unsigned long int j = 0 ; j < objeto.size();  j++ )
-    {
-      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
-
-      COGSitio* objeto_j = dynamic_cast<COGSitio*>(objeto[j]);
-      assert(objeto_j);
-  		
-      switch( objeto_j->Contorno() )
-	{
-	  // Fronteira esquerda
-	case CContorno::WEST :	
-  			
-	  // Fronteira direira
-	case CContorno::EST :	
-	  // Percorre as conecções do objeto	
-	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
-	    {
-	      // Calcula Cij
-	      Cij = (objeto_j->coneccao[i]->propriedade +  objeto_j->propriedade   ) /2.0 ;
-	      Cij = Cij* 1.0e17;	// LIXO, para gerar int
-	      // cij esta sendo armazenado em int por isto multiplico por e17
-	  							
-	      // Desloca o índice da matriz(vetor), pois só entram os sítios
-	      // que não estão na interface.
-	      mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver; // 3;
-	  							
-	      // Acumula Cij no vetor B[mi] -= Cij	* objeto_j->x,
-	      // x deve estar definido
-	      // B->data1D[ mi ] -= Cij * objeto_j->x;	
-	      B->data1D[ mi ] -= static_cast<int>( Cij * objeto_j->x);	
-	  							
-	      // Acumula -Cij na matriz A[mi][mi]
-	      // A->data2D[mi][mi] -= Cij;	
-	      A->data2D[mi][mi] -= static_cast<int>(Cij);	
-	    }
-	  break;
-  			
-	  // Fronteira Centro
-	case CContorno::CENTER :	
-	  // Percorre as conecções do objeto	
-	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
-	    {
-	      // Se o link  for  um objeto de centro (não contorno) entra
-	      if( objeto_j->coneccao[i]->Contorno() == CContorno::CENTER)
-		{										
-		  // Calcula Cij
-		  Cij = ( objeto_j->propriedade + objeto_j->coneccao[i]->propriedade ) /2.0 ;
-		  Cij = Cij* 1.0e17;// LIXO para gerar int
-		  // cij esta sendo armazenado em int por isto multiplico por e17
-    	  								
-		  // Desloca os índices da matriz
-		  mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver ;
-		  mj = objeto_j->rotulo  - firstObjectOfSolver ;
-    				  					
-		  // Define A->data2D[mi][mj]	
-		  A->data2D[mi][mj]	 = static_cast<int>(Cij); // LIXO o static
-    				  					
-		  // Acumula A->data2D[mj][mj]
-		  A->data2D[mj][mj]	-= static_cast<int>(Cij);// LIXO o static
-		}
-	    }
-	  break;
-	}// switch
-    }// for
-	
-  A->Write("Matriz_A.txt");	
-  B->Write("Vetor_B.txt");	
-  return 1;
-}
-*/

@@ -32,7 +32,7 @@ Desenvolvido por:
 #endif
 /*
 =========================================================================
-Documentacao CLASSE: TISCMercuryInjection4F
+Documentacao Classe: TISCMercuryInjection4F
 =========================================================================
 Assunto:        Camaras
 Superclasse:    TIChamber

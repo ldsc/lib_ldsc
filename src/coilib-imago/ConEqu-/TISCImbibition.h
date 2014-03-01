@@ -34,7 +34,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TISCImbibition
+Documentacao Classe: TISCImbibition
 =========================================================================
 Assunto:        Camaras
 Superclasse:    TISCImbibition

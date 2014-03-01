@@ -42,11 +42,11 @@ class CGra3Dby2_M4;
 class CGra3Dby2_M5;
 class CGra3Dby2_M6;
 // Lista de apelidos
-using CGra3Dby2_M1_ConeccaoPorPixel = CGra3Dby2_M1;
-using CGra3Dby2_M2_ConeccaoPelaAreaMedia = CGra3Dby2_M2;
-using CGra3Dby2_M3_ConeccaoPelaAreaInterseccao = CGra3Dby2_M3;
-using CGra3Dby2_M4_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistancia = CGra3Dby2_M4;
-using CGra3Dby2_M6_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade = CGra3Dby2_M6;
+using CGra3Dby2_M1_CondutanciaPorPixel = CGra3Dby2_M1;
+using CGra3Dby2_M2_CondutanciaPelaAreaMedia = CGra3Dby2_M2;
+using CGra3Dby2_M3_CondutanciaPelaAreaInterseccao = CGra3Dby2_M3;
+using CGra3Dby2_M4_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistancia = CGra3Dby2_M4;
+using CGra3Dby2_M6_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade = CGra3Dby2_M6;
 using CGra3Dby2_M6_Tortuosidade = CGra3Dby2_M6;
 
 // ===============================================================================
@@ -63,29 +63,29 @@ using CGra3Dby2_M6_Tortuosidade = CGra3Dby2_M6;
  * e nunca COGLigacao ou COGComponenteGrafo.
  *
  * Lista dos herdeiros:
- * -CGra3Dby2_M1	Modelo_1  ->> Criado apelido com using --> CGra3Dby2_M1_ConeccaoPorPixel
+ * -CGra3Dby2_M1	Modelo_1  ->> Criado apelido com using --> CGra3Dby2_M1_CondutanciaPorPixel
  * Para cada pixel uma ligação
  * Condutancia do pixel
  *
- * -CGra3Dby2_M2	Modelo_2 ->> Criado apelido com using --> CGra3Dby2_M2_ConeccaoPelaAreaMedia
+ * -CGra3Dby2_M2	Modelo_2 ->> Criado apelido com using --> CGra3Dby2_M2_CondutanciaPelaAreaMedia
  * Para cada objeto uma ligação
  * Condutancia média entre os dois objetos
  *
- * -CGra3Dby2_M3	Modelo_3 ->> Criado apelido com using --> CGra3Dby2_M3_ConeccaoPelaAreaInterseccao
+ * -CGra3Dby2_M3	Modelo_3 ->> Criado apelido com using --> CGra3Dby2_M3_CondutanciaPelaAreaInterseccao
  * Para cada objeto uma ligação
  * Condutancia calculada sobre a area da intersecção
  *
- * -CGra3Dby2_M4	Modelo_4 ->> Criado apelido com using --> CGra3Dby2_M4_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistancia
+ * -CGra3Dby2_M4	Modelo_4 ->> Criado apelido com using --> CGra3Dby2_M4_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistancia
  * Para cada objeto uma ligação.
  * Condutancia calculada sobre a área da intersecção
  * Adicionalmente calcula as distâncias entre
  * os objetos, para correção das condutâncias.
  *
- * -CGra3Dby2_M5	Modelo_5 ->> Criado apelido com using --> CGra3Dby2_M5_ConeccaoPelaXXXXX
+ * -CGra3Dby2_M5	Modelo_5 ->> Criado apelido com using --> CGra3Dby2_M5_CondutanciaPelaXXXXX
  * -# sub ítem do modelo 5
  * -# sub ítem do modelo 5
  *
- * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_ConeccaoPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade
+ * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade
  * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_Tortuosidade
  * Para cada objeto uma ligação.
  * A condutância é corrigida levando em conta as distâncias
@@ -101,8 +101,25 @@ private:
 	/// Indica versão da função que elimina os ramos mortos, a 2 é mais rápida.
 	int eliminaRamosMortos = 2 ;
 	int eliminaConeccoesRepetidas = 1 ;	///< Elimina conecções repetidas
+	
+  // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim, 
+  // não precisam ser calculados.
+  // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
+  // nos objetos destes planos.
+  /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
+  /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
+  // firstObjectOf Solver=rotuloPrimeiroObjetoPlano1;
+  // lastObjectOf Solver=rotuloUltimoObjetoPlanoN_1
 
 protected:
+  /// Rótulo do primeiro objeto do plano z=1 (logo após o plano z=0)
+  /// @todo: renomear rotuloPrimeiroObjetoPlano1 -> rotuloPrimeiroObjetoPlano1
+  unsigned int rotuloPrimeiroObjetoPlano1 {0};
+
+  /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
+	/// @todo: renomear rotuloUltimoObjetoPlanoN_1 -> rotuloUltimoObjetoPlanoN_1
+  unsigned int rotuloUltimoObjetoPlanoN_1 {0};
+
 	/// Dimensoes da imagem tridimensional
 	int nx = 0 ; ///< Dimensão nx
 	int ny = 0 ; ///< Dimensão ny
@@ -124,8 +141,8 @@ protected:
 */
 	unsigned long int plano = 0;
 
-	/// Por default o objeto esta no centro do grafo e não em seus contornos
-	CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
+// Por default o objeto esta no centro do grafo e não em seus contornos
+//  	CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
 	/*Usado para definir o maior rótulo do plano anterior a ra.
 	  Ex: Se ra é o plano 12, rp é o plano 13,
@@ -139,12 +156,11 @@ protected:
 	unsigned long int maiorRotuloUtilizado = 0;
 
 public:
-
 	// -------------------------------------------------------------Construtor
 	/// Construtor, recebe um nome de arquivo; só se for chamado CGra3Dby2D{string};
 	explicit CGra3Dby2D (std::string _nomeArquivo)
 		: CGrafoContorno (_nomeArquivo) {   
-		  tipoGrafo  =  ETipoGrafo::grafo3DBy2D ;   
+		  tipoGrafo  =  ETipoGrafo::grafo3DBy2D ;
 		}
 
 	// --------------------------------------------------------------Destrutor
@@ -159,7 +175,7 @@ public:
 		}
 
 		if (img2D) {
-			delete img2D; 			// deleta objeto
+			delete img2D; 		// deleta objeto
 		}
 	}
 
@@ -181,10 +197,23 @@ public:
 	/**
 	  * @brief VAZIA: implementada no modelo 3, elimina os links repetidos.
 	*/
-	virtual void EliminarCondutanciasRepetidas ()
-	{
+	virtual void EliminarCondutanciasRepetidas ()	{
 	}
+	
+    /// Seta a matriz A e o vetor B, a serem utilizados por um solver externo (ex: gmres)
+    virtual bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B) const;
 
+    /**
+     * @brief No caso de queda de energia, foi projetado um sistema de reconstrução do grafo(); 
+     * A primeira etapa é o recalculo de todo o grafo a partir da imagem (é rápido); 
+     * Em seguida, faz a leitura de um arquivo de disco que armazena as propriedades x (pressões)
+     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo. */
+    bool LerVetorPropriedades_x();
+
+    /// Salva propriedades dos objetos em disco (permite uso LerVetorPropriedades_x()).
+    bool SalvarVetorPropriedades_x();
+
+	
 protected:
 
 	// FUNÇÕES AUXILIARES
@@ -205,22 +234,13 @@ protected:
 	/// Função que elimina sítios redundantes (com 0 links)
 	void EliminarObjetosRedundantes ();
 
-private:
-	/// Elimina objetos redundantes, versão 1
-	void EliminarObjetosRedundantes_1 ();
-
-	/// Elimina objetos redundantes, versão 2
-	void EliminarObjetosRedundantes_2 ();
-
-protected:
 	/**
 	  * @brief Reorganiza os links para cmx e cmy.
 	  * Funcao nova, como alguns ramos estão sendo deletados eu chamo esta função para reorganizar
 	  * os centros de massa respeitando o novo estado do grafo.
 	  * Necessaria para o modelo 4, por isto é definida aqui como sendo vazia.
 	*/
-	virtual void ReorganizarCmxCmy ()
-	{
+	virtual void ReorganizarCmxCmy ()	{
 	}
 
 	/*
@@ -240,6 +260,13 @@ protected:
 	virtual bool MarcarParaDelecaoObjeto (int i);
 
 	// virtual bool DeletarObjeto(CObjetoGrafo* sitio) ;
+
+private:
+	/// Elimina objetos redundantes, versão 1
+	void EliminarObjetosRedundantes_1 ();
+
+	/// Elimina objetos redundantes, versão 2
+	void EliminarObjetosRedundantes_2 ();
 
 	// --------------------------------------------------------------------Get
 public:
@@ -275,3 +302,4 @@ public:
 // ostream& operator<< (ostream& os, CGra3Dby2D& obj);
 // istream& operator>> (istream& is, CGra3Dby2D& obj);
 #endif
+private:

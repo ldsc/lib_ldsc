@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCdijk3D
+Documentacao Classe:		CBCdijk3D
 ==================================================================================
 Nome Classe:         CBCdijk3D
 Assunto:             Mascaras e filtros

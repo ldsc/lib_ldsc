@@ -88,7 +88,7 @@ private:
     CMatriz3D *LerImagemDisco(std::string nomeArquivo);
 
     /// Solicita dados da imagem
-    void SolicitarPropriedadesImagem(int &fatorAmplificacao, double &sizePixel,
+    void SolicitarPropriedadesImagem(int &fatorAmplificacao, double &dimensaoPixel,
                                     std::string nomeArquivo);
 
     /// Cria um fluido
@@ -116,7 +116,7 @@ private:
      CGra3Dby2D * grafo,
      TCMatriz3D<int> * pm3D,
      int fatorAmplificacao,
-     double sizePixel);
+     double dimensaoPixel);
 
     /// Determina a permeabilidade
     double DeterminarPermeabilidade(CPermeabilidadeGrafo * permeabilidade);

@@ -39,7 +39,7 @@
 
 /*
   =========================================================================
-  Documentacao CLASSE: TFEConectividade3D
+  Documentacao Classe: TFEConectividade3D
   =========================================================================
   Assunto:               TFEConectividade3D.
   Superclasse:           a propria

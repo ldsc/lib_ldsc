@@ -42,7 +42,7 @@ CReconstrucaoZhirong::CReconstrucaoZhirong (std::string nomeArquivo, int fatorAm
    nomeArquivo = nomeArquivo;
    fatorAmplificacaoNumeroPontos = fatorAmp;
    numeroPontosCz = npcz;
-   sizePixel = sp;
+   dimensaoPixel = sp;
    NX = nx;
    NY = ny;
    NZ = nz;
@@ -329,7 +329,7 @@ void CReconstrucaoZhirong::filtro_nao_linear () {
 bool CReconstrucaoZhirong::SalvarImagemEmDisco (string arqimg) {
    stringstream tmp;
 	if ( nomeArquivo == arqimg ) {
-      tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << sizePixel << ".dbm";
+      tmp << nomeArquivo << "_GT-1_" << NX << "_fa-" << fatorAmplificacaoNumeroPontos << "_np-" << numeroPontosCz << "_sp-" << dimensaoPixel << ".dbm";
       nomeArquivo = tmp.str();
       arqimg = nomeArquivo;
 	}
@@ -340,7 +340,7 @@ bool CReconstrucaoZhirong::SalvarImagemEmDisco (string arqimg) {
    }
    fimg << setw (0) << "D1\n" << NX << " " << NY << " " << NZ << "\n";
 	fimg << setw (0) << "# fatorAmplificacao: " << fatorAmplificacaoNumeroPontos << "\n";
-	fimg << setw (0) << "# sizePixel: " 	    << sizePixel << "\n";
+	fimg << setw (0) << "# dimensaoPixel: " 	    << dimensaoPixel << "\n";
 	fimg << setw (0) << "# numeroPixelsBorda: " << 0 << "\n";
 
    for (k = 0; k < NZ; k++) {

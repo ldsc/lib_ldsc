@@ -57,7 +57,7 @@ public:
     bool Go ( string nome_arq );
 
 	/// Retorna o nome do arquivo
-	inline string getFileName () { return nomeArquivo; }
+	inline string getNomeArquivo () { return nomeArquivo; }
 
 	bool Grava_dbm ( string nomeimg, unsigned char* inimeio );
 

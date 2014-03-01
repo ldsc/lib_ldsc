@@ -22,7 +22,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:    CFMMDeslocamento
+Documentacao Classe:    CFMMDeslocamento
 ============================================================================
 Assunto:             Classe b�sica para os filtros da morfologia matem�tica
 Superclasse:         TFiltro

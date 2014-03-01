@@ -40,7 +40,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TIConfEq3DSim
+Documentacao Classe: TIConfEq3DSim
 =========================================================================
 Assunto:        Configuracoes de equilibrio
 Superclasse:    TIConfEq3DSim
@@ -176,7 +176,7 @@ public:
     };
 
     //Retorna nome do arquivo de disco
-    virtual std::string GetFileName ();
+    virtual std::string GetNomeArquivo ();
 
 
     //NOVO em 13-11-2000

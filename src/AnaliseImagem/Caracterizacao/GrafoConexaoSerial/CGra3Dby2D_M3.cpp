@@ -170,14 +170,14 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
 @return : void
 */
 void
-CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao) {
+CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao) {
    // Variáveis auxiliares
    long double raio_hidraulico;
    long double dH;
 
-   long double sizePixelXfatorAmplificacao = _sizePixel * _fatorAmplificacao;
+   long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
    // long double PI=3.141592653589;
-   long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _sizePixel * _fatorAmplificacao);
+   long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao);
 
    // A classe CGra3Dby2D_M3 tem sítios do tipo COGSitio_CC
    // que tem uma lista de conecções.
@@ -187,7 +187,7 @@ CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _size
    // Percorre  todos os objetos do  grafo
    for (unsigned long int k = 0; k < objeto.size (); k++) {
       // Pega o raio hidraulico do objeto k, e converte para metros
-      raio_hidraulico = objeto[k]->propriedade * sizePixelXfatorAmplificacao;
+      raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
 
       // Calcula a condutancia da ligação
       // dH=4.0*(raio_hidraulico) ;
@@ -208,7 +208,7 @@ CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _size
          // Obtêm o raio hidraulico da ligação
          raio_hidraulico = ptrSitioLR->condutancia[link];
          // Converte para SI (metros)
-         raio_hidraulico *= sizePixelXfatorAmplificacao;
+         raio_hidraulico *= dimensaoPixelXfatorAmplificacao;
          // Determina o diâmetro hidraulico como sendo 4*raioHidraulico
          dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
          // Calcula a condutância da ligação e armazena
@@ -344,9 +344,9 @@ CGra3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
 
    // Passo 1:
    // Determinação da dimensão da matriz e do vetor
-   // cout << "\nlastObjectOfSolver="               <<       lastObjectOfSolver;
-   // cout << "\nfirstObjectOfSolver="      <<  firstObjectOfSolver;
-   unsigned int dim = lastObjectOfSolver - firstObjectOfSolver + 1;
+   // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
+   // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
+   unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
    // cout <<"\ndim="<<dim;
 
    // Redimensiona a matriz A
@@ -382,7 +382,7 @@ CGra3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
             // cij esta sendo armazenado em int por isto multiplico por e17
 
             // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
-            mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver;	// 3;
+            mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
 
             // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x, x deve estar definido
             // B->data1D[ mi ] -= Cij * objeto_j->x;
@@ -409,8 +409,8 @@ CGra3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
                // cij esta sendo armazenado em int por isto multiplico por e17
 
                // Desloca os índices da matriz
-               mi = objeto_j->coneccao[i]->rotulo - firstObjectOfSolver;
-               mj = objeto_j->rotulo - firstObjectOfSolver;
+               mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+               mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
 
                // Define A->data2D[mi][mj]
                A->data2D[mi][mj] = static_cast < int >(Cij);	// LIXO o static

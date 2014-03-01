@@ -33,7 +33,7 @@ Laboratorio de Desenvolvimento de Software Cientifico
 
 /*
   ===============================================================================
-  Documentacao CLASSE: CGra3Dby2D_M3
+  Documentacao Classe: CGra3Dby2D_M3
   ===============================================================================
 */
 /**
@@ -68,7 +68,7 @@ public:
      * A condutancia é calculada usando a equação de Poiselle...(Bear, pg...).
      * Aqui calcula a condutância dos sítios e dos links
     */
-   virtual void CalcularCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao);
+   virtual void CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao);
 
    /**
      * @brief Pesquisa o vetor dos links e elimina os links repetidos.

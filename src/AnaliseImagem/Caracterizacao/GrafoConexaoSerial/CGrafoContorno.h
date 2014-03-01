@@ -23,9 +23,9 @@ Laboratorio de Desenvolvimento de Software Cientifico
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
-#include <Base/_LIB_LDSC_CLASS.h>
-#endif
+// #ifndef _LIB_LDSC_CLASS_h
+// #include <Base/_LIB_LDSC_CLASS.h>
+// #endif
 
 #ifndef CGrafo_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
@@ -36,7 +36,7 @@ Laboratorio de Desenvolvimento de Software Cientifico
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: CGrafoContorno
+// Documentacao Classe: CGrafoContorno
 // ===============================================================================
 /**
  * @short: Representa um grafo sujeito a condições de contornos; 

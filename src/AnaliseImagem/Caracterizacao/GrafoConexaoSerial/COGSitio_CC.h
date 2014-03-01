@@ -36,7 +36,7 @@ Bibliotecas LIB_LDSC
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_CC
+// Documentacao Classe: COGSitio_CC
 // ===============================================================================
 /** 
  * @brief       Herdeira de COGSitio, acrescenta informação associada a conexão.

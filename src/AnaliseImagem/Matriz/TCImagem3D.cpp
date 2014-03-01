@@ -30,14 +30,14 @@ template< typename T >
 void TCImagem3D<T>::SalvaInformacoesRecontrucao (ofstream & fout) const {
 	if (fout) {
 		fout << setw (0) << "\n# fatorAmplificacao: " << fatorAmplificacao << "\n";
-		fout << setw (0) << "# sizePixel: " 	    << sizePixel 	     << "\n";
+		fout << setw (0) << "# dimensaoPixel: " 	    << dimensaoPixel 	     << "\n";
 		fout << setw (0) << "# numeroPixelsBorda: " << numeroPixelsBorda;
 	}
 }
 
 template< typename T >
 bool TCImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
-	fatorAmplificacao = sizePixel = numeroPixelsBorda = 0;
+	fatorAmplificacao = dimensaoPixel = numeroPixelsBorda = 0;
 	if (fin.good()) {
 		int posInicial = fin.tellg();		//guarda a posição de leitura no arquivo.
 		char linha[256];
@@ -54,10 +54,10 @@ bool TCImagem3D<T>::LeInformacoesRecontrucao (ifstream & fin) {
 					fin >> fatorAmplificacao;
 					//cerr << "\nfatorAmplificacao=" << fatorAmplificacao << endl;
 					encontrou = true;
-				} else if (aux == "sizePixel:") {
-					fin >> sizePixel;
+				} else if (aux == "dimensaoPixel:") {
+					fin >> dimensaoPixel;
 					encontrou = true;
-					//cerr << "\nsizePixel=" << sizePixel << endl;
+					//cerr << "\ndimensaoPixel=" << dimensaoPixel << endl;
 				} else if (aux == "numeroPixelsBorda:") {
 					fin >> numeroPixelsBorda;
 					//cerr << "\nnumeroPixelsBorda=" << numeroPixelsBorda << endl;

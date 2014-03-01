@@ -29,7 +29,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_EST
+// Documentacao Classe: COGSitio_EST
 // ===============================================================================
 /** 
  * @brief Representa um sítio(COGSitio) conectado a face direita do grafo.

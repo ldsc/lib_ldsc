@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCDiscreta3D
+Documentacao Classe:		CBCDiscreta3D
 ==================================================================================
 Assunto: Mascaras e filtros
 Superclasse: CMascara

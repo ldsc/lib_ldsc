@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		TCFEMMIDFEuclidiana
+Documentacao Classe:		TCFEMMIDFEuclidiana
 ==================================================================================
 Nome Classe:         TCFEMMIDFEuclidiana
 Assunto:             Matriz IDF de uma imagem usando mascara de chanfro d34

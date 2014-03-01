@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CFEGaussiano_h
 #define CFEGaussiano_h
 
@@ -24,12 +24,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    CFEGaussiano
+Documentacao Classe:    CFEGaussiano
 ============================================================================
-Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
+Assunto:             Filtros espaciais (atuam sobre o espaï¿½o geomï¿½trico da imagem).
 Superclasse:         CFiltro-> CFEspacial
-Descrição:           Cria e utiliza uma máscara gaussiana para atuar sobre a imagem.
-                     O resultado geral é a atenuação dos contornos.
+Descriï¿½ï¿½o:           Cria e utiliza uma mï¿½scara gaussiana para atuar sobre a imagem.
+                     O resultado geral ï¿½ a atenuaï¿½ï¿½o dos contornos.
 Acesso:           import
 Cardinalidade:    1:1    ,de uma maneira geral usa-se um filtro para atuar sobre uma imagem
 Abstrata/Concreta:  concreta

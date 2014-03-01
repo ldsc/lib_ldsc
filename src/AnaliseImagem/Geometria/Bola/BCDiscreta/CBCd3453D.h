@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ==================================================================================
-Documentacao CLASSE:		CBCd3453D
+Documentacao Classe:		CBCd3453D
 ==================================================================================
 Nome Classe:            CBCd3453D
 Assunto:                Mascaras

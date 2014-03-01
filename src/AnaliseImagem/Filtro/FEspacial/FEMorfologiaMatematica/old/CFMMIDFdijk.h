@@ -17,7 +17,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		CFMMIDFdijk
+Documentacao Classe:		CFMMIDFdijk
 ============================================================================
 Nome Classe:         CFMMIDFdijk
 Assunto:             Matriz IDF de uma imagem usando mascara de chanfro d5711

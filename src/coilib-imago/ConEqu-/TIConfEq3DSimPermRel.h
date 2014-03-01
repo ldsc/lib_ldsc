@@ -39,7 +39,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: |TIConfEq3DSimPermRel|
+Documentacao Classe: |TIConfEq3DSimPermRel|
 =========================================================================
 Assunto:        TIConfEq3DSimPermRel
 Superclasse:    a propria

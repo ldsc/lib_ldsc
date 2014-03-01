@@ -24,7 +24,7 @@
 #endif
 
 // ===============================================================================
-// Documentacao CLASSE: CRotulador
+// Documentacao Classe: CRotulador
 // ===============================================================================
 /**
  * @brief Classe usada para rotular imagens, implementada efetivamente nas classes CRotulador2D e CRotulador3D.

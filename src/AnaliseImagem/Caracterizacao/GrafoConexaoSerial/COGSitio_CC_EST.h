@@ -21,7 +21,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_CC.h>
 
 // ===============================================================================
-// Documentacao CLASSE: COGSitio_CC_EST
+// Documentacao Classe: COGSitio_CC_EST
 // ===============================================================================
 /** 
  * @brief Representa um sítio que armazena a informação associada a conexão.

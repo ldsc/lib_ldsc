@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CFEEliminaBorda_h
 #define CFEEliminaBorda_h
 
@@ -24,13 +24,13 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    CFEEliminaBorda
+Documentacao Classe:    CFEEliminaBorda
 ============================================================================
-Assunto:             Filtros espaciais (atuam sobre o espaço geométrico da imagem).
+Assunto:             Filtros espaciais (atuam sobre o espaï¿½o geomï¿½trico da imagem).
 Superclasse:         CFiltro-> CFEspacial
-Descrição:           Elimina a borda de uma imagem, substituindo pontos da borda, por pontos
+Descriï¿½ï¿½o:           Elimina a borda de uma imagem, substituindo pontos da borda, por pontos
 							definidos pela funcao SetvalorBorda.
-                     O valor default para a borda é zero (0).
+                     O valor default para a borda ï¿½ zero (0).
                      Ex:
                      CFEEliminaBorda(valorBorda).Go(imagem,espessuraBorda);
 

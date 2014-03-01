@@ -16,12 +16,12 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 /*
 ============================================================================
-Documentacao CLASSE:		TACFraCaixas
+Documentacao Classe:		TACFraCaixas
 ============================================================================
 Nome Classe:        TACFraCaixas
 Assunto:            Caracterizacao
 Superclasse:
-Descrição:          	 Implementa a classe TACFraCaixas.  E'derivada da classe TACFractal.
+Descriï¿½ï¿½o:          	 Implementa a classe TACFraCaixas.  E'derivada da classe TACFractal.
 Acesso:
 Cardinalidade:
 Abstrata/Concreta:
@@ -49,15 +49,15 @@ public:
   TACFraCaixas ();
   virtual ~ TACFraCaixas ();	//Destrutor
 
-  //Métodos virtuais herdados                                   //{{TACFraCaixasVIRTUAL_BEGIN}}
+  //Mï¿½todos virtuais herdados                                   //{{TACFraCaixasVIRTUAL_BEGIN}}
 protected:
 
 public:
-  virtual float CalculaDimensaoFractal (TMatriz2D * &pm);	//calcula dimensão fractal
+  virtual float CalculaDimensaoFractal (TMatriz2D * &pm);	//calcula dimensï¿½o fractal
   virtual TVetor *CalculaVetorDados (TMatriz2D * &pm);	//calcula vetor de dados
 
   //{{TACFraCaixasVIRTUAL_END}}
-  //Métodos virtuais associados a tabela de resposta de TACFraCaixas
+  //Mï¿½todos virtuais associados a tabela de resposta de TACFraCaixas
   //{{TACFraCaixasRSP_TBL_BEGIN}}
 protected:
   //{{TACFraCaixasRSP_TBL_END}}

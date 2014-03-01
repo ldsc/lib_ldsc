@@ -1,3 +1,4 @@
+
 #ifndef CGrafo_h
 #define CGrafo_h
 
@@ -20,7 +21,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 #include <fstream>
 #include <vector>
-#include <cassert> /// @todo: usar static_assert de C++11!
+#include <cassert> /// @todo: usar static_assert de C++11! ou try..catch?
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -35,7 +36,7 @@ Desenvolvido por:
 
 
 // ===============================================================================
-// Documentacao CLASSE: CGrafo
+// Documentacao Classe: CGrafo
 // ===============================================================================
 /**
  * @brief Um CGrafo é uma representação para uma estrutura de dados.
@@ -75,7 +76,7 @@ Desenvolvido por:
  * ------------------------------------
  * Objetivo específico:	Dada uma imagem 3D, gerar uma estrutura de sítios e ligações equivalente.
  * 
- * Cria os atributo: nomeArquivo, vector objeto, firstObjectOfSolver, lastObjectOfSolver;
+ * Cria os atributo: nomeArquivo, vector objeto, rotuloPrimeiroObjetoPlano1, rotuloUltimoObjetoPlanoN_1;
  * CriarObjetoGrafo->retorna objeto do grafo (CSitio)
  * CalcularCondutancias->converte raioHidraulico em condutancia (somente CSitio).
  *
@@ -186,7 +187,7 @@ class  CGrafo
   // --------------------------------------------------------------Atributos
   private:
   /// Nome do arquivo de disco (nome do arquivo do grafo).
-  std::string nomeArquivo{""};
+  std::string nomeArquivo{"nomeArquivoIndefinido"};
 
   protected:
   /// Enumeração para os diferentes tipos de grafo.
@@ -200,23 +201,6 @@ class  CGrafo
   /// Identifica o tipo de grafo, deve ser definido no construtor.
   ETipoGrafo tipoGrafo { ETipoGrafo::grafo } ;
 
-  // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim, 
-  // não precisam ser calculados.
-  // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
-  // nos objetos destes planos.
-  /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
-  /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
-  // firstObjectOfSolver=indicePrimeiroObjetoPlano[1];
-  // lastObjectOfSolver=indicePrimeiroObjetoPlano[size() - 1];
-
-  /// Rótulo do primeiro objeto do plano z=1 (logo após o plano z=0)
-	/// @todo: renomear firstObjectOfSolver -> primeiroObjetoPlano$1
-  unsigned int firstObjectOfSolver {0};
-
-  /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
-	/// @todo: renomear lastObjectOfSolver -> ultimoObjetoPlano$n_1
-  unsigned int lastObjectOfSolver {0};
-  
   public:
   /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
   /// @todo: trocar por unique_ptr shared_ptr?
@@ -224,14 +208,13 @@ class  CGrafo
 
   // -------------------------------------------------------------Construtor
   /// Constroi o grafo, recebe um nome de arquivo de disco.
-  CGrafo(std::string _nomeArquivo) : nomeArquivo ( _nomeArquivo) { }
+  CGrafo(std::string _nomeArquivoImagem) : nomeGrafo ( _nomeArquivoImagem ) { }
 
   // --------------------------------------------------------------Destrutor
-  /// Destroi o objeto, elimina os objetos do grafo.
+  /// Destroi o objeto, como o grafo é o proprietário dos sítios deve eliminá-los.
   virtual ~CGrafo()  {
-  // O grafo é o proprietário dos sítios e deve eliminá-los.
   for ( auto elemento :  objeto )
-    delete elemento;
+    delete elemento; 
   }
   
   // ----------------------------------------------------------------Métodos
@@ -259,17 +242,13 @@ class  CGrafo
     // virtual bool DeletarObjeto(CObjetoGrafo* sitio) = 0;
 
   public:
-    /// Seta a matriz A e o vetor B, a serem utilizados por um solver externo
-    virtual bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B) const;
-    // 	bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B)const ;	// GMRES
-
     /**
      * @brief Movida de CPermeabilidadeGrafo para cá.
      * Transforma uma propriedade raio Hidraulico em condutancia.
      * Tem mais de uma herdeira.
      * Todo: Mover de volta para calculoPermeabilidade?
     */
-    virtual void CalcularCondutancias(long double _viscosidade, long double _sizePixel, 
+    virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
 				     unsigned long int _fatorAmplificacao);
     /**
      * @brief Função que recebe uma imagem 3D e gera a lista de objetos e seus relacionamentos.
@@ -292,22 +271,15 @@ class  CGrafo
     /**
      * @brief Salva o grafo e seus objetos em disco.
      * Salva a informação do número de objetos e os dados de cada objeto em disco
-     * chamando Write de cada objeto.    */
-    virtual void Write(std::string nomeArquivo);
-
-    /**
-     * @brief No caso de queda de energia, foi projetado um sistema de reconstrução do grafo(); 
-     * A primeira etapa é o recalculo de todo o grafo a partir da imagem (é rápido); 
-     * Em seguida, faz a leitura de um arquivo de disco que armazena as propriedades x (pressões)
-     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo. */
-    bool LerVetorPropriedades_x();
-
-    /// Salva propriedades dos objetos em disco (permite uso LerVetorPropriedades_x()).
-    bool SalvarVetorPropriedades_x();
+     * chamando Write de cada objeto.    
+	 * @todo: renomear Write -> Salvar; ex: grafo->Salvar();
+	 * @todo: renomear Read  -> Ler; ex: grafo->Ler();
+	 */
+    virtual void Write();
 
     // --------------------------------------------------------------------Get
-    /// Retorna o nome do arquivo de disco
-    std::string FileName() const { return nomeArquivo; }
+    /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo (ex:.grafo3DBy2D_M3)
+    std::string NomeGrafo() const { return nomeArquivo + "." + TipoGrafoString(); }
 
     /// Retorna o tipo de grafo
     ETipoGrafo TipoGrafo( ) { return tipoGrafo; }

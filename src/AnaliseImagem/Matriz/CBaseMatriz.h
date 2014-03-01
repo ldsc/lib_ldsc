@@ -120,7 +120,7 @@ const char LF = 10;
 using namespace std;
 
 // ===============================================================================
-// Documentacao CLASSE: CBaseMatriz
+// Documentacao Classe: CBaseMatriz
 // ===============================================================================
 /**
  * @brief Classe base para as classes CVetor, TCMatriz2D< int > e CMatriz3D.

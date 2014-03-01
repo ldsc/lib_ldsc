@@ -26,20 +26,20 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 /*
 ============================================================================
-Documentacao CLASSE:    CFEspacial
+Documentacao Classe:    CFEspacial
 ============================================================================
-Assunto:             Classe básica para os filtros da morfologia matemática
+Assunto:             Classe bï¿½sica para os filtros da morfologia matemï¿½tica
 Superclasse:         CFiltro
-Descrição:           Representa a superclasse para os filtros que atuam sobre
-							o espaço discreto da imagem.
-                     Ou seja atua sobre o espaço geométrico da imagem,
-                     enquanto os filtros de amplitude atuam sobre o espaço de cor.
-                     Tem uma variável inteira que define o tamanho da mascara a ser utilizada
+Descriï¿½ï¿½o:           Representa a superclasse para os filtros que atuam sobre
+							o espaï¿½o discreto da imagem.
+                     Ou seja atua sobre o espaï¿½o geomï¿½trico da imagem,
+                     enquanto os filtros de amplitude atuam sobre o espaï¿½o de cor.
+                     Tem uma variï¿½vel inteira que define o tamanho da mascara a ser utilizada
                      e um ponteiro para um objeto da hierarquia das mascaras.
                      Como a classe base CFiltro tem um ponteiro para uma matriz imagem, eu tenho
-                     acesso a imagem através de pm, e a mascara através de mask.
-                     A função cria mascara é utilizada para criação da mascara
-                     e a função Go executa o filtro em sí.
+                     acesso a imagem atravï¿½s de pm, e a mascara atravï¿½s de mask.
+                     A funï¿½ï¿½o cria mascara ï¿½ utilizada para criaï¿½ï¿½o da mascara
+                     e a funï¿½ï¿½o Go executa o filtro em sï¿½.
 Acesso:           import
 Cardinalidade:    1:1    ,um filtro uma mascara
 Abstrata/Concreta:  concreta
@@ -54,7 +54,7 @@ protected:
 public:
     CMascara * mask;		// ponteiro para mascara
 
-// Métodos
+// Mï¿½todos
 public:			// construtor
     CFEspacial (CMatriz2D * &matriz, unsigned int _tamanhoMascara)	// ponteiro para imagem, e
   : CFiltro (matriz), tamanhoMascara (_tamanhoMascara)	// tamanho da mascara

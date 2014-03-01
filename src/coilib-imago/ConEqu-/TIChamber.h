@@ -44,7 +44,7 @@ Desenvolvido por:
 
 /*
 =========================================================================
-Documentacao CLASSE: TIChamber
+Documentacao Classe: TIChamber
 =========================================================================
 Assunto:        TIChamber.
 Superclasse:    a propria

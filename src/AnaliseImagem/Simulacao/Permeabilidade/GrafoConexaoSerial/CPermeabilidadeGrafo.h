@@ -34,7 +34,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
 
 // ===============================================================================
-// Documentacao CLASSE: CPermeabilidadeGrafo
+// Documentacao Classe: CPermeabilidadeGrafo
 // ===============================================================================
 /**@brief	Classe usada para determinar a permeabilidade
  * de uma imagem tridimensional.
@@ -124,10 +124,10 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 		unsigned long int  ny;				///< Dimensão ny da imagem
 		unsigned long int  nz;				///< Dimensão nz da imagem
 
-		unsigned long int fatorAmplificacao;	///< Fator de amplificação
-		long double sizePixel;				///< Dimensão do píxel
-		unsigned long int numeroPixelsBorda;	///< Número de píxeis a serem descontados da borda
-		long double fluxoFronteira;			///< Valor do fluxo na fronteira
+  unsigned long int fatorAmplificacao;	///< Fator de amplificação 
+  long double dimensaoPixel;				///< Dimensão do píxel 
+  unsigned long int numeroPixelsBorda;	///< Número de píxeis a serem descontados da borda 
+  long double fluxoFronteira;			///< Valor do fluxo na fronteira 
 
 		/*<fatores necessários para calculo permeabilidade */
 		long double diferencaPressao; 		///< Diferença de pressão entre as faces
@@ -149,7 +149,7 @@ public:
 			unsigned long int _ny,
 			unsigned long int _nz,
 			unsigned long int _fatorAmplificacao,
-			long double _sizePixel,
+			long double _dimensaoPixel,
 			unsigned long int _numeroPixelsBorda = 0);
 
 		// --------------------------------------------------------------Destrutor
@@ -225,7 +225,7 @@ public:
   unsigned long int Nz () const   {    return nz;   }
   
   /// Retorna dimensão do pixel
-  long double SizePixel () const {     return sizePixel;  }
+  long double SizePixel () const {     return dimensaoPixel;  }
   
   /// Retorna o fator de amplificacao
   unsigned long int FatorAmplificacao () const { return fatorAmplificacao;  }
@@ -283,9 +283,9 @@ public:
     nz = _nz;
   }
   	/// Define a dimensão do pixel
-  void SizePixel (long double _sizePixel)
+  void SizePixel (long double _dimensaoPixel)
   {
-    sizePixel = _sizePixel;
+    dimensaoPixel = _dimensaoPixel;
   }
   	/// Define o fator amplificacao
   void FatorAmplificacao (unsigned long int _fatorAmplificacao)

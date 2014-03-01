@@ -104,20 +104,20 @@ Função:   CalcularCondutancias
 */
 void
 CGra3Dby2D_M1::CalcularCondutancias (long double _viscosidade,
-				       long double _sizePixel,
+				       long double _dimensaoPixel,
 				       unsigned long int _fatorAmplificacao) 
 {
   // Variáveis auxiliares
   long double raio_hidraulico;
   long double dH;
-  long double sizePixelXfatorAmplificacao = _sizePixel * _fatorAmplificacao;
+  long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
 
   // long double PI=3.141592653589;
   long double variavelAuxiliar =
-    (CMath::PI) / (128.0 * _viscosidade * sizePixelXfatorAmplificacao);
+    (CMath::PI) / (128.0 * _viscosidade * dimensaoPixelXfatorAmplificacao);
 
   // Percorre  todos os objetos do  grafo
-  raio_hidraulico = 0.25 * sizePixelXfatorAmplificacao;
+  raio_hidraulico = 0.25 * dimensaoPixelXfatorAmplificacao;
   dH = 4.0 * raio_hidraulico;
   long double condutanciaDoPixel = variavelAuxiliar * dH * dH * dH * dH;
 

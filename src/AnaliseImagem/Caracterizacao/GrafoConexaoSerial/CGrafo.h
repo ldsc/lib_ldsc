@@ -26,29 +26,14 @@
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
+
 #include <Base/_LIB_LDSC_CLASS.h>
-#endif	
-
-#ifndef CObjetoGrafo_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
-#endif	
-
-#ifndef TCMatriz3D_h
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
-#endif	
-
-#ifndef TCMatriz2D_H
 #include <AnaliseImagem/Matriz/TCMatriz2D.h>
-#endif	
-
-#ifndef CVetor_h
 #include <AnaliseImagem/Matriz/CVetor.h>
-#endif	
+#include <MetNum/Contorno/CContorno.h>
 
-#ifndef CContorno_h
-#include <Contorno/CContorno.h>
-#endif	
 
 // ===============================================================================
 // Documentacao CLASSE: CGrafo

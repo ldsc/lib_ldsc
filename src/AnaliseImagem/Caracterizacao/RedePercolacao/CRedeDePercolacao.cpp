@@ -308,10 +308,10 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	}
 	// Percorre lista de obejos petencentes a camada superior atualizando suas camadas
 	for (int obj : objsCamadaSuperior ) {
-		matrizObjetos[obj].Camada(ECamada::SUPERIOR);
+		matrizObjetos[obj].Contorno(CContorno::ETipoContorno::WEST);
 	}
 	for (int obj : objsCamadaInferior ) {
-		matrizObjetos[obj].Camada(ECamada::INFERIOR);
+		matrizObjetos[obj].Contorno(CContorno::ETipoContorno::EST);
 	}
 
 	//============================================== LIGAÇÕES =================================================

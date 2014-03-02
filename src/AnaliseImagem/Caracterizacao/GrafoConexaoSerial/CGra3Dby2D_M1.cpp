@@ -1,5 +1,4 @@
-
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -31,7 +30,7 @@ Desenvolvido por:
 
 using namespace std;
 
-/*
+/**
 -------------------------------------------------------------------------
 Função:   DeterminarConeccoesObjetos
 -------------------------------------------------------------------------
@@ -61,34 +60,34 @@ DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
   for (unsigned long int i = 0; i < ra->NX (); i++)
     for (unsigned long int j = 0; j < ra->NY (); j++)
       {
-	// Armazena o rotulo dos objetos
-	pa = ra->data2D[i][j];
-	pp = rp->data2D[i][j];
+		// Armazena o rotulo dos objetos
+		pa = ra->data2D[i][j];
+		pp = rp->data2D[i][j];
 
-	// Verifica se estão conectados (ambos > 0)
-	if (pa && pp)
-	  {
-	    // No plano ra, soma o maiorRotuloUtilizado
-	    pa += maiorRotuloUtilizado;
+		// Verifica se estão conectados (ambos > 0)
+		if (pa && pp)
+		  {
+			// No plano ra, soma o maiorRotuloUtilizado
+			pa += maiorRotuloUtilizado;
 
-	    // No plano rp, soma o maiorRotuloUtilizado + ra->RotuloFinal()
-	    pp += maiorRotuloUtilizado + ra->RotuloFinal ();
+			// No plano rp, soma o maiorRotuloUtilizado + ra->RotuloFinal()
+			pp += maiorRotuloUtilizado + ra->RotuloFinal ();
 
-	    // Cada sítio tem uma lista das conecções
-	    // Adiciona nos dois sítios a informação do link
-	    // ou seja, conecta os sítios.
-	    // PS: pa-1 porque o sítio de rótulo 1 esta na posição [0]
+			// Cada sítio tem uma lista das conecções
+			// Adiciona nos dois sítios a informação do link
+			// ou seja, conecta os sítios.
+			// PS: pa-1 porque o sítio de rótulo 1 esta na posição [0]
 
-	    // Informa pa-1 que esta conectado a pp-1
-	    objeto[pa - 1]->Conectar (objeto[pp - 1]);
+			// Informa pa-1 que esta conectado a pp-1
+			objeto[pa - 1]->Conectar (objeto[pp - 1]);
 
-	    // Informa pp-1 que esta conectado a pa-1
-	    objeto[pp - 1]->Conectar (objeto[pa - 1]);
-	  }
+			// Informa pp-1 que esta conectado a pa-1
+			objeto[pp - 1]->Conectar (objeto[pa - 1]);
+		  }
       }
 }
 
-/*
+/**
 -------------------------------------------------------------------------
 Função:   CalcularCondutancias
 -------------------------------------------------------------------------

@@ -25,9 +25,13 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
+#ifndef CTortuosidade_h
+#include <AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.h>
+#endif 
+
 #ifndef CGra3Dby2D_M3_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
-#endif /* cerr */
+#endif 
 
 // ===============================================================================
 // Documentacao Classe: CGra3Dby2D_M6
@@ -38,23 +42,17 @@ Desenvolvido por:
  * @author	André Duarte Bueno
  * @see		Grafos
 */
-class CGra3Dby2D_M6 : public CGra3Dby2D_M3
+class CGra3Dby2D_M6 : public CGra3Dby2D_M3, public CTortuosidade
 {
 // --------------------------------------------------------------Atributos
 private:
   /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
   long int numeroDerivacoesUsadasCalculoTortuosidade = 0;
 
-  /// Representa a tortuosidade na direção z
-  double tortuosidade = 0.0 ;
-//   double tortuosidade_x; Para cálculo nas 3 direções vai ter de
-//   double tortuosidade_y; calcular o grafo em cada uma das direções
-//   double tortuosidade_z;
-
 // -------------------------------------------------------------Construtor
 public:
     /// Construtor
-    CGra3Dby2D_M6 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo), tortuosidade(0.0), 
+    CGra3Dby2D_M6 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo),
     numeroDerivacoesUsadasCalculoTortuosidade(0)  {
     tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M6;
   }
@@ -88,8 +86,6 @@ protected:
 
 
 // --------------------------------------------------------------------Get
-public:
-  double Tortuosidade() { return tortuosidade; }
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
 //       friend ostream& operator<< (ostream& os, CGra3Dby2D_M6& obj);

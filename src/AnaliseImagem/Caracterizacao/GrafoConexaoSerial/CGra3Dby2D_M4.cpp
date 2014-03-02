@@ -1,11 +1,11 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
+Desenvolvido por:	
+				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          Andre Duarte Bueno
 @file:             CGra3Dby2D_M4.cpp
 @begin:            Sat Sep 16 2000
@@ -17,9 +17,7 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <cmath>
-
 #include <iomanip>
-
 #include <fstream>
 
 using namespace std;
@@ -51,30 +49,27 @@ using namespace std;
 #include <Base/CMath.h>
 #endif
 
-/*
--------------------------------------------------------------------------
-Funcao     AdicionarObjetos
--------------------------------------------------------------------------
-@short  : Funcao que adiciona ao grafo os objetos deste plano.
-	Redefinida em CGra3Dby2D_M4, para armazenar a informação
-	cmx e cmy do objeto.
-	Observe que cmx e cmy é um vector de float pertencente a this.
-	Ou seja, cmx e cmy estao sendo armazenada no grafo e nao nos objetos.
-	
-	PS1: Posteriomente criar uma hierarquia de sitios com
-	cmx e cmy para visualização 3D.
-	
-	PS2: a vantagem de armazenar cmx no grafo é deletar
-	todo o vetor cmx logo após o calculo das condutâncias.
-	
-@author :	Andre Duarte Bueno
-@see    :
-@param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
-	o número do ultimo rótulo utilizado e o
-	tipo de contorno (identifica o objeto a ser criado:
-    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
-
-@return : void
+// -------------------------------------------------------------------------
+// Funcao     AdicionarObjetos
+// -------------------------------------------------------------------------
+/** @short  : Funcao que adiciona ao grafo os objetos deste plano.
+ *	Redefinida em CGra3Dby2D_M4, para armazenar a informação
+ *	cmx e cmy do objeto.
+ *	Observe que cmx e cmy é um vector de float pertencente a this.
+ *	Ou seja, cmx e cmy estao sendo armazenada no grafo e nao nos objetos.
+ *	
+ *	PS1: Posteriomente criar uma hierarquia de sitios com
+ *	cmx e cmy para visualização 3D.
+ *	
+ *	PS2: a vantagem de armazenar cmx no grafo é deletar
+ *	todo o vetor cmx logo após o calculo das condutâncias.
+ *	
+ * @author :	Andre Duarte Bueno
+ * @see    :
+ * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	o número do ultimo 
+ * rótulo utilizado e o tipo de contorno (identifica o objeto a ser criado:
+ *    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
+ * @return : void
 */
 void
 CGra3Dby2D_M4::AdicionarObjetos
@@ -101,21 +96,20 @@ CGra3Dby2D_M4::AdicionarObjetos
     }
 }
 
-/*
--------------------------------------------------------------------------
-Funcao:   CalculoDosCentroDeMassa
--------------------------------------------------------------------------
-@short  :A diferença é considerar um fator de correção das condutancias
-	que considera a distância efetiva entre os sítios conexos.
-	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
-	this->cmx a informação do centro de massa na direção x do sítio.
-	PS1: Como o modelo considera a interação entre planos consecutivos,
-	nao é necessário armazenar o cmy pois a distancia na direção y
-	vai ser sempre de 1 pixel.
-@author :	Andre Duarte Bueno
-@see    : Condutância
-@param  : nada
-@return : void
+// -------------------------------------------------------------------------
+// Funcao:   CalculoDosCentroDeMassa
+// -------------------------------------------------------------------------
+/*@short  :A diferença é considerar um fator de correção das condutancias
+ *	que considera a distância efetiva entre os sítios conexos.
+ *  A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
+ * 	this->cmx a informação do centro de massa na direção x do sítio.
+ *	PS1: Como o modelo considera a interação entre planos consecutivos,
+ *	nao é necessário armazenar o cmy pois a distancia na direção y
+ *	vai ser sempre de 1 pixel.
+ * @author :	Andre Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
 */
 /*
 void  CGra3Dby2D_M4::CalcularCentroMassa()
@@ -158,31 +152,27 @@ void  CGra3Dby2D_M4::CalcularCentroMassa()
        cmy.push_back ( rotulador->GetCMYObjeto(cont)    );
 			 // Fim novo
        }
-  }																	
-	
+  }
 }
 */
-/*
--------------------------------------------------------------------------
-Funcao:   CalcularCondutancias
--------------------------------------------------------------------------
 
-@short  : Redefinida, em relação a CGra3Dby2D_M3
-	Faz o calculo da condutancia de forma semelhante aquela definida em CGra3Dby2D_M3.
-	A diferença é considerar um fator de correção das condutancias
-	que considera a distância efetiva entre os sítios conexos.
-	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
-	this->cmx a informação do centro de massa na direção x do sítio.
-	
-	PS1: Como o modelo considera a interação entre planos consecutivos,
-	nao é necessário armazenar o cmz pois a distancia na direção z
-	vai ser sempre de 1 pixel.
-					
-@author :	Andre Duarte Bueno
-
-@see    : Condutância
-@param  : nada
-@return : void
+// -------------------------------------------------------------------------
+// Funcao:   CalcularCondutancias
+// -------------------------------------------------------------------------
+/** @short  : Redefinida, em relação a CGra3Dby2D_M3
+ *	Faz o calculo da condutancia de forma semelhante aquela definida em CGra3Dby2D_M3.
+ *	A diferença é considerar um fator de correção das condutancias
+ *	que considera a distância efetiva entre os sítios conexos.
+ *	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
+ *	this->cmx a informação do centro de massa na direção x do sítio.
+ *	PS1: Como o modelo considera a interação entre planos consecutivos,
+ *	nao é necessário armazenar o cmz pois a distancia na direção z
+ *	vai ser sempre de 1 pixel.
+ *					
+ * @author :	Andre Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
 */
 void
 CGra3Dby2D_M4::CalcularCondutancias
@@ -263,8 +253,8 @@ CGra3Dby2D_M4::CalcularCondutancias
     fout << "size=" << cmx.size () << endl;
     for (unsigned int i = 0; i < cmx.size (); i++)
       fout << "cmx[" << i << "]=" << cmx[i] << endl;
-    cmx.resize (0);		// redimensiona o vetor cmx para tamanho zero (0).// o equivalente a deletar
-    fout << "size=" << cmx.size () << endl;
+//     cmx.resize (0);		// redimensiona o vetor cmx para tamanho zero (0).// o equivalente a deletar
+//     fout << "size=" << cmx.size () << endl;
     fout.close ();
   }
   {
@@ -275,8 +265,8 @@ CGra3Dby2D_M4::CalcularCondutancias
     fout << "size=" << cmy.size () << endl;
     for (unsigned int i = 0; i < cmy.size (); i++)
       fout << "cmy[" << i << "]=" << cmy[i] << endl;
-    cmy.resize (0);		// redimensiona o vetor cmx para tamanho zero (0).// o equivalente a deletar
-    fout << "size=" << cmy.size () << endl;
+//     cmy.resize (0);		// redimensiona o vetor cmx para tamanho zero (0).// o equivalente a deletar
+//     fout << "size=" << cmy.size () << endl;
     fout.close ();
   }
 // */
@@ -286,6 +276,9 @@ CGra3Dby2D_M4::CalcularCondutancias
   return;
 }
 
+// -------------------------------------------------------------------------
+// Funcao:   Write
+// -------------------------------------------------------------------------
 // Salva o grafo em disco
 // Salva adicionalmente a informacao dos centros de massa
 void
@@ -322,20 +315,19 @@ CGra3Dby2D_M4::Write (std::string nomeArquivo)
   out.close ();
 }
 
-/*
--------------------------------------------------------------------------
-Funcao:   CalcularCondutancias
--------------------------------------------------------------------------
-@short  : Chamada ao final de EliminarRamosMortos
-          Após a eliminação dos ramos mortos, um conjunto de objetos foi destruído
-          Como os vetores cmx e cmy estao separados dos objetos, perciso reorganizar
-          cmx e cmy, de forma a levarem em conta a nova situação do grafo.
-          Observe que se as informações de cmx e cmy estivessem nos próprios objetos
-          isto nao seria necessário.
-@author :	Andre Duarte Bueno
-@see    : Condutância
-@param  : nada
-@return : void
+// -------------------------------------------------------------------------
+// Funcao:   CalcularCondutancias
+// -------------------------------------------------------------------------
+/** @short  : Chamada ao final de EliminarRamosMortos
+ *          Após a eliminação dos ramos mortos, um conjunto de objetos foi destruído
+ *          Como os vetores cmx e cmy estao separados dos objetos, perciso reorganizar
+ *          cmx e cmy, de forma a levarem em conta a nova situação do grafo.
+ *          Observe que se as informações de cmx e cmy estivessem nos próprios objetos
+ *          isto nao seria necessário.
+ * @author :	Andre Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
 */
 void
 CGra3Dby2D_M4::ReorganizarCmxCmy ()

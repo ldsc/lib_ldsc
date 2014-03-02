@@ -180,6 +180,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeRelativa.cpp
   AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.cpp
   AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.cpp
+  AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.cpp
   Base/CSolver.cpp
   Base/CSimulacao.cpp
   Base/COperacao.cpp

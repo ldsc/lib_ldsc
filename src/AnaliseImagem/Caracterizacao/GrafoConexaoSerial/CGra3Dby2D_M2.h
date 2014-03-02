@@ -43,26 +43,24 @@ class CGra3Dby2D_M2 : public CGra3Dby2D
 {
 // --------------------------------------------------------------Atributos
 protected:
-/// Rotulador para imagem intermediária
+  /// Rotulador para imagem intermediária
   CRotulador2DCm * rotInt;
 
 public:
 // -------------------------------------------------------------Construtor
-	/// Construtor
+  /// Construtor
   CGra3Dby2D_M2 (std::string _nomeArquivo) : CGra3Dby2D (_nomeArquivo),  rotInt (nullptr) {
 	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M2 ;   
   }
 
 // --------------------------------------------------------------Destrutor
-	/// Destrutor
+  /// Destrutor
   virtual ~ CGra3Dby2D_M2 () = default;
 
 // ----------------------------------------------------------------Métodos
     /**
-     * @brief Movida de CPermeabilidadeGrafo para cá.
-     * Transforma uma propriedade raio Hidraulico em condutancia.
+     * @brief Transforma uma propriedade raio Hidraulico em condutancia.
      * Tem mais de uma herdeira.
-     * Todo: Mover de volta para calculoPermeabilidade?
     */
     virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
 				     unsigned long int _fatorAmplificacao) override;
@@ -74,7 +72,7 @@ public:
   virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara =   1) override;
 
 /**
- * @brief  Determina o grafo lendo a imagem do disco,	plano a plano.
+ * @brief  Determina o grafo lendo a imagem do disco, plano a plano.
  * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
 */
   virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao) override;

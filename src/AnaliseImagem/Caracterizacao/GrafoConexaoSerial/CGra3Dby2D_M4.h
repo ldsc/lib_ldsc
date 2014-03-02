@@ -32,11 +32,9 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
 #endif
 
-/**
-===============================================================================
-Documentacao Classe: CGra3Dby2D_M4
-===============================================================================
-*/
+// ===============================================================================
+// Documentacao Classe: CGra3Dby2D_M4
+// ===============================================================================
  /** 
  * @brief Acrescenta a classe base o conceito de correção das distâncias.
   * A informacao dos centros de massa é armazenada na propria
@@ -79,7 +77,6 @@ CGra3Dby2D_M4 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo)  {
 // ----------------------------------------------------------------Métodos
 
 protected:
-  // Métodos redefinidos
   /**
    * @brief Calcula a condutancia conforme na classe anterior, 
    * e depois corrige levando em conta o centro de massa dos objetos

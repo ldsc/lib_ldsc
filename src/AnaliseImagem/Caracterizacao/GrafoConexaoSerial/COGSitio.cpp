@@ -79,7 +79,7 @@ long double COGSitio::Go (long double /*d */ )
 {
   // Ex:
   // propriedade = condutancia
-  // x                                     =       pressao
+  // x           = pressao
 
   // Cria variáveis auxiliares (uma única vez, pois são estáticas)
   static long double somatorio_da_condutancia;

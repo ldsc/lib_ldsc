@@ -1,4 +1,4 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -48,9 +48,6 @@ using namespace std;
     Quando se determina o grafo a propriedade armazenada nos objetos é o raio hidraulico.
     Quando se deseja determinar a permeabilidade a propriedade armazenada é a condutancia.
 
-    @todo    Verificar uma forma de eliminar a dependencia destes parâmetros.
-    @todo    Verificar possibilidade de mover para classe CPermeabilidadeGrafo.
-
     Note que a função esta calculando a condutancia segundo a lei de Poiselle -> para ligações 
     (eq 5.16 da tese Liang).
     condutancia=       ( CMath::PI * dH * dH * dH * dH )
@@ -65,6 +62,7 @@ using namespace std;
     @see    : CPermabilidade
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
+    @todo    Verificar uma forma de eliminar a dependencia destes parâmetros.
 */
 void CGra3Dby2D_M2::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, 
 				  unsigned long int _fatorAmplificacao)
@@ -89,29 +87,25 @@ void CGra3Dby2D_M2::CalcularCondutancias (long double _viscosidade, long double 
   return;
 }
 
-/*
--------------------------------------------------------------------------
-Função:  	Go
--------------------------------------------------------------------------
-@short  : Realiza a determinação do grafo usando um plano intermediario
- Cria um objeto de rotulagem intermediaria e chama Go da classe pai.
- Go da classe pai vai chamar DeterminarConeccoesObjetos
- que foi reescrita nesta classe.
- A imagem e lida plano a plano, diretamente do disco.
-@author :	André Duarte Bueno
-@see    :
-@param  : Recebe o nome do arquivo de disco com a imagem e
- o número do maior rótulo já utilizado
-@return : void
-  OBS:
-  	Observe que dois objetos conexos, podem gerar mais de uma ligação
-    valida. No esboço abaixo, o obj45 esta conectado ao plano 7, duas vezes.
-    Para entender, você precisa lembrar que é criado um plano de rotulagem adicional
-    entre os planos 7 e 8, e que o obj45 vai ser dividido em dois, tendo 2 ligações válidas.
-
-    ----------------------------obj 34 no plano 7
-    ------obj 45 plano 8    ------obj 45 plano 8
-    ------------------------------obj 60 no plano 9
+//-------------------------------------------------------------------------
+//Função:  	Go
+//-------------------------------------------------------------------------
+/** @short  : Realiza a determinação do grafo usando um plano intermediario
+ *  Cria um objeto de rotulagem intermediaria e chama Go da classe pai.
+ * Go da classe pai vai chamar DeterminarConeccoesObjetos que foi reescrita nesta classe.
+ * A imagem e lida plano a plano, diretamente do disco.
+ * @author :	André Duarte Bueno
+ * @see    :
+ * @param  : Recebe o nome do arquivo de disco com a imagem e  o número do maior rótulo já utilizado
+ * @return : void
+ *  OBS:
+ * 	Observe que dois objetos conexos, podem gerar mais de uma ligação
+ *    valida. No esboço abaixo, o obj45 esta conectado ao plano 7, duas vezes.
+ *    Para entender, você precisa lembrar que é criado um plano de rotulagem adicional
+ *    entre os planos 7 e 8, e que o obj45 vai ser dividido em dois, tendo 2 ligações válidas.
+ *     ------------------------------obj 34 no plano 7
+ *     ------obj 45 plano 8    ------obj 45 plano 8
+ *     ------------------------------obj 60 no plano 9
 */
 CGrafo * CGra3Dby2D_M2::Go (string nomeArquivo, unsigned long int funcao) {
    // Vai ler o cabecalho do arquivo de disco
@@ -145,18 +139,17 @@ CGrafo * CGra3Dby2D_M2::Go (string nomeArquivo, unsigned long int funcao) {
    return this;
 }
 
-/*
--------------------------------------------------------------------------
-Função:  	Go
--------------------------------------------------------------------------
-@short  : Realiza a determinação do grafo usando um plano intermediario
-   Cria um objeto de rotulagem intermediaria e chama Go da classe pai.
-   Go da classe pai vai chamar DeterminarConeccoesObjetos
-   que foi reescrita nesta classe.
-@author : André Duarte Bueno
-@see    :
-@param  : Recebe o número do maior rótulo já utilizado
-@return : void
+// -------------------------------------------------------------------------
+// Função:  	Go
+// -------------------------------------------------------------------------
+/** @short  : Realiza a determinação do grafo usando um plano intermediario
+ *   Cria um objeto de rotulagem intermediaria e chama Go da classe pai.
+ *   Go da classe pai vai chamar DeterminarConeccoesObjetos
+ *   que foi reescrita nesta classe.
+ * @author : André Duarte Bueno
+ * @see    :
+ * @param  : Recebe o número do maior rótulo já utilizado
+ * @return : void
 */
 CGrafo * CGra3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara) {
    // Cria o rotulador intermediário
@@ -179,37 +172,35 @@ CGrafo * CGra3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanho
    return this;
 }
 
-/*
--------------------------------------------------------------------------
-Função:  	DeterminarConeccoesObjetos
--------------------------------------------------------------------------
-@short  :	Função DeterminarConeccoesObjetos(ra,rp,maiorRotuloUtilizado);
-   Elimina repetição de links
-          Neste modelo a função DeterminarConeccoesObjetos funciona da seguinte forma:
-          Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
-          Depois gera-se um objeto de rotulagem com o plano intermediário
-          (da conexão dos planos i com i+1) e
-          um vetor de link's válidos.
-          Percorre as imagens i e i+1 e estabelece as conexões
-          nos dois sentidos. Para evitar a repetição do link,
-          seta o vetor de links como inválido para aquele rótulo do plano intermediário.
-          Desta forma as conexões são corretamente estabelecidas,
-          e elimina-se as conecções redundantes.
-          OBS:
-          Observe que dois objetos conexos, podem gerar mais de uma ligação válida.
-          Ou seja, o plano intermediario pode ter mais de um objeto,
-          ligando os planos ra e rp.	
-
-          PS:
-          Neste modelo, a informação da propriedade de ligação (o raio hidraulico,
-          ou resistância) é definida e armazenada pelo raioHidraulico do sítio
-          e não da ligação.
-          No modelo 3, serão utilizada a regiao de intersecao.
-
-@author :	André Duarte Bueno
-@see    :
-@param  : Recebe o número do maior rótulo já utilizado
-@return : void
+// -------------------------------------------------------------------------
+// Função:  	DeterminarConeccoesObjetos
+// -------------------------------------------------------------------------
+/** @short  :	Função DeterminarConeccoesObjetos(ra,rp,maiorRotuloUtilizado);
+  *   Elimina repetição de links
+  *          Neste modelo a função DeterminarConeccoesObjetos funciona da seguinte forma:
+  *          Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
+  *          Depois gera-se um objeto de rotulagem com o plano intermediário
+  *          (da conexão dos planos i com i+1) e
+  *          um vetor de link's válidos.
+  *          Percorre as imagens i e i+1 e estabelece as conexões
+  *          nos dois sentidos. Para evitar a repetição do link,
+  *          seta o vetor de links como inválido para aquele rótulo do plano intermediário.
+  *          Desta forma as conexões são corretamente estabelecidas,
+  *          e elimina-se as conecções redundantes.
+  *          OBS:
+  *          Observe que dois objetos conexos, podem gerar mais de uma ligação válida.
+  *          Ou seja, o plano intermediario pode ter mais de um objeto,
+  *          ligando os planos ra e rp.	
+  *
+  *        PS:
+  *          Neste modelo, a informação da propriedade de ligação (o raio hidraulico,
+  *          ou resistância) é definida e armazenada pelo raioHidraulico do sítio
+  *          e não da ligação.
+  *          No modelo 3, serão utilizada a regiao de intersecao.
+  * @author :	André Duarte Bueno
+  * @see    :
+  * @param  : Recebe o número do maior rótulo já utilizado
+  * @return : void
 */
 void
 CGra3Dby2D_M2::

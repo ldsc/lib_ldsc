@@ -6,16 +6,17 @@
   Desenvolvido por:
                     Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
   @author:          André Duarte Bueno
-  @file:             CGrafo.cpp
-  @begin:            Sat Sep 16 2000
-  @copyright:        (C) 2000 by André Duarte Bueno
-  @email:            andreduartebueno@gmail.com
+  @file:            CGrafo.cpp
+  @begin:           Sat Sep 16 2000
+  @copyright:       (C) 2000 by André Duarte Bueno
+  @email:           andreduartebueno@gmail.com
 */
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <cassert>
 #include <iomanip>
+
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
@@ -53,32 +54,22 @@
 #endif
 using namespace std;
 
-/*
-  -------------------------------------------------------------------------
-  Função     Construtor
-  -------------------------------------------------------------------------
-  Define os valores default dos atributos internos.
-*/
-/*CGrafo::CGrafo( )
-  {
-  };
-*/
-
 // -------------------------------------------------------------------------
-/**	Função: CriarObjetoGrafo
-   @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
-   CriarObjetoGrafo será herdada, cada modelo de grafo cria um conjunto diferente de 
-   objetos do grafo.
-   @author : André Duarte Bueno
-   @see    : grafos
-   @param  : CContorno::ETipoContorno identificando o tipo de sítio a ser criado.
-   			Formato Liang: esquerda(1) centro(0) direita(2)
-   			Formato andre(old): esquerda(0) centro(1) direita(2)
-   			Formato novo: veja CContorno::ETipoContorno
-   @return : Retorna um ponteiro para um sítio novo.
+// Função:     CriaObjetoGrafo
+// -------------------------------------------------------------------------
+/** @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
+	CriarObjetoGrafo será herdada, cada modelo de grafo cria um conjunto diferente de 
+	objetos do grafo.
+	@author : André Duarte Bueno
+	@see    : grafos
+	@param  : CContorno::ETipoContorno identificando o tipo de sítio a ser criado.
+			  Formato Liang: esquerda(1) centro(0) direita(2)
+			  Formato andre(old): esquerda(0) centro(1) direita(2)
+			  Formato novo: veja CContorno::ETipoContorno
+	@return : Retorna um ponteiro para um sítio novo.
 
-   @todo  Criar enumeração para objetos do grafo, receber como parâmetro o tipo do objeto.
-   @todo  Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
+	@todo  Criar enumeração para objetos do grafo, receber como parâmetro o tipo do objeto.
+	@todo  Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 */
 CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
@@ -105,6 +96,8 @@ CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
   return data;
 }
 
+// -------------------------------------------------------------------------
+// Função:     Write
 // -------------------------------------------------------------------------
 /** @short  : Salva em disco o grafo.
     A saída de dados era no mesmo formato do Liang
@@ -154,20 +147,6 @@ void CGrafo::Write ()
   }
   out.close ();
 }
-
-/** ostream& operator<<(std::ostream& os, CGrafo& grafo)
-{
-  // Numero de objetos
-  out << setw (5) << grafo.objeto.size () << endl;
-  
-  // Percorre os objetos e salva em disco as informações de cada objeto.
-  for ( objeto : grafo.objeto )
-  {
-      objeto->Write (out);
-      out << '\n';
-  }
-}
-*/
 
 // -------------------------------------------------------------------------
 // Função:       operator<<

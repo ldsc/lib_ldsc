@@ -191,13 +191,12 @@ class  CGrafo
 
   protected:
   /// Enumeração para os diferentes tipos de grafo.
-  // Note que desta forma tem de incluir aqui informações das classes derivadas,
-  // sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+  // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
   enum class ETipoGrafo : unsigned char {
       grafo, grafoContorno, grafo3DBy2D, 
 	  grafo3DBy2D_M1, grafo3DBy2D_M2, grafo3DBy2D_M3, grafo3DBy2D_M4, grafo3DBy2D_M5, grafo3DBy2D_M6 
   };
-	  
+
   /// Identifica o tipo de grafo, deve ser definido no construtor.
   ETipoGrafo tipoGrafo { ETipoGrafo::grafo } ;
 

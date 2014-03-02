@@ -7,8 +7,7 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-Laboratorio de Desenvolvimento de Software Cientifico
-[LDSC].
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D_M3.h
 @begin      Oct 20 2000
@@ -77,9 +76,9 @@ public:
      * acumula as condutâncias duplicadas.
      * Se for chamado antes do calculo das condutâncias, vai acumular os raios hidraulicos
     */
-   virtual void EliminarCondutanciasRepetidas () override;	// TESTE
+   virtual void EliminarCondutanciasRepetidas () override;
 
-   virtual bool SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const override;	// TESTAR
+   virtual bool SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const override;
 
 protected:
    // Métodos redefinidos

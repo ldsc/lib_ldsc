@@ -1,17 +1,17 @@
 
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-   [LDSC].
+Desenvolvido por:	
+				  Laboratorio de Desenvolvimento de Software Cientifico  [LDSC].
 @author:          André Duarte Bueno
-@file:             CGra3Dby2D.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno   CTime
-@email:            andreduartebueno@gmail.com
+@file:            CGra3Dby2D.cpp
+@begin:           Sat Sep 16 2000
+@copyright:       (C) 2000 by André Duarte Bueno   CTime
+@email:           andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -44,6 +44,9 @@ using namespace std;
 #include <Tempo/CTime.h>
 #endif
 
+// -------------------------------------------------------------------------
+// Função     Go
+// -------------------------------------------------------------------------
 /** Determina o grafo lendo os planos da imagem diretamente do disco.
 O atributo plano é utilizado para armazenar no objeto criado, temporariamente,
 a informacao do plano a que pertence. Será usado para estimação
@@ -169,8 +172,10 @@ CGrafo * CGra3Dby2D::Go (string nomeArquivoImagem, unsigned long int naoUsado)
    return this;
 }
 
-/**
-@short  :Cria os objetos de rotulagem ra,rp,
+// -------------------------------------------------------------------------
+// Função     Go
+// -------------------------------------------------------------------------
+/** @short  :Cria os objetos de rotulagem ra,rp,
   Cria a imagem 2D auxiliar,
   Copia o plano 3D para a imagem 2D,
   Realiza a rotulagem,
@@ -302,16 +307,13 @@ CGrafo * CGra3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int naoUsado) {
 // -------------------------------------------------------------------------
 // Função     AdicionarObjetos
 // -------------------------------------------------------------------------
-/**
-@short  :	Função que adiciona a lista de objetos do grafo,
-     os objetos identificados em rotulador.
-@author :	André Duarte Bueno
-@see    :
-@param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
-   o número do ultimo rótulo utilizado e o
-   tipo de contorno (identifica o objeto a ser criado:
-   COGSitio_EST = 0, COGSitio_CENTER = 1,  COGSitio_EST = 2)
-@return : void
+/** @short  :	Função que adiciona a lista de objetos do grafo, os objetos identificados em rotulador.
+ * @author :	André Duarte Bueno
+ * @see    :
+ * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
+ * o número do ultimo rótulo utilizado e o tipo de contorno (identifica o objeto a ser criado:
+ * COGSitio_EST = 0, COGSitio_CENTER = 1,  COGSitio_EST = 2)
+ * @return : void
 */
 void CGra3Dby2D::AdicionarObjetos (CRotulador2DCm * rotulador, 
 				   unsigned long int ultimoRotuloUtilizado,
@@ -576,7 +578,6 @@ void CGra3Dby2D::EliminarObjetosRedundantes_2 ()
 
       // ------------------------------------------------
       // Percorrer todos os objetos e marcar para deleção cada link invalidado
-      pareiaqui
       COGSitio *obj = nullptr;
       for (int i = 0; i < objeto.size (); i++)
       {

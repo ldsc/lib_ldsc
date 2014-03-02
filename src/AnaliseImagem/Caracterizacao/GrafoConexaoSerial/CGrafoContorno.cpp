@@ -3,13 +3,13 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-                  	[LDSC].
+Desenvolvido por:	
+				  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
-@file:             CGrafoContorno.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+@file:            CGrafoContorno.cpp
+@begin:           Sat Sep 16 2000
+@copyright:       (C) 2000 by André Duarte Bueno
+@email:           andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -35,23 +35,20 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 // #ifndef COGSitio_EST_h
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
 // #endif
-
 using namespace std;
 
 // -----------------------------------------------------------------------
 // Função     Construtor
 // -----------------------------------------------------------------------
-// Recebe o número de contornos,
-// Cria os objetos e adiciona ao vetor de contornos.
-// O nomeArquivo é repassado a classe base.
-CGrafoContorno::CGrafoContorno (string _nomeArquivo,
-				unsigned long int _numero_contornos):
+/** Recebe o número de contornos;
+ *  Cria os objetos e adiciona ao vetor de contornos.
+ *  O nomeArquivo é repassado a classe base.
+ */
+CGrafoContorno::CGrafoContorno (string _nomeArquivo, unsigned long int _numero_contornos):
 		      CGrafo (_nomeArquivo)
-		      //, contorno(_numero_contornos, new CContorno())
+		      //, contorno{_numero_contornos, new CContorno()}
 {
   tipoGrafo  =  ETipoGrafo::grafoContorno ; 
-//   contorno.resize(_numero_contornos); // redimensiona (size)
-//   generate(contorno.begin(), contorno.end(), new CContorno ());
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
       CContorno *obj_cont = new CContorno ();
@@ -63,8 +60,9 @@ CGrafoContorno::CGrafoContorno (string _nomeArquivo,
 // -----------------------------------------------------------------------
 // Função     Destrutor
 // -----------------------------------------------------------------------
-// Os objetos contorno criados por esta classe no construtor, precisam ser deletados.
-// Ou seja os contornos são objetos todo parte do CGrafoContorno.
+/** Os objetos contorno criados por esta classe no construtor, precisam ser deletados.
+ *  Ou seja os contornos são objetos todo parte do CGrafoContorno.
+ */
 CGrafoContorno::~CGrafoContorno ()
 {
   for (unsigned long int i = 0; i < contorno.size (); i++)
@@ -72,7 +70,7 @@ CGrafoContorno::~CGrafoContorno ()
       delete contorno[i];
 }
 
-/*
+/**
 -------------------------------------------------------------------------
 Função:	operator<<
 -------------------------------------------------------------------------

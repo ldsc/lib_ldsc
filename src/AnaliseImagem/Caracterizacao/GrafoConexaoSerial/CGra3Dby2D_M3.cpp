@@ -1,4 +1,4 @@
-/*
+/**
 ===============================================================================
 @PROJETO:          Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -6,10 +6,10 @@
 @Desenvolvido_por:	Laboratorio de Desenvolvimento de Software Cientifico 
 [LDSC].
 @author:          André Duarte Bueno
-@file:             CGra3Dby2D_M3.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+@file:            CGra3Dby2D_M3.cpp
+@begin:           Sat Sep 16 2000
+@copyright:       (C) 2000 by André Duarte Bueno
+@email:           andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -34,17 +34,15 @@ using namespace std;
 // -------------------------------------------------------------------------
 // Função:       CalcularPropriedadesConeccoes
 // -------------------------------------------------------------------------
-/*
-@see  	:A conecção entre os sítios já foi estabelecida em DeterminarConeccoesObjetos.
-   Aqui faço o calculo de uma propriedade relacionada a conecção entre os dois sítios.
-  Como sou herdeiro da CGra3Dby2D_M2 tenho o rotulador 2D rotint ativo, e
-  já rotulado, podendo ser diretamente utilizado.
-
-  Ex:
-  Para o estudo da permeabilidade, determino a condutância da ligação.
-@author:  André Duarte Bueno
-@param	:	recebe um vetor de  CObjetoGrafo*
-@return : void
+/** @short: A conecção entre os sítios já foi estabelecida em DeterminarConeccoesObjetos.
+ *   Aqui faço o calculo de uma propriedade relacionada a conecção entre os dois sítios.
+ *  Como sou herdeiro da CGra3Dby2D_M2 tenho o rotulador 2D rotint ativo, e
+ *  já rotulado, podendo ser diretamente utilizado.
+ *  Ex:
+ *  Para o estudo da permeabilidade, determino a condutância da ligação.
+ * @author:  André Duarte Bueno
+ * @param	:	recebe um vetor de  CObjetoGrafo*
+ * @return : void
 */
 
 /*
@@ -65,13 +63,13 @@ objeto[i]->condutancias.reserve( numeroDeLinks );
 // -------------------------------------------------------------------------
 // Função:       DeterminarConeccoesObjetos
 // -------------------------------------------------------------------------
-/**@short : É a mesma função da classe base, a diferença é
-     o calculo dos raiosHidraulicos para o plano intermediário
-     e a setagem em cada objeto do valor do raioHidraulico da conecção.
-@author :	André Duarte Bueno
-@see    :
-@param  : Recebe o número do maior rótulo já utilizado
-@return : void
+/** @short : É a mesma função da classe base, a diferença é
+ *     o calculo dos raiosHidraulicos para o plano intermediário
+ *     e a setagem em cada objeto do valor do raioHidraulico da conecção.
+ * @author :	André Duarte Bueno
+ * @see    :
+ * @param  : Recebe o número do maior rótulo já utilizado
+ * @return : void
 */
 void
 CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
@@ -161,13 +159,11 @@ CGra3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizad
 // -------------------------------------------------------------------------
 // Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
-/**@short  : Redefinida, em relação a CGrafo
-     adiciona o calculo das condutâncias das ligações
-
-@author :	André Duarte Bueno
-@see    : Condutância
-@param  : nada
-@return : void
+/** @short  : Redefinida, em relação a CGrafo adiciona o calculo das condutâncias das ligações.
+ * @author :	André Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
 */
 void
 CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao) {
@@ -221,17 +217,15 @@ CGra3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _dime
 // -------------------------------------------------------------------------
 // Função:   EliminarCondutanciasRepetidas
 // -------------------------------------------------------------------------
-/**@short  : Redefinida, em relação a CGrafo3Dby2D
- Percorre todos os objetos e elimina coneccoes repetidas
- (deve ser chamada depois do calculo das condutâncias,
- pois soma as condutâncias das coneccoes repetidas.
- se chamar antes, vai acumular o raio hidraulico)
- Chama função de cada sítio, que elimina links repetidos.
-
-@author :	André Duarte Bueno
-@see    : Condutância
-@param  : nada
-@return : void
+/** @short  : Redefinida, em relação a CGrafo3Dby2D.
+ * Percorre todos os objetos e elimina coneccoes repetidas (deve ser chamada depois do 
+ * calculo das condutâncias, pois soma as condutâncias das coneccoes repetidas.
+ * se chamar antes, vai acumular o raio hidraulico)
+ * Chama função de cada sítio, que elimina links repetidos.
+ * @author :	André Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
 */
 void
 CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
@@ -256,13 +250,13 @@ CGra3Dby2D_M3::EliminarCondutanciasRepetidas ()
 // -------------------------------------------------------------------------
 // Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
-/**@short  : 	Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
-@author :	André Duarte Bueno
-@see    :	grafos
-@param  :       Inteiro identificando o tipo de sítio a ser criado.
-       Formato andre: esquerda(0) centro(1) direita(2)
-       Formato Liang: esquerda(1) centro(0) direita(2)
-@return : 	Retorna um ponteiro para um sítio novo alocado.
+/** @short  : 	Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
+ * @author :	André Duarte Bueno
+ * @see    :	grafos
+ * @param  :       Inteiro identificando o tipo de sítio a ser criado.
+ *       Formato andre: esquerda(0) centro(1) direita(2)
+ *       Formato Liang: esquerda(1) centro(0) direita(2)
+ * @return : 	Retorna um ponteiro para um sítio novo alocado.
 */
 CObjetoGrafo *
 CGra3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
@@ -290,40 +284,19 @@ CGra3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
    return data;
 }
 
-/*CGrafo* CGra3Dby2D_M3::Go( string nomeArquivo,unsigned long int funcao)
-{
- // Chama função que determina o grafo
- CGra3Dby2D_M2::Go( nomeArquivo , funcao);
-return this;     	
-}
-*/
-/*
-CGrafo* CGra3Dby2D_M3::Go( TCMatriz3D<int> * _img3D,unsigned long int funcao)
-{	
- // Chama função que determina o grafo
- CGra3Dby2D_M2::Go( _img3D , funcao);
-
-return this;     	
-}
-*/
-
-
 // -------------------------------------------------------------------------
 // Função:               SetarMatrizAVetorB
 // -------------------------------------------------------------------------
-
-/** Recebe uma matriz A (vazia) e um vetor B (vazio) e preenche os mesmos com os coeficientes necessários
-@short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
- e preenche os mesmos com os coeficientes necessários
- para determinação do sistema de equações.
- 1- O grafo já deve ter sido determinado
- 2- Os valores iniciais de pressão já devem ter sido definidos
- (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
- 3- Deve receber uma matriz e um vetor vazios
-@author :	André Duarte Bueno
-@see    : grafos
-@param  :
-@return :	bool indicando sucesso da operação.
+/** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
+ * e preenche os mesmos com os coeficientes necessários para determinação do sistema de equações.
+ * 1- O grafo já deve ter sido determinado
+ * 2- Os valores iniciais de pressão já devem ter sido definidos
+ * (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
+ * 3- Deve receber uma matriz e um vetor vazios
+ * @author :	André Duarte Bueno
+ * @see    : grafos
+ * @param  :
+ * @return :	bool indicando sucesso da operação.
 */
 
 bool

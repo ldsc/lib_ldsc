@@ -1,21 +1,19 @@
 #ifndef CGrafoContorno_h
 #define CGrafoContorno_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
         Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-Laboratorio de Desenvolvimento de Software Cientifico
-[LDSC].
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGrafoContorno.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
 */
-
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
@@ -70,12 +68,10 @@ class CGrafoContorno : public CGrafo
   // virtual void Write(std::string nomeArquivo);
 
  public:
-
   // --------------------------------------------------------------------Get
   // --------------------------------------------------------------------Set
   // -----------------------------------------------------------------Friend
-  friend std::ostream & operator<< (std::ostream & os,
-				    const CGrafoContorno & obj);
+  friend std::ostream & operator<< (std::ostream & os, const CGrafoContorno & obj);
   //       friend istream& operator>> (istream& is, CGrafoContorno& obj);
 };
 

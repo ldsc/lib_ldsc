@@ -1,12 +1,13 @@
 #ifndef CGra3Dby2D_h
 #define CGra3Dby2D_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	 Laboratorio de Desenvolvimento de Software Cientifico 	 [LDSC].
+Desenvolvido por:	 
+			Laboratorio de Desenvolvimento de Software Cientifico 	 [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D.h
 @begin      Sat Sep 16 2000
@@ -63,33 +64,32 @@ using CGra3Dby2_M6_Tortuosidade = CGra3Dby2_M6;
  * e nunca COGLigacao ou COGComponenteGrafo.
  *
  * Lista dos herdeiros:
- * -CGra3Dby2_M1	Modelo_1  ->> Criado apelido com using --> CGra3Dby2_M1_CondutanciaPorPixel
+ * -CGra3Dby2_M1	Modelo_1 
  * Para cada pixel uma ligação
  * Condutancia do pixel
  *
- * -CGra3Dby2_M2	Modelo_2 ->> Criado apelido com using --> CGra3Dby2_M2_CondutanciaPelaAreaMedia
+ * -CGra3Dby2_M2	Modelo_2 
  * Para cada objeto uma ligação
  * Condutancia média entre os dois objetos
  *
- * -CGra3Dby2_M3	Modelo_3 ->> Criado apelido com using --> CGra3Dby2_M3_CondutanciaPelaAreaInterseccao
+ * -CGra3Dby2_M3	Modelo_3 
  * Para cada objeto uma ligação
  * Condutancia calculada sobre a area da intersecção
  *
- * -CGra3Dby2_M4	Modelo_4 ->> Criado apelido com using --> CGra3Dby2_M4_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistancia
+ * -CGra3Dby2_M4	Modelo_4 
  * Para cada objeto uma ligação.
  * Condutancia calculada sobre a área da intersecção
  * Adicionalmente calcula as distâncias entre
  * os objetos, para correção das condutâncias.
  *
- * -CGra3Dby2_M5	Modelo_5 ->> Criado apelido com using --> CGra3Dby2_M5_CondutanciaPelaXXXXX
+ * -CGra3Dby2_M5	Modelo_5 
  * -# sub ítem do modelo 5
  * -# sub ítem do modelo 5
  *
- * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade
- * -CGra3Dby2_M6	Modelo_6->> Criado apelido com using --> CGra3Dby2_M6_Tortuosidade
- * Para cada objeto uma ligação.
- * A condutância é corrigida levando em conta as distâncias
- * dos centros de massa, que aqui são armazenados no próprio sítio.
+ * -CGra3Dby2_M6	
+ * A condutância é corrigida levando em conta as distâncias dos centros de massa, 
+ * que aqui são armazenados no próprio sítio.
+ * Calcula tortuosidade.
  *
  * @author	André Duarte Bueno
  * @see		Grafo
@@ -102,22 +102,19 @@ private:
 	int eliminaRamosMortos = 2 ;
 	int eliminaConeccoesRepetidas = 1 ;	///< Elimina conecções repetidas
 	
+protected:
   // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim, 
   // não precisam ser calculados.
   // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
   // nos objetos destes planos.
-  /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
-  /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
   // firstObjectOf Solver=rotuloPrimeiroObjetoPlano1;
   // lastObjectOf Solver=rotuloUltimoObjetoPlanoN_1
-
-protected:
   /// Rótulo do primeiro objeto do plano z=1 (logo após o plano z=0)
-  /// @todo: renomear rotuloPrimeiroObjetoPlano1 -> rotuloPrimeiroObjetoPlano1
+  /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
+  /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
   unsigned int rotuloPrimeiroObjetoPlano1 {0};
 
   /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
-	/// @todo: renomear rotuloUltimoObjetoPlanoN_1 -> rotuloUltimoObjetoPlanoN_1
   unsigned int rotuloUltimoObjetoPlanoN_1 {0};
 
 	/// Dimensoes da imagem tridimensional
@@ -134,7 +131,7 @@ protected:
 	/// Imagem usada internamente para copiar planos ra, rp e plano intermediário
 	TCMatriz2D< int > *img2D = nullptr;
 
-	/**
+/**
   * @brief Informa o plano que esta sendo avaliado.
   * É passado para o objeto, fazendo-se objeto->x=plano,
   * desta forma a previsão inicial do valor de x poderá considerar o plano.
@@ -148,7 +145,7 @@ protected:
 	  Ex: Se ra é o plano 12, rp é o plano 13,
 	  maiorRotuloUtilizado =  soma de todos os rótulos dos planos 0->11.*/
 
-	/**
+/**
   * @brief Valor do maior rotulo já utilizado.
   * Em cada plano, os rótulos iniciam em 0 (o fundo), 1 o primeiro objeto,...n
   * A variável maior RotuloUtilizado vai acumulando o número de objetos do grafo.
@@ -182,15 +179,11 @@ public:
 	// ----------------------------------------------------------------Métodos
 	/**
 	  * @brief 	Função Go, realiza a determinação de todo o grafo.
-	  * @param 	Recebe uma imagem tridimensional (ou seja toda a imagem 3D)
-	  * @return Retorna um ponteiro para this
 	*/
 	virtual CGrafo* Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1) override;
 
 	/**
 	  * @brief Função Go, realiza a determinação de todo o grafo.
-	  * @param Recebe o nome de um arquivo de disco (vai ler plano a plano)
-	  * @return Retorna um ponteiro para this
 	*/
 	virtual CGrafo *Go (std::string nomeArquivo, unsigned long int _tamanhoMascara = 0) override;
 
@@ -200,10 +193,10 @@ public:
 	virtual void EliminarCondutanciasRepetidas ()	{	}
 	
     /**
-     * @brief Movida de CPermeabilidadeGrafo para cá.
-     * Transforma uma propriedade raio Hidraulico em condutancia.
-     * Tem mais de uma herdeira.
-     * Todo: Mover de volta para calculoPermeabilidade?
+     * @brief  Transforma uma propriedade em outra (ex: raio Hidraulico em condutancia).
+     * Tem mais de uma herdeira. Ou seja a conversão raioHidraulico->condutancia
+	 * é feita de diferentes formas.
+	 * @todo: verificar possibilidade de receber estes parametros no construtor da classe?
     */
     virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel,
 				     unsigned long int _fatorAmplificacao) {};
@@ -215,7 +208,8 @@ public:
      * @brief No caso de queda de energia, foi projetado um sistema de reconstrução do grafo(); 
      * A primeira etapa é o recalculo de todo o grafo a partir da imagem (é rápido); 
      * Em seguida, faz a leitura de um arquivo de disco que armazena as propriedades x (pressões)
-     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo. */
+     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo. 
+	 */
     bool LerVetorPropriedades_x();
 
     /// Salva propriedades dos objetos em disco (permite uso LerVetorPropriedades_x()).

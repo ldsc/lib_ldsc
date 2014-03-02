@@ -55,7 +55,7 @@ class CGra3Dby2D_M1 : public CGra3Dby2D
 public:
 
 // -------------------------------------------------------------Construtor
-	/// Construtor
+  /// Construtor
   CGra3Dby2D_M1 (std::string _nomeArquivo):CGra3Dby2D (_nomeArquivo)  {
 	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M1 ;   
   }
@@ -63,10 +63,9 @@ public:
 // --------------------------------------------------------------Destrutor
   /// Destrutor
   virtual ~ CGra3Dby2D_M1 () = default;
-  
+
 // ----------------------------------------------------------------Métodos
 /** @brief Calcula as condutancias.
- * Função nova, movida de CPermeabilidadeGrafo para cá.
  * */
   void CalcularCondutancias (long double _viscosidade,
 				    long double _dimensaoPixel,

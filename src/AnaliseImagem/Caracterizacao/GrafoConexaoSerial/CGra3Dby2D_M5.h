@@ -70,7 +70,7 @@ public:
   CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) override;
 
 protected:
-	/// Adiciona objetos ao grafo
+  /// Adiciona objetos ao grafo
   virtual void AdicionarObjetos (CRotulador2DCm * rotulador,
      unsigned long int ultimoRotuloUtilizado,
      CContorno::ETipoContorno tipoContornoObjeto) override;

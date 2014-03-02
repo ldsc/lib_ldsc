@@ -1,22 +1,22 @@
-/*
-   ===============================================================================
-   PROJETO:          Biblioteca LIB_LDSC
-   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
-   ===============================================================================
-   @Desenvolvido_por:   Laboratorio de Desenvolvimento de Software Cientifico
-     [LDSC].
-   @author:          André Duarte Bueno
-   @file:             CGra3Dby2D_M6.cpp
-   @begin:            Sat Sep 16 2000
-   @copyright:        (C) 2000 by André Duarte Bueno
-   @email:            andreduartebueno@gmail.com
+/**
+===============================================================================
+PROJETO:          Biblioteca LIB_LDSC
+Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+===============================================================================
+@Desenvolvido_por:   
+				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:        André Duarte Bueno
+@file:          CGra3Dby2D_M6.cpp
+@begin:         Sat Sep 16 2000
+@copyright:     (C) 2000 by André Duarte Bueno
+@email:         andreduartebueno@gmail.com
  */
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <cassert>
 #include <cmath>
-#include <sstream>		// novo
+#include <sstream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -150,7 +150,7 @@ void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double 
   numeroDerivacoesUsadasCalculoTortuosidade = 0;
 // FIM NOVO*********
 
-  ofstream saida ("fatorCorrecao.txt");
+  ofstream saida ((NomeArquivo() + ".fatorCorrecao").c_str());
 
   // Chama função da classe base que calcula as condutancias
   CGra3Dby2D_M3::CalcularCondutancias (_viscosidade, _dimensaoPixel, _fatorAmplificacao);
@@ -226,9 +226,7 @@ void CGra3Dby2D_M6::CalcularCondutancias (long double _viscosidade, long double 
 // ***********NOVO CALCULO TORTUOSIDADE*******
   tortuosidade /= numeroDerivacoesUsadasCalculoTortuosidade;// corrige a tortuosidade
 
-  ostringstream nomeArquivo;
-  nomeArquivo << NomeArquivo() << ".tortuosidade";
-  ofstream arq_tortuosidade( nomeArquivo.str().c_str() );
+  ofstream arq_tortuosidade( (NomeArquivo() + ".tortuosidade").c_str() );
   arq_tortuosidade << "A tortuosidade da imagem " << NomeArquivo() << " é : " << tortuosidade << "\n";
   arq_tortuosidade.close();
 

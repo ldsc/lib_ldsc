@@ -1,18 +1,16 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
+Desenvolvido por:	
+				  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          Andre Duarte Bueno
-@file:             CGra3Dby2D_M5.cpp
-@begin:            Sat Sep 16 2000
+@file:            CGra3Dby2D_M5.cpp
+@begin:           Sat Sep 16 2000
 copyright:        (C) 2000 by Andre Duarte Bueno
-@email:            andreduartebueno@gmail.com
+@email:           andreduartebueno@gmail.com
 */
-
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -21,6 +19,9 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 
 //static unsigned long int totalPixeisDeletados = 0;
 
+// -------------------------------------------------------------------------
+// Funcao     Go
+// -------------------------------------------------------------------------
 CGrafo *
 CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
 {
@@ -31,35 +32,28 @@ CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
   return CGra3Dby2D_M4::Go (_img3D, funcao);
 }
 
-/*
--------------------------------------------------------------------------
-Funcao     AdicionarObjetos (redefinida)
--------------------------------------------------------------------------
-@short  :
-	Funcao que adiciona ao grafo os objetos deste plano. Redefinida.
-  // --------------------------------------------------------------
-  // Novo no Mod5
-  // Elimina os sítios isolados. Sítios que estao no plano atual rp
-  // e nao tem conexão com o plano anterior (ra)
-  // e posterior (img3D[i][j][ plano + 1 ])
-  // De forma que o calculo das distâncias reais entre os sítios
-  // vai ser mais correto no que se refere ao escoamento.
-
-  // img3D -> ponteiro para imagem 3D,
-  // plano -> valor de z
-  // rotulador, é o rotulador passado, vai ser sempre rp
-  // a nao ser no caso dos planos z=0 e z=nz
-					
-@author :	Andre Duarte Bueno
-@see    :
-@param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
-	o número do ultimo rótulo utilizado e o
-	tipo de contorno (identifica o objeto a ser criado:
-    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
-
-@return : void
+// -------------------------------------------------------------------------
+// Funcao     AdicionarObjetos (redefinida)
+// -------------------------------------------------------------------------
+/** @short  Funcao que adiciona ao grafo os objetos deste plano. Redefinida.
+ * Novo no Mod5
+ * Elimina os sítios isolados. Sítios que estao no plano atual rp
+ * e nao tem conexão com o plano anterior (ra)
+ * e posterior (img3D[i][j][ plano + 1 ])
+ * De forma que o calculo das distâncias reais entre os sítios
+ * vai ser mais correto no que se refere ao escoamento.
+ * img3D -> ponteiro para imagem 3D,
+ * plano -> valor de z
+ * rotulador, é o rotulador passado, vai ser sempre rp
+ * a nao ser no caso dos planos z=0 e z=nz
+ * @author :	Andre Duarte Bueno
+ * @see    :
+ * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	
+ *	o número do ultimo rótulo utilizado e o
+ *	tipo de contorno (identifica o objeto a ser criado:
+ *    COGSitio_EST = 0, CSitioCentro = 1,  COGSitio_EST = 2)
+ * @return : void
 */
-
 void
 CGra3Dby2D_M5::AdicionarObjetos
   (CRotulador2DCm * rotulador,

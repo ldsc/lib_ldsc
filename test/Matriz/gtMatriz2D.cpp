@@ -42,7 +42,7 @@ TEST_F(TestMatriz2D, bolas) {
 	}
 }
 */
-
+/*
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <iostream>
 TEST_F(TestMatriz2D, discos) {
@@ -66,6 +66,50 @@ TEST_F(TestMatriz2D, discos) {
 		file << "};";
 		file.close();
 
+		EXPECT_TRUE(true);
+	} else {
+		EXPECT_TRUE(false);
+	}
+}
+*/
+#include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
+#include <iostream>
+TEST_F(TestMatriz2D, perimetroDiscos) {
+	CBCDiscreta * bola = nullptr;
+	TCMatriz2D <int> * mat = nullptr;
+	ofstream file("perimetroDiscos.txt", ios_base::out | ios_base::trunc);
+	if (file.good()) {
+		file << "std::vector<int> numPixeisDiscos {0";
+		int perimetro, i, j;
+		for (int d=3; d<602; d+=2) {
+			perimetro = 0;
+			bola = new CBCd34(d);
+			mat = new TCMatriz2D<int>(bola->NX()+2, bola->NY()+2);
+			for (i=0; i<bola->NX(); ++i) {
+				for (j=0; j<bola->NY(); ++j) {
+					mat->data2D[i+1][j+1] = bola->data2D[i][j];
+				}
+			}
+			for (i=1; i<mat->NX()-1; ++i) {
+				for (j=1; j<mat->NY()-1; ++j) {
+					if (mat->data2D[i][j] != 0) {
+						if (mat->data2D[i+1][j] == 0)
+							++perimetro;
+						if (mat->data2D[i-1][j] == 0)
+							++perimetro;
+						if (mat->data2D[i][j+1] == 0)
+							++perimetro;
+						if (mat->data2D[i][j-1] == 0)
+							++perimetro;
+					}
+				}
+			}
+			file << "," << perimetro;
+			delete bola;
+			delete mat;
+		}
+		file << "};";
+		file.close();
 		EXPECT_TRUE(true);
 	} else {
 		EXPECT_TRUE(false);

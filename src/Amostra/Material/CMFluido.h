@@ -64,25 +64,29 @@ class CMFluido
 protected:
 
   /// Viscodidade do fluído
-  double viscosidade;
+	double viscosidade = 1.0; //0.001002;
 
   /// Densidade do fluido
-  double densidade;
+	double densidade = 1.0;
 
   /// Compressibilidade é uma propriedade do fluido
-  bool compressibilidade;
+	bool compressibilidade = true;
 
   // Atributos ligação, só existem a partir de um relacionamento
   // Surge da interação de dois fluidos
   // definida pela função Setmolhabilidade, ou
   /// Molhabilidade
-  bool molhabilidade;
+	bool molhabilidade = true;
 
 public:
 // -------------------------------------------------------------Construtor
-  /// Construtor com parametros
-    CMFluido (double _v = 1, double _d = 1, bool _c = 1, bool _m = 1)
-  {
+
+	/// Construtor default
+	CMFluido ( ) {
+	}
+
+	/// Construtor com parametros
+	CMFluido (double _v, double _d, bool _c, bool _m) {
     viscosidade = _v;
     densidade = _d;
     compressibilidade = _c;
@@ -157,7 +161,7 @@ public:
   void Viscosidade (double av)
   {
     viscosidade = av;
-  };
+	}
   
       /// Seta a compressibilidade
   void Compressibilidade (bool ac)

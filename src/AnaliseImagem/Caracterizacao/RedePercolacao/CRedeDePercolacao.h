@@ -40,11 +40,14 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > dtpg;
 
 		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em uma bola com raio correspondente ao valor da chave.
-		static std::vector<int> numPixeisBola;
+		static std::vector<unsigned int> numPixeisBola;
 		//static int numPixeisBola[];
 
 		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em um disco com raio correspondente ao valor da chave.
-		static std::vector<int> numPixeisDisco;
+		static std::vector<unsigned int> numPixeisDisco;
+
+		///Vetor estático onde cada elemento corresponde ao perímetro de um disco com raio correspondente ao valor da chave.
+		static std::vector<unsigned short int> perimetroDisco;
 
 		// Construtores / Destrutor
 	public:
@@ -102,6 +105,18 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 			int vz = z2-z1;
 			return sqrt( vx*vx + vy*vy + vz*vz );
 		}
+
+		/// Calcula e retorna o raio hidráulico do cilindro
+		inline double RaioHidraulicoCilindro(const int & _raio) {
+			return (calcPixeis) ? ( (double)_raio / 2.0 ) : (double)( numPixeisDisco[_raio] / perimetroDisco[_raio] );
+		}
+
+		/// Calcula a condutância de objetos do tipo sítio
+		double CondutanciaSitio (CObjetoImagem &objetoImagem, double sizePixel=1.0, double fatorAmplificacao=1.0);
+
+		/// Calcula a condutância de objetos do tipo ligação
+		double CondutanciaLigacao (CObjetoImagem &objetoImagem, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
+
 };
 
 #endif // CRedeDePercolacao_H

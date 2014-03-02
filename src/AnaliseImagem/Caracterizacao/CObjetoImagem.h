@@ -45,10 +45,10 @@ enum ETipoObjetoImagem {
 };
 
 struct SPontoCentral {
-		unsigned int x;
-		unsigned int y;
-		unsigned int z;
-		unsigned int df; //distância ao fundo.
+		unsigned int x = 0;
+		unsigned int y = 0;
+		unsigned int z = 0;
+		unsigned int df = 0; //distância ao fundo.
 };
 
 using namespace std;
@@ -58,16 +58,20 @@ class CObjetoImagem
 	protected:
 		//----------------------------------------------------Atributos
 		/// Identifica o tipo do objeto
-		ETipoObjetoImagem  tipo;
+		ETipoObjetoImagem  tipo = NAO_IDENTIFICADO;
 
 		/// Identifica em qual posição o objeto se encontra (Leste, Oeste, Centro...).
-		CContorno::ETipoContorno contorno;
+		CContorno::ETipoContorno contorno = CContorno::ETipoContorno::CENTER;
 
 		/// Acumula a quantidade de objetos representados pela classe.
-		int numObjs;
+		int numObjs = 0;
 
 		/// Set das conecções
 		std::set< int > sConexao;
+
+		/// Armazena propriedade do objeto (condutância)
+		double propriedade = 0.0;
+
 	public:
 		/// Identifica o voxel central do objeto
 		SPontoCentral pontoCentral;
@@ -75,19 +79,11 @@ class CObjetoImagem
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoImagem(): tipo( NAO_IDENTIFICADO ), contorno( CContorno::ETipoContorno::CENTER ), numObjs(0), sConexao()	{
-			pontoCentral.x = 0;
-			pontoCentral.y = 0;
-			pontoCentral.z = 0;
-			pontoCentral.df = 0;
+		CObjetoImagem(): sConexao()	{
 		}
 
 		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) : tipo( _t ), contorno( CContorno::ETipoContorno::CENTER ), numObjs( _n ), sConexao() {
-			pontoCentral.x = 0;
-			pontoCentral.y = 0;
-			pontoCentral.z = 0;
-			pontoCentral.df = 0;
+		CObjetoImagem( ETipoObjetoImagem _t, int _n=0) : tipo( _t ), numObjs( _n ), sConexao() {
 		}
 
 		/// Destrutor
@@ -143,6 +139,11 @@ class CObjetoImagem
 			return contorno;
 		}
 
+		/// Retorna a propriedade do objeto (condutância)
+		inline double Propriedade() {
+			return propriedade;
+		}
+
 		// Retorna rotulo da conexao i
 		//int  SConexao( int i ) { return sConexao[i]; }
 
@@ -161,6 +162,9 @@ class CObjetoImagem
 
 		/// Seta a camada na qual o objeto se encontra
 		inline void Contorno(CContorno::ETipoContorno _c) { contorno = _c; }
+
+		/// Seta a propriedade do objeto (condutância)
+		inline void Propriedade( double p ) { propriedade = p; }
 
 		/// Seta o ponto central se o valor de df informado for maior que o atual.
 		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {

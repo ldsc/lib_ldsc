@@ -3,7 +3,8 @@
 
 // Analizar se é melhor calcular a porosidade assim ou se devo calcular a área da esfera e do cilindro.
 //int CRedeDePercolacao::numPixeisBola[] = {
-std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona a partir do c++11
+std::vector<unsigned int> CRedeDePercolacao::numPixeisBola =
+{ //só funciona a partir do c++11
 	0,7,33,123,269,499,853,1335,1977,2783,3793,5035,6501,8235,10253,12583,15241,18231,21609,25379,29557,
 	34171,39237,44799,50849,57415,64537,72219,80493,89363,98869,109039,119865,131391,143633,156619,170365,
 	184875,200205,216359,233353,251215,269961,289635,310229,331771,354301,377823,402369,427943,454585,
@@ -31,7 +32,8 @@ std::vector<int> CRedeDePercolacao::numPixeisBola = { //só funciona a partir do
 	94472367,95429313,96392699,97362541
 };
 
-std::vector<int> CRedeDePercolacao::numPixeisDisco {0,5,13,29,53,81,113,153,201,253,309,373,445,521,601,689,785,885,989,
+std::vector<unsigned int> CRedeDePercolacao::numPixeisDisco
+{	0,5,13,29,53,81,113,153,201,253,309,373,445,521,601,689,785,885,989,
 	1101,1221,1345,1473,1609,1753,1901,2053,2213,2381,2553,2729,2913,3105,3301,3501,3709,3925,4145,4369,
 	4601,4841,5085,5333,5589,5853,6121,6393,6673,6961,7253,7549,7853,8165,8481,8801,9129,9465,9805,10149,
 	10501,10861,11225,11593,11969,12353,12741,13133,13533,13941,14353,14769,15193,15625,16061,16501,16949,
@@ -49,7 +51,24 @@ std::vector<int> CRedeDePercolacao::numPixeisDisco {0,5,13,29,53,81,113,153,201,
 	192281,193801,195329,196865,198405,199949,201501,203061,204625,206193,207769,209353,210941,212533,214133,
 	215741,217353,218969,220593,222225,223861,225501,227149,228805,230465,232129,233801,235481,237165,238853,
 	240549,242253,243961,245673,247393,249121,250853,252589,254333,256085,257841,259601,261369,263145,264925,
-	266709,268501,270301};
+	266709,268501,270301
+};
+
+std::vector<unsigned short int> CRedeDePercolacao::perimetroDisco
+{ 0,12,20,28,36,44,52,60,68,76,84,92,100,108,116,124,132,140,148,156,164,172,180,188,196,204,212,220,228,236,
+	244,252,260,268,276,284,292,300,308,316,324,332,340,348,356,364,372,380,388,396,404,412,420,428,436,444,452,
+	460,468,476,484,492,500,508,516,524,532,540,548,556,564,572,580,588,596,604,612,620,628,636,644,652,660,668,
+	676,684,692,700,708,716,724,732,740,748,756,764,772,780,788,796,804,812,820,828,836,844,852,860,868,876,884,
+	892,900,908,916,924,932,940,948,956,964,972,980,988,996,1004,1012,1020,1028,1036,1044,1052,1060,1068,1076,
+	1084,1092,1100,1108,1116,1124,1132,1140,1148,1156,1164,1172,1180,1188,1196,1204,1212,1220,1228,1236,1244,
+	1252,1260,1268,1276,1284,1292,1300,1308,1316,1324,1332,1340,1348,1356,1364,1372,1380,1388,1396,1404,1412,
+	1420,1428,1436,1444,1452,1460,1468,1476,1484,1492,1500,1508,1516,1524,1532,1540,1548,1556,1564,1572,1580,
+	1588,1596,1604,1612,1620,1628,1636,1644,1652,1660,1668,1676,1684,1692,1700,1708,1716,1724,1732,1740,1748,
+	1756,1764,1772,1780,1788,1796,1804,1812,1820,1828,1836,1844,1852,1860,1868,1876,1884,1892,1900,1908,1916,
+	1924,1932,1940,1948,1956,1964,1972,1980,1988,1996,2004,2012,2020,2028,2036,2044,2052,2060,2068,2076,2084,
+	2092,2100,2108,2116,2124,2132,2140,2148,2156,2164,2172,2180,2188,2196,2204,2212,2220,2228,2236,2244,2252,
+	2260,2268,2276,2284,2292,2300,2308,2316,2324,2332,2340,2348,2356,2364,2372,2380,2388,2396,2404
+};
 
 //NumElements retorna o tamanho do vetor
 //#define NumElements(x) (sizeof(x) / sizeof(x[0]))
@@ -90,6 +109,27 @@ bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string fileName) {
 	return CMatrizObjetoImagem::SalvarListaObjetosGrafo(fileName);
 }
 
+// Calcula a condutância de objetos do tipo sítio
+double CRedeDePercolacao::CondutanciaSitio (CObjetoImagem &objetoImagem, double sizePixel, double fatorAmplificacao) {
+	return 0.0;
+}
+
+// Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
+// condutancia = pi*dH^4/(128*viscosidade*comprimento)
+double CRedeDePercolacao::CondutanciaLigacao (CObjetoImagem &objetoImagem, double &_comprimento, double sizePixel, double fatorAmplificacao) {
+	// Variáveis auxiliares
+	double viscosidade = 1.0;
+	double comprimento = _comprimento * sizePixel * fatorAmplificacao;
+	// Calcula o raio hidraulico do objeto já convertido para metros
+	double raioHidraulico = RaioHidraulicoCilindro(objetoImagem.Raio()) * sizePixel * fatorAmplificacao;
+	double diametroHidraulico = 4.0 * raioHidraulico;
+	double auxiliar = M_PI / (128.0 * viscosidade * comprimento);
+	double condutancia = auxiliar * (diametroHidraulico*diametroHidraulico*diametroHidraulico*diametroHidraulico);
+	objetoImagem.Propriedade( condutancia );
+	return condutancia;
+}
+
+
 // Executa o cálculo das distribuições e cria a rede de percolação.
 bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica ) {
 	// Determina tamanho mínimo e máximo para a rede de percolação
@@ -108,6 +148,8 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	int x, y, z; //posição na matriz
 	CBCd3453D * esfera;
 	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
+	//std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
+
 	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = CDistribuicaoTamanhoPorosGargantas::Go(_metrica);
 	if (dtpg.first == nullptr || dtpg.second == nullptr) {
@@ -193,17 +235,17 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	std::reverse(raios.begin(), raios.end());
 	int im, jm, km;
 	int x1 = 0;
-	int y1 = 0;
-	int z1 = 0;
+	int y1 = ny/2;
+	int z1 = nz/2;
 	int x_raio, y_raio, z_raio;
 	int cont = 0;
 	int objeto; //indice do objeto com menor distância entre o ponto 0,0,0 e o centro do objeto (sitio).
 	double distancia = 1000000.0; //guarda a menor distancia encontrada  entre o ponto 0,0,0 e o centro dos sítios.
 	double distTemp;
-	std::vector<int> objsCamadaSuperior;
-	std::vector<int> objsCamadaInferior;
-	int camadaSuperior = 1000000;
-	int camadaInferior = 0;
+	std::vector<int> objsCamadaOeste;
+	std::vector<int> objsCamadaLeste;
+	int camadaOeste = 1000000;
+	int camadaLeste = 0;
 	std::cerr << "Representando os sítios na matriz..." << std::endl;
 	//percorre o vetor de raios
 	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
@@ -258,6 +300,10 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		matrizObjetosTemp[cont].pontoCentral.x = x;
 		matrizObjetosTemp[cont].pontoCentral.y = y;
 		matrizObjetosTemp[cont].pontoCentral.z = z;
+
+		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+		//xToObj.insert(pair<int, int>(x,cont));
+
 		// Guarda o objeto com menor distancia do ponto 0,0,0.
 		distTemp = DistanciaEntrePontos(x1,y1,z1,x,y,z);
 		if ( distTemp <= distancia ) {
@@ -266,10 +312,12 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		}
 		delete esfera;
 	}
+
 	raios.clear(); // limpa vetor de raios (não será mais utilizado)
 	// 0rdena os objetos (sitios) por proximidade.
 	std::cerr << "Ordenando os sítios por proximidade..." << std::endl;
 	std::map<int, CObjetoImagem>::iterator it;
+	std::map<int, CObjetoImagem>::iterator itMatObj;
 	cont = 1;
 	// O primeiro objeto foi encontrado no loop anterior
 	matrizObjetos[cont] = matrizObjetosTemp[objeto];
@@ -290,27 +338,35 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		//std::cerr << "Objeto: " << objeto << " | Distancia: " << distancia << std::endl;
 		matrizObjetos[cont] = matrizObjetosTemp[objeto];
 		matrizObjetosTemp.erase(objeto);
-		// Guarda listas de objetos que se encontram na camada superior e inferior (necessário para montar grafo)
+
+
+		// Guarda listas de objetos que se encontram na camada leste e oeste (necessário para montar grafo)
 		it = matrizObjetos.find(cont);
-		if (it->second.pontoCentral.y < camadaSuperior) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
-			camadaSuperior = it->second.pontoCentral.y;							// Atualiza a atual camada superior
-			objsCamadaSuperior.clear();															// Limpa a lista de objetos pertencentes a camada superior
-			objsCamadaSuperior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
-		} else if (it->second.pontoCentral.y == camadaSuperior) { // Verifica se a camada y do objeto é igual a atual camada superior
-			objsCamadaSuperior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
-		} else if (it->second.pontoCentral.y > camadaInferior) {	// Verifica se a camada y do objeto é maior que a atual camanda inferior
-			camadaInferior = it->second.pontoCentral.y;							// Atualiza a atual camada inferior
-			objsCamadaInferior.clear();															// Limpa a lista de objetos pertencentes a camada inferior
-			objsCamadaInferior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
-		} else if (it->second.pontoCentral.y == camadaInferior) { // Verifica se a camada y do objeto é igual a atual camada inferior
-			objsCamadaInferior.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
+		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
+			camadaOeste = it->second.pontoCentral.x;							// Atualiza a atual camada superior
+			objsCamadaOeste.clear();															// Limpa a lista de objetos pertencentes a camada superior
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
+		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada y do objeto é igual a atual camada superior
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
+		} else if (it->second.pontoCentral.x > camadaLeste) {	// Verifica se a camada y do objeto é maior que a atual camanda inferior
+			camadaLeste = it->second.pontoCentral.x;							// Atualiza a atual camada inferior
+			objsCamadaLeste.clear();															// Limpa a lista de objetos pertencentes a camada inferior
+			objsCamadaLeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
+		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada y do objeto é igual a atual camada inferior
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
 		}
 	}
+	/*
+	std::cerr << "Elementos em xToObj: " << std::endl;
+	for (multimap<int, int>::iterator it = xToObj.begin(); it != xToObj.end(); ++it) {
+		std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
+	}
+	*/
 	// Percorre lista de obejos petencentes a camada superior atualizando suas camadas
-	for (int obj : objsCamadaSuperior ) {
+	for (int obj : objsCamadaOeste ) {
 		matrizObjetos[obj].Contorno(CContorno::ETipoContorno::WEST);
 	}
-	for (int obj : objsCamadaInferior ) {
+	for (int obj : objsCamadaLeste ) {
 		matrizObjetos[obj].Contorno(CContorno::ETipoContorno::EST);
 	}
 
@@ -413,14 +469,18 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 			// Conecta os objetos
 			//matrizObjetos[cont] = CObjetoImagem(LIGACAO,distancia*numPixeisDisco[raio]);
 			matrizObjetos[cont] = CObjetoImagem(LIGACAO,NumPixeisCilindro(raio, distancia));
-			matrizObjetos[cont].pontoCentral.df = 3*raio;
-			matrizObjetos[cont].pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			matrizObjetos[cont].pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			matrizObjetos[cont].pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			matrizObjetos[cont].Conectar(it->first);
-			matrizObjetos[cont].Conectar(itt->first);
+			itMatObj = matrizObjetos.find(cont);
+			itMatObj->second.pontoCentral.df = 3*raio;
+			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
+			itMatObj->second.pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
+			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
+			itMatObj->second.Conectar(it->first);
+			itMatObj->second.Conectar(itt->first);
 			itt->second.Conectar(cont);
 			it->second.Conectar(cont);
+			double condutancia = CondutanciaLigacao(itMatObj->second, distancia);
+			//std::cerr << "Condutancia=" << condutancia << " | raio=" << itMatObj->second.Raio() << " | distancia=" << distancia << std::endl;
+
 			if (phiRede >= phiDist)
 				break;
 		}
@@ -428,11 +488,12 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		if (phiRede >= phiDist)
 			break;
 		if ( obj==tamMatObjs && phiRede < phiDist ) {
-			exit;
+			//exit;
 			cabe = true;
 			obj = 1;
 		}
 	}
 	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << cont-tamMatObjs << std::endl;
+	//xToObj.clear();
 	return true;
 }

@@ -98,16 +98,13 @@ using namespace std;
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
 */
-void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, 
-				  unsigned long int _fatorAmplificacao)
-{
+void CGrafo::CalculoCondutancias (long double _viscosidade, long double _sizePixel, unsigned long int _fatorAmplificacao) {
   // Variáveis auxiliares
   long double raio_hidraulico;
   // diametro hidraulico
   long double dH;
   long double sizePixelXfatorAmplificacao = _sizePixel * _fatorAmplificacao;
-  // const long double PI= 3.141592653589;
-  long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * sizePixelXfatorAmplificacao);
+	long double variavelAuxiliar = (M_PI) / (128.0 * _viscosidade * sizePixelXfatorAmplificacao);
 
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)

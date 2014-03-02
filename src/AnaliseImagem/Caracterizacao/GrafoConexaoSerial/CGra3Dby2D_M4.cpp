@@ -282,9 +282,9 @@ CGra3Dby2D_M4::CalcularCondutancias
 // Salva o grafo em disco
 // Salva adicionalmente a informacao dos centros de massa
 void
-CGra3Dby2D_M4::Write (std::string nomeArquivo)
+CGra3Dby2D_M4::Write ()
 {
-  ofstream out (nomeArquivo.c_str ());
+  ofstream out ( NomeGrafo().c_str() );
   if (!out)
     return;
 

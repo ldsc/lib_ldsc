@@ -32,7 +32,7 @@ Desenvolvido por:
 class CTortuosidade
 {
 // --------------------------------------------------------------Atributos
-private:
+protected:
   /// Representa a tortuosidade na direção z
   long double tortuosidade { 0.0 };
 //   double tortuosidade_x; Para cálculo nas 3 direções vai ter de

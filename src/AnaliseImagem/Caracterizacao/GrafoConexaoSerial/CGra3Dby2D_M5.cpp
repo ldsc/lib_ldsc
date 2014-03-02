@@ -17,7 +17,7 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M5.h>
 
-//static unsigned long int totalPixeisDeletados = 0;
+static unsigned long int totalPixeisDeletados = 0;
 
 // -------------------------------------------------------------------------
 // Funcao     Go
@@ -27,7 +27,7 @@ CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
 {
   // no modelo 5 usa informacoes do plano anterior e posterior,
   // obtem dados da imagem tridimensional
-  //totalPixeisDeletados = 0;
+  totalPixeisDeletados = 0;
   img3D = _img3D;
   return CGra3Dby2D_M4::Go (_img3D, funcao);
 }
@@ -74,7 +74,7 @@ CGra3Dby2D_M5::AdicionarObjetos
     //               plano < ( img3D->NZ() - 2 ) )
     {
       // cout<<" entrou "<<endl;
-      // pixeisDeletados<<"\n";
+      pixeisDeletados<<"\n";
       // Precisa percorrer o plano bidimensional
       // ra rotulador para plano anterior
       // rp rotulador para plano atual
@@ -95,23 +95,23 @@ CGra3Dby2D_M5::AdicionarObjetos
 		// Apaga o píxel atual
 		{
 		  rp->data2D[ii][jj] = 0;
-		  //totalPixeisDeletados++;
+		  totalPixeisDeletados++;
 		  pixeisDeletados << "\nPíxel Deletado (" << jj << "," << ii << "," << plano << ")";
 		}
-	      //  cout <<"\nPíxel Deletado ("<<ii<<","<<jj<<","<<plano<<")";
-	      // pixeisDeletados << rp->data2D[jj][ii] <<" ";
+	      cout <<"\nPíxel Deletado ("<<ii<<","<<jj<<","<<plano<<")";
+	      pixeisDeletados << rp->data2D[jj][ii] <<" ";
 	    }
 	  pixeisDeletados << "\n";
 	}
 
     }
-// cout            <<"\nTotal de pixeis deletados="        <<      totalPixeisDeletados<<endl;
-// pixeisDeletados <<"\nTotal de pixeis deletados="      <<      totalPixeisDeletados<<endl;
+ cout            <<"\nTotal de pixeis deletados="        <<      totalPixeisDeletados<<endl;
+ pixeisDeletados <<"\nTotal de pixeis deletados="      <<      totalPixeisDeletados<<endl;
 
-// cout            <<"\nPorosidade eliminada de "<<(totalPixeisDeletados
-//                  /(img3D->NX()*img3D->NY()*img3D->NZ()))  <<endl;
-// pixeisDeletados       <<"\nPorosidade eliminada de "<<(totalPixeisDeletados
-//                 /(img3D->NX()*img3D->NY()*img3D->NZ()))  <<endl;
+ cout            <<"\nPorosidade eliminada de "<<(totalPixeisDeletados
+                  /(img3D->NX()*img3D->NY()*img3D->NZ()))  <<endl;
+ pixeisDeletados       <<"\nPorosidade eliminada de "<<(totalPixeisDeletados
+                 /(img3D->NX()*img3D->NY()*img3D->NZ()))  <<endl;
   // --------------------------------------------------------------
 
   // Novo no Mod4

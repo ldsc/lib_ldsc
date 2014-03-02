@@ -969,6 +969,7 @@ bool CGra3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const
     }				// for
 
     /// @todo: abaixo deve considerar o nome do arquivo/imagem que foi processada!
+  
   A->Write (NomeGrafo() + ".matrixA"); // A->Write ("grafo.matrixA"); 
   B->Write (NomeGrafo() + ".vectorB"); // B->Write ("grafo.vectorB");
   return 1;

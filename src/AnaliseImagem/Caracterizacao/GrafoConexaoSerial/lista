@@ -35,3 +35,10 @@ git mv COGSitioLRCM.cpp		COGSitio_LR_CM.cpp
 git mv COGSitioDirLRCM.cpp	COGSitio_LR_CM_EST.cpp
 git mv COGSitioEsqLRCM.cpp	COGSitio_LR_CM_WEST.cpp
 
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+QTLIB=/usr/lib64/qt-3.3/lib
+QT_GRAPHICSSYSTEM_CHECKED=1
+QT_IM_MODULE=ibus
+QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
+

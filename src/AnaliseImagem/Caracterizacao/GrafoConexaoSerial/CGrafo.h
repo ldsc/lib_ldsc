@@ -185,11 +185,10 @@ Desenvolvido por:
 class  CGrafo
 {
   // --------------------------------------------------------------Atributos
-  private:
+  protected:
   /// Nome do arquivo de disco (nome do arquivo do grafo).
   std::string nomeArquivo{"nomeArquivoIndefinido"};
 
-  protected:
   /// Enumeração para os diferentes tipos de grafo.
   // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
   enum class ETipoGrafo : unsigned char {
@@ -207,7 +206,7 @@ class  CGrafo
 
   // -------------------------------------------------------------Construtor
   /// Constroi o grafo, recebe um nome de arquivo de disco.
-  CGrafo(std::string _nomeArquivoImagem) : nomeGrafo ( _nomeArquivoImagem ) { }
+  CGrafo(std::string _nomeArquivoImagem) : nomeArquivo ( _nomeArquivoImagem ) { }
 
   // --------------------------------------------------------------Destrutor
   /// Destroi o objeto, como o grafo é o proprietário dos sítios deve eliminá-los.
@@ -275,13 +274,13 @@ class  CGrafo
 
     // --------------------------------------------------------------------Get
     /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo (ex:.grafo3DBy2D_M3)
-    std::string NomeGrafo() const { return nomeArquivo + "." + TipoGrafoString(); }
+    std::string NomeGrafo()  const { return nomeArquivo + "." + TipoGrafoString(); }
 
     /// Retorna o tipo de grafo
     ETipoGrafo TipoGrafo( ) { return tipoGrafo; }
 
     /// Retorna o tipo do grafo como uma string, útil para gerar nomes arquivos saída.
-    std::string TipoGrafoString( )
+    std::string TipoGrafoString( ) const
 	{ switch( tipoGrafo )
 	  {
 		case ETipoGrafo::grafo          : return {"grafo"};

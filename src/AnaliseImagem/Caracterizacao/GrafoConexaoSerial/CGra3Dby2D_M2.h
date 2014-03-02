@@ -23,8 +23,11 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
-#include <Base/_LIB_LDSC_CLASS.h>
+// #ifndef _LIB_LDSC_CLASS_h
+// #include <Base/_LIB_LDSC_CLASS.h>
+// #endif
+#ifndef CMath_h
+#include <Base/CMath.h>
 #endif
 
 #ifndef CGra3Dby2D_h

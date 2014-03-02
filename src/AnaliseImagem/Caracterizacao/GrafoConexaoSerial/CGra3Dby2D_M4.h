@@ -69,7 +69,7 @@ CGra3Dby2D_M4 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo)  {
   virtual ~ CGra3Dby2D_M4 () = default;
 
   /// Adiciona a saida dos centros de massa
-  virtual void Write (std::string nomeArquivo) override;
+  virtual void Write () override;
 
   // Adiciona o calculo dos centros de massa
   // virtual void  CalcularCentroMassa();

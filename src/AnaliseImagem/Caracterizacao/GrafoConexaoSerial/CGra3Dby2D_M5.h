@@ -40,7 +40,7 @@ class CGra3Dby2D_M5 : public CGra3Dby2D_M4
 // --------------------------------------------------------------Atributos
 protected:
 	// Objeto para saída (deveria ser comentado!).
-	//std::ofstream pixeisDeletados; 
+	std::ofstream pixeisDeletados;
 
   /// Ponteiro para imagem 3D. @todo: justificar!
   TCMatriz3D<int> *img3D;
@@ -50,7 +50,8 @@ public:
 	/// Construtor
 	CGra3Dby2D_M5 (char *_nomeArquivo):CGra3Dby2D_M4 (_nomeArquivo)  {
     tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M5;
-    char arqDisco[256];
+
+	char arqDisco[256];
     sprintf (arqDisco, "PixeisDeletados_%s", _nomeArquivo);
     pixeisDeletados.open (arqDisco);
     if( pixeisDeletados.bad() )   {

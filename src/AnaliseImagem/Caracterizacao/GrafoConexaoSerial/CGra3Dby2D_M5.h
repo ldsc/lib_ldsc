@@ -6,7 +6,7 @@
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
+Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D_M5.h
@@ -30,51 +30,51 @@ Desenvolvido por:
 
 /**
  * @brief Determina o grafo de imagens 3D, modelo 5.
- * Superclasse:    CGrafo -> CGra3Dby2D -> CGra3Dby2D_M2 
+ * Superclasse:    CGrafo -> CGra3Dby2D -> CGra3Dby2D_M2
  * -> CGra3Dby2D_M5
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see			grafos
+ * @ingroup  HCGrafo
 */
-class CGra3Dby2D_M5 : public CGra3Dby2D_M4
-{
+class CGra3Dby2D_M5 : public CGra3Dby2D_M4 {
 // --------------------------------------------------------------Atributos
 protected:
-	// Objeto para saída (deveria ser comentado!).
-	std::ofstream pixeisDeletados;
+     // Objeto para saída (deveria ser comentado!).
+     std::ofstream pixeisDeletados;
 
-  /// Ponteiro para imagem 3D. @todo: justificar!
-  TCMatriz3D<int> *img3D;
+     /// Ponteiro para imagem 3D. @todo: justificar!
+     TCMatriz3D<int> *img3D;
 
 public:
 // -------------------------------------------------------------Construtor
-	/// Construtor
-	CGra3Dby2D_M5 (char *_nomeArquivo):CGra3Dby2D_M4 (_nomeArquivo)  {
-    tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M5;
+     /// Construtor
+     CGra3Dby2D_M5 ( char *_nomeArquivo ) :CGra3Dby2D_M4 ( _nomeArquivo )  {
+          tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M5;
 
-	char arqDisco[256];
-    sprintf (arqDisco, "PixeisDeletados_%s", _nomeArquivo);
-    pixeisDeletados.open (arqDisco);
-    if( pixeisDeletados.bad() )   {
-      std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
-	  exit (0);
-      }
-  }
+          char arqDisco[256];
+          sprintf ( arqDisco, "PixeisDeletados_%s", _nomeArquivo );
+          pixeisDeletados.open ( arqDisco );
+          if ( pixeisDeletados.bad() )   {
+               std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
+               exit ( 0 );
+          }
+     }
 
 // --------------------------------------------------------------Destrutor
-	/// Destrutor
-    virtual ~ CGra3Dby2D_M5 ()  {
-    pixeisDeletados.close ();
-  }
+     /// Destrutor
+     virtual ~ CGra3Dby2D_M5 ()  {
+          pixeisDeletados.close ();
+     }
 
 // ----------------------------------------------------------------Métodos
-  /// Processa a determinação do grafo.
-  CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) override;
+     /// Processa a determinação do grafo.
+     CGrafo *Go ( TCMatriz3D<int> *_img3D, unsigned long int funcao ) override;
 
 protected:
-  /// Adiciona objetos ao grafo
-  virtual void AdicionarObjetos (CRotulador2DCm * rotulador,
-     unsigned long int ultimoRotuloUtilizado,
-     CContorno::ETipoContorno tipoContornoObjeto) override;
+     /// Adiciona objetos ao grafo
+     virtual void AdicionarObjetos ( CRotulador2DCm *rotulador,
+                                     unsigned long int ultimoRotuloUtilizado,
+                                     CContorno::ETipoContorno tipoContornoObjeto ) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

@@ -6,8 +6,8 @@
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D_M2.h
@@ -39,53 +39,53 @@ Desenvolvido por:
  * Para cada objeto uma ligação
  * Condutancia média entre os dois objetos
  *
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see			grafos
+ * @ingroup  HCGrafo
 */
-class CGra3Dby2D_M2 : public CGra3Dby2D
-{
+class CGra3Dby2D_M2 : public CGra3Dby2D {
 // --------------------------------------------------------------Atributos
 protected:
-  /// Rotulador para imagem intermediária
-  CRotulador2DCm * rotInt;
+     /// Rotulador para imagem intermediária
+     CRotulador2DCm *rotInt;
 
 public:
 // -------------------------------------------------------------Construtor
-  /// Construtor
-  CGra3Dby2D_M2 (std::string _nomeArquivo) : CGra3Dby2D (_nomeArquivo),  rotInt (nullptr) {
-	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M2 ;   
-  }
+     /// Construtor
+     CGra3Dby2D_M2 ( std::string _nomeArquivo ) : CGra3Dby2D ( _nomeArquivo ),  rotInt ( nullptr ) {
+          tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M2 ;
+     }
 
 // --------------------------------------------------------------Destrutor
-  /// Destrutor
-  virtual ~ CGra3Dby2D_M2 () = default;
+     /// Destrutor
+     virtual ~ CGra3Dby2D_M2 () = default;
 
 // ----------------------------------------------------------------Métodos
-    /**
-     * @brief Transforma uma propriedade raio Hidraulico em condutancia.
-     * Tem mais de uma herdeira.
-    */
-    virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
-				     unsigned long int _fatorAmplificacao) override;
+     /**
+      * @brief Transforma uma propriedade raio Hidraulico em condutancia.
+      * Tem mais de uma herdeira.
+     */
+     virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
+                                         unsigned long int _fatorAmplificacao ) override;
 
-   /**
-   * @brief  Determina o grafo usando imagem 3D.
-   * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
-   */
-  virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara =   1) override;
+     /**
+     * @brief  Determina o grafo usando imagem 3D.
+     * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
+     */
+     virtual CGrafo *Go ( TCMatriz3D<int> *_img3D, unsigned long int _tamanhoMascara =   1 ) override;
 
-/**
- * @brief  Determina o grafo lendo a imagem do disco, plano a plano.
- * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
-*/
-  virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao) override;
-  
+     /**
+      * @brief  Determina o grafo lendo a imagem do disco, plano a plano.
+      * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
+     */
+     virtual CGrafo *Go ( std::string nomeArquivo, unsigned long int funcao ) override;
+
 protected:
-  /**
-   * @brief  conecta os objetos considerando um plano intermediário, 
-   * que é criado para eliminar a repetição dos links.
-  */
-  virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) override;
+     /**
+      * @brief  conecta os objetos considerando um plano intermediário,
+      * que é criado para eliminar a repetição dos links.
+     */
+     virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

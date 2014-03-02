@@ -6,8 +6,8 @@
 @PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       COGComponenteGrafo.h
@@ -39,7 +39,7 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: COGComponenteGrafo.h
 // ===============================================================================
-/** 
+/**
  * @brief Representa um objeto avançado de um grafo.
  * É herdeiro de CObjetoGrafo, tendo uma variável x (herdada de CParametroSolver),
  * um rótulo e uma propriedade (herdados de CObjetoGrafo).
@@ -50,33 +50,33 @@ Desenvolvido por:
  * um  COGSitio   esta conectado a um conjunto de CObjetoGrafo,
  * uma COGLigacao esta conectada a dois conjuntos de CObjetoGrafo,
  * um  COGComponenteGrafo esta conectado a m conjuntos de CObjetoGrafo(ou seja tem m garras).
- * 
+ *
  * Um  COGComponenteGrafo vai ter um vetor de conexões.
  *
  * Exemplo:
  * Para sítios (uma garra S--<)
  * sítio-->sítio
  * sítio-->ligação
- * 
+ *
  * Para ligações (duas garras  >--L--<)
- * lig	<--ligação-->	lig   	
+ * lig	<--ligação-->	lig
  * sítio	<--ligação-->	lig
  * lig	<--ligação-->	sítio
  * sítio	<--ligação-->	sítio
  *
- * 
+ *
  * Para COGComponenteGrafo
  * coneccao[i][j]
  * i = número de conecções (vai ter n conecções)
  * j = número de garras de cada conecção (cada conexão com m ligações)
- * 
+ *
  * Esboco para COGComponenteGrafo com   4 garras
  *                   lig
  *                   /|\...
  * lig <-----COGComponenteGrafo---->lig
  *                   \|/...
  *                   lig
- * 
+ *
  *     Exemplo:
  * // Um objeto COGComponenteGrafo esta conectado a 10 outros objetos do tipo CObjetoGrafo
  * int i = 10; 	// 10 conecções
@@ -90,95 +90,95 @@ Desenvolvido por:
  * Exemplo:
  * Normalmente tem-se um vetor de  CObjetoGrafo*,
  * vector<CObjetoGrafo*>  coneccao;
- * 
+ *
  * Aqui tenho um vetor de vetores
  * vector < vector<CObjetoGrafo*> *> coneccao;
- * 
+ *
  * Uso
  * coneccao[i] acessa o vetor i
  * coneccao[i][j] acessa o ponteiro j do vetor i
  *
  * Para adicionar um objeto ao vetor i
  * coneccao[i].push_back(CObjetoGrafo*obja);
- * 
+ *
  * Para adicionar um vetor
  * vector<CObjetoGrafo*> * ptr_para_vetor_do_tipo_CObjetoGrafo;
  * coneccao.push_back(ptr_para_vetor_do_tipo_CObjetoGrafo);
- * 
+ *
  * OBS:
  * classe NÃO TESTADA.
 
-@author 	André Duarte Bueno	
-@version		
+@author 	André Duarte Bueno
+@version
 @see		grafos
+@ingroup  HCObjetoGrafo
 */
-class COGComponenteGrafo : public CObjetoGrafo
-{
+class COGComponenteGrafo : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 protected:
-  /**
-  * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
-   * vector<CObjetoGrafo*>  coneccao;
-   * Aqui tenho um vetor de vetores coneccao é um vetor de objetos do tipo 
-   * vector<CObjetoGrafo*> */
-  std::vector < std::vector < CObjetoGrafo * > > coneccao;
+     /**
+     * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
+      * vector<CObjetoGrafo*>  coneccao;
+      * Aqui tenho um vetor de vetores coneccao é um vetor de objetos do tipo
+      * vector<CObjetoGrafo*> */
+     std::vector < std::vector < CObjetoGrafo * > > coneccao;
 
-   /**
-   * @brief Informação do tipo de contorno a que pertenão.
-    * Da forma como esta eu sei a que tipo de contorno pertenão
-   */
-  CContorno::ETipoContorno contorno;
+     /**
+     * @brief Informação do tipo de contorno a que pertenão.
+      * Da forma como esta eu sei a que tipo de contorno pertenão
+     */
+     CContorno::ETipoContorno contorno;
 
 public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-  COGComponenteGrafo () = default;
+     COGComponenteGrafo () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-  virtual ~ COGComponenteGrafo () = default;
+     virtual ~ COGComponenteGrafo () = default;
 
 // ----------------------------------------------------------------Métodos
-  /**
-   * @brief Função de conecção.
-   * Deveria receber um vetor com m garras
-   * virtual void Conectar (vector<CObjetoGrafo*> * ptr);
-   * INCOMPLETA:
-   * Observe que vai ter de receber um vetor com a lista de objetos
-   * Pensar em melhorar isto.     Reimplementa da função da classe base
-*/
-  virtual void Conectar (std::vector < CObjetoGrafo * >obj_vetor);
+     /**
+      * @brief Função de conecção.
+      * Deveria receber um vetor com m garras
+      * virtual void Conectar (vector<CObjetoGrafo*> * ptr);
+      * INCOMPLETA:
+      * Observe que vai ter de receber um vetor com a lista de objetos
+      * Pensar em melhorar isto.     Reimplementa da função da classe base
+     */
+     virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor );
 
 /// Salva atributos do objeto em disco
-  virtual std::ostream & Write (std::ostream & os) const override;
+     virtual std::ostream &Write ( std::ostream &os ) const override;
 
 /// Função herdada, determina o fludo associado ao objeto INCOMPLETA
 /// @todo: implementar virtual long double COGComponenteGrafo::Fluxo ()!
-  virtual long double Fluxo () const  override {
-    return 0;
-  }
+     virtual long double Fluxo () const  override {
+          return 0;
+     }
 
 // --------------------------------------------------------------------Get
 /// Retorna o tipo de contorno a que pertence.
-virtual CContorno::ETipoContorno Contorno () const override {
-     return contorno;
-   }
+     virtual CContorno::ETipoContorno Contorno () const override {
+          return contorno;
+     }
 
 /// Retorna referência para o vetor de vetor de coneccões
-std::vector < std::vector < CObjetoGrafo * > >&  Coneccao() {
-    return   coneccao;
-}
+     std::vector < std::vector < CObjetoGrafo * > >  &Coneccao() {
+          return   coneccao;
+     }
 
 // --------------------------------------------------------------------Set
 /// Definição do contorno
-void Contorno (CContorno::ETipoContorno _contorno) {
-    contorno = _contorno;
-}
+     void Contorno ( CContorno::ETipoContorno _contorno ) {
+          contorno = _contorno;
+     }
 
 /// Definição do vetor de vetor de coneccões.
-void  Coneccao(std::vector < std::vector < CObjetoGrafo * > >& _coneccao) {
-    coneccao = _coneccao;
-}
+     void  Coneccao ( std::vector < std::vector < CObjetoGrafo * > > &_coneccao ) {
+          coneccao = _coneccao;
+     }
 
 // -----------------------------------------------------------------Friend
 /// @todo: implementar sobrecarga operadores << e >> para COGComponenteGrafo

@@ -37,7 +37,7 @@ Desenvolvido por:
 // Documentacao Classe: CGrafoContorno
 // ===============================================================================
 /**
- * @short: Representa um grafo sujeito a condições de contornos; 
+ * @short: Representa um grafo sujeito a condições de contornos;
  * Herdeira da classe CGrafo, a classe CGrafoContorno acrescenta a idéia de que
  * um grafo pode estar submetido a determinadas condições de contorno.
  * Na prática acrescenta um vetor que armazena os objetos de contorno.
@@ -45,39 +45,39 @@ Desenvolvido por:
  * vetor terá ponteiros para objetos da classe base da hierarquia de contornos.
  * @Assunto:        CGrafo
  * @Superclasse:    CGrafoContorno
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see		Grafo
+ * @ingroup  HCGrafo
 */
-class CGrafoContorno : public CGrafo
-{
-  // --------------------------------------------------------------Atributos
- public:
+class CGrafoContorno : public CGrafo {
+     // --------------------------------------------------------------Atributos
+public:
 
-  /// Usa-se contorno[i] para obter ponteiro para contorno i.
-  std::vector < CContorno * >contorno;
+     /// Usa-se contorno[i] para obter ponteiro para contorno i.
+     std::vector < CContorno * >contorno;
 
-  // -------------------------------------------------------------Construtor
-  /// Cria os objetos de contorno e incluí no vetor contorno.
-  CGrafoContorno (std::string _nomeArquivo, unsigned long int _numero_contornos = 0);
+     // -------------------------------------------------------------Construtor
+     /// Cria os objetos de contorno e incluí no vetor contorno.
+     CGrafoContorno ( std::string _nomeArquivo, unsigned long int _numero_contornos = 0 );
 
-  // --------------------------------------------------------------Destrutor
-  /// Delete os objetos de contorno do vetor contorno.
-  virtual ~ CGrafoContorno ();
+     // --------------------------------------------------------------Destrutor
+     /// Delete os objetos de contorno do vetor contorno.
+     virtual ~ CGrafoContorno ();
 
-  // ----------------------------------------------------------------Métodos
-  // virtual void Write(std::string nomeArquivo);
+     // ----------------------------------------------------------------Métodos
+     // virtual void Write(std::string nomeArquivo);
 
- public:
-  // --------------------------------------------------------------------Get
-  // --------------------------------------------------------------------Set
-  // -----------------------------------------------------------------Friend
-  friend std::ostream & operator<< (std::ostream & os, const CGrafoContorno & obj);
-  //       friend istream& operator>> (istream& is, CGrafoContorno& obj);
+public:
+     // --------------------------------------------------------------------Get
+     // --------------------------------------------------------------------Set
+     // -----------------------------------------------------------------Friend
+     friend std::ostream &operator<< ( std::ostream &os, const CGrafoContorno &obj );
+     //       friend istream& operator>> (istream& is, CGrafoContorno& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, const CGrafoContorno & obj);
+std::ostream &operator<< ( std::ostream &os, const CGrafoContorno &obj );
 // istream& operator>> (istream& is, CGrafoContorno& obj);
 
 #endif

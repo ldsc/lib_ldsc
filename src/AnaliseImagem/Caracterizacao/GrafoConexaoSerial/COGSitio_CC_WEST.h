@@ -27,48 +27,48 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: COGSitio_CC_WEST
 // ===============================================================================
-/** 
- * @brief Representa um sítio conectado a face esquerda do grafo e que 
+/**
+ * @brief Representa um sítio conectado a face esquerda do grafo e que
  * armazena a informação da conexão.
- * 
+ *
  * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_WEST
  * Assume valor de contorno = 0.
  * O 	valor de contorno é usado no calculo dos fluxo da malha como
  * um todo.Ou seja, um algoritimo externo percorre toda
  * a malha, e se o contorno for igual ao solicitado
  * calcula alguma propriedade neste contorno.
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see:        CGrafo
  * @todo renomear COGSitio_CC_WEST -> COGSitio_CCEsq
+ * @ingroup  HCObjetoGrafo
  */
-class COGSitio_CC_WEST : public COGSitio_CC
-{
+class COGSitio_CC_WEST : public COGSitio_CC {
 // --------------------------------------------------------------Atributos
 
 public:
 // -------------------------------------------------------------Construtor
 /// Destrutor
- COGSitio_CC_WEST () = default;
+     COGSitio_CC_WEST () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Construtor
-  virtual ~ COGSitio_CC_WEST () = default;
+     virtual ~ COGSitio_CC_WEST () = default;
 
 // ----------------------------------------------------------------Métodos
 // --------------------------------------------------------------Atributos
-   /// Retorna o tipo 
-  virtual CContorno::ETipoContorno Contorno () const override  {
-     return CContorno::ETipoContorno::WEST;
-  }
+     /// Retorna o tipo
+     virtual CContorno::ETipoContorno Contorno () const override  {
+          return CContorno::ETipoContorno::WEST;
+     }
 
-   /**
-   * @brief Função herdade da classe CParametroSolver usada para calcular 
-    * o valor de x retorna a pressão na fronteira direita
-    * Oberve que nao altera o valor de x.
-   */
-  virtual long double Go (long double d = 0) override  {
-    return x;
-  }
+     /**
+     * @brief Função herdade da classe CParametroSolver usada para calcular
+      * o valor de x retorna a pressão na fronteira direita
+      * Oberve que nao altera o valor de x.
+     */
+     virtual long double Go ( long double d = 0 ) override  {
+          return x;
+     }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

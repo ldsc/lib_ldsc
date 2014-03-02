@@ -6,8 +6,8 @@
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D_M1.h
@@ -36,7 +36,7 @@ Desenvolvido por:
  * para cada pixel uma ligação.
  *
  * Função Go()
- * 
+ *
  * Neste modelo a função Go funciona da seguinte forma:
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
  * Depois estabelece-se as conecções entre os planos consecutivos.
@@ -45,38 +45,38 @@ Desenvolvido por:
  * Ou seja, existe uma repetição no número de ligações entre duas regiões,
  * pois para cada conecção entre píxeis,
  * estabelece uma conecção.
- * 
- * @author 	André Duarte Bueno	
+ *
+ * @author 	André Duarte Bueno
  * @see	      	Grafo
+ * @ingroup  HCGrafo
 */
-class CGra3Dby2D_M1 : public CGra3Dby2D
-{
+class CGra3Dby2D_M1 : public CGra3Dby2D {
 // --------------------------------------------------------------Atributos
 public:
 
 // -------------------------------------------------------------Construtor
-  /// Construtor
-  CGra3Dby2D_M1 (std::string _nomeArquivo):CGra3Dby2D (_nomeArquivo)  {
-	  tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M1 ;   
-  }
+     /// Construtor
+     CGra3Dby2D_M1 ( std::string _nomeArquivo ) :CGra3Dby2D ( _nomeArquivo )  {
+          tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M1 ;
+     }
 
 // --------------------------------------------------------------Destrutor
-  /// Destrutor
-  virtual ~ CGra3Dby2D_M1 () = default;
+     /// Destrutor
+     virtual ~ CGra3Dby2D_M1 () = default;
 
 // ----------------------------------------------------------------Métodos
-/** @brief Calcula as condutancias.
- * */
-  void CalcularCondutancias (long double _viscosidade,
-				    long double _dimensaoPixel,
-				    unsigned long int fatorAmplificacao) override;
+     /** @brief Calcula as condutancias.
+      * */
+     void CalcularCondutancias ( long double _viscosidade,
+                                 long double _dimensaoPixel,
+                                 unsigned long int fatorAmplificacao ) override;
 
 protected:
-  /// Conecta planos,  Versão com Links duplicados.
-  virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) override;
+     /// Conecta planos,  Versão com Links duplicados.
+     virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
-  // Função Go
-  // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned int _tamanhoMascara = 1);
+     // Função Go
+     // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned int _tamanhoMascara = 1);
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

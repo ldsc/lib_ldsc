@@ -30,17 +30,17 @@ Função:    operator<<
 -------------------------------------------------------------------------
 @short  : Escreve em os as propriedades do objeto
 @author : André Duarte Bueno
-@see    : 
-@param  : const CContorno & 
+@see    :
+@param  : const CContorno &
 @return : ostream&
 @todo   : verificar padrão, usar espaço ou '\n'.
 */
-ostream & operator<< (ostream & os, const CObjetoGrafo & obj)
+ostream &operator<< ( ostream &os, const CObjetoGrafo &obj )
 {
-  os << static_cast<unsigned char>( obj.Contorno() ) << '\n'
-     << obj.rotulo << '\n'
-     << obj.propriedade << '\n';
-  return os;
+     os << static_cast<unsigned char> ( obj.Contorno() ) << '\n'
+        << obj.rotulo << '\n'
+        << obj.propriedade << '\n';
+     return os;
 }
 
 /**
@@ -49,15 +49,15 @@ Função:    operator>>
 -------------------------------------------------------------------------
 @short  : Lê as propriedades do objeto
 @author : André Duarte Bueno
-@see    : 
-@param  : CContorno & 
+@see    :
+@param  : CContorno &
 @return : ostream&
 @todo   : Note que esta armazenando o tipo de contorno em x; corrigir/analizar!
 */
-istream&  operator>> (istream& is,  CObjetoGrafo& obj)
+istream  &operator>> ( istream &is,  CObjetoGrafo &obj )
 {
-  is >> obj.x
-     >> obj.rotulo 
-     >> obj.propriedade ;
-  return is;
+     is >> obj.x
+        >> obj.rotulo
+        >> obj.propriedade ;
+     return is;
 }

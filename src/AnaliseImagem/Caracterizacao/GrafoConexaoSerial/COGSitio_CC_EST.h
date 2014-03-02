@@ -23,53 +23,53 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: COGSitio_CC_EST
 // ===============================================================================
-/** 
+/**
  * @brief Representa um sítio que armazena a informação associada a conexão.
  * Assume valor de contorno = 2.
  * O valor de contorno é usado no calculo dos fluxo da malha como
  * um todo.Ou seja, um algoritimo externo percorre toda
  * a malha, e se o contorno for igual ao solicitado
  * calcula alguma propriedade neste contorno.
- * @author 	André Duarte Bueno	
+ * @author 	André Duarte Bueno
  * @see			grafos
  * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_EST
  * @todo renomear COGSitio_CC_EST -> COGSitio_CCDir
+ * @ingroup  HCObjetoGrafo
  */
-class COGSitio_CC_EST : public COGSitio_CC
-{
+class COGSitio_CC_EST : public COGSitio_CC {
 // --------------------------------------------------------------Atributos
 public:
 
 // --------------------------------------------------------------Construtor
 /// Construtor
- COGSitio_CC_EST () = default;
-// ---------------------------------------------------------------Destrutor 
+     COGSitio_CC_EST () = default;
+// ---------------------------------------------------------------Destrutor
 /// Destrutor
-   virtual ~ COGSitio_CC_EST ()= default;
+     virtual ~ COGSitio_CC_EST () = default;
 
 // -----------------------------------------------------------------Métodos
 // Redefinição de funções herdadas
 
-   /// Retorna o tipo de contorno
-  virtual CContorno::ETipoContorno Contorno () const override  {
-     return CContorno::ETipoContorno::EST;
-  }
+     /// Retorna o tipo de contorno
+     virtual CContorno::ETipoContorno Contorno () const override  {
+          return CContorno::ETipoContorno::EST;
+     }
 
-   /**
-    * @brief Função herdada da classe CParametroSolver usada para 
-    * calcular o valor de x retorna a pressão na fronteira direita
-    * Observe que retorna direto o valor de x, ou seja,
-    * um objeto da fronteira nao recalcula seu fluxo
-   */
-  virtual long double Go (long double d = 0) override   {
-    return x;
-  }
+     /**
+      * @brief Função herdada da classe CParametroSolver usada para
+      * calcular o valor de x retorna a pressão na fronteira direita
+      * Observe que retorna direto o valor de x, ou seja,
+      * um objeto da fronteira nao recalcula seu fluxo
+     */
+     virtual long double Go ( long double d = 0 ) override   {
+          return x;
+     }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-  // friend ostream& operator<< (ostream& os, COGSitio_CC_EST& obj);
-  // friend istream& operator>> (istream& is, COGSitio_CC_EST& obj);
+     // friend ostream& operator<< (ostream& os, COGSitio_CC_EST& obj);
+     // friend istream& operator>> (istream& is, COGSitio_CC_EST& obj);
 };
 
 // -----------------------------------------------------------------Friend

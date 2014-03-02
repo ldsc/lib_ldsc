@@ -6,9 +6,9 @@
 PROJETO:    Biblioteca LIB_LDSC
 						Assunto/Ramo: CPermeabilidadeGrafo...
 ===============================================================================
-Desenvolvido por:	
-						Laboratorio de Desenvolvimento de Software Cientifico
-						[LDSC].
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
+            [LDSC].
 @author     André Duarte Bueno
 @file       CPermeabilidadeGrafo.h
 @begin      Sat Sep 16 2000
@@ -112,8 +112,7 @@ Desenvolvido por:
  * @author André Duarte Bueno
  * Superclasse:    CSimulacao -> CPermeabilidade -> CPermeabilidadeGrafo
 */
-class CPermeabilidadeGrafo : public CPermeabilidade
-{
+class CPermeabilidadeGrafo : public CPermeabilidade {
 		// --------------------------------------------------------------Atributos
 	protected:
 		CMFluido * fluido; 				///< Objeto fluido
@@ -124,10 +123,10 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 		unsigned long int  ny;				///< Dimensão ny da imagem
 		unsigned long int  nz;				///< Dimensão nz da imagem
 
-  unsigned long int fatorAmplificacao;	///< Fator de amplificação 
-  long double dimensaoPixel;				///< Dimensão do píxel 
-  unsigned long int numeroPixelsBorda;	///< Número de píxeis a serem descontados da borda 
-  long double fluxoFronteira;			///< Valor do fluxo na fronteira 
+     unsigned long int fatorAmplificacao;	///< Fator de amplificação
+     long double dimensaoPixel;				///< Dimensão do píxel
+     unsigned long int numeroPixelsBorda;	///< Número de píxeis a serem descontados da borda
+     long double fluxoFronteira;			///< Valor do fluxo na fronteira
 
 		/*<fatores necessários para calculo permeabilidade */
 		long double diferencaPressao; 		///< Diferença de pressão entre as faces
@@ -141,16 +140,16 @@ class CPermeabilidadeGrafo : public CPermeabilidade
 
 public:
 // -------------------------------------------------------------Construtor
-   /// Construtor
-   CPermeabilidadeGrafo (CMFluido * &_fluido,
-			CSMDiagonalDominante *& _solver,
-			CGra3Dby2D *& _grafo,
-			unsigned long int _nx, 
-			unsigned long int _ny,
-			unsigned long int _nz,
-			unsigned long int _fatorAmplificacao,
-			long double _dimensaoPixel,
-			unsigned long int _numeroPixelsBorda = 0);
+     /// Construtor
+     CPermeabilidadeGrafo ( CMFluido*&_fluido,
+                            CSMDiagonalDominante  *&_solver,
+                            CGra3Dby2D  *&_grafo,
+                            unsigned long int _nx,
+                            unsigned long int _ny,
+                            unsigned long int _nz,
+                            unsigned long int _fatorAmplificacao,
+                            long double _dimensaoPixel,
+                            unsigned long int _numeroPixelsBorda = 0 );
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
@@ -166,16 +165,16 @@ public:
 
 	protected:
 
-  // Sequencia usual de um TSimulador
-  /// Cria objetos agregados
-  virtual void CriarObjetosAgregados ();
+     // Sequencia usual de um TSimulador
+     /// Cria objetos agregados
+     virtual void CriarObjetosAgregados ();
 
-  /// Define as condições de contorno
-  // e adicionalmente chama funcao de calculo das condutancias
-  virtual void DefinirCondicoesContorno ();
+     /// Define as condições de contorno
+     // e adicionalmente chama funcao de calculo das condutancias
+     virtual void DefinirCondicoesContorno ();
 
-  /// Define valores iniciais
-  virtual void DefinirValoresIniciais ();
+     /// Define valores iniciais
+     virtual void DefinirValoresIniciais ();
 
 		/// Resolve o sistema de equações
 		virtual void SolucaoSistemaEquacoes ();
@@ -190,233 +189,126 @@ public:
 
 // -------------------------------------------------------------Sobrecarga
 // --------------------------------------------------------------------Get
-  // Funções de obtenção dos atributos internos
-  /// Retorna ponteiro para objeto fluido
-  CMFluido *Fluido () const
-  {
-    return fluido;
-  }
-  
-    /// Retorna ponteiro para objeto solver
-  CSMDiagonalDominante *Solver () const
-  {
-    return solver;
-  }
-  
-      /// Retorna ponteiro para objeto grafo
-  CGra3Dby2D *Getgrafo () const
-  {
-    return grafo;
-  }
-  
-    /// Retorna numero pixeis da borda
-  unsigned long int GetnumeroPixelsBorda () const
-  {
-    return numeroPixelsBorda;
-  }
-  
-  /// Retorna nx
-  unsigned long int Nx () const  {     return nx;   }
-  
-  /// Retorna ny
-  unsigned long int Ny () const   {     return ny;  }
-  
-  /// Retorna nz
-  unsigned long int Nz () const   {    return nz;   }
-  
-  /// Retorna dimensão do pixel
-  long double SizePixel () const {     return dimensaoPixel;  }
-  
-  /// Retorna o fator de amplificacao
-  unsigned long int FatorAmplificacao () const { return fatorAmplificacao;  }
-  
-   /// Retorna o erro permeabilidade
-  long double ErroPermeabilidade () const  {    return erroPermeabilidade;  }
-  
-  /// Retorna o numero de iteracoes
-  unsigned long int Iteracoes () const  {     return iteracoes;  }
+     // Funções de obtenção dos atributos internos
+     /// Retorna ponteiro para objeto fluido
+     CMFluido *Fluido () const {
+          return fluido;
+     }
+
+     /// Retorna ponteiro para objeto solver
+     CSMDiagonalDominante *Solver () const {
+          return solver;
+     }
+
+     /// Retorna ponteiro para objeto grafo
+     CGra3Dby2D *Getgrafo () const {
+          return grafo;
+     }
+
+     /// Retorna numero pixeis da borda
+     unsigned long int GetnumeroPixelsBorda () const {
+          return numeroPixelsBorda;
+     }
+
+     /// Retorna nx
+     unsigned long int Nx () const  {
+          return nx;
+     }
+
+     /// Retorna ny
+     unsigned long int Ny () const   {
+          return ny;
+     }
+
+     /// Retorna nz
+     unsigned long int Nz () const   {
+          return nz;
+     }
+
+     /// Retorna dimensão do pixel
+     long double SizePixel () const {
+          return dimensaoPixel;
+     }
+
+     /// Retorna o fator de amplificacao
+     unsigned long int FatorAmplificacao () const {
+          return fatorAmplificacao;
+     }
+
+     /// Retorna o erro permeabilidade
+     long double ErroPermeabilidade () const  {
+          return erroPermeabilidade;
+     }
+
+     /// Retorna o numero de iteracoes
+     unsigned long int Iteracoes () const  {
+          return iteracoes;
+     }
 
 public:
 // --------------------------------------------------------------------Set
-  // Funções de setagem dos atributos internos
-  /// Define o fluido
-  void Fluido (CMFluido * _p)  {
-    if (fluido)
-      delete fluido;
-    fluido = _p;
-  }
-  
-  /// Define o solver
-  void Solver (CSMDiagonalDominante * _p)  {
-    if (solver)
-      delete solver;
-    solver = _p;
-  }
-  
-	/// Define o grafo
-   void Grafo (CGra3Dby2D * _p)
-  {
-    if (grafo)
-      delete grafo;
-    grafo = _p;
-  }
-  
-  	/// Define o numero de píxeis da borda
-  void NumeroPixelsBorda (unsigned long int _npb)  {
-    numeroPixelsBorda = _npb;
-  }
-  
-  	/// Define a dimensão nx
-  
-  void Nx (unsigned long int _nx)
-  {
-    nx = _nx;
-  }
-  	/// Define a dimensão ny
-  void Ny (unsigned long int _ny)
-  {
-    ny = _ny;
-  }
-  	/// Define a dimensão nz
-  void Nz (unsigned long int _nz)
-  {
-    nz = _nz;
-  }
-  	/// Define a dimensão do pixel
-  void SizePixel (long double _dimensaoPixel)
-  {
-    dimensaoPixel = _dimensaoPixel;
-  }
-  	/// Define o fator amplificacao
-  void FatorAmplificacao (unsigned long int _fatorAmplificacao)
-  {
-    fatorAmplificacao = _fatorAmplificacao;
-  }
+     // Funções de setagem dos atributos internos
+     /// Define o fluido
+     void Fluido ( CMFluido *_p )  {
+          if ( fluido ) {
+               delete fluido;
+          }
+          fluido = _p;
+     }
 
-		/// Retorna ponteiro para objeto grafo
-		CGra3Dby2D *Getgrafo () const
-		{
-			return grafo;
-		}
+     /// Define o solver
+     void Solver ( CSMDiagonalDominante *_p )  {
+          if ( solver ) {
+               delete solver;
+          }
+          solver = _p;
+     }
 
-		/// Retorna numero pixeis da borda
-		unsigned long int GetnumeroPixelsBorda () const
-		{
-			return numeroPixelsBorda;
-		}
+     /// Define o grafo
+     void Grafo ( CGra3Dby2D *_p ) {
+          if ( grafo ) {
+               delete grafo;
+          }
+          grafo = _p;
+     }
 
-		/// Retorna nx
-		unsigned long int Getnx () const
-		{
-			return nx;
-		}
+     /// Define o numero de píxeis da borda
+     void NumeroPixelsBorda ( unsigned long int _npb )  {
+          numeroPixelsBorda = _npb;
+     }
 
-		/// Retorna ny
-		unsigned long int Getny () const
-		{
-			return ny;
-		}
+     /// Define a dimensão nx
 
-		/// Retorna nz
-		unsigned long int Getnz () const
-		{
-			return nz;
-		}
+     void Nx ( unsigned long int _nx ) {
+          nx = _nx;
+     }
+     /// Define a dimensão ny
+     void Ny ( unsigned long int _ny ) {
+          ny = _ny;
+     }
+     /// Define a dimensão nz
+     void Nz ( unsigned long int _nz ) {
+          nz = _nz;
+     }
+     /// Define a dimensão do pixel
+     void SizePixel ( long double _dimensaoPixel ) {
+          dimensaoPixel = _dimensaoPixel;
+     }
+     /// Define o fator amplificacao
+     void FatorAmplificacao ( unsigned long int _fatorAmplificacao ) {
+          fatorAmplificacao = _fatorAmplificacao;
+     }
 
-		/// Retorna dimensão do pixel
-		long double GetsizePixel () const
-		{
-			return sizePixel;
-		}
-
-		/// Retorna o fator de amplificacao
-		unsigned long int GetfatorAmplificacao () const
-		{
-			return fatorAmplificacao;
-		}
-
-		/// Retorna o erro permeabilidade
-		long double GeterroPermeabilidade () const
-		{
-			return erroPermeabilidade;
-		}
-
-		/// Retorna o numero de iteracoes
-		unsigned long int Getiteracoes () const
-		{
-			return iteracoes;
-		}
-
-	public:
-		// --------------------------------------------------------------------Set
-		// Funções de setagem dos atributos internos
-		/// Define o fluido
-		void Setfluido (CMFluido * _p)
-		{
-			if (fluido)
-				delete fluido;
-			fluido = _p;
-		}
-
-		/// Define o solver
-		void Setsolver (CSMDiagonalDominante * _p)
-		{
-			if (solver)
-				delete solver;
-			solver = _p;
-		}
-
-		/// Define o grafo
-		void Setgrafo (CGra3Dby2D * _p)
-		{
-			if (grafo)
-				delete grafo;
-			grafo = _p;
-		}
-
-		/// Define o numero de píxeis da borda
-		void SetnumeroPixelsBorda (unsigned long int _npb)
-		{
-			numeroPixelsBorda = _npb;
-		}
-
-		/// Define a dimensão nx
-
-		void Setnx (unsigned long int _nx)
-		{
-			nx = _nx;
-		}
-		/// Define a dimensão ny
-		void Setny (unsigned long int _ny)
-		{
-			ny = _ny;
-		}
-		/// Define a dimensão nz
-		void Setnz (unsigned long int _nz)
-		{
-			nz = _nz;
-		}
-		/// Define a dimensão do pixel
-		void SetsizePixel (long double _sizePixel)
-		{
-			sizePixel = _sizePixel;
-		}
-		/// Define o fator amplificacao
-		void SetfatorAmplificacao (unsigned long int _fatorAmplificacao)
-		{
-			fatorAmplificacao = _fatorAmplificacao;
-		}
-
-		// -----------------------------------------------------------------Friend
-		friend std::ostream & operator<< (std::ostream & os,
-																			const CPermeabilidadeGrafo & obj);
-		// friend istream& operator>> (istream& is, CPermeabilidadeGrafo& obj);
+// -----------------------------------------------------------------Friend
+     friend std::ostream &operator<< ( std::ostream &os,
+                                       const CPermeabilidadeGrafo &obj );
+     // friend istream& operator>> (istream& is, CPermeabilidadeGrafo& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os,
-													 const CPermeabilidadeGrafo & obj);
+std::ostream &operator<< ( std::ostream &os,
+                           const CPermeabilidadeGrafo &obj );
 // istream& operator>> (istream& is, CPermeabilidadeGrafo& obj);
 
 #endif

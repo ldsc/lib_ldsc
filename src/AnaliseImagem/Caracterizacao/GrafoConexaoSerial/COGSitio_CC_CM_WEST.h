@@ -7,7 +7,7 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico 
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       COGSitio_CC_CM_WEST.h
@@ -24,10 +24,10 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: COGSitio_CC_CM_WEST
 // ===============================================================================
-/** 
- * @brief Representa um sítio conectado a face esquerda do grafo e que 
+/**
+ * @brief Representa um sítio conectado a face esquerda do grafo e que
  * armazena a informação da conexão.
- * 
+ *
  * Assume valor de contorno = CContorno::WEST.
  * O valor de contorno é usado no calculo dos fluxo da malha como
  * um todo. Ou seja, um algoritimo externo percorre todo
@@ -36,35 +36,35 @@ Desenvolvido por:
  * @see:        Grafo
  * Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_WEST
  * @author 	André Duarte Bueno
+ * @ingroup  HCObjetoGrafo
 */
-class COGSitio_CC_CM_WEST : public COGSitio_CC_CM
-{
+class COGSitio_CC_CM_WEST : public COGSitio_CC_CM {
 // --------------------------------------------------------------Atributos
 public:
 // -------------------------------------------------------------Construtor
 /// Construtor
-    COGSitio_CC_CM_WEST () = default;
+     COGSitio_CC_CM_WEST () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-    virtual ~ COGSitio_CC_CM_WEST () = default;
+     virtual ~ COGSitio_CC_CM_WEST () = default;
 
 // ----------------------------------------------------------------Métodos
 
 public:
-   /// Retorna o tipo 
-virtual CContorno::ETipoContorno Contorno ()const   {
-        return CContorno::ETipoContorno::WEST;
-  }
+     /// Retorna o tipo
+     virtual CContorno::ETipoContorno Contorno () const   {
+          return CContorno::ETipoContorno::WEST;
+     }
 
-   /**
-    * @brief Função herdade da classe CParametroSolver usada para 
-    * calcular o valor de x como é um objeto da fronteira, 
-    * não altera seu valor de x 
-   */
-  virtual long double Go (long double d = 0)  {
-    return x;
-  }
+     /**
+      * @brief Função herdade da classe CParametroSolver usada para
+      * calcular o valor de x como é um objeto da fronteira,
+      * não altera seu valor de x
+     */
+     virtual long double Go ( long double d = 0 )  {
+          return x;
+     }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

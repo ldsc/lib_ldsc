@@ -27,11 +27,11 @@ Desenvolvido por:
 
 #ifndef CTortuosidade_h
 #include <AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.h>
-#endif 
+#endif
 
 #ifndef CGra3Dby2D_M3_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
-#endif 
+#endif
 
 // ===============================================================================
 // Documentacao Classe: CGra3Dby2D_M6
@@ -41,48 +41,48 @@ Desenvolvido por:
  * Superclasse: CGrafo -> CGra3Dby2D -> CGra3Dby2_M2 -> CGra3Dby2_M3 -> CGra3Dby2D_M6
  * @author	André Duarte Bueno
  * @see		Grafos
+ * @ingroup  HCGrafo
 */
-class CGra3Dby2D_M6 : public CGra3Dby2D_M3, public CTortuosidade
-{
+class CGra3Dby2D_M6 : public CGra3Dby2D_M3, public CTortuosidade {
 // --------------------------------------------------------------Atributos
 private:
-  /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
-  long int numeroDerivacoesUsadasCalculoTortuosidade = 0;
+     /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
+     long int numeroDerivacoesUsadasCalculoTortuosidade = 0;
 
 // -------------------------------------------------------------Construtor
 public:
-    /// Construtor
-    CGra3Dby2D_M6 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo),
-    numeroDerivacoesUsadasCalculoTortuosidade(0)  {
-    tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M6;
-  }
+     /// Construtor
+     CGra3Dby2D_M6 ( std::string _nomeArquivo ) :CGra3Dby2D_M3 ( _nomeArquivo ),
+          numeroDerivacoesUsadasCalculoTortuosidade ( 0 )  {
+          tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M6;
+     }
 
 // --------------------------------------------------------------Destrutor
-    /// Destrutor
-  virtual ~ CGra3Dby2D_M6 () = default;
+     /// Destrutor
+     virtual ~ CGra3Dby2D_M6 () = default;
 
 // ----------------------------------------------------------------Métodos
-  /**
-   * @brief Redefinida, na classe  CGra3Dby2_M3 calcula as condutâncias
-   * dos sítios sem considerar o deslocamento dos centros de massa
-   * aqui considera as posições dos centros de massa
-  */
-  virtual void CalcularCondutancias (long double _viscosidade,
-                    long double _dimensaoPixel,
-                    unsigned long int _fatorAmplificacao) override;
+     /**
+      * @brief Redefinida, na classe  CGra3Dby2_M3 calcula as condutâncias
+      * dos sítios sem considerar o deslocamento dos centros de massa
+      * aqui considera as posições dos centros de massa
+     */
+     virtual void CalcularCondutancias ( long double _viscosidade,
+                                         long double _dimensaoPixel,
+                                         unsigned long int _fatorAmplificacao ) override;
 
 
 protected:
-  /// Redefinida, para  o tipoContorno=centro retorna um COGSitio_CC_CM
-  virtual CObjetoGrafo * CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno) override;
+     /// Redefinida, para  o tipoContorno=centro retorna um COGSitio_CC_CM
+     virtual CObjetoGrafo *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
 
-  /**
-   * @brief Função que cria os objetos e os adiciona a lista de objetos.
-   * Recebe como parâmetros um objeto rotulador (com os objetos a serem adicionados)
-   * o valor do maior rotulo utilizado o tipo de objeto a ser criado
-  */
-  virtual void AdicionarObjetos (CRotulador2DCm * rotulador,unsigned long int rotuloAtual,
-                 CContorno::ETipoContorno tipo) override;
+     /**
+      * @brief Função que cria os objetos e os adiciona a lista de objetos.
+      * Recebe como parâmetros um objeto rotulador (com os objetos a serem adicionados)
+      * o valor do maior rotulo utilizado o tipo de objeto a ser criado
+     */
+     virtual void AdicionarObjetos ( CRotulador2DCm *rotulador,unsigned long int rotuloAtual,
+                                     CContorno::ETipoContorno tipo ) override;
 
 
 // --------------------------------------------------------------------Get

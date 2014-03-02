@@ -6,8 +6,8 @@
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
+Desenvolvido por:
+            Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
 @file       COGSitio_CC_CM.h
@@ -39,43 +39,41 @@ Bibliotecas LIB_LDSC
 // ===============================================================================
 // Documentacao Classe: COGSitio_CC_CM
 // ===============================================================================
-/** 
+/**
  * @brief  é um sítio, herdeiro de COGSitio_CC, acrescenta as
  * posições cx,cy,cz.
  * @Assunto:        grafo
  * @Superclasse:    CParametroSolver->CObjetoGrafo->COGSitio->COGSitio_CC->COGSitio_CC_CM
- * 
+ *
  * @author 	André Duarte Bueno
  * @see		grafos
+ * @ingroup  HCObjetoGrafo
 */
-class COGSitio_CC_CM : public COGSitio_CC
-{
+class COGSitio_CC_CM : public COGSitio_CC {
 // --------------------------------------------------------------Atributos
 public:
-	double cx;  ///< Posição x do objeto na imagem tridimensional 
-	double cz;  ///< Posição y do objeto na imagem tridimensional 
-	double cy;  ///< Posição z do objeto na imagem tridimensional 
+     double cx;  ///< Posição x do objeto na imagem tridimensional
+     double cz;  ///< Posição y do objeto na imagem tridimensional
+     double cy;  ///< Posição z do objeto na imagem tridimensional
 
 // -------------------------------------------------------------/**Construtor*/
 /// Destrutor
-  COGSitio_CC_CM ():cx (0), cy (0), cz (0)
-  {
-  }
+     COGSitio_CC_CM () :cx ( 0 ), cy ( 0 ), cz ( 0 ) {
+     }
 
 // --------------------------------------------------------------/**Destrutor*/
 /// Construtor
-  virtual ~ COGSitio_CC_CM ()
-  {
-  }
+     virtual ~ COGSitio_CC_CM () {
+     }
 
 // ----------------------------------------------------------------Métodos
-  /**Salva atributos do objeto em disco redefinida*/
-  // virtual std::ostream&  Write(std::ostream& os) const;
+     /**Salva atributos do objeto em disco redefinida*/
+     // virtual std::ostream&  Write(std::ostream& os) const;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-  // friend std::ostream& operator<< (std::ostream& os, COGSitio_CC_CM& obj);
+     // friend std::ostream& operator<< (std::ostream& os, COGSitio_CC_CM& obj);
 
 };
 

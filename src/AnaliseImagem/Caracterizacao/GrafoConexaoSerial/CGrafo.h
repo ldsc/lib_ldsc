@@ -223,14 +223,19 @@ class  CGrafo
    * @brief Função usada para criar os objetos do grafo.
    * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
    * Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoContorno.
-   * Note que como temos diferentes modelos de rede e diferentes tipos de objetos,
+   * Note que como temos diferentes modelos de grafo e diferentes tipos de objetos,
    * CriarObjetoGrafo é reescrita nas classes derivadas, de forma a criar os objetos
    * de acordo com o modelo.
+   * Esta função NÃO deve ser movida para hierarquia de objetos grafo, pois muda
+   * de acordo com o tipo de grafo!
    * 
    * @todo: esta sendo sobrescrita nas classes herdeiras,
-   * para juntar tudo numa função única, precisa criar ETipoObjetoGrafo
-   * e então juntar tudo numa função  estática única (ver livro padrões projeto).
-   * Note que terá de ser movida para dentro hierarquia de objetos do grafo.
+   * para juntar tudo numa função única, precisa criar na hierarquia de objetos
+   * a enumeração ETipoObjetoGrafo
+   * e então juntar tudo numa função estática única (ver livro padrões projeto).
+   * Note que, neste caso, terá de ser movida para dentro hierarquia de objetos do grafo.
+   * Note ainda que na hora de chamar CriarObjetoGrafo nas classes herdeiras terás
+   * de passar o tipo correto do objeto do grafo.
    * NomePadrão: CObjetoGrafo::CriarObjeto -> criar objeto da hierarquia grafo.
   */
   virtual CObjetoGrafo* CriarObjetoGrafo(CContorno::ETipoContorno tipoContorno);
@@ -243,14 +248,6 @@ class  CGrafo
 
   public:
     /**
-     * @brief Movida de CPermeabilidadeGrafo para cá.
-     * Transforma uma propriedade raio Hidraulico em condutancia.
-     * Tem mais de uma herdeira.
-     * Todo: Mover de volta para calculoPermeabilidade?
-    */
-    virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
-				     unsigned long int _fatorAmplificacao);
-    /**
      * @brief Função que recebe uma imagem 3D e gera a lista de objetos e seus relacionamentos.
     */
     virtual CGrafo* Go( TCMatriz3D<int> * _img3D ,unsigned long int _tamanhoMascara = 0) = 0;
@@ -258,7 +255,7 @@ class  CGrafo
     /** 
      * @brief Função que recebe o nome do arquivo de uma imagem 3D, carrega imagem do disco
      * e gera a lista de objetos e seus relacionamentos.
-     * Nas classes derivadas a função abaixo deve ser reescrita, o objetivo e eliminar a leitura 
+     * Nas classes derivadas a função abaixo foi reescrita, o objetivo é eliminar a leitura 
      * de toda a imagem tridimensional, e ir realizando a determinacao do grafo com a leitura dos planos.
     */
     virtual CGrafo* Go( std::string nomeArquivo, unsigned long int _tamanhoMascara = 0) {

@@ -19,17 +19,16 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M5.h>
 
+//static unsigned long int totalPixeisDeletados = 0;
 
 CGrafo *
 CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
 {
-  // NOVO a partir do modelo 5
   // no modelo 5 usa informacoes do plano anterior e posterior,
   // obtem dados da imagem tridimensional
+  //totalPixeisDeletados = 0;
   img3D = _img3D;
   return CGra3Dby2D_M4::Go (_img3D, funcao);
-
-
 }
 
 /*
@@ -37,13 +36,19 @@ CGra3Dby2D_M5::Go (TCMatriz3D<int> * _img3D, unsigned long int funcao)
 Funcao     AdicionarObjetos (redefinida)
 -------------------------------------------------------------------------
 @short  :
-	Funcao que adiciona ao grafo os objetos deste plano.
-	Redefinida em CGra3Dby2D_M4, para armazenar a informação cmx e cmy do objeto.
-	Observe que cmx e cmy é um vector de float pertencente a propria classe.
-	Ou seja, cmx e cmy estao sendo armazenada no grafo e nao nos objetos.
-	PS1: Posteriomente criar uma hierarquia de sitios com cmx e cmy para visualização 3D.(?)
-	PS2: a vantagem de armazenar cmx no grafo é deletar
-	todo o vetor cmx logo após o calculo das condutâncias.
+	Funcao que adiciona ao grafo os objetos deste plano. Redefinida.
+  // --------------------------------------------------------------
+  // Novo no Mod5
+  // Elimina os sítios isolados. Sítios que estao no plano atual rp
+  // e nao tem conexão com o plano anterior (ra)
+  // e posterior (img3D[i][j][ plano + 1 ])
+  // De forma que o calculo das distâncias reais entre os sítios
+  // vai ser mais correto no que se refere ao escoamento.
+
+  // img3D -> ponteiro para imagem 3D,
+  // plano -> valor de z
+  // rotulador, é o rotulador passado, vai ser sempre rp
+  // a nao ser no caso dos planos z=0 e z=nz
 					
 @author :	Andre Duarte Bueno
 @see    :
@@ -66,22 +71,8 @@ CGra3Dby2D_M5::AdicionarObjetos
   // CGra3Dby2D_M3::AdicionarObjetos(rotulador ,ultimoRotuloUtilizado,tipoContornoObjeto);
   CGra3Dby2D::AdicionarObjetos (rotulador, ultimoRotuloUtilizado, tipoContornoObjeto);
 
-  // --------------------------------------------------------------
-  // Novo no Mod5
-  // Elimina os sítios isolados. Sítios que estao no plano atual rp
-  // e nao tem conexão com o plano anterior (ra)
-  // e posterior (img3D[i][j][ plano + 1 ])
-  // De forma que o calculo das distâncias reais entre os sítios
-  // vai ser mais correto no que se refere ao escoamento.
-
-  // img3D -> ponteiro para imagem 3D,
-  // plano -> valor de z
-  // rotulador, é o rotulador passado, vai ser sempre rp
-  // a nao ser no caso dos planos z=0 e z=nz
   // cout<<"\n--------------------------------------------------";
   // cout << "\nDEBUG plano = "<<plano<<endl;
-  static unsigned long int
-    totalPixeisDeletados = 0;
 
   // Se nao for o primeiro plano da imagem 3D nem o último, entra
   if (plano > 0 && plano < (img3D->NZ () - 1))
@@ -110,9 +101,8 @@ CGra3Dby2D_M5::AdicionarObjetos
 		// Apaga o píxel atual
 		{
 		  rp->data2D[ii][jj] = 0;
-		  totalPixeisDeletados++;
-		  pixeisDeletados << "\nPíxel Deletado (" << jj << "," << ii
-		    << "," << plano << ")";
+		  //totalPixeisDeletados++;
+		  pixeisDeletados << "\nPíxel Deletado (" << jj << "," << ii << "," << plano << ")";
 		}
 	      //  cout <<"\nPíxel Deletado ("<<ii<<","<<jj<<","<<plano<<")";
 	      // pixeisDeletados << rp->data2D[jj][ii] <<" ";
@@ -139,8 +129,8 @@ CGra3Dby2D_M5::AdicionarObjetos
        cont++)
     {
       // Adiciona ao vetor cmx a informação do cmx do objeto (long double)
-      cmx.push_back (rotulador->CMXObjetos (cont));
-      cmy.push_back (rotulador->CMYObjetos (cont));
+      cmx.push_back (rotulador->CMXObjeto (cont));
+      cmy.push_back (rotulador->CMYObjeto (cont));
       // Fim novo
     }
 // return ;
@@ -176,8 +166,8 @@ void  CGra3Dby2D_M5::CalcularCentroMassa()
 	for (	unsigned long int  	cont = 1;	cont <= rotulador->RotuloFinal(); cont++ )
        {
 			 // Adiciona ao vetor cmx a informação do cmx do objeto (long double)
-       cmx.push_back ( rotulador->GetCMXObjetos(cont)    );
-       cmy.push_back ( rotulador->GetCMYObjetos(cont)    );
+       cmx.push_back ( rotulador->GetCMXObjeto(cont)    );
+       cmy.push_back ( rotulador->GetCMYObjeto(cont)    );
 			 // Fim novo
        }
   }																	

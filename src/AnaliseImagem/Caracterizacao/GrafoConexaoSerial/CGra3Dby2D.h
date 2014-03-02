@@ -159,7 +159,7 @@ public:
 	// -------------------------------------------------------------Construtor
 	/// Construtor, recebe um nome de arquivo; só se for chamado CGra3Dby2D{string};
 	explicit CGra3Dby2D (std::string _nomeArquivo)
-		: CGrafoContorno (_nomeArquivo) {   
+		: CGrafoContorno (_nomeArquivo) {
 		  tipoGrafo  =  ETipoGrafo::grafo3DBy2D ;
 		}
 
@@ -200,7 +200,16 @@ public:
 	virtual void EliminarCondutanciasRepetidas ()	{
 	}
 	
-    /// Seta a matriz A e o vetor B, a serem utilizados por um solver externo (ex: gmres)
+    /**
+     * @brief Movida de CPermeabilidadeGrafo para cá.
+     * Transforma uma propriedade raio Hidraulico em condutancia.
+     * Tem mais de uma herdeira.
+     * Todo: Mover de volta para calculoPermeabilidade?
+    */
+    virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel,
+				     unsigned long int _fatorAmplificacao) {};
+
+	/// Seta a matriz A e o vetor B, a serem utilizados por um solver externo (ex: gmres)
     virtual bool SetarMatrizAVetorB (TCMatriz2D< int >* &A, CVetor*& B) const;
 
     /**
@@ -240,8 +249,7 @@ protected:
 	  * os centros de massa respeitando o novo estado do grafo.
 	  * Necessaria para o modelo 4, por isto é definida aqui como sendo vazia.
 	*/
-	virtual void ReorganizarCmxCmy ()	{
-	}
+	virtual void ReorganizarCmxCmy ()	{	}
 
 	/*
 	  * @brief Função que calcula o centro de massa dos objetos.
@@ -302,4 +310,3 @@ public:
 // ostream& operator<< (ostream& os, CGra3Dby2D& obj);
 // istream& operator>> (istream& is, CGra3Dby2D& obj);
 #endif
-private:

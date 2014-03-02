@@ -83,8 +83,7 @@ CGra3Dby2D_M4::AdicionarObjetos
    CContorno::ETipoContorno tipoContornoObjeto)
 {
   // Chama função da classe base
-  CGra3Dby2D::AdicionarObjetos (rotulador, ultimoRotuloUtilizado,
-				tipoContornoObjeto);
+  CGra3Dby2D::AdicionarObjetos (rotulador, ultimoRotuloUtilizado, tipoContornoObjeto);
 
   // Calcula o centro de massa dos objetos da imagem rotulada
   rotulador->CentroMassaObjetos ();
@@ -96,8 +95,8 @@ CGra3Dby2D_M4::AdicionarObjetos
     {
       // Adiciona ao vetor cmx a informação do cmx do objeto (long double)
       // o primeiro cmx tem índice 0
-      cmx.push_back (rotulador->CMXObjetos (cont));
-      cmy.push_back (rotulador->CMYObjetos (cont));
+      cmx.push_back (rotulador->CMXObjeto (cont));
+      cmy.push_back (rotulador->CMYObjeto (cont));
       cmz.push_back (plano);
     }
 }
@@ -155,8 +154,8 @@ void  CGra3Dby2D_M4::CalcularCentroMassa()
 // vai calcular o cmx e cmy como antes, ao deletar os objetos
 // do grafo vai deletar os objetos do cmx e cmy simulataneamente
 
-       cmx.push_back ( rotulador->GetCMXObjetos(cont)    );
-       cmy.push_back ( rotulador->GetCMYObjetos(cont)    );
+       cmx.push_back ( rotulador->GetCMXObjeto(cont)    );
+       cmy.push_back ( rotulador->GetCMYObjeto(cont)    );
 			 // Fim novo
        }
   }																	

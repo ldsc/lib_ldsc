@@ -65,64 +65,6 @@ using namespace std;
 */
 
 // -------------------------------------------------------------------------
-// Função:   CalcularCondutancias
-// -------------------------------------------------------------------------
-/** Função:   CalcularCondutancias (ex: converte raio hidraulico em condutância).
-    @short:   Todo objeto do grafo tem uma propriedade que é armazenada.
-    A função CalcularCondutancias é uma função criada para alteração
-    desta propriedade levando em conta os fenômenos que se deseja estudar.
-
-    Específico:
-    No caso específico do cálculo da permeabilidade de representações tridimensionais,
-    transforma a propriedade raioHidraulico dos "sítios" em condutância.
-    Esta condutância é usada pelo objeto "sítio" para calcular a sua pressão (x).
-
-    Ou seja:
-    Quando se determina o grafo a propriedade armazenada nos objetos é o raio hidraulico.
-    Quando se deseja determinar a permeabilidade a propriedade armazenada é a condutancia.
-
-    @todo    Verificar uma forma de eliminar a dependencia destes parâmetros.
-    @todo    Verificar possibilidade de mover para classe CPermeabilidadeGrafo.
-
-    Note que a função esta calculando a condutancia segundo a lei de Poiselle -> para ligações 
-    (eq 5.16 da tese Liang).
-    condutancia=       ( CMath::PI * dH * dH * dH * dH )
-                                       /
-                (128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao );
-
-    Abaixo a equacao da condutancia para sitios segundo Koplik (1983), eq 5.17 da tese do Liang
-    Calcula a condutancia do sitio usando a equação ri^3/(3*viscosidade)
-    condutancia=(raio_hidraulico*raio_hidraulico*raio_hidraulico)/(3.0*_viscosidade);
-
-    @author : André Duarte Bueno
-    @see    : CPermabilidade
-    @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
-    @return : void
-*/
-void CGrafo::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, 
-				  unsigned long int _fatorAmplificacao)
-{
-  // Variáveis auxiliares
-  // Raio hidraulico
-  long double raio_hidraulico{0.0};
-  // Diametro hidraulico
-  long double dH{0.0};
-  long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
-  long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * dimensaoPixelXfatorAmplificacao);
-
-  // Percorre  todos os objetos do grafo
-  for (unsigned long int k = 0; k < objeto.size (); k++)
-  {
-      // Pega o raio hidraulico do objeto k e já converte para metros
-      raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
-      dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
-      // Calcula condutancia a partir do diâmetro hidraulico.
-      objeto[k]->propriedade = (variavelAuxiliar * dH * dH * dH * dH);
-  }
-  return;
-}
-
-// -------------------------------------------------------------------------
 /**	Função: CriarObjetoGrafo
    @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
    CriarObjetoGrafo será herdada, cada modelo de grafo cria um conjunto diferente de 

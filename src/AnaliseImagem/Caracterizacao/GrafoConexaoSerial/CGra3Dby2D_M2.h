@@ -59,13 +59,14 @@ public:
   }
 
 // ----------------------------------------------------------------Métodos
-protected:
-  /**
-   * @brief  conecta os objetos considerando um plano intermediário, 
-   * que é criado para eliminar a repetição dos links.
-  */
-  virtual void DeterminarConeccoesObjetos (unsigned long int
-					   maiorRotuloUtilizado);
+    /**
+     * @brief Movida de CPermeabilidadeGrafo para cá.
+     * Transforma uma propriedade raio Hidraulico em condutancia.
+     * Tem mais de uma herdeira.
+     * Todo: Mover de volta para calculoPermeabilidade?
+    */
+    virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
+				     unsigned long int _fatorAmplificacao);
 
    /**
    * @brief  Determina o grafo usando imagem 3D.
@@ -78,6 +79,14 @@ protected:
  * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
 */
   virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao);
+  
+protected:
+  /**
+   * @brief  conecta os objetos considerando um plano intermediário, 
+   * que é criado para eliminar a repetição dos links.
+  */
+  virtual void DeterminarConeccoesObjetos (unsigned long int
+					   maiorRotuloUtilizado);
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

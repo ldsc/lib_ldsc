@@ -40,7 +40,6 @@
 #endif
 using namespace std;
 
-
 // -------------------------------------------------------------------------
 // Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
@@ -93,7 +92,6 @@ CGra3Dby2D_M6::AdicionarObjetos
   (CRotulador2DCm * rotulador, unsigned long int ultimoRotuloUtilizado,
    CContorno::ETipoContorno tipoContornoObjeto)
 {
-
   // Calcula o centro de massa dos objetos da imagem rotulada (NOVO)
   rotulador->CentroMassaObjetos ();
 
@@ -123,11 +121,10 @@ CGra3Dby2D_M6::AdicionarObjetos
 
       // AQUI, seta cx,cy,cz de cada sítio
       // Adiciona a posição do centro de massa
-      COGSitio_CC_CM *
-    sitio = dynamic_cast < COGSitio_CC_CM * >(data);
+      COGSitio_CC_CM *    sitio = dynamic_cast < COGSitio_CC_CM * >(data);
       assert (sitio);
-      sitio->cx = rotulador->CMXObjetos (rotulo);
-      sitio->cy = rotulador->CMYObjetos (rotulo);
+      sitio->cx = rotulador->CMXObjeto (rotulo);
+      sitio->cy = rotulador->CMYObjeto (rotulo);
       sitio->cz = plano;
 
       // Insere o objeto criado a lista de objetos do grafo

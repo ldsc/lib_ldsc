@@ -121,7 +121,7 @@ CRotulador2DCm::CentroMassaObjetos ()
 
 /*
   -------------------------------------------------------------------------
-  Função: CMXObjetos(  int k)
+  Função: CMXObjeto(  int k)
   -------------------------------------------------------------------------
   @short  : Retorna o centro de massa  na direção x
   @author : André Duarte Bueno
@@ -130,7 +130,7 @@ CRotulador2DCm::CentroMassaObjetos ()
   @return :
 */
 double
-CRotulador2DCm::CMXObjetos (int k) const 
+CRotulador2DCm::CMXObjeto (int k) const 
 {
   if (k < (numeroObjetos))
     return cmx[k];
@@ -138,7 +138,7 @@ CRotulador2DCm::CMXObjetos (int k) const
 };
 
 /*
-  double CRotulador2DCm::CMXObjetos(  int k)			const
+  double CRotulador2DCm::CMXObjeto(  int k)			const
   {
   if(k < (numeroObjetos) 	  && cmx != nullptr     )
   // return areaObjetos[k - rotuloInicial];
@@ -149,7 +149,7 @@ CRotulador2DCm::CMXObjetos (int k) const
 
 /*
   -------------------------------------------------------------------------
-  Função: CMYObjetos(  int k)
+  Função: CMYObjeto(  int k)
   -------------------------------------------------------------------------
   @short  : Retorna o centro de massa  na direção y
   @author : André Duarte Bueno
@@ -158,7 +158,7 @@ CRotulador2DCm::CMXObjetos (int k) const
   @return :
 */
 double
-CRotulador2DCm::CMYObjetos (int k) const 
+CRotulador2DCm::CMYObjeto (int k) const 
 {
   if (k < (numeroObjetos))
     return cmy[k];
@@ -166,7 +166,7 @@ CRotulador2DCm::CMYObjetos (int k) const
 };
 
 /*
-  double CRotulador2DCm::CMYObjetos(  int k)			const
+  double CRotulador2DCm::CMYObjeto(  int k)			const
   {
   if(k < (numeroObjetos) 	  && cmy != nullptr     )
   return (long double)cmy->data1D[ k ]/1000000.0;

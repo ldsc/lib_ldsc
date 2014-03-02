@@ -92,10 +92,10 @@ class CRotulador2DCm : public TCRotulador2D<int>
 
   // --------------------------------------------------------------------Get
   /// Retorna posição x do objeto k
-  double CMXObjetos (int k) const;
+  double CMXObjeto (int k) const;
   
   /// Retorna posição y do objeto k
-  double CMYObjetos (int k) const;
+  double CMYObjeto (int k) const;
 
   // --------------------------------------------------------------------Set
   // -----------------------------------------------------------------Friend

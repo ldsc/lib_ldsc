@@ -185,20 +185,19 @@ public:
 	  * @param 	Recebe uma imagem tridimensional (ou seja toda a imagem 3D)
 	  * @return Retorna um ponteiro para this
 	*/
-	virtual CGrafo* Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1);
+	virtual CGrafo* Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara = 1) override;
 
 	/**
 	  * @brief Função Go, realiza a determinação de todo o grafo.
 	  * @param Recebe o nome de um arquivo de disco (vai ler plano a plano)
 	  * @return Retorna um ponteiro para this
 	*/
-	virtual CGrafo *Go (std::string nomeArquivo, unsigned long int _tamanhoMascara = 0);
+	virtual CGrafo *Go (std::string nomeArquivo, unsigned long int _tamanhoMascara = 0) override;
 
 	/**
 	  * @brief VAZIA: implementada no modelo 3, elimina os links repetidos.
 	*/
-	virtual void EliminarCondutanciasRepetidas ()	{
-	}
+	virtual void EliminarCondutanciasRepetidas ()	{	}
 	
     /**
      * @brief Movida de CPermeabilidadeGrafo para cá.

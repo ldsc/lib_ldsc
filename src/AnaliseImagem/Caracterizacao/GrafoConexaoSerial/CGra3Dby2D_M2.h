@@ -1,7 +1,7 @@
 #ifndef CGra3Dby2D_M2_h
 #define CGra3Dby2D_M2_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -55,8 +55,7 @@ public:
 
 // --------------------------------------------------------------Destrutor
 	/// Destrutor
-  virtual ~ CGra3Dby2D_M2 () {
-  }
+  virtual ~ CGra3Dby2D_M2 () = default;
 
 // ----------------------------------------------------------------Métodos
     /**
@@ -66,27 +65,26 @@ public:
      * Todo: Mover de volta para calculoPermeabilidade?
     */
     virtual void CalcularCondutancias(long double _viscosidade, long double _dimensaoPixel, 
-				     unsigned long int _fatorAmplificacao);
+				     unsigned long int _fatorAmplificacao) override;
 
    /**
    * @brief  Determina o grafo usando imagem 3D.
    * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
    */
-  virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara =   1);
+  virtual CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara =   1) override;
 
 /**
  * @brief  Determina o grafo lendo a imagem do disco,	plano a plano.
  * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
 */
-  virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao);
+  virtual CGrafo *Go (std::string nomeArquivo, unsigned long int funcao) override;
   
 protected:
   /**
    * @brief  conecta os objetos considerando um plano intermediário, 
    * que é criado para eliminar a repetição dos links.
   */
-  virtual void DeterminarConeccoesObjetos (unsigned long int
-					   maiorRotuloUtilizado);
+  virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

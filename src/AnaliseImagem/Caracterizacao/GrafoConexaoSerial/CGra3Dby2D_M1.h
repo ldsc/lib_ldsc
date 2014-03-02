@@ -1,7 +1,7 @@
 #ifndef CGra3Dby2D_M1_h
 #define CGra3Dby2D_M1_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -74,8 +74,7 @@ public:
 
 protected:
   /// Conecta planos,  Versão com Links duplicados.
-  virtual void DeterminarConeccoesObjetos (unsigned long int
-					   maiorRotuloUtilizado);
+  virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) override;
 
   // Função Go
   // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned int _tamanhoMascara = 1);

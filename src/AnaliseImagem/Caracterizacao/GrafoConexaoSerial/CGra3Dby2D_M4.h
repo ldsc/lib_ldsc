@@ -1,7 +1,7 @@
 #ifndef CGra3Dby2D_M4_h
 #define CGra3Dby2D_M4_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -32,8 +32,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
 #endif
 
-
-/*
+/**
 ===============================================================================
 Documentacao Classe: CGra3Dby2D_M4
 ===============================================================================
@@ -52,11 +51,12 @@ Documentacao Classe: CGra3Dby2D_M4
 class CGra3Dby2D_M4:public CGra3Dby2D_M3
 {
 // --------------------------------------------------------------Atributos
-
 public:
-  // Vetor de float para armazenar a informação do cmx de cada sitio do grafo
+  /// Vetor de float para armazenar a informação do cmx de cada sitio do grafo
   std::vector < float >cmx;
+  /// Vetor de float para armazenar a informação do cmy de cada sitio do grafo
   std::vector < float >cmy;
+  /// Vetor de float para armazenar a informação do cmz de cada sitio do grafo
   std::vector < float >cmz;
 
 public:
@@ -71,7 +71,7 @@ CGra3Dby2D_M4 (std::string _nomeArquivo):CGra3Dby2D_M3 (_nomeArquivo)  {
   virtual ~ CGra3Dby2D_M4 () = default;
 
   /// Adiciona a saida dos centros de massa
-  virtual void Write (std::string nomeArquivo);
+  virtual void Write (std::string nomeArquivo) override;
 
   // Adiciona o calculo dos centros de massa
   // virtual void  CalcularCentroMassa();
@@ -86,19 +86,19 @@ protected:
    * */
   virtual void CalcularCondutancias (long double _viscosidade,
 				    long double _dimensaoPixel,
-				    unsigned long int _fatorAmplificacao);
+				    unsigned long int _fatorAmplificacao) override;
 
   /// Depois de criar os objetos, determina e armazena seus centro de massa
   virtual void AdicionarObjetos
-    (CRotulador2DCm * rotulador,
-     unsigned long int ultimoRotuloUtilizado, CContorno::ETipoContorno tipoContorno);
+    (CRotulador2DCm * rotulador, unsigned long int ultimoRotuloUtilizado, 
+	 CContorno::ETipoContorno tipoContorno) override;
 
   // A funcao void CGra3Dby2D::EliminarObjetosRedundantes()
   // elimina os ramos mortos(grupos de objetos CSitio),
   // e reordena o vector de objetos.
 
   /// Vai reorganizar os vetores cmx e cmy,considerando os sitios que foram eliminados
-  virtual void ReorganizarCmxCmy ();
+  virtual void ReorganizarCmxCmy () override;
 
   // Função Go
   // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int _tamanhoMascara = 1);

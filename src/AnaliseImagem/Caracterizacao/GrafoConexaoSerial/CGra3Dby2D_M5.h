@@ -1,14 +1,13 @@
 #ifndef CGra3Dby2D_M5_h
 #define CGra3Dby2D_M5_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGra3Dby2D_M5.h
 @begin      Sat Sep 16 2000
@@ -19,15 +18,15 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 // #include <Base/_LIB_LDSC_CLASS.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M4.h>
-#include <iostream>
-#include <cstdlib>
-#include <cstdio>
 
 /**
  * @brief Determina o grafo de imagens 3D, modelo 5.
@@ -40,10 +39,10 @@ class CGra3Dby2D_M5 : public CGra3Dby2D_M4
 {
 // --------------------------------------------------------------Atributos
 protected:
-	/// Objeto para saída.
-	std::ofstream pixeisDeletados;
+	// Objeto para saída (deveria ser comentado!).
+	//std::ofstream pixeisDeletados; 
 
-  /// Imagem 3D.
+  /// Ponteiro para imagem 3D. @todo: justificar!
   TCMatriz3D<int> *img3D;
 
 public:
@@ -61,26 +60,20 @@ public:
   }
 
 // --------------------------------------------------------------Destrutor
-
 	/// Destrutor
-    virtual ~ CGra3Dby2D_M5 ()
-  {
+    virtual ~ CGra3Dby2D_M5 ()  {
     pixeisDeletados.close ();
   }
 
 // ----------------------------------------------------------------Métodos
   /// Processa a determinação do grafo.
-  CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int funcao);
+  CGrafo *Go (TCMatriz3D<int> * _img3D, unsigned long int funcao) override;
 
 protected:
 	/// Adiciona objetos ao grafo
-  virtual void AdicionarObjetos
-    (CRotulador2DCm * rotulador,
+  virtual void AdicionarObjetos (CRotulador2DCm * rotulador,
      unsigned long int ultimoRotuloUtilizado,
-     CContorno::ETipoContorno tipoContornoObjeto);
-     //     unsigned long int tipoContornoObjeto);
-
-
+     CContorno::ETipoContorno tipoContornoObjeto) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

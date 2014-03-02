@@ -1,7 +1,7 @@
 #ifndef CGra3Dby2D_M3_h
 #define CGra3Dby2D_M3_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -58,8 +58,7 @@ public:
 
    // --------------------------------------------------------------Destrutor
    /// Destrutor
-   virtual ~ CGra3Dby2D_M3 () {
-   }
+   virtual ~ CGra3Dby2D_M3 ()  = default;
 
    // ----------------------------------------------------------------Métodos
    /**
@@ -68,7 +67,8 @@ public:
      * A condutancia é calculada usando a equação de Poiselle...(Bear, pg...).
      * Aqui calcula a condutância dos sítios e dos links
     */
-   virtual void CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao);
+   virtual void CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, 
+									  unsigned long int _fatorAmplificacao) override;
 
    /**
      * @brief Pesquisa o vetor dos links e elimina os links repetidos.
@@ -77,9 +77,9 @@ public:
      * acumula as condutâncias duplicadas.
      * Se for chamado antes do calculo das condutâncias, vai acumular os raios hidraulicos
     */
-   virtual void EliminarCondutanciasRepetidas ();	// TESTE
+   virtual void EliminarCondutanciasRepetidas () override;	// TESTE
 
-   virtual bool SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const;	// TESTAR
+   virtual bool SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) const override;	// TESTAR
 
 protected:
    // Métodos redefinidos
@@ -88,10 +88,10 @@ protected:
      * além de estabelecer os links entre os objetos, calcula o raio Hidraulico
      * das ligações
     */
-   virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado);
+   virtual void DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado) override;
 
    /// Redefinida,  retorna um COGSitio_CC ou derivado
-   virtual CObjetoGrafo *CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno);
+   virtual CObjetoGrafo *CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno) override;
 
    // Função Go
    // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);

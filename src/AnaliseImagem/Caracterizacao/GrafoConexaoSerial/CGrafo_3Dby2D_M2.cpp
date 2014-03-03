@@ -186,7 +186,7 @@ CGrafo * CGrafo_3Dby2D_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tama
   *          nos dois sentidos. Para evitar a repetição do link,
   *          seta o vetor de links como inválido para aquele rótulo do plano intermediário.
   *          Desta forma as conexões são corretamente estabelecidas,
-  *          e elimina-se as conecções redundantes.
+  *          e elimina-se as conexões redundantes.
   *          OBS:
   *          Observe que dois objetos conexos, podem gerar mais de uma ligação válida.
   *          Ou seja, o plano intermediario pode ter mais de um objeto,

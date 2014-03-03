@@ -27,12 +27,12 @@ using namespace std;
 // -------------------------------------------------------------------------
 // Função:       Conectar
 // -------------------------------------------------------------------------
-/** Função: 	Conectar
-@see  	:	Adiciona ao vetor conexão o vetor passado
-@author:  André Duarte Bueno
-@param	:	recebe um vetor de  CObjetoGrafo*
-@return : void
-@test   : testar!
+/** Função : Conectar
+ * @see    : Adiciona ao vetor conexão o vetor passado
+ * @author:  André Duarte Bueno
+ * @param  : recebe um vetor de  CObjetoGrafo*
+ * @return : void
+ * @test   : testar!
 */
 void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
 {
@@ -42,17 +42,22 @@ void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto
-    @short  :		Deleta a coneccao de um ramo morto
-    @author :		André Duarte Bueno
-    @see    :	
-    @param  : 	unsigned int link
-    @return :		void
+/** Deleta a coneccao de um ramo morto, note que esta deletando um vetor inteiro.
+    @short  : Deleta a coneccao de um ramo morto
+    @author : André Duarte Bueno
+    @see    : 
+    @param  : unsigned int link
+    @return : void
     @test   : testar!
 */
-void CObjetoGrafo_Componente::DeletarConeccao (unsigned int link)
+void CObjetoGrafo_Componente::DeletarConeccao (unsigned int ivetor)
 {
-  this->coneccao.erase ( coneccao.begin() + link );
+  this->coneccao.erase ( coneccao.begin() + ivetor );
+}
+
+void CObjetoGrafo_Componente::DeletarConeccao ( unsigned int ivetor, unsigned int link ) 
+{
+  coneccao[ivetor].erase( coneccao[ivetor].begin() + link );
 }
 
 /** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
@@ -128,4 +133,13 @@ ostream & CObjetoGrafo_Componente::Write (ostream & out) const
 //           out << " " << setw (4) << objeto_conectado->propriedade;
   }
   return out;
+}
+
+// ------------------------------------------------------------------------------
+// Funcao:     operator<<
+// ------------------------------------------------------------------------------
+ostream& operator<< (ostream& out, CObjetoGrafo_Componente& obj)
+{
+ obj.Write(out);
+ return out;
 }

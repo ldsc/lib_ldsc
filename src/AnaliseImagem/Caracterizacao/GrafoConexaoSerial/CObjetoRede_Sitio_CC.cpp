@@ -56,19 +56,18 @@ long double CObjetoRede_Sitio_CC::Go (long double /*d */ )
   // zera o somatorio (a cada passagem por Go)
   somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
 
-  // Se não tem nenhum link, retorna x atual (a pressão atual)
-  if (coneccao.size () == 0)
-    return x;
+	// Se não tem nenhum link, retorna x atual (a pressão atual)
+	// tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
+	//   if (coneccao.size() == 0)
+	//     return x;
 
   // Percorre as conecções
   // Observe que o numero de conecções deve ser igual ao numero de condutancias.
   // Note que não dá para usar ranged for de C++11 pois lida com dois vetores diferentes.
-  CObjetoRede_Sitio* objeto_conectado = nullptr;
   for (unsigned long int i = 0; i < coneccao.size (); i++)
     {
-      objeto_conectado  = dynamic_cast<CObjetoRede_Sitio*> ( coneccao[i] );
       // Usa a condutancia[i] e a coneccao[i]
-      somatorio_da_condutancia_vezes_x += this->condutancia[i] * objeto_conectado->x;
+      somatorio_da_condutancia_vezes_x += this->condutancia[i] * coneccao[i]->x;
 
       // Acumula a condutancia total
       somatorio_da_condutancia += this->condutancia[i];
@@ -97,45 +96,12 @@ long double CObjetoRede_Sitio_CC::Fluxo () const
   long double fluxo = 0.0;
 
   // Calculo considerando a condutancia da ligação
-  CObjetoRede_Sitio* objeto_conectado = nullptr;
   for (unsigned long int i = 0; i < coneccao.size (); i++)
     {
-      objeto_conectado  = dynamic_cast<CObjetoRede_Sitio*> ( coneccao[i] );
-      fluxo += this->condutancia[i] * (this->x - objeto_conectado->x);
+      fluxo += this->condutancia[i] * (this->x - coneccao[i]->x);
     }
   return fluxo;
 }
-
-// // -------------------------------------------------------------------------
-// // Função:   Write_Liang_Format
-// // -------------------------------------------------------------------------
-// /** Função Write, que salva os dados do sitio em disco, no mesmo formato utilizado pelo Liang.
-//     @short  :  void CObjetoRede_Sitio_CC::Write(string nomeArquivo) const
-//     Formato antigo Write_Liang_Format:
-//     ---------------------------------
-//     NumeroSitios
-//     Tipo
-//     Rotulo
-//     NumeroConeccoes
-//     Lista_dos_rotulos
-// 
-//     Lista_das_condutancias
-//     @author :André Duarte Bueno
-//     @see    :
-//     @param  : ostream & out
-//     @return : ostream &
-// */
-// ostream & CObjetoRede_Sitio_CC::Write_Liang_Format (ostream & out)  const
-// {
-//   // Chama função da classe base
-//   CObjetoRede_Sitio::Write_Liang_Format (out);
-// 
-//   // Adicionalmente, escreve a informação das condutancias das ligações
-//   // Lista das propriedades (condutancias das ligações)
-//   for ( auto objeto : condutancia ) 
-//     out << ' ' << setw (12) << objeto;
-//   return out;
-// }
 
 // -------------------------------------------------------------------------
 // Função:       Write
@@ -158,12 +124,32 @@ Lista_dos_rotulos_das_coneccoes
 */
 ostream & CObjetoRede_Sitio_CC::Write (ostream & out) const
 {
-  // Chama função da classe base
-  CObjetoRede_Sitio::Write (out);
+    out.setf ( ios::right );
+
+    // Tipo de contorno
+    /// @todo trocar por tipo ojeto grafo!
+    out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
+
+    // Rótulo de this
+    out << ' ' << setw ( 5 ) << rotulo;
+
+    // x de this (pressão)
+    out << ' ' << setw ( 10 ) << x;
+
+    // propriedade de this (condutancia)
+    out << ' ' << setw ( 10 ) << propriedade;
+
+    // Numero de links do sítio
+    out << ' ' << setw ( 4 ) << coneccao.size ();
+
+    // lista dos rótulos da coneccao
+    for ( auto objeto_conectado : coneccao )
+        out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
   // Lista das propriedades (condutancias das ligações)
-  for ( auto objeto : condutancia ) 
-    out << ' ' << setw (12) << objeto;
+  for ( auto condutancia_i : condutancia ) 
+    out << ' ' << setw (12) << condutancia_i;
+  
   return out;
 }
 

@@ -180,7 +180,7 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
           double
           cmySitio = sitio->cy;
 
-          // Percorre todas as conecções do sitio atual
+          // Percorre todas as conexões do sitio atual
           CObjetoRede_Sitio_CC_CM *
           sitioConexo = nullptr;
           for ( unsigned int link = 0; link < sitio->coneccao.size (); link++ ) {
@@ -213,10 +213,10 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
 // FIM NOVO*********
 // ***********NOVO CALCULO TORTUOSIDADE*******
                // Para cálculo da tortuosidade vai acumular as distâncias laterais
-               // e o número de derivações (número de conecções)
-               // e depois dividir pelo número de conecções.
+               // e o número de derivações (número de conexões)
+               // e depois dividir pelo número de conexões.
                tortuosidade += fatorCorrecaoDistancias;    // acumula as distâncias
-               numeroDerivacoesUsadasCalculoTortuosidade++;// acumula número conecções
+               numeroDerivacoesUsadasCalculoTortuosidade++;// acumula número conexões
 // FIM NOVO*********
                // sitio->condutancia[link] /= sqrt (1.0 + dx * dx + dy * dy);
           }			// for link

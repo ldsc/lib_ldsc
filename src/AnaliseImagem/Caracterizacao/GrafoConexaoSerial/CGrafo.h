@@ -106,17 +106,17 @@ Desenvolvido por:
  * plano, tipoContornoObjeto, maiorRotuloUtilizado.
  * Go()->Determina o grafo varrendo a imagem.
  * AdicionarObjetos->Adiciona os objetos do plano atual, usando rotulador.
- * DeterminarConeccoesObjetos->Estabelece as coneccoes (aqui os links são repetidos para cada coneccao entre pixeis)
+ * DeterminarConeccoesObjetos->Estabelece as conexões (aqui os links são repetidos para cada coneccao entre pixeis)
  * EliminarConeccoesObjetos->Elimina os ramos mortos. Num ramo morto o fluxo é nulo.
  *
  * CGra3Dby2_M1 (cada píxel uma conexão)
  * ------------------------------------
  * Na função Go :
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
- * Depois estabelece-se as conecções entre os planos consecutivos.
+ * Depois estabelece-se as conexões entre os planos consecutivos.
  * Observe que duas regiões que se interceptam vão gerar um número
- * grande de conecções (com conecções redundantes).
- * A desvantagem do modelo 1 é gerar um número muito grande de conecções, uma para cada pixel conexo.
+ * grande de conexões (com conexões redundantes).
+ * A desvantagem do modelo 1 é gerar um número muito grande de conexões, uma para cada pixel conexo.
  * A vantagem é que o mesmo não usa um plano auxiliar.
  * Todo: eliminar número de conexões redundantes calculando condutância efetiva.
  * Todo: criar classe herdeira de M1, chamada M8, deve calcular a idf em 3D,
@@ -130,9 +130,9 @@ Desenvolvido por:
  * (da conexão dos planos i com i+1) e um vetor de link's válidos.
  * Verifica os objetos no plano i e no plano i+1, se estiverem conexos
  * estabelece a conexão nos dois sentidos. Para evitar a repetição da
- * mesma conecção, seta o vetor de links para aquele rótulo como sendo inválido.
+ * mesma conexão, seta o vetor de links para aquele rótulo como sendo inválido.
  * Desta forma as conexões são corretamente estabelecidas, e elimina-se
- * as conecções redundantes.
+ * as conexões redundantes.
  * Note que CGra3Dby2_M2 assume uma condutancia media.
  *
  * Neste modelo, a informação da propriedade de ligação (o raio hidraulico,
@@ -141,7 +141,7 @@ Desenvolvido por:
  * Acrescenta o atributo rotint (rotulador intermediário).
  *
  * Go()->Cria rotint(rotulador intermediário), chama CGrafo_3Dby2D::Go, deleta rotint
- * DeterminarConeccoesObjetos()->Estabelece as coneccoes, usa rotint para
+ * DeterminarConeccoesObjetos()->Estabelece as conexões, usa rotint para
  * eliminar repeticoes dos links.
  *
  * CGra3Dby2_M3 (condutância pela área intersecção)

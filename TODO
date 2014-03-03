@@ -249,3 +249,13 @@ boltzman para ajuste fino. Acelerando calculo do lattice boltzman.
 [ ] - Acrescentar códigos interesssantes de Anaimp
 [ ] - Acrescentar códigos interesssantes de Imago
 [ ] - Acrescentar códigos interesssantes de SAIL
+
+[Específico uniformizacao código]
+============================================
+[ ] - Estudar a implementação de sobrecargas virtuais usando:
+obj >> os;
+obj << is;
+Como os é externo,  sempre tenho de implementar como função membro, 
+a ideia é inverter a ordem de chamada.
+No caso da biblioteca de Grafos cada classe tem método Write
+e a sobrecarga do operador chama Write que é virtual.

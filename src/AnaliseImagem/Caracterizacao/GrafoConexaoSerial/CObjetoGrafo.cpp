@@ -4,7 +4,7 @@ PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
-Desenvolvido por:	
+Desenvolvido por:
 			  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:      André Duarte Bueno
 @file:        CObjetoGrafo.cpp
@@ -18,6 +18,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 #include <fstream>
 #include <iomanip>
+#include <vector>
 using namespace std;
 
 // -----------------------------------------------------------------------
@@ -29,34 +30,64 @@ using namespace std;
 // Função:       Write
 // -------------------------------------------------------------------------
 /** Salva dados do objeto sítio em novo formato.
-    @short  : 	
-    Formato novo (Andre Format):
+    @short  : Salva dados do objeto sítio em novo formato.
+    Formato Andre :
     ----------------------------
     NumeroSitios  		// salvo pelo grafo
-    Tipo
-    Rotulo
-    propriedade 		// raio hidraulico ou condutancia
-    x           		// pressão
-    NumeroConeccoes
-    Lista_dos_rotulos_das_coneccoes
+    TipoContorno        // tipo de contorno
+    Rotulo              // rotulo objeto
+    propriedade 		// ex: raio hidraulico ou condutancia do objeto
+    x           		// ex: pressão
+    NumeroConeccoes     // quantos links
+    Lista_dos_rotulos_das_coneccoes // rótulos dos links
 
-    @author :		André Duarte Bueno
+    @author :	André Duarte Bueno
     @see    :
     @param  :   Recebe uma referencia para uma ostream
-    @return :		ostream&
+    @return :	ostream&
 */
-ostream & CObjetoGrafo::Write (ostream & out) const
+ostream & CObjetoGrafo::Write ( ostream & out ) const
 {
-  out.setf (ios::right);
+     out.setf ( ios::right );
 
-  // Tipo de contorno
-  out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
+     // Tipo de contorno
+     out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
 
-  // Rótulo de this
-  out << ' ' << setw (5) << rotulo;
+     // Rótulo de this
+     out << ' ' << setw ( 5 ) << rotulo;
 
-  return out;
+     return out;
 }
+
+/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conecções,
+ * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
+ * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
+ *    @short  : Deleta a coneccao de um ramo morto
+ *    @author : André Duarte Bueno
+ *    @see    :
+ *    @param  : unsigned int indiceObjetosDeletados
+ *    @return : void
+ *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
+*/
+bool CObjetoGrafo::DeletarConeccoesInvalidadas_aux ( int deletado , vector<CObjetoGrafo*>& coneccao )
+{
+     unsigned int indice_rotulo_valido {0};
+
+     // Percorre todas as coneccoes
+     for ( auto objeto: coneccao )
+          // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+          // Se foi deletado vai ser pulado.
+          if ( objeto->rotulo != deletado ) {
+               coneccao[indice_rotulo_valido++] = objeto;
+          }
+
+     // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+     coneccao.resize ( indice_rotulo_valido );
+     /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+     return 1;
+}
+
 /**
 -------------------------------------------------------------------------
 Função:    operator<<
@@ -67,12 +98,10 @@ Função:    operator<<
 @param  : const CContorno &
 @return : ostream&
 */
-ostream &operator<< ( ostream &os, const CObjetoGrafo &obj )
+ostream &operator<< ( ostream &out, const CObjetoGrafo &obj )
 {
-  os.setf (ios::right);
-     os << static_cast<unsigned char> ( obj.Contorno() ) << ' '
-        << obj.rotulo << ' ';
-     return os;
+     obj.Write(out);
+     return out;
 }
 
 /**
@@ -88,8 +117,9 @@ Função:    operator>>
 */
 istream  &operator>> ( istream &is,  CObjetoGrafo &obj )
 {
-  unsigned char contorno; ///@bug: corrigir!
-  is >> contorno;
-  is >> obj.rotulo;
-  return is;
+     unsigned char contorno; ///@bug: corrigir!
+     is >> contorno;
+     is >> obj.rotulo;
+//   obj.Read(in);
+     return is;
 }

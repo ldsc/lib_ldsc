@@ -42,14 +42,21 @@ Desenvolvido por:
 /**
  * @brief  Representa um objeto de um grafo que tem uma lista de coneccoes (Sitio).
  *
- * É herdeiro de CObjetoGrafo,tendo um rótulo (herdado de CObjetoGrafo).
+ * É herdeiro de CObjetoGrafo, tendo um rótulo (herdado de CObjetoGrafo).
  * A característica básica de um sítio é que este pode ter
  * n coneccao's, ou seja pode estar conectado a n objetos do tipo
  * CObjetoGrafo, mas esta conecção é 1 para 1 (uma garra).
  *
  * Exemplo:
- * Um sítio pode estar conectado a outro sítio.
- * Um sítio pode estar conectado a uma ligação.
+ * Para sítios (uma garra)
+ * sítio-->sítio              // sítio conectado a sítio
+ * sítio-->ligação            // sítio conectado a ligação
+ *
+ * Para ligações (duas garras)
+ * sítio <--ligação--> lig    // A primeira ligação após um sítio
+ * lig <--ligação--> lig      // Ligação entre duas ligações
+ * lig <--ligação--> sítio    // A última ligação
+ * sítio <--ligação--> sítio  // Conexão entre sítios com uma única ligação
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
@@ -66,7 +73,7 @@ public:
      * O vetor coneccao é o vetor dos objetos a quem estou conectado.
      * @todo: verificar vantagens de trocar vector por list.
      */
-     std::vector < CObjetoGrafo * >coneccao; // default size()=0
+     std::vector < CObjetoGrafo * >coneccao;
 
 // -------------------------------------------------------------Construtor
 
@@ -103,31 +110,30 @@ public:
 //           Write ( os ); // deve ser reescrita nas derivadas.
 //           return os;
 //      }
-     /**
-     * @brief Função usada para calcular uma propriedade.
-     */
-     virtual long double Go ( long double d = 0 )   override {
-	   return 0;
-	 }
-
-     /**
-      * @brief Função que calcula o fluxo associado as propriedade do objeto
-	  * e suas conecções.
-      * Ou seja, considera-se que este objeto esta conectado a outros objetos
-      * e que em função das propriedades dos objetos, existe alguma informação 
-	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
-      * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-     */
-     virtual long double Fluxo () const  override {
-	   return 0;
-	 }
+//      /**
+//      * @brief Função usada para calcular uma propriedade.
+//      */
+//      virtual long double Go ( long double d = 0 )   override {
+// 	   return 0;
+// 	 }
+// 
+//      /**
+//       * @brief Função que calcula o fluxo associado as propriedade do objeto
+// 	  * e suas conecções.
+//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
+//       * e que em função das propriedades dos objetos, existe alguma informação 
+// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
+//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
+//      */
+//      virtual long double Fluxo () const  override {
+// 	   return 0;
+// 	 }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
      friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Sitio &obj );
 //       friend istream& operator>> (istream& is, CObjetoGrafo_Sitio& obj);
-
 };
 
 // -----------------------------------------------------------------Friend

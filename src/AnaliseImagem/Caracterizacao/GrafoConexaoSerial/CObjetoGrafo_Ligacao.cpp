@@ -35,8 +35,8 @@ Função:
 */
 void CObjetoGrafo_Ligacao::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
 {
-  coneccaoA.push_back (objA);
-  coneccaoB.push_back (objB);
+  this->coneccaoA.push_back (objA);
+  this->coneccaoB.push_back (objB);
 }
 
 // -------------------------------------------------------------------------
@@ -70,42 +70,44 @@ void CObjetoGrafo_Ligacao::DeletarConeccao (unsigned int link)
 */
 bool CObjetoGrafo_Ligacao::DeletarConeccoesInvalidadas (int deletado)
 {
-  unsigned int indice_rotulo_valido {0};
-  
-  // Percorre todas as coneccoes
-  for ( auto objeto_conectado: coneccaoA )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto_conectado->rotulo != deletado)
-      {
-       coneccaoA[indice_rotulo_valido++] = objeto_conectado;
-      }
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccaoA.resize (indice_rotulo_valido);
+ return DeletarConeccoesInvalidadas_aux ( deletado , coneccaoA ) &&
+        DeletarConeccoesInvalidadas_aux ( deletado , coneccaoB );
 
-  // Percorre todas as coneccoes
-  for ( auto objeto_conectado: coneccaoB )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto_conectado->rotulo != deletado)
-      {
-       coneccaoB[indice_rotulo_valido++] = objeto_conectado;
-      }
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccaoB.resize (indice_rotulo_valido);
-  
-  /// @todo: aqui pode apagar, usando erase, os objetos além do size().
-  return 1;
+// Como o códugo abaixo repete, mudando apenas coneccaoA e coneccaoB, criei função comum e movi para base.
+//   unsigned int indice_rotulo_valido {0};
+//   
+//   // Percorre todas as coneccoes
+//   for ( auto objeto_conectado: coneccaoA )
+//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//     // Se foi deletado vai ser pulado.
+//     if (objeto_conectado->rotulo != deletado)
+//       {
+//        coneccaoA[indice_rotulo_valido++] = objeto_conectado;
+//       }
+//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//   coneccaoA.resize (indice_rotulo_valido);
+// 
+//   // Percorre todas as coneccoes
+//   for ( auto objeto_conectado: coneccaoB )
+//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//     // Se foi deletado vai ser pulado.
+//     if (objeto_conectado->rotulo != deletado)
+//       {
+//        coneccaoB[indice_rotulo_valido++] = objeto_conectado;
+//       }
+//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//   coneccaoB.resize (indice_rotulo_valido);
+return 1;
 }
 
 /**
 -------------------------------------------------------------------------
 Função:     Write
 -------------------------------------------------------------------------
-@short  : Escreve propriedades do objeto em fout
+@short  : Escreve propriedades do objeto em out
 @author : André Duarte Bueno
 @see    :
-@param  : ofstream& fout
+@param  : ofstream& out
 @return : ostream&
 */
 ostream & CObjetoGrafo_Ligacao::Write (ostream & out) const
@@ -113,13 +115,12 @@ ostream & CObjetoGrafo_Ligacao::Write (ostream & out) const
     out.setf (ios::right);
     // Tipo de contorno
     /// @todo trocar por tipo ojeto grafo!
-    // fout << setw (4) << Contorno ();
     out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
 
     // Rótulo de this
     out << ' ' << setw (5) << rotulo;
-	
-    // Numero de links do sítio     
+
+    // Numero de conexões do sítio     
     out << ' ' << setw (4) << coneccaoA.size ();
 
     // CONECCAO A
@@ -162,6 +163,7 @@ Função:    operator>>
 */
 /*istream& operator>> (istream& is, CObjetoGrafo_Ligacao& s)
 {
+  s.Read(is);	
   return is;
 }
 */

@@ -1,7 +1,7 @@
 #ifndef CObjetoRede_Sitio_CC_CM_WEST_h
 #define CObjetoRede_Sitio_CC_CM_WEST_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial

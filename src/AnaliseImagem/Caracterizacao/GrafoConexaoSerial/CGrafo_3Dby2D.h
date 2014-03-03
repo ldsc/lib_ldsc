@@ -100,7 +100,7 @@ class CGrafo_3Dby2D : public CGrafoContorno {
 private:
      /// Indica versão da função que elimina os ramos mortos, a 2 é mais rápida.
      int eliminaRamosMortos = 2 ;
-     int eliminaConeccoesRepetidas = 1 ;	///< Elimina conecções repetidas
+     int eliminaConeccoesRepetidas = 1 ;	///< Elimina conexões repetidas
 
 protected:
      // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim,
@@ -290,7 +290,7 @@ public:
           return eliminaRamosMortos;
      }
 
-     /// Elimina conecções repetidas
+     /// Elimina conexões repetidas
      int EliminarConeccoesRepetidas() {
           return eliminaConeccoesRepetidas;
      }
@@ -301,7 +301,7 @@ public:
           eliminaRamosMortos = _e;
      }
 
-     /// Seta conecções repetidas
+     /// Seta conexões repetidas
      void EliminarConeccoesRepetidas ( int _r ) {
           eliminaConeccoesRepetidas = _r;
      }

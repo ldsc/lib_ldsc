@@ -4,11 +4,11 @@ PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
-@author:          André Duarte Bueno
-@file:             CObjetoRede_Ligacao.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+@author:    André Duarte Bueno
+@file:      CObjetoRede_Ligacao.cpp
+@begin:     Sat Sep 16 2000
+@copyright: (C) 2000 by André Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -70,32 +70,34 @@ void CObjetoRede_Ligacao::DeletarConeccao (unsigned int link)
 */
 bool CObjetoRede_Ligacao::DeletarConeccoesInvalidadas (int deletado)
 {
-  unsigned int indice_rotulo_valido {0};
-  
-  // Percorre todas as coneccoes
-  for ( auto objeto_conectado: coneccaoA )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto_conectado->rotulo != deletado)
-      {
-       coneccaoA[indice_rotulo_valido++] = objeto_conectado;
-      }
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccaoA.resize (indice_rotulo_valido);
-
-  // Percorre todas as coneccoes
-  for ( auto objeto_conectado: coneccaoB )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto_conectado->rotulo != deletado)
-      {
-       coneccaoB[indice_rotulo_valido++] = objeto_conectado;
-      }
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccaoB.resize (indice_rotulo_valido);
-  
-  /// @todo: aqui pode apagar, usando erase, os objetos além do size().
-  return 1;
+ return DeletarConeccoesInvalidadas_aux ( deletado , coneccaoA ) &&
+        DeletarConeccoesInvalidadas_aux ( deletado , coneccaoB );
+//   unsigned int indice_rotulo_valido {0};
+//   
+//   // Percorre todas as coneccoes
+//   for ( auto objeto_conectado: coneccaoA )
+//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//     // Se foi deletado vai ser pulado.
+//     if (objeto_conectado->rotulo != deletado)
+//       {
+//        coneccaoA[indice_rotulo_valido++] = objeto_conectado;
+//       }
+//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//   coneccaoA.resize (indice_rotulo_valido);
+// 
+//   // Percorre todas as coneccoes
+//   for ( auto objeto_conectado: coneccaoB )
+//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//     // Se foi deletado vai ser pulado.
+//     if (objeto_conectado->rotulo != deletado)
+//       {
+//        coneccaoB[indice_rotulo_valido++] = objeto_conectado;
+//       }
+//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//   coneccaoB.resize (indice_rotulo_valido);
+//   
+//   /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+//   return 1;
 }
 
 
@@ -115,18 +117,14 @@ long double CObjetoRede_Ligacao::Fluxo () const
   long double fluxo { 0.0 };
   static long double condutanciaEntreObjetosConectados;
 
-  CObjetoRede* objeto_conectado_a = nullptr;
-  CObjetoRede* objeto_conectado_b = nullptr;
-  
   for (unsigned long int i = 0; i < coneccaoA.size (); i++)
   {
-   objeto_conectado_a  = dynamic_cast<CObjetoRede*>(coneccaoA[i]);
-   objeto_conectado_b  = dynamic_cast<CObjetoRede*>(coneccaoB[i]);
-   condutanciaEntreObjetosConectados =  1.0 / 
-   (1.0/objeto_conectado_a->propriedade + 1.0/this->propriedade + 1.0/objeto_conectado_b->propriedade);
+   condutanciaEntreObjetosConectados =  1.0 /
+   (1.0/coneccaoA[i]->propriedade + 1.0/this->propriedade + 1.0/coneccaoB[i]->propriedade);
+
    // o fluxo é a condutancia total entre objetos vezes a diferença de x(pressão) dos objetos
    // a quem this esta conectado.
-   fluxo += condutanciaEntreObjetosConectados * (objeto_conectado_a->x - objeto_conectado_b->x);
+   fluxo += condutanciaEntreObjetosConectados * (coneccaoA[i]->x - coneccaoB[i]->x);
   }
   return fluxo;
 }
@@ -146,44 +144,41 @@ ostream & CObjetoRede_Ligacao::Write (ostream & out) const
      out.setf ( ios::right );
 
      // Tipo de contorno
-     /// @todo trocar por tipo ojeto grafo!
-     // fout << setw (4) << Contorno ();
-     out << setw ( 4 ) << static_cast<unsigned char> ( CObjetoRede::Contorno() ) << '\n';
+     out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
 
      // Rótulo de this
-     out << ' ' << setw ( 5 ) << CObjetoRede::rotulo;
-
-     // propriedade de this (condutancia)
-     out << ' ' << setw ( 10 ) << propriedade;
+     // out << ' ' << setw ( 5 ) << CObjetoRede::rotulo;
+     out << ' ' << setw ( 5 ) << rotulo;
 
      // x de this (pressão)
      out << ' ' << setw ( 10 ) << x;
 
-     // Numero de links do sítio
+	 // propriedade de this (condutancia)
+     out << ' ' << setw ( 10 ) << propriedade;
+
+     // Numero de conexões
+	 // como é ligação temos ramos duplos e o size de coneccaoA é o mesmo de coneccaoB
      out << ' ' << setw ( 4 ) << coneccaoA.size ();
 
-     // CONECCAO A
+     // Dados da coneccaoA
      // lista dos rótulos
      for ( auto objeto_conectado : coneccaoA )
           out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
-     CObjetoRede* objeto_conectado = nullptr;
-     // lista das propriedades (condutancias)
-     for ( auto objeto : coneccaoA ) {
-          objeto_conectado  = dynamic_cast<CObjetoRede*> ( objeto );
-          out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
-     }
+//      // lista das propriedades (condutancias)
+//      for ( auto objeto_conectado : coneccaoA ) {
+//           out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
+//      }
 
-     // CONECCAO B
+     // Dados da coneccaoB
      // lista dos rótulos
      for ( auto objeto_conectado : coneccaoB )
           out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
-     // lista das propriedades (condutancias)
-     for ( auto objeto : coneccaoB ) {
-          objeto_conectado  = dynamic_cast<CObjetoRede*> ( objeto );
-          out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
-     }
+//      // lista das propriedades (condutancias)
+//      for ( auto objeto_conectado : coneccaoB ) {
+//           out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
+//      }
 }
 
 /**

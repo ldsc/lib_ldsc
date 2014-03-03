@@ -83,7 +83,7 @@ public:
 protected:
      // Métodos redefinidos
      /**
-      * @brief Determina as conecções entre os objetos
+      * @brief Determina as conexões entre os objetos
        * além de estabelecer os links entre os objetos, calcula o raio Hidraulico
        * das ligações
       */

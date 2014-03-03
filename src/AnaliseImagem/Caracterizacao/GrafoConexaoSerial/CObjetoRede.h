@@ -46,8 +46,7 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief  Representa um objeto de uma rede é herdeiro de CObjetoGrafo e CSMParametroSolver.
- * Tem uma propriedade x (herdada de CParametroSolver)
- * um rótulo (herdado de CObjetoGrafo).
+ * Tem um rótulo (herdado de CObjetoGrafo) e uma propriedade x (herdada de CParametroSolver).
  * Acrescenta um long double propriedade.
  *
  * @author:  André Duarte Bueno
@@ -70,11 +69,26 @@ public:
      virtual ~ CObjetoRede () = default;
 
 // ----------------------------------------------------------------Métodos
+     /**
+     * @brief Função usada para calcular uma propriedade.
+     */
+		virtual long double Go ( long double d = 0 ) = 0;
+
+     /**
+      * @brief Função que calcula o fluxo associado as propriedade do objeto
+	  * e suas conecções.
+      * Ou seja, considera-se que este objeto esta conectado a outros objetos
+      * e que em função das propriedades dos objetos, existe alguma informação 
+	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
+      * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
+     */
+     virtual long double Fluxo () const = 0;
+
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const override;
-	 
+
 // --------------------------------------------------------------------Get
-	      /// @brief Retorna a propriedade.
+     /// @brief Retorna a propriedade.
      long double Propriedade () const  {
           return propriedade;
      }
@@ -85,10 +99,14 @@ public:
           propriedade = _p;
      };
 
-	 // -----------------------------------------------------------------Friend
+     // -----------------------------------------------------------------Friend
      friend std::ostream &operator<< ( std::ostream &os, CObjetoRede &obj );
 //       friend istream& operator>> (istream& is, CObjetoRede& obj);
 
+protected:
+     /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
+	 /// criada para reduzir códigos nas herdeiras.
+     bool DeletarConeccoesInvalidadas_aux ( int deletado , std::vector<CObjetoRede*>& coneccao );
 };
 
 // -----------------------------------------------------------------Friend

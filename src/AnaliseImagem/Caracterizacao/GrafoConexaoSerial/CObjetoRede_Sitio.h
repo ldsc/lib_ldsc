@@ -28,32 +28,25 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-// // Definição de CObjetoGrafo
-// #ifndef CObjetoGrafo_Sitio_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Sitio.h>
-// #endif
-
 // Definição de CObjetoGrafo
 #ifndef CObjetoRede_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #endif
 
-
 // ===============================================================================
 // Documentacao Classe: CObjetoRede_Sitio
 // ===============================================================================
 /**
- * @brief Representa uma objeto ligação de uma rede.
- * É herdeiro de CObjetoRede, tendo uma variável x (herdada de
- * CParametroSolver), e uma propriedade (herdados de CObjetoRede).
- * É herdeira de CObjetoRede_Sitio, herdando rótulo e conecção.
+ * @brief Representa um objeto sítio de uma rede.
+ * Tendo uma variável rotulo (herdade de CObjetoGrafo)
+ * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
  * @author:  André Duarte Bueno
  * @see:     grafos
  * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 
-class CObjetoRede_Sitio :  public CObjetoRede /*, public CObjetoGrafo_Sitio*/
+class CObjetoRede_Sitio :  public CObjetoRede
 {
 public:
 // --------------------------------------------------------------Atributos
@@ -63,8 +56,8 @@ public:
      * O vetor coneccao é o vetor dos objetos a quem estou conectado.
      * @todo: verificar vantagens de trocar vector por list.
      */
-     std::vector < CObjetoRede * >coneccao; // default size()=0
-     
+     std::vector < CObjetoRede * >coneccao;
+
 // -------------------------------------------------------------Construtor
 /// Construtor
      CObjetoRede_Sitio () = default;

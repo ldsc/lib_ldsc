@@ -38,7 +38,7 @@ Função:   DeterminarConeccoesObjetos
           Nesta versão compara-se diretamente os planos bidimensionais
           rotulados (ra e rp).
           A comparação é feita píxel a pixel,
-          de forma que duas regiões conexas vão gerar tantas conecções
+          de forma que duas regiões conexas vão gerar tantas conexões
           quanto forem o número de píxeis da intersecção das duas regioes.
           Ou seja se a região_A do plano ra tiver 5 píxeis conectados
           a região_B do plano rp
@@ -73,7 +73,7 @@ DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
 			// No plano rp, soma o maiorRotuloUtilizado + ra->RotuloFinal()
 			pp += maiorRotuloUtilizado + ra->RotuloFinal ();
 
-			// Cada sítio tem uma lista das conecções
+			// Cada sítio tem uma lista das conexões
 			// Adiciona nos dois sítios a informação do link
 			// ou seja, conecta os sítios.
 			// PS: pa-1 porque o sítio de rótulo 1 esta na posição [0]

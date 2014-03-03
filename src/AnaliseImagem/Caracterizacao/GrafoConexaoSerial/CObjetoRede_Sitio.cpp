@@ -34,9 +34,9 @@ using namespace std;
     @return : void
     NOTA: mesmo código de CObjetoGrafo_Sitio
 */
-void CObjetoRede_Sitio::Conectar (CObjetoRede * obj, CObjetoRede *)
+void CObjetoRede_Sitio::Conectar ( CObjetoRede* obj, CObjetoRede* )
 {
-  coneccao.push_back (obj);
+    this->coneccao.push_back ( obj );
 }
 
 
@@ -46,14 +46,14 @@ void CObjetoRede_Sitio::Conectar (CObjetoRede * obj, CObjetoRede *)
 /** Deleta a coneccao de um ramo morto
     @short  :		Deleta a coneccao de um ramo morto
     @author :		André Duarte Bueno
-    @see    :	
+    @see    :
     @param  : 	unsigned int link
     @return :		void
     NOTA: mesmo código de CObjetoGrafo_Sitio
 */
-void CObjetoRede_Sitio::DeletarConeccao (unsigned int link)
+void CObjetoRede_Sitio::DeletarConeccao ( unsigned int link )
 {
-  this->coneccao.erase ( coneccao.begin() + link );
+    this->coneccao.erase ( coneccao.begin() + link );
 }
 
 /** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
@@ -64,36 +64,37 @@ void CObjetoRede_Sitio::DeletarConeccao (unsigned int link)
  * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
     @short  : Deleta a coneccao de um ramo morto
     @author : André Duarte Bueno
-    @see    : 
+    @see    :
     @param  : unsigned int indiceObjetosDeletados
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
     NOTA: mesmo código de CObjetoGrafo_Sitio
 */
-bool CObjetoRede_Sitio::DeletarConeccoesInvalidadas (int deletado)
+bool CObjetoRede_Sitio::DeletarConeccoesInvalidadas ( int deletado )
 {
-  unsigned int indice_rotulo_valido {0};
-  
-  // Percorre todas as coneccoes
-  for ( auto objeto: coneccao )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto->rotulo != deletado)
-      {
-       coneccao[indice_rotulo_valido++] = objeto;
-      }
-
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccao.resize (indice_rotulo_valido);
-  /// @todo: aqui pode apagar, usando erase, os objetos além do size().
-  return 1;
+    return DeletarConeccoesInvalidadas_aux ( deletado , coneccao );
+//   unsigned int indice_rotulo_valido {0};
+//
+//   // Percorre todas as coneccoes
+//   for ( auto objeto: coneccao )
+//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//     // Se foi deletado vai ser pulado.
+//     if (objeto->rotulo != deletado)
+//       {
+//        coneccao[indice_rotulo_valido++] = objeto;
+//       }
+//
+//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//   coneccao.resize (indice_rotulo_valido);
+//   /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+//   return 1;
 }
 
 // -------------------------------------------------------------------------
 // Função:       Write
 // -------------------------------------------------------------------------
 /** Salva dados do objeto sítio em novo formato.
-    @short  : 	
+    @short  :
     Formato novo (Andre Format):
     ----------------------------
     NumeroSitios  		// salvo pelo grafo
@@ -109,39 +110,31 @@ bool CObjetoRede_Sitio::DeletarConeccoesInvalidadas (int deletado)
     @param  :   Recebe uma referencia para uma ostream
     @return :		ostream&
 */
-ostream & CObjetoRede_Sitio::Write (ostream & out) const
+ostream& CObjetoRede_Sitio::Write ( ostream& out ) const
 {
-     out.setf ( ios::right );
+    out.setf ( ios::right );
 
-     // Tipo de contorno
-     /// @todo trocar por tipo ojeto grafo!
-     // fout << setw (4) << Contorno ();
-     out << setw ( 4 ) << static_cast<unsigned char> ( CObjetoRede::Contorno() ) << '\n';
+    // Tipo de contorno
+    /// @todo trocar por tipo ojeto grafo!
+    out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
 
-     // Rótulo de this
-     out << ' ' << setw ( 5 ) << CObjetoRede::rotulo;
+    // Rótulo de this
+    out << ' ' << setw ( 5 ) << rotulo;
 
-     // propriedade de this (condutancia)
-     out << ' ' << setw ( 10 ) << propriedade;
+    // x de this (pressão)
+    out << ' ' << setw ( 10 ) << x;
 
-     // x de this (pressão)
-     out << ' ' << setw ( 10 ) << x;
+    // propriedade de this (condutancia)
+    out << ' ' << setw ( 10 ) << propriedade;
 
-     // Numero de links do sítio
-     out << ' ' << setw ( 4 ) << coneccao.size ();
+    // Numero de links do sítio
+    out << ' ' << setw ( 4 ) << coneccao.size ();
 
-     // lista dos rótulos da coneccao
-     for ( auto objeto_conectado : coneccao )
-          out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
+    // lista dos rótulos da coneccao
+    for ( auto objeto_conectado : coneccao )
+        out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
-     CObjetoRede* objeto_conectado = nullptr;
-     // lista das propriedades (condutancias)
-     for ( auto objeto : coneccao ) {
-          objeto_conectado  = dynamic_cast<CObjetoRede*> ( objeto );
-          out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
-     }
-
-  return out;
+    return out;
 }
 
 // -------------------------------------------------------------------------
@@ -150,14 +143,14 @@ ostream & CObjetoRede_Sitio::Write (ostream & out) const
 /** Escreve os atributos do objeto em disco.
     @short  :	Sobrecarga operador entrada streams (antiga CObjetoRede_SitioEsqueleto).
     @author :	André Duarte Bueno
-    @see    :	
+    @see    :
     @param  :	ostream& e CObjetoRede_Sitio&
     @return :	ostream&
 */
-ostream & operator<< (ostream & out, CObjetoRede_Sitio & s)
+ostream& operator<< ( ostream& out, CObjetoRede_Sitio& s )
 {
-  s.Write(out);
-  return out;
+    s.Write ( out );
+    return out;
 }
 
 // -------------------------------------------------------------------------
@@ -220,7 +213,7 @@ ostream & operator<< (ostream & out, CObjetoRede_Sitio & s)
 // -------------------------------------------------------------------------
 // Função:  Go
 // -------------------------------------------------------------------------
-/** A função Go calcula o novo valor de x, considerando o relacionamento 
+/** A função Go calcula o novo valor de x, considerando o relacionamento
     com os demais objetos a quem esta conectado.
     @short  :
     Observe que calcula o novo valor de this->x (a pressão) e o retorna,
@@ -228,8 +221,8 @@ ostream & operator<< (ostream & out, CObjetoRede_Sitio & s)
 
     O novo valor de x, retornado por Go() pode ser usado externamente.
 
-    Por exemplo, 
-    um solver externo vai usar esta nova previsão de x para definir, 
+    Por exemplo,
+    um solver externo vai usar esta nova previsão de x para definir,
     no momento adequado, o novo valor de this->x.
 
     Mudança de formato no acesso aos outros sítios:
@@ -239,7 +232,7 @@ ostream & operator<< (ostream & out, CObjetoRede_Sitio & s)
     Agora o vetor conecção de cada sítio armazena direto o endereço dos sítios
     a quem esta conectado.
     Abaixo precisava do grafo para acessar os objetos
-    somatorio_da_condutancia_vezes_x += 
+    somatorio_da_condutancia_vezes_x +=
         coneccao[i]->propriedade * grafo->objeto[this->coneccao[i]->rotulo]->x;
 
     Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
@@ -250,39 +243,61 @@ ostream & operator<< (ostream & out, CObjetoRede_Sitio & s)
     @param  : long double
     @return : long double
 */
-long double CObjetoRede_Sitio::Go (long double /*d */ )
+long double CObjetoRede_Sitio::Go ( long double /*d */ )
 {
-  // Ex:
-  // propriedade = condutancia
-  // x           = pressao
+    // Ex:
+    // propriedade = condutancia
+    // x           = pressao
 
-  // Cria variáveis auxiliares (uma única vez, pois são estáticas)
-  static long double somatorio_da_condutancia;
-  static long double somatorio_da_condutancia_vezes_x;
-  static long double condutanciaMedia;
+    // Cria variáveis auxiliares (uma única vez, pois são estáticas)
+    static long double somatorio_da_condutancia;
+    static long double somatorio_da_condutancia_vezes_x;
+    static long double condutancia;
 
-  // Se não tem nenhum link, retorna x atual (a pressão atual)
-  if (coneccao.size() == 0)
-    return x;
+    // Se não tem nenhum link, retorna x atual (a pressão atual)
+    // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
+    //   if (coneccao.size() == 0)
+    //     return x;
 
-  // zera o somatorio (a cada passagem por Go)
-  somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
-  // Percorre as conecções
-  CObjetoRede* objeto_conectado = nullptr;
-  for ( auto objeto: coneccao )
-    {
-      objeto_conectado  = dynamic_cast<CObjetoRede*> ( objeto );
-      // faz uma média das condutancias
-      condutanciaMedia = (objeto_conectado->propriedade + this->propriedade) / 2.0;
-      somatorio_da_condutancia_vezes_x += condutanciaMedia * objeto_conectado->x;
+    // zera o somatório (a cada passagem por Go)
+    somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
 
-      // Acumula a condutancia total
-      somatorio_da_condutancia += condutanciaMedia;
-    }
+//   // Percorre as conexões
+//   // (calculo antigo, considera média -> calculo errado! certo é 1/ct = 1/c1 + 1/c2)
+//   for ( auto objeto_conectado: coneccao )
+//     {
+//       // faz uma média das condutâncias
+//       condutancia = (objeto_conectado->propriedade + this->propriedade) / 2.0;
+//       somatorio_da_condutancia_vezes_x += condutancia * objeto->x;
+//
+//       // Acumula a condutancia total
+//       somatorio_da_condutancia += condutancia;
+//     }
 
-  // Somatorio (condutancia*pressao) / somatorio_da_condutancia
-  // retorna um novo valor de x (pressão) sem alterar x diretamente.
-  return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
+    // Percorre as conexões (calculo novo)
+    // Para calcular condutancia total ct entre c1 e c2
+    // 1/ct = 1/c1 + 1/c2
+    // assim, ct = (c1*c2) / (c1+c2)
+    // Mas devo considerar que c1 e c2 consideram como distância 1 pixel, de forma que ct
+    // é a condutância entre 2 píxeis. Mas quero considerar 1 pixel;
+    // Fazendo 1/c2p = 1/c1p + 1/c1p encontro c1p = 2*c2p
+    // ou seja para converter condutância distância 2 píxeis em condutância distância 1 píxel,
+    // devo multiplicar por 2
+    // Ficando: ct_1p = 2* ct_2p; como ct_2p = ct = (c1*c2) / (c1+c2)
+    // ct_1p = 2  (c1*c2) / (c1+c2)
+    // sendo ct_1p a condutancia entre dois objetos, mas considerando distância 1 píxel,
+    // o que corresponde ao grafo de conexão serial.
+    for ( auto objeto_conectado : coneccao ) {
+            // calcula condutância entre objetos 1 e 2(metade distância): ct = 2(c1*c2) / (c1+c2)
+            condutancia = 2.0 * ( objeto_conectado->propriedade * this->propriedade ) / ( objeto_conectado->propriedade + this->propriedade );
+            somatorio_da_condutancia_vezes_x += condutancia * objeto_conectado->x;
+            // Acumula a condutancia total
+            somatorio_da_condutancia += condutancia;
+        }
+
+    // Somatorio (condutancia*pressao) / somatorio_da_condutancia
+    // retorna um novo valor de x (pressão) sem alterar x diretamente.
+    return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
 }
 
 // -------------------------------------------------------------------------
@@ -296,20 +311,18 @@ long double CObjetoRede_Sitio::Go (long double /*d */ )
    @param  : void
    @return : long double ( o fluxo associado a this)
 */
-long double CObjetoRede_Sitio::Fluxo () const 
+long double CObjetoRede_Sitio::Fluxo () const
 {
-  long double fluxo { 0.0 };
-  static long double condutanciaMedia;
-  CObjetoRede* objeto_conectado = nullptr;
-  
-  for (unsigned long int i = 0; i < coneccao.size (); i++)
-  {
-   objeto_conectado  = dynamic_cast<CObjetoRede*>(coneccao[i]);
-      // Ex:
-      // propriedade = condutancia
-      // x           = pressao
-      condutanciaMedia = (objeto_conectado->propriedade + this->propriedade) / 2.0;
-      fluxo += condutanciaMedia * (this->x - objeto_conectado->x);
-    }
-  return fluxo;
+    long double fluxo { 0.0 };
+    static long double condutancia;
+
+    for ( unsigned long int i = 0; i < coneccao.size (); i++ ) {
+            // Ex: propriedade = condutancia    // x = pressao
+            // Cálculo antigo considerava a média simples  -> calculo errado!
+            // certo é 1/ct = 1/c1 + 1/c2) veja explicação em CObjetoRede_Sitio::Go.
+            condutancia = 2.0 * ( coneccao[i]->propriedade * this->propriedade ) / ( coneccao[i]->propriedade + this->propriedade );
+            fluxo += condutancia * ( this->x - coneccao[i]->x );
+        }
+
+    return fluxo;
 }

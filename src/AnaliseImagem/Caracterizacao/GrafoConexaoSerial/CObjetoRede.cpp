@@ -44,13 +44,43 @@ ostream & CObjetoRede::Write (ostream & out) const
   // Rótulo de this
   out << ' ' << setw (5) << rotulo;
 
-  // propriedade de this (condutancia)
-  out << ' ' << setw (10) << propriedade;
-
   // x de this (pressão)
   out << ' ' << setw (10) << x;
 
+  // propriedade de this (condutancia)
+  out << ' ' << setw (10) << propriedade;
+  
   return out;
+}
+
+
+/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conecções,
+ * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
+ * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
+ *    @short  : Deleta a coneccao de um ramo morto
+ *    @author : André Duarte Bueno
+ *    @see    :
+ *    @param  : unsigned int indiceObjetosDeletados
+ *    @return : void
+ *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
+*/
+bool CObjetoRede::DeletarConeccoesInvalidadas_aux ( int deletado , vector<CObjetoRede*>& coneccao )
+{
+     unsigned int indice_rotulo_valido {0};
+
+     // Percorre todas as coneccoes
+     for ( auto objeto: coneccao )
+          // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+          // Se foi deletado vai ser pulado.
+          if ( objeto->rotulo != deletado ) {
+               coneccao[indice_rotulo_valido++] = objeto;
+          }
+
+     // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+     coneccao.resize ( indice_rotulo_valido );
+     /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+     return 1;
 }
 
 // -------------------------------------------------------------------------

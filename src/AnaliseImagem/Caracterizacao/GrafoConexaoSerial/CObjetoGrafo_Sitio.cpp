@@ -33,11 +33,10 @@ using namespace std;
     @param  : objeto a quem será conectado
     @return : void
 */
-void CObjetoGrafo_Sitio::Conectar (CObjetoGrafo * obj, CObjetoGrafo *)
+void CObjetoGrafo_Sitio::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
 {
-  coneccao.push_back (obj);
+     coneccao.push_back ( obj );
 }
-
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
@@ -45,52 +44,50 @@ void CObjetoGrafo_Sitio::Conectar (CObjetoGrafo * obj, CObjetoGrafo *)
 /** Deleta a coneccao de um ramo morto
     @short  :		Deleta a coneccao de um ramo morto
     @author :		André Duarte Bueno
-    @see    :	
+    @see    :
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_Sitio::DeletarConeccao (unsigned int link)
+void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
 {
-  this->coneccao.erase ( coneccao.begin() + link );
+     this->coneccao.erase ( coneccao.begin() + link );
 }
 
 /** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
  * Funciona assim: percorre os objetos das conecções,
- * se o rótulo do objeto corresponde a um rótulo válido (não deletado),
- * então a conexão é preservada.
+ * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a coneccao de um ramo morto
-    @author : André Duarte Bueno
-    @see    : 
-    @param  : unsigned int indiceObjetosDeletados
-    @return : void
-    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
+ *    @short  : Deleta a coneccao de um ramo morto
+ *    @author : André Duarte Bueno
+ *    @see    :
+ *    @param  : unsigned int indiceObjetosDeletados
+ *    @return : void
+ *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas (int deletado)
+bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( int deletado )
 {
-  unsigned int indice_rotulo_valido {0};
-  
-  // Percorre todas as coneccoes
-  for ( auto objeto: coneccao )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto->rotulo != deletado)
-      {
-       coneccao[indice_rotulo_valido++] = objeto;
-      }
-
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  coneccao.resize (indice_rotulo_valido);
-  /// @todo: aqui pode apagar, usando erase, os objetos além do size().
-  return 1;
+ return DeletarConeccoesInvalidadas_aux ( deletado , coneccao );
+//      unsigned int indice_rotulo_valido {0};
+// 
+//      // Percorre todas as coneccoes
+//      for ( auto objeto: coneccao )
+//           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
+//           // Se foi deletado vai ser pulado.
+//           if ( objeto->rotulo != deletado ) {
+//                coneccao[indice_rotulo_valido++] = objeto;
+//           }
+// 
+//      // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+//      coneccao.resize ( indice_rotulo_valido );
+//      /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+//      return 1;
 }
 
 // -------------------------------------------------------------------------
 // Função:       Write
 // -------------------------------------------------------------------------
 /** Salva dados do objeto sítio em novo formato.
-    @short  : 	
+    @short  :
     Formato novo (Andre Format):
     ----------------------------
     NumeroSitios  		// salvo pelo grafo
@@ -106,25 +103,25 @@ bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas (int deletado)
     @param  :   Recebe uma referencia para uma ostream
     @return :		ostream&
 */
-ostream & CObjetoGrafo_Sitio::Write (ostream & out) const
+ostream & CObjetoGrafo_Sitio::Write ( ostream & out ) const
 {
-  out.setf (ios::right);
+     out.setf ( ios::right );
 
-  // Tipo de contorno
-  out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
+     // Tipo de contorno
+     out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
 
-  // Rótulo de this
-  out << ' ' << setw (5) << rotulo;
+     // Rótulo de this
+     out << ' ' << setw ( 5 ) << rotulo;
 
-  // Número de links (coneccoes)
-  unsigned long int numeroLinks = coneccao.size ();
-  out << ' ' << setw (4) << numeroLinks;
+     // Número de links (coneccoes)
+     unsigned long int numeroLinks = coneccao.size ();
+     out << ' ' << setw ( 4 ) << numeroLinks;
 
-  // lista dos rótulos de quem estou conexo
-  for (auto objeto_conectado : coneccao )
-    out << ' ' << setw (5) << objeto_conectado->rotulo;
+     // lista dos rótulos de quem estou conexo
+     for ( auto objeto_conectado : coneccao )
+          out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
 
-  return out;
+     return out;
 }
 
 // -------------------------------------------------------------------------
@@ -133,14 +130,14 @@ ostream & CObjetoGrafo_Sitio::Write (ostream & out) const
 /** Escreve os atributos do objeto em disco.
     @short  :	Sobrecarga operador entrada streams (antiga CObjetoGrafo_SitioEsqueleto).
     @author :	André Duarte Bueno
-    @see    :	
+    @see    :
     @param  :	ostream& e CObjetoGrafo_Sitio&
     @return :	ostream&
 */
-ostream & operator<< (ostream & out, CObjetoGrafo_Sitio & s)
-{ 
-  s.Write(out);
-  return out;
+ostream & operator<< ( ostream & out, CObjetoGrafo_Sitio & s )
+{
+     s.Write ( out );
+     return out;
 }
 
 // -------------------------------------------------------------------------
@@ -154,4 +151,3 @@ ostream & operator<< (ostream & out, CObjetoGrafo_Sitio & s)
     @return : istream&
     @todo   : implementar esta função.
 */
-

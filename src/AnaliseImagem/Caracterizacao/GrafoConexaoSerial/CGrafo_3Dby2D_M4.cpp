@@ -221,7 +221,7 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
       cmxSitio = cmx[k];
       cmySitio = cmy[k];
 
-      // Percorre todas as conecções do sitio atual
+      // Percorre todas as conexões do sitio atual
       for (unsigned int link = 0; link < ptrSitioLR->coneccao.size (); link++)
 	{
 

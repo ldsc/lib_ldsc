@@ -24,44 +24,30 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-// #ifndef _LIB_LDSC_CLASS_h
-// #include <Base/_LIB_LDSC_CLASS.h>
-// #endif
-
-// // Definição de CObjetoGrafo_Ligacao
-// #ifndef CObjetoGrafo_Ligacao_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Ligacao.h>
-// #endif
+#ifndef _LIB_LDSC_CLASS_h
+#include <Base/_LIB_LDSC_CLASS.h>
+#endif
 
 // Definição de CObjetoRede
 #ifndef CObjetoRede_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #endif
 
-// // Definição de CSMParametroSolver, classe base
-// #ifndef CSMParametroSolver_h
-// #include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
-// #endif
-
 /**
  * @brief Representa uma objeto ligação de uma rede.
- * É herdeiro de CObjetoRede, tendo uma variável x (herdada de
- * CParametroSolver), e uma propriedade (herdados de CObjetoRede).
- * É herdeira de CObjetoGrafo_Ligacao, herdando rótulo e conecções.
+ * Tendo uma variável rotulo (herdade de CObjetoGrafo)
+ * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
  *
  * @author  André Duarte Bueno
  * @see     grafos
- * @todo    renomear CObjetoRede_Ligacao->CObjetoRede_LigacaoMultipla;
- *          Criar novo CObjetoRede_Ligacao, deve estar conectado a dois objetos e nada mais!
- *          ou seja nem precisa armazenar a pressão (herdade de CSMParametroSolver).
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoRede_Ligacao : public CObjetoRede/*, public CObjetoGrafo_Ligacao*/
+class CObjetoRede_Ligacao : public CObjetoRede
 {
 // --------------------------------------------------------------Atributos
 public:
-     // Tem uma lista de ponteiros para objetos do tipo CObjetoRede que é generico
-     // Vetor de ponteiros para CObjetoRede
+     // Tem uma lista de ponteiros para objetos do tipo CObjetoRede que é genérico
+     // Vetor de ponteiros para CObjetoRede.
 
      /// Conecções a esquerda
      std::vector < CObjetoRede * >coneccaoA;

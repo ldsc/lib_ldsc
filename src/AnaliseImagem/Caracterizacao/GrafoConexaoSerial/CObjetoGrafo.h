@@ -20,6 +20,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Interface de disco
 #include <fstream>
+#include <vector>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -33,13 +34,17 @@ Desenvolvido por:
 #include <MetNum/Contorno/CContorno.h>
 #endif
 
+/** Grupo de classes da hierarguia de objetos de grafo.
+ * @defgroup HCObjetoGrafo
+ */
+
 // ===============================================================================
 // Documentacao Classe: CObjetoGrafo
 // ===============================================================================
 /**
  * @brief Representa um objeto básico de um grafo.
  * Um CGrafo representa um grafo, que é composto por um conjunto de objetos do tipo CObjetoGrafo.
- * Tem um conjunto de métodos para:
+ * CObjetoGrafo tem um conjunto de métodos para:
  * Conectar objetos: Conectar().
  * Deletar objetos conectados: DeletarConeccao().
  * Deletar conecções inválidas: DeletarConeccoesInvalidadas().
@@ -49,14 +54,13 @@ Desenvolvido por:
  * Determinar o fluxo de uma determinada propriedade: Fluxo().
  * Determinar alguma propriedade de interesse: Go().
  *
- * @todo: verificar possibilidade de usar rotulo como long int;
- * se for negativo pode indicar outra propriedade/informação.
- *
+ * Nota: as conexões entre objetos serão definidas em CGrafoSitio, CGrafoLigacao e CComponenteGrafo.
+ * 
  * @author   André Duarte Bueno.
  * @see      grafos.
  * @todo     implementar sobrecarga << e >>.
- * @defgroup HCObjetoGrafo
  * @ingroup  HCObjetoGrafo
+ * @todo Transformar template T para tipo rótulo (unsigned short, unsignet int, unsigned long,unsigned long long)
 */
 class CObjetoGrafo {
 // --------------------------------------------------------------Atributos
@@ -66,20 +70,19 @@ public:
       * O rótulo é usado para armazenar o objeto em disco, e
 	  * para localizar o objeto, seus links e referências.
      */
-     unsigned int rotulo {0};                    // assume default  = 0
+     unsigned int rotulo {0};
 
 // -------------------------------------------------------------Construtor
 /// Construtor
      CObjetoGrafo ()  = default;
 
 // --------------------------------------------------------------Destrutor
-
 /// Destrutor.
      virtual ~ CObjetoGrafo ()   = default;
 
 // ----------------------------------------------------------------Métodos
      /// Enumeração para o tipo de contorno, por default assume CContorno::CENTER.
-     ///  Esboço:
+     /// Esboço:
      ///                         3
      ///            5         0  1  2            6
      ///                         4
@@ -98,11 +101,15 @@ public:
      /**
        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
        * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+	   * @todo: pensar em criar 3 funções conectar
+	   * virtual void Conectar( CObjetoGrafo *objA );
+	   * virtual void Conectar( CObjetoGrafo *objA, CObjetoGrafo *objB );
+	   * virtual void Conectar( vector<CObjetoGrafo *> obj );
      */
-     virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) {}; //=0
+     virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) =0; //{};
 
      /// Deleta uma conexão.
-     virtual void DeletarConeccao ( unsigned int link )  {}; //=0
+     virtual void DeletarConeccao ( unsigned int link )  =0; //{};
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -110,32 +117,34 @@ public:
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
 	 * a conecção é eliminada.
      */
-     virtual bool DeletarConeccoesInvalidadas ( int deletado )  { return 1;}; //=0 
+     virtual bool DeletarConeccoesInvalidadas ( int deletado )  =0 ; //{ return 1;};
 	 
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const ; //=0
 
-//      /// @brief Salva atributos do objeto em disco no formato do Liang
-//      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
-//           Write ( os ); // deve ser reescrita nas derivadas.
-//           return os;
-//      }
-     /**
-     * @brief Função usada para calcular uma propriedade.
-     */
-     virtual long double Go ( long double d = 0 ) = 0;
+//      Funções das classes herdeiras -> CObjetoRede
+//      /**
+//      * @brief Função usada para calcular uma propriedade.
+//      */
+//      virtual long double Go ( long double d = 0 ) = 0;
+// 
+//      /**
+//       * @brief Função que calcula o fluxo associado as propriedade do objeto
+// 	  * e suas conecções.
+//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
+//       * e que em função das propriedades dos objetos, existe alguma informação 
+// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
+//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
+//      */
+//      virtual long double Fluxo () const = 0;
 
-     /**
-      * @brief Função que calcula o fluxo associado as propriedade do objeto
-	  * e suas conecções.
-      * Ou seja, considera-se que este objeto esta conectado a outros objetos
-      * e que em função das propriedades dos objetos, existe alguma informação 
-	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
-      * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-     */
-     virtual long double Fluxo () const = 0;
+protected:
+     /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
+	 /// criada para reduzir códigos nas herdeiras.
+bool DeletarConeccoesInvalidadas_aux ( int deletado , std::vector<CObjetoGrafo*>& coneccao );
 
 // --------------------------------------------------------------------Get
+public:
      /// @brief Retorna o rotulo do objeto.
      unsigned int Rotulo () const  {
           return rotulo;

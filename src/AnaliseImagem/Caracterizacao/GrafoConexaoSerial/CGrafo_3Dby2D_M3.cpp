@@ -32,8 +32,8 @@ using namespace std;
 // -------------------------------------------------------------------------
 // Função:       CalcularPropriedadesConeccoes
 // -------------------------------------------------------------------------
-/** @short: A conecção entre os sítios já foi estabelecida em DeterminarConeccoesObjetos.
- *   Aqui faço o calculo de uma propriedade relacionada a conecção entre os dois sítios.
+/** @short: A conexão entre os sítios já foi estabelecida em DeterminarConeccoesObjetos.
+ *   Aqui faço o calculo de uma propriedade relacionada a conexão entre os dois sítios.
  *  Como sou herdeiro da CGrafo_3Dby2D_M2 tenho o rotulador 2D rotint ativo, e
  *  já rotulado, podendo ser diretamente utilizado.
  *  Ex:
@@ -52,7 +52,7 @@ void CGrafo_3Dby2D_M3::CalcularPropriedadesConeccoes()
 
 // Para cada objeto do sítio, aloca o vetor condutância
 // com o mesmo número de dados do vetor coneccao    		
-// objeto[i]->Coneccao.size() retorna o número de conecções do objeto i
+// objeto[i]->Coneccao.size() retorna o número de conexões do objeto i
  unsigned long int numeroDeLinks = objeto[i]->Coneccao.size();
 objeto[i]->condutancias.reserve( numeroDeLinks );
 };
@@ -63,7 +63,7 @@ objeto[i]->condutancias.reserve( numeroDeLinks );
 // -------------------------------------------------------------------------
 /** @short : É a mesma função da classe base, a diferença é
  *     o calculo dos raiosHidraulicos para o plano intermediário
- *     e a setagem em cada objeto do valor do raioHidraulico da conecção.
+ *     e a setagem em cada objeto do valor do raioHidraulico da conexão.
  * @author :	André Duarte Bueno
  * @see    :
  * @param  : Recebe o número do maior rótulo já utilizado
@@ -142,7 +142,7 @@ CGrafo_3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtili
                // pp-1 esta conectado a pa-1
                objeto[pp - 1]->Conectar (objeto[pa - 1]);
 
-               // NOVO  : Definição dos raiosHidraulicos das coneccoes
+               // NOVO  : Definição dos raiosHidraulicos das conexões
                raioHidraulicoLigacoes =
                      rotInt->RaioHidraulicoObjetos (rotInt->data2D[ii][jj]);
                ptrSitio = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[pa - 1]);
@@ -174,8 +174,8 @@ CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _d
    long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao);
 
    // A classe CGrafo_3Dby2D_M3 tem sítios do tipo CObjetoRede_Sitio_CC
-   // que tem uma lista de conecções.
-   // aqui usa um ponteiro do tipo CObjetoRede_Sitio_CC para acessar as conecções.
+   // que tem uma lista de conexões.
+   // aqui usa um ponteiro do tipo CObjetoRede_Sitio_CC para acessar as conexões.
    CObjetoRede_Sitio_CC * ptrSitioLR = nullptr;
 
    // Percorre  todos os objetos do  grafo
@@ -191,11 +191,11 @@ CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _d
 
       // Calcula as condutancias das ligações
       // objeto[k] é um ponteiro para CObjetoRede, para obter a informação do
-      // número de conecções, preciso de um ponteiro para um CObjetoRede_Sitio (ou derivado)
+      // número de conexões, preciso de um ponteiro para um CObjetoRede_Sitio (ou derivado)
       // abaixo, usa dynamic_cast para obter ponteiro p/ CObjetoRede_Sitio*
       CObjetoRede_Sitio * ptrSitio = dynamic_cast < CObjetoRede_Sitio * >(objeto[k]);
 
-      // Percorre todas as conecções do objeto
+      // Percorre todas as conexões do objeto
       for (unsigned int link = 0; link < ptrSitio->coneccao.size (); link++) {
          // Converte o ponteiro ObjetoGrafo para CObjetoRede_Sitio_CC
          ptrSitioLR = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[k]);
@@ -216,8 +216,8 @@ CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _d
 // Função:   EliminarCondutanciasRepetidas
 // -------------------------------------------------------------------------
 /** @short  : Redefinida, em relação a CGrafo3Dby2D.
- * Percorre todos os objetos e elimina coneccoes repetidas (deve ser chamada depois do 
- * calculo das condutâncias, pois soma as condutâncias das coneccoes repetidas.
+ * Percorre todos os objetos e elimina conexões repetidas (deve ser chamada depois do 
+ * calculo das condutâncias, pois soma as condutâncias das conexões repetidas.
  * se chamar antes, vai acumular o raio hidraulico)
  * Chama função de cada sítio, que elimina links repetidos.
  * @author :	André Duarte Bueno
@@ -344,7 +344,7 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
 
          // Fronteira direira
       case CContorno::ETipoContorno::EST:
-         // Percorre as conecções do objeto
+         // Percorre as conexões do objeto
          for (i = 0; i < objeto_j->coneccao.size (); i++)
          {
             // Calcula Cij
@@ -367,7 +367,7 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
 
          // Fronteira Centro
       case CContorno::ETipoContorno::CENTER:
-         // Percorre as conecções do objeto
+         // Percorre as conexões do objeto
          for (i = 0; i < objeto_j->coneccao.size (); i++)
          {
             // Se o link  for  um objeto de centro (não contorno) entra

@@ -374,7 +374,7 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes ()
 /** Elimina  sítios com 0 links;
 Percorre  todo o grafo, considerando cada plano.
 Localiza objeto com zero ou uma ligação e o elimina.
-Se tem uma ligação, elimina as conecções com o objeto eliminado.
+Se tem uma ligação, elimina as conexões com o objeto eliminado.
 Repete o procedimento num do..while até que não ocorram mais deleções.
 É lento porque percorre grafo várias vezes e usa delete(it) num vector grande!
 Observe abaixo os resultados, observe que o número de objetos do grafo reduziu de 1827 para 1709
@@ -455,15 +455,13 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
       {
          // Um objeto[i] é um ponteiro para um CObjetoRede;
          // Abaixo sempre trabalho com objetos do tipo CObjetoRede_Sitio, sendo assim,
-         // preciso fazer um dynamic_cast para poder acessar o vetor das conecções.
+         // preciso fazer um dynamic_cast para poder acessar o vetor das conexões.
 		objetoEmAnalise = dynamic_cast < CObjetoRede_Sitio * >(objeto[rotulo]);
-// objetoConectado_tipoObjetoRede =  dynamic_cast < CObjetoRede * >(objeto[rotulo]);  // para eliminar ambiquidade usa cast duplo->lento!
-// objetoEmAnalise = dynamic_cast < CObjetoRede_Sitio * >(objetoConectado_tipoObjetoRede);
 
-         // Pega o número de conecções do objeto 1
+         // Pega o número de conexões do objeto 1
          numeroLinksObjetoEmAnalise = objetoEmAnalise->coneccao.size();
 
-        // Se numeroLinksObjetoEmAnalise == 0 conecções
+        // Se numeroLinksObjetoEmAnalise == 0 conexões
         if (numeroLinksObjetoEmAnalise == 0) 
 	     {
             // Adiciona a lista de objetos eliminados o rotulo do objeto atual
@@ -478,27 +476,24 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
             numeroObjetosDeletadosNestaPassagem++;
          }
          // Se numeroLinksObjetoEmAnalise ==  1 ligação, pode eliminar este sítio,
-         // mas deve eliminar as conecções dos outros para ele.
+         // mas deve eliminar as conexões dos outros para ele.
         else if ( numeroLinksObjetoEmAnalise == 1)
 	     {
             // --------------------
             // INICIO FUNCAO DELETAROBJETO (objetoEmAnalise)
             // Ponteiro para o objeto a quem estou conectado
              objetoConectado = dynamic_cast < CObjetoRede_Sitio * >( objetoEmAnalise->coneccao[0] );
-// objetoConectado_tipoObjetoRede =  dynamic_cast < CObjetoRede * >(objeto[rotulo]);
-// objetoConectado = dynamic_cast < CObjetoRede_Sitio * >(objetoConectado_tipoObjetoRede);
 
-            // Percorre todas as conecções do objetoConectado e procura aquelas que apontam 
+            // Percorre todas as conexões do objetoConectado e procura aquelas que apontam 
 			// para objetoEmAnalise.
             // percorre de tras para frente.
             for (long int link = (objetoConectado->coneccao.size() - 1); link >= 0; link--)
             {
                // se o link do objetoConectado aponta para objetoEmAnalise
-			  if (objetoConectado->coneccao[link] == objetoEmAnalise)
-// if (objetoConectado->coneccao[link] ==  objetoEmAnalise )
+				if (objetoConectado->coneccao[link] == objetoEmAnalise)
                {
-                  // Se for CObjetoRede_Sitio deleta somente a conecção (modelos 1 e 2)
-                  // Se for CObjetoRede_Sitio_CC deleta a conecção e a condutancia (modelos 3,4,5,..)
+                  // Se for CObjetoRede_Sitio deleta somente a conexão (modelos 1 e 2)
+                  // Se for CObjetoRede_Sitio_CC deleta a conexão e a condutancia (modelos 3,4,5,..)
                   objetoConectado->DeletarConeccao (link);
 
                   // Mesmo depois de deletar a primeira ligação, deve verificar as demais
@@ -541,7 +536,7 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
    // pesquisa todos os objetos e faz rótulos sequenciais.
    for (unsigned long int i = 0; i < objeto.size (); i++)
       objeto[i]->rotulo = i;
-   
+
    // O número do ultimo objeto do solver precisa ser corrigido??
    // E se algum objeto do plano zn foi deletado ?
    // resp: objetos do plano zn não são verificados, portanto não são deletados!
@@ -556,10 +551,10 @@ Etapa 1)
 Varre todo o grafo e identifica objetos que estão na ponta dos ramos mortos.
 Percorre o ramo e vai marcando os objetos para deleção.
 Etapa 2)
-Percorre todas as conecções de todos os objetos e marca para deleção
+Percorre todas as conexões de todos os objetos e marca para deleção
 os objetos que foram marcados para deleção
 Etapa 3)
-Elimina as conecções para os objetos marcados para deleção
+Elimina as conexões para os objetos marcados para deleção
 Etapa 4)
 Elimina os objetos marcados para deleção
 Etapa 5)
@@ -610,7 +605,7 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_2 ()
          {
             objeto[indice_rotulo_valido++] = objeto[i];
          }
-      // Redimensiona o vetor das conecções (as que apontam para objetos deletados são eliminadas)
+      // Redimensiona o vetor das conexões (as que apontam para objetos deletados são eliminadas)
       // note que V2 chama resize, não deletando efetivamente o vetor de objetos.
       objeto.resize (indice_rotulo_valido);
 
@@ -649,7 +644,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
    // -------------------------------------------------
    // Como vai percorrer todo o ramo morto e deletar em sequência, a função inclui chamadas recursivas,
    // o que explica os parâmetros deste if.
-   // Uma conecção que já foi deletada (marcada com deletado) pode ser chamada 2x,
+   // Uma conexão que já foi deletada (marcada com deletado) pode ser chamada 2x,
    // o que explica o if(..i != deletado)
    if (	// Se o objeto ja foi deletado, o indice i == deletado, deve ser desconsiderado.
 		i != deletado		// sempre primeiro a verificar
@@ -662,7 +657,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       CObjetoRede_Sitio *obj = dynamic_cast < CObjetoRede_Sitio * >( objeto[i] );
       assert (obj); // exceção..
 
-      // Obtêm o número de conecções
+      // Obtêm o número de conexões
       int nlinks = obj->coneccao.size ();
 
       // Se 0 links, é um objeto isolado, então marca para deleção
@@ -670,7 +665,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       if (nlinks == 0)
          obj->rotulo = deletado;
 
-	  // se tem um link (ramo duplo) então marca para deleção, e pede para verificar a conecção.
+	  // se tem um link (ramo duplo) então marca para deleção, e pede para verificar a conexão.
       // ........*<------->*........               
 	  // note que objetos nos planos z=0 e z=n terão geralmente 1 link, por isso a condição
 	  // if( ..objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER)
@@ -689,7 +684,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       else if (nlinks == 2)
       {
          // Se a coneccao[0] se refere a objeto já deletado então o número efetivo
-		 // de conecções é 1, e precisa marcar para deletação.
+		 // de conexões é 1, e precisa marcar para deletação.
          if (obj->coneccao[0]->rotulo == deletado)
          {
             obj->rotulo = deletado;
@@ -697,7 +692,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
             MarcarParaDelecaoObjeto (obj->coneccao[1]->rotulo);
          }
          // Se a coneccao[1] se refere a objeto já deletado então o número efetivo
-		 // de conecções é 1, e precisa marcar para deletação.
+		 // de conexões é 1, e precisa marcar para deletação.
          /*else*/ if (obj->coneccao[1]->rotulo == deletado)
          {
             obj->rotulo = deletado;
@@ -724,7 +719,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
  e as ligações de cada objeto para eliminar qualquer referencia ao objeto
  que vai ser deletado???
  se algum objeto aponta para o objeto a ser deletado
- isto significa que ele tem conecção e que não deveria ser deletado???
+ isto significa que ele tem conexão e que não deveria ser deletado???
  (Para o CGrafo3Dby2D este caso não deveria ocorrer)
 
         objeto[i]->coneccao[link]  // retorna ponteiro para objeto
@@ -746,7 +741,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
 
         Na versão 2:
  Os objetos apontam diretamente para os outros objetos.
- A lista das conecções não armazena mais o rótulo do objeto, e sim um ponteiro para o 
+ A lista das conexões não armazena mais o rótulo do objeto, e sim um ponteiro para o 
  proprio objeto.
         Usava algo como: objeto[objeto[i]->rotulo]
         Agora os vetores coneccao armazenam o endereço do objeto
@@ -927,7 +922,7 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
     case CContorno::ETipoContorno::WEST:
 	// Fronteira direita/EST
     case CContorno::ETipoContorno::EST:
-	  // Percorre as conecções do objeto
+	  // Percorre as conexões do objeto
 	  for (i = 0; i < objeto_j->coneccao.size (); i++)
 	    {
 	      /// Calcula Cij - @todo: explicar a equacao usada.
@@ -952,7 +947,7 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
 	  
 	// Fronteira Centro
     case CContorno::ETipoContorno::CENTER:
-	  // Percorre as conecções do objeto
+	  // Percorre as conexões do objeto
 	  for (i = 0; i < objeto_j->coneccao.size (); i++)
 	    {
 	      // Se o link for um objeto de centro (não contorno) entra
@@ -968,7 +963,7 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
 		  mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
 		  mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
 
-		  // Define A->data2D[mi][mj]      
+		  // Define A->data2D[mi][mj]
 		  A->data2D[mi][mj] = static_cast < int >(Cij);	// LIXO o static
 
 		  // Acumula A->data2D[mj][mj]
@@ -1033,7 +1028,7 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
   			
 	  // Fronteira direira
 	case CContorno::EST :	
-	  // Percorre as conecções do objeto	
+	  // Percorre as conexões do objeto	
 	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
 	    {
 	      // Calcula Cij
@@ -1058,7 +1053,7 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
   			
 	  // Fronteira Centro
 	case CContorno::CENTER :	
-	  // Percorre as conecções do objeto	
+	  // Percorre as conexões do objeto	
 	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
 	    {
 	      // Se o link  for  um objeto de centro (não contorno) entra

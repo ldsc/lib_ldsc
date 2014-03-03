@@ -39,12 +39,12 @@ Desenvolvido por:
  *
  * Neste modelo a função Go funciona da seguinte forma:
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
- * Depois estabelece-se as conecções entre os planos consecutivos.
+ * Depois estabelece-se as conexões entre os planos consecutivos.
  * Observe que duas regiões que se interceptam vão gerar um número
- * grande de conecções (com conecções redundantes).
+ * grande de conexões (com conexões redundantes).
  * Ou seja, existe uma repetição no número de ligações entre duas regiões,
- * pois para cada conecção entre píxeis,
- * estabelece uma conecção.
+ * pois para cada conexão entre píxeis,
+ * estabelece uma conexão.
  *
  * @author 	André Duarte Bueno
  * @see	      	Grafo

@@ -1,4 +1,3 @@
-
 #ifndef CGrafo_h
 #define CGrafo_h
 
@@ -44,10 +43,10 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief Um CGrafo é uma representação para uma estrutura de dados.
- * Um CGrafo é composto de uma lista de objetos do tipo CObjetoRede.
+ * Um CGrafo é composto de uma lista de objetos do tipo CObjetoRede (derivado de CObjetoGrafo).
  * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoRede.
  * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e
- * uma hierarquia de objetos de grafo cujo pai e CObjetoRede.
+ * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo 
  *
  * Exemplo:
  * Determinação do grafo de uma imagem 3D:
@@ -74,6 +73,8 @@ Desenvolvido por:
  *
  * @todo: Reformular a hierarquia de objetos do grafo e a hierarquia de grafos de forma
  * a representar mais corretamente os conceitos teóricos.
+ * Note que antes criava vetor de CObjetoGrafo e agora CObjetoRede pois o grafo de conexão serial
+ * requer o uso de CObjetoRede. 
  *
  * RESUMO DAS CLASSES
  * CGrafo
@@ -188,146 +189,146 @@ Desenvolvido por:
  * @ingroup  HCGrafo
 */
 class  CGrafo {
-     // --------------------------------------------------------------Atributos
+   // --------------------------------------------------------------Atributos
 protected:
-     /// Nome do arquivo de disco (nome do arquivo do grafo).
-     std::string nomeArquivo {"nomeArquivoIndefinido"};
+   /// Nome do arquivo de disco (nome do arquivo do grafo).
+   std::string nomeArquivo {"nomeArquivoIndefinido"};
 
-     /// Enumeração para os diferentes tipos de grafo.
-     /// @enum: ETipoGrafo
-     // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
-     enum class ETipoGrafo : unsigned char {
-          grafo,          ///< representa grafo criado por CGrafo
-          grafoContorno,  ///< representa grafo criado por CGrafoContorno
-          grafo3DBy2D,    ///< representa grafo criado por CGrafo3DBy2D
-          grafo3DBy2D_M1, ///< representa grafo criado por CGrafo3DBy2D_M1
-          grafo3DBy2D_M2, ///< representa grafo criado por CGrafo3DBy2D_M2
-          grafo3DBy2D_M3, ///< representa grafo criado por CGrafo3DBy2D_M3
-          grafo3DBy2D_M4, ///< representa grafo criado por CGrafo3DBy2D_M4
-          grafo3DBy2D_M5, ///< representa grafo criado por CGrafo3DBy2D_M5
-          grafo3DBy2D_M6  ///< representa grafo criado por CGrafo3DBy2D_M6
-     };
+   /// Enumeração para os diferentes tipos de grafo.
+   /// @enum: ETipoGrafo
+   // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+   enum class ETipoGrafo : unsigned char {
+      grafo,          ///< representa grafo criado por CGrafo
+      grafoContorno,  ///< representa grafo criado por CGrafoContorno
+      grafo3DBy2D,    ///< representa grafo criado por CGrafo3DBy2D
+      grafo3DBy2D_M1, ///< representa grafo criado por CGrafo3DBy2D_M1
+      grafo3DBy2D_M2, ///< representa grafo criado por CGrafo3DBy2D_M2
+      grafo3DBy2D_M3, ///< representa grafo criado por CGrafo3DBy2D_M3
+      grafo3DBy2D_M4, ///< representa grafo criado por CGrafo3DBy2D_M4
+      grafo3DBy2D_M5, ///< representa grafo criado por CGrafo3DBy2D_M5
+      grafo3DBy2D_M6  ///< representa grafo criado por CGrafo3DBy2D_M6
+   };
 
-     /// Identifica o tipo de grafo, deve ser definido no construtor.
-     ETipoGrafo tipoGrafo { ETipoGrafo::grafo } ;
+   /// Identifica o tipo de grafo, deve ser definido no construtor.
+   ETipoGrafo tipoGrafo { ETipoGrafo::grafo } ;
 
 public:
-     /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
-     /// @todo: trocar por unique_ptr shared_ptr?
-     std::vector<CObjetoRede *> objeto ;
+   /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
+   /// @todo: trocar por unique_ptr shared_ptr?
+   std::vector<CObjetoRede*> objeto ;
 
-     // -------------------------------------------------------------Construtor
-     /// Constroi o grafo, recebe um nome de arquivo de disco.
-     CGrafo ( std::string _nomeArquivoImagem ) : nomeArquivo ( _nomeArquivoImagem ) { }
+   // -------------------------------------------------------------Construtor
+   /// Constroi o grafo, recebe um nome de arquivo de disco.
+   CGrafo ( std::string _nomeArquivoImagem ) : nomeArquivo ( _nomeArquivoImagem ) { }
 
-     // --------------------------------------------------------------Destrutor
-     /// Destroi o objeto, como o grafo é o proprietário dos sítios deve eliminá-los.
-     virtual ~CGrafo()  {
-          for ( auto elemento :  objeto ) {
-               delete elemento;
-          }
-     }
+   // --------------------------------------------------------------Destrutor
+   /// Destroi o objeto, como o grafo é o proprietário dos sítios deve eliminá-los.
+   virtual ~CGrafo()  {
+      for ( auto elemento :  objeto ) {
+            delete elemento;
+         }
+   }
 
-     // ----------------------------------------------------------------Métodos
+   // ----------------------------------------------------------------Métodos
 protected:
-     /**
-      * @brief Função usada para criar os objetos do grafo.
-      * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
-      * Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoContorno.
-      * Note que como temos diferentes modelos de grafo e diferentes tipos de objetos,
-      * CriarObjetoGrafo é reescrita nas classes derivadas, de forma a criar os objetos
-      * de acordo com o modelo.
-      * Esta função NÃO deve ser movida para hierarquia de objetos grafo, pois muda
-      * de acordo com o tipo de grafo!
-      *
-      * @todo: esta sendo sobrescrita nas classes herdeiras,
-      * para juntar tudo numa função única, precisa criar na hierarquia de objetos
-      * a enumeração ETipoObjetoGrafo
-      * e então juntar tudo numa função estática única (ver livro padrões projeto).
-      * Note que, neste caso, terá de ser movida para dentro hierarquia de objetos do grafo.
-      * Note ainda que na hora de chamar CriarObjetoGrafo nas classes herdeiras terás
-      * de passar o tipo correto do objeto do grafo.
-      * NomePadrão: CObjetoRede::CriarObjeto -> criar objeto da hierarquia grafo.
-     */
-     virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno );
+   /**
+    * @brief Função usada para criar os objetos do grafo.
+    * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
+    * Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoContorno.
+    * Note que como temos diferentes modelos de grafo e diferentes tipos de objetos,
+    * CriarObjetoGrafo é reescrita nas classes derivadas, de forma a criar os objetos
+    * de acordo com o modelo.
+    * Esta função NÃO deve ser movida para hierarquia de objetos grafo, pois muda
+    * de acordo com o tipo de grafo!
+    *
+    * @todo: esta sendo sobrescrita nas classes herdeiras,
+    * para juntar tudo numa função única, precisa criar na hierarquia de objetos
+    * a enumeração ETipoObjetoGrafo
+    * e então juntar tudo numa função estática única (ver livro padrões projeto).
+    * Note que, neste caso, terá de ser movida para dentro hierarquia de objetos do grafo.
+    * Note ainda que na hora de chamar CriarObjetoGrafo nas classes herdeiras terás
+    * de passar o tipo correto do objeto do grafo.
+    * NomePadrão: CObjetoRede::CriarObjeto -> criar objeto da hierarquia grafo.
+   */
+   virtual CObjetoRede* CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno );
 
-     // ///Deleta um objeto do grafo
-     // Deleta consideranto a posição no vetor.
-     // virtual bool DeletarObjeto(int ri) = 0;
-     // Deleta consideranto o endereço do objeto.
-     // virtual bool DeletarObjeto(CObjetoRede* sitio) = 0;
+   // ///Deleta um objeto do grafo
+   // Deleta consideranto a posição no vetor.
+   // virtual bool DeletarObjeto(int ri) = 0;
+   // Deleta consideranto o endereço do objeto.
+   // virtual bool DeletarObjeto(CObjetoRede* sitio) = 0;
 
 public:
-     /**
-      * @brief Função que recebe uma imagem 3D e gera a lista de objetos e seus relacionamentos.
-     */
-     virtual CGrafo *Go ( TCMatriz3D<int> *_img3D ,unsigned long int _tamanhoMascara = 0 ) = 0;
+   /**
+    * @brief Função que recebe uma imagem 3D e gera a lista de objetos e seus relacionamentos.
+   */
+   virtual CGrafo* Go ( TCMatriz3D<int>* _img3D , unsigned long int _tamanhoMascara = 0 ) = 0;
 
-     /**
-      * @brief Função que recebe o nome do arquivo de uma imagem 3D, carrega imagem do disco
-      * e gera a lista de objetos e seus relacionamentos.
-      * Nas classes derivadas a função abaixo foi reescrita, o objetivo é eliminar a leitura
-      * de toda a imagem tridimensional, e ir realizando a determinacao do grafo com a leitura dos planos.
-     */
-     virtual CGrafo *Go ( std::string nomeArquivo, unsigned long int _tamanhoMascara = 0 ) {
-          TCMatriz3D<int> *img3D = new TCMatriz3D<int> ( nomeArquivo );
-          assert ( img3D );
+   /**
+    * @brief Função que recebe o nome do arquivo de uma imagem 3D, carrega imagem do disco
+    * e gera a lista de objetos e seus relacionamentos.
+    * Nas classes derivadas a função abaixo foi reescrita, o objetivo é eliminar a leitura
+    * de toda a imagem tridimensional, e ir realizando a determinacao do grafo com a leitura dos planos.
+   */
+   virtual CGrafo* Go ( std::string nomeArquivo, unsigned long int _tamanhoMascara = 0 ) {
+      TCMatriz3D<int>* img3D = new TCMatriz3D<int> ( nomeArquivo );
+      assert ( img3D );
 //       img3D->Constante(0); // bug?? Verificar??
-          return Go ( img3D, _tamanhoMascara );
-     }
+      return Go ( img3D, _tamanhoMascara );
+   }
 
-     /**
-      * @brief Salva o grafo e seus objetos em disco.
-      * Salva a informação do número de objetos e os dados de cada objeto em disco
-      * chamando Write de cada objeto.
-      * @todo: renomear Write -> Salvar; ex: grafo->Salvar();
-      * @todo: renomear Read  -> Ler; ex: grafo->Ler();
-      */
-     virtual void Write();
+   /**
+    * @brief Salva o grafo e seus objetos em disco.
+    * Salva a informação do número de objetos e os dados de cada objeto em disco
+    * chamando Write de cada objeto.
+    * @todo: renomear Write -> Salvar; ex: grafo->Salvar();
+    * @todo: renomear Read  -> Ler; ex: grafo->Ler();
+    */
+   virtual void Write();
 
-     // --------------------------------------------------------------------Get
-     /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo (ex:.grafo3DBy2D_M3)
-     std::string NomeGrafo()  const {
-          return nomeArquivo + "." + TipoGrafoString();
-     }
+   // --------------------------------------------------------------------Get
+   /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo (ex:.grafo3DBy2D_M3)
+   std::string NomeGrafo()  const {
+      return nomeArquivo + "." + TipoGrafoString();
+   }
 
-     /// Retorna o tipo de grafo
-     ETipoGrafo TipoGrafo( ) {
-          return tipoGrafo;
-     }
+   /// Retorna o tipo de grafo
+   ETipoGrafo TipoGrafo( ) {
+      return tipoGrafo;
+   }
 
-     /// Retorna o tipo do grafo como uma string, útil para gerar nomes arquivos saída.
-     std::string TipoGrafoString( ) const {
-          switch ( tipoGrafo ) {
-          case ETipoGrafo::grafo          :
-               return {"grafo"};
-          case ETipoGrafo::grafoContorno  :
-               return {"grafoContorno"};
-          case ETipoGrafo::grafo3DBy2D    :
-               return {"grafo3DBy2D"};
-          case ETipoGrafo::grafo3DBy2D_M1 :
-               return {"grafo3DBy2D_M1"};
-          case ETipoGrafo::grafo3DBy2D_M2 :
-               return {"grafo3DBy2D_M2"};
-          case ETipoGrafo::grafo3DBy2D_M3 :
-               return {"grafo3DBy2D_M3"};
-          case ETipoGrafo::grafo3DBy2D_M4 :
-               return {"grafo3DBy2D_M4"};
-          case ETipoGrafo::grafo3DBy2D_M5 :
-               return {"grafo3DBy2D_M5"};
-          case ETipoGrafo::grafo3DBy2D_M6 :
-               return {"grafo3DBy2D_M6"};
-          }
-     }
+   /// Retorna o tipo do grafo como uma string, útil para gerar nomes arquivos saída.
+   std::string TipoGrafoString( ) const {
+      switch ( tipoGrafo ) {
+         case ETipoGrafo::grafo          :
+            return {"grafo"};
+         case ETipoGrafo::grafoContorno  :
+            return {"grafoContorno"};
+         case ETipoGrafo::grafo3DBy2D    :
+            return {"grafo3DBy2D"};
+         case ETipoGrafo::grafo3DBy2D_M1 :
+            return {"grafo3DBy2D_M1"};
+         case ETipoGrafo::grafo3DBy2D_M2 :
+            return {"grafo3DBy2D_M2"};
+         case ETipoGrafo::grafo3DBy2D_M3 :
+            return {"grafo3DBy2D_M3"};
+         case ETipoGrafo::grafo3DBy2D_M4 :
+            return {"grafo3DBy2D_M4"};
+         case ETipoGrafo::grafo3DBy2D_M5 :
+            return {"grafo3DBy2D_M5"};
+         case ETipoGrafo::grafo3DBy2D_M6 :
+            return {"grafo3DBy2D_M6"};
+         }
+   }
 
-     // --------------------------------------------------------------------Set
-     // -----------------------------------------------------------------Friend
-     /// Escreve em "os" os dados do objeto grafo e seus agregados
-     friend std::ostream &operator<< ( std::ostream &os, const CGrafo &obj );
+   // --------------------------------------------------------------------Set
+   // -----------------------------------------------------------------Friend
+   /// Escreve em "os" os dados do objeto grafo e seus agregados
+   friend std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 
-     // friend istream& operator>> (istream& is, CGrafo& obj);
+   // friend istream& operator>> (istream& is, CGrafo& obj);
 };
 
-std::ostream &operator<< ( std::ostream &os, const CGrafo &obj );
+std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 // istream& operator>> (istream& is, CGrafo& obj);
 #endif

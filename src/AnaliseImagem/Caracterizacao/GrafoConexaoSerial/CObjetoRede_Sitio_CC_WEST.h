@@ -57,7 +57,7 @@ public:
 // ----------------------------------------------------------------Métodos
 // --------------------------------------------------------------Atributos
      /// Retorna o tipo
-     virtual CContorno::ETipoContorno Contorno () const override  {
+     inline virtual CContorno::ETipoContorno Contorno () const override  {
           return CContorno::ETipoContorno::WEST;
      }
 
@@ -66,7 +66,7 @@ public:
       * o valor de x retorna a pressão na fronteira direita
       * Oberve que nao altera o valor de x.
      */
-     virtual long double Go ( long double d = 0 ) override  {
+     inline virtual long double Go ( long double d = 0 ) override  {
           return x;
      }
 

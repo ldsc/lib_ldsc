@@ -55,9 +55,9 @@ using namespace std;
 O atributo plano é utilizado para armazenar no objeto criado, temporariamente,
 a informacao do plano a que pertence. Será usado para estimação
 da pressão inicial.*/
-CGrafo * CGrafo_3Dby2D::Go (string nomeArquivoImagem, unsigned long int naoUsado)
+CGrafo * CGrafo_3Dby2D::Go (string nomeArquivoImagem, unsigned long int /*naoUsado*/)
 {
-   unsigned long int i, j, k;
+   /*unsigned long */int i, j, k;
    maiorRotuloUtilizado = 0;
 
    CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
@@ -71,8 +71,8 @@ CGrafo * CGrafo_3Dby2D::Go (string nomeArquivoImagem, unsigned long int naoUsado
 
    // Leitura do cabecalho do arquivo de disco
    char d3[55]; //?
-   unsigned int numeroCores;
-   unsigned int valor;
+   /*unsigned*/ int numeroCores;
+   /*unsigned*/ int valor;
    fin >> d3 >> nx >> ny >> nz >> numeroCores;
 
    // Criacao dos objetos ra,rp img2D
@@ -191,10 +191,10 @@ CGrafo * CGrafo_3Dby2D::Go (string nomeArquivoImagem, unsigned long int naoUsado
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
-CGrafo * CGrafo_3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int naoUsado) {
+CGrafo * CGrafo_3Dby2D::Go (TCMatriz3D<int> * _img3D, unsigned long int /*naoUsado*/) {
 
    // Usados para percorrer  a imagem
-   unsigned long int i, j, k;
+   /*unsigned long*/ int i, j, k;
 
    CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 

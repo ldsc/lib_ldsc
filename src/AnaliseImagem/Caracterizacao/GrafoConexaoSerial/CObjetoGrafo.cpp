@@ -70,7 +70,7 @@ ostream & CObjetoGrafo::Write ( ostream & out ) const
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo::DeletarConeccoesInvalidadas_aux ( int deletado , vector<CObjetoGrafo*>& coneccao )
+bool CObjetoGrafo::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoGrafo*>& coneccao )
 {
      unsigned int indice_rotulo_valido {0};
 

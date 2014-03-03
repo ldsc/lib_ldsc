@@ -60,7 +60,7 @@ public:
 
      // Redefinição de funções herdadas
      /// Retorna o tipo de contorno
-     virtual CContorno::ETipoContorno Contorno () const  override {
+     inline virtual CContorno::ETipoContorno Contorno () const  override {
           return CContorno::ETipoContorno::EST;
      }
 
@@ -68,7 +68,7 @@ public:
       * @brief Função herdade da classe CParametroSolver usada para
       * calcular o valor de x retorna a pressão na fronteira direita
      */
-     virtual long double Go ( long double d = 0 )  override {
+     inline virtual long double Go ( long double d = 0 )  override {
           return x;
      }
 

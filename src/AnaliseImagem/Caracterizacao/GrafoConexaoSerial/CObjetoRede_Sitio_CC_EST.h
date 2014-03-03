@@ -51,7 +51,7 @@ public:
 // Redefinição de funções herdadas
 
      /// Retorna o tipo de contorno
-     virtual CContorno::ETipoContorno Contorno () const override  {
+     inline virtual CContorno::ETipoContorno Contorno () const override  {
           return CContorno::ETipoContorno::EST;
      }
 
@@ -61,7 +61,7 @@ public:
       * Observe que retorna direto o valor de x, ou seja,
       * um objeto da fronteira nao recalcula seu fluxo
      */
-     virtual long double Go ( long double d = 0 ) override   {
+     inline virtual long double Go ( long double d = 0 ) override   {
           return x;
      }
 

@@ -89,10 +89,10 @@ public:
        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
        * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
      */
-     virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
+     inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
      /// Deleta uma conexão.
-     virtual void DeletarConeccao ( unsigned int link ) override ;
+     inline virtual void DeletarConeccao ( unsigned int link ) override ;
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -100,7 +100,7 @@ public:
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
 	 * a conecção é eliminada.
      */
-     virtual bool DeletarConeccoesInvalidadas ( int deletado ) override ; 
+     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
 	 
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const override ;
@@ -138,9 +138,8 @@ public:
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Sitio &obj );
+inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Sitio &obj );
 // istream& operator>> (istream& is, CObjetoGrafo_Sitio& obj);
-
 
 // Cria o tipo CObjetoGrafo_Sitio_CENTER, que é igual a CObjetoGrafo_Sitio
 // typedef CObjetoGrafo_Sitio CObjetoGrafo_Sitio_CENTER;

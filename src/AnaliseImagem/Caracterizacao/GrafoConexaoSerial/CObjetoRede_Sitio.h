@@ -72,10 +72,10 @@ public:
        * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
 	   * NOTA: mesmo código de CObjetoRede_Sitio
      */
-     virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) /*override*/ ;
+     /*inline*/ virtual void Conectar ( CObjetoRede *objA, CObjetoRede */*objB = nullptr*/ ) override ;
 
      /// Deleta uma conexão. NOTA: mesmo código de CObjetoRede_Sitio
-     virtual void DeletarConeccao ( unsigned int link ) override ;
+     /*inline*/ virtual void DeletarConeccao ( unsigned int link ) override ;
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -84,7 +84,7 @@ public:
 	 * a conecção é eliminada.
 	 * NOTA: mesmo código de CObjetoGrafo_Sitio
      */
-     virtual bool DeletarConeccoesInvalidadas ( int deletado ) override ; 
+     /*inline*/ virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
 	 
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const override ;
@@ -107,7 +107,7 @@ public:
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio &obj );
+inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio &obj );
 // istream& operator>> (istream& is, CObjetoRede_Sitio& obj);
 
 

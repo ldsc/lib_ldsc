@@ -60,7 +60,7 @@ Desenvolvido por:
  * @see      grafos.
  * @todo     implementar sobrecarga << e >>.
  * @ingroup  HCObjetoGrafo
- * @todo Transformar template T para tipo rótulo (unsigned short, unsignet int, unsigned long,unsigned long long)
+ * @todo Transformar template T para tipo rótulo (unsigned short, unsigned int, unsigned long,unsigned long long)
 */
 class CObjetoGrafo {
 // --------------------------------------------------------------Atributos
@@ -106,10 +106,16 @@ public:
 	   * virtual void Conectar( CObjetoGrafo *objA, CObjetoGrafo *objB );
 	   * virtual void Conectar( vector<CObjetoGrafo *> obj );
      */
-     virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) =0; //{};
+     inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) {}; //=0;
+
+	 /**
+      * @brief Função de conecção. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
+	  * Sobrescrita na classe CObjetoGrafo_Componente
+     */
+     inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) {};
 
      /// Deleta uma conexão.
-     virtual void DeletarConeccao ( unsigned int link )  =0; //{};
+     inline virtual void DeletarConeccao ( unsigned int link )  =0; //{};
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -117,7 +123,7 @@ public:
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
 	 * a conecção é eliminada.
      */
-     virtual bool DeletarConeccoesInvalidadas ( int deletado )  =0 ; //{ return 1;};
+     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado )  =0 ; //{ return 1;};
 	 
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const ; //=0
@@ -141,7 +147,7 @@ public:
 protected:
      /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 	 /// criada para reduzir códigos nas herdeiras.
-bool DeletarConeccoesInvalidadas_aux ( int deletado , std::vector<CObjetoGrafo*>& coneccao );
+bool DeletarConeccoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& coneccao );
 
 // --------------------------------------------------------------------Get
 public:
@@ -163,7 +169,7 @@ public:
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os, const CObjetoGrafo &obj );
-std::istream &operator>> ( std::istream &is, CObjetoGrafo &obj );
+inline std::ostream &operator<< ( std::ostream &os, const CObjetoGrafo &obj );
+inline std::istream &operator>> ( std::istream &is, CObjetoGrafo &obj );
 
 #endif

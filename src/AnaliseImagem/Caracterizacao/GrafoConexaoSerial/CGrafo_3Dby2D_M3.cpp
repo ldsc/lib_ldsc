@@ -238,10 +238,10 @@ CGrafo_3Dby2D_M3::EliminarCondutanciasRepetidas ()
          CObjetoRede_Sitio_CC *obj_i = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[i]);
          assert (obj_i);
 
-         // Chama DeletarConeccoesRepetidas, que retorna o número de links eliminados
-         totalLinksDeletados += obj_i->DeletarConeccoesRepetidas ();
+         // Chama DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
+         totalLinksDeletados += obj_i->DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
       }
-   // Write( "Grafo_DeletarConeccoesRepetidas.txt");        Emedio
+   // Write( "Grafo_DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo.txt");        Emedio
    cerr << "NumeroTotal de links deletados= " << totalLinksDeletados << endl;
 }
 

@@ -70,6 +70,18 @@ public:
     virtual ~ CObjetoRede_Sitio_CC ()  = default;
 
 // ----------------------------------------------------------------Métodos
+    /// Deleta as conexoes mortas (ramos mortos)
+    /*inline*/ virtual void DeletarConeccao ( unsigned int link )  override;
+
+    /// Deleta os links para objetos que foram marcados para deleção
+    /*inline*/ virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado )  override;
+
+    /// Deleta os links repetidos, retorna o número de links deletados
+    virtual int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
+
+    /// Salva atributos do objeto em disco redefinida
+    virtual std::ostream& Write ( std::ostream& os ) const  override;
+
     /**
     * @brief  Função herdada da classe CParametroSolver,
     * usada para calcular o valor de x.
@@ -81,21 +93,6 @@ public:
     /// Função que calcula o fluxo associado ao sitio
     virtual long double Fluxo () const  override;
 
-    /// Deleta as conexoes mortas (ramos mortos)
-    virtual void DeletarConeccao ( unsigned int link )  override;
-
-    /// Deleta os links para objetos que foram marcados para deleção
-    virtual bool DeletarConeccoesInvalidadas ( int deletado )  override;
-
-    /// Deleta os links repetidos, retorna o número de links deletados
-    virtual int DeletarConeccoesRepetidas ();
-
-    /// Salva atributos do objeto em disco redefinida
-    virtual std::ostream& Write ( std::ostream& os ) const  override;
-
-    /// Salva atributos do objeto em disco no formato antigo, redefinida
-//      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  override;
-
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
@@ -105,7 +102,7 @@ public:
 
 // -----------------------------------------------------------------Friend
 /// Declaração de Funções Friend
-std::ostream& operator<< ( std::ostream& os, CObjetoRede_Sitio_CC& obj );
+inline std::ostream& operator<< ( std::ostream& os, CObjetoRede_Sitio_CC& obj );
 // istream& operator>> (istream& is, CObjetoRede_Sitio_CC& obj);
 
 /// Cria o tipo CObjetoRede_Sitio_CCCentro, que é igual a CObjetoRede_Sitio_CC

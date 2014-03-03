@@ -64,7 +64,7 @@ void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( int deletado )
+bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
 {
  return DeletarConeccoesInvalidadas_aux ( deletado , coneccao );
 //      unsigned int indice_rotulo_valido {0};

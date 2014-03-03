@@ -65,7 +65,7 @@ ostream & CObjetoRede::Write (ostream & out) const
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoRede::DeletarConeccoesInvalidadas_aux ( int deletado , vector<CObjetoRede*>& coneccao )
+bool CObjetoRede::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoRede*>& coneccao )
 {
      unsigned int indice_rotulo_valido {0};
 

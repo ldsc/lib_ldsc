@@ -40,7 +40,6 @@ Desenvolvido por:
 #include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
 #endif
 
-
 // ===============================================================================
 // Documentacao Classe: CObjetoRede
 // ===============================================================================
@@ -70,9 +69,15 @@ public:
 
 // ----------------------------------------------------------------Métodos
      /**
+       * @brief Função que recebe um ponteiro para um CObjetoRede,
+       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+     */
+     virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) = 0 ;
+
+	 /**
      * @brief Função usada para calcular uma propriedade.
      */
-		virtual long double Go ( long double d = 0 ) = 0;
+	virtual long double Go ( long double d = 0 ) = 0;
 
      /**
       * @brief Função que calcula o fluxo associado as propriedade do objeto
@@ -106,14 +111,13 @@ public:
 protected:
      /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 	 /// criada para reduzir códigos nas herdeiras.
-     bool DeletarConeccoesInvalidadas_aux ( int deletado , std::vector<CObjetoRede*>& coneccao );
+     bool DeletarConeccoesInvalidadas_aux ( unsigned int deletado , std::vector<CObjetoRede*>& coneccao );
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os, CObjetoRede &obj );
+inline std::ostream &operator<< ( std::ostream &os, CObjetoRede &obj );
 // istream& operator>> (istream& is, CObjetoRede& obj);
-
 
 // Cria o tipo CObjetoRede_CENTER, que é igual a CObjetoRede
 // typedef CObjetoRede CObjetoRede_CENTER;

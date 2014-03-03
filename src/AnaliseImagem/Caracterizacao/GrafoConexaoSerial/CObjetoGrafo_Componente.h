@@ -122,7 +122,7 @@ public:
      /**
       * @brief Função de conecção. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
      */
-     virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor );
+     inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) override;
 
 //      /**
 //        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
@@ -131,10 +131,10 @@ public:
 //      virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
      /// Deleta uma conexão (um vetor inteiro).
-     virtual void DeletarConeccao ( unsigned int ivetor ) override ;
+     inline virtual void DeletarConeccao ( unsigned int ivetor ) override ;
 
      /// Deleta uma conexão específica (deleta o link do vetor). ~Matriz[ivetor][link].
-     /*virtual */void DeletarConeccao ( unsigned int ivetor, unsigned int link );
+     inline /*virtual */void DeletarConeccao ( unsigned int ivetor, unsigned int link );
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -142,8 +142,8 @@ public:
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
 	 * a conecção é eliminada.
      */
-     virtual bool DeletarConeccoesInvalidadas ( int deletado ) override ; 
-	 
+     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
+
      /// @brief Salva atributos do objeto em disco.
      virtual std::ostream &Write ( std::ostream &os ) const override ;
 
@@ -191,6 +191,6 @@ public:
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-ostream& operator<< (ostream& os, CObjetoGrafo_Componente& obj);
+inline ostream& operator<< (ostream& os, CObjetoGrafo_Componente& obj);
 // istream& operator>> (istream& is, CObjetoGrafo_Componente& obj);
 #endif

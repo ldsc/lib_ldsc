@@ -73,7 +73,7 @@ public:
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio_CC_CM &obj );
+inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio_CC_CM &obj );
 // istream& operator>> (istream& is, CObjetoRede_Sitio_CC_CM& obj);
 
 // Cria o tipo CObjetoRede_Sitio_CC_CMCentro, que é igual a CObjetoRede_Sitio_CC_CM

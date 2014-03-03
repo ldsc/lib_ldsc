@@ -68,7 +68,7 @@ void CObjetoRede_Ligacao::DeletarConeccao (unsigned int link)
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoRede_Ligacao::DeletarConeccoesInvalidadas (int deletado)
+bool CObjetoRede_Ligacao::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
  return DeletarConeccoesInvalidadas_aux ( deletado , coneccaoA ) &&
         DeletarConeccoesInvalidadas_aux ( deletado , coneccaoB );
@@ -179,6 +179,7 @@ ostream & CObjetoRede_Ligacao::Write (ostream & out) const
 //      for ( auto objeto_conectado : coneccaoB ) {
 //           out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
 //      }
+	 return out;
 }
 
 /**

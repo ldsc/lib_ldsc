@@ -182,7 +182,7 @@ double* pm1d =  new double[nx*ny*nz];
 assim, códigos legados, como os herdados de Liang possam ser tratados sem 
 o uso macros. 
 [ ] - Fazer correções conceituais e lógicas
-
+[ ] - Estudar valarray e array,  objetivo entender como funcionam; e substituir CVetor CMatriz2D?  CMatriz3D?
 
 [Específico Teste]
 ============================================

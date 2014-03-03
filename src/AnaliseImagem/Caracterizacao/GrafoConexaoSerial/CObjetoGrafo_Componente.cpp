@@ -74,7 +74,7 @@ void CObjetoGrafo_Componente::DeletarConeccao ( unsigned int ivetor, unsigned in
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
     @test   : testar!
 */
-bool CObjetoGrafo_Componente::DeletarConeccoesInvalidadas (int deletado)
+bool CObjetoGrafo_Componente::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
   unsigned int indice_rotulo_valido {0};
 

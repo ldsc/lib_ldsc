@@ -53,7 +53,7 @@ public:
 
 public:
      /// Retorna o tipo
-     virtual CContorno::ETipoContorno Contorno () const   {
+     inline virtual CContorno::ETipoContorno Contorno () const   {
           return CContorno::ETipoContorno::WEST;
      }
 
@@ -62,7 +62,7 @@ public:
       * calcular o valor de x como é um objeto da fronteira,
       * não altera seu valor de x
      */
-     virtual long double Go ( long double d = 0 )  {
+     inline virtual long double Go ( long double d = 0 )  {
           return x;
      }
 

@@ -33,8 +33,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #endif
 
-#ifndef CGra3Dby2D_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
+#ifndef CGrafo_3Dby2D_h
+#include <Grafo/CGrafo_3Dby2D.h>
 #endif
 
 #ifndef CMFluido_h
@@ -99,21 +99,21 @@ private:
     // CSMDiagonalDominanteThreads* CriarSolver();
 
     /// Cria o grafo
-    CGra3Dby2D *CriarGrafo (int modelo, std::string nomeArquivo);
+    CGrafo_3Dby2D *CriarGrafo (int modelo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void DeterminarGrafo(CGra3Dby2D * grafo, CMatriz3D * pm3D,
+    void DeterminarGrafo(CGrafo_3Dby2D * grafo, CMatriz3D * pm3D,
                         std::string nomeArquivo);
-    void DeterminarGrafo(CGra3Dby2D * grafo, std::string nomeArquivo);
+    void DeterminarGrafo(CGrafo_3Dby2D * grafo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void SalvarGrafo(CGra3Dby2D * grafo);
+    void SalvarGrafo(CGrafo_3Dby2D * grafo);
 
     /// Cria objeto permeabilidade
     CPermeabilidadeGrafo *CriarPermeabilidade
     (CMFluido * fluido, CSMDiagonalDominante * solver,
      // CSMDiagonalDominanteThreads* solver,
-     CGra3Dby2D * grafo,
+     CGrafo_3Dby2D * grafo,
      TCMatriz3D<int> * pm3D,
      int fatorAmplificacao,
      double dimensaoPixel);

@@ -28,7 +28,8 @@ Desenvolvido por:
 // ----------------------------------------------------------------------------
 
 #include <Base/_LIB_LDSC_CLASS.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Matriz/TCMatriz2D.h>
 #include <AnaliseImagem/Matriz/CVetor.h>
@@ -43,17 +44,17 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief Um CGrafo é uma representação para uma estrutura de dados.
- * Um CGrafo é composto de uma lista de objetos do tipo CObjetoGrafo.
- * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoGrafo.
+ * Um CGrafo é composto de uma lista de objetos do tipo CObjetoRede.
+ * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoRede.
  * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e
- * uma hierarquia de objetos de grafo cujo pai e CObjetoGrafo.
+ * uma hierarquia de objetos de grafo cujo pai e CObjetoRede.
  *
  * Exemplo:
  * Determinação do grafo de uma imagem 3D:
  * A primeira utilização desta classe, e que deu origem a ela, é a determinação do
  * grafo de "sítios" representativos da imagem 3D, a partir de imagens bidimensionais.
  * A classe que implementa, de fato, a determinação do grafo 3D a partir de seções 2D é a
- * CGra3Dby2D (que tem diversas filhas).
+ * CGrafo_3Dby2D (que tem diversas filhas).
  * Para obter o Grafo dos "sítios", basta passar uma imagem_3D TCMatriz3D<int> * para a função Go;
  * A função Go trabalha sobre os planos bidimensionais, para realizar a classificação dos sítios
  * e estabelecer as conexoes entre eles.
@@ -96,10 +97,10 @@ Desenvolvido por:
  * De um modo geral vai ter dois objetos contornos,
  * um para face esquerda outro para face direita.
  *
- * CGra3Dby2D
+ * CGrafo_3Dby2D
  * ------------------------------------
  * Gera a estrutura de "sítios" baseado na avaliação de cada plano
- * bidimensional da imagem tridimensional. A classe CGra3Dby2D tem herdeiras.
+ * bidimensional da imagem tridimensional. A classe CGrafo_3Dby2D tem herdeiras.
  *
  * Acrescenta os atributos: ra (rotulador imagem anterior), rp, img2D,
  * plano, tipoContornoObjeto, maiorRotuloUtilizado.
@@ -139,7 +140,7 @@ Desenvolvido por:
  * e não da ligação.
  * Acrescenta o atributo rotint (rotulador intermediário).
  *
- * Go()->Cria rotint(rotulador intermediário), chama CGra3Dby2D::Go, deleta rotint
+ * Go()->Cria rotint(rotulador intermediário), chama CGrafo_3Dby2D::Go, deleta rotint
  * DeterminarConeccoesObjetos()->Estabelece as coneccoes, usa rotint para
  * eliminar repeticoes dos links.
  *
@@ -153,7 +154,7 @@ Desenvolvido por:
  * DeterminarConeccoesObjetos()->Conecta os objetos em planos distintos,
  * determina os raioshidraulicos dos "sítios",
  * determina e armazena os raioHidraulicos das ligações(novo).
- * CriarObjetoGrafo()->retorna COGSitio_CC.
+ * CriarObjetoGrafo()->retorna CObjetoRede_Sitio_CC.
  * CalcularCondutancias()->determina as condutâncias das ligações.
  *
  * CGra3Dby2_M4 (corrige condutâncias considerando distâncias centros massa)
@@ -175,11 +176,11 @@ Desenvolvido por:
  * Faz exatamente a mesma coisa que o modelo 4.
  * A diferença é que não cria na classe grafo os vetores cmx e cmy.
  * As informações dos centros de massa são armazenadas nos próprios sítios;
- * assim criou-se os objetos COGSitio_CC_CM (sitio com link para resistencia e centro de massa).
+ * assim criou-se os objetos CObjetoRede_Sitio_CC_CM (sitio com link para resistencia e centro de massa).
  *
- * ->CriarObjetoGrafo() = Retorna COGSitio_CC_CM.
+ * ->CriarObjetoGrafo() = Retorna CObjetoRede_Sitio_CC_CM.
  * ->AdicionarObjetos() = Reescreve totalmente a Adcionar objetos, armazena as informações
- * do COGSitio_CC_CM o que inclue os centros de massa.
+ * do CObjetoRede_Sitio_CC_CM o que inclue os centros de massa.
  * ->CalcularCondutancias()= Corrige as condutancias considerando os centros de massa.
  * Nota: conferir códigos e se a saída é a mesma do Modelo 4.
  * @author André Duarte Bueno
@@ -213,7 +214,7 @@ protected:
 public:
      /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
      /// @todo: trocar por unique_ptr shared_ptr?
-     std::vector<CObjetoGrafo *> objeto ;
+     std::vector<CObjetoRede *> objeto ;
 
      // -------------------------------------------------------------Construtor
      /// Constroi o grafo, recebe um nome de arquivo de disco.
@@ -232,7 +233,7 @@ protected:
      /**
       * @brief Função usada para criar os objetos do grafo.
       * Recebe um CContorno::ETipoContorno que informa o tipo de objeto a ser criado.
-      * Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoContorno.
+      * Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoContorno.
       * Note que como temos diferentes modelos de grafo e diferentes tipos de objetos,
       * CriarObjetoGrafo é reescrita nas classes derivadas, de forma a criar os objetos
       * de acordo com o modelo.
@@ -246,15 +247,15 @@ protected:
       * Note que, neste caso, terá de ser movida para dentro hierarquia de objetos do grafo.
       * Note ainda que na hora de chamar CriarObjetoGrafo nas classes herdeiras terás
       * de passar o tipo correto do objeto do grafo.
-      * NomePadrão: CObjetoGrafo::CriarObjeto -> criar objeto da hierarquia grafo.
+      * NomePadrão: CObjetoRede::CriarObjeto -> criar objeto da hierarquia grafo.
      */
-     virtual CObjetoGrafo *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno );
+     virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno );
 
      // ///Deleta um objeto do grafo
      // Deleta consideranto a posição no vetor.
      // virtual bool DeletarObjeto(int ri) = 0;
      // Deleta consideranto o endereço do objeto.
-     // virtual bool DeletarObjeto(CObjetoGrafo* sitio) = 0;
+     // virtual bool DeletarObjeto(CObjetoRede* sitio) = 0;
 
 public:
      /**

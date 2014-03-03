@@ -30,8 +30,8 @@ Desenvolvido por:
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
-#include <MetNum/Contorno/CContorno.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
+#include <Contorno/CContorno.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra_3Dby2D.h>
 
 // ===============================================================================
 // Documentacao Classe: CPermeabilidadeGrafo
@@ -113,11 +113,11 @@ Desenvolvido por:
  * Superclasse:    CSimulacao -> CPermeabilidade -> CPermeabilidadeGrafo
 */
 class CPermeabilidadeGrafo : public CPermeabilidade {
-		// --------------------------------------------------------------Atributos
-	protected:
-		CMFluido * fluido; 				///< Objeto fluido
-		CSMDiagonalDominante *solver; 		///< Objeto solver
-		CGra3Dby2D *grafo; 				///< Objeto grafo
+// --------------------------------------------------------------Atributos
+protected:
+     CMFluido *fluido; 				///< Objeto fluido
+     CSMDiagonalDominante *solver; 		///< Objeto solver
+     CGra_3Dby2D *grafo; 				///< Objeto grafo
 
 		unsigned long int nx;				///< Dimensão nx da imagem
 		unsigned long int  ny;				///< Dimensão ny da imagem
@@ -143,7 +143,7 @@ public:
      /// Construtor
      CPermeabilidadeGrafo ( CMFluido*&_fluido,
                             CSMDiagonalDominante  *&_solver,
-                            CGra3Dby2D  *&_grafo,
+                            CGra_3Dby2D  *&_grafo,
                             unsigned long int _nx,
                             unsigned long int _ny,
                             unsigned long int _nz,
@@ -201,7 +201,7 @@ public:
      }
 
      /// Retorna ponteiro para objeto grafo
-     CGra3Dby2D *Getgrafo () const {
+     CGra_3Dby2D *Getgrafo () const {
           return grafo;
      }
 
@@ -265,7 +265,7 @@ public:
      }
 
      /// Define o grafo
-     void Grafo ( CGra3Dby2D *_p ) {
+     void Grafo ( CGra_3Dby2D *_p ) {
           if ( grafo ) {
                delete grafo;
           }

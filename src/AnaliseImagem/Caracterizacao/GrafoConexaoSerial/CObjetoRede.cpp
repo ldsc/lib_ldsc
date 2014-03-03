@@ -1,0 +1,127 @@
+/**
+  ===============================================================================
+  PROJETO:          Biblioteca LIB_LDSC
+  Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+  ===============================================================================
+  Desenvolvido por:
+                     Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+  @author:           André Duarte Bueno
+  @file:             CObjetoRede.cpp
+  @begin:            Sat Sep 16 2000
+  @copyright:        (C) 2000 by André Duarte Bueno
+  @email:            andreduartebueno@gmail.com
+*/
+
+// -----------------------------------------------------------------------
+// Bibliotecas C/C++
+// -----------------------------------------------------------------------
+#include <fstream>
+#include <iomanip>
+
+// -----------------------------------------------------------------------
+// Bibliotecas LIB_LDSC
+// -----------------------------------------------------------------------
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
+using namespace std;
+
+
+// -------------------------------------------------------------------------
+// Função:       Write
+// -------------------------------------------------------------------------
+/** @short  : Salva dados do objeto
+    @author :	André Duarte Bueno
+    @see    :
+    @param  :   Recebe uma referencia para uma ostream
+    @return :	ostream&
+*/
+ostream & CObjetoRede::Write (ostream & out) const
+{
+  out.setf (ios::right);
+
+  // Tipo de contorno
+  out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
+
+  // Rótulo de this
+  out << ' ' << setw (5) << rotulo;
+
+  // propriedade de this (condutancia)
+  out << ' ' << setw (10) << propriedade;
+
+  // x de this (pressão)
+  out << ' ' << setw (10) << x;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------
+// Função:       operator<<
+// -------------------------------------------------------------------------
+/** Escreve os atributos do objeto em disco.
+    @short  :	Sobrecarga operador entrada streams (antiga CObjetoRedeEsqueleto).
+    @author :	André Duarte Bueno
+    @see    :	
+    @param  :	ostream& e CObjetoRede&
+    @return :	ostream&
+*/
+ostream & operator<< (ostream & out, CObjetoRede & s)
+{
+  s.Write(out);
+  return out;
+}
+
+// -------------------------------------------------------------------------
+// Função:    operator>>
+// -------------------------------------------------------------------------
+/** Sobrecarga operador entrada streams
+    @short  :	Sobrecarga operador entrada streams
+    @author :	André Duarte Bueno
+    @see    :
+    @param  : istream& is, CObjetoRede& s
+    @return : istream&
+    @todo   : implementar esta função.
+*/
+
+/*istream& operator>> (istream& is, CObjetoRede& s)
+  {
+
+  // Lê a informação do tipo de contorno
+  int contorno;// CContorno::ETipoContorno
+  is >> contorno; // Descartada ??
+
+  // Lê a informação do numero de ligações
+  int numeroLigacoes;
+  is >> numeroLigacoes;
+
+  // Precisa deletar o vetor de conecções existente,
+  // mas não os objetos apontados pelo vetor,
+  // os CObjetoGrafo são alocados e deletados pelo CGrafo
+
+  // Rótulo do objeto
+  int rotulo;
+
+  // Ponteiro para objeto
+  CObjetoGrafo * objA;
+  double propriedade;
+
+  // Monta vetor das conecções
+  for(unsigned long int i = 0 ; i < numeroLigacoes; i++)
+  {
+  // Lê o rotulo do objeto a quem estou conectado em i
+  is >> rotulo;
+
+  // Pesquisa e localiza objeto que tem este rotulo
+  // retorna copia do ponteiro para objeto com o rotulo
+  objA = grafo->FindObjeto(rotulo);	// Implementar Find Avançado (eficiente)
+
+  coneccao.push_back(objA);
+
+
+  // Lê a propriedade
+  is >> propriedade;
+  // Armazena no ojeto ??
+  coneccao[i]->propriedade = propriedade;
+  }
+
+  return is;
+  }   */
+

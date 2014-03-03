@@ -25,15 +25,15 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
 
 // #ifndef CSitio_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 // #endif
 // 
-// #ifndef COGSitio_WEST_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.h>
+// #ifndef CObjetoRede_Sitio_WEST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.h>
 // #endif
 // 
-// #ifndef COGSitio_EST_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
+// #ifndef CObjetoRede_Sitio_EST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.h>
 // #endif
 using namespace std;
 

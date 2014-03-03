@@ -57,7 +57,7 @@ bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsign
 	cerr << "fatorRelaxacao: " << fatorRelaxacao << endl;
 	*/
 
-	grafo = new CGra3Dby2D_M3("imagem.grafo");		// Cria objeto grafo
+	grafo = new CGra_3Dby2D_M3("imagem.grafo");		// Cria objeto grafo
 	if ( ! grafo  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;

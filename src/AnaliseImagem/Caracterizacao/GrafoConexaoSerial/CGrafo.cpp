@@ -29,20 +29,20 @@
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
 #endif
 
-#ifndef CObjetoGrafo_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+#ifndef CObjetoRede_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #endif
 
-#ifndef COGSitio_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
+#ifndef CObjetoRede_Sitio_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 #endif
 
-#ifndef COGSitio_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.h>
+#ifndef CObjetoRede_Sitio_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.h>
 #endif
 
-#ifndef COGSitio_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.h>
+#ifndef CObjetoRede_Sitio_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.h>
 #endif
 
 #ifndef TCMatriz2D_H
@@ -57,7 +57,7 @@ using namespace std;
 // -------------------------------------------------------------------------
 // Função:     CriaObjetoGrafo
 // -------------------------------------------------------------------------
-/** @short  : Cria objeto herdeiro de CObjetoGrafo, de acordo com o tipo solicitado.
+/** @short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado.
 	CriarObjetoGrafo será herdada, cada modelo de grafo cria um conjunto diferente de 
 	objetos do grafo.
 	@author : André Duarte Bueno
@@ -71,25 +71,25 @@ using namespace std;
 	@todo  Criar enumeração para objetos do grafo, receber como parâmetro o tipo do objeto.
 	@todo  Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 */
-CObjetoGrafo* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CObjetoRede* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
-  CObjetoGrafo *data = nullptr;
+  CObjetoRede *data = nullptr;
   switch ( tipoContorno )
   {
     case CContorno::ETipoContorno::CENTER :
-      data = new COGSitio_CENTER ();
+      data = new CObjetoRede_Sitio_CENTER ();
       break;
 
     case CContorno::ETipoContorno::WEST :
-      data = new COGSitio_WEST ();
+      data = new CObjetoRede_Sitio_WEST ();
       break;
 
     case CContorno::ETipoContorno::EST :
-      data = new COGSitio_EST ();
+      data = new CObjetoRede_Sitio_EST ();
       break;
 
     default:
-      data = new COGSitio_CENTER ();
+      data = new CObjetoRede_Sitio_CENTER ();
       break;
   }
   assert (data); /// @todo: Implementar bloco try..catch para controle das alocações? static_assert?

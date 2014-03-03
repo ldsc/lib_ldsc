@@ -45,7 +45,7 @@ using namespace std;
 */
 CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido, 
 					  CSMDiagonalDominante *& _solver,
-						CGra3Dby2D *& _grafo,
+						CGra_3Dby2D *& _grafo,
 						unsigned long int _nx,
 							unsigned long int _ny,
 																							unsigned long int _nz,
@@ -307,7 +307,7 @@ CPermeabilidadeGrafo::CriarObjetosAgregados ()
 
 	if(grafo)
 	delete grafo;
-	grafo = new CGra3Dby2DAdvanced ();
+	grafo = new CGra_3Dby2DAdvanced ();
 		assert(grafo);
 */
 }

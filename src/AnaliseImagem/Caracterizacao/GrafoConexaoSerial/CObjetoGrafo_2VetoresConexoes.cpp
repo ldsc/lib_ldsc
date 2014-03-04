@@ -5,7 +5,7 @@ PROJETO:          Biblioteca LIB_LDSC
 ===============================================================================
 Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
-@file:             CObjetoGrafo_Ligacao.cpp
+@file:             CObjetoGrafo_2VetoresConexoes.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -21,7 +21,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Ligacao.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_2VetoresConexoes.h>
 
 /**
 -------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Função:
 @param  : CObjetoGrafo * objA, CObjetoGrafo * objB
 @return : void
 */
-void CObjetoGrafo_Ligacao::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
+void CObjetoGrafo_2VetoresConexoes::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
 {
 //   conexaoA = objA;
 //   conexaoB = objB;
@@ -52,7 +52,7 @@ void CObjetoGrafo_Ligacao::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_Ligacao::DeletarConeccao (unsigned int link)
+void CObjetoGrafo_2VetoresConexoes::DeletarConeccao (unsigned int link)
 {
 // conexao.clear(); //deveria deletar logo as duas! zerando o size do vetor conexao.
   this->conexao.erase ( conexao.begin() + link );	
@@ -71,7 +71,7 @@ void CObjetoGrafo_Ligacao::DeletarConeccao (unsigned int link)
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_Ligacao::DeletarConeccoesInvalidadas (unsigned int deletado)
+bool CObjetoGrafo_2VetoresConexoes::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
 //    if( conexao[0]->rotulo == deletado or conexao[1]->rotulo == deletado )
 //      { 
@@ -93,7 +93,7 @@ bool CObjetoGrafo_Ligacao::DeletarConeccoesInvalidadas (unsigned int deletado)
 // @param  : ofstream& out
 // @return : ostream&
 // */
-// ostream & CObjetoGrafo_Ligacao::Write (ostream & out) const
+// ostream & CObjetoGrafo_2VetoresConexoes::Write (ostream & out) const
 // {
 //     out.setf (ios::right);
 //     // Tipo de contorno
@@ -126,10 +126,10 @@ Função:  operator<<
 @short  : Escreve propriedades do objeto em fout
 @author : André Duarte Bueno
 @see    :
-@param  : ostream& fout, CObjetoGrafo_Ligacao& s
+@param  : ostream& fout, CObjetoGrafo_2VetoresConexoes& s
 @return : ostream&
 */
-ostream & operator<< (ostream & fout, CObjetoGrafo_Ligacao & s)
+ostream & operator<< (ostream & fout, CObjetoGrafo_2VetoresConexoes & s)
 {
   s.Write(fout);
   return fout;
@@ -146,7 +146,7 @@ Função:    operator>>
 @param  :
 @return :
 */
-/*istream& operator>> (istream& is, CObjetoGrafo_Ligacao& s)
+/*istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& s)
 {
   s.Read(is);	
   return is;

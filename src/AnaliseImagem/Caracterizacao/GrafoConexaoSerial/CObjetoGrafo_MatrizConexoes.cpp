@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico
 			[LDSC].
 @author:          André Duarte Bueno
-@file:             CObjetoGrafo_Componente.cpp
+@file:             CObjetoGrafo_MatrizConexoes.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -22,7 +22,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Componente.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_MatrizConexoes.h>
 
 // -------------------------------------------------------------------------
 // Função:       Conectar
@@ -34,7 +34,7 @@ using namespace std;
  * @return : void
  * @test   : testar!
 */
-void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
+void CObjetoGrafo_MatrizConexoes::Conectar (vector < CObjetoGrafo * >obj_vetor)
 {
   conexao.push_back (obj_vetor);
 }
@@ -50,12 +50,12 @@ void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
     @return : void
     @test   : testar!
 */
-void CObjetoGrafo_Componente::DeletarConeccao (unsigned int ivetor)
+void CObjetoGrafo_MatrizConexoes::DeletarConeccao (unsigned int ivetor)
 {
   this->conexao.erase ( conexao.begin() + ivetor );
 }
 
-void CObjetoGrafo_Componente::DeletarConeccao ( unsigned int ivetor, unsigned int link ) 
+void CObjetoGrafo_MatrizConexoes::DeletarConeccao ( unsigned int ivetor, unsigned int link ) 
 {
   conexao[ivetor].erase( conexao[ivetor].begin() + link );
 }
@@ -74,7 +74,7 @@ void CObjetoGrafo_Componente::DeletarConeccao ( unsigned int ivetor, unsigned in
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
     @test   : testar!
 */
-bool CObjetoGrafo_Componente::DeletarConeccoesInvalidadas (unsigned int deletado)
+bool CObjetoGrafo_MatrizConexoes::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
   unsigned int indice_rotulo_valido {0};
 
@@ -105,7 +105,7 @@ bool CObjetoGrafo_Componente::DeletarConeccoesInvalidadas (unsigned int deletado
 @return   : ostream&
 @test   : testar!
 */
-ostream & CObjetoGrafo_Componente::Write (ostream & out) const
+ostream & CObjetoGrafo_MatrizConexoes::Write (ostream & out) const
 {
     // Tipo de contorno
     out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
@@ -138,7 +138,7 @@ ostream & CObjetoGrafo_Componente::Write (ostream & out) const
 // ------------------------------------------------------------------------------
 // Funcao:     operator<<
 // ------------------------------------------------------------------------------
-ostream& operator<< (ostream& out, CObjetoGrafo_Componente& obj)
+ostream& operator<< (ostream& out, CObjetoGrafo_MatrizConexoes& obj)
 {
  obj.Write(out);
  return out;

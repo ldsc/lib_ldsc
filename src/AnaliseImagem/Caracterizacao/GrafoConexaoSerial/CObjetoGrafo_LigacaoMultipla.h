@@ -1,5 +1,5 @@
-#ifndef CObjetoGrafo_LigacaoMultipla_h
-#define CObjetoGrafo_LigacaoMultipla_h
+#ifndef CObjetoGrafo_2VetoresConexoesMultipla_h
+#define CObjetoGrafo_2VetoresConexoesMultipla_h
 
 /**
 ===============================================================================
@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoGrafo_LigacaoMultipla.h
+@file       CObjetoGrafo_2VetoresConexoesMultipla.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -37,13 +37,13 @@ Desenvolvido por:
  * @brief Representa uma objeto ligação de um grafo, é herdeiro de CObjetoGrafo.
  * Tendo uma variável rótulo (herdada de CObjetoGrafo).
  *
- * A característica básica de um CObjetoGrafo_LigacaoMultipla é que este tem 2 vetores de conexao (duas garras).
+ * A característica básica de um CObjetoGrafo_2VetoresConexoesMultipla é que este tem 2 vetores de conexao (duas garras).
  * Cada conexão é 1 para 2 (duas garras).
  * ou seja a conexaoA[i] e conexaoB[i] apontam para objetos do tipo CObjetoGrafo.
  *
  * Observe a diferença,
  * um CObjetoRede_Sitio pode ter n conexao's  mas cada conexão a um único objeto,
- * já um CObjetoGrafo_LigacaoMultipla vai ter n conexões's, e cada conexao ocorre em pares.
+ * já um CObjetoGrafo_2VetoresConexoesMultipla vai ter n conexões's, e cada conexao ocorre em pares.
  *
  * Exemplo:
  * Para sítios (uma garra)
@@ -60,7 +60,7 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoGrafo_LigacaoMultipla : public CObjetoGrafo {
+class CObjetoGrafo_2VetoresConexoesMultipla : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
      /// Conexões a esquerda
@@ -71,12 +71,12 @@ public:
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo_LigacaoMultipla () = default;
+     CObjetoGrafo_2VetoresConexoesMultipla () = default;
 
 // --------------------------------------------------------------Destrutor
 
 /// Destrutor
-     virtual ~ CObjetoGrafo_LigacaoMultipla () = default;
+     virtual ~ CObjetoGrafo_2VetoresConexoesMultipla () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
@@ -128,12 +128,12 @@ public:
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
      /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_LigacaoMultipla &obj );
-     // friend istream& operator>> (istream& is, CObjetoGrafo_LigacaoMultipla& obj);
+     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoesMultipla &obj );
+     // friend istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoesMultipla& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_LigacaoMultipla &obj );
-// istream& operator>> (istream& is, CObjetoGrafo_LigacaoMultipla& obj);
+inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoesMultipla &obj );
+// istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoesMultipla& obj);
 #endif

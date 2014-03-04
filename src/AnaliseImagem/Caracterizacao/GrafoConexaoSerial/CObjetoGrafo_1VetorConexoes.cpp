@@ -6,7 +6,7 @@
   Desenvolvido por:
                      Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
   @author:           André Duarte Bueno
-  @file:             CObjetoGrafo_Sitio.cpp
+  @file:             CObjetoGrafo_1VetorConexoes.cpp
   @begin:            Sat Sep 16 2000
   @copyright:        (C) 2000 by André Duarte Bueno
   @email:            andreduartebueno@gmail.com
@@ -21,7 +21,7 @@
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Sitio.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_1VetorConexoes.h>
 using namespace std;
 
 // -------------------------------------------------------------------------
@@ -33,7 +33,7 @@ using namespace std;
     @param  : objeto a quem será conectado
     @return : void
 */
-void CObjetoGrafo_Sitio::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
+void CObjetoGrafo_1VetorConexoes::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
 {
      conexao.push_back ( obj );
 }
@@ -48,7 +48,7 @@ void CObjetoGrafo_Sitio::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
+void CObjetoGrafo_1VetorConexoes::DeletarConeccao ( unsigned int link )
 {
      this->conexao.erase ( conexao.begin() + link );
 }
@@ -64,7 +64,7 @@ void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
+bool CObjetoGrafo_1VetorConexoes::DeletarConeccoesInvalidadas ( unsigned int deletado )
 {
  return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
 //      unsigned int indice_rotulo_valido {0};
@@ -103,7 +103,7 @@ bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
     @param  :   Recebe uma referencia para uma ostream
     @return :		ostream&
 */
-ostream & CObjetoGrafo_Sitio::Write ( ostream & out ) const
+ostream & CObjetoGrafo_1VetorConexoes::Write ( ostream & out ) const
 {
      out.setf ( ios::right );
 
@@ -128,13 +128,13 @@ ostream & CObjetoGrafo_Sitio::Write ( ostream & out ) const
 // Função:       operator<<
 // -------------------------------------------------------------------------
 /** Escreve os atributos do objeto em disco.
-    @short  :	Sobrecarga operador entrada streams (antiga CObjetoGrafo_SitioEsqueleto).
+    @short  :	Sobrecarga operador entrada streams (antiga CObjetoGrafo_1VetorConexoesEsqueleto).
     @author :	André Duarte Bueno
     @see    :
-    @param  :	ostream& e CObjetoGrafo_Sitio&
+    @param  :	ostream& e CObjetoGrafo_1VetorConexoes&
     @return :	ostream&
 */
-ostream & operator<< ( ostream & out, CObjetoGrafo_Sitio & s )
+ostream & operator<< ( ostream & out, CObjetoGrafo_1VetorConexoes & s )
 {
      s.Write ( out );
      return out;
@@ -147,7 +147,7 @@ ostream & operator<< ( ostream & out, CObjetoGrafo_Sitio & s )
     @short  :	Sobrecarga operador entrada streams
     @author :	André Duarte Bueno
     @see    :
-    @param  : istream& is, CObjetoGrafo_Sitio& s
+    @param  : istream& is, CObjetoGrafo_1VetorConexoes& s
     @return : istream&
     @todo   : implementar esta função.
 */

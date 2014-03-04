@@ -1,5 +1,5 @@
-#ifndef CObjetoGrafo_Componente_h
-#define CObjetoGrafo_Componente_h
+#ifndef CObjetoGrafo_MatrizConexoes_h
+#define CObjetoGrafo_MatrizConexoes_h
 
 /**
 ===============================================================================
@@ -10,7 +10,7 @@ Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoGrafo_Componente.h
+@file       CObjetoGrafo_MatrizConexoes.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -30,17 +30,17 @@ Desenvolvido por:
 
 
 // ===============================================================================
-// Documentacao Classe: CObjetoGrafo_Componente.h
+// Documentacao Classe: CObjetoGrafo_MatrizConexoes.h
 // ===============================================================================
 /**
  * @brief Representa um objeto avançado de um grafo.
- * A característica básica de um CObjetoGrafo_Componente é que este pode ter
+ * A característica básica de um CObjetoGrafo_MatrizConexoes é que este pode ter
  * n conexões, ou seja, estar conectado a n objetos do tipo CObjetoGrafo, mas cada conexão é 1 para m (m garras).
- * Um  CObjetoGrafo_Componente vai ter um vetor de vetor de conexões (matriz de conexões).
+ * Um  CObjetoGrafo_MatrizConexoes vai ter um vetor de vetor de conexões (matriz de conexões).
  * Assim: enquanto um
  * COG_Sitio   esta conectado a 1(um) conjunto de CObjetoGrafo,
  * COG_Ligacao esta conectada a 2(dois) conjuntos de CObjetoGrafo,
- * CObjetoGrafo_Componente esta conectado a M conjuntos de CObjetoGrafo(ou seja tem M garras).
+ * CObjetoGrafo_MatrizConexoes esta conectado a M conjuntos de CObjetoGrafo(ou seja tem M garras).
  *
  * Exemplo:
  * Para sítios (uma garra S--<)
@@ -53,23 +53,23 @@ Desenvolvido por:
  * lig	<--ligação-->	sítio
  * sítio	<--ligação-->	sítio
  *
- * Para CObjetoGrafo_Componente
+ * Para CObjetoGrafo_MatrizConexoes
  * conexao[i][j]
  * i = número de conexões (vai ter n conexões)
  * j = número de garras de cada conexão (cada conexão com m ligações)
  *
- * Esboco para CObjetoGrafo_Componente com 4 garras
+ * Esboco para CObjetoGrafo_MatrizConexoes com 4 garras
  *                   lig
  *                   /|\...
- * lig <-----CObjetoGrafo_Componente---->lig
+ * lig <-----CObjetoGrafo_MatrizConexoes---->lig
  *                   \|/...
  *                   lig
  *
  * Exemplo:
- * Um objeto CObjetoGrafo_Componente esta conectado a 10 outros objetos do tipo CObjetoGrafo
+ * Um objeto CObjetoGrafo_MatrizConexoes esta conectado a 10 outros objetos do tipo CObjetoGrafo
  * int i = 10; 	// 10 conexões
  * Cada conexão ocorre com 3 garras
- *       lig <-----CObjetoGrafo_Componente---->lig
+ *       lig <-----CObjetoGrafo_MatrizConexoes---->lig
  *                       \|/...
  *                       lig
  * int j = 3;		// cada uma das 10 conexões tem 3 garras
@@ -99,7 +99,7 @@ Desenvolvido por:
  * @see		grafos
  * @ingroup  HCObjetoGrafo
 */
-class CObjetoGrafo_Componente : public CObjetoGrafo 
+class CObjetoGrafo_MatrizConexoes : public CObjetoGrafo 
 {
 // --------------------------------------------------------------Atributos
 public:
@@ -112,11 +112,11 @@ public:
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo_Componente () = default;
+     CObjetoGrafo_MatrizConexoes () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-     virtual ~ CObjetoGrafo_Componente () = default;
+     virtual ~ CObjetoGrafo_MatrizConexoes () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
@@ -185,12 +185,12 @@ public:
      }
 
 // -----------------------------------------------------------------Friend
- friend ostream& operator<< (ostream& os, CObjetoGrafo_Componente& obj);
-// friend istream& operator>> (istream& is, CObjetoGrafo_Componente& obj);
+ friend ostream& operator<< (ostream& os, CObjetoGrafo_MatrizConexoes& obj);
+// friend istream& operator>> (istream& is, CObjetoGrafo_MatrizConexoes& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline ostream& operator<< (ostream& os, CObjetoGrafo_Componente& obj);
-// istream& operator>> (istream& is, CObjetoGrafo_Componente& obj);
+inline ostream& operator<< (ostream& os, CObjetoGrafo_MatrizConexoes& obj);
+// istream& operator>> (istream& is, CObjetoGrafo_MatrizConexoes& obj);
 #endif

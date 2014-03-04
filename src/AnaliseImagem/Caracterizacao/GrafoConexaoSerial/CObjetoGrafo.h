@@ -110,7 +110,7 @@ public:
 
 	 /**
       * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
-	  * Sobrescrita na classe CObjetoGrafo_Componente
+	  * Sobrescrita na classe CObjetoGrafo_MatrizConexoes
      */
      inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) {};
 

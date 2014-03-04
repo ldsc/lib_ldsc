@@ -32,7 +32,7 @@ using namespace std;
     @see    :
     @param  : objeto a quem será conectado
     @return : void
-    NOTA: mesmo código de CObjetoGrafo_Sitio
+    NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
 */
 inline void CObjetoRede_Sitio::Conectar ( CObjetoRede* obj, CObjetoRede* )
 {
@@ -48,7 +48,7 @@ inline void CObjetoRede_Sitio::Conectar ( CObjetoRede* obj, CObjetoRede* )
     @see    :
     @param  : 	unsigned int link
     @return :		void
-    NOTA: mesmo código de CObjetoGrafo_Sitio
+    NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
 */
 void CObjetoRede_Sitio::DeletarConeccao ( unsigned int link )
 {
@@ -67,7 +67,7 @@ void CObjetoRede_Sitio::DeletarConeccao ( unsigned int link )
     @param  : unsigned int indiceObjetosDeletados
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
-    NOTA: mesmo código de CObjetoGrafo_Sitio
+    NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
 */
 bool CObjetoRede_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
 {

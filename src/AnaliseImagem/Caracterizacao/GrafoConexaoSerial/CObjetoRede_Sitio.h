@@ -82,7 +82,7 @@ public:
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
 	 * a conexão é eliminada.
-	 * NOTA: mesmo código de CObjetoGrafo_Sitio
+	 * NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
      */
      /*inline*/ virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
 	 

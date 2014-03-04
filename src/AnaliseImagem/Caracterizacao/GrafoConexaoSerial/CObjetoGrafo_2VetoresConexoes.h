@@ -1,5 +1,5 @@
-#ifndef CObjetoGrafo_Sitio_h 
-#define CObjetoGrafo_Sitio_h
+#ifndef CObjetoGrafo_2VetoresConexoes_h
+#define CObjetoGrafo_2VetoresConexoes_h
 
 /**
 ===============================================================================
@@ -7,10 +7,9 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoGrafo_Sitio.h
+@file       CObjetoGrafo_2VetoresConexoes.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -19,11 +18,8 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-// Interface disco
-#include <fstream>
-
-// Classe container para vetores
 #include <vector>
+#include <iostream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -32,20 +28,26 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef CObjetoGrafo_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+// // Definição de CObjetoGrafo
+// #ifndef CObjetoGrafo_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+// #endif
+// Definição de CObjetoGrafo
+#ifndef CObjetoGrafo_1VetorConexoes_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_1VetorConexoes.h>
 #endif
 
-// ===============================================================================
-// Documentacao Classe: CObjetoGrafo_Sitio
-// ===============================================================================
 /**
- * @brief  Representa um objeto de um grafo que tem uma lista de coneccoes (Sitio).
+ * @brief Representa uma objeto ligação de um grafo, é herdeiro de CObjetoGrafo.
+ * Tendo uma variável rótulo (herdada de CObjetoGrafo).
  *
- * É herdeiro de CObjetoGrafo, tendo um rótulo (herdado de CObjetoGrafo).
- * A característica básica de um sítio é que este pode ter
- * n conexao's, ou seja pode estar conectado a n objetos do tipo
- * CObjetoGrafo, mas esta conexão é 1 para 1 (uma garra).
+ * A característica básica de um CObjetoGrafo_2VetoresConexoes é que este tem 2 conexões (duas garras).
+ * Cada conexão é 1 para 2 (duas garras).
+ *
+ * Observe a diferença,
+ * um CObjetoRede_Sitio pode ter n conexao's,
+ * já um CObjetoGrafo_2VetoresConexoes vai ter 2 conexões's,
+ * já um CObjetoGrafo_2VetoresConexoesMultipla vai ter dois vetores de conexões. 
  *
  * Exemplo:
  * Para sítios (uma garra)
@@ -58,31 +60,27 @@ Desenvolvido por:
  * lig <--ligação--> sítio    // A última ligação
  * sítio <--ligação--> sítio  // Conexão entre sítios com uma única ligação
  *
- * @author:  André Duarte Bueno
- * @see:     grafos
- * @todo:    implementar operadores >>.
+ * @author  André Duarte Bueno
+ * @see     grafos
  * @ingroup  HCObjetoGrafo
-*/
-class CObjetoGrafo_Sitio : public CObjetoGrafo 
-{
+ */
+class CObjetoGrafo_2VetoresConexoes : public CObjetoGrafo_1VetorConexoes {
 // --------------------------------------------------------------Atributos
 public:
-     /**
-     * @brief Lista de ponteiros para objetos do tipo CObjetoGrafo.
-     * Ou seja, ponteiros para objetos da hierarquia CObjetoGrafo.
-     * O vetor conexao é o vetor dos objetos a quem estou conectado.
-     * @todo: verificar vantagens de trocar vector por list.
-     */
-     std::vector < CObjetoGrafo * >conexao;
+//      /// Conexões a esquerda
+//      CObjetoGrafo * conexaoA;
+// 
+//      /// Conexões a direita
+//      CObjetoGrafo * conexaoB;
 
 // -------------------------------------------------------------Construtor
-
 /// Construtor
-     CObjetoGrafo_Sitio () = default;
+     CObjetoGrafo_2VetoresConexoes () = default;
 
 // --------------------------------------------------------------Destrutor
+
 /// Destrutor
-     virtual ~ CObjetoGrafo_Sitio () = default;
+     virtual ~ CObjetoGrafo_2VetoresConexoes () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
@@ -91,19 +89,19 @@ public:
      */
      inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
-     /// Deleta uma conexão.
+     /// Deleta uma conexão ->  as duas conexão passam a apontar para nullptr.
      inline virtual void DeletarConeccao ( unsigned int link ) override ;
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conexão é eliminada.
+      * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
-	 
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const override ;
+
+//      /// @brief Salva atributos do objeto em disco.
+//      virtual std::ostream &Write ( std::ostream &os ) const override ;
 
 //      /// @brief Salva atributos do objeto em disco no formato do Liang
 //      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
@@ -114,35 +112,32 @@ public:
 //      * @brief Função usada para calcular uma propriedade.
 //      */
 //      virtual long double Go ( long double d = 0 )   override {
-// 	   return 0;
-// 	 }
-// 
+//           return 0;
+//      }
+//
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conexões.
+//        * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
-//       * e que em função das propriedades dos objetos, existe alguma informação 
-// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
+//       * e que em função das propriedades dos objetos, existe alguma informação
+//        * que transita entre os objetos. Esta propriedade é calculada por esta função.
 //       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
 //      */
 //      virtual long double Fluxo () const  override {
-// 	   return 0;
-// 	 }
+//           return 0;
+//      }
 
+public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Sitio &obj );
-//       friend istream& operator>> (istream& is, CObjetoGrafo_Sitio& obj);
+     /// Sobrecarga do operador <<.
+     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoes &obj );
+     // friend istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Sitio &obj );
-// istream& operator>> (istream& is, CObjetoGrafo_Sitio& obj);
-
-// Cria o tipo CObjetoGrafo_Sitio_CENTER, que é igual a CObjetoGrafo_Sitio
-// typedef CObjetoGrafo_Sitio CObjetoGrafo_Sitio_CENTER;
-using CObjetoGrafo_Sitio_CENTER = CObjetoGrafo_Sitio;
-
+inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoes &obj );
+// istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& obj);
 #endif

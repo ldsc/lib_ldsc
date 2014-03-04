@@ -5,7 +5,7 @@ PROJETO:          Biblioteca LIB_LDSC
 ===============================================================================
 Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
-@file:             CObjetoGrafo_LigacaoMultipla.cpp
+@file:             CObjetoGrafo_2VetoresConexoesMultipla.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -21,7 +21,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_LigacaoMultipla.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_2VetoresConexoesMultipla.h>
 
 /**
 -------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Função:
 @param  : CObjetoGrafo * objA, CObjetoGrafo * objB
 @return : void
 */
-void CObjetoGrafo_LigacaoMultipla::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
+void CObjetoGrafo_2VetoresConexoesMultipla::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
 {
   this->conexaoA.push_back (objA);
   this->conexaoB.push_back (objB);
@@ -49,7 +49,7 @@ void CObjetoGrafo_LigacaoMultipla::Conectar (CObjetoGrafo * objA, CObjetoGrafo *
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_LigacaoMultipla::DeletarConeccao (unsigned int link)
+void CObjetoGrafo_2VetoresConexoesMultipla::DeletarConeccao (unsigned int link)
 {
   this->conexaoA.erase ( conexaoA.begin() + link );
   this->conexaoB.erase ( conexaoB.begin() + link );
@@ -68,7 +68,7 @@ void CObjetoGrafo_LigacaoMultipla::DeletarConeccao (unsigned int link)
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_LigacaoMultipla::DeletarConeccoesInvalidadas (unsigned int deletado)
+bool CObjetoGrafo_2VetoresConexoesMultipla::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
  return DeletarConeccoesInvalidadas_aux ( deletado , conexaoA ) &&
         DeletarConeccoesInvalidadas_aux ( deletado , conexaoB );
@@ -110,7 +110,7 @@ Função:     Write
 @param  : ofstream& out
 @return : ostream&
 */
-ostream & CObjetoGrafo_LigacaoMultipla::Write (ostream & out) const
+ostream & CObjetoGrafo_2VetoresConexoesMultipla::Write (ostream & out) const
 {
     out.setf (ios::right);
     // Tipo de contorno
@@ -143,10 +143,10 @@ Função:  operator<<
 @short  : Escreve propriedades do objeto em fout
 @author : André Duarte Bueno
 @see    :
-@param  : ostream& fout, CObjetoGrafo_LigacaoMultipla& s
+@param  : ostream& fout, CObjetoGrafo_2VetoresConexoesMultipla& s
 @return : ostream&
 */
-ostream & operator<< (ostream & fout, CObjetoGrafo_LigacaoMultipla & s)
+ostream & operator<< (ostream & fout, CObjetoGrafo_2VetoresConexoesMultipla & s)
 {
   s.Write(fout);
   return fout;
@@ -163,7 +163,7 @@ Função:    operator>>
 @param  :
 @return :
 */
-/*istream& operator>> (istream& is, CObjetoGrafo_LigacaoMultipla& s)
+/*istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoesMultipla& s)
 {
   s.Read(is);	
   return is;

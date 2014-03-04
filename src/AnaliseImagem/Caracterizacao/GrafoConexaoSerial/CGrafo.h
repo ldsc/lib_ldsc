@@ -107,7 +107,7 @@ Desenvolvido por:
  * plano, tipoContornoObjeto, maiorRotuloUtilizado.
  * Go()->Determina o grafo varrendo a imagem.
  * AdicionarObjetos->Adiciona os objetos do plano atual, usando rotulador.
- * DeterminarConeccoesObjetos->Estabelece as conexões (aqui os links são repetidos para cada coneccao entre pixeis)
+ * DeterminarConeccoesObjetos->Estabelece as conexões (aqui os links são repetidos para cada conexao entre pixeis)
  * EliminarConeccoesObjetos->Elimina os ramos mortos. Num ramo morto o fluxo é nulo.
  *
  * CGra3Dby2_M1 (cada píxel uma conexão)
@@ -148,7 +148,7 @@ Desenvolvido por:
  * CGra3Dby2_M3 (condutância pela área intersecção)
  * ------------------------------------
  * Neste modelo adiciona-se uma lista de condutancias, associando a cada
- * coneccao uma condutancia proporcional a area de intersecao entre os objetos.
+ * conexao uma condutancia proporcional a area de intersecao entre os objetos.
  * Enquanto no CGra3Dby2_M2 assume-se uma condutancia media,
  * aqui a condutancia é função do raio hidraulico da intersecção dos objetos.
  *

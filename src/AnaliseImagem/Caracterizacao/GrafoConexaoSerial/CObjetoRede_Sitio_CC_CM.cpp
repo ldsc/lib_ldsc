@@ -64,10 +64,10 @@ ostream& CObjetoRede_Sitio_CC_CM::Write ( ostream& out ) const
     out << ' ' << setw ( 10 ) << propriedade;
 
     // Numero de links do sítio
-    out << ' ' << setw ( 4 ) << coneccao.size ();
+    out << ' ' << setw ( 4 ) << conexao.size ();
 
-    // lista dos rótulos da coneccao
-    for ( auto objeto_conectado : coneccao )
+    // lista dos rótulos da conexao
+    for ( auto objeto_conectado : conexao )
         out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
     // Lista das propriedades (condutancias das ligações)

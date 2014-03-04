@@ -35,7 +35,7 @@ Desenvolvido por:
 /**
  * @brief Representa um objeto avançado de um grafo.
  * A característica básica de um CObjetoGrafo_Componente é que este pode ter
- * n conexões, ou seja, estar conectado a n objetos do tipo CObjetoGrafo, mas cada conecção é 1 para m (m garras).
+ * n conexões, ou seja, estar conectado a n objetos do tipo CObjetoGrafo, mas cada conexão é 1 para m (m garras).
  * Um  CObjetoGrafo_Componente vai ter um vetor de vetor de conexões (matriz de conexões).
  * Assim: enquanto um
  * COG_Sitio   esta conectado a 1(um) conjunto de CObjetoGrafo,
@@ -54,9 +54,9 @@ Desenvolvido por:
  * sítio	<--ligação-->	sítio
  *
  * Para CObjetoGrafo_Componente
- * coneccao[i][j]
- * i = número de conecções (vai ter n conecções)
- * j = número de garras de cada conecção (cada conexão com m ligações)
+ * conexao[i][j]
+ * i = número de conexões (vai ter n conexões)
+ * j = número de garras de cada conexão (cada conexão com m ligações)
  *
  * Esboco para CObjetoGrafo_Componente com 4 garras
  *                   lig
@@ -72,26 +72,26 @@ Desenvolvido por:
  *       lig <-----CObjetoGrafo_Componente---->lig
  *                       \|/...
  *                       lig
- * int j = 3;		// cada uma das 10 conecções tem 3 garras
- * ...coneccao[5][0];...coneccao[5][1];...coneccao[5][2];
+ * int j = 3;		// cada uma das 10 conexões tem 3 garras
+ * ...conexao[5][0];...conexao[5][1];...conexao[5][2];
  *
  * Exemplo:
  * Normalmente tem-se um vetor de  CObjetoGrafo*,
- * vector<CObjetoGrafo*>  coneccao;
+ * vector<CObjetoGrafo*>  conexao;
  *
  * Aqui tenho um vetor de vetores
- * vector < vector<CObjetoGrafo*> *> coneccao;
+ * vector < vector<CObjetoGrafo*> *> conexao;
  *
  * Uso
- * coneccao[i] acessa o vetor i
- * coneccao[i][j] acessa o ponteiro j do vetor i
+ * conexao[i] acessa o vetor i
+ * conexao[i][j] acessa o ponteiro j do vetor i
  *
  * Para adicionar um objeto ao vetor i
- * coneccao[i].push_back(CObjetoGrafo*obja);
+ * conexao[i].push_back(CObjetoGrafo*obja);
  *
  * Para adicionar um vetor
  * vector<CObjetoGrafo*> * ptr_para_vetor_do_tipo_CObjetoGrafo;
- * coneccao.push_back(ptr_para_vetor_do_tipo_CObjetoGrafo);
+ * conexao.push_back(ptr_para_vetor_do_tipo_CObjetoGrafo);
  *
  * OBS: classe NÃO TESTADA.
  * @author 	André Duarte Bueno
@@ -105,10 +105,10 @@ class CObjetoGrafo_Componente : public CObjetoGrafo
 public:
      /**
      * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
-      * vector<CObjetoGrafo*>  coneccao;
-      * Aqui tenho um vetor de vetores coneccao é um vetor de objetos do tipo
+      * vector<CObjetoGrafo*>  conexao;
+      * Aqui tenho um vetor de vetores conexao é um vetor de objetos do tipo
       * vector<CObjetoGrafo*> */
-     std::vector < std::vector < CObjetoGrafo * > > coneccao;
+     std::vector < std::vector < CObjetoGrafo * > > conexao;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
@@ -120,13 +120,13 @@ public:
 
 // ----------------------------------------------------------------Métodos
      /**
-      * @brief Função de conecção. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
+      * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
      */
      inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) override;
 
 //      /**
 //        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-//        * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+//        * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
 //      */
 //      virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
@@ -140,7 +140,7 @@ public:
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conecção é eliminada.
+	 * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
 
@@ -162,7 +162,7 @@ public:
 // 
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conecções.
+// 	  * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
 //       * e que em função das propriedades dos objetos, existe alguma informação 
 // 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
@@ -175,13 +175,13 @@ public:
 // --------------------------------------------------------------------Get
 /// Retorna referência para o vetor de vetor de coneccões
      std::vector < std::vector < CObjetoGrafo * > >  &Coneccao() {
-          return   coneccao;
+          return   conexao;
      }
 
 // --------------------------------------------------------------------Set
 /// Definição do vetor de vetor de coneccões.
-     void  Coneccao ( std::vector < std::vector < CObjetoGrafo * > > &_coneccao ) {
-          coneccao = _coneccao;
+     void  Coneccao ( std::vector < std::vector < CObjetoGrafo * > > &_conexao ) {
+          conexao = _conexao;
      }
 
 // -----------------------------------------------------------------Friend

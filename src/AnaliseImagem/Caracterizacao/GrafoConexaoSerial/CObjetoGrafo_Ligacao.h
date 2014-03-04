@@ -28,22 +28,26 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
+// // Definição de CObjetoGrafo
+// #ifndef CObjetoGrafo_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+// #endif
 // Definição de CObjetoGrafo
-#ifndef CObjetoGrafo_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
+#ifndef CObjetoGrafo_Sitio_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_Sitio.h>
 #endif
 
 /**
  * @brief Representa uma objeto ligação de um grafo, é herdeiro de CObjetoGrafo.
  * Tendo uma variável rótulo (herdada de CObjetoGrafo).
  *
- * A característica básica de um CObjetoGrafo_Ligacao é que este tem 2 vetores de coneccao (duas garras).
- * Cada conecção é 1 para 2 (duas garras).
- * ou seja a coneccaoA[i] e coneccaoB[i] apontam para objetos do tipo CObjetoGrafo.
+ * A característica básica de um CObjetoGrafo_Ligacao é que este tem 2 conexões (duas garras).
+ * Cada conexão é 1 para 2 (duas garras).
  *
  * Observe a diferença,
- * um CObjetoRede_Sitio pode ter n coneccao's  mas cada conecção a um único objeto,
- * já um CObjetoGrafo_Ligacao vai ter n conexões's, e cada coneccao ocorre em pares.
+ * um CObjetoRede_Sitio pode ter n conexao's,
+ * já um CObjetoGrafo_Ligacao vai ter 2 conexões's,
+ * já um CObjetoGrafo_LigacaoMultipla vai ter dois vetores de conexões. 
  *
  * Exemplo:
  * Para sítios (uma garra)
@@ -60,14 +64,14 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoGrafo_Ligacao : public CObjetoGrafo {
+class CObjetoGrafo_Ligacao : public CObjetoGrafo_Sitio {
 // --------------------------------------------------------------Atributos
 public:
-     /// Conexões a esquerda
-     std::vector < CObjetoGrafo * >coneccaoA;
-
-     /// Conexões a direita
-     std::vector < CObjetoGrafo * >coneccaoB;
+//      /// Conexões a esquerda
+//      CObjetoGrafo * conexaoA;
+// 
+//      /// Conexões a direita
+//      CObjetoGrafo * conexaoB;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
@@ -85,19 +89,19 @@ public:
      */
      inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
-     /// Deleta uma conexão.
+     /// Deleta uma conexão ->  as duas conexão passam a apontar para nullptr.
      inline virtual void DeletarConeccao ( unsigned int link ) override ;
 
      /**
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-      * a conecção é eliminada.
+      * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
 
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const override ;
+//      /// @brief Salva atributos do objeto em disco.
+//      virtual std::ostream &Write ( std::ostream &os ) const override ;
 
 //      /// @brief Salva atributos do objeto em disco no formato do Liang
 //      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
@@ -113,7 +117,7 @@ public:
 //
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-//        * e suas conecções.
+//        * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
 //       * e que em função das propriedades dos objetos, existe alguma informação
 //        * que transita entre os objetos. Esta propriedade é calculada por esta função.

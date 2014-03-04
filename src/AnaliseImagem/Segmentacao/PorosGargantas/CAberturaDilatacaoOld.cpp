@@ -961,8 +961,8 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_2()
 			}
 		}
 
-		// Percorre a imagem MInicialRotulada e faz as conecções.
-		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
+		// Percorre a imagem MInicialRotulada e faz as conexões.
+		// Identifica os rótulos dos vizinhos e faz a conexão se o rotulo já não tiver sido incluido
 		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
@@ -1000,7 +1000,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_2()
 		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar as ligações
 		// Percorre apenas os rotulos marcados como RAMOs_MORTOs.
 		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
-			// Se o numero de conecções for maior que 1, então é ligação
+			// Se o numero de conexões for maior que 1, então é ligação
 			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
@@ -1395,8 +1395,8 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_3()
 					MInicialRotulada->data2D[i][j] = matrizRotulo->data2D[i][j];
 			}
 
-		// Percorre a imagem MInicialRotulada e faz as conecções.
-		// Identifica os rótulos dos vizinhos e faz a conecção se o rotulo já não tiver sido incluido
+		// Percorre a imagem MInicialRotulada e faz as conexões.
+		// Identifica os rótulos dos vizinhos e faz a conexão se o rotulo já não tiver sido incluido
 		// lembre-se que set não tem repeticao, e sConexao é do tipo set<int>.
 		// Desconsideramos os pixeis da borda para evitar bugs.
 		// Aqui a MInicialRotulada tem SOLIDO, POROs, SITIOs e RAMOs_MORTOs
@@ -1436,7 +1436,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_3()
 		for ( int i = nObjetosDepoisAbertura ; i < nObjetosDepoisAberturaComplementar; i++ )
 		{
 			// No modelo 2:
-			// Se o numero de conecções for maior que 1, então é ligação.
+			// Se o numero de conexões for maior que 1, então é ligação.
 			if ( Objeto[i].SConexao().size() > 1 )
 				Objeto[i].Tipo( LIGACAO );
 
@@ -1444,14 +1444,14 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_3()
 			// O resultado é bom, mas as ligações estão ficando muito grandes!
 
 			// O problema ocorre porque estamos usando uma única matriz MInicialRotulada para todos os rótulos,
-			// os do passo atual e anteriores. E foram consideradas as conecções com os objetos (rotulos) que já foram eliminados
+			// os do passo atual e anteriores. E foram consideradas as conexões com os objetos (rotulos) que já foram eliminados
 
 			// No modelo 3:
-			// corrige-se o fato de que só devemos considerar as conecções com os objetos do tipo SITIO e
+			// corrige-se o fato de que só devemos considerar as conexões com os objetos do tipo SITIO e
 			// no intervalo:  nObjetosDepoisAbertura <= i < nObjetosDepoisAberturaComplementar, ou seja,
-			// as conecções entre Ligações e Sitios identificados nesta passagem.
+			// as conexões entre Ligações e Sitios identificados nesta passagem.
 
-			// Cria set que vai ter somente as conecções do rótulo i (ramo i), com os objetos sítios (sem repeticao)
+			// Cria set que vai ter somente as conexões do rótulo i (ramo i), com os objetos sítios (sem repeticao)
 			// 		std::set<int> rotuloSitiosConectados;
 			// 		for( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++ )
 			// 			{

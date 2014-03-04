@@ -35,15 +35,18 @@ Função:
 */
 void CObjetoGrafo_Ligacao::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
 {
-  this->coneccaoA.push_back (objA);
-  this->coneccaoB.push_back (objB);
+//   conexaoA = objA;
+//   conexaoB = objB;
+  conexao[0] = objA;
+  conexao[1] = objB;
+  
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto
-    @short  :		Deleta a coneccao de um ramo morto
+/** Deleta a conexao de um ramo morto
+    @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :	
     @param  : 	unsigned int link
@@ -51,17 +54,17 @@ void CObjetoGrafo_Ligacao::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
 */
 void CObjetoGrafo_Ligacao::DeletarConeccao (unsigned int link)
 {
-  this->coneccaoA.erase ( coneccaoA.begin() + link );
-  this->coneccaoB.erase ( coneccaoB.begin() + link );
+// conexao.clear(); //deveria deletar logo as duas! zerando o size do vetor conexao.
+  this->conexao.erase ( conexao.begin() + link );	
 }
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
+/** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto correspond	e a rótulo válido (não deletado),
  * então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a coneccao de um ramo morto
+ * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
+    @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    : 
     @param  : unsigned int link
@@ -70,71 +73,51 @@ void CObjetoGrafo_Ligacao::DeletarConeccao (unsigned int link)
 */
 bool CObjetoGrafo_Ligacao::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
- return DeletarConeccoesInvalidadas_aux ( deletado , coneccaoA ) &&
-        DeletarConeccoesInvalidadas_aux ( deletado , coneccaoB );
+//    if( conexao[0]->rotulo == deletado or conexao[1]->rotulo == deletado )
+//      { 
+//  		conexao[0] = nullptr;
+//  		conexao[1] = nullptr;
+//  		rotulo = deletado;  // como as conexões foram deletadas, this deve ser marcado para deleção
+//  	}
+//   return 1;
+   return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
+}
 
-// Como o códugo abaixo repete, mudando apenas coneccaoA e coneccaoB, criei função comum e movi para base.
-//   unsigned int indice_rotulo_valido {0};
-//   
-//   // Percorre todas as coneccoes
-//   for ( auto objeto_conectado: coneccaoA )
-//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//     // Se foi deletado vai ser pulado.
-//     if (objeto_conectado->rotulo != deletado)
-//       {
-//        coneccaoA[indice_rotulo_valido++] = objeto_conectado;
-//       }
-//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//   coneccaoA.resize (indice_rotulo_valido);
+// /**
+// -------------------------------------------------------------------------
+// Função:     Write
+// -------------------------------------------------------------------------
+// @short  : Escreve propriedades do objeto em out
+// @author : André Duarte Bueno
+// @see    :
+// @param  : ofstream& out
+// @return : ostream&
+// */
+// ostream & CObjetoGrafo_Ligacao::Write (ostream & out) const
+// {
+//     out.setf (ios::right);
+//     // Tipo de contorno
+//     /// @todo trocar por tipo ojeto grafo!
+//     out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
 // 
-//   // Percorre todas as coneccoes
-//   for ( auto objeto_conectado: coneccaoB )
-//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//     // Se foi deletado vai ser pulado.
-//     if (objeto_conectado->rotulo != deletado)
-//       {
-//        coneccaoB[indice_rotulo_valido++] = objeto_conectado;
-//       }
-//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//   coneccaoB.resize (indice_rotulo_valido);
-return 1;
-}
-
-/**
--------------------------------------------------------------------------
-Função:     Write
--------------------------------------------------------------------------
-@short  : Escreve propriedades do objeto em out
-@author : André Duarte Bueno
-@see    :
-@param  : ofstream& out
-@return : ostream&
-*/
-ostream & CObjetoGrafo_Ligacao::Write (ostream & out) const
-{
-    out.setf (ios::right);
-    // Tipo de contorno
-    /// @todo trocar por tipo ojeto grafo!
-    out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
-
-    // Rótulo de this
-    out << ' ' << setw (5) << rotulo;
-
-    // Numero de conexões do sítio     
-    out << ' ' << setw (4) << coneccaoA.size ();
-
-    // CONECCAO A
-    // lista dos rótulos
-    for ( auto objeto : coneccaoA )
-      out << ' ' << setw (4) << objeto->rotulo;
-
-    // CONECCAO B
-    // lista dos rótulos
-    for ( auto objeto : coneccaoB )
-      out << ' ' << setw (4) << objeto->rotulo;
-
-    return out;	
-}
+//     // Rótulo de this
+//     out << ' ' << setw (5) << rotulo;
+// 
+//     // Numero de conexões do sítio     
+//     out << ' ' << setw (4) << conexao[0].size ();
+// 
+//     // CONECCAO 
+//     // lista dos rótulos
+//     for ( auto objeto : conexao )
+//       out << ' ' << setw (4) << objeto->rotulo;
+// 
+// //     // CONECCAO B
+// //     // lista dos rótulos
+// //     for ( auto objeto : conexao[1] )
+// //       out << ' ' << setw (4) << objeto->rotulo;
+// 
+//     return out;	
+// }
 
 /**
 -------------------------------------------------------------------------

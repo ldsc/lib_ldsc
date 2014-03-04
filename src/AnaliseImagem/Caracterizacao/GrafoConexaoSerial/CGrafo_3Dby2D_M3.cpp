@@ -51,7 +51,7 @@ void CGrafo_3Dby2D_M3::CalcularPropriedadesConeccoes()
 // objeto.size();
 
 // Para cada objeto do sítio, aloca o vetor condutância
-// com o mesmo número de dados do vetor coneccao    		
+// com o mesmo número de dados do vetor conexao    		
 // objeto[i]->Coneccao.size() retorna o número de conexões do objeto i
  unsigned long int numeroDeLinks = objeto[i]->Coneccao.size();
 objeto[i]->condutancias.reserve( numeroDeLinks );
@@ -196,7 +196,7 @@ CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _d
       CObjetoRede_Sitio * ptrSitio = dynamic_cast < CObjetoRede_Sitio * >(objeto[k]);
 
       // Percorre todas as conexões do objeto
-      for (unsigned int link = 0; link < ptrSitio->coneccao.size (); link++) {
+      for (unsigned int link = 0; link < ptrSitio->conexao.size (); link++) {
          // Converte o ponteiro ObjetoGrafo para CObjetoRede_Sitio_CC
          ptrSitioLR = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[k]);
          // Obtêm o raio hidraulico da ligação
@@ -333,7 +333,7 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
    unsigned int i;
    for (unsigned long int j = 0; j < objeto.size (); j++)
    {
-      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
+      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
       CObjetoRede_Sitio_CC *objeto_j = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[j]);
       assert (objeto_j);
 
@@ -345,7 +345,7 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
          // Fronteira direira
       case CContorno::ETipoContorno::EST:
          // Percorre as conexões do objeto
-         for (i = 0; i < objeto_j->coneccao.size (); i++)
+         for (i = 0; i < objeto_j->conexao.size (); i++)
          {
             // Calcula Cij
             Cij = objeto_j->condutancia[i];
@@ -353,7 +353,7 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
             // cij esta sendo armazenado em int por isto multiplico por e17
 
             // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
-            mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
+            mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
 
             // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x, x deve estar definido
             // B->data1D[ mi ] -= Cij * objeto_j->x;
@@ -368,19 +368,19 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
          // Fronteira Centro
       case CContorno::ETipoContorno::CENTER:
          // Percorre as conexões do objeto
-         for (i = 0; i < objeto_j->coneccao.size (); i++)
+         for (i = 0; i < objeto_j->conexao.size (); i++)
          {
             // Se o link  for  um objeto de centro (não contorno) entra
-            if (objeto_j->coneccao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
+            if (objeto_j->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
             {
                // Calcula Cij
-               // Cij = ( objeto_j->propriedade + objeto_j->coneccao[i]->propriedade ) /2.0 ;
+               // Cij = ( objeto_j->propriedade + objeto_j->conexao[i]->propriedade ) /2.0 ;
                Cij = objeto_j->condutancia[i];
                Cij = Cij * 1.0e17;	// LIXO para gerar int
                // cij esta sendo armazenado em int por isto multiplico por e17
 
                // Desloca os índices da matriz
-               mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+               mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
                mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
 
                // Define A->data2D[mi][mj]

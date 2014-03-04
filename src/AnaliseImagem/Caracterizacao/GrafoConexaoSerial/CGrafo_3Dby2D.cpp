@@ -459,7 +459,7 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
 		objetoEmAnalise = dynamic_cast < CObjetoRede_Sitio * >(objeto[rotulo]);
 
          // Pega o número de conexões do objeto 1
-         numeroLinksObjetoEmAnalise = objetoEmAnalise->coneccao.size();
+         numeroLinksObjetoEmAnalise = objetoEmAnalise->conexao.size();
 
         // Se numeroLinksObjetoEmAnalise == 0 conexões
         if (numeroLinksObjetoEmAnalise == 0) 
@@ -482,15 +482,15 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
             // --------------------
             // INICIO FUNCAO DELETAROBJETO (objetoEmAnalise)
             // Ponteiro para o objeto a quem estou conectado
-             objetoConectado = dynamic_cast < CObjetoRede_Sitio * >( objetoEmAnalise->coneccao[0] );
+             objetoConectado = dynamic_cast < CObjetoRede_Sitio * >( objetoEmAnalise->conexao[0] );
 
             // Percorre todas as conexões do objetoConectado e procura aquelas que apontam 
 			// para objetoEmAnalise.
             // percorre de tras para frente.
-            for (long int link = (objetoConectado->coneccao.size() - 1); link >= 0; link--)
+            for (long int link = (objetoConectado->conexao.size() - 1); link >= 0; link--)
             {
                // se o link do objetoConectado aponta para objetoEmAnalise
-				if (objetoConectado->coneccao[link] == objetoEmAnalise)
+				if (objetoConectado->conexao[link] == objetoEmAnalise)
                {
                   // Se for CObjetoRede_Sitio deleta somente a conexão (modelos 1 e 2)
                   // Se for CObjetoRede_Sitio_CC deleta a conexão e a condutancia (modelos 3,4,5,..)
@@ -639,6 +639,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
 {
    // -------------------------------------------------
    // Marca a variável deletado como sendo o size do vetor de objetos.
+   /// @todo: usar deletado = numeric_limits<unsignet int>::max();
    int deletado = objeto.size ();
 
    // -------------------------------------------------
@@ -658,7 +659,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       assert (obj); // exceção..
 
       // Obtêm o número de conexões
-      int nlinks = obj->coneccao.size ();
+      int nlinks = obj->conexao.size ();
 
       // Se 0 links, é um objeto isolado, então marca para deleção
       // ........*.........
@@ -673,7 +674,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       {
          obj->rotulo = deletado;
          // Verifica o sítio a quem estou conectado (marca para deleção)
-         MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
+         MarcarParaDelecaoObjeto (obj->conexao[0]->rotulo);
       }
 
       // se dois links
@@ -683,21 +684,21 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
       // ........*d------->*----->*-------->*...   
       else if (nlinks == 2)
       {
-         // Se a coneccao[0] se refere a objeto já deletado então o número efetivo
+         // Se a conexao[0] se refere a objeto já deletado então o número efetivo
 		 // de conexões é 1, e precisa marcar para deletação.
-         if (obj->coneccao[0]->rotulo == deletado)
+         if (obj->conexao[0]->rotulo == deletado)
          {
             obj->rotulo = deletado;
-            // Solicita deleção da coneccao 1.
-            MarcarParaDelecaoObjeto (obj->coneccao[1]->rotulo);
+            // Solicita deleção da conexao 1.
+            MarcarParaDelecaoObjeto (obj->conexao[1]->rotulo);
          }
-         // Se a coneccao[1] se refere a objeto já deletado então o número efetivo
+         // Se a conexao[1] se refere a objeto já deletado então o número efetivo
 		 // de conexões é 1, e precisa marcar para deletação.
-         /*else*/ if (obj->coneccao[1]->rotulo == deletado)
+         /*else*/ if (obj->conexao[1]->rotulo == deletado)
          {
             obj->rotulo = deletado;
-            // Solicita deleção da coneccao 0.
-            MarcarParaDelecaoObjeto (obj->coneccao[0]->rotulo);
+            // Solicita deleção da conexao 0.
+            MarcarParaDelecaoObjeto (obj->conexao[0]->rotulo);
          }
       }
    }
@@ -722,7 +723,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
  isto significa que ele tem conexão e que não deveria ser deletado???
  (Para o CGrafo3Dby2D este caso não deveria ocorrer)
 
-        objeto[i]->coneccao[link]  // retorna ponteiro para objeto
+        objeto[i]->conexao[link]  // retorna ponteiro para objeto
         objeto[i]		 // retorna ponteiro para objeto
 
         Versão 1:
@@ -744,7 +745,7 @@ CGrafo_3Dby2D::MarcarParaDelecaoObjeto (int i)
  A lista das conexões não armazena mais o rótulo do objeto, e sim um ponteiro para o 
  proprio objeto.
         Usava algo como: objeto[objeto[i]->rotulo]
-        Agora os vetores coneccao armazenam o endereço do objeto
+        Agora os vetores conexao armazenam o endereço do objeto
         e não o rótulo do objeto, de forma que a localização do objeto
         é feita diretamente.
 
@@ -774,11 +775,11 @@ bool CGrafo_3Dby2D::DeletarObjeto(unsigned long int rotulo) // ou rotulo
   assert( obj_i );
 
  // Percorre os links que devem ser 0 ou 1
-  for ( unsigned long int  link = 0; link < obj_i->coneccao.size() ; link++ )
-   if(obj_i->coneccao[link] == objeto[rotulo->bug])nao deve acessar objeto[rotulo]
+  for ( unsigned long int  link = 0; link < obj_i->conexao.size() ; link++ )
+   if(obj_i->conexao[link] == objeto[rotulo->bug])nao deve acessar objeto[rotulo]
        {
-     vector<CObjetoRede*>::iterator  it_link = obj_i->coneccao.begin();
-       obj_i->coneccao.erase(it_link + link);
+     vector<CObjetoRede*>::iterator  it_link = obj_i->conexao.begin();
+       obj_i->conexao.erase(it_link + link);
        }
    vector<CObjetoRede*>::iterator  it = objeto.begin();
 
@@ -912,7 +913,7 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
   unsigned int i;
   for (unsigned long int j = 0; j < objeto.size (); j++)
     {
-    // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao).
+    // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao).
     CObjetoRede_Sitio *objeto_j = dynamic_cast < CObjetoRede_Sitio * >(objeto[j]);
     assert (objeto_j);  // se não der certo o cast, vai lançar exceção!
 
@@ -923,17 +924,17 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
 	// Fronteira direita/EST
     case CContorno::ETipoContorno::EST:
 	  // Percorre as conexões do objeto
-	  for (i = 0; i < objeto_j->coneccao.size (); i++)
+	  for (i = 0; i < objeto_j->conexao.size (); i++)
 	    {
 	      /// Calcula Cij - @todo: explicar a equacao usada.
-	      Cij = (objeto_j->coneccao[i]->propriedade + objeto_j->propriedade) / 2.0;
+	      Cij = (objeto_j->conexao[i]->propriedade + objeto_j->propriedade) / 2.0;
 // para modelo3 M3 Cij = objeto_j->condutancia[i]
 	      Cij = Cij * 1.0e17;	// LIXO, para gerar int
 	      // cij esta sendo armazenado em int por isto multiplico por e17
 
 	      // Desloca o índice da matriz(vetor), pois só entram os sítios
 	      // que não estão na interface. ? Verificar ? e o último plano?
-	      mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+	      mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
 
 	      // Acumula Cij no vetor B[mi] -= Cij * objeto_j->x,
 	      // x deve estar definido.
@@ -948,19 +949,19 @@ bool CGrafo_3Dby2D::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B) con
 	// Fronteira Centro
     case CContorno::ETipoContorno::CENTER:
 	  // Percorre as conexões do objeto
-	  for (i = 0; i < objeto_j->coneccao.size (); i++)
+	  for (i = 0; i < objeto_j->conexao.size (); i++)
 	    {
 	      // Se o link for um objeto de centro (não contorno) entra
-          if (objeto_j->coneccao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
+          if (objeto_j->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
 		  {
 		  // Calcula Cij
-		  Cij = (objeto_j->propriedade + objeto_j->coneccao[i]->propriedade) / 2.0;
+		  Cij = (objeto_j->propriedade + objeto_j->conexao[i]->propriedade) / 2.0;
 // para modelo3 M3 Cij = objeto_j->condutancia[i]
 		  Cij = Cij * 1.0e17;	// LIXO para gerar int
 		  // cij esta sendo armazenado em int por isto multiplico por e17
 
 		  // Desloca os índices da matriz
-		  mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+		  mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
 		  mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
 
 		  // Define A->data2D[mi][mj]
@@ -1016,7 +1017,7 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
   unsigned int i;
   for( unsigned long int j = 0 ; j < objeto.size();  j++ )
     {
-      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor coneccao.
+      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
 
       CObjetoRede_Sitio* objeto_j = dynamic_cast<CObjetoRede_Sitio*>(objeto[j]);
       assert(objeto_j);
@@ -1029,16 +1030,16 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
 	  // Fronteira direira
 	case CContorno::EST :	
 	  // Percorre as conexões do objeto	
-	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
+	  for ( i = 0; i < objeto_j->conexao.size(); i++)
 	    {
 	      // Calcula Cij
-	      Cij = (objeto_j->coneccao[i]->propriedade +  objeto_j->propriedade   ) /2.0 ;
+	      Cij = (objeto_j->conexao[i]->propriedade +  objeto_j->propriedade   ) /2.0 ;
 	      Cij = Cij* 1.0e17;	// LIXO, para gerar int
 	      // cij esta sendo armazenado em int por isto multiplico por e17
 	  							
 	      // Desloca o índice da matriz(vetor), pois só entram os sítios
 	      // que não estão na interface.
-	      mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1; // 3;
+	      mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1; // 3;
 	  							
 	      // Acumula Cij no vetor B[mi] -= Cij	* objeto_j->x,
 	      // x deve estar definido
@@ -1054,18 +1055,18 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
 	  // Fronteira Centro
 	case CContorno::CENTER :	
 	  // Percorre as conexões do objeto	
-	  for ( i = 0; i < objeto_j->coneccao.size(); i++)
+	  for ( i = 0; i < objeto_j->conexao.size(); i++)
 	    {
 	      // Se o link  for  um objeto de centro (não contorno) entra
-	      if( objeto_j->coneccao[i]->Contorno() == CContorno::CENTER)
+	      if( objeto_j->conexao[i]->Contorno() == CContorno::CENTER)
 		{										
 		  // Calcula Cij
-		  Cij = ( objeto_j->propriedade + objeto_j->coneccao[i]->propriedade ) /2.0 ;
+		  Cij = ( objeto_j->propriedade + objeto_j->conexao[i]->propriedade ) /2.0 ;
 		  Cij = Cij* 1.0e17;// LIXO para gerar int
 		  // cij esta sendo armazenado em int por isto multiplico por e17
     	  								
 		  // Desloca os índices da matriz
-		  mi = objeto_j->coneccao[i]->rotulo - rotuloPrimeiroObjetoPlano1 ;
+		  mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1 ;
 		  mj = objeto_j->rotulo  - rotuloPrimeiroObjetoPlano1 ;
     				  					
 		  // Define A->data2D[mi][mj]	

@@ -70,7 +70,7 @@ public:
 // ----------------------------------------------------------------Métodos
      /**
        * @brief Função que recebe um ponteiro para um CObjetoRede,
-       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
      */
      virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) = 0 ;
 
@@ -81,7 +81,7 @@ public:
 
      /**
       * @brief Função que calcula o fluxo associado as propriedade do objeto
-	  * e suas conecções.
+	  * e suas conexões.
       * Ou seja, considera-se que este objeto esta conectado a outros objetos
       * e que em função das propriedades dos objetos, existe alguma informação 
 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
@@ -111,7 +111,7 @@ public:
 protected:
      /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 	 /// criada para reduzir códigos nas herdeiras.
-     bool DeletarConeccoesInvalidadas_aux ( unsigned int deletado , std::vector<CObjetoRede*>& coneccao );
+     bool DeletarConeccoesInvalidadas_aux ( unsigned int deletado , std::vector<CObjetoRede*>& conexao );
 };
 
 // -----------------------------------------------------------------Friend

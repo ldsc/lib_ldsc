@@ -1,4 +1,4 @@
-/**
+/** 
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
@@ -27,7 +27,9 @@ using namespace std;
 -------------------------------------------------------------------------
 Função:
 -------------------------------------------------------------------------
-@short  : Adiciona os dois ponteiros recebidos objA e objB aos vetores de this.
+@short  : Fas esta ligação apontar para os objetos recebidos objA e objB 
+          Note que conexões pré existentes deixam de existir pois uma ligação
+          só pode apontar para dois objetos!
 @author : André Duarte Bueno
 @see    : 
 @param  : CObjetoRede * objA, CObjetoRede * objB
@@ -35,71 +37,48 @@ Função:
 */
 void CObjetoRede_Ligacao::Conectar (CObjetoRede * objA, CObjetoRede * objB)
 {
-  coneccaoA.push_back (objA);
-  coneccaoB.push_back (objB);
+  conexao[0] = objA;
+  conexao[1] = objB;
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto
-    @short  :		Deleta a coneccao de um ramo morto
+/** Deleta as conexões. 
+ *  Note que como esta ligação não sabe qual objeto conectado chamou esta função, deleta as duas conexões.
+    @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :	
     @param  : 	unsigned int link
     @return :		void
+    @todo   : testar funcionamento!
 */
 void CObjetoRede_Ligacao::DeletarConeccao (unsigned int link)
 {
-  this->coneccaoA.erase ( coneccaoA.begin() + link );
-  this->coneccaoB.erase ( coneccaoB.begin() + link );
+// conexao.clear(); //deveria deletar logo as duas! zerando o size do vetor conexao.
+  this->conexao.erase ( conexao.begin() + link );
 }
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
- * se o rótulo do objeto correspond	e a rótulo válido (não deletado),
- * então a conexão é preservada.
- * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a coneccao de um ramo morto
+/** Deleta as conexões.
+    @short  : Deleta as conexões e marca esta ligação para deleção, pois se um dos objetos 
+    ao qual estou conectado foi deletado, esta ligação deve ser deletada.
     @author : André Duarte Bueno
     @see    : 
     @param  : unsigned int link
     @return : void
-    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
+    @todo   : testar funcionamento!
 */
 bool CObjetoRede_Ligacao::DeletarConeccoesInvalidadas (unsigned int deletado)
 {
- return DeletarConeccoesInvalidadas_aux ( deletado , coneccaoA ) &&
-        DeletarConeccoesInvalidadas_aux ( deletado , coneccaoB );
-//   unsigned int indice_rotulo_valido {0};
-//   
-//   // Percorre todas as coneccoes
-//   for ( auto objeto_conectado: coneccaoA )
-//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//     // Se foi deletado vai ser pulado.
-//     if (objeto_conectado->rotulo != deletado)
-//       {
-//        coneccaoA[indice_rotulo_valido++] = objeto_conectado;
-//       }
-//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//   coneccaoA.resize (indice_rotulo_valido);
-// 
-//   // Percorre todas as coneccoes
-//   for ( auto objeto_conectado: coneccaoB )
-//     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//     // Se foi deletado vai ser pulado.
-//     if (objeto_conectado->rotulo != deletado)
-//       {
-//        coneccaoB[indice_rotulo_valido++] = objeto_conectado;
-//       }
-//   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//   coneccaoB.resize (indice_rotulo_valido);
-//   
-//   /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+//    if( conexao[0]->rotulo == deletado or conexao[1]->rotulo == deletado )
+//      { 
+//  		conexao[0] = nullptr;
+//  		conexao[1] = nullptr;
+//  		rotulo = deletado;  // como as conexões foram deletadas, this deve ser marcado para deleção
+//  	}
 //   return 1;
+   return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
 }
-
 
 /**
 -------------------------------------------------------------------------
@@ -111,21 +90,20 @@ Função:
 @see    :
 @param  :   nada
 @return :   long double, o fluxo associado a ligação
+@bug    :   se as conexões foram deletadas aqui ocorre um bug!
 */
 long double CObjetoRede_Ligacao::Fluxo () const 
 {
   long double fluxo { 0.0 };
   static long double condutanciaEntreObjetosConectados;
 
-  for (unsigned long int i = 0; i < coneccaoA.size (); i++)
-  {
    condutanciaEntreObjetosConectados =  1.0 /
-   (1.0/coneccaoA[i]->propriedade + 1.0/this->propriedade + 1.0/coneccaoB[i]->propriedade);
+   (1.0/conexao[0]->propriedade + 1.0/this->propriedade + 1.0/conexao[1]->propriedade);
 
    // o fluxo é a condutancia total entre objetos vezes a diferença de x(pressão) dos objetos
    // a quem this esta conectado.
-   fluxo += condutanciaEntreObjetosConectados * (coneccaoA[i]->x - coneccaoB[i]->x);
-  }
+   fluxo += condutanciaEntreObjetosConectados * (conexao[0]->x - conexao[1]->x);
+
   return fluxo;
 }
 
@@ -157,28 +135,15 @@ ostream & CObjetoRede_Ligacao::Write (ostream & out) const
      out << ' ' << setw ( 10 ) << propriedade;
 
      // Numero de conexões
-	 // como é ligação temos ramos duplos e o size de coneccaoA é o mesmo de coneccaoB
-     out << ' ' << setw ( 4 ) << coneccaoA.size ();
+	 // como é ligação temos ramos duplos e o size de conexaoA é o mesmo de conexaoB
+     out << ' ' << setw ( 4 ) << 2;
 
-     // Dados da coneccaoA
-     // lista dos rótulos
-     for ( auto objeto_conectado : coneccaoA )
-          out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
+     // Dados da conexaoA
+     out << ' ' << setw ( 4 ) << conexao[0]->rotulo;
 
-//      // lista das propriedades (condutancias)
-//      for ( auto objeto_conectado : coneccaoA ) {
-//           out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
-//      }
+     // Dados da conexaoB
+     out << ' ' << setw ( 4 ) << conexao[1]->rotulo;
 
-     // Dados da coneccaoB
-     // lista dos rótulos
-     for ( auto objeto_conectado : coneccaoB )
-          out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
-
-//      // lista das propriedades (condutancias)
-//      for ( auto objeto_conectado : coneccaoB ) {
-//           out << ' ' << setw ( 10 ) << objeto_conectado->propriedade;
-//      }
 	 return out;
 }
 

@@ -183,8 +183,8 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
           // Percorre todas as conexões do sitio atual
           CObjetoRede_Sitio_CC_CM *
           sitioConexo = nullptr;
-          for ( unsigned int link = 0; link < sitio->coneccao.size (); link++ ) {
-               sitioConexo = dynamic_cast < CObjetoRede_Sitio_CC_CM * > ( sitio->coneccao[link] );
+          for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
+               sitioConexo = dynamic_cast < CObjetoRede_Sitio_CC_CM * > ( sitio->conexao[link] );
                assert ( sitioConexo );
 
                // Recupera a informação  do centro de massa na direção x, do sitio conexo

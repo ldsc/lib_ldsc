@@ -54,31 +54,31 @@ ostream & CObjetoRede::Write (ostream & out) const
 }
 
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
+/** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- *    @short  : Deleta a coneccao de um ramo morto
+ *    @short  : Deleta a conexao de um ramo morto
  *    @author : André Duarte Bueno
  *    @see    :
  *    @param  : unsigned int indiceObjetosDeletados
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoRede::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoRede*>& coneccao )
+bool CObjetoRede::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoRede*>& conexao )
 {
      unsigned int indice_rotulo_valido {0};
 
      // Percorre todas as coneccoes
-     for ( auto objeto: coneccao )
+     for ( auto objeto: conexao )
           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
           // Se foi deletado vai ser pulado.
           if ( objeto->rotulo != deletado ) {
-               coneccao[indice_rotulo_valido++] = objeto;
+               conexao[indice_rotulo_valido++] = objeto;
           }
 
      // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-     coneccao.resize ( indice_rotulo_valido );
+     conexao.resize ( indice_rotulo_valido );
      /// @todo: aqui pode apagar, usando erase, os objetos além do size().
      return 1;
 }
@@ -122,7 +122,7 @@ ostream & operator<< (ostream & out, CObjetoRede & s)
   int numeroLigacoes;
   is >> numeroLigacoes;
 
-  // Precisa deletar o vetor de conecções existente,
+  // Precisa deletar o vetor de conexões existente,
   // mas não os objetos apontados pelo vetor,
   // os CObjetoGrafo são alocados e deletados pelo CGrafo
 
@@ -133,7 +133,7 @@ ostream & operator<< (ostream & out, CObjetoRede & s)
   CObjetoGrafo * objA;
   double propriedade;
 
-  // Monta vetor das conecções
+  // Monta vetor das conexões
   for(unsigned long int i = 0 ; i < numeroLigacoes; i++)
   {
   // Lê o rotulo do objeto a quem estou conectado em i
@@ -143,13 +143,13 @@ ostream & operator<< (ostream & out, CObjetoRede & s)
   // retorna copia do ponteiro para objeto com o rotulo
   objA = grafo->FindObjeto(rotulo);	// Implementar Find Avançado (eficiente)
 
-  coneccao.push_back(objA);
+  conexao.push_back(objA);
 
 
   // Lê a propriedade
   is >> propriedade;
   // Armazena no ojeto ??
-  coneccao[i]->propriedade = propriedade;
+  conexao[i]->propriedade = propriedade;
   }
 
   return is;

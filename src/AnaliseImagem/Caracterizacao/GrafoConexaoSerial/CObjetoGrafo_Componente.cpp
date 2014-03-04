@@ -36,14 +36,14 @@ using namespace std;
 */
 void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
 {
-  coneccao.push_back (obj_vetor);
+  conexao.push_back (obj_vetor);
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto, note que esta deletando um vetor inteiro.
-    @short  : Deleta a coneccao de um ramo morto
+/** Deleta a conexao de um ramo morto, note que esta deletando um vetor inteiro.
+    @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    : 
     @param  : unsigned int link
@@ -52,21 +52,21 @@ void CObjetoGrafo_Componente::Conectar (vector < CObjetoGrafo * >obj_vetor)
 */
 void CObjetoGrafo_Componente::DeletarConeccao (unsigned int ivetor)
 {
-  this->coneccao.erase ( coneccao.begin() + ivetor );
+  this->conexao.erase ( conexao.begin() + ivetor );
 }
 
 void CObjetoGrafo_Componente::DeletarConeccao ( unsigned int ivetor, unsigned int link ) 
 {
-  coneccao[ivetor].erase( coneccao[ivetor].begin() + link );
+  conexao[ivetor].erase( conexao[ivetor].begin() + link );
 }
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
+/** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto correspond	e a rótulo válido (não deletado),
  * então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a coneccao de um ramo morto
+ * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
+    @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    : 
     @param  : unsigned int link
@@ -79,7 +79,7 @@ bool CObjetoGrafo_Componente::DeletarConeccoesInvalidadas (unsigned int deletado
   unsigned int indice_rotulo_valido {0};
 
   // Percorre todas as coneccoes
-  for ( auto vobjeto_conectado: coneccao )
+  for ( auto vobjeto_conectado: conexao )
   {
    indice_rotulo_valido = 0 ;
    for ( auto objeto_conectado: vobjeto_conectado )
@@ -115,21 +115,21 @@ ostream & CObjetoGrafo_Componente::Write (ostream & out) const
     out << ' ' << setw (5) << rotulo;
 	
     // Número de vetores coneccoes
-    out << ' ' << setw (4) << coneccao.size ();
+    out << ' ' << setw (4) << conexao.size ();
 
     // Para cada vetor percorrer a lista
-    for (unsigned long int cont_coneccoes= 0; cont_coneccoes < coneccao.size (); cont_coneccoes++)
+    for (unsigned long int cont_coneccoes= 0; cont_coneccoes < conexao.size (); cont_coneccoes++)
       {
         // Para cada vetor percorrer os objetos
-        // coneccao[cont_vector] retorna um ponteiro para um vetor
-        out << " " << setw (4) << coneccao[cont_coneccoes].size ();
+        // conexao[cont_vector] retorna um ponteiro para um vetor
+        out << " " << setw (4) << conexao[cont_coneccoes].size ();
 
         // lista dos rótulos
-        for ( auto objeto_conectado :  coneccao[cont_coneccoes] )
+        for ( auto objeto_conectado :  conexao[cont_coneccoes] )
           out << " " << setw (4) << objeto_conectado->rotulo;
 
 //         // lista das propriedades (condutancias)
-//         for ( auto objeto_conectado :  coneccao[cont_coneccoes] )
+//         for ( auto objeto_conectado :  conexao[cont_coneccoes] )
 //           out << " " << setw (4) << objeto_conectado->propriedade;
   }
   return out;

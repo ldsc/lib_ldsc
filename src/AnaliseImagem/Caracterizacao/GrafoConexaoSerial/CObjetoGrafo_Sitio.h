@@ -44,8 +44,8 @@ Desenvolvido por:
  *
  * É herdeiro de CObjetoGrafo, tendo um rótulo (herdado de CObjetoGrafo).
  * A característica básica de um sítio é que este pode ter
- * n coneccao's, ou seja pode estar conectado a n objetos do tipo
- * CObjetoGrafo, mas esta conecção é 1 para 1 (uma garra).
+ * n conexao's, ou seja pode estar conectado a n objetos do tipo
+ * CObjetoGrafo, mas esta conexão é 1 para 1 (uma garra).
  *
  * Exemplo:
  * Para sítios (uma garra)
@@ -70,10 +70,10 @@ public:
      /**
      * @brief Lista de ponteiros para objetos do tipo CObjetoGrafo.
      * Ou seja, ponteiros para objetos da hierarquia CObjetoGrafo.
-     * O vetor coneccao é o vetor dos objetos a quem estou conectado.
+     * O vetor conexao é o vetor dos objetos a quem estou conectado.
      * @todo: verificar vantagens de trocar vector por list.
      */
-     std::vector < CObjetoGrafo * >coneccao;
+     std::vector < CObjetoGrafo * >conexao;
 
 // -------------------------------------------------------------Construtor
 
@@ -87,7 +87,7 @@ public:
 // ----------------------------------------------------------------Métodos
      /**
        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
      */
      inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
 
@@ -98,7 +98,7 @@ public:
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conecção é eliminada.
+	 * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
 	 
@@ -119,7 +119,7 @@ public:
 // 
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conecções.
+// 	  * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
 //       * e que em função das propriedades dos objetos, existe alguma informação 
 // 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.

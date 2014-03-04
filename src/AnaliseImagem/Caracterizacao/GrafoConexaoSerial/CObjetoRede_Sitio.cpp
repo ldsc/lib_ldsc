@@ -36,14 +36,14 @@ using namespace std;
 */
 inline void CObjetoRede_Sitio::Conectar ( CObjetoRede* obj, CObjetoRede* )
 {
-   this->coneccao.push_back ( obj );
+   this->conexao.push_back ( obj );
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto
-    @short  :		Deleta a coneccao de um ramo morto
+/** Deleta a conexao de um ramo morto
+    @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :
     @param  : 	unsigned int link
@@ -52,16 +52,16 @@ inline void CObjetoRede_Sitio::Conectar ( CObjetoRede* obj, CObjetoRede* )
 */
 void CObjetoRede_Sitio::DeletarConeccao ( unsigned int link )
 {
-   this->coneccao.erase ( coneccao.begin() + link );
+   this->conexao.erase ( conexao.begin() + link );
 }
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
+/** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto corresponde a um rótulo válido (não deletado),
  * então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- * isto é, se a conecção foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a coneccao de um ramo morto
+ * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
+    @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    :
     @param  : unsigned int indiceObjetosDeletados
@@ -71,20 +71,20 @@ void CObjetoRede_Sitio::DeletarConeccao ( unsigned int link )
 */
 bool CObjetoRede_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
 {
-   return DeletarConeccoesInvalidadas_aux ( deletado , coneccao );
+   return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
 //   unsigned int indice_rotulo_valido {0};
 //
 //   // Percorre todas as coneccoes
-//   for ( auto objeto: coneccao )
+//   for ( auto objeto: conexao )
 //     // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
 //     // Se foi deletado vai ser pulado.
 //     if (objeto->rotulo != deletado)
 //       {
-//        coneccao[indice_rotulo_valido++] = objeto;
+//        conexao[indice_rotulo_valido++] = objeto;
 //       }
 //
 //   // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//   coneccao.resize (indice_rotulo_valido);
+//   conexao.resize (indice_rotulo_valido);
 //   /// @todo: aqui pode apagar, usando erase, os objetos além do size().
 //   return 1;
 }
@@ -127,10 +127,10 @@ ostream& CObjetoRede_Sitio::Write ( ostream& out ) const
    out << ' ' << setw ( 10 ) << propriedade;
 
    // Numero de links do sítio
-   out << ' ' << setw ( 4 ) << coneccao.size ();
+   out << ' ' << setw ( 4 ) << conexao.size ();
 
-   // lista dos rótulos da coneccao
-   for ( auto objeto_conectado : coneccao )
+   // lista dos rótulos da conexao
+   for ( auto objeto_conectado : conexao )
       out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
 
    return out;
@@ -175,7 +175,7 @@ ostream& operator<< ( ostream& out, CObjetoRede_Sitio& s )
   int numeroLigacoes;
   is >> numeroLigacoes;
 
-  // Precisa deletar o vetor de conecções existente,
+  // Precisa deletar o vetor de conexões existente,
   // mas não os objetos apontados pelo vetor,
   // os CObjetoGrafo são alocados e deletados pelo CGrafo
 
@@ -186,7 +186,7 @@ ostream& operator<< ( ostream& out, CObjetoRede_Sitio& s )
   CObjetoGrafo * objA;
   double propriedade;
 
-  // Monta vetor das conecções
+  // Monta vetor das conexões
   for(unsigned long int i = 0 ; i < numeroLigacoes; i++)
   {
   // Lê o rotulo do objeto a quem estou conectado em i
@@ -196,13 +196,13 @@ ostream& operator<< ( ostream& out, CObjetoRede_Sitio& s )
   // retorna copia do ponteiro para objeto com o rotulo
   objA = grafo->FindObjeto(rotulo);	// Implementar Find Avançado (eficiente)
 
-  coneccao.push_back(objA);
+  conexao.push_back(objA);
 
 
   // Lê a propriedade
   is >> propriedade;
   // Armazena no ojeto ??
-  coneccao[i]->propriedade = propriedade;
+  conexao[i]->propriedade = propriedade;
   }
 
   return is;
@@ -228,11 +228,11 @@ ostream& operator<< ( ostream& out, CObjetoRede_Sitio& s )
     -----------------------------------------------
     A versão 1 de CGrafo usava o rótulo para identificar o objeto a ser acessado,
     mas era necessário receber o grafo todo.
-    Agora o vetor conecção de cada sítio armazena direto o endereço dos sítios
+    Agora o vetor conexão de cada sítio armazena direto o endereço dos sítios
     a quem esta conectado.
     Abaixo precisava do grafo para acessar os objetos
     somatorio_da_condutancia_vezes_x +=
-        coneccao[i]->propriedade * grafo->objeto[this->coneccao[i]->rotulo]->x;
+        conexao[i]->propriedade * grafo->objeto[this->conexao[i]->rotulo]->x;
 
     Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
     apenas para salvar o mesmo em disco.
@@ -255,7 +255,7 @@ long double CObjetoRede_Sitio::Go ( long double /*d */ )
 
    // Se não tem nenhum link, retorna x atual (a pressão atual)
    // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
-   //   if (coneccao.size() == 0)
+   //   if (conexao.size() == 0)
    //     return x;
 
    // zera o somatório (a cada passagem por Go)
@@ -263,7 +263,7 @@ long double CObjetoRede_Sitio::Go ( long double /*d */ )
 
 //   // Percorre as conexões
 //   // (calculo antigo, considera média -> calculo errado! certo é 1/ct = 1/c1 + 1/c2)
-//   for ( auto objeto_conectado: coneccao )
+//   for ( auto objeto_conectado: conexao )
 //     {
 //       // faz uma média das condutâncias
 //       condutancia = (objeto_conectado->propriedade + this->propriedade) / 2.0;
@@ -286,7 +286,7 @@ long double CObjetoRede_Sitio::Go ( long double /*d */ )
    // ct_1p = 2  (c1*c2) / (c1+c2)
    // sendo ct_1p a condutancia entre dois objetos, mas considerando distância 1 píxel,
    // o que corresponde ao grafo de conexão serial.
-   for ( auto objeto_conectado : coneccao ) {
+   for ( auto objeto_conectado : conexao ) {
          // calcula condutância entre objetos 1 e 2(metade distância): ct = 2(c1*c2) / (c1+c2)
          condutancia = 2.0 * ( objeto_conectado->propriedade * this->propriedade ) / ( objeto_conectado->propriedade + this->propriedade );
          somatorio_da_condutancia_vezes_x += condutancia * objeto_conectado->x;
@@ -315,12 +315,12 @@ long double CObjetoRede_Sitio::Fluxo () const
    long double fluxo { 0.0 };
    static long double condutancia;
 
-   for ( unsigned long int i = 0; i < coneccao.size (); i++ ) {
+   for ( unsigned long int i = 0; i < conexao.size (); i++ ) {
          // Ex: propriedade = condutancia    // x = pressao
          // Cálculo antigo considerava a média simples  -> calculo errado!
          // certo é 1/ct = 1/c1 + 1/c2) veja explicação em CObjetoRede_Sitio::Go.
-         condutancia = 2.0 * ( coneccao[i]->propriedade * this->propriedade ) / ( coneccao[i]->propriedade + this->propriedade );
-         fluxo += condutancia * ( this->x - coneccao[i]->x );
+         condutancia = 2.0 * ( conexao[i]->propriedade * this->propriedade ) / ( conexao[i]->propriedade + this->propriedade );
+         fluxo += condutancia * ( this->x - conexao[i]->x );
       }
 
    return fluxo;

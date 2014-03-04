@@ -1,5 +1,5 @@
-#ifndef CObjetoRede_Ligacao_h
-#define CObjetoRede_Ligacao_h
+#ifndef CObjetoRede_LigacaoMultipla_h
+#define CObjetoRede_LigacaoMultipla_h
 
 /**
 ===============================================================================
@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoRede_Ligacao.h
+@file       CObjetoRede_LigacaoMultipla.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -42,32 +42,32 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoRede_Ligacao : public CObjetoRede
+class CObjetoRede_LigacaoMultipla : public CObjetoRede
 {
 // --------------------------------------------------------------Atributos
 public:
      // Tem uma lista de ponteiros para objetos do tipo CObjetoRede que é genérico
      // Vetor de ponteiros para CObjetoRede.
 
-     /// Conecções a esquerda
-     std::vector < CObjetoRede * >coneccaoA;
+     /// Conexões a esquerda
+     std::vector < CObjetoRede * >conexaoA;
 
-     /// Conecções a direita
-     std::vector < CObjetoRede * >coneccaoB;
+     /// Conexões a direita
+     std::vector < CObjetoRede * >conexaoB;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoRede_Ligacao () = default;
+     CObjetoRede_LigacaoMultipla () = default;
 
 // --------------------------------------------------------------Destrutor
 
 /// Destrutor
-     virtual ~ CObjetoRede_Ligacao () = default;
+     virtual ~ CObjetoRede_LigacaoMultipla () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
        * @brief Função que recebe um ponteiro para um CObjetoRede,
-       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
      */
      inline virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) override ;
 
@@ -78,7 +78,7 @@ public:
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conecção é eliminada.
+	 * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
 
@@ -98,13 +98,13 @@ public:
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
      /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoRede_Ligacao &obj );
-     // friend istream& operator>> (istream& is, CObjetoRede_Ligacao& obj);
+     friend std::ostream &operator<< ( std::ostream &os, CObjetoRede_LigacaoMultipla &obj );
+     // friend istream& operator>> (istream& is, CObjetoRede_LigacaoMultipla& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_Ligacao &obj );
-// istream& operator>> (istream& is, CObjetoRede_Ligacao& obj);
+inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_LigacaoMultipla &obj );
+// istream& operator>> (istream& is, CObjetoRede_LigacaoMultipla& obj);
 
 #endif

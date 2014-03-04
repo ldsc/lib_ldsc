@@ -30,31 +30,30 @@ Desenvolvido por:
 
 // Definição de CObjetoRede
 #ifndef CObjetoRede_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 #endif
 
 /**
  * @brief Representa uma objeto ligação de uma rede.
  * Tendo uma variável rotulo (herdade de CObjetoGrafo)
  * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
- *
+ * Note que temos duas possibilidades para implementar, a primeira criar duas conexões,
+ * o problema é a dificuldade de resolver os métodos deletar e principalmente
+ * o fato de que não fica uniforme com CObjetoRede_Sitio que tem vetor conexao.
+ *   /// Conexões a esquerda
+ *   CObjetoRede * conexaoA;
+ *   /// Conexões a direita
+ *   CObjetoRede * conexaoB;
+ * A segunda é fazer o mesmo que CObjetoRede, criar um vetor conexao mas com apenas duas conexões.
+
  * @author  André Duarte Bueno
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoRede_Ligacao : public CObjetoRede
+class CObjetoRede_Ligacao : public CObjetoRede_Sitio
 {
 // --------------------------------------------------------------Atributos
 public:
-     // Tem uma lista de ponteiros para objetos do tipo CObjetoRede que é genérico
-     // Vetor de ponteiros para CObjetoRede.
-
-     /// Conecções a esquerda
-     std::vector < CObjetoRede * >coneccaoA;
-
-     /// Conecções a direita
-     std::vector < CObjetoRede * >coneccaoB;
-
 // -------------------------------------------------------------Construtor
 /// Construtor
      CObjetoRede_Ligacao () = default;
@@ -67,18 +66,17 @@ public:
 // ----------------------------------------------------------------Métodos
      /**
        * @brief Função que recebe um ponteiro para um CObjetoRede,
-       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
      */
      inline virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) override ;
 
-     /// Deleta uma conexão.
+     /**
+	  * @brief Deleta as conexões.
+	  * */
      inline virtual void DeletarConeccao ( unsigned int link ) override ;
 
      /**
-     * @brief Deleta os links para objetos que foram marcados para deleção.
-     * Recebe um número que identifica os objetos que foram marcados
-     * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conecção é eliminada.
+     * @brief Deleta as conexões.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
 

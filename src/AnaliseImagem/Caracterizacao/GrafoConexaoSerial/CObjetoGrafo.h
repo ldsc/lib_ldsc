@@ -47,7 +47,7 @@ Desenvolvido por:
  * CObjetoGrafo tem um conjunto de métodos para:
  * Conectar objetos: Conectar().
  * Deletar objetos conectados: DeletarConeccao().
- * Deletar conecções inválidas: DeletarConeccoesInvalidadas().
+ * Deletar conexões inválidas: DeletarConeccoesInvalidadas().
  * Retornar o tipo de contorno: Contorno().
  * Salvar o objeto em disco: Write().
  * Ler o objeto do disco: Read(). @todo: implementar.
@@ -100,7 +100,7 @@ public:
 
      /**
        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-       * e o inclue na lista de conecções. Lista dos objetos a quem estou conectado.
+       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
 	   * @todo: pensar em criar 3 funções conectar
 	   * virtual void Conectar( CObjetoGrafo *objA );
 	   * virtual void Conectar( CObjetoGrafo *objA, CObjetoGrafo *objB );
@@ -109,7 +109,7 @@ public:
      inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) {}; //=0;
 
 	 /**
-      * @brief Função de conecção. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
+      * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
 	  * Sobrescrita na classe CObjetoGrafo_Componente
      */
      inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) {};
@@ -121,7 +121,7 @@ public:
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conecção é eliminada.
+	 * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado )  =0 ; //{ return 1;};
 	 
@@ -136,7 +136,7 @@ public:
 // 
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conecções.
+// 	  * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
 //       * e que em função das propriedades dos objetos, existe alguma informação 
 // 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
@@ -147,7 +147,7 @@ public:
 protected:
      /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 	 /// criada para reduzir códigos nas herdeiras.
-bool DeletarConeccoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& coneccao );
+bool DeletarConeccoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& conexao );
 
 // --------------------------------------------------------------------Get
 public:

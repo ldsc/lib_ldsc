@@ -1,5 +1,5 @@
-#ifndef CObjetoGrafo_Ligacao_h
-#define CObjetoGrafo_Ligacao_h
+#ifndef CObjetoGrafo_LigacaoMultipla_h
+#define CObjetoGrafo_LigacaoMultipla_h
 
 /**
 ===============================================================================
@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoGrafo_Ligacao.h
+@file       CObjetoGrafo_LigacaoMultipla.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -37,13 +37,13 @@ Desenvolvido por:
  * @brief Representa uma objeto ligação de um grafo, é herdeiro de CObjetoGrafo.
  * Tendo uma variável rótulo (herdada de CObjetoGrafo).
  *
- * A característica básica de um CObjetoGrafo_Ligacao é que este tem 2 vetores de coneccao (duas garras).
- * Cada conecção é 1 para 2 (duas garras).
- * ou seja a coneccaoA[i] e coneccaoB[i] apontam para objetos do tipo CObjetoGrafo.
+ * A característica básica de um CObjetoGrafo_LigacaoMultipla é que este tem 2 vetores de conexao (duas garras).
+ * Cada conexão é 1 para 2 (duas garras).
+ * ou seja a conexaoA[i] e conexaoB[i] apontam para objetos do tipo CObjetoGrafo.
  *
  * Observe a diferença,
- * um CObjetoRede_Sitio pode ter n coneccao's  mas cada conecção a um único objeto,
- * já um CObjetoGrafo_Ligacao vai ter n conexões's, e cada coneccao ocorre em pares.
+ * um CObjetoRede_Sitio pode ter n conexao's  mas cada conexão a um único objeto,
+ * já um CObjetoGrafo_LigacaoMultipla vai ter n conexões's, e cada conexao ocorre em pares.
  *
  * Exemplo:
  * Para sítios (uma garra)
@@ -60,23 +60,23 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoGrafo_Ligacao : public CObjetoGrafo {
+class CObjetoGrafo_LigacaoMultipla : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
      /// Conexões a esquerda
-     std::vector < CObjetoGrafo * >coneccaoA;
+     std::vector < CObjetoGrafo * >conexaoA;
 
      /// Conexões a direita
-     std::vector < CObjetoGrafo * >coneccaoB;
+     std::vector < CObjetoGrafo * >conexaoB;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo_Ligacao () = default;
+     CObjetoGrafo_LigacaoMultipla () = default;
 
 // --------------------------------------------------------------Destrutor
 
 /// Destrutor
-     virtual ~ CObjetoGrafo_Ligacao () = default;
+     virtual ~ CObjetoGrafo_LigacaoMultipla () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
@@ -92,7 +92,7 @@ public:
      * @brief Deleta os links para objetos que foram marcados para deleção.
      * Recebe um número que identifica os objetos que foram marcados
      * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-      * a conecção é eliminada.
+      * a conexão é eliminada.
      */
      inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
 
@@ -113,7 +113,7 @@ public:
 //
 //      /**
 //       * @brief Função que calcula o fluxo associado as propriedade do objeto
-//        * e suas conecções.
+//        * e suas conexões.
 //       * Ou seja, considera-se que este objeto esta conectado a outros objetos
 //       * e que em função das propriedades dos objetos, existe alguma informação
 //        * que transita entre os objetos. Esta propriedade é calculada por esta função.
@@ -128,12 +128,12 @@ public:
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
      /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Ligacao &obj );
-     // friend istream& operator>> (istream& is, CObjetoGrafo_Ligacao& obj);
+     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_LigacaoMultipla &obj );
+     // friend istream& operator>> (istream& is, CObjetoGrafo_LigacaoMultipla& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_Ligacao &obj );
-// istream& operator>> (istream& is, CObjetoGrafo_Ligacao& obj);
+inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_LigacaoMultipla &obj );
+// istream& operator>> (istream& is, CObjetoGrafo_LigacaoMultipla& obj);
 #endif

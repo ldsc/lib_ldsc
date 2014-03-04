@@ -41,10 +41,10 @@ Bibliotecas LIB_LDSC
 /**
  * @brief Herdeira de CObjetoRede_Sitio, acrescenta informação associada a conexão.
  * É um sítio, herdeiro de CObjetoRede_Sitio, apenas acrescenta um vetor de
- * long double onde será armazenada a informação da propriedade associada a conecção.
+ * long double onde será armazenada a informação da propriedade associada a conexão.
  *
  * PS:
- * Para o estudo da permeabilidade, será armazenada  a condutancia da conecção.
+ * Para o estudo da permeabilidade, será armazenada  a condutancia da conexão.
  * Cada objeto da hierarquia CGrafo vai calcular a condutancia de uma forma diferente.
  *
  * @author       André Duarte Bueno.
@@ -55,8 +55,8 @@ class CObjetoRede_Sitio_CC : public CObjetoRede_Sitio {
 // --------------------------------------------------------------Atributos
 public:
     /**
-    *@brief  Lista de long doubles que armazena a condutancias das conecções.
-    * Na classe CObjetoRede_Sitio criou-se um vetor de conecções, aqui cria vetor
+    *@brief  Lista de long doubles que armazena a condutancias das conexões.
+    * Na classe CObjetoRede_Sitio criou-se um vetor de conexões, aqui cria vetor
     * para armazenar a informação das condutâncias de cada conexão.
     */
     std::vector < long double > condutancia;
@@ -86,7 +86,7 @@ public:
     * @brief  Função herdada da classe CParametroSolver,
     * usada para calcular o valor de x.
     * Para o estudo da permeabilidade
-    * usa a condutancia da conecção para calcular x que é a pressão
+    * usa a condutancia da conexão para calcular x que é a pressão
     */
     virtual long double Go ( long double d = 0 ) override;
 

@@ -222,13 +222,13 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
       cmySitio = cmy[k];
 
       // Percorre todas as conexões do sitio atual
-      for (unsigned int link = 0; link < ptrSitioLR->coneccao.size (); link++)
+      for (unsigned int link = 0; link < ptrSitioLR->conexao.size (); link++)
 	{
 
 	  // Recupera a informação  do centro de massa na direção x do sitio conexo
 	  // Pega o rotulo do sitio conexo, e recupera o cmx do objeto
-	  cmxSitioConexo = cmx[ptrSitioLR->coneccao[link]->rotulo];
-	  cmySitioConexo = cmy[ptrSitioLR->coneccao[link]->rotulo];
+	  cmxSitioConexo = cmx[ptrSitioLR->conexao[link]->rotulo];
+	  cmySitioConexo = cmy[ptrSitioLR->conexao[link]->rotulo];
 
 	  // Determina a distância dx e dy entre o sítio e o sitio conexo 
 	  // Correção Bueno/23/1/2014 - como faz dx*dx não precisa achar módulo

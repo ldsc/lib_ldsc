@@ -35,14 +35,14 @@ using namespace std;
 */
 void CObjetoGrafo_Sitio::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
 {
-     coneccao.push_back ( obj );
+     conexao.push_back ( obj );
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConeccao
 // -------------------------------------------------------------------------
-/** Deleta a coneccao de um ramo morto
-    @short  :		Deleta a coneccao de um ramo morto
+/** Deleta a conexao de um ramo morto
+    @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :
     @param  : 	unsigned int link
@@ -50,14 +50,14 @@ void CObjetoGrafo_Sitio::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * )
 */
 void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
 {
-     this->coneccao.erase ( coneccao.begin() + link );
+     this->conexao.erase ( conexao.begin() + link );
 }
 
-/** Marca e deleta as conecções para objetos invalidados (marcados para deleção).
- * Funciona assim: percorre os objetos das conecções,
+/** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
+ * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- *    @short  : Deleta a coneccao de um ramo morto
+ *    @short  : Deleta a conexao de um ramo morto
  *    @author : André Duarte Bueno
  *    @see    :
  *    @param  : unsigned int indiceObjetosDeletados
@@ -66,19 +66,19 @@ void CObjetoGrafo_Sitio::DeletarConeccao ( unsigned int link )
 */
 bool CObjetoGrafo_Sitio::DeletarConeccoesInvalidadas ( unsigned int deletado )
 {
- return DeletarConeccoesInvalidadas_aux ( deletado , coneccao );
+ return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
 //      unsigned int indice_rotulo_valido {0};
 // 
 //      // Percorre todas as coneccoes
-//      for ( auto objeto: coneccao )
+//      for ( auto objeto: conexao )
 //           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
 //           // Se foi deletado vai ser pulado.
 //           if ( objeto->rotulo != deletado ) {
-//                coneccao[indice_rotulo_valido++] = objeto;
+//                conexao[indice_rotulo_valido++] = objeto;
 //           }
 // 
 //      // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//      coneccao.resize ( indice_rotulo_valido );
+//      conexao.resize ( indice_rotulo_valido );
 //      /// @todo: aqui pode apagar, usando erase, os objetos além do size().
 //      return 1;
 }
@@ -114,11 +114,11 @@ ostream & CObjetoGrafo_Sitio::Write ( ostream & out ) const
      out << ' ' << setw ( 5 ) << rotulo;
 
      // Número de links (coneccoes)
-     unsigned long int numeroLinks = coneccao.size ();
+     unsigned long int numeroLinks = conexao.size ();
      out << ' ' << setw ( 4 ) << numeroLinks;
 
      // lista dos rótulos de quem estou conexo
-     for ( auto objeto_conectado : coneccao )
+     for ( auto objeto_conectado : conexao )
           out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
 
      return out;

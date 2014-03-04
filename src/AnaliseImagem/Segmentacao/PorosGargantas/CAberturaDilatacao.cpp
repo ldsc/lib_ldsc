@@ -952,12 +952,10 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
 					<< " " << Objeto[i].SConexao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin();
-					it != Objeto[i].SConexao().end();
-					it++	)
-		{
+		//for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	)
+		for ( std::map<int,double>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); ++it ) {
 			// indiceDasConeccoes" << endl
-			fout <<  " " << *it << " ";
+			fout <<  " " << it->first << " ";
 		}
 		// Pula para linha de baixo
 		fout << endl;
@@ -1403,9 +1401,11 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 		// idDoObjeto tipo rotulo numeroConeccoes
 		fout 	<< i << " " << Objeto[i].Tipo() //<< " " << Objeto[i].Rotulo()
 					<< " " << Objeto[i].SConexao().size();
-		for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	) {
+		//for ( std::set<int>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); it++	) {
+		for ( std::map<int,double>::iterator it = Objeto[i].SConexao().begin(); it != Objeto[i].SConexao().end(); ++it	) {
 			// indiceDasConeccoes" << endl
-			fout <<  " " << *it << " ";
+			//fout <<  " " << *it << " ";
+			fout <<  " " << it->first << " ";
 		}
 		fout << endl; // Pula para linha de baixo
 	}

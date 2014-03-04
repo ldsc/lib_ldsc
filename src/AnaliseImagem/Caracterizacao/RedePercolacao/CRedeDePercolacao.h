@@ -43,11 +43,11 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		static std::vector<unsigned int> numPixeisBola;
 		//static int numPixeisBola[];
 
-		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em um disco com raio correspondente ao valor da chave.
-		static std::vector<unsigned int> numPixeisDisco;
+		///Vetor estático onde cada elemento corresponde ao número de pixeis existente em um circulo com raio correspondente ao valor da chave.
+		static std::vector<unsigned int> numPixeisCirculo;
 
-		///Vetor estático onde cada elemento corresponde ao perímetro de um disco com raio correspondente ao valor da chave.
-		static std::vector<unsigned short int> perimetroDisco;
+		///Vetor estático onde cada elemento corresponde ao perímetro de um circulo com raio correspondente ao valor da chave.
+		static std::vector<unsigned short int> perimetroCirculo;
 
 		// Construtores / Destrutor
 	public:
@@ -85,7 +85,7 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 
 		/// Retorna o número de pixeis em um cilindro. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
 		inline int NumPixeisCilindro( const int & _raio, const int & _comprimento) {
-			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisDisco[_raio];
+			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisCirculo[_raio];
 		}
 
 		/// Retorna a porosidade da esfera (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
@@ -106,9 +106,9 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 			return sqrt( vx*vx + vy*vy + vz*vz );
 		}
 
-		/// Calcula e retorna o raio hidráulico do cilindro
-		inline double RaioHidraulicoCilindro(const int & _raio) {
-			return (calcPixeis) ? ( (double)_raio / 2.0 ) : (double)( numPixeisDisco[_raio] / perimetroDisco[_raio] );
+		/// Calcula e retorna o raio hidráulico do circulo de raio informado
+		inline double RaioHidraulicoCirculo(const int & _raio) {
+			return (calcPixeis) ? ( (double)_raio / 2.0 ) : ( (double)numPixeisCirculo[_raio] / (double)perimetroCirculo[_raio] );
 		}
 
 		/// Calcula a condutância de objetos do tipo sítio
@@ -117,6 +117,8 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		/// Calcula a condutância de objetos do tipo ligação
 		double CondutanciaLigacao (CObjetoImagem &objetoImagem, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
 
+		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
+		double CondutanciaSitioLigacao (CObjetoImagem &objImgSitio, CObjetoImagem &objImgLigacao, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
 };
 
 #endif // CRedeDePercolacao_H

@@ -20,6 +20,7 @@ Desenvolvido por:
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <set>
+#include <map>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -66,8 +67,11 @@ class CObjetoImagem
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs = 0;
 
-		/// Set das conecções
-		std::set< int > sConexao;
+		// Set das conecções
+		//std::set<int> sConexao;
+
+		/// Matriz que armazena conexões e propriedade de cada conexão
+		std::map<int,double> sConexao;
 
 		/// Armazena propriedade do objeto (condutância)
 		double propriedade = 0.0;
@@ -89,9 +93,10 @@ class CObjetoImagem
 		/// Destrutor
 		~CObjetoImagem() {}
 
-		/// O método Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto
-		bool Conectar( int _rotulo ) {
-			return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
+		/// O método Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto e opcionalmente uma propriedade (condutância).
+		bool Conectar( int _rotulo, double _propriedade=0.0 ) {
+			//return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
+			return (sConexao.insert( make_pair(_rotulo, _propriedade) )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 		}
 
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).
@@ -125,7 +130,8 @@ class CObjetoImagem
 		//inline int Rotulo() { return rotulo; }
 
 		/// Retorna referencia para o Set das conexoes
-		inline std::set< int > & SConexao() 	{
+		inline std::map<int,double> & SConexao() 	{
+		//inline std::set< int > & SConexao() 	{
 			return sConexao;
 		}
 

@@ -32,7 +32,7 @@ std::vector<unsigned int> CRedeDePercolacao::numPixeisBola =
 	94472367,95429313,96392699,97362541
 };
 
-std::vector<unsigned int> CRedeDePercolacao::numPixeisDisco
+std::vector<unsigned int> CRedeDePercolacao::numPixeisCirculo
 {	0,5,13,29,53,81,113,153,201,253,309,373,445,521,601,689,785,885,989,
 	1101,1221,1345,1473,1609,1753,1901,2053,2213,2381,2553,2729,2913,3105,3301,3501,3709,3925,4145,4369,
 	4601,4841,5085,5333,5589,5853,6121,6393,6673,6961,7253,7549,7853,8165,8481,8801,9129,9465,9805,10149,
@@ -54,7 +54,7 @@ std::vector<unsigned int> CRedeDePercolacao::numPixeisDisco
 	266709,268501,270301
 };
 
-std::vector<unsigned short int> CRedeDePercolacao::perimetroDisco
+std::vector<unsigned short int> CRedeDePercolacao::perimetroCirculo
 { 0,12,20,28,36,44,52,60,68,76,84,92,100,108,116,124,132,140,148,156,164,172,180,188,196,204,212,220,228,236,
 	244,252,260,268,276,284,292,300,308,316,324,332,340,348,356,364,372,380,388,396,404,412,420,428,436,444,452,
 	460,468,476,484,492,500,508,516,524,532,540,548,556,564,572,580,588,596,604,612,620,628,636,644,652,660,668,
@@ -109,9 +109,16 @@ bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string fileName) {
 	return CMatrizObjetoImagem::SalvarListaObjetosGrafo(fileName);
 }
 
-// Calcula a condutância de objetos do tipo sítio
+// Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
+// g = (r^3) / (3*viscosidade) ->
 double CRedeDePercolacao::CondutanciaSitio (CObjetoImagem &objetoImagem, double sizePixel, double fatorAmplificacao) {
-	return 0.0;
+	// Variáveis auxiliares
+	double viscosidade = 1.0;
+	double raio = (double)objetoImagem.Raio();
+	double condutancia = (raio*raio*raio) / (3.0 * viscosidade);
+	objetoImagem.Propriedade( condutancia );
+	//std::cerr << "Condutancia: " << condutancia << " raio: " << raio << " viscosidade: " << viscosidade << std::endl;
+	return condutancia;
 }
 
 // Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
@@ -121,14 +128,22 @@ double CRedeDePercolacao::CondutanciaLigacao (CObjetoImagem &objetoImagem, doubl
 	double viscosidade = 1.0;
 	double comprimento = _comprimento * sizePixel * fatorAmplificacao;
 	// Calcula o raio hidraulico do objeto já convertido para metros
-	double raioHidraulico = RaioHidraulicoCilindro(objetoImagem.Raio()) * sizePixel * fatorAmplificacao;
+	double raioHidraulico = RaioHidraulicoCirculo(objetoImagem.Raio()) * sizePixel * fatorAmplificacao;
 	double diametroHidraulico = 4.0 * raioHidraulico;
 	double auxiliar = M_PI / (128.0 * viscosidade * comprimento);
 	double condutancia = auxiliar * (diametroHidraulico*diametroHidraulico*diametroHidraulico*diametroHidraulico);
 	objetoImagem.Propriedade( condutancia );
+	//std::cerr << "Condutancia: " << condutancia << " raio: " << objetoImagem.Raio() << " L: " << comprimento << " rH: " << raioHidraulico << " dH: " << diametroHidraulico << " aux: " << auxiliar << std::endl;
 	return condutancia;
 }
 
+// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
+double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoImagem &objImgSitio, CObjetoImagem &objImgLigacao, double &comprimento, double sizePixel, double fatorAmplificacao) {
+	double gSitio = CondutanciaSitio(objImgSitio, sizePixel, fatorAmplificacao);
+	double meioL = comprimento/2;
+	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,sizePixel,fatorAmplificacao);
+	return (gSitio + gLigacao);
+}
 
 // Executa o cálculo das distribuições e cria a rede de percolação.
 bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D _metrica ) {
@@ -339,9 +354,11 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		matrizObjetos[cont] = matrizObjetosTemp[objeto];
 		matrizObjetosTemp.erase(objeto);
 
+		// Pega o sítio e calcula a condutância
+		it = matrizObjetos.find(cont);
+		CondutanciaSitio(it->second);
 
 		// Guarda listas de objetos que se encontram na camada leste e oeste (necessário para montar grafo)
-		it = matrizObjetos.find(cont);
 		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
 			camadaOeste = it->second.pontoCentral.x;							// Atualiza a atual camada superior
 			objsCamadaOeste.clear();															// Limpa a lista de objetos pertencentes a camada superior
@@ -385,6 +402,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	int nCoord, Z;
 	int raioit;
 	int raioitt;
+	double gSitioLigacao; //Condutância entre sítio e ligação
 	int tamMatObjs = matrizObjetos.size();
 	cont = matrizObjetos.rbegin()->first; //índice do último elemento da matriz
 	std::map<int, CObjetoImagem>::iterator itt;
@@ -455,31 +473,30 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 			if ( phiRede+phiObjeto > phiDist && raio > 1) {
 				while( phiRede+phiObjeto > phiDist && raio > 1) {
 					--raio;
-					//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
-					//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
 					phiObjeto = PhiCilindro(raio, distancia, area);
 				}
 				++raio;
-				//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
-				//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
 				phiObjeto = PhiCilindro(raio, distancia, area);
 			}
 			phiRede += phiObjeto; //acumula a porosidade
 			++cont;
 			// Conecta os objetos
-			//matrizObjetos[cont] = CObjetoImagem(LIGACAO,distancia*numPixeisDisco[raio]);
 			matrizObjetos[cont] = CObjetoImagem(LIGACAO,NumPixeisCilindro(raio, distancia));
 			itMatObj = matrizObjetos.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
 			itMatObj->second.pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
 			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			itMatObj->second.Conectar(it->first);
-			itMatObj->second.Conectar(itt->first);
-			itt->second.Conectar(cont);
-			it->second.Conectar(cont);
-			double condutancia = CondutanciaLigacao(itMatObj->second, distancia);
-			//std::cerr << "Condutancia=" << condutancia << " | raio=" << itMatObj->second.Raio() << " | distancia=" << distancia << std::endl;
+			//Cálculo de condutâncias / Conexões
+			CondutanciaLigacao(itMatObj->second, distancia);
+
+			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia );
+			itMatObj->second.Conectar(itt->first, gSitioLigacao);
+			itt->second.Conectar(cont, gSitioLigacao);
+
+			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia );
+			itMatObj->second.Conectar(it->first, gSitioLigacao);
+			it->second.Conectar(cont, gSitioLigacao);
 
 			if (phiRede >= phiDist)
 				break;

@@ -25,9 +25,11 @@ void CObjetoImagem::GravarObjeto(ofstream &_fout) {
 	_fout << std::left << std::setw(5) << Tipo();
 	_fout << std::left << std::setw(9) << numObjs;
 	_fout << std::left << std::setw(9) << sConexao.size();
-	std::set<int>::iterator itr;
+	//std::set<int>::iterator itr;
+	std::map<int,double>::iterator itr;
 	for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
-		_fout << " " << *itr;
+		//_fout << " " << *itr;
+		_fout << " " << itr->first;
 	}
 	_fout << endl;
 }
@@ -41,16 +43,16 @@ void CObjetoImagem::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 	_fout << std::right << std::setw(11) << pontoCentral.x; //camada de 0 a n
 	_fout << std::right << std::setw(5) << sConexao.size();
 	if ( sConexao.size() > 0 ) {
-		std::set<int>::iterator itr;
+		//std::set<int>::iterator itr;
+		std::map<int,double>::iterator itr;
 		for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
-			_fout << std::right << std::setw(6) << *itr;
+			//_fout << std::right << std::setw(6) << *itr;
+			_fout << std::right << std::setw(6) << itr->first;
 		}
-		/*
-		std::vector<double>::iterator itrp;
-		for (itr=sPropriedade.begin(); itr!=sPropriedade.end(); ++itrp) {
-			_fout << " " << *itrp;
+		for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
+			_fout << " " << itr->second;
 		}
-		*/
+
 	}
 	_fout << endl;
 

@@ -1892,10 +1892,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 					it = matrizObjetos.find(rotuloijk);
 					if ( it->second.Tipo() == RAMO_MORTO ) {
 						numSitios = numLigacoes = 0;
-						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
-							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+						//for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+						for ( map<int,double>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							//if ( matrizObjetos[*con].Tipo() == SITIO ) {
+							if ( matrizObjetos[con->first].Tipo() == SITIO ) {
 								++numSitios;
-							} else if ( matrizObjetos[*con].Tipo() == LIGACAO ) {
+							//} else if ( matrizObjetos[*con].Tipo() == LIGACAO ) {
+							} else if ( matrizObjetos[con->first].Tipo() == LIGACAO ) {
 								++numLigacoes;
 							}
 						}
@@ -1981,8 +1984,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 					it = matrizObjetos.find(rotuloijk);
 					if ( it->second.Tipo() == LIGACAO ) {
 						numSitios = 0;
-						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
-							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+						//for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+						for ( map<int,double>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							//if ( matrizObjetos[*con].Tipo() == SITIO ) {
+							if ( matrizObjetos[con->first].Tipo() == SITIO ) {
 								++numSitios;
 							}
 						}
@@ -2464,10 +2469,13 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 					it = matrizObjetos.find(rotuloijk);
 					if ( it->second.Tipo() == RAMO_MORTO ) {
 						numSitios = numLigacoes = 0;
-						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
-							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+						//for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+						for ( map<int,double>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							//if ( matrizObjetos[*con].Tipo() == SITIO ) {
+							if ( matrizObjetos[con->first].Tipo() == SITIO ) {
 								++numSitios;
-							} else if ( matrizObjetos[*con].Tipo() == LIGACAO ) {
+							//} else if ( matrizObjetos[*con].Tipo() == LIGACAO ) {
+							} else if ( matrizObjetos[con->first].Tipo() == LIGACAO ) {
 								++numLigacoes;
 							}
 						}
@@ -2520,8 +2528,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 					it = matrizObjetos.find(rotuloijk);
 					if ( it->second.Tipo() == LIGACAO ) {
 						numSitios = 0;
-						for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
-							if ( matrizObjetos[*con].Tipo() == SITIO ) {
+						//for ( set<int>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+						for ( map<int,double>::iterator con = it->second.SConexao().begin(); con != it->second.SConexao().end(); ++con ) {
+							//if ( matrizObjetos[*con].Tipo() == SITIO ) {
+							if ( matrizObjetos[con->first].Tipo() == SITIO ) {
 								++numSitios;
 							}
 						}

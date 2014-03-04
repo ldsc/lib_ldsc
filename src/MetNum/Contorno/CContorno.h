@@ -72,7 +72,7 @@ class CContorno
   ///                         SUL
   /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
   ///        ou seja, no código não usar conversão para unsigned char.
-  enum class ETipoContorno : unsigned char 
+  enum class ETipoContorno : uint8_t 
     { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
 
    /// Valor da propriedade no contorno, valor inicial = default, = 0.0.

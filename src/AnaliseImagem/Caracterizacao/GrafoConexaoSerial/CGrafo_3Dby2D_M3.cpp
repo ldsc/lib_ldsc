@@ -3,7 +3,7 @@
 @PROJETO:          Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-@Desenvolvido_por:	Laboratorio de Desenvolvimento de Software Cientifico 
+@Desenvolvido_por:	Laboratorio de Desenvolvimento de Software Cientifico
 [LDSC].
 @author:          André Duarte Bueno
 @file:            CGrafo_3Dby2D_M3.cpp
@@ -51,10 +51,10 @@ void CGrafo_3Dby2D_M3::CalcularPropriedadesConeccoes()
 // objeto.size();
 
 // Para cada objeto do sítio, aloca o vetor condutância
-// com o mesmo número de dados do vetor conexao    		
+// com o mesmo número de dados do vetor conexao
 // objeto[i]->Coneccao.size() retorna o número de conexões do objeto i
  unsigned long int numeroDeLinks = objeto[i]->Coneccao.size();
-objeto[i]->condutancias.reserve( numeroDeLinks );
+objeto[i]->condutâncias.reserve( numeroDeLinks );
 };
 */
 
@@ -70,7 +70,7 @@ objeto[i]->condutancias.reserve( numeroDeLinks );
  * @return : void
 */
 void
-CGrafo_3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
+CGrafo_3Dby2D_M3::DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado )
 {
    // Variáveis auxiliares
    unsigned long int pa, pp;
@@ -79,22 +79,22 @@ CGrafo_3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtili
    unsigned long int nli;
 
    long double raioHidraulicoLigacoes;
-   CObjetoRede_Sitio_CC *ptrSitio;
+   CObjetoRede_CC_Sitio* ptrSitio;
 
    // Copia dados da conexão das duas imagens para a img2D
    // ou seja gera imagem da intersecção entre os dois planos de rotulagem
    unsigned long int ii;
    unsigned long int jj;
 
-   for (ii = 0; ii < img2D->NX (); ii++)
-      for (jj = 0; jj < img2D->NY (); jj++)
-         if (ra->data2D[ii][jj] && rp->data2D[ii][jj])
+   for ( ii = 0; ii < img2D->NX (); ii++ )
+      for ( jj = 0; jj < img2D->NY (); jj++ )
+         if ( ra->data2D[ii][jj] && rp->data2D[ii][jj] )
             img2D->data2D[ii][jj] = 1;
          else
             img2D->data2D[ii][jj] = 0;
 
    // Rotula a imagem intermediária (img2D) usando rotInt
-   rotInt->Go (img2D);
+   rotInt->Go ( img2D );
 
    // Calculo dos raiosHidraulicos do plano intermediario
    rotInt->CalculaRaioHidraulicoObjetos ();
@@ -107,108 +107,140 @@ CGrafo_3Dby2D_M3::DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtili
    nli = rotInt->RotuloFinal () + 1;
 
    // Cria lista dos links válidos, se =0 não validado, se =1 validado
-   CVetor *links_validos = new CVetor (nli);	// usar vector
-   assert (links_validos);
+   CVetor* links_validos = new CVetor ( nli );	// usar vector
+   assert ( links_validos );
 
    // Seta todos os links como válidos
-   links_validos->Constante (1);
+   links_validos->Constante ( 1 );
 
    // Percorre imagem rotulada intermediária
    // se conectada, seta o link como válido, e conecta os sítios
-   for (ii = 0; ii < rotInt->NX (); ii++)
-      for (jj = 0; jj < rotInt->NY (); jj++)
+   for ( ii = 0; ii < rotInt->NX (); ii++ )
+      for ( jj = 0; jj < rotInt->NY (); jj++ )
+
          // se não for o fundo
-         if (rotInt->data2D[ii][jj] != 0)
-         {
-            // se for um link válido, entra
-            if (links_validos->data1D[rotInt->data2D[ii][jj]] == 1)
-            {
-               // Abaixo, seta o link como inválido (o que impede repetição do mesmo link)
-               links_validos->data1D[rotInt->data2D[ii][jj]] = 0;
+         if ( rotInt->data2D[ii][jj] != 0 ) {
+               // se for um link válido, entra
+               if ( links_validos->data1D[rotInt->data2D[ii][jj]] == 1 ) {
+                     // Abaixo, seta o link como inválido (o que impede repetição do mesmo link)
+                     links_validos->data1D[rotInt->data2D[ii][jj]] = 0;
 
-               // Obtem os rótulos
-               pa = ra->data2D[ii][jj];
-               pp = rp->data2D[ii][jj];
+                     // Obtem os rótulos
+                     pa = ra->data2D[ii][jj];
+                     pp = rp->data2D[ii][jj];
 
-               // Acrescenta o deslocamento do maiorRotuloUtilizado
-               pa += maiorRotuloUtilizado;
+                     // Acrescenta o deslocamento do maiorRotuloUtilizado
+                     pa += maiorRotuloUtilizado;
 
-               // Soma o maiorRotuloUtilizado + ra->RotuloFinal()
-               pp += maiorRotuloUtilizado + ra->RotuloFinal ();
+                     // Soma o maiorRotuloUtilizado + ra->RotuloFinal()
+                     pp += maiorRotuloUtilizado + ra->RotuloFinal ();
 
-               // Adiciona o objeto a lista de links
-               // pa-1 esta conectado a pp-1
-               objeto[pa - 1]->Conectar (objeto[pp - 1]);
-               // pp-1 esta conectado a pa-1
-               objeto[pp - 1]->Conectar (objeto[pa - 1]);
+                     // Adiciona o objeto a lista de links
+                     // pa-1 esta conectado a pp-1
+                     objeto[pa - 1]->Conectar ( objeto[pp - 1] );
+                     // pp-1 esta conectado a pa-1
+                     objeto[pp - 1]->Conectar ( objeto[pa - 1] );
 
-               // NOVO  : Definição dos raiosHidraulicos das conexões
-               raioHidraulicoLigacoes =
-                     rotInt->RaioHidraulicoObjetos (rotInt->data2D[ii][jj]);
-               ptrSitio = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[pa - 1]);
-               ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
-               ptrSitio = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[pp - 1]);
-               ptrSitio->condutancia.push_back (raioHidraulicoLigacoes);
+                     // NOVO  : Definição dos raiosHidraulicos das conexões
+                     raioHidraulicoLigacoes =
+                        rotInt->RaioHidraulicoObjetos ( rotInt->data2D[ii][jj] );
+                     ptrSitio = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[pa - 1] );
+                     ptrSitio->condutancia.push_back ( raioHidraulicoLigacoes );
+                     ptrSitio = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[pp - 1] );
+                     ptrSitio->condutancia.push_back ( raioHidraulicoLigacoes );
+                  }
             }
-         }
+
    delete links_validos;
 }
 
 // -------------------------------------------------------------------------
 // Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
-/** @short  : Redefinida, em relação a CGrafo adiciona o calculo das condutâncias das ligações.
- * @author :	André Duarte Bueno
+/** @short : Redefinida, em relação a CGrafo adiciona o calculo das condutâncias das ligações.
+ * @author : André Duarte Bueno
  * @see    : Condutância
  * @param  : nada
  * @return : void
+ * @todo   : Da forma como esta, para cada objeto calcula a condutancia, mas os raiosHidraulicos
+ * de todos os objetos estarão num intervalo raio=1 ->raio=max, poderia criar vetor
+ * vector<double> converteRHcondutancia; onde armazena as condutâncias.
+ * Depois faz objeto[k]->propriedade = converteRHcondutancia[objeto[k]->propriedade];
+ *
 */
 void
-CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao) {
+CGrafo_3Dby2D_M3::CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao )
+{
    // Variáveis auxiliares
    long double raio_hidraulico;
    long double dH;
 
    long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
    // long double PI=3.141592653589;
-   long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao);
+   long double variavelAuxiliar = ( CMath::PI ) / ( 128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao );
 
-   // A classe CGrafo_3Dby2D_M3 tem sítios do tipo CObjetoRede_Sitio_CC
+   // A classe CGrafo_3Dby2D_M3 tem sítios do tipo CObjetoRede_CC_Sitio
    // que tem uma lista de conexões.
-   // aqui usa um ponteiro do tipo CObjetoRede_Sitio_CC para acessar as conexões.
-   CObjetoRede_Sitio_CC * ptrSitioLR = nullptr;
+   // aqui usa um ponteiro do tipo CObjetoRede_CC_Sitio para acessar as conexões.
+   CObjetoRede_CC_Sitio* ptrSitioLR = nullptr;
 
-   // Percorre  todos os objetos do  grafo
-   for (unsigned long int k = 0; k < objeto.size (); k++) {
-      // Pega o raio hidraulico do objeto k, e converte para metros
-      raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
+   // Passo 1: Percorre  todos os objetos do grafo e calcula as condutâncias de cada um
+   // armazena resultado em objeto[k]->propriedade
+   for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
+         // Converte raio hidraulico de pixel para metro
+         raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
 
-      // Calcula a condutancia da ligação
-      // dH=4.0*(raio_hidraulico) ;
-      dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
-
-      objeto[k]->propriedade = (variavelAuxiliar * dH * dH * dH * dH);
-
-      // Calcula as condutancias das ligações
-      // objeto[k] é um ponteiro para CObjetoRede, para obter a informação do
-      // número de conexões, preciso de um ponteiro para um CObjetoRede_Sitio (ou derivado)
-      // abaixo, usa dynamic_cast para obter ponteiro p/ CObjetoRede_Sitio*
-      CObjetoRede_Sitio * ptrSitio = dynamic_cast < CObjetoRede_Sitio * >(objeto[k]);
-
-      // Percorre todas as conexões do objeto
-      for (unsigned int link = 0; link < ptrSitio->conexao.size (); link++) {
-         // Converte o ponteiro ObjetoGrafo para CObjetoRede_Sitio_CC
-         ptrSitioLR = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[k]);
-         // Obtêm o raio hidraulico da ligação
-         raio_hidraulico = ptrSitioLR->condutancia[link];
-         // Converte para SI (metros)
-         raio_hidraulico *= dimensaoPixelXfatorAmplificacao;
-         // Determina o diâmetro hidraulico como sendo 4*raioHidraulico
-         dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
-         // Calcula a condutância da ligação e armazena
-         ptrSitioLR->condutancia[link] = (variavelAuxiliar * dH * dH * dH * dH);
+         // CALCULO DA CONDUTANCIA DO OBJETO LIGACAO->POISELLE
+         if ( objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao
+               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_EST
+               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_WEST
+               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao
+               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST
+               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST ) {
+               // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
+               dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
+               // Converte a propriedade do objeto raio hidraulico para condutancia.
+               objeto[k]->propriedade = ( variavelAuxiliar * dH * dH * dH * dH );
+            }
+         // CALCULO DA CONDUTANCIA DO OBJETO SITIO->KOPLIK
+         else if ( objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao
+                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_EST
+                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_WEST
+                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao
+                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST
+                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST ) {
+               /// @todo: Trocar as duas linhas abaixo pela equação de KOPLIK
+               // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
+               dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
+               // Converte a propriedade do objeto raio hidraulico para condutancia.
+               objeto[k]->propriedade = ( variavelAuxiliar * dH * dH * dH * dH );
+            }
+         else	   {
+               cerr << "\nErro: Tipo de objeto desconhecido em CGrafo_3Dby2D_M3::CalcularCondutancias.";
+               exit ( 0 );
+            }
       }
-   }
+
+   // Passo 2: Percorre  todos os objetos k do grafo e calcula as condutâncias das conexões entre os objetos,
+   // armazena resultado em objeto[k]->condutancia[i]
+   long double ct ;
+
+   for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
+         // Percorre todas as conexões do objeto
+         // objeto[k]->propriedade = condutancia objeto
+         // objeto[k]->conexao[link]->propriedade = condutancia objeto conectado
+         // ct = 1.0 / (1.0/c1 + 1.0/c2); -> o mesmo que -> ct = c1*c2/(c1+c2);
+	     // como preciso calcular no centro e não nas bordas
+	     // ct' = 2*c1*c2/(c1+c2)
+	   // @todo: o calculo abaixo pode incluir um if..else para os tipos de objetos, ou 
+	   // CalcularCondutancias pode ser reescrito de acordo com tipo de grafo.
+         for ( unsigned int link = 0; link < objeto[k]->conexao.size (); link++ ) {
+               ct = objeto[k]->propriedade * objeto[k]->conexao[link]->propriedade /
+                    ( objeto[k]->propriedade + objeto[k]->conexao[link]->propriedade );
+               objeto[k]->condutancia[link] = ct;
+            }
+      }
+
    return;
 }
 
@@ -216,7 +248,7 @@ CGrafo_3Dby2D_M3::CalcularCondutancias (long double _viscosidade, long double _d
 // Função:   EliminarCondutanciasRepetidas
 // -------------------------------------------------------------------------
 /** @short  : Redefinida, em relação a CGrafo3Dby2D.
- * Percorre todos os objetos e elimina conexões repetidas (deve ser chamada depois do 
+ * Percorre todos os objetos e elimina conexões repetidas (deve ser chamada depois do
  * calculo das condutâncias, pois soma as condutâncias das conexões repetidas.
  * se chamar antes, vai acumular o raio hidraulico)
  * Chama função de cada sítio, que elimina links repetidos.
@@ -231,16 +263,16 @@ CGrafo_3Dby2D_M3::EliminarCondutanciasRepetidas ()
    int totalLinksDeletados = 0;
 
    // Percorre todos os objetos do grafo
-   if (EliminarConeccoesRepetidas () == 1)
-      for (int i = 0; i < objeto.size (); i++)
-      {
-         // Cria ponteiro para objeto do tipo CObjetoRede_Sitio_CC
-         CObjetoRede_Sitio_CC *obj_i = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[i]);
-         assert (obj_i);
+   if ( EliminarConeccoesRepetidas () == 1 )
+      for ( int i = 0; i < objeto.size (); i++ ) {
+            // Cria ponteiro para objeto do tipo CObjetoRede_CC_Sitio
+            CObjetoRede_CC_Sitio* obj_i = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[i] );
+            assert ( obj_i );
 
-         // Chama DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
-         totalLinksDeletados += obj_i->DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
-      }
+            // Chama DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
+            totalLinksDeletados += obj_i->DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
+         }
+
    // Write( "Grafo_DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo.txt");        Emedio
    cerr << "NumeroTotal de links deletados= " << totalLinksDeletados << endl;
 }
@@ -256,29 +288,30 @@ CGrafo_3Dby2D_M3::EliminarCondutanciasRepetidas ()
  *       Formato Liang: esquerda(1) centro(0) direita(2)
  * @return : 	Retorna um ponteiro para um sítio novo alocado.
 */
-CObjetoRede *
-CGrafo_3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
+CObjetoRede*
+CGrafo_3Dby2D_M3::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
 {
-   CObjetoRede *data;
-   switch (tipoContorno)
-   {
-   case CContorno::ETipoContorno::CENTER:
-      data = new CObjetoRede_Sitio_CC ();
-      break;
+   CObjetoRede* data;
 
-   case CContorno::ETipoContorno::WEST:
-      data = new CObjetoRede_Sitio_CC_WEST ();
-      break;
+   switch ( tipoContorno ) {
+      case CContorno::ETipoContorno::CENTER:
+         data = new CObjetoRede_CC_Sitio ();
+         break;
 
-   case CContorno::ETipoContorno::EST:
-      data = new CObjetoRede_Sitio_CC_EST ();
-      break;
+      case CContorno::ETipoContorno::WEST:
+         data = new CObjetoRede_CC_Sitio_WEST ();
+         break;
 
-   default:
-      data = new CObjetoRede_Sitio_CC ();
-      break;
-   }
-   assert (data);
+      case CContorno::ETipoContorno::EST:
+         data = new CObjetoRede_CC_Sitio_EST ();
+         break;
+
+      default:
+         data = new CObjetoRede_CC_Sitio ();
+         break;
+      }
+
+   assert ( data );
    return data;
 }
 
@@ -298,7 +331,7 @@ CGrafo_3Dby2D_M3::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 */
 
 bool
-CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  const
+CGrafo_3Dby2D_M3::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B )  const
 {
    // vector< vector<float> > A;
    // vector<float> B;
@@ -321,80 +354,80 @@ CGrafo_3Dby2D_M3::SetarMatrizAVetorB (TCMatriz2D< int > * &A, CVetor * &B)  cons
    // cout <<"\ndim="<<dim;
 
    // Redimensiona a matriz A
-   A->Redimensiona (dim, dim);
+   A->Redimensiona ( dim, dim );
    // Zera a matriz A
-   A->Constante (0);
+   A->Constante ( 0 );
 
    // Redimensiona o vetor B
-   B->Redimensiona (dim);
+   B->Redimensiona ( dim );
    // Zera o vetor B
-   B->Constante (0);
+   B->Constante ( 0 );
 
    unsigned int i;
-   for (unsigned long int j = 0; j < objeto.size (); j++)
-   {
-      // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
-      CObjetoRede_Sitio_CC *objeto_j = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[j]);
-      assert (objeto_j);
 
-      switch (objeto_j->Contorno ())
-      {
-      // Fronteira esquerda
-      case CContorno::ETipoContorno::WEST:
+   for ( unsigned long int j = 0; j < objeto.size (); j++ ) {
+         // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
+         CObjetoRede_CC_Sitio* objeto_j = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[j] );
+         assert ( objeto_j );
 
-         // Fronteira direira
-      case CContorno::ETipoContorno::EST:
-         // Percorre as conexões do objeto
-         for (i = 0; i < objeto_j->conexao.size (); i++)
-         {
-            // Calcula Cij
-            Cij = objeto_j->condutancia[i];
-            Cij = Cij * 1.0e17;	// LIXO, para gerar int
-            // cij esta sendo armazenado em int por isto multiplico por e17
+         switch ( objeto_j->Contorno () ) {
+               // Fronteira esquerda
+            case CContorno::ETipoContorno::WEST:
 
-            // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
-            mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
+               // Fronteira direira
+            case CContorno::ETipoContorno::EST:
 
-            // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x, x deve estar definido
-            // B->data1D[ mi ] -= Cij * objeto_j->x;
-            B->data1D[mi] -= static_cast < int >(Cij * objeto_j->x);	// LIXO o static
+               // Percorre as conexões do objeto
+               for ( i = 0; i < objeto_j->conexao.size (); i++ ) {
+                     // Calcula Cij
+                     Cij = objeto_j->condutancia[i];
+                     Cij = Cij * 1.0e17;	// LIXO, para gerar int
+                     // cij esta sendo armazenado em int por isto multiplico por e17
 
-            // Acumula -Cij na matriz A[mi][mi]
-            // A->data2D[mi][mi] -= Cij;
-            A->data2D[mi][mi] -= static_cast < int >(Cij);	// LIXO o static
-         }
-         break;
+                     // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
+                     mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
 
-         // Fronteira Centro
-      case CContorno::ETipoContorno::CENTER:
-         // Percorre as conexões do objeto
-         for (i = 0; i < objeto_j->conexao.size (); i++)
-         {
-            // Se o link  for  um objeto de centro (não contorno) entra
-            if (objeto_j->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER)
-            {
-               // Calcula Cij
-               // Cij = ( objeto_j->propriedade + objeto_j->conexao[i]->propriedade ) /2.0 ;
-               Cij = objeto_j->condutancia[i];
-               Cij = Cij * 1.0e17;	// LIXO para gerar int
-               // cij esta sendo armazenado em int por isto multiplico por e17
+                     // Acumula Cij no vetor B[mi] -= Cij     * objeto_j->x, x deve estar definido
+                     // B->data1D[ mi ] -= Cij * objeto_j->x;
+                     B->data1D[mi] -= static_cast < int > ( Cij * objeto_j->x );	// LIXO o static
 
-               // Desloca os índices da matriz
-               mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
-               mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
+                     // Acumula -Cij na matriz A[mi][mi]
+                     // A->data2D[mi][mi] -= Cij;
+                     A->data2D[mi][mi] -= static_cast < int > ( Cij );	// LIXO o static
+                  }
 
-               // Define A->data2D[mi][mj]
-               A->data2D[mi][mj] = static_cast < int >(Cij);	// LIXO o static
+               break;
 
-               // Acumula A->data2D[mj][mj]
-               A->data2D[mj][mj] -= static_cast < int >(Cij);	// LIXO o static
-            }
-         }
-         break;
-      }			// switch
-   }				// for
+               // Fronteira Centro
+            case CContorno::ETipoContorno::CENTER:
 
-   A->Write ("grafo.matrixA");
-   B->Write ("grafo.vectorB");
+               // Percorre as conexões do objeto
+               for ( i = 0; i < objeto_j->conexao.size (); i++ ) {
+                     // Se o link  for  um objeto de centro (não contorno) entra
+                     if ( objeto_j->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
+                           // Calcula Cij
+                           // Cij = ( objeto_j->propriedade + objeto_j->conexao[i]->propriedade ) /2.0 ;
+                           Cij = objeto_j->condutancia[i];
+                           Cij = Cij * 1.0e17;	// LIXO para gerar int
+                           // cij esta sendo armazenado em int por isto multiplico por e17
+
+                           // Desloca os índices da matriz
+                           mi = objeto_j->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+                           mj = objeto_j->rotulo - rotuloPrimeiroObjetoPlano1;
+
+                           // Define A->data2D[mi][mj]
+                           A->data2D[mi][mj] = static_cast < int > ( Cij );	// LIXO o static
+
+                           // Acumula A->data2D[mj][mj]
+                           A->data2D[mj][mj] -= static_cast < int > ( Cij );	// LIXO o static
+                        }
+                  }
+
+               break;
+            }			// switch
+      }				// for
+
+   A->Write ( "grafo.matrixA" );
+   B->Write ( "grafo.vectorB" );
    return 1;
 }

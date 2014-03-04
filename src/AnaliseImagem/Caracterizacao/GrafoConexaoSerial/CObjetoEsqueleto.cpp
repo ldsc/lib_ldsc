@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:    André Duarte Bueno
-@file:      CObjetoRede_Sitio_CC_CM.cpp
+@file:      CObjetoEsqueleto.cpp
 @begin:     Sat Sep 16 2000
 @copyright: (C) 2000 by André Duarte Bueno
 @email:     andreduartebueno@gmail.com
@@ -23,8 +23,7 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_CM.h>
-
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.h>
 
 // -------------------------------------------------------------------------
 // Função:       Write
@@ -39,20 +38,20 @@ using namespace std;
     propriedade 		// raio hidraulico ou condutancia
     x           		// pressão
     NumeroConeccoes
-    Lista_dos_rotulos_das_coneccoes
+    Lista_dos_rotulos_das_conexões
 
     @author :		André Duarte Bueno
     @see    :
     @param  :   Recebe uma referencia para uma ostream
     @return :		ostream&
 */
-ostream& CObjetoRede_Sitio_CC_CM::Write ( ostream& out ) const
+ostream& CObjetoEsqueleto::Write ( ostream& out ) const
 {
     out.setf ( ios::right );
 
     // Tipo de contorno
     /// @todo trocar por tipo ojeto grafo!
-    out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
+    out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
 
     // Rótulo de this
     out << ' ' << setw ( 5 ) << rotulo;
@@ -64,18 +63,18 @@ ostream& CObjetoRede_Sitio_CC_CM::Write ( ostream& out ) const
     out << ' ' << setw ( 10 ) << propriedade;
 
     // Numero de links do sítio
-    out << ' ' << setw ( 4 ) << conexao.size ();
+    out << ' ' << setw ( 5 ) << conexao.size ();
 
     // lista dos rótulos da conexao
     for ( auto objeto_conectado : conexao )
-        out << ' ' << setw ( 4 ) << objeto_conectado->rotulo;
+        out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
 
-    // Lista das propriedades (condutancias das ligações)
+    // Lista das propriedades (condutâncias das ligações)
     for ( auto condutancia_i : condutancia )
-        out << ' ' << setw ( 12 ) << condutancia_i;
+        out << ' ' << setw ( 10 ) << condutancia_i;
 
     // coordenadas
-    out << cx << ' ' << cy << ' ' << cz << ' ';
+    out << ' ' << cx << ' ' << cy << ' ' << cz << ' ';
 
     return out;
 }
@@ -90,7 +89,7 @@ ostream& CObjetoRede_Sitio_CC_CM::Write ( ostream& out ) const
     @param  :	ostream& e CObjetoRede_Sitio&
     @return :	ostream&
 */
-ostream& operator<< ( ostream& out, CObjetoRede_Sitio_CC_CM& s )
+ostream& operator<< ( ostream& out, CObjetoEsqueleto& s )
 {
     s.Write ( out );
     return out;

@@ -1,5 +1,5 @@
-#ifndef CObjetoRede_Sitio_CC_WEST_h
-#define CObjetoRede_Sitio_CC_WEST_h
+#ifndef CObjetoRede_Ligacao_WEST_h
+#define CObjetoRede_Ligacao_WEST_h
 
 /**
 ===============================================================================
@@ -9,11 +9,15 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoRede_Sitio_CC_WEST.h
+@file       CObjetoRede_Ligacao_WEST.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
 */
+
+// -----------------------------------------------------------------------
+// Bibliotecas C/C++
+// -----------------------------------------------------------------------
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -22,49 +26,46 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao.h>
 
 // ===============================================================================
-// Documentacao Classe: CObjetoRede_Sitio_CC_WEST
+// Documentacao Classe: CObjetoRede_Ligacao_WEST
 // ===============================================================================
 /**
- * @brief Representa um sítio conectado a face esquerda do grafo e que
- * armazena a informação da conexão.
+ * @brief Representa um sítio conectado a face esquerda do grafo.
+ * Assunto:        CGrafo
+ * Superclasse:    CParametroSolver->CObjetoGrafo->CObjetoRede_Sitio->CObjetoRede_Ligacao_WEST
  *
- * Superclasse:    CParametroSolver->CObjetoGrafo->CObjetoRede_Sitio->CObjetoRede_Sitio_CC->CObjetoRede_Sitio_CC_WEST
- * Assume valor de contorno = 0.
- * O 	valor de contorno é usado no calculo dos fluxo da malha como
- * um todo.Ou seja, um algoritimo externo percorre toda
- * a malha, e se o contorno for igual ao solicitado
- * calcula alguma propriedade neste contorno.
- * @author 	André Duarte Bueno
- * @see:        CGrafo
- * @todo renomear CObjetoRede_Sitio_CC_WEST -> CObjetoRede_Sitio_CCEsq
+ * O valor de contorno é usado no calculo dos fluxo da malha como  um todo.
+ * Ou seja, um algoritimo externo percorre toda a malha, e se o contorno for igual ao
+ * solicitado calcula alguma propriedade neste contorno.
+ * @author  André Duarte Bueno
+ * @see     CGrafo
  * @ingroup  HCObjetoGrafo
- */
-class CObjetoRede_Sitio_CC_WEST : public CObjetoRede_Sitio_CC {
+*/
+class CObjetoRede_Ligacao_WEST : public CObjetoRede_Ligacao {
 // --------------------------------------------------------------Atributos
-
 public:
 // -------------------------------------------------------------Construtor
-/// Destrutor
-     CObjetoRede_Sitio_CC_WEST () = default;
+/// Construtor.
+     CObjetoRede_Ligacao_WEST () = default;
 
 // --------------------------------------------------------------Destrutor
-/// Construtor
-     virtual ~ CObjetoRede_Sitio_CC_WEST () = default;
+/// Destrutor.
+     virtual ~ CObjetoRede_Ligacao_WEST () =  default;
 
 // ----------------------------------------------------------------Métodos
-// --------------------------------------------------------------Atributos
-     /// Retorna o tipo
+     /// Retorna o tipo de objeto do grafo.
+     virtual ETipo Tipo () const  override { return ETipo::ObjetoRede_Ligacao_WEST;  }
+
+     /// Retorna o tipo de contorno a que pertence
      inline virtual CContorno::ETipoContorno Contorno () const override  {
           return CContorno::ETipoContorno::WEST;
      }
 
      /**
-     * @brief Função herdade da classe CParametroSolver usada para calcular
-      * o valor de x retorna a pressão na fronteira direita
-      * Oberve que nao altera o valor de x.
+     * @brief Função herdada da classe CParametroSolver,
+     * usada para calcular o valor de x retorna a pressão na fronteira direita
      */
      inline virtual long double Go ( long double d = 0 ) override  {
           return x;
@@ -73,13 +74,12 @@ public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-
-//       friend ostream& operator<< (ostream& os, CObjetoRede_Sitio_CC_WEST& obj);
-//       friend istream& operator>> (istream& is, CObjetoRede_Sitio_CC_WEST& obj);
+//       friend ostream& operator<< (ostream& os, CObjetoRede_Ligacao_WEST& obj);
+//       friend istream& operator>> (istream& is, CObjetoRede_Ligacao_WEST& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, CObjetoRede_Sitio_CC_WEST& obj);
-// istream& operator>> (istream& is, CObjetoRede_Sitio_CC_WEST& obj);
+// ostream& operator<< (ostream& os, CObjetoRede_Ligacao_WEST& obj);
+// istream& operator>> (istream& is, CObjetoRede_Ligacao_WEST& obj);
 #endif

@@ -1,5 +1,5 @@
-#ifndef CObjetoRede_Sitio_CC_CM_h
-#define CObjetoRede_Sitio_CC_CM_h
+#ifndef CObjetoEsqueleto_h
+#define CObjetoEsqueleto_h
 
 /**
 ===============================================================================
@@ -9,12 +9,11 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoRede_Sitio_CC_CM.h
+@file       CObjetoEsqueleto.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
 */
-
 /*
 -------------------------------------------------------------------------
 Bibliotecas ANSI C++
@@ -30,53 +29,56 @@ Bibliotecas LIB_LDSC
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC.h>
+#ifndef CObjetoRede_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #endif
 
 // ===============================================================================
-// Documentacao Classe: CObjetoRede_Sitio_CC_CM
+// Documentacao Classe: CObjetoEsqueleto
 // ===============================================================================
 /**
- * @brief  é um sítio, herdeiro de CObjetoRede_Sitio_CC, acrescenta as coordenadas cx,cy,cz.
+ * @brief  é um objeto, herdeiro de CObjetoRede, acrescenta as coordenadas cx,cy,cz.
  * @author 	André Duarte Bueno
  * @see		grafos
  * @ingroup  HCObjetoGrafo
  * @todo: implementar template para tipo de cx cy cz
 */
-class CObjetoRede_Sitio_CC_CM : public CObjetoRede_Sitio_CC {
+class CObjetoEsqueleto : public CObjetoRede {
 // --------------------------------------------------------------Atributos
 public:
-     float cx{0.0};  ///< Posição x do objeto na imagem tridimensional
-     float cz{0.0};  ///< Posição y do objeto na imagem tridimensional
-     float cy{0.0};  ///< Posição z do objeto na imagem tridimensional
+   float cx {0.0}; ///< Posição x do objeto na imagem tridimensional
+   float cz {0.0}; ///< Posição y do objeto na imagem tridimensional
+   float cy {0.0}; ///< Posição z do objeto na imagem tridimensional
 
 // -------------------------------------------------------------/**Construtor*/
-/// Destrutor
-     CObjetoRede_Sitio_CC_CM () = default;
+   /// Construtor
+   CObjetoEsqueleto () = default;
 
 // --------------------------------------------------------------/**Destrutor*/
-/// Construtor
-     virtual ~ CObjetoRede_Sitio_CC_CM ()  = default;
+   /// Destrutor
+   virtual ~ CObjetoEsqueleto ()  = default;
 
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const override ;
-	 
+   /// Retorna o tipo de objeto do grafo.
+   virtual ETipo Tipo () const  override { return ETipo::ObjetoEsqueleto;   }
+
+   /// @brief Salva atributos do objeto em disco.
+   virtual std::ostream& Write ( std::ostream& os ) const override ;
+
 // ----------------------------------------------------------------Métodos
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-     /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio_CC_CM &obj );
-     // friend istream& operator>> (istream& is, CObjetoRede_Sitio_CC_CM& obj);
+   /// Sobrecarga do operador <<.
+   friend std::ostream& operator<< ( std::ostream& os, CObjetoEsqueleto& obj );
+   // friend istream& operator>> (istream& is, CObjetoEsqueleto& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_Sitio_CC_CM &obj );
-// istream& operator>> (istream& is, CObjetoRede_Sitio_CC_CM& obj);
+inline std::ostream& operator<< ( std::ostream& os, CObjetoEsqueleto& obj );
+// istream& operator>> (istream& is, CObjetoEsqueleto& obj);
 
-// Cria o tipo CObjetoRede_Sitio_CC_CMCentro, que é igual a CObjetoRede_Sitio_CC_CM
-using CObjetoRede_Sitio_CC_Centro = CObjetoRede_Sitio_CC_CM ;
+// Cria o tipo CObjetoEsqueletoCentro, que é igual a CObjetoEsqueleto
+using CObjetoRede_CC_Sitio_Centro = CObjetoEsqueleto ;
 
 #endif

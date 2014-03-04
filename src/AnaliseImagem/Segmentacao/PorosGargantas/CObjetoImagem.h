@@ -119,7 +119,7 @@ class CObjetoImagem
 		// /// Retorna o rotulo
 		//inline int Rotulo() { return rotulo; }
 
-		/// Retorna referencia para o Set das conexoes
+		/// Retorna referencia para o Set das conexões
 		inline std::map<int, double> & SConexao() 	{
 		//inline std::set< int > & SConexao() 	{
 			return sConexao;

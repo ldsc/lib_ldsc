@@ -50,8 +50,8 @@ Desenvolvido por:
  * O programa antigo do Liang:
  * Criava um objeto Node e um objeto Grapho
  * O Node tinha apenas informações do nó como Codigo, tipo, grau, correspondencia, pressao e condutancia.
- * O objeto grafo, tinha as funções de calculo das condutancias, da pressao e da permeabilidade.
- * -A funcao de calculo das condutancias estava vazia, pois as condutancias
+ * O objeto grafo, tinha as funções de calculo das condutâncias, da pressao e da permeabilidade.
+ * -A funcao de calculo das condutâncias estava vazia, pois as condutâncias
  * estavam sendo calculadas no programa que identifica os sítios e as ligações (no classify).
  * -A função de calculo da pressao definia os valores iniciais e depois realizava o calculo
  * do sistema de equações usando um sistema (interno) de relaxações sucessivas.
@@ -84,7 +84,7 @@ Desenvolvido por:
  * Resolve o sistema como um todo,
  * 8.1)	virtual void CriarObjetosAgregados () ;// Cria objetos agregados
  * 8.2)	virtual void DefinirCondicoesContorno () ;// Define as condições de contorno
- * 8.2.1)  void AuxCalcularCondutancias(); // Chama funcao de calculo das condutancias
+ * 8.2.1)  void AuxCalcularCondutancias(); // Chama funcao de calculo das condutâncias
  * 8.3)	virtual void DefinirValoresIniciais() ;// Define valores iniciais
  * 8.4)  virtual double Go () ;	// Calcula a permeabilidade (e os fluxos)
  * 8.4.1)  double AuxFluxoFronteira(int);// calcula os fluxos
@@ -170,7 +170,7 @@ public:
      virtual void CriarObjetosAgregados ();
 
      /// Define as condições de contorno
-     // e adicionalmente chama funcao de calculo das condutancias
+     // e adicionalmente chama funcao de calculo das condutâncias
      virtual void DefinirCondicoesContorno ();
 
      /// Define valores iniciais

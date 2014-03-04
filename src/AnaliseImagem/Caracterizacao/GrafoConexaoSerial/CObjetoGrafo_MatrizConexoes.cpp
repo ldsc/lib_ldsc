@@ -34,30 +34,30 @@ using namespace std;
  * @return : void
  * @test   : testar!
 */
-void CObjetoGrafo_MatrizConexoes::Conectar (vector < CObjetoGrafo * >obj_vetor)
+void CObjetoGrafo_MatrizConexoes::Conectar ( vector < CObjetoGrafo* >obj_vetor )
 {
-  conexao.push_back (obj_vetor);
+   mconexao.push_back ( obj_vetor );
 }
 
 // -------------------------------------------------------------------------
-// Função:       DeletarConeccao
+// Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta a conexao de um ramo morto, note que esta deletando um vetor inteiro.
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
-    @see    : 
+    @see    :
     @param  : unsigned int link
     @return : void
     @test   : testar!
 */
-void CObjetoGrafo_MatrizConexoes::DeletarConeccao (unsigned int ivetor)
+void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor )
 {
-  this->conexao.erase ( conexao.begin() + ivetor );
+   this->mconexao.erase ( mconexao.begin() + ivetor );
 }
 
-void CObjetoGrafo_MatrizConexoes::DeletarConeccao ( unsigned int ivetor, unsigned int link ) 
+void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned int link )
 {
-  conexao[ivetor].erase( conexao[ivetor].begin() + link );
+   mconexao[ivetor].erase ( mconexao[ivetor].begin() + link );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -68,31 +68,21 @@ void CObjetoGrafo_MatrizConexoes::DeletarConeccao ( unsigned int ivetor, unsigne
  * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
-    @see    : 
+    @see    :
     @param  : unsigned int link
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
     @test   : testar!
 */
-bool CObjetoGrafo_MatrizConexoes::DeletarConeccoesInvalidadas (unsigned int deletado)
+bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
-  unsigned int indice_rotulo_valido {0};
+   unsigned int indice_rotulo_valido {0};
 
-  // Percorre todas as coneccoes
-  for ( auto vobjeto_conectado: conexao )
-  {
-   indice_rotulo_valido = 0 ;
-   for ( auto objeto_conectado: vobjeto_conectado )
-    // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-    // Se foi deletado vai ser pulado.
-    if (objeto_conectado->rotulo != deletado)
-      {
-       vobjeto_conectado[indice_rotulo_valido++] = objeto_conectado;
-      }
-  // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-  vobjeto_conectado.resize (indice_rotulo_valido);
-  }
-  return 1;
+   // Percorre todas as conexões e chama DeletarConexoesInvalidadas_aux
+   for ( auto vobjetos_conectados : mconexao )
+      DeletarConexoesInvalidadas_aux ( deletado , vobjetos_conectados );
+
+   return 1;
 }
 
 // ------------------------------------------------------------------------------
@@ -105,41 +95,36 @@ bool CObjetoGrafo_MatrizConexoes::DeletarConeccoesInvalidadas (unsigned int dele
 @return   : ostream&
 @test   : testar!
 */
-ostream & CObjetoGrafo_MatrizConexoes::Write (ostream & out) const
+ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const
 {
-    // Tipo de contorno
-    out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
+   // Tipo de contorno
+   out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
 
+   // Rótulo de this
+   out << ' ' << setw ( 5 ) << rotulo;
 
-    // Rótulo de this
-    out << ' ' << setw (5) << rotulo;
-	
-    // Número de vetores coneccoes
-    out << ' ' << setw (4) << conexao.size ();
+   // Número de vetores conexões
+   out << ' ' << setw ( 5 ) << mconexao.size ();
 
-    // Para cada vetor percorrer a lista
-    for (unsigned long int cont_coneccoes= 0; cont_coneccoes < conexao.size (); cont_coneccoes++)
-      {
-        // Para cada vetor percorrer os objetos
-        // conexao[cont_vector] retorna um ponteiro para um vetor
-        out << " " << setw (4) << conexao[cont_coneccoes].size ();
+   // Para cada vetor percorrer a lista
+   for ( unsigned long int cont_conexoes = 0; cont_conexoes < mconexao.size (); cont_conexoes++ ) {
+         // Para cada vetor percorrer os objetos
+         // mconexao[cont_vector] retorna um ponteiro para um vetor
+         out << " " << setw ( 5 ) << mconexao[cont_conexoes].size ();
 
-        // lista dos rótulos
-        for ( auto objeto_conectado :  conexao[cont_coneccoes] )
-          out << " " << setw (4) << objeto_conectado->rotulo;
+         // lista dos rótulos
+         for ( auto objeto_conectado :  mconexao[cont_conexoes] )
+            out << " " << setw ( 5 ) << objeto_conectado->rotulo;
+      }
 
-//         // lista das propriedades (condutancias)
-//         for ( auto objeto_conectado :  conexao[cont_coneccoes] )
-//           out << " " << setw (4) << objeto_conectado->propriedade;
-  }
-  return out;
+   return out;
 }
 
 // ------------------------------------------------------------------------------
 // Funcao:     operator<<
 // ------------------------------------------------------------------------------
-ostream& operator<< (ostream& out, CObjetoGrafo_MatrizConexoes& obj)
+ostream& operator<< ( ostream& out, CObjetoGrafo_MatrizConexoes& obj )
 {
- obj.Write(out);
- return out;
+   obj.Write ( out );
+   return out;
 }

@@ -33,16 +33,16 @@ using namespace std;
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC.h>
+#ifndef CObjetoRede_CC_Sitio_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_WEST.h>
+#ifndef CObjetoRede_CC_Sitio_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_WEST.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_EST.h>
+#ifndef CObjetoRede_CC_Sitio_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -99,7 +99,7 @@ CGrafo_3Dby2D_M4::AdicionarObjetos
 // -------------------------------------------------------------------------
 // Funcao:   CalculoDosCentroDeMassa
 // -------------------------------------------------------------------------
-/*@short  :A diferença é considerar um fator de correção das condutancias
+/*@short  :A diferença é considerar um fator de correção das condutâncias
  *	que considera a distância efetiva entre os sítios conexos.
  *  A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
  * 	this->cmx a informação do centro de massa na direção x do sítio.
@@ -161,7 +161,7 @@ void  CGrafo_3Dby2D_M4::CalcularCentroMassa()
 // -------------------------------------------------------------------------
 /** @short  : Redefinida, em relação a CGrafo_3Dby2D_M3
  *	Faz o calculo da condutancia de forma semelhante aquela definida em CGrafo_3Dby2D_M3.
- *	A diferença é considerar um fator de correção das condutancias
+ *	A diferença é considerar um fator de correção das condutâncias
  *	que considera a distância efetiva entre os sítios conexos.
  *	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
  *	this->cmx a informação do centro de massa na direção x do sítio.
@@ -179,14 +179,14 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
   (long double _viscosidade, long double _dimensaoPixel,
    unsigned long int _fatorAmplificacao)
 {
-  // Chama função da classe base que calcula as condutancias
+  // Chama função da classe base que calcula as condutâncias
   CGrafo_3Dby2D_M3::CalcularCondutancias (_viscosidade, _dimensaoPixel,
 				       _fatorAmplificacao);
 
-  // Inicio do calculo da correção das condutancias
+  // Inicio do calculo da correção das condutâncias
 
   // Ponteiro para sitio derivado
-  CObjetoRede_Sitio_CC *
+  CObjetoRede_CC_Sitio *
     ptrSitioLR = nullptr;
 
   // Centro de massa na direção x,y do sitio
@@ -214,8 +214,8 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para CObjetoRede_Sitio_CC, para ter acesso ao vetor condutancia[link]
-      ptrSitioLR = dynamic_cast < CObjetoRede_Sitio_CC * >(objeto[k]);
+      // Converte o ponteiro ObjetoGrafo para CObjetoRede_CC_Sitio, para ter acesso ao vetor condutancia[link]
+      ptrSitioLR = dynamic_cast < CObjetoRede_CC_Sitio * >(objeto[k]);
 
       // Obtem a informação do cmx e cmy do sitio atual (k)
       cmxSitio = cmx[k];
@@ -305,7 +305,7 @@ CGrafo_3Dby2D_M4::Write ()
   // Inicio novo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // ptrSitioLR = dynamic_cast<CObjetoRede_Sitio_CC*> (objeto[k]);
+      // ptrSitioLR = dynamic_cast<CObjetoRede_CC_Sitio*> (objeto[k]);
       // Obtem a informação do cmx do sitio atual (k)
       out << "\nobj[" << setw (5) << k << "]" << " cx=" << setw (5) << cmx[k]
 	<< " cy=" << cmy[k] << " cz=" << cmz[k];;

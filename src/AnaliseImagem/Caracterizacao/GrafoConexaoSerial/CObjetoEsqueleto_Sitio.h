@@ -1,5 +1,5 @@
-#ifndef CObjetoRede_Sitio_h
-#define CObjetoRede_Sitio_h
+#ifndef CObjetoEsqueleto_Sitio_h
+#define CObjetoEsqueleto_Sitio_h
 
 /**
 ===============================================================================
@@ -10,7 +10,7 @@ Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico
             [LDSC].
 @author     André Duarte Bueno
-@file       CObjetoRede_Sitio.h
+@file       CObjetoEsqueleto_Sitio.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -19,44 +19,43 @@ Desenvolvido por:
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 // Definição de CObjetoGrafo
-#ifndef CObjetoRede_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
+#ifndef CObjetoEsqueleto_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.h>
 #endif
 
 // ===============================================================================
-// Documentacao Classe: CObjetoRede_Sitio
+// Documentacao Classe: CObjetoEsqueleto_Sitio
 // ===============================================================================
 /**
- * @brief Representa um objeto sítio de uma rede.
- * Tendo uma variável rotulo (herdade de CObjetoGrafo)
- * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
+ * @brief Representa um objeto sítio de um esqueleto.
  * @author:  André Duarte Bueno
  * @see:     grafos
  * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 
-class CObjetoRede_Sitio :  public CObjetoRede
+class CObjetoEsqueleto_Sitio :  public CObjetoRede
 {
 public:
 // --------------------------------------------------------------Atributos
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoRede_Sitio () = default;
+     CObjetoEsqueleto_Sitio () = default;
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-     virtual ~ CObjetoRede_Sitio () = default;
+     virtual ~ CObjetoEsqueleto_Sitio () = default;
 // ----------------------------------------------------------------Métodos
-     /// Retorna o tipo de objeto do grafo.
-     virtual ETipo Tipo () const  override { return ETipo::ObjetoRede_Sitio;  }
+
+   /// Retorna o tipo de objeto do grafo.
+   virtual ETipo Tipo () const  override { return ETipo::ObjetoEsqueleto_Sitio;   }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
 };
 
-// Cria o tipo CObjetoRede_Sitio_CENTER, que é igual a CObjetoRede_Sitio
-// typedef CObjetoRede_Sitio CObjetoRede_Sitio_CENTER;
-using CObjetoRede_Sitio_CENTER = CObjetoRede_Sitio;
+// Cria o tipo CObjetoEsqueleto_Sitio_CENTER, que é igual a CObjetoEsqueleto_Sitio
+// typedef CObjetoEsqueleto_Sitio CObjetoEsqueleto_Sitio_CENTER;
+using CObjetoEsqueleto_Sitio_CENTER = CObjetoEsqueleto_Sitio;
 
 #endif

@@ -1,44 +1,31 @@
-CGrafo.h 		: [x]revisado [x] comentado - inclui tarefas/todo [ ] corrigido.
-CGrafoContorno.h 	: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M1.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M2.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M3.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M4.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M5.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
-CGra3Dby2D_M6.h		: [ ]revisado [ ] comentado - inclui tarefas/todo [ ] corrigido.
 
-CObjetoGrafo.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitio.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGLigacao.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioDireita.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioEsquerda.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioDirLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioEsqLR.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+CGrafo_3Dby2D
+CGrafo_3Dby2D_M1
+CGrafo_3Dby2D_M2
+CGrafo_3Dby2D_M3
+CGrafo_3Dby2D_M4
+CGrafo_3Dby2D_M5
+CGrafo_3Dby2D_M6
+CGrafoContorno
+CGrafo
 
-COGSitioLRCM.h		: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioDirLRCM.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGSitioEsqLRCM.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
-COGComponenteGrafo.h	: [X]revisado [X] comentado - inclui tarefas/todo [ ] corrigido.
+CObjetoGrafo
+CObjetoGrafo_1VetorConexoes
+CObjetoGrafo_2VetoresConexoes
+CObjetoGrafo_MatrizConexoes
 
+CObjetoRede
+CObjetoRede_Ligacao
+CObjetoRede_Ligacao_EST
+CObjetoRede_Ligacao_WEST
+CObjetoRede_Sitio
+CObjetoRede_Sitio_EST
+CObjetoRede_Sitio_WEST
 
-===========================
-Arquivos renomeados
-===========================
-git mv COGSitioDireita.cpp	COGSitio_EST.cpp
-git mv COGSitioEsquerda.cpp	COGSitio_WEST.cpp 
-git mv COGSitioLR.cpp		COGSitio_LR.cpp
-git mv COGSitioDirLR.cpp	COGSitio_LR_EST.cpp 
-git mv COGSitioEsqLR.cpp	COGSitio_LR_WEST.cpp
-git mv COGSitioLRCM.cpp		COGSitio_LR_CM.cpp
-git mv COGSitioDirLRCM.cpp	COGSitio_LR_CM_EST.cpp
-git mv COGSitioEsqLRCM.cpp	COGSitio_LR_CM_WEST.cpp
-
-QTDIR=/usr/lib64/qt-3.3
-QTINC=/usr/lib64/qt-3.3/include
-QTLIB=/usr/lib64/qt-3.3/lib
-QT_GRAPHICSSYSTEM_CHECKED=1
-QT_IM_MODULE=ibus
-QT_PLUGIN_PATH=/usr/lib64/kde4/plugins:/usr/lib/kde4/plugins
-
+CObjetoEsqueleto
+CObjetoEsqueleto_Ligacao
+CObjetoEsqueleto_Ligacao_EST
+CObjetoEsqueleto_Ligacao_WEST
+CObjetoEsqueleto_Sitio
+CObjetoEsqueleto_Sitio_EST
+CObjetoEsqueleto_Sitio_WEST

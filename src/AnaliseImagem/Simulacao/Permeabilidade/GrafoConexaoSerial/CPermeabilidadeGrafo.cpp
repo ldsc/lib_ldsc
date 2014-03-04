@@ -408,8 +408,8 @@ CPermeabilidadeGrafo::DefinirValoresIniciais ()
 			grafo->objeto[k]->x = (*(grafo->contorno[2]));
 	}
 
-	// Transforma as propriedades raioHidraulico em condutancias
-	// o calculo das condutancias agora é realizado no proprio grafo
+	// Transforma as propriedades raioHidraulico em condutâncias
+	// o calculo das condutâncias agora é realizado no proprio grafo
 	grafo->CalcularCondutancias (fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao);
 
 	// No grafo ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar

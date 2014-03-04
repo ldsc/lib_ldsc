@@ -33,15 +33,12 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief Representa um sítio(CObjetoRede_Sitio) conectado a face direita do grafo.
- *
- * Superclasse:    CParametroSolver->CObjetoGrafo->CObjetoRede_Sitio->CObjetoRede_Sitio_EST
  * Assume valor de contorno = CContorno::EST.
  * O valor de contorno é usado no calculo dos fluxo da malha como um todo.
  * Ou seja, um algoritimo externo percorre toda a malha,
  * e se o contorno for igual ao solicitado calcula alguma propriedade neste contorno.
  * @author André Duarte Bueno
  * @see    grafos
- * @todo   renomear CObjetoRede_Sitio_EST -> CObjetoRede_SitioContornoEST
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoRede_Sitio_EST : public CObjetoRede_Sitio { 
@@ -57,12 +54,14 @@ public:
      virtual ~ CObjetoRede_Sitio_EST ()  = default;
 
 // ----------------------------------------------------------------Métodos
+   /// Retorna o tipo de objeto do grafo.
+   virtual ETipo Tipo () const  override { return ETipo::ObjetoEsqueleto_Sitio_EST;   }
 
-     // Redefinição de funções herdadas
-     /// Retorna o tipo de contorno
-     inline virtual CContorno::ETipoContorno Contorno () const  override {
-          return CContorno::ETipoContorno::EST;
-     }
+	// Redefinição de funções herdadas
+	/// Retorna o tipo de contorno
+	inline virtual CContorno::ETipoContorno Contorno () const  override {
+		return CContorno::ETipoContorno::EST;
+	}
 
      /**
       * @brief Função herdade da classe CParametroSolver usada para

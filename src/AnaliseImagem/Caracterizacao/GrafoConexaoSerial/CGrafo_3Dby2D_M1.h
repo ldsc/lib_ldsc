@@ -65,7 +65,7 @@ public:
      virtual ~ CGrafo_3Dby2D_M1 () = default;
 
 // ----------------------------------------------------------------Métodos
-     /** @brief Calcula as condutancias.
+     /** @brief Calcula as condutâncias.
       * */
      void CalcularCondutancias ( long double _viscosidade,
                                  long double _dimensaoPixel,

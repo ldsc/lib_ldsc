@@ -46,6 +46,86 @@ ligações.
 [] - Criar estrutura para teste dos códigos desenvolvidos pelo Leandro. Deve adotar padrão uniforme 
 em toda lib_ldsc.
 
+[Específico grafo conexão serial]
+=======================================
+[X] - Reorganizar hierarquia de objetos do grafo,  criando objetos rede e objetos esqueleto
+[X] - Criar função que retorna o tipo de objeto
+[X] - Renomear diversas variáveis e funções
+[] -  @todo: CObjetoRede manter DeletarConeccoesRepetidas e mover para CGrafo _SomarCondutanciasParalelo
+// virtual int SomarCondutanciasParalelo ();
+e acumula (soma) as condutâncias em paralelo.
+/// Dois objetos podem ter conexões em paralelo, neste caso, a condutância total
+/// é dada por ct=c1+c2+c3... (paralelo).
+
+/**
+* @brief Função usada para calcular as condutâncias.
+* Foi separada de Go() pois estava recalculando todas as vezes em Go!
+* @todo: este cálculo deve ser feito em CGrafo!
+*/
+// virtual bool CalcularCondutanciasObjetosConectados ( int aglutinarLigacoes = 0 ) ;
+
+
+// -------------------------------------------------------------------------
+// Função:  Go
+// -------------------------------------------------------------------------
+// Só chamar depois de ter calculado as condutâncias de cada objeto (sitio ou ligação)
+// Nota: o calculo das condutâncias foi movido para classes CGrafo_3dBy2D_M3?;
+// ex: o cálculo abaixo foi movido para CGrafo_3dBy2D_M3.
+// agora é só usar as condutâncias.
+// Percorre as conexões (calculo novo)
+// Para calcular condutancia total ct entre c1 e c2
+// 1/ct = 1/c1 + 1/c2
+// assim, ct = (c1*c2) / (c1+c2)
+// Mas devo considerar que c1 e c2 consideram como distância 1 pixel, de forma que ct
+// é a condutância entre 2 píxeis. Mas quero considerar 1 pixel;
+// Fazendo 1/c2p = 1/c1p + 1/c1p encontro c1p = 2*c2p
+// ou seja para converter condutância distância 2 píxeis em condutância distância 1 píxel,
+// devo multiplicar por 2
+// Ficando: ct_1p = 2* ct_2p; como ct_2p = ct = (c1*c2) / (c1+c2)
+// ct_1p = 2  (c1*c2) / (c1+c2)
+// sendo ct_1p a condutancia entre dois objetos, mas considerando distância 1 píxel,
+// o que corresponde ao grafo de conexão serial.
+bool CObjetoRede::CalcularCondutanciasObjetosConectados ( int tipoRede = 0 )
+{
+   // Calcula condutância entre par de objetos
+   // Como a pressão fica na metade da distância precisa multiplicar por 2:
+   // ct = 2.0*(c1*c2) / (c1+c2)
+   // Cada ligação terá sua pressão considerada. Ou seja, rede de sítios e ligações
+   if ( tipoRede == RedeLigacoes or tipoRede == RedeSitios or RedeSitiosLigacoes ) {
+         for ( unsigned int i = 0; i < conexao.size(); i++ ) {
+               this->condutancia[i] = 2.0 * ( conexao[i]->propriedade * this->propriedade ) /
+                                      ( conexao[i]->propriedade + this->propriedade );
+            }
+      }
+   // Calcula condutância entre sítios, condutância das ligações é acumulada
+   // 1/ct = 1/cs1 + somatório 1/li + 1/cs2
+   else ( tipoRede =  RedeSitiosLigacoesMultiplas ) {
+         for ( unsigned int i = 0; i < conexao.size(); i++ ) {
+               double ct = 1.0 /  this->propriedade ;   // Aculuma condutancia deste sítio
+               CObjetoRede* ptr = conexao[i];
+
+               while ( ptr->Tipo() == "Ligacao" ) {
+                     ct += 1.0 / ptr->propriedade;
+
+                     if ( ptr !=
+                  }
+
+         }
+   }
+
+      return 1;
+}
+
+
+[] trocar unsigned int por uint32_t
+[] - otimização,  testar uso de <list> no lugar de vector.
+[] - Terminar montar hierarquia considerando classes derivadas EST WEST
+[] - Revisar todo cálculo na hierarquia de objetos CGrafo
+[] -  Testar
+
+[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
+métodos virtuais (pode ter herança).
+
 [Específico mestrado Rafael]
 =======================================
 [] - Verificar códigos Rafael -2D e botar para funcionar (test/AberturaDilatacao).

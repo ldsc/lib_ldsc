@@ -23,16 +23,16 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6.h>
 
-#ifndef CObjetoRede_Sitio_CC_CM_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_CM.h>
+#ifndef CObjetoEsqueleto_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_CM_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_CM_WEST.h>
+#ifndef CObjetoEsqueleto_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_WEST.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_CC_CM_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_CM_EST.h>
+#ifndef CObjetoEsqueleto_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -44,7 +44,7 @@ using namespace std;
 // Função:       CriarObjetoGrafo
 // -------------------------------------------------------------------------
 /**
-@short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_Sitio_CC...).
+@short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
 @author : André Duarte Bueno
 @see    : grafos
 @param  : CContorno::ETipoContorno tipoContorno
@@ -56,16 +56,16 @@ CGrafo_3Dby2D_M6::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
      CObjetoRede *data;
      switch ( tipoContorno ) {
      case CContorno::ETipoContorno::CENTER:
-          data = new CObjetoRede_Sitio_CC_CM ();
+          data = new CObjetoEsqueleto ();
           break;
      case CContorno::ETipoContorno::WEST:
-          data = new CObjetoRede_Sitio_CC_CM_WEST ();
+          data = new CObjetoEsqueleto_WEST ();
           break;
      case CContorno::ETipoContorno::EST:
-          data = new CObjetoRede_Sitio_CC_CM_EST ();
+          data = new CObjetoEsqueleto_EST ();
           break;
      default:
-          data = new CObjetoRede_Sitio_CC_CM ();
+          data = new CObjetoEsqueleto ();
           break;
      }
      assert ( data );
@@ -120,7 +120,7 @@ CGrafo_3Dby2D_M6::AdicionarObjetos
 
           // AQUI, seta cx,cy,cz de cada sítio
           // Adiciona a posição do centro de massa
-          CObjetoRede_Sitio_CC_CM     *sitio = dynamic_cast < CObjetoRede_Sitio_CC_CM * > ( data );
+          CObjetoEsqueleto     *sitio = dynamic_cast < CObjetoEsqueleto * > ( data );
           assert ( sitio );
           sitio->cx = rotulador->CMXObjeto ( rotulo );
           sitio->cy = rotulador->CMYObjeto ( rotulo );
@@ -151,12 +151,12 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
 
      ofstream saida ( ( NomeGrafo() + ".fatorCorrecao" ).c_str() );
 
-     // Chama função da classe base que calcula as condutancias
+     // Chama função da classe base que calcula as condutâncias
      CGrafo_3Dby2D_M3::CalcularCondutancias ( _viscosidade, _dimensaoPixel, _fatorAmplificacao );
 
-     // Inicio do calculo da correção das condutancias
+     // Inicio do calculo da correção das condutâncias
      // Ponteiro para sitio derivado
-     CObjetoRede_Sitio_CC_CM *
+     CObjetoEsqueleto *
      sitio = nullptr;
 
      // Distancia dx entre os dois sítios
@@ -170,8 +170,8 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
      fatorCorrecaoDistancias = 0.0;
      // Percorre  todos os objetos do  grafo
      for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
-          // Converte o ponteiro ObjetoGrafo para CObjetoRede_Sitio_CC_CM, para ter acesso ao vetor condutancia[link] e cx,cy,cz
-          sitio = dynamic_cast < CObjetoRede_Sitio_CC_CM * > ( objeto[k] );
+          // Converte o ponteiro ObjetoGrafo para CObjetoEsqueleto, para ter acesso ao vetor condutancia[link] e cx,cy,cz
+          sitio = dynamic_cast < CObjetoEsqueleto * > ( objeto[k] );
           assert ( sitio );
 
           // Obtêm a informação do cmx e cmy do sitio atual (k)
@@ -181,10 +181,10 @@ void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long dou
           cmySitio = sitio->cy;
 
           // Percorre todas as conexões do sitio atual
-          CObjetoRede_Sitio_CC_CM *
+          CObjetoEsqueleto *
           sitioConexo = nullptr;
           for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
-               sitioConexo = dynamic_cast < CObjetoRede_Sitio_CC_CM * > ( sitio->conexao[link] );
+               sitioConexo = dynamic_cast < CObjetoEsqueleto * > ( sitio->conexao[link] );
                assert ( sitioConexo );
 
                // Recupera a informação  do centro de massa na direção x, do sitio conexo

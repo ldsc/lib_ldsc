@@ -493,8 +493,8 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_1 ()
 				if (objetoConectado->conexao[link] == objetoEmAnalise)
                {
                   // Se for CObjetoRede_Sitio deleta somente a conexão (modelos 1 e 2)
-                  // Se for CObjetoRede_Sitio_CC deleta a conexão e a condutancia (modelos 3,4,5,..)
-                  objetoConectado->DeletarConeccao (link);
+                  // Se for CObjetoRede_CC_Sitio deleta a conexão e a condutancia (modelos 3,4,5,..)
+                  objetoConectado->DeletarConexao (link);
 
                   // Mesmo depois de deletar a primeira ligação, deve verificar as demais
                   // pois pode haver mais de uma ligação entre dois objetos (como no modelo1).
@@ -590,8 +590,8 @@ void CGrafo_3Dby2D::EliminarObjetosRedundantes_2 ()
          obj = dynamic_cast < CObjetoRede_Sitio * >(objeto[i]);
          assert (obj); //? exceção ??
          // No objeto CObjetoRede_Sitio tem função nova:
-         // virtual bool DeletarConeccoesInvalidadas(int deletado);
-         obj->DeletarConeccoesInvalidadas (deletado);
+         // virtual bool DeletarConexoesInvalidadas(int deletado);
+         obj->DeletarConexoesInvalidadas (deletado);
       }
 
       // ------------------------------------------------

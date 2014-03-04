@@ -29,33 +29,30 @@ Função:
 -------------------------------------------------------------------------
 @short  : Adiciona os dois ponteiros recebidos objA e objB aos vetores de this.
 @author : André Duarte Bueno
-@see    : 
+@see    :
 @param  : CObjetoGrafo * objA, CObjetoGrafo * objB
 @return : void
 */
-void CObjetoGrafo_2VetoresConexoes::Conectar (CObjetoGrafo * objA, CObjetoGrafo * objB)
+void CObjetoGrafo_2VetoresConexoes::Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB )
 {
-//   conexaoA = objA;
-//   conexaoB = objB;
-  conexao[0] = objA;
-  conexao[1] = objB;
-  
+   this->conexaoA.push_back ( objA );
+   this->conexaoB.push_back ( objB );
 }
 
 // -------------------------------------------------------------------------
-// Função:       DeletarConeccao
+// Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta a conexao de um ramo morto
     @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
-    @see    :	
+    @see    :
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_2VetoresConexoes::DeletarConeccao (unsigned int link)
+void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int link )
 {
-// conexao.clear(); //deveria deletar logo as duas! zerando o size do vetor conexao.
-  this->conexao.erase ( conexao.begin() + link );	
+   this->conexaoA.erase ( conexaoA.begin() + link );
+   this->conexaoB.erase ( conexaoB.begin() + link );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -66,58 +63,50 @@ void CObjetoGrafo_2VetoresConexoes::DeletarConeccao (unsigned int link)
  * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
-    @see    : 
+    @see    :
     @param  : unsigned int link
     @return : void
     @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_2VetoresConexoes::DeletarConeccoesInvalidadas (unsigned int deletado)
+bool CObjetoGrafo_2VetoresConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
-//    if( conexao[0]->rotulo == deletado or conexao[1]->rotulo == deletado )
-//      { 
-//  		conexao[0] = nullptr;
-//  		conexao[1] = nullptr;
-//  		rotulo = deletado;  // como as conexões foram deletadas, this deve ser marcado para deleção
-//  	}
-//   return 1;
-   return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
+   return DeletarConexoesInvalidadas_aux ( deletado , conexaoA ) &&
+          DeletarConexoesInvalidadas_aux ( deletado , conexaoB );
 }
 
-// /**
-// -------------------------------------------------------------------------
-// Função:     Write
-// -------------------------------------------------------------------------
-// @short  : Escreve propriedades do objeto em out
-// @author : André Duarte Bueno
-// @see    :
-// @param  : ofstream& out
-// @return : ostream&
-// */
-// ostream & CObjetoGrafo_2VetoresConexoes::Write (ostream & out) const
-// {
-//     out.setf (ios::right);
-//     // Tipo de contorno
-//     /// @todo trocar por tipo ojeto grafo!
-//     out << setw (4) << static_cast<unsigned char>( Contorno() ) << '\n';
-// 
-//     // Rótulo de this
-//     out << ' ' << setw (5) << rotulo;
-// 
-//     // Numero de conexões do sítio     
-//     out << ' ' << setw (4) << conexao[0].size ();
-// 
-//     // CONECCAO 
-//     // lista dos rótulos
-//     for ( auto objeto : conexao )
-//       out << ' ' << setw (4) << objeto->rotulo;
-// 
-// //     // CONECCAO B
-// //     // lista dos rótulos
-// //     for ( auto objeto : conexao[1] )
-// //       out << ' ' << setw (4) << objeto->rotulo;
-// 
-//     return out;	
-// }
+/**
+-------------------------------------------------------------------------
+Função:     Write
+-------------------------------------------------------------------------
+@short  : Escreve propriedades do objeto em out
+@author : André Duarte Bueno
+@see    :
+@param  : ofstream& out
+@return : ostream&
+*/
+ostream& CObjetoGrafo_2VetoresConexoes::Write ( ostream& out ) const
+{
+   out.setf ( ios::right );
+   // Tipo de contorno
+   /// @todo trocar por tipo ojeto grafo!
+   out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
+
+   // Rótulo de this
+   out << ' ' << setw ( 5 ) << rotulo;
+
+   // Número de conexões do sítio
+   out << ' ' << setw ( 5 ) << conexaoA.size ();
+
+   // CONECCAO A: lista dos rótulos
+   for ( auto objeto : conexaoA )
+      out << ' ' << setw ( 5 ) << objeto->rotulo;
+
+   // CONECCAO B: lista dos rótulos
+   for ( auto objeto : conexaoB )
+      out << ' ' << setw ( 5 ) << objeto->rotulo;
+
+   return out;
+}
 
 /**
 -------------------------------------------------------------------------
@@ -129,17 +118,17 @@ Função:  operator<<
 @param  : ostream& fout, CObjetoGrafo_2VetoresConexoes& s
 @return : ostream&
 */
-ostream & operator<< (ostream & fout, CObjetoGrafo_2VetoresConexoes & s)
+ostream& operator<< ( ostream& fout, CObjetoGrafo_2VetoresConexoes& s )
 {
-  s.Write(fout);
-  return fout;
+   s.Write ( fout );
+   return fout;
 }
 
 /*
 -------------------------------------------------------------------------
 Função:    operator>>
 -------------------------------------------------------------------------
-@short  : Lê as propriedades do objeto a partir de arquivo os 		
+@short  : Lê as propriedades do objeto a partir de arquivo os
 					(normalmente de disco)
 @author :	André Duarte Bueno
 @see    :
@@ -148,7 +137,7 @@ Função:    operator>>
 */
 /*istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& s)
 {
-  s.Read(is);	
+  s.Read(is);
   return is;
 }
 */

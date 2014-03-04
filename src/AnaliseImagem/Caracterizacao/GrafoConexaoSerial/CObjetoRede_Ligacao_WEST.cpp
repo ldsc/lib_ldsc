@@ -1,13 +1,13 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-		[LDSC].
+Desenvolvido por:
+                  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
-@file:             CObjetoRede_Sitio_CC_CM_EST.cpp
+@file:             CObjetoRede_Ligacao_WEST.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -21,4 +21,5 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_CC_CM_EST.h>
+//#include <Base/_LIB_LDSC_CLASS.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao_WEST.h>

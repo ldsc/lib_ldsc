@@ -51,7 +51,7 @@
 class TIConfEq3DSimPermRelEsq3Dby2D:public TIConfEq3DSimPermRel
 {
     COI20_CLASSID COI20_SAFECAST (TIConfEq3DSimPermRelEsq3Dby2D, IObject)
-    //Define o tipo de modelo de calculo das condutancias
+    //Define o tipo de modelo de calculo das condutâncias
 private:
 
     //Usado para definir o modelo de calculo da permeabilidade

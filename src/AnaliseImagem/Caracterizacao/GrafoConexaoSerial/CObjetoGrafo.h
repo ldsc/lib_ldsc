@@ -46,18 +46,19 @@ Desenvolvido por:
  * Um CGrafo representa um grafo, que é composto por um conjunto de objetos do tipo CObjetoGrafo.
  * CObjetoGrafo tem um conjunto de métodos para:
  * Conectar objetos: Conectar().
- * Deletar objetos conectados: DeletarConeccao().
- * Deletar conexões inválidas: DeletarConeccoesInvalidadas().
+ * Deletar objetos conectados: DeletarConexao().
+ * Deletar conexões inválidas: DeletarConexoesInvalidadas().
  * Retornar o tipo de contorno: Contorno().
  * Salvar o objeto em disco: Write().
- * Ler o objeto do disco: Read(). @todo: implementar.
+ * Ler o objeto do disco: Read().
  * Determinar o fluxo de uma determinada propriedade: Fluxo().
  * Determinar alguma propriedade de interesse: Go().
  *
- * Nota: as conexões entre objetos serão definidas em CGrafoSitio, CGrafoLigacao e CComponenteGrafo.
- * 
+ * Nota: as conexões entre objetos serão definidas nas classes herdeiras.
+ *
  * @author   André Duarte Bueno.
  * @see      grafos.
+ * @todo:    implementar Read().
  * @todo     implementar sobrecarga << e >>.
  * @ingroup  HCObjetoGrafo
  * @todo Transformar template T para tipo rótulo (unsigned short, unsigned int, unsigned long,unsigned long long)
@@ -65,111 +66,126 @@ Desenvolvido por:
 class CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
-     /**
-     * @brief Todo objeto CObjetoGrafo tem um rotulo, que o identifica;
-      * O rótulo é usado para armazenar o objeto em disco, e
-	  * para localizar o objeto, seus links e referências.
-     */
-     unsigned int rotulo {0};
+   /**
+   * @brief Todo objeto CObjetoGrafo tem um rotulo, que o identifica;
+    * O rótulo é usado para armazenar o objeto em disco, e para localizar o objeto, seus links e referências.
+   */
+   unsigned int rotulo {0};
+
+   /// Enumeração para os diferentes tipos de grafo.
+   /// @enum: ETipoGrafo
+   // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+   enum class ETipo : uint8_t {
+      ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
+      ObjetoGrafo_1VetorConexoes,
+      ObjetoGrafo_2VetoresConexoes,
+      ObjetoGrafo_MatrizConexoes,
+      ObjetoRede,                   // Objetos da hierarquia de objetos da rede
+      ObjetoRede_Ligacao,
+      ObjetoRede_Ligacao_EST,
+      ObjetoRede_Ligacao_WEST,
+      ObjetoRede_Sitio,
+      ObjetoRede_Sitio_EST,
+      ObjetoRede_Sitio_WEST,
+      ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
+      ObjetoEsqueleto_Ligacao,
+      ObjetoEsqueleto_Ligacao_EST,
+      ObjetoEsqueleto_Ligacao_WEST,
+      ObjetoEsqueleto_Sitio,
+      ObjetoEsqueleto_Sitio_EST,
+      ObjetoEsqueleto_Sitio_WEST
+   };
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo ()  = default;
+   CObjetoGrafo ()  = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor.
-     virtual ~ CObjetoGrafo ()   = default;
+   virtual ~ CObjetoGrafo ()   = default;
 
 // ----------------------------------------------------------------Métodos
-     /// Enumeração para o tipo de contorno, por default assume CContorno::CENTER.
-     /// Esboço:
-     ///                         3
-     ///            5         0  1  2            6
-     ///                         4
-     ///                         NORTH
-     ///            FRONT WEST  CENTER  EST    BACK
-     ///                         SUL
-     /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
-     ///        ou seja, no código não usar conversão para unsigned char.
-     ///  enum class ETipoContorno : unsigned char
-     ///  { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
-     /// @return o número (identificação) do contorno ao qual esta associado
-     virtual CContorno::ETipoContorno Contorno () const  {
-          return CContorno::ETipoContorno::CENTER;
-     }
+   /// Enumeração para o tipo de contorno, por default assume CContorno::CENTER.
+   /// Esboço:
+   ///                         3
+   ///            5         0  1  2            6
+   ///                         4
+   ///                         NORTH
+   ///            FRONT WEST  CENTER  EST    BACK
+   ///                         SUL
+   /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
+   ///        ou seja, no código não usar conversão para unsigned char.
+   ///  enum class ETipoContorno : unsigned char
+   ///  { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
+   /// @return o número (identificação) do contorno ao qual esta associado
+   /// @todo: Com a implementação de ETipo pode ser eliminada?
+   virtual CContorno::ETipoContorno Contorno () const  {
+      return CContorno::ETipoContorno::CENTER;
+   }
 
-     /**
-       * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
-	   * @todo: pensar em criar 3 funções conectar
-	   * virtual void Conectar( CObjetoGrafo *objA );
-	   * virtual void Conectar( CObjetoGrafo *objA, CObjetoGrafo *objB );
-	   * virtual void Conectar( vector<CObjetoGrafo *> obj );
-     */
-     inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) {}; //=0;
+   /// Retorna a enumeração com o tipo de objeto do grafo. Sobrescrita nas herdeiras.
+   virtual ETipo Tipo () const  {
+      return ETipo::ObjetoGrafo;
+   }
 
-	 /**
-      * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
-	  * Sobrescrita na classe CObjetoGrafo_MatrizConexoes
-     */
-     inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) {};
+   /**
+     * @brief Função que conecta este objeto e um objeto externo.
+    * Note que recebe um ponteiro para um CObjetoGrafo, e o inclue na lista de conexões.
+   */
+   inline virtual void Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB = nullptr ) {}; //=0;
 
-     /// Deleta uma conexão.
-     inline virtual void DeletarConeccao ( unsigned int link )  =0; //{};
+   /**
+      * @brief Função que conecta este objeto e um vetor de objetos externos.
+     * Note que recebe um um vetor de CObjetoGrafo*, e o inclue na lista de conexões.
+    */
+   inline virtual void Conectar ( std::vector < CObjetoGrafo* > obj_vetor ) {};
 
-     /**
-     * @brief Deleta os links para objetos que foram marcados para deleção.
-     * Recebe um número que identifica os objetos que foram marcados
-     * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conexão é eliminada.
-     */
-     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado )  =0 ; //{ return 1;};
-	 
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const ; //=0
+   /// Deleta uma conexão dada pelo link.
+   /// Se o link for inválido lança exceção.
+   inline virtual void DeletarConexao ( unsigned int link )  = 0; //{};
 
-//      Funções das classes herdeiras -> CObjetoRede
-//      /**
-//      * @brief Função usada para calcular uma propriedade.
-//      */
-//      virtual long double Go ( long double d = 0 ) = 0;
-// 
-//      /**
-//       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conexões.
-//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
-//       * e que em função das propriedades dos objetos, existe alguma informação 
-// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
-//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-//      */
-//      virtual long double Fluxo () const = 0;
+   /// Deleta as conexões repetidas, retorna o número de conexões deletadas.
+   virtual unsigned int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo() { return 0; };
+
+   /**
+   * @brief Percorre o vetor de conexões e deleta as ligações para objetos que foram marcados para deleção.
+   * Recebe um número que identifica os objetos que foram marcados para deleção,
+   * se o rótulo dos objetos conectados é igual a este parâmetro a conexão é eliminada.
+   * Chama função auxiliar.
+   */
+   inline virtual bool DeletarConexoesInvalidadas ( unsigned int deletado )  = 0 ; //{ return 1;};
+
+   /// @brief Salva atributos do objeto em disco.
+   virtual std::ostream& Write ( std::ostream& os ) const = 0 ;
 
 protected:
-     /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
-	 /// criada para reduzir códigos nas herdeiras.
-bool DeletarConeccoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& conexao );
+   /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
+   /// criada para reduzir códigos nas herdeiras.
+   bool DeletarConexoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& conexao );
 
 // --------------------------------------------------------------------Get
 public:
-     /// @brief Retorna o rotulo do objeto.
-     unsigned int Rotulo () const  {
-          return rotulo;
-     }
+   /// @brief Retorna o rótulo do objeto.
+   unsigned int Rotulo () const  {
+      return rotulo;
+   }
 
 // --------------------------------------------------------------------Set
-     /// @brief Seta o rotulo do objeto.
-     void Rotulo ( unsigned int _r ) {
-          rotulo = _r;
-     }
+   /// @brief Seta o rótulo do objeto. Note que não deveria ser setado diretamente!
+   void Rotulo ( unsigned int _r ) {
+      rotulo = _r;
+   }
 
 // -----------------------------------------------------------------Friend
-     friend std::ostream &operator<< ( std::ostream &os, const CObjetoGrafo &obj );
-     friend std::istream &operator>> ( std::istream &is, CObjetoGrafo &obj );
+   /// Sobrecarga operador extração, use para salva dados objeto em disco.
+   friend std::ostream& operator<< ( std::ostream& os, const CObjetoGrafo& obj );
+   /// Sobrecarga operador inserção, use para ler dados do objeto em disco.
+   friend std::istream& operator>> ( std::istream& is, CObjetoGrafo& obj );
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, const CObjetoGrafo &obj );
-inline std::istream &operator>> ( std::istream &is, CObjetoGrafo &obj );
+inline std::ostream& operator<< ( std::ostream& os, const CObjetoGrafo& obj );
+inline std::istream& operator>> ( std::istream& is, CObjetoGrafo& obj );
 
 #endif

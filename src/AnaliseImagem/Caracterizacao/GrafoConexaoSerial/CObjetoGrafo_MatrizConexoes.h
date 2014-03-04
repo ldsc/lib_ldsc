@@ -7,8 +7,7 @@
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CObjetoGrafo_MatrizConexoes.h
 @begin      Sat Sep 16 2000
@@ -28,33 +27,32 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 #endif
 
-
 // ===============================================================================
 // Documentacao Classe: CObjetoGrafo_MatrizConexoes.h
 // ===============================================================================
 /**
  * @brief Representa um objeto avançado de um grafo.
- * A característica básica de um CObjetoGrafo_MatrizConexoes é que este pode ter
- * n conexões, ou seja, estar conectado a n objetos do tipo CObjetoGrafo, mas cada conexão é 1 para m (m garras).
+ * A característica básica de um CObjetoGrafo_1VetorConexoes é que este pode ter  n conexões,
+ * ou seja, estar conectado a n objetos do tipo CObjetoGrafo, mas cada conexão é 1 para m (m garras).
  * Um  CObjetoGrafo_MatrizConexoes vai ter um vetor de vetor de conexões (matriz de conexões).
  * Assim: enquanto um
- * COG_Sitio   esta conectado a 1(um) conjunto de CObjetoGrafo,
- * COG_Ligacao esta conectada a 2(dois) conjuntos de CObjetoGrafo,
+ * CObjetoGrafo_1VetorConexoes esta conectado a 1(um) conjunto de CObjetoGrafo,
+ * CObjetoGrafo_2VetorConexoes esta conectada a 2(dois) conjuntos de CObjetoGrafo,
  * CObjetoGrafo_MatrizConexoes esta conectado a M conjuntos de CObjetoGrafo(ou seja tem M garras).
  *
  * Exemplo:
- * Para sítios (uma garra S--<)
- * sítio-->sítio
- * sítio-->ligação
+  * Para sítios (uma garra, use CObjetoGrafo_1VetoresConexoes)
+ * sítio-->sítio              // sítio conectado a sítio
+ * sítio-->ligação            // sítio conectado a ligação
  *
- * Para ligações (duas garras  >--L--<)
- * lig	<--ligação-->	lig
- * sítio	<--ligação-->	lig
- * lig	<--ligação-->	sítio
- * sítio	<--ligação-->	sítio
- *
+ * Para conjunto de ligações duplas (duas garras, use CObjetoGrafo_2VetoresConexoes)
+ * sítio <--ligação--> lig    // A primeira ligação após um sítio
+ * lig <--ligação--> lig      // Ligação entre duas ligações
+ * lig <--ligação--> sítio    // A última ligação
+ * sítio <--ligação--> sítio  // Conexão entre sítios com uma única ligação
+*
  * Para CObjetoGrafo_MatrizConexoes
- * conexao[i][j]
+ * mconexao[i][j]
  * i = número de conexões (vai ter n conexões)
  * j = número de garras de cada conexão (cada conexão com m ligações)
  *
@@ -73,124 +71,97 @@ Desenvolvido por:
  *                       \|/...
  *                       lig
  * int j = 3;		// cada uma das 10 conexões tem 3 garras
- * ...conexao[5][0];...conexao[5][1];...conexao[5][2];
+ * ...mconexao[5][0];...mconexao[5][1];...mconexao[5][2];
  *
  * Exemplo:
  * Normalmente tem-se um vetor de  CObjetoGrafo*,
- * vector<CObjetoGrafo*>  conexao;
+ * vector<CObjetoGrafo*>  mconexao;
  *
  * Aqui tenho um vetor de vetores
- * vector < vector<CObjetoGrafo*> *> conexao;
+ * vector < vector<CObjetoGrafo*> *> mconexao;
  *
  * Uso
- * conexao[i] acessa o vetor i
- * conexao[i][j] acessa o ponteiro j do vetor i
+ * mconexao[i] acessa o vetor i
+ * mconexao[i][j] acessa o ponteiro j do vetor i
  *
  * Para adicionar um objeto ao vetor i
- * conexao[i].push_back(CObjetoGrafo*obja);
+ * mconexao[i].push_back(CObjetoGrafo*obja);
  *
  * Para adicionar um vetor
  * vector<CObjetoGrafo*> * ptr_para_vetor_do_tipo_CObjetoGrafo;
- * conexao.push_back(ptr_para_vetor_do_tipo_CObjetoGrafo);
+ * mconexao.push_back(ptr_para_vetor_do_tipo_CObjetoGrafo);
  *
- * OBS: classe NÃO TESTADA.
  * @author 	André Duarte Bueno
  * @version
  * @see		grafos
  * @ingroup  HCObjetoGrafo
+ * @todo : testar CObjetoGrafo_MatrizConexoes
 */
-class CObjetoGrafo_MatrizConexoes : public CObjetoGrafo 
-{
+class CObjetoGrafo_MatrizConexoes : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
-     /**
-     * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
-      * vector<CObjetoGrafo*>  conexao;
-      * Aqui tenho um vetor de vetores conexao é um vetor de objetos do tipo
-      * vector<CObjetoGrafo*> */
-     std::vector < std::vector < CObjetoGrafo * > > conexao;
+   /**
+   * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
+    * vector<CObjetoGrafo*>  mconexao;
+    * Aqui tenho um vetor de vetores mconexao é um vetor de objetos do tipo
+    * vector<CObjetoGrafo*> */
+   std::vector < std::vector < CObjetoGrafo* > > mconexao;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo_MatrizConexoes () = default;
+   CObjetoGrafo_MatrizConexoes () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-     virtual ~ CObjetoGrafo_MatrizConexoes () = default;
+   virtual ~ CObjetoGrafo_MatrizConexoes () = default;
 
 // ----------------------------------------------------------------Métodos
-     /**
-      * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
-     */
-     inline virtual void Conectar ( std::vector < CObjetoGrafo * >obj_vetor ) override;
+   /// Retorna o tipo de objeto do grafo.
+   virtual ETipo Tipo () const  override {
+      return ETipo::ObjetoGrafo_MatrizConexoes;
+   }
 
-//      /**
-//        * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-//        * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
-//      */
-//      virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
+   /**
+    * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
+   */
+   inline virtual void Conectar ( std::vector < CObjetoGrafo* >obj_vetor ) override;
 
-     /// Deleta uma conexão (um vetor inteiro).
-     inline virtual void DeletarConeccao ( unsigned int ivetor ) override ;
+   /// Deleta uma conexão (um vetor inteiro).
+   inline virtual void DeletarConexao ( unsigned int ivetor ) override ;
 
-     /// Deleta uma conexão específica (deleta o link do vetor). ~Matriz[ivetor][link].
-     inline /*virtual */void DeletarConeccao ( unsigned int ivetor, unsigned int link );
+   /// Nova: Deleta uma conexão específica (deleta o link do vetor). ~Matriz[ivetor][link].
+   inline /*virtual */void DeletarConexao ( unsigned int ivetor, unsigned int link );
 
-     /**
-     * @brief Deleta os links para objetos que foram marcados para deleção.
-     * Recebe um número que identifica os objetos que foram marcados
-     * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-	 * a conexão é eliminada.
-     */
-     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
+   /**
+   * @brief Deleta os links para objetos que foram marcados para deleção.
+   * Recebe um número que identifica os objetos que foram marcados
+   * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
+   * a conexão é eliminada.
+   */
+   inline virtual bool DeletarConexoesInvalidadas ( unsigned int deletado ) override ;
 
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const override ;
-
-//      /// @brief Salva atributos do objeto em disco no formato do Liang
-//      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
-//           Write ( os ); // deve ser reescrita nas derivadas.
-//           return os;
-//      }
-	 
-//      /**
-//      * @brief Função usada para calcular uma propriedade.
-//      */
-//      virtual long double Go ( long double d = 0 )   override {
-// 	   return 0;
-// 	 }
-// 
-//      /**
-//       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conexões.
-//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
-//       * e que em função das propriedades dos objetos, existe alguma informação 
-// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
-//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-//      */
-//      virtual long double Fluxo () const  override {
-// 	   return 0;
-// 	 }
+   /// @brief Salva atributos do objeto em disco.
+   virtual std::ostream& Write ( std::ostream& os ) const override ;
 
 // --------------------------------------------------------------------Get
 /// Retorna referência para o vetor de vetor de coneccões
-     std::vector < std::vector < CObjetoGrafo * > >  &Coneccao() {
-          return   conexao;
-     }
+   std::vector < std::vector < CObjetoGrafo* > >&  MConeccao() {
+      return   mconexao;
+   }
 
 // --------------------------------------------------------------------Set
 /// Definição do vetor de vetor de coneccões.
-     void  Coneccao ( std::vector < std::vector < CObjetoGrafo * > > &_conexao ) {
-          conexao = _conexao;
-     }
+   void  MConeccao ( std::vector < std::vector < CObjetoGrafo* > >& _mconexao ) {
+      mconexao = _mconexao;
+   }
 
 // -----------------------------------------------------------------Friend
- friend ostream& operator<< (ostream& os, CObjetoGrafo_MatrizConexoes& obj);
+   friend ostream& operator<< ( ostream& os, CObjetoGrafo_MatrizConexoes& obj );
 // friend istream& operator>> (istream& is, CObjetoGrafo_MatrizConexoes& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline ostream& operator<< (ostream& os, CObjetoGrafo_MatrizConexoes& obj);
+inline ostream& operator<< ( ostream& os, CObjetoGrafo_MatrizConexoes& obj );
 // istream& operator>> (istream& is, CObjetoGrafo_MatrizConexoes& obj);
 #endif

@@ -28,33 +28,29 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-// // Definição de CObjetoGrafo
-// #ifndef CObjetoGrafo_h
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
-// #endif
 // Definição de CObjetoGrafo
-#ifndef CObjetoGrafo_1VetorConexoes_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_1VetorConexoes.h>
+#ifndef CObjetoGrafo_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 #endif
 
 /**
  * @brief Representa uma objeto ligação de um grafo, é herdeiro de CObjetoGrafo.
  * Tendo uma variável rótulo (herdada de CObjetoGrafo).
  *
- * A característica básica de um CObjetoGrafo_2VetoresConexoes é que este tem 2 conexões (duas garras).
+ * A característica básica de um CObjetoGrafo_2VetoresConexoes é que este tem 2 vetores de conexao (duas garras).
  * Cada conexão é 1 para 2 (duas garras).
+ * ou seja a conexaoA[i] e conexaoB[i] apontam para objetos do tipo CObjetoGrafo.
  *
  * Observe a diferença,
- * um CObjetoRede_Sitio pode ter n conexao's,
- * já um CObjetoGrafo_2VetoresConexoes vai ter 2 conexões's,
- * já um CObjetoGrafo_2VetoresConexoesMultipla vai ter dois vetores de conexões. 
+ * um CObjetoGrafo_1VetoresConexoes pode ter n conexao's  mas cada conexão a um único objeto,
+ * já um CObjetoGrafo_2VetoresConexoes vai ter n conexões's, e cada conexao ocorre em pares.
  *
  * Exemplo:
- * Para sítios (uma garra)
+ * Para sítios (uma garra, use CObjetoGrafo_1VetoresConexoes)
  * sítio-->sítio              // sítio conectado a sítio
  * sítio-->ligação            // sítio conectado a ligação
  *
- * Para ligações (duas garras)
+ * Para conjunto de ligações duplas (duas garras, use CObjetoGrafo_2VetoresConexoes)
  * sítio <--ligação--> lig    // A primeira ligação após um sítio
  * lig <--ligação--> lig      // Ligação entre duas ligações
  * lig <--ligação--> sítio    // A última ligação
@@ -64,80 +60,64 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoGrafo_2VetoresConexoes : public CObjetoGrafo_1VetorConexoes {
+class CObjetoGrafo_2VetoresConexoes : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
-//      /// Conexões a esquerda
-//      CObjetoGrafo * conexaoA;
-// 
-//      /// Conexões a direita
-//      CObjetoGrafo * conexaoB;
+   /// Conexões a esquerda
+   std::vector < CObjetoGrafo* >conexaoA;
+
+   /// Conexões a direita
+   std::vector < CObjetoGrafo* >conexaoB;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-     CObjetoGrafo_2VetoresConexoes () = default;
+   CObjetoGrafo_2VetoresConexoes () = default;
 
 // --------------------------------------------------------------Destrutor
 
 /// Destrutor
-     virtual ~ CObjetoGrafo_2VetoresConexoes () = default;
+   virtual ~ CObjetoGrafo_2VetoresConexoes () = default;
 
 // ----------------------------------------------------------------Métodos
-     /**
-       * @brief Função que recebe um ponteiro para um CObjetoGrafo,
-       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
-     */
-     inline virtual void Conectar ( CObjetoGrafo *objA, CObjetoGrafo *objB = nullptr ) override ;
+   /// Retorna o tipo de objeto do grafo.
+   virtual ETipo Tipo () const  override {
+      return ETipo::ObjetoGrafo_2VetoresConexoes;
+   }
 
-     /// Deleta uma conexão ->  as duas conexão passam a apontar para nullptr.
-     inline virtual void DeletarConeccao ( unsigned int link ) override ;
+   /**
+     * @brief Função que recebe um ponteiro para um CObjetoGrafo,
+     * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
+   */
+   inline virtual void Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB = nullptr ) override ;
 
-     /**
-     * @brief Deleta os links para objetos que foram marcados para deleção.
-     * Recebe um número que identifica os objetos que foram marcados
-     * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
-      * a conexão é eliminada.
-     */
-     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ;
+   /// Deleta uma conexão.
+   inline virtual void DeletarConexao ( unsigned int link ) override ;
 
-//      /// @brief Salva atributos do objeto em disco.
-//      virtual std::ostream &Write ( std::ostream &os ) const override ;
+   /**
+   * @brief Deleta os links para objetos que foram marcados para deleção.
+   * Recebe um número que identifica os objetos que foram marcados
+   * para deleção, se o rótulo dos objetos conectados é igual a este parâmetro
+    * a conexão é eliminada.
+   */
+   inline virtual bool DeletarConexoesInvalidadas ( unsigned int deletado ) override ;
 
-//      /// @brief Salva atributos do objeto em disco no formato do Liang
-//      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
-//           Write ( os ); // deve ser reescrita nas derivadas.
-//           return os;
-//      }
-//      /**
-//      * @brief Função usada para calcular uma propriedade.
-//      */
-//      virtual long double Go ( long double d = 0 )   override {
-//           return 0;
-//      }
-//
-//      /**
-//       * @brief Função que calcula o fluxo associado as propriedade do objeto
-//        * e suas conexões.
-//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
-//       * e que em função das propriedades dos objetos, existe alguma informação
-//        * que transita entre os objetos. Esta propriedade é calculada por esta função.
-//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-//      */
-//      virtual long double Fluxo () const  override {
-//           return 0;
-//      }
+   /// @brief Salva atributos do objeto em disco.
+   virtual std::ostream& Write ( std::ostream& os ) const override ;
 
 public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-     /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoes &obj );
-     // friend istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& obj);
+   /// Sobrecarga do operador <<.
+   friend std::ostream& operator<< ( std::ostream& os, CObjetoGrafo_2VetoresConexoes& obj );
+   // friend istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoGrafo_2VetoresConexoes &obj );
+inline std::ostream& operator<< ( std::ostream& os, CObjetoGrafo_2VetoresConexoes& obj );
 // istream& operator>> (istream& is, CObjetoGrafo_2VetoresConexoes& obj);
+
+using COG_Ligacao  = CObjetoGrafo_2VetoresConexoes ;
+
 #endif

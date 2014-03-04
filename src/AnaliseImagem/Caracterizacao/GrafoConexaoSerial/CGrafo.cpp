@@ -115,7 +115,7 @@ CObjetoRede* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
     propriedadeDoObjeto	// raio hidraulico ou condutancia
     x           	// propriedade a ser calculada (ex:pressão).
     NumeroConeccoes     // vetor com endereço dos objetos a quem esta conectado.
-    Lista_dos_rotulos_das_coneccoes  // note que ainda falta as propriedades das conexões.
+    Lista_dos_rotulos_das_conexões  // note que ainda falta as propriedades das conexões.
 
     @author : André Duarte Bueno
     @see    : grafos

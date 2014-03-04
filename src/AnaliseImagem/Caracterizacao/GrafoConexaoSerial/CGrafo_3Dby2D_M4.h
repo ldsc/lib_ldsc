@@ -40,7 +40,7 @@ Desenvolvido por:
  * A informacao dos centros de massa é armazenada na propria
  * classe (this). Esta solucao foi adotada por permitir
  * a destruicao dos vetores cmx e cmy apos o calculo
- * das condutancias.
+ * das condutâncias.
  *
  * @author       André Duarte Bueno
  * @see	     Grafo

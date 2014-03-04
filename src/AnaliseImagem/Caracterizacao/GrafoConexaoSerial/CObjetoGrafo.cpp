@@ -3,7 +3,6 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
 Desenvolvido por:
 			  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:      André Duarte Bueno
@@ -12,7 +11,6 @@ Desenvolvido por:
 @copyright:   (C) 2000 by André Duarte Bueno
 @email:       andreduartebueno@gmail.com
 */
-
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
@@ -26,39 +24,6 @@ using namespace std;
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 
-// -------------------------------------------------------------------------
-// Função:       Write
-// -------------------------------------------------------------------------
-/** Salva dados do objeto sítio em novo formato.
-    @short  : Salva dados do objeto sítio em novo formato.
-    Formato Andre :
-    ----------------------------
-    NumeroSitios  		// salvo pelo grafo
-    TipoContorno        // tipo de contorno
-    Rotulo              // rotulo objeto
-    propriedade 		// ex: raio hidraulico ou condutancia do objeto
-    x           		// ex: pressão
-    NumeroConeccoes     // quantos links
-    Lista_dos_rotulos_das_coneccoes // rótulos dos links
-
-    @author :	André Duarte Bueno
-    @see    :
-    @param  :   Recebe uma referencia para uma ostream
-    @return :	ostream&
-*/
-ostream & CObjetoGrafo::Write ( ostream & out ) const
-{
-     out.setf ( ios::right );
-
-     // Tipo de contorno
-     out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
-
-     // Rótulo de this
-     out << ' ' << setw ( 5 ) << rotulo;
-
-     return out;
-}
-
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
  * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
@@ -66,15 +31,16 @@ ostream & CObjetoGrafo::Write ( ostream & out ) const
  *    @short  : Deleta a conexao de um ramo morto
  *    @author : André Duarte Bueno
  *    @see    :
- *    @param  : unsigned int indiceObjetosDeletados
- *    @return : void
+ *    @param  : os objetos marcados para deleção tem rótulo = deletado
+ *    @param  : o vetor das conexões.
+ *    @return : bool
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoGrafo*>& conexao )
+bool CObjetoGrafo::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoGrafo*>& conexao )
 {
      unsigned int indice_rotulo_valido {0};
 
-     // Percorre todas as coneccoes
+     // Percorre todas as conexões
      for ( auto objeto: conexao )
           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
           // Se foi deletado vai ser pulado.
@@ -82,7 +48,7 @@ bool CObjetoGrafo::DeletarConeccoesInvalidadas_aux ( unsigned int deletado , vec
                conexao[indice_rotulo_valido++] = objeto;
           }
 
-     // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
+     // Redimensiona o vetor das conexões (as que apontam para objetos deletados são eliminadas)
      conexao.resize ( indice_rotulo_valido );
      /// @todo: aqui pode apagar, usando erase, os objetos além do size().
      return 1;

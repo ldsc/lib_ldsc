@@ -246,11 +246,11 @@ CGrafoTest::SolicitarModeloGrafo ()
     cout << "\n\n---------------------------------------------------------------------------"
          << "\nselecione um dos modelos para calculo da permeabilidade:"
          << "\nModelo1: CGra3Dby2_M1........................................1"
-         << "\n(condutancias dada por um feixe de tubos na região do link)"
+         << "\n(condutâncias dada por um feixe de tubos na região do link)"
          << "\nModelo2: CGra3Dby2_M2......................................2"
-         << "\n(condutancias média entre dois sítios, super-estima a permeabilidade)"
+         << "\n(condutâncias média entre dois sítios, super-estima a permeabilidade)"
          << "\nModelo3: CGra3Dby2_M3..........................................3"
-         << "\n(condutancias definida pela área de intersecção dos dois sítios)"
+         << "\n(condutâncias definida pela área de intersecção dos dois sítios)"
          << "\nModelo4: CGra3Dby2_M4..........................................4"
          << "\n(como o modelo 3, com correção da distância entre os sitios)"
          << "\nModelo6: CGra3Dby2_M6..........................................6"
@@ -1007,7 +1007,7 @@ CGrafoTest::Permeabilidade_By_ModelX (string nomeArquivo,
         		}
         		nomeArquivoGrafoFinal += ".grafo.Pressoes";
         */
-        cout << "Grafo com condutancias e pressões finais  salvo em : " <<
+        cout << "Grafo com condutâncias e pressões finais  salvo em : " <<
              nomeArquivoGrafoFinal << endl;
         grafo->Write (nomeArquivoGrafoFinal);
         delete t;				// deleta objeto

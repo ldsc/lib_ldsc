@@ -823,7 +823,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 				// pm armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 				// Sé é ramo ou ligação
 				if ( pm->data2D[i][j] > 0 ) {
-					// Se o numero de coneccoes >1, então é ligação
+					// Se o numero de conexões >1, então é ligação
 					if ( Objeto[ MInicialRotulada->data2D[i][j] ].Tipo() == LIGACAO )
 						MSitiosLigacoes->data2D[i][j] = LIGACAO;
 				}
@@ -890,7 +890,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_2() {
 									{
 									tipoObjeto = Objeto[ MInicialRotulada->data2D[i][j] ].Tipo() ;
 									// SOLIDO = 0, PORO = 1, SITIO = 2, LIGACAO = 3, RAMO_MORTO = 4, NAO_IDENTIFICADO = 5
-									// Se o numero de coneccoes >1, então é ligação
+									// Se o numero de conexões >1, então é ligação
 									if ( tipoObjeto == SOLIDO )
 										MSitiosLigacoes->data2D[i][j] = SOLIDO;
 									else if ( tipoObjeto  == PORO )
@@ -1265,7 +1265,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 				// pm armazena a abertura complementar, tem RAMOs_MORTOs e LIGACOES
 				// Sé é ramo ou ligação
 				if ( pm->data2D[i][j] > 0 ) {
-					// Se o numero de coneccoes >1, então é ligação
+					// Se o numero de conexões >1, então é ligação
 					if ( Objeto[ MInicialRotulada->data2D[i][j] ].Tipo() == LIGACAO )
 						MSitiosLigacoes->data2D[i][j] = LIGACAO;
 				}
@@ -1331,7 +1331,7 @@ void CAberturaDilatacao::DistSitiosLigacoes_Modelo_3() {
 									{
 									tipoObjeto = Objeto[ MInicialRotulada->data2D[i][j] ].Tipo() ;
 									// SOLIDO = 0, PORO = 1, SITIO = 2, LIGACAO = 3, RAMO_MORTO = 4, NAO_IDENTIFICADO = 5
-									// Se o numero de coneccoes >1, então é ligação
+									// Se o numero de conexões >1, então é ligação
 									if ( tipoObjeto == SOLIDO )
 										MSitiosLigacoes->data2D[i][j] = SOLIDO;
 									else if ( tipoObjeto  == PORO )

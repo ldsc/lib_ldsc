@@ -73,7 +73,7 @@ public:
 
 
 protected:
-     /// Redefinida, para  o tipoContorno=centro retorna um CObjetoRede_Sitio_CC_CM
+     /// Redefinida, para  o tipoContorno=centro retorna um CObjetoEsqueleto
      virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
 
      /**

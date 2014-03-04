@@ -16,21 +16,11 @@ Desenvolvido por:
 */
 
 // -----------------------------------------------------------------------
-// Bibliotecas C/C++
-// -----------------------------------------------------------------------
-#include <vector>
-#include <iostream>
-
-// -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
-#include <Base/_LIB_LDSC_CLASS.h>
-#endif
-
 // Definição de CObjetoRede
 #ifndef CObjetoRede_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
 #endif
 
 /**
@@ -50,7 +40,7 @@ Desenvolvido por:
  * @see     grafos
  * @ingroup  HCObjetoGrafo
  */
-class CObjetoRede_Ligacao : public CObjetoRede_Sitio
+class CObjetoRede_Ligacao : public CObjetoRede
 {
 // --------------------------------------------------------------Atributos
 public:
@@ -64,45 +54,12 @@ public:
      virtual ~ CObjetoRede_Ligacao () = default;
 
 // ----------------------------------------------------------------Métodos
-     /**
-       * @brief Função que recebe um ponteiro para um CObjetoRede,
-       * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
-     */
-     inline virtual void Conectar ( CObjetoRede *objA, CObjetoRede *objB = nullptr ) override ;
+     /// Retorna o tipo de objeto do grafo.
+     virtual ETipo Tipo () const  override { return ETipo::ObjetoRede_Ligacao;  }
 
-     /**
-	  * @brief Deleta as conexões.
-	  * */
-     inline virtual void DeletarConeccao ( unsigned int link ) override ;
-
-     /**
-     * @brief Deleta as conexões.
-     */
-     inline virtual bool DeletarConeccoesInvalidadas ( unsigned int deletado ) override ; 
-
-     /// @brief Salva atributos do objeto em disco.
-     virtual std::ostream &Write ( std::ostream &os ) const override ;
-
-     /**
-     * @brief Função usada para calcular uma propriedade.
-     */
-     virtual long double Go ( long double d = 0 ) override;
-
-	 /// Determina o fluxo associado a this, função herdada.
-     virtual long double Fluxo () const override;
-
-public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-     /// Sobrecarga do operador <<.
-     friend std::ostream &operator<< ( std::ostream &os, CObjetoRede_Ligacao &obj );
-     // friend istream& operator>> (istream& is, CObjetoRede_Ligacao& obj);
 };
-
-// -----------------------------------------------------------------Friend
-// Declaração de Funções Friend
-inline std::ostream &operator<< ( std::ostream &os, CObjetoRede_Ligacao &obj );
-// istream& operator>> (istream& is, CObjetoRede_Ligacao& obj);
 
 #endif

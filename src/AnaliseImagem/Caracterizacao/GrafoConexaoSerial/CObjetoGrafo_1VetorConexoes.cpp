@@ -28,7 +28,7 @@ using namespace std;
 // Função:               Conectar
 // -------------------------------------------------------------------------
 /** Recebe um objA e o conecta a this.
-    @author :	André Duarte Bueno
+    @author : André Duarte Bueno
     @see    :
     @param  : objeto a quem será conectado
     @return : void
@@ -39,7 +39,7 @@ void CObjetoGrafo_1VetorConexoes::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * 
 }
 
 // -------------------------------------------------------------------------
-// Função:       DeletarConeccao
+// Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta a conexao de um ramo morto
     @short  :		Deleta a conexao de um ramo morto
@@ -48,7 +48,7 @@ void CObjetoGrafo_1VetorConexoes::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * 
     @param  : 	unsigned int link
     @return :		void
 */
-void CObjetoGrafo_1VetorConexoes::DeletarConeccao ( unsigned int link )
+void CObjetoGrafo_1VetorConexoes::DeletarConexao ( unsigned int link )
 {
      this->conexao.erase ( conexao.begin() + link );
 }
@@ -64,58 +64,33 @@ void CObjetoGrafo_1VetorConexoes::DeletarConeccao ( unsigned int link )
  *    @return : void
  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
-bool CObjetoGrafo_1VetorConexoes::DeletarConeccoesInvalidadas ( unsigned int deletado )
+bool CObjetoGrafo_1VetorConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
- return DeletarConeccoesInvalidadas_aux ( deletado , conexao );
-//      unsigned int indice_rotulo_valido {0};
-// 
-//      // Percorre todas as coneccoes
-//      for ( auto objeto: conexao )
-//           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//           // Se foi deletado vai ser pulado.
-//           if ( objeto->rotulo != deletado ) {
-//                conexao[indice_rotulo_valido++] = objeto;
-//           }
-// 
-//      // Redimensiona o vetor das coneccoes (as que apontam para objetos deletados são eliminadas)
-//      conexao.resize ( indice_rotulo_valido );
-//      /// @todo: aqui pode apagar, usando erase, os objetos além do size().
-//      return 1;
+ return DeletarConexoesInvalidadas_aux ( deletado , conexao );
 }
 
 // -------------------------------------------------------------------------
 // Função:       Write
 // -------------------------------------------------------------------------
-/** Salva dados do objeto sítio em novo formato.
-    @short  :
-    Formato novo (Andre Format):
-    ----------------------------
-    NumeroSitios  		// salvo pelo grafo
-    Tipo
-    Rotulo
-    propriedade 		// raio hidraulico ou condutancia
-    x           		// pressão
-    NumeroConeccoes
-    Lista_dos_rotulos_das_coneccoes
-
-    @author :		André Duarte Bueno
+/** @short  : Salva dados do objeto sítio em novo formato (André).
+    @author :	André Duarte Bueno
     @see    :
     @param  :   Recebe uma referencia para uma ostream
-    @return :		ostream&
+    @return :	ostream& 
 */
 ostream & CObjetoGrafo_1VetorConexoes::Write ( ostream & out ) const
-{
+{ 
      out.setf ( ios::right );
 
      // Tipo de contorno
-     out << setw ( 4 ) << static_cast<unsigned char> ( Contorno() ) << '\n';
+     out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
 
      // Rótulo de this
      out << ' ' << setw ( 5 ) << rotulo;
 
-     // Número de links (coneccoes)
+     // Número de links (conexões)
      unsigned long int numeroLinks = conexao.size ();
-     out << ' ' << setw ( 4 ) << numeroLinks;
+     out << ' ' << setw ( 5 ) << numeroLinks;
 
      // lista dos rótulos de quem estou conexo
      for ( auto objeto_conectado : conexao )

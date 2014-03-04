@@ -56,7 +56,7 @@ Desenvolvido por:
  * CGrafo_3Dby2D (que tem diversas filhas).
  * Para obter o Grafo dos "sítios", basta passar uma imagem_3D TCMatriz3D<int> * para a função Go;
  * A função Go trabalha sobre os planos bidimensionais, para realizar a classificação dos sítios
- * e estabelecer as conexoes entre eles.
+ * e estabelecer as conexões entre eles.
  *
  -Uso:
  * A saída pode ser obtida com a função Write,
@@ -147,7 +147,7 @@ Desenvolvido por:
  *
  * CGra3Dby2_M3 (condutância pela área intersecção)
  * ------------------------------------
- * Neste modelo adiciona-se uma lista de condutancias, associando a cada
+ * Neste modelo adiciona-se uma lista de condutâncias, associando a cada
  * conexao uma condutancia proporcional a area de intersecao entre os objetos.
  * Enquanto no CGra3Dby2_M2 assume-se uma condutancia media,
  * aqui a condutancia é função do raio hidraulico da intersecção dos objetos.
@@ -155,7 +155,7 @@ Desenvolvido por:
  * DeterminarConeccoesObjetos()->Conecta os objetos em planos distintos,
  * determina os raioshidraulicos dos "sítios",
  * determina e armazena os raioHidraulicos das ligações(novo).
- * CriarObjetoGrafo()->retorna CObjetoRede_Sitio_CC.
+ * CriarObjetoGrafo()->retorna CObjetoRede_CC_Sitio.
  * CalcularCondutancias()->determina as condutâncias das ligações.
  *
  * CGra3Dby2_M4 (corrige condutâncias considerando distâncias centros massa)
@@ -163,11 +163,11 @@ Desenvolvido por:
  * Neste modelo, herdeiro de M3, adiciona-se uma lista com os centros de massa cmx e cmy.
  * Na função DeterminaConeccoes(), armazena-se os centros de massas de cada objeto.
  * As informações dos centros de massa são utilizadas na função CalcularCondutancias()
- * para correção das condutancias levando em conta as distâncias.
+ * para correção das condutâncias levando em conta as distâncias.
  * Os centros de massa tambem podem ser usados para gerar visualizações do grafo,
  * para cálculo da tortuosidade, e distâncias entre objetos.
  *
- * ->CalcularCondutancias() = Corrige as condutancias considerando os centros de massa.
+ * ->CalcularCondutancias() = Corrige as condutâncias considerando os centros de massa.
  * ->AdicionarObjetos() = Chama AdicionarObjetos da classe base e depois marca os centros de massa.
  * ->ReorganizarCmxCmy() = Depois de eliminarRamosMortos, precisa reorganizar os centros de massa.
  * Nota: Pensar em mover atributos centro massa para objetos(verificar modelo 6).
@@ -177,12 +177,12 @@ Desenvolvido por:
  * Faz exatamente a mesma coisa que o modelo 4.
  * A diferença é que não cria na classe grafo os vetores cmx e cmy.
  * As informações dos centros de massa são armazenadas nos próprios sítios;
- * assim criou-se os objetos CObjetoRede_Sitio_CC_CM (sitio com link para resistencia e centro de massa).
+ * assim criou-se os objetos CObjetoEsqueleto (sitio com link para resistencia e centro de massa).
  *
- * ->CriarObjetoGrafo() = Retorna CObjetoRede_Sitio_CC_CM.
+ * ->CriarObjetoGrafo() = Retorna CObjetoEsqueleto.
  * ->AdicionarObjetos() = Reescreve totalmente a Adcionar objetos, armazena as informações
- * do CObjetoRede_Sitio_CC_CM o que inclue os centros de massa.
- * ->CalcularCondutancias()= Corrige as condutancias considerando os centros de massa.
+ * do CObjetoEsqueleto o que inclue os centros de massa.
+ * ->CalcularCondutancias()= Corrige as condutâncias considerando os centros de massa.
  * Nota: conferir códigos e se a saída é a mesma do Modelo 4.
  * @author André Duarte Bueno
  * @see    grafos

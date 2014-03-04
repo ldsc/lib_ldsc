@@ -45,7 +45,7 @@ Desenvolvido por:
 class CGrafo_3Dby2D_M3 : public CGrafo_3Dby2D_M2 {
      // --------------------------------------------------------------Atributos
      // Função chamada por Go e redefinida aqui
-     // calcula as condutancias das ligações entre dois sítios
+     // calcula as condutâncias das ligações entre dois sítios
      // virtual void CalcularPropriedadesConeccoes() ;
 public:
 
@@ -89,7 +89,7 @@ protected:
       */
      virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
-     /// Redefinida,  retorna um CObjetoRede_Sitio_CC ou derivado
+     /// Redefinida,  retorna um CObjetoRede_CC_Sitio ou derivado
      virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
 
      // Função Go

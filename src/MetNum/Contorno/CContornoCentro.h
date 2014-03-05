@@ -1,7 +1,7 @@
 #ifndef CContornoCentro_h
 #define CContornoCentro_h
 
-/*
+/**
   ===============================================================================
   PROJETO:    Biblioteca LIB_LDSC
   Assunto/Ramo: CContornoCentro...
@@ -15,10 +15,7 @@
   @copyright  (C) 2000 by André Duarte Bueno
   @email      andreduartebueno@gmail.com
 
-  Tarefas:
-
 */
-
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
@@ -36,11 +33,8 @@
 
 /**
  * @brief Determina propriedade no contorno.
- *
- * Classe herdeira de CContorno, a principal diferença
- * é a implementação da função Go que calcula uma estimativa de
- * valor de contorno baseada numa reta do tipo
- * y = a + b.x
+ * Classe herdeira de CContorno, a principal diferença é a implementação da função Go 
+ * que calcula uma estimativa de valor de contorno baseada numa reta do tipo  y = a + b.x;
  * Go recebe x e retorna y.
  * @author 	André Duarte Bueno
  * @version
@@ -61,13 +55,12 @@ protected:
 public:
 
    // -------------------------------------------------------------Construtor
-    /// Construtor default.
-   CContornoCentro() = default;
+   // Construtor default.
+   //CContornoCentro() = default;
 
    /// Construtor sobrecarregado.
-   CContornoCentro ( long double _a = 0, long double _b = 0 ) : a ( _a ), b ( _b ) {
-   }
-   CContornoCentro ( long double _a = 0, long double _b = 0 ) : a ( _a ), b ( _b ) {
+   CContornoCentro ( long double _a = 0.0, long double _b = 0.0 ) 
+   : a ( _a ), b ( _b ) {
    }
 
    // --------------------------------------------------------------Destrutor
@@ -78,7 +71,7 @@ public:
 
    /// Calcula, atualiza valor da propriedade no contorno.
    // x=k, e y=numeroObjetos
-   /*virtual */long double Go ( long double x = 0, long double /*y = 0*/ )  {
+   /*virtual */long double Go ( long double x = 0, long double y = 0 )  {
       return ( a + b * x );
    }
 

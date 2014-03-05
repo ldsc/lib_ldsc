@@ -90,6 +90,12 @@ public:
    */
    virtual void Conectar ( CObjetoRede* objA, CObjetoRede* objB = nullptr );
 
+   /**
+     * @brief Função nova que recebe um ponteiro para um CObjetoRede,
+     * e o inclue na lista de conexões. O segundo parâmtro é a condutância.
+   */
+   virtual void Conectar ( CObjetoRede* objA, long double _condutancia );
+
    /// Deleta uma conexão.
    /*inline*/ virtual void DeletarConexao ( unsigned int link ) override ;
 

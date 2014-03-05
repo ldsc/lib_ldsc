@@ -1,5 +1,5 @@
-#ifndef CGrafo_3Dby2D_M6_h
-#define CGrafo_3Dby2D_M6_h
+#ifndef CGrafo_3Dby2D_M6_Tortuosidade_h
+#define CGrafo_3Dby2D_M6_Tortuosidade_h
 
 /**
 ===============================================================================
@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CGrafo_3Dby2D_M6.h
+@file       CGrafo_3Dby2D_M6_Tortuosidade.h
 @begin      Oct 20 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -34,16 +34,16 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao Classe: CGrafo_3Dby2D_M6
+// Documentacao Classe: CGrafo_3Dby2D_M6_Tortuosidade
 // ===============================================================================
 /**
  * @brief Determina o grafo, modelo 6.
- * Superclasse: CGrafo -> CGrafo_3Dby2D -> CGra3Dby2_M2 -> CGra3Dby2_M3 -> CGrafo_3Dby2D_M6
+ * Superclasse: CGrafo -> CGrafo_3Dby2D -> CGra3Dby2_M2 -> CGra3Dby2_M3 -> CGrafo_3Dby2D_M6_Tortuosidade
  * @author	André Duarte Bueno
  * @see		Grafos
  * @ingroup  HCGrafo
 */
-class CGrafo_3Dby2D_M6 : public CGrafo_3Dby2D_M3, public CTortuosidade {
+class CGrafo_3Dby2D_M6_Tortuosidade : public CGrafo_3Dby2D_M3, public CTortuosidade {
 // --------------------------------------------------------------Atributos
 private:
      /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
@@ -52,14 +52,14 @@ private:
 // -------------------------------------------------------------Construtor
 public:
      /// Construtor
-     CGrafo_3Dby2D_M6 ( std::string _nomeArquivo ) :CGrafo_3Dby2D_M3 ( _nomeArquivo ),
+     CGrafo_3Dby2D_M6_Tortuosidade ( std::string _nomeArquivo ) :CGrafo_3Dby2D_M3 ( _nomeArquivo ),
           numeroDerivacoesUsadasCalculoTortuosidade ( 0 )  {
           tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M6;
      }
 
 // --------------------------------------------------------------Destrutor
      /// Destrutor
-     virtual ~ CGrafo_3Dby2D_M6 () = default;
+     virtual ~ CGrafo_3Dby2D_M6_Tortuosidade () = default;
 
 // ----------------------------------------------------------------Métodos
      /**
@@ -88,12 +88,12 @@ protected:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CGrafo_3Dby2D_M6& obj);
-//       friend istream& operator>> (istream& is, CGrafo_3Dby2D_M6& obj);
+//       friend ostream& operator<< (ostream& os, CGrafo_3Dby2D_M6_Tortuosidade& obj);
+//       friend istream& operator>> (istream& is, CGrafo_3Dby2D_M6_Tortuosidade& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, CGrafo_3Dby2D_M6& obj);
-// istream& operator>> (istream& is, CGrafo_3Dby2D_M6& obj);
+// ostream& operator<< (ostream& os, CGrafo_3Dby2D_M6_Tortuosidade& obj);
+// istream& operator>> (istream& is, CGrafo_3Dby2D_M6_Tortuosidade& obj);
 #endif

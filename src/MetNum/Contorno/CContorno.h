@@ -77,12 +77,16 @@ class CContorno
 
    /// Valor da propriedade no contorno, valor inicial = default, = 0.0.
    /// @return: retorna cópia do valorContorno.
-   long double valorContorno{};
+   long double valorContorno{0.0};
 
 // -------------------------------------------------------------Construtor
-    /// Construtor.
-    CContorno () = default;
 
+    // Construtor default.
+    //CContorno ( )  = default;
+
+    /// Construtor sobrecarregado.
+    CContorno (long double _vc = 0.0 ) : valorContorno(_vc){ 	};
+	
 // --------------------------------------------------------------Destrutor
     /// Destrutor.
     /*virtual */~ CContorno ()  = default;
@@ -92,6 +96,10 @@ class CContorno
     /// @todo: ? Adicionar operador paranteses?
     /*virtual*/ long double Go (long double /*x = 0*/, long double /*y = 0*/) {
         return valorContorno;
+    }
+
+    long double operator() (long double x , long double y ) {
+        return Go(x,y);
     }
 
 // -------------------------------------------------------------Sobrecarga

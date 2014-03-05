@@ -32,9 +32,9 @@ using namespace std;
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
 #endif
 
-#ifndef CObjetoRede_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
-#endif
+// #ifndef CObjetoRede_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
+// #endif
 
 #ifndef CObjetoRede_Sitio_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>

@@ -34,7 +34,7 @@ Desenvolvido por:
  * @ingroup  HCObjetoGrafo
 */
 
-class CObjetoEsqueleto_Ligacao :  public CObjetoRede
+class CObjetoEsqueleto_Ligacao :  public CObjetoEsqueleto
 {
 public:
 // --------------------------------------------------------------Atributos

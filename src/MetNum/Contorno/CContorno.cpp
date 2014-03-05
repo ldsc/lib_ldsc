@@ -3,9 +3,7 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: TPadrao_ramo
 ===============================================================================
-
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-	[LDSC].
+Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:          André Duarte Bueno
 @file:             CContorno.cpp
 @begin:            Sat Sep 16 2000
@@ -38,7 +36,7 @@ Função:    operator<<
 */
 ostream & operator<< (ostream & os, const CContorno & obj)
 {
-  os << obj.valorContorno << endl;
+  os << obj.valorContorno /*<< endl*/;
   return os;
 }
 

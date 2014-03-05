@@ -23,6 +23,9 @@ AUTHORS		Lista dos autores da libldsc.
 
 ===============================================================================
 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> TESE ALUNOS
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 [Específico tese Leandro]
 =======================================
 Objetivo: A ideia é resolver questões associadas diretamente a tese do 
@@ -46,87 +49,6 @@ ligações.
 [] - Criar estrutura para teste dos códigos desenvolvidos pelo Leandro. Deve adotar padrão uniforme 
 em toda lib_ldsc.
 
-[Específico grafo conexão serial]
-=======================================
-[X] - Reorganizar hierarquia de objetos do grafo,  criando objetos rede e objetos esqueleto
-[X] - Criar função que retorna o tipo de objeto
-[X] - Renomear diversas variáveis e funções
-[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
-[] -  @todo: CObjetoRede manter DeletarConeccoesRepetidas e mover para CGrafo _SomarCondutanciasParalelo
-// virtual int SomarCondutanciasParalelo ();
-e acumula (soma) as condutâncias em paralelo.
-/// Dois objetos podem ter conexões em paralelo, neste caso, a condutância total
-/// é dada por ct=c1+c2+c3... (paralelo).
-
-/**
-* @brief Função usada para calcular as condutâncias.
-* Foi separada de Go() pois estava recalculando todas as vezes em Go!
-* @todo: este cálculo deve ser feito em CGrafo!
-*/
-// virtual bool CalcularCondutanciasObjetosConectados ( int aglutinarLigacoes = 0 ) ;
-
-
-// -------------------------------------------------------------------------
-// Função:  Go
-// -------------------------------------------------------------------------
-// Só chamar depois de ter calculado as condutâncias de cada objeto (sitio ou ligação)
-// Nota: o calculo das condutâncias foi movido para classes CGrafo_3dBy2D_M3?;
-// ex: o cálculo abaixo foi movido para CGrafo_3dBy2D_M3.
-// agora é só usar as condutâncias.
-// Percorre as conexões (calculo novo)
-// Para calcular condutancia total ct entre c1 e c2
-// 1/ct = 1/c1 + 1/c2
-// assim, ct = (c1*c2) / (c1+c2)
-// Mas devo considerar que c1 e c2 consideram como distância 1 pixel, de forma que ct
-// é a condutância entre 2 píxeis. Mas quero considerar 1 pixel;
-// Fazendo 1/c2p = 1/c1p + 1/c1p encontro c1p = 2*c2p
-// ou seja para converter condutância distância 2 píxeis em condutância distância 1 píxel,
-// devo multiplicar por 2
-// Ficando: ct_1p = 2* ct_2p; como ct_2p = ct = (c1*c2) / (c1+c2)
-// ct_1p = 2  (c1*c2) / (c1+c2)
-// sendo ct_1p a condutancia entre dois objetos, mas considerando distância 1 píxel,
-// o que corresponde ao grafo de conexão serial.
-bool CObjetoRede::CalcularCondutanciasObjetosConectados ( int tipoRede = 0 )
-{
-   // Calcula condutância entre par de objetos
-   // Como a pressão fica na metade da distância precisa multiplicar por 2:
-   // ct = 2.0*(c1*c2) / (c1+c2)
-   // Cada ligação terá sua pressão considerada. Ou seja, rede de sítios e ligações
-   if ( tipoRede == RedeLigacoes or tipoRede == RedeSitios or RedeSitiosLigacoes ) {
-         for ( unsigned int i = 0; i < conexao.size(); i++ ) {
-               this->condutancia[i] = 2.0 * ( conexao[i]->propriedade * this->propriedade ) /
-                                      ( conexao[i]->propriedade + this->propriedade );
-            }
-      }
-   // Calcula condutância entre sítios, condutância das ligações é acumulada
-   // 1/ct = 1/cs1 + somatório 1/li + 1/cs2
-   else ( tipoRede =  RedeSitiosLigacoesMultiplas ) {
-         for ( unsigned int i = 0; i < conexao.size(); i++ ) {
-               double ct = 1.0 /  this->propriedade ;   // Aculuma condutancia deste sítio
-               CObjetoRede* ptr = conexao[i];
-
-               while ( ptr->Tipo() == "Ligacao" ) {
-                     ct += 1.0 / ptr->propriedade;
-
-                     if ( ptr !=
-                  }
-
-         }
-   }
-
-      return 1;
-}
-
-
-[] trocar unsigned int por uint32_t
-[] - otimização,  testar uso de <list> no lugar de vector.
-[] - Terminar montar hierarquia considerando classes derivadas EST WEST
-[] - Revisar todo cálculo na hierarquia de objetos CGrafo
-[] -  Testar
-
-[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
-métodos virtuais (pode ter herança).
-
 [Específico mestrado Rafael]
 =======================================
 [] - Verificar códigos Rafael -2D e botar para funcionar (test/AberturaDilatacao).
@@ -140,9 +62,12 @@ métodos virtuais (pode ter herança).
 [] - Verificar códigos DanoFormacao, mover para lib_ldsc.
 [] - Verificar códigos SAIL,  adicionar ao LVP? 
 
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                     TODO-> Organizacao diretórios lib_ldsc
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 [Nova estrutura diretórios]
 =======================================
-[ ] - Criar nova estrutura de diretórios
 [bueno@localhost src]$ tree -L 3 -d
 [x] - ├── Amostra
 [x] - │   ├── AmostraRocha
@@ -187,71 +112,121 @@ métodos virtuais (pode ter herança).
 [ ] - ├── RedesNeurais
 [x] - └── Tempo
 
-[Específico Documentação]
-=======================================
-Objetivo: Criar repostórios com informações compartilhadas.
-[ ] - Configurar servidor para núcleo rede científica (grupo ldsc).
-[ ] - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
-[ ] - Baixar wget -r http://cppreference.com
-[x] - Montar resumo C++11
-[x] - Montar resumo Git
+[Nova estrutura diretórios 2 -> lib_ldsc(base) e lib_ldsc_engenharia]
+======================================================================
+Objetivo é separar o que é conceito básico,  que deve estar na lib_ldsc, 
+de conceito derivado,  que deve estar numa biblioteca de aplicação.
+Por exemplo,  programa pode precisar das coisas da lib_ldsc,  mas não do GrafoConexaoSerial ou ConfiguracaoEquilibrio.
+-> lib_ldsc             (dividida em bibliotecas pequenas) 
+[x] - ├── Base           (coisas muito básicas usadas com frequência em todos os lugares)
+[x] - ├── EstruturaDados (dados em geral)
+[x] - ├── AnaliseImagem  (livros gonzales/parker/russ/morfmat)
+[x] - ├── Estatistica    (livros estatística e probabilidade)
+[x] - ├── Grafico        (livros gráficos; acesso programas gráficos como gnuplot);
+[ ] - ├── InteligenciaArtificial(livros redes neurais e inteligência artificial);
+[x] - ├── MetNum         (livros métodos numéricos)
 
+-> lib_ldsc_engenharia  (dividida em bibliotecas pequenas (+específico a engenharia))
+[x] - ├── Materiais       (livros materiais)
+[x] - ├── AnaliseImagem   (analise de imagem aplicada a engenharia,  livros engenharia)
+-> Adicionar exemplos de provas
+-> Adicionar códigos bismarck/wagner/capico
+-> Adicionar códigos felipe schram
+...
+
+-> LVP                 Software
+[x] - ├── XXX           ( software que usa as duas libs )
+
+[bueno@localhost src]$ tree -L 3 -d
+=======================================================================================lib_ldsc
+-> lib_ldsc             (dividida em bibliotecas pequenas) 
+[x] - ├── Base        (coisas muito básicas usadas com frequência em todos os lugares)
+[x] - │   ├── Tempo
+[x] - ├── EstruturaDados (estruturas de dados em geral)
+[x] - │   ├── Grafo     (conexões ) [CObjetoGrafo + CGrafo]
+[x] - │   ├── Rede      (conexões + propriedades) [CObjetoRede + CRede]
+[x] - │   ├── Esqueleto (conexões + propriedades + coordenada) [CObjetoEsqueleto + CEsqueleto]
+[x] - ├── AnaliseImagem (encontrado livros gonzales/parker/russ/morfmat)
+[x] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem)
+[x] - │   │   └── Geometria
+[x] - │   │   │   └── Bola
+[x] - │   │   └── Matriz (CVetor CMatriz2D CMatriz3D; em métodos numéricos usar array ou matriz de boost? )[mover para lib_ldsc_base? ]
+[x] - │   ├── Filtro (realiza um PreProcessamento na imagem)
+[x] - │   │   ├── FAmplitude 
+[x] - │   │   ├── FEspacial
+[x] - │   │   ├── FFrequencial
+[x] - │   │   └── Mascara
+[x] - ├── Estatistica (encontrado livros estatística e probabilidade)
+[x] - │   ├── XX
+[x] - │   │   └── XX
+[x] - │   │   │   └── XX - classes programa alunos georgiana
+[x] - ├── Grafico (encontrado livros gráficos; acesso programas gráficos como gnuplot);
+[x] - │   └── Gnuplot
+[ ] - ├── InteligenciaArtificial(encontrado livros redes neurais e inteligência artificial);
+[x] - │   └── RedesNeurais codigos que montei para eneida
+[x] - ├── MetNum       (encontrado livros métodos numéricos)
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+
+=======================================================================================lib_ldsc_engenharia
+-> lib_ldsc_engenharia  (dividida em bibliotecas pequenas (+específico a engenharia))
+[x] - ├── Material
+[x] - │   └── CFluido (criar hierarquia se for usar em nós de simulação)
+[x] - │   └── CFluidoColetado (inclui dados coleta? )
+[x] - │   └── Amostra
+[x] - │   │   ├── DadosColeta   (informações sobre coleta da amostra ? ? ? quem/quando/onde..)
+[x] - │   │   ├── AmostraRocha  (adiciona dados coleta)
+[x] - ├── AnaliseImagem
+[x] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem de meios porosos)
+[x] - │   ├── Filtro ( específicos segmentacao imagens meios porosos ? ? )
+[x] - │   │   ├── FAmplitude 
+[x] - │   ├── Caracterizacao (geralmente uma informação geométrica do meio poroso)
+[x] - │   │   ├── Correlacao (função autocorrelação)
+[x] - │   │   ├── Distribuicao ( distribuição tamanho poros - usar morfmat)
+[x] - │   │   │   └── SitiosLigacoes (2D e 3D - Leandro)
+[x] - │   │   │   └── PorosGargantas ***?
+[x] - │   │   ├── GrafoConexaoSerial (tese Bueno)
+[x] - │   │   └── RedePercolacao ( tese Leandro);
+[x] - │   │   ├── Fractal (de meios porosos? )
+[x] - │   ├── Reconstrucao (de meios porosos)
+[x] - │   └── Simulacao (geralmente uma propriedade física)
+[x] - │       ├── ConfiguracaoEquilibrio ***
+[ ] - │       ├── Tortuosidade ***
+[ ] - │       ├── DanoFormacao ***
+[x] - │       └── Permeabilidade ***
+[x] - ├── Estatistica
+[x] - ├── Grafico
+[x] - │   └── Gnuplot
+[x] - ├── MetNum
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+[ ] - ├── RedesNeurais
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Documentacao lib_ldsc 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 Objetivo: revisar os códigos da biblioteca e ao mesmo tempo atualizar documentação.
 [ ] - Documentar a lib_ldsc considerando inovações do doxygen, como exemplo: @todo @test @bug
 
-[Específico Padrão de Desenvolvimento]
-=======================================
-[ ] - Definir fluxo de trabalho (passo a passo para montagem nova feature).
-Ver diagrama sala Bueno.
-[ ] - Definir ferramentas de apoio: git, IDE,..
-[ ] - Definir bibliotecas: C++11,  boost, ...
-
-[Específico Ambiente Desenvolvimento]
-=======================================
-Objetivo: Estudar ambientes desenvolvimento QT-designer e Kdevelop.
-[] - Estudar QT-designer; montar apresentação com comparação.
-[] - Estudar kdevelop; montar apresentação com comparação.
-[] - Selecionar o mais prático.
-
-[Específico Softwares Apoio]
-=======================================
-Objetivo: manter atualizados os softwares de apoio, anote abaixo a versão mais atual em que o 
-sistema foi gerado corretamente:
-[1.8.3] - doxygen (versão do arquivo doxyfile).
-[20]    - fedora (versão do sistema operacional).
-[4.8.2] - g++ (versão do compilador da gnu).
-[5.1]   - qt (versão do QT).
-
-[Específico Bibliotecas]
-=======================================
-Objetivo: selecionar bibliotecas que sejam:
-- OO em C++ 
-- bem montadas/organizadas
-- fáceis de usar 
-- rápidas
-- e que estejam sendo constantemente atualizadas.
-[ ] - Verificar bibliotecas de Boost relacionadas a métodos numéricos.
-[ ] - Verificar bibliotecas da GNU relacionadas a métodos numéricos.
-[ ] - Selecionar biblioteca específica para suporte a parte das necessidades de métodos numéricos.
-[ ] - Analisar em detalhes a magick++.
-[ ] - Adotar parte de magick++ para processamento de imagens?
-[ ] - Pensar em como vai ser a relacao com qt (a ideia é que a lib seja independente de qt)
-[ ] - Criar métodos InputDialog() ? para leitura dos atributos da classe?
-
-[Específico Atualização Conhecimentos]
-=======================================
-[ ] - Ler livros sobre padroes para desenvolvimento (nomes classes/atributos/métodos)...
-[ ] - Ler livros sobre UML2
-[ ] - Ler livros sobre C++11
-[ ] - Ler livros sobre Boost
-[ ] - Ler livros sobre Padroes de projeto
-[ ] - Ler livros sobre outras bibliotecas específicas aos problemas efetivamente usados
-
-
-[Específico C++11 e Atualização da lib_ldsc]
-============================================
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Conversão lib_ldsc para C++11
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 Objetivo: Corrigir a lib_ldsc considerando inovações de C++11/C++14.
-[] - Criar arquivo modelo que lista as inovações a serem consideradas. 
+[] - Criar arquivo modelo que lista as inovações a serem consideradas (ver resumo c++11)
 Para cada classe criar arquivo CNomeClasse.C++11.todo?
 [ ] - Antes de fazer as modificacoes gerar saidas padrões, que devem ser posteriormente conferidas.
 [ ] - Reescrever as classes básicas e depois os códigos específicos.
@@ -260,34 +235,15 @@ Para cada classe criar arquivo CNomeClasse.C++11.todo?
 [ ] - Reescrever CImagem2D/CImagem3D usando template
 [ ] - Modificar CVetor CMatriz2D e CMatriz3D, de forma que a alocação seja da forma
 double* pm1d =  new double[nx*ny*nz];
-assim, códigos legados, como os herdados de Liang possam ser tratados sem 
-o uso macros. 
+assim, códigos legados, como os herdados de Liang possam ser tratados sem o uso macros.
 [ ] - Fazer correções conceituais e lógicas
 [ ] - Estudar valarray e array,  objetivo entender como funcionam; e substituir CVetor CMatriz2D?  CMatriz3D?
 
-[Específico Teste]
-============================================
-[ ] - O diretório test deve ter a mesma estrutura de src,
-e cada subdiretório deve testar as classes correspondentes.
-[ ] - Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários.
-[ ] - O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
-[ ] - Os programas que foram colocados dentro de test devem ser retirados.
-[ ] - Criar programa externo que acessa a lib. O programa deve ser bem documentado, de forma a 
-servir de base para aprendizado.
-[ ] - verificar IDF Euclidiana ; Esta utilizando valores maiores que 255, 
-e está dando problema ao salvar a imagem tons de cinza em formato binário. 
-(O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
 
-[Específico Otimizacao]
-============================================
-[ ] - Aprender a usar gprof.
-[ ] - Aprender a usar Valgrind; ver integração com QT-designer e kdevelop.
-[ ] - Fazer analise de desempenho e consumo de memória.
-[ ] - Eliminar dependencia de commonC++.
-[ ] - Eliminar dependencia de openMP.
-[ ] - usar thread do novo padrão de C++11.
-
-[Itens diversos]
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Pendências lib_ldsc 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Itens diversos recentes]
 =======================================
 [ ] -Renomear TFEEsqueletoV13D -> TFEEsqueleto_3D_M1  
 [ ] -Renomear TFEEsqueletoV23D -> TFEEsqueleto_3D_M2  ...
@@ -322,6 +278,25 @@ para identificar métrica que melhor estima poiselle.
 [ ] - Implementar código híbrido, que calcula configurações de equilíbrio e a seguir usa lattice 
 boltzman para ajuste fino. Acelerando calculo do lattice boltzman.
 
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Teste lib_ldsc 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[ ] - O diretório test deve ter a mesma estrutura de src,
+e cada subdiretório deve testar as classes correspondentes.
+[ ] - Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários.
+[ ] - O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
+[ ] - Os programas que foram colocados dentro de test devem ser retirados.
+[ ] - Criar programa externo que acessa a lib. O programa deve ser bem documentado, de forma a 
+servir de base para aprendizado.
+[ ] - verificar IDF Euclidiana ; Esta utilizando valores maiores que 255, 
+e está dando problema ao salvar a imagem tons de cinza em formato binário. 
+(O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> LVP
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 [Específico LVP]
 ============================================
 [ ] - Revisar códigos de Anaimp
@@ -331,12 +306,55 @@ boltzman para ajuste fino. Acelerando calculo do lattice boltzman.
 [ ] - Acrescentar códigos interesssantes de Imago
 [ ] - Acrescentar códigos interesssantes de SAIL
 
-[Específico uniformizacao código]
-============================================
-[ ] - Estudar a implementação de sobrecargas virtuais usando:
-obj >> os;
-obj << is;
-Como os é externo,  sempre tenho de implementar como função membro, 
-a ideia é inverter a ordem de chamada.
-No caso da biblioteca de Grafos cada classe tem método Write
-e a sobrecarga do operador chama Write que é virtual.
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> feature grafoconexaoserial
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Específico feature->atualizacao_grafo_conexão_serial]
+======================================================
+[X] - Reorganizar hierarquia de objetos do grafo:  
+CObjetosGrafo     (rotulo)
+CObjetosRede      (propriedade,  conexao,  condutancia)
+CObjetosEsqueleto ( cx, cy, cz)
+[X] - Renomear diversas variáveis e funções.
+[X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
+[x] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
+[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial
+[] - Fazer funcionar
+[] - Reorganizar estrutura diretorios
+/EstruturaDados 
+/EstruturaDados/Grafo 
+/EstruturaDados/Rede
+/EstruturaDados/Esqueleto 
+[] - 
+[] - 
+[] - 
+[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
+[] - @todo: trocar assert? usar static_assert de C++11! ou try..catch?
+[] - Transformar Vector em template.
+
+[] - Diretórios?
+Caracterizacao/GrafoConexaoSerial
+Caracterizacao/RedePercolacao
+Depois:
+Caracterizacao/Grafo/ CObjetoGrafo CGrafo
+Caracterizacao/Rede/  CObjetoRede  CRede
+Caracterizacao/Esqueleto/  CObjetoRede  CEsqueleto
+GrafoConexaoSerial
+[] trocar unsigned int por uint32_t
+[] - otimização,  testar uso de <list> no lugar de vector.
+[] - Terminar montar hierarquia considerando classes derivadas EST WEST
+[] - Revisar todo cálculo na hierarquia de objetos CGrafo
+[] -  Testar
+
+[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
+métodos virtuais (pode ter herança).
+
+[] -   @todo:    Criar classes 
+  CReta -> CReta(a,b); Calcula y = Go(x); Calcula y = Go(x,a,b);
+  CSegmentoReta (prova c++)
+  using CEstimativaValorBaseadaValorContorno = CSegmentoReta;
+  no grafo substituir CContornoCentro por CContorno, e
+  usar criar CEstimativaValorBaseadaValorContorno.
+??  
+long double EstimativaValorBaseadaValorContorno(long double a,long double b){}

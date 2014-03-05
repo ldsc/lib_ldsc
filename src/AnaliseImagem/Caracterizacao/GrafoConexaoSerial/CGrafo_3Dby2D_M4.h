@@ -36,15 +36,19 @@ Desenvolvido por:
 // Documentacao Classe: CGrafo_3Dby2D_M4
 // ===============================================================================
 /**
-* @brief Acrescenta a classe base o conceito de correção das distâncias.
- * A informacao dos centros de massa é armazenada na propria
- * classe (this). Esta solucao foi adotada por permitir
- * a destruicao dos vetores cmx e cmy apos o calculo
- * das condutâncias.
+* @brief Acrescenta o conceito de correção das condutâncias com base na distância
+* do centro de massa dos objetos conectados.
+ * A informacao dos centros de massa é armazenada na classe CGrafo_3Dby2D_M4 (this),
+ * usando vetores cmx, cmy, cmz. 
+ * Esta solucao foi adotada por permitir a destruicao dos vetores cmx e cmy apás o 
+ * cálculo das condutâncias.
+ * Nota: 
+ * A classe CGrafo_3Dby2D_M5 faz o mesmo, mas elimina píxeis não conectados a ambos os planos.
+ * A classe CGrafo_3Dby2D_M6_Tortuosidade faz o mesmo que o modelo 3, 
+ * mas corrige condutâncias com base centro massa armazenado nos objetos do esqueleto!
  *
- * @author       André Duarte Bueno
+ * @author   André Duarte Bueno
  * @see	     Grafo
-* Superclasse:    CGrafo -> CGrafo_3Dby2D -> CGrafo_3Dby2D_M2 -> CGrafo_3Dby2D_M4
 * @ingroup  HCGrafo
 */
 class CGrafo_3Dby2D_M4:public CGrafo_3Dby2D_M3 {

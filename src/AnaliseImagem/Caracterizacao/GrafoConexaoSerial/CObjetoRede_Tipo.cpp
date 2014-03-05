@@ -44,6 +44,20 @@ inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* obj, CObjetoRede_Tipo
 }
 
 // -------------------------------------------------------------------------
+// Função:               Conectar
+// -------------------------------------------------------------------------
+/**
+	* @brief Função nova que recebe um ponteiro para um CObjetoRede,
+	* e o inclue na lista de conexões. 
+	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
+*/
+inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _condutancia )
+{
+   this->conexao.push_back ( objA );
+   this->condutancia.push_back ( _condutancia );
+}
+
+// -------------------------------------------------------------------------
 // Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta conexões de ramos mortos
@@ -356,7 +370,7 @@ long double CObjetoRede_Tipo::Go ( long double /*d */ )
    //     return x;
 
    // zera o somatório (a cada passagem por Go)
-   somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
+ somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
 
    for ( unsigned int i = 0; i < conexao.size (); i++ ) {
          // condutância entre this e o objeto conectado vezes x(pressão) do objeto_conectado

@@ -20,4 +20,5 @@
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 // #include <path/nome>
-#include <MetNum/Contorno/CContornoCentro.h>
+//#include <MetNum/Contorno/CContornoCentro.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CContornoCentro.h>

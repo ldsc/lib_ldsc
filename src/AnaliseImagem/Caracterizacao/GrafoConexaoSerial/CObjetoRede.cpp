@@ -37,11 +37,26 @@ using namespace std;
     @param  : objeto a quem será conectado
     @return : void
 */
-inline void CObjetoRede::Conectar ( CObjetoRede* obj, CObjetoRede* )
+inline void CObjetoRede::Conectar ( CObjetoRede* objA, CObjetoRede* )
 {
-   this->conexao.push_back ( obj );
-   this->condutancia.push_back ( obj->propriedade );
+   this->conexao.push_back ( objA );
+   this->condutancia.push_back ( objA->propriedade );
 }
+
+// -------------------------------------------------------------------------
+// Função:               Conectar
+// -------------------------------------------------------------------------
+/**
+	* @brief Função nova que recebe um ponteiro para um CObjetoRede,
+	* e o inclue na lista de conexões. 
+	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
+*/
+inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia )
+{
+   this->conexao.push_back ( objA );
+   this->condutancia.push_back ( _condutancia );
+}
+
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConexao

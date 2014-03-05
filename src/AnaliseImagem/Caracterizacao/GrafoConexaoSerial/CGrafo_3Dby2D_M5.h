@@ -30,6 +30,13 @@ Desenvolvido por:
 
 /**
  * @brief Determina o grafo de imagens 3D, modelo 5.
+ * Note que como é herdeiro do modelo 4, considera correçcão das distâncias (sem limite).
+ * Elimina os sítios isolados. Sítios que estao no plano atual rp
+ * e nao tem conexão com o plano anterior (ra)
+ * e posterior (img3D[i][j][ plano + 1 ])
+ * De forma que o calculo das distâncias reais entre os sítios
+ * vai ser mais correto no que se refere ao escoamento.
+
  * Superclasse:    CGrafo -> CGrafo_3Dby2D -> CGrafo_3Dby2D_M2
  * -> CGrafo_3Dby2D_M5
  * @author 	André Duarte Bueno

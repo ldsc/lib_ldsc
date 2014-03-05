@@ -20,7 +20,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 #include <fstream>
 #include <vector>
-#include <cassert> /// @todo: usar static_assert de C++11! ou try..catch?
+#include <cassert>
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -60,10 +60,9 @@ Desenvolvido por:
  *
  -Uso:
  * A saída pode ser obtida com a função Write,
- * que salva em disco a estrutura de sítios determinada e os links entre os sítios.
+ * que salva em disco a estrutura de sítios (sua propriedade, lista conexões e lista condutâncias).
  * Também é possível usar diretamente o grafo obtido para determinar propriedades de interesse,
- * sem a necessidade de salvar os dados em disco.
- * Este mecanismo é utilizado por CPermeabilidadeGrafo.
+ * sem a necessidade de salvar os dados em disco.Este mecanismo é utilizado por CPermeabilidadeGrafo.
  *
  -Nota:
  * Na prática o Grafo armazena objetos que tem uma propriedade, sendo uma espécie de rede.
@@ -197,7 +196,7 @@ protected:
    /// Enumeração para os diferentes tipos de grafo.
    /// @enum: ETipoGrafo
    // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
-   enum class ETipoGrafo : unsigned char {
+   enum class ETipoGrafo : uint8_t {
       grafo,          ///< representa grafo criado por CGrafo
       grafoContorno,  ///< representa grafo criado por CGrafoContorno
       grafo3DBy2D,    ///< representa grafo criado por CGrafo3DBy2D

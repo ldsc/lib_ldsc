@@ -128,6 +128,12 @@ public:
    */
    inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* objB = nullptr ) ;
 
+   /**
+     * @brief Função nova que recebe um ponteiro para um CObjetoRede,
+     * e o inclue na lista de conexões. O segundo parâmtro é a condutância.
+   */
+   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, long double _condutancia );
+   
    /// Deleta uma conexão.
    inline /*virtual*/ void DeletarConexao ( unsigned int link ) ;
 
@@ -148,7 +154,7 @@ public:
    /**
      * @brief Função usada para calcular novo valor de x (ex: pressão).
      */
-   inline/*virtual*/ long double Go ( long double d = 0 ) ;
+   /*inline*//*virtual*/ long double Go ( long double d = 0 ) ;
 
    /**
     * @brief Função que calcula o fluxo associado as propriedade do objeto e suas conexões.
@@ -177,7 +183,6 @@ public:
    ETipo  Tipo () const  {
       return tipo;
    }
-
 
 // --------------------------------------------------------------------Set
    /// @brief Seta a propriedade.

@@ -33,16 +33,27 @@ using namespace std;
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 #endif
 
-#ifndef CObjetoRede_CC_Sitio_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio.h>
+// #ifndef CObjetoRede_CC_Sitio_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio.h>
+// #endif
+// 
+// #ifndef CObjetoRede_CC_Sitio_WEST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_WEST.h>
+// #endif
+// 
+// #ifndef CObjetoRede_CC_Sitio_EST_h
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_EST.h>
+// #endif
+#ifndef CObjetoRede_Sitio_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
 #endif
 
-#ifndef CObjetoRede_CC_Sitio_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_WEST.h>
+#ifndef CObjetoRede_Sitio_WEST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.h>
 #endif
 
-#ifndef CObjetoRede_CC_Sitio_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_EST.h>
+#ifndef CObjetoRede_Sitio_EST_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -185,50 +196,42 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
 
   // Inicio do calculo da correção das condutâncias
 
-  // Ponteiro para sitio derivado
-  CObjetoRede_CC_Sitio *
-    ptrSitioLR = nullptr;
+// Com a mudança na classe CObjetoRede_Sitio não precisa mais do cast
+// Ponteiro para sitio derivado
+// CObjetoRede_CC_Sitio *    ptrSitioLR = nullptr;
 
   // Centro de massa na direção x,y do sitio
-  float
-    cmxSitio = 0.0;
-  float
-    cmySitio = 0.0;
+  float    cmxSitio = 0.0;
+  float    cmySitio = 0.0;
 
   // Centro de massa na direção x,y do sitio conexo
-  float
-    cmxSitioConexo = 0.0;
-  float
-    cmySitioConexo = 0.0;
+  float    cmxSitioConexo = 0.0;
+  float    cmySitioConexo = 0.0;
 
   // Distancia dx entre os dois sítios
-  float
-    dx = 0.0;
-  float
-    dy = 0.0;
+  float    dx = 0.0;
+  float    dy = 0.0;
 
   // Fator de correção da condutancia (distancia total entre os dois sitios)
-  long double
-    fatorCorrecaoDistancias = 0.0;
+  long double    fatorCorrecaoDistancias = 0.0;
 
   // Percorre  todos os objetos do  grafo
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
-      // Converte o ponteiro ObjetoGrafo para CObjetoRede_CC_Sitio, para ter acesso ao vetor condutancia[link]
-      ptrSitioLR = dynamic_cast < CObjetoRede_CC_Sitio * >(objeto[k]);
+// Converte o ponteiro ObjetoGrafo para CObjetoRede_CC_Sitio, para ter acesso ao vetor condutancia[link]
+//ptrSitioLR = dynamic_cast < CObjetoRede_CC_Sitio * >(objeto[k]);
 
       // Obtem a informação do cmx e cmy do sitio atual (k)
       cmxSitio = cmx[k];
       cmySitio = cmy[k];
 
       // Percorre todas as conexões do sitio atual
-      for (unsigned int link = 0; link < ptrSitioLR->conexao.size (); link++)
+      for (unsigned int link = 0; link < objeto[k]->conexao.size (); link++)
 	{
-
 	  // Recupera a informação  do centro de massa na direção x do sitio conexo
 	  // Pega o rotulo do sitio conexo, e recupera o cmx do objeto
-	  cmxSitioConexo = cmx[ptrSitioLR->conexao[link]->rotulo];
-	  cmySitioConexo = cmy[ptrSitioLR->conexao[link]->rotulo];
+	  cmxSitioConexo = cmx[objeto[k]->conexao[link]->rotulo];
+	  cmySitioConexo = cmy[objeto[k]->conexao[link]->rotulo];
 
 	  // Determina a distância dx e dy entre o sítio e o sitio conexo 
 	  // Correção Bueno/23/1/2014 - como faz dx*dx não precisa achar módulo
@@ -239,7 +242,7 @@ CGrafo_3Dby2D_M4::CalcularCondutancias
 	  fatorCorrecaoDistancias = sqrt (1.0 + dx * dx + dy * dy);
 
 	  // Corrige a condutancia, considerando o fator de correção
-	  ptrSitioLR->condutancia[link] /= fatorCorrecaoDistancias;
+	  objeto[k]->condutancia[link] /= fatorCorrecaoDistancias;
 	}
     }
 

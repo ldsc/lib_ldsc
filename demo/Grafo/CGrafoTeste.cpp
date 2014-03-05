@@ -44,7 +44,7 @@ email:            andre@lmpt.ufsc.br
 #include <Grafo/CGrafo_3Dby2D_M3.h>
 #include <Grafo/CGrafo_3Dby2D_M4.h>
 // #include <Grafo/CGrafo_3Dby2D_M5.h>
-#include <Grafo/CGrafo_3Dby2D_M6.h>
+#include <Grafo/CGrafo_3Dby2D_M6_Tortuosidade.h>
 #include <Base/COperacao.h>
 
 // -----------------------------------------------Calculo da permeabilidade
@@ -464,7 +464,7 @@ CGrafoTest::CriarGrafo (int modelo, string nomeArquivo)
         case 6:
             cout << "...Criando objeto CGra3Dby2_M6...";
             nomeArquivoExt += ".mod6";
-            grafo = new CGrafo_3Dby2D_M6 (nomeArquivoExt);
+            grafo = new CGrafo_3Dby2D_M6_Tortuosidade (nomeArquivoExt);
             break;
         default:
             cout << "...Criando objeto CGra3Dby2_M3...";

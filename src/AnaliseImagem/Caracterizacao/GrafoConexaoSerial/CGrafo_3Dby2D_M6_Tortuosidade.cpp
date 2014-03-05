@@ -6,7 +6,7 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 @Desenvolvido_por:
 				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:        André Duarte Bueno
-@file:          CGrafo_3Dby2D_M6.cpp
+@file:          CGrafo_3Dby2D_M6_Tortuosidade.cpp
 @begin:         Sat Sep 16 2000
 @copyright:     (C) 2000 by André Duarte Bueno
 @email:         andreduartebueno@gmail.com
@@ -21,18 +21,18 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6.h>
-
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6_Tortuosidade.h>
+w
 #ifndef CObjetoEsqueleto_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio.h>
 #endif
 
-#ifndef CObjetoEsqueleto_WEST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_WEST.h>
+#ifndef CObjetoEsqueleto_Sitio_WEST
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_WEST.h>
 #endif
 
-#ifndef CObjetoEsqueleto_EST_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_EST.h>
+#ifndef CObjetoEsqueleto_Sitio_EST
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_EST.h>
 #endif
 
 #ifndef CMath_h
@@ -51,7 +51,7 @@ using namespace std;
 @return : Retorna um ponteiro para um sítio novo
 */
 CObjetoRede *
-CGrafo_3Dby2D_M6::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
+CGrafo_3Dby2D_M6_Tortuosidade::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
 {
      CObjetoRede *data;
      switch ( tipoContorno ) {
@@ -87,7 +87,7 @@ CGrafo_3Dby2D_M6::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
 @return : void
 */
 void
-CGrafo_3Dby2D_M6::AdicionarObjetos
+CGrafo_3Dby2D_M6_Tortuosidade::AdicionarObjetos
 ( CRotulador2DCm *rotulador, unsigned long int ultimoRotuloUtilizado,
   CContorno::ETipoContorno tipoContornoObjeto )
 {
@@ -142,7 +142,7 @@ CGrafo_3Dby2D_M6::AdicionarObjetos
 @param  : nada
 @return : void
 */
-void CGrafo_3Dby2D_M6::CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao )
+void CGrafo_3Dby2D_M6_Tortuosidade::CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao )
 {
 // ***********NOVO CALCULO TORTUOSIDADE*******
      tortuosidade = 0.0;

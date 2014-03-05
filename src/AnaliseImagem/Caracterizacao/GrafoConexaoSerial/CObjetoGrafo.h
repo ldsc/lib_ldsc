@@ -80,6 +80,7 @@ public:
       ObjetoGrafo_1VetorConexoes,
       ObjetoGrafo_2VetoresConexoes,
       ObjetoGrafo_MatrizConexoes,
+	  
       ObjetoRede,                   // Objetos da hierarquia de objetos da rede
       ObjetoRede_Ligacao,
       ObjetoRede_Ligacao_EST,
@@ -87,13 +88,16 @@ public:
       ObjetoRede_Sitio,
       ObjetoRede_Sitio_EST,
       ObjetoRede_Sitio_WEST,
+// 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
+	  
       ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
       ObjetoEsqueleto_Ligacao,
       ObjetoEsqueleto_Ligacao_EST,
       ObjetoEsqueleto_Ligacao_WEST,
       ObjetoEsqueleto_Sitio,
       ObjetoEsqueleto_Sitio_EST,
-      ObjetoEsqueleto_Sitio_WEST
+      ObjetoEsqueleto_Sitio_WEST,
+// 	  ObjetoEsqueleto_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
    };
 
 // -------------------------------------------------------------Construtor

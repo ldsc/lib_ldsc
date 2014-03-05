@@ -85,13 +85,12 @@ class CContorno
 
 // --------------------------------------------------------------Destrutor
     /// Destrutor.
-    virtual ~ CContorno ()  = default;
+    /*virtual */~ CContorno ()  = default;
 
 // ----------------------------------------------------------------Métodos
     /// Calcula (atualiza) valor da propriedade no contorno.
     /// @todo: ? Adicionar operador paranteses?
-    virtual long double Go (long double x = 0, long double y = 0) {
-		x=x; y=y; // evita warning
+    /*virtual*/ long double Go (long double /*x = 0*/, long double /*y = 0*/) {
         return valorContorno;
     }
 

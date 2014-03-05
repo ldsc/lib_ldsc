@@ -6,17 +6,17 @@
   PROJETO:    Biblioteca LIB_LDSC
   Assunto/Ramo: CContornoCentro...
   ===============================================================================
-  Desenvolvido por:	
-  Laboratorio de Desenvolvimento de Software Cientifico 	
+  Desenvolvido por:
+  Laboratorio de Desenvolvimento de Software Cientifico
   [LDSC].
   @author     André Duarte Bueno
   @file       CContornoCentro.h
   @begin      Wed Oct 4 2000
   @copyright  (C) 2000 by André Duarte Bueno
   @email      andreduartebueno@gmail.com
-  
+
   Tarefas:
-  
+
 */
 
 // -----------------------------------------------------------------------
@@ -36,70 +36,80 @@
 
 /**
  * @brief Determina propriedade no contorno.
- * 
+ *
  * Classe herdeira de CContorno, a principal diferença
  * é a implementação da função Go que calcula uma estimativa de
  * valor de contorno baseada numa reta do tipo
  * y = a + b.x
  * Go recebe x e retorna y.
- * @author 	André Duarte Bueno	
- * @version		
+ * @author 	André Duarte Bueno
+ * @version
  * @see		contornos
- * 
+ *
  * Tarefa:
  * Verificar se o nome nao deveria ser CCondicaoInicialCentro?
 */
+class CContornoCentro : public CContorno {
+   // --------------------------------------------------------------Atributos
+protected:
+   /// Coeficiente da reta  y = a + b.x
+   long double a {0.0};
 
-class CContornoCentro : public CContorno
-{
-  // --------------------------------------------------------------Atributos
- protected:
-  /// Coeficiente da reta  y = a + b.x
-  long double a{};
+   /// Coeficiente da reta  y = a + b.x
+   long double b {0.0};
 
-  /// Coeficiente da reta  y = a + b.x
-  long double b{};
+public:
 
- public:
+   // -------------------------------------------------------------Construtor
+    /// Construtor default.
+   CContornoCentro() = default;
 
-  // -------------------------------------------------------------Construtor
- /// Construtor
-  CContornoCentro (long double _a = 0, long double _b = 0):a (_a), b (_b)
-    {
-    }
+   /// Construtor sobrecarregado.
+   CContornoCentro ( long double _a = 0, long double _b = 0 ) : a ( _a ), b ( _b ) {
+   }
+   CContornoCentro ( long double _a = 0, long double _b = 0 ) : a ( _a ), b ( _b ) {
+   }
 
-    // --------------------------------------------------------------Destrutor
- /// Destrutor
-    virtual ~ CContornoCentro () = default;
+   // --------------------------------------------------------------Destrutor
+   /// Destrutor
+   /*virtual */~ CContornoCentro () = default;
 
-    // ----------------------------------------------------------------Métodos
+   // ----------------------------------------------------------------Métodos
 
-    /// Calcula, atualiza valor da propriedade no contorno.
-    // x=k, e y=numeroObjetos
-    virtual long double Go (long double x = 0, long double y = 0)  {
-      return (a + b * x);
-    }
+   /// Calcula, atualiza valor da propriedade no contorno.
+   // x=k, e y=numeroObjetos
+   /*virtual */long double Go ( long double x = 0, long double /*y = 0*/ )  {
+      return ( a + b * x );
+   }
 
-    // grafo->objeto[k]->x =  ( k / numeroObjetos ) * ( (*contorno[0]) -  (*contorno[1]) );
+   // grafo->objeto[k]->x =  ( k / numeroObjetos ) * ( (*contorno[0]) -  (*contorno[1]) );
 
-    // -------------------------------------------------------------Sobrecarga
-    // --------------------------------------------------------------------Get
-      /// Obtem o valor de a
-      long double  A ()          {	return a;    }
+   // -------------------------------------------------------------Sobrecarga
+   // --------------------------------------------------------------------Get
+   /// Obtem o valor de a
+   long double  A ()          {
+      return a;
+   }
 
-      /// Obtem o valor de b
-      long double  B ()          {	return b;    }
+   /// Obtem o valor de b
+   long double  B ()          {
+      return b;
+   }
 
-    // --------------------------------------------------------------------Set
-    /// Seta valor de a
-    void A (long double _a)    {	a = _a;    }
+   // --------------------------------------------------------------------Set
+   /// Seta valor de a
+   void A ( long double _a )    {
+      a = _a;
+   }
 
-    /// Seta valor de b
-    void B (long double _b)    {	b = _b;    }
+   /// Seta valor de b
+   void B ( long double _b )    {
+      b = _b;
+   }
 
-    // -----------------------------------------------------------------Friend
-    //       friend ostream& operator<< (ostream& os, const CContornoCentro& obj);
-    //       friend istream& operator>> (istream& is, CContornoCentro& obj);
+   // -----------------------------------------------------------------Friend
+   //       friend ostream& operator<< (ostream& os, const CContornoCentro& obj);
+   //       friend istream& operator>> (istream& is, CContornoCentro& obj);
 };
 
 // -----------------------------------------------------------------Friend

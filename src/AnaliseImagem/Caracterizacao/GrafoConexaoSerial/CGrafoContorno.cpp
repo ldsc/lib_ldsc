@@ -46,12 +46,12 @@ using namespace std;
  */
 CGrafoContorno::CGrafoContorno (string _nomeArquivo, unsigned long int _numero_contornos):
 		      CGrafo (_nomeArquivo)
-		      //, contorno{_numero_contornos, new CContorno()}
+		      //, contorno{_numero_contornos, new CContornoCentro()}
 {
   tipoGrafo  =  ETipoGrafo::grafoContorno ; 
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
-      CContorno *obj_cont = new CContorno ();
+      CContorno *obj_cont = new CContornoCentro ();
       assert (obj_cont); ///@todo: static_assert ou try..catch
       contorno.push_back (obj_cont);
     }

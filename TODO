@@ -51,6 +51,7 @@ em toda lib_ldsc.
 [X] - Reorganizar hierarquia de objetos do grafo,  criando objetos rede e objetos esqueleto
 [X] - Criar função que retorna o tipo de objeto
 [X] - Renomear diversas variáveis e funções
+[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
 [] -  @todo: CObjetoRede manter DeletarConeccoesRepetidas e mover para CGrafo _SomarCondutanciasParalelo
 // virtual int SomarCondutanciasParalelo ();
 e acumula (soma) as condutâncias em paralelo.

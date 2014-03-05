@@ -29,8 +29,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
 #endif
 
-#ifndef CContorno_h
-#include <MetNum/Contorno/CContorno.h>
+#ifndef CContornoCentro_h
+#include <MetNum/Contorno/CContornoCentro.h>
 #endif
 
 // ===============================================================================
@@ -54,7 +54,7 @@ class CGrafoContorno : public CGrafo {
 public:
 
      /// Usa-se contorno[i] para obter ponteiro para contorno i.
-     std::vector < CContorno * >contorno;
+     std::vector < CContornoCentro * >contorno;
 
      // -------------------------------------------------------------Construtor
      /// Cria os objetos de contorno e incluí no vetor contorno.

@@ -32,6 +32,7 @@ Bibliotecas LIB_LDSC
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Tipo.h>
 #endif
 
+enum ETipoObjetoGrafo;
 // ===============================================================================
 // Documentacao Classe: CObjetoEsqueleto_Tipo
 // ===============================================================================
@@ -51,7 +52,7 @@ public:
 
 // -------------------------------------------------------------/**Construtor*/
    /// Construtor
-   CObjetoEsqueleto_Tipo ( ETipo _tipo ) : CObjetoRede_Tipo(_tipo) {   }
+   CObjetoEsqueleto_Tipo ( ETipoObjetoGrafo _tipo ) : CObjetoRede_Tipo(_tipo) {   }
 
 // --------------------------------------------------------------/**Destrutor*/
    /// Destrutor

@@ -111,3 +111,5 @@ git merge convertendoHierarquiaObjetosGrafoParaCpp11
     Mescla ramo de atualização com master; compilar e testar
 git commit -m "mesclado master com convertendoHierarquiaObjetosGrafoParaCpp11"
 
+git config --global user.name "André Duarte Bueno"
+git config --global user.email andreduartebueno@gmail.com

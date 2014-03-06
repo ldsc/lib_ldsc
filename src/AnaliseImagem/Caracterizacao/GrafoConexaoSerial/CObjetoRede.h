@@ -53,7 +53,6 @@ Desenvolvido por:
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
- * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoRede : /*virtual*/ public CObjetoGrafo, public CSMParametroSolver  {
@@ -65,7 +64,8 @@ public:
    /**
    * @brief Vetor de ponteiros para objetos do tipo CObjetoRede.
    * Ou seja, ponteiros para objetos da hierarquia CObjetoRede.
-   * @todo: verificar vantagens de trocar vector por list (teste desempenho).
+   * @todo: verificar vantagens de trocar vector por list (teste desempenho)
+   * Note que operações conexao[i] precisam ser trocadas!!
    */
    std::vector < CObjetoRede* >conexao;
 

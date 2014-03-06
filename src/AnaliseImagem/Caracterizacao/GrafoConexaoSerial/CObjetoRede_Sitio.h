@@ -32,7 +32,6 @@ Desenvolvido por:
  * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
  * @author:  André Duarte Bueno
  * @see:     grafos
- * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 
@@ -48,7 +47,7 @@ public:
      virtual ~ CObjetoRede_Sitio () = default;
 // ----------------------------------------------------------------Métodos
      /// Retorna o tipo de objeto do grafo.
-     virtual ETipo Tipo () const  override { return ETipo::ObjetoRede_Sitio;  }
+     virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio;  }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

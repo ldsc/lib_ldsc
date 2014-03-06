@@ -37,8 +37,11 @@ Desenvolvido por:
 // Documentacao Classe: CGrafo_3Dby2D_M6_Tortuosidade
 // ===============================================================================
 /**
- * @brief Determina o grafo, modelo 6.
- * Superclasse: CGrafo -> CGrafo_3Dby2D -> CGra3Dby2_M2 -> CGra3Dby2_M3 -> CGrafo_3Dby2D_M6_Tortuosidade
+ * @brief Determina o grafo, modelo 6. Herdeiro de CGrafo_3Dby2D_M3, acrescenta
+ * correção da condutividade em função da distância entre os centros de massa dos objetos.
+ * Nesta classe o centro de massa é armazenado nos objetos do grafo e não em vetores cmx,cmy.
+ * Também acrescenta o cálculo da tortuosidade.
+ * 
  * @author	André Duarte Bueno
  * @see		Grafos
  * @ingroup  HCGrafo
@@ -71,10 +74,21 @@ public:
                                          long double _dimensaoPixel,
                                          unsigned long int _fatorAmplificacao ) override;
 
-
 protected:
      /// Redefinida, para  o tipoContorno=centro retorna um CObjetoEsqueleto
      virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
+
+//Verificar porque precisa	 redefinicao abaixo!!!
+/**
+* @brief Função usada para criar os objetos, todos do tipo CObjetoRede_Tipo
+*que não tem métodos virtuais, sendo + rápido!
+* Recebe o tipo de objeto a ser criado.
+*/
+virtual CObjetoRede_Tipo* CriarObjetoGrafo ( ETipoObjetoGrafo tipoObjeto ) {
+	CObjetoRede_Tipo* data = new CObjetoRede_Tipo ( tipoObjeto );
+	assert ( data );
+	return data;
+};
 
      /**
       * @brief Função que cria os objetos e os adiciona a lista de objetos.

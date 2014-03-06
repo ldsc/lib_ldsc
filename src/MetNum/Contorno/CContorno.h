@@ -55,7 +55,6 @@ Desenvolvido por:
  * @author      André Duarte Bueno
  * @version
  * @see         contorno
- * @todo:       Adicionar sobrecarga >>
 */
 class CContorno
 {

@@ -60,8 +60,7 @@ Desenvolvido por:
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
- * @todo:    implementar operadores >>.
- * @ingroup  HCObjetoGrafo
+  * @ingroup  HCObjetoGrafo
 */
 class CObjetoGrafo_1VetorConexoes : public CObjetoGrafo {
 // --------------------------------------------------------------Atributos
@@ -84,8 +83,8 @@ public:
 
 // ----------------------------------------------------------------Métodos
    /// Retorna o tipo de objeto do grafo.
-   virtual ETipo Tipo () const  override {
-      return ETipo::ObjetoGrafo_1VetorConexoes;
+   virtual ETipoObjetoGrafo Tipo () const  override {
+      return ETipoObjetoGrafo::ObjetoGrafo_1VetorConexoes;
    }
 
    /**
@@ -149,3 +148,6 @@ inline std::ostream& operator<< ( std::ostream& os, CObjetoGrafo_1VetorConexoes&
 using COG_Sitio = CObjetoGrafo_1VetorConexoes ;
  
 #endif
+
+
+ 

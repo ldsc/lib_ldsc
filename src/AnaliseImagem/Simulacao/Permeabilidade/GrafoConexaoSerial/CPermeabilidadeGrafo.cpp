@@ -45,7 +45,7 @@ using namespace std;
 */
 CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido, 
 					  CSMDiagonalDominante *& _solver,
-						CGra_3Dby2D *& _grafo,
+						CGrafo_3Dby2D *& _grafo,
 						unsigned long int _nx,
 							unsigned long int _ny,
 																							unsigned long int _nz,
@@ -307,7 +307,7 @@ CPermeabilidadeGrafo::CriarObjetosAgregados ()
 
 	if(grafo)
 	delete grafo;
-	grafo = new CGra_3Dby2DAdvanced ();
+	grafo = new CGrafo_3Dby2DAdvanced ();
 		assert(grafo);
 */
 }
@@ -339,10 +339,10 @@ CPermeabilidadeGrafo::DefinirCondicoesContorno ()
 
 	// Criando os objetos de contorno
 	// Criando contorno esquerdo = 0
-	CContorno *contorno_esquerdo = new CContorno ();
+	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
 	assert (contorno_esquerdo);
 	grafo->contorno.push_back (contorno_esquerdo);
-	*contorno_esquerdo = pressao_face_esquerda; // contorno se comporta como um double, veja classe CContorno.
+	*contorno_esquerdo = pressao_face_esquerda; // contorno se comporta como um double, veja classe CContornoCentro.
 
 	// Calculando parâmetros para contorno de centro
 	// O objeto contorno de centro, tem uma funcao Go que estima os valores iniciais (de pressão)
@@ -363,13 +363,13 @@ CPermeabilidadeGrafo::DefinirCondicoesContorno ()
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pmax;
 
 	// Criando contorno de centro = 1
-	CContorno *contorno_centro = new CContornoCentro (a, b);
+	CContornoCentro *contorno_centro = new CContornoCentro (a, b);
 	assert (contorno_centro);
 	grafo->contorno.push_back (contorno_centro);
 	*contorno_centro = pressao_face_esquerda;	// vai ser calculado com a chamada a Go(k)
 
 	// Criando contorno direito = 2
-	CContorno *contorno_direito = new CContorno ();
+	CContornoCentro *contorno_direito = new CContornoCentro ();
 	assert (contorno_direito);
 	grafo->contorno.push_back (contorno_direito);
 	*contorno_direito = pressao_face_direita;
@@ -642,7 +642,4 @@ long double CPermeabilidadeGrafo::FluxoFronteira (CContorno::ETipoContorno tipoF
 	}
 	return fluxos;
 }
-void CPermeabilidadeGrafo::Ny(long unsigned int _ny)
-{
-    ny = _ny;
-}
+

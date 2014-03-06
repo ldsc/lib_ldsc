@@ -11,31 +11,35 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao3D.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.cpp
-
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGComponenteGrafo.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGLigacao.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_EST.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_WEST.cpp
-
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_EST.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_WEST.cpp
-
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_EST.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio_LR_CM_WEST.cpp
-
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M1.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M2.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M6.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M4.cpp
-  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M5.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M1.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M2.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M4.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M5.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6_Tortuosidade.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_1VetorConexoes.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_2VetoresConexoes.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_MatrizConexoes.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao_EST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao_WEST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Tipo.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao_EST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao_WEST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_EST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_WEST.cpp
+AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Tipo.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.cpp
@@ -254,3 +258,4 @@ add_library (ldsc STATIC
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.cpp
   Tempo/CTime.cpp
 )
+

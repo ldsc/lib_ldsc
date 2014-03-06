@@ -62,7 +62,6 @@ void CObjetoGrafo_1VetorConexoes::DeletarConexao ( unsigned int link )
  *    @see    :
  *    @param  : unsigned int indiceObjetosDeletados
  *    @return : void
- *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
 bool CObjetoGrafo_1VetorConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
@@ -124,5 +123,5 @@ ostream & operator<< ( ostream & out, CObjetoGrafo_1VetorConexoes & s )
     @see    :
     @param  : istream& is, CObjetoGrafo_1VetorConexoes& s
     @return : istream&
-    @todo   : implementar esta função.
 */
+

@@ -38,6 +38,40 @@ Desenvolvido por:
  * @defgroup HCObjetoGrafo
  */
 
+/// Enumeração para os diferentes tipos de grafo.
+/// @enum: ETipoGrafo
+// Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+#ifndef ETipoObjetoGrafo_
+#define ETipoObjetoGrafo_
+enum class ETipoObjetoGrafo : uint8_t {
+	ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
+	ObjetoGrafo_1VetorConexoes,
+	ObjetoGrafo_2VetoresConexoes,
+	ObjetoGrafo_MatrizConexoes,
+
+	ObjetoRede,                   // Objetos da hierarquia de objetos da rede
+	ObjetoRede_Ligacao,
+	ObjetoRede_Ligacao_CENTER,
+	ObjetoRede_Ligacao_EST,
+	ObjetoRede_Ligacao_WEST,
+	ObjetoRede_Sitio,
+	ObjetoRede_Sitio_CENTER,
+	ObjetoRede_Sitio_EST,
+	ObjetoRede_Sitio_WEST,
+// 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
+
+	ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
+	ObjetoEsqueleto_Ligacao,
+	ObjetoEsqueleto_Ligacao_CENTER,
+	ObjetoEsqueleto_Ligacao_EST,
+	ObjetoEsqueleto_Ligacao_WEST,
+	ObjetoEsqueleto_Sitio,
+	ObjetoEsqueleto_Sitio_CENTER,
+	ObjetoEsqueleto_Sitio_EST,
+	ObjetoEsqueleto_Sitio_WEST
+};
+#endif
+
 // ===============================================================================
 // Documentacao Classe: CObjetoGrafo
 // ===============================================================================
@@ -61,7 +95,7 @@ Desenvolvido por:
  * @todo:    implementar Read().
  * @todo     implementar sobrecarga << e >>.
  * @ingroup  HCObjetoGrafo
- * @todo Transformar template T para tipo rótulo (unsigned short, unsigned int, unsigned long,unsigned long long)
+ * @todo Criar template T para tipo rótulo (unsigned short, unsigned int, unsigned long,unsigned long long)
 */
 class CObjetoGrafo {
 // --------------------------------------------------------------Atributos
@@ -71,34 +105,6 @@ public:
     * O rótulo é usado para armazenar o objeto em disco, e para localizar o objeto, seus links e referências.
    */
    unsigned int rotulo {0};
-
-   /// Enumeração para os diferentes tipos de grafo.
-   /// @enum: ETipoGrafo
-   // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
-   enum class ETipo : uint8_t {
-      ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
-      ObjetoGrafo_1VetorConexoes,
-      ObjetoGrafo_2VetoresConexoes,
-      ObjetoGrafo_MatrizConexoes,
-	  
-      ObjetoRede,                   // Objetos da hierarquia de objetos da rede
-      ObjetoRede_Ligacao,
-      ObjetoRede_Ligacao_EST,
-      ObjetoRede_Ligacao_WEST,
-      ObjetoRede_Sitio,
-      ObjetoRede_Sitio_EST,
-      ObjetoRede_Sitio_WEST,
-// 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
-	  
-      ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
-      ObjetoEsqueleto_Ligacao,
-      ObjetoEsqueleto_Ligacao_EST,
-      ObjetoEsqueleto_Ligacao_WEST,
-      ObjetoEsqueleto_Sitio,
-      ObjetoEsqueleto_Sitio_EST,
-      ObjetoEsqueleto_Sitio_WEST,
-// 	  ObjetoEsqueleto_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
-   };
 
 // -------------------------------------------------------------Construtor
 /// Construtor
@@ -122,14 +128,13 @@ public:
    ///  enum class ETipoContorno : unsigned char
    ///  { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
    /// @return o número (identificação) do contorno ao qual esta associado
-   /// @todo: Com a implementação de ETipo pode ser eliminada?
    virtual CContorno::ETipoContorno Contorno () const  {
       return CContorno::ETipoContorno::CENTER;
    }
 
    /// Retorna a enumeração com o tipo de objeto do grafo. Sobrescrita nas herdeiras.
-   virtual ETipo Tipo () const  {
-      return ETipo::ObjetoGrafo;
+   virtual ETipoObjetoGrafo Tipo () const  {
+      return ETipoObjetoGrafo::ObjetoGrafo;
    }
 
    /**

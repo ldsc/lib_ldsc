@@ -6,7 +6,7 @@ Ramo: AnaliseImagem/Simulacao
 @Desenvolvido_por:   
 				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:        André Duarte Bueno
-@file:          CGra_3Dby2D_M6.cpp
+@file:          CGrafo_3Dby2D_M6.cpp
 @begin:         Sat Sep 16 2000
 @copyright:     (C) 2000 by André Duarte Bueno
 @email:         andreduartebueno@gmail.com

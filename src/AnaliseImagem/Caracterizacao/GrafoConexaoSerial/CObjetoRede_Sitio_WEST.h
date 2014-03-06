@@ -56,7 +56,7 @@ public:
 
 // ----------------------------------------------------------------Métodos
      /// Retorna o tipo de objeto do grafo.
-     virtual ETipo Tipo () const  override { return ETipo::ObjetoRede_Sitio_WEST;  }
+     virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;  }
 
      /// Retorna o tipo de contorno a que pertence
      inline virtual CContorno::ETipoContorno Contorno () const override  {

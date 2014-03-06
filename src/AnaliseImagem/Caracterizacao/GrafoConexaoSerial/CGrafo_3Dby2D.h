@@ -195,7 +195,11 @@ public:
       * @brief  Transforma uma propriedade em outra (ex: raio Hidraulico em condutancia).
       * Tem mais de uma herdeira. Ou seja a conversão raioHidraulico->condutancia
       * é feita de diferentes formas.
-      * @todo: verificar possibilidade de receber estes parametros no construtor da classe?
+	  * Note que CalcularCondutancias muda de acordo com o problema em questão;
+	  * aqui, o problema é a condutância de objetos relacionados a imagens,
+	  * então recebe parâmetros da imagem e do fluido.
+	  * Em outras hierarquias, outros tipos de grafos, CalcularCondutancias receberá
+	  * outros parâmetros.
      */
      virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
                                          unsigned long int _fatorAmplificacao ) {};

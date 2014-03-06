@@ -30,7 +30,6 @@ Desenvolvido por:
  * @brief Representa um objeto sítio de um esqueleto.
  * @author:  André Duarte Bueno
  * @see:     grafos
- * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 
@@ -47,7 +46,7 @@ public:
 // ----------------------------------------------------------------Métodos
 
    /// Retorna o tipo de objeto do grafo.
-   virtual ETipo Tipo () const  override { return ETipo::ObjetoEsqueleto_Sitio;   }
+   virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoEsqueleto_Sitio;   }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

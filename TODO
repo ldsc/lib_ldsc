@@ -24,6 +24,68 @@ AUTHORS		Lista dos autores da libldsc.
 ===============================================================================
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> feature grafoconexaoserial
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Específico feature->atualizacao_grafo_conexão_serial]
+======================================================
+[X] - Reorganizar hierarquia de objetos do grafo:  
+CObjetosGrafo     (rotulo)
+CObjetosRede      (propriedade,  conexao,  condutancia)
+CObjetosEsqueleto ( cx, cy, cz)
+[X] - Renomear diversas variáveis e funções.
+[X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
+[X] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
+[ ] - o arquivo CObjetoRede.h de ter
+[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial
+[] - Fazer funcionar
+[] - Reorganizar estrutura diretorios
+/EstruturaDados 
+/EstruturaDados/Grafo 
+/EstruturaDados/Rede
+/EstruturaDados/Esqueleto 
+[] - Criado #define OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
+[] - Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
+[] - 
+[] - 
+[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
+[] - @todo: trocar assert? usar static_assert de C++11! ou try..catch?
+[] - Transformar Vector em template.
+[] - Sobrecarregar operador << ??; 
+[] - Implementar versão que recebe uma ostream. 
+Ex: grafo->Write();    //  Usa nome arquivo para salvar grafo
+Ex: grafo->Write(fout);//  Salva grafo em fout
+Ex: fout << grafo;     // Sobrecarga
+[] - renomear Write -> Salvar; ex: grafo->Salvar();
+[] - renomear Read  -> Ler; ex: grafo->Ler();
+    @todo: transformar CVetor em template!
+[] - Diretórios?
+Caracterizacao/GrafoConexaoSerial
+Caracterizacao/RedePercolacao
+Depois:
+Caracterizacao/Grafo/ CObjetoGrafo CGrafo
+Caracterizacao/Rede/  CObjetoRede  CRede
+Caracterizacao/Esqueleto/  CObjetoRede  CEsqueleto
+GrafoConexaoSerial
+[] trocar unsigned int por uint32_t
+[] - otimização,  testar uso de <list> no lugar de vector.
+[] - Terminar montar hierarquia considerando classes derivadas EST WEST
+[] - Revisar todo cálculo na hierarquia de objetos CGrafo
+[] -  Testar
+
+[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
+métodos virtuais (pode ter herança).
+
+[] -   @todo:    Criar classes 
+  CReta -> CReta(a,b); Calcula y = Go(x); Calcula y = Go(x,a,b);
+  CSegmentoReta (prova c++)
+  using CEstimativaValorBaseadaValorContorno = CSegmentoReta;
+  no grafo substituir CContornoCentro por CContorno, e
+  usar criar CEstimativaValorBaseadaValorContorno.
+??  
+long double EstimativaValorBaseadaValorContorno(long double a,long double b){}
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
                                TODO-> TESE ALUNOS
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 [Específico tese Leandro]
@@ -306,55 +368,44 @@ e está dando problema ao salvar a imagem tons de cinza em formato binário.
 [ ] - Acrescentar códigos interesssantes de Imago
 [ ] - Acrescentar códigos interesssantes de SAIL
 
+Tempo compilação:
+==================
+
+Teste 1: sem cache, tudo zerado
+make -j 1
+
+make -j 4
+
+Teste 2: com cache
+time make 
+  real	0m13.669s
+  user	0m8.117s
+  sys	0m4.529s
+
+make -j 4
+  real	0m5.118s
+  user	0m6.806s
+  sys	0m3.984s
+
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-                               TODO-> feature grafoconexaoserial
+TODO-> Comparativo: autotools x cmake x ninja x scons
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
-[Específico feature->atualizacao_grafo_conexão_serial]
-======================================================
-[X] - Reorganizar hierarquia de objetos do grafo:  
-CObjetosGrafo     (rotulo)
-CObjetosRede      (propriedade,  conexao,  condutancia)
-CObjetosEsqueleto ( cx, cy, cz)
-[X] - Renomear diversas variáveis e funções.
-[X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
-[x] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
-[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial
-[] - Fazer funcionar
-[] - Reorganizar estrutura diretorios
-/EstruturaDados 
-/EstruturaDados/Grafo 
-/EstruturaDados/Rede
-/EstruturaDados/Esqueleto 
-[] - 
-[] - 
-[] - 
-[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
-[] - @todo: trocar assert? usar static_assert de C++11! ou try..catch?
-[] - Transformar Vector em template.
 
-[] - Diretórios?
-Caracterizacao/GrafoConexaoSerial
-Caracterizacao/RedePercolacao
-Depois:
-Caracterizacao/Grafo/ CObjetoGrafo CGrafo
-Caracterizacao/Rede/  CObjetoRede  CRede
-Caracterizacao/Esqueleto/  CObjetoRede  CEsqueleto
-GrafoConexaoSerial
-[] trocar unsigned int por uint32_t
-[] - otimização,  testar uso de <list> no lugar de vector.
-[] - Terminar montar hierarquia considerando classes derivadas EST WEST
-[] - Revisar todo cálculo na hierarquia de objetos CGrafo
-[] -  Testar
-
-[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
-métodos virtuais (pode ter herança).
-
-[] -   @todo:    Criar classes 
-  CReta -> CReta(a,b); Calcula y = Go(x); Calcula y = Go(x,a,b);
-  CSegmentoReta (prova c++)
-  using CEstimativaValorBaseadaValorContorno = CSegmentoReta;
-  no grafo substituir CContornoCentro por CContorno, e
-  usar criar CEstimativaValorBaseadaValorContorno.
-??  
-long double EstimativaValorBaseadaValorContorno(long double a,long double b){}
+  An important distinction must be made between who uses the tools. 
+  Cmake is a tool that must be used by the user when building the software. 
+  The autotools are used to generate a distribution tarball that can be used to build the 
+  software using only the standard tools available on any SuS compliant system. In other words, 
+  if you are installing software from a tarball that was built using the autotools, 
+  you are not using the autotools. On the other hand, if you are installing software that uses Cmake, 
+  then you are using Cmake and must have it installed to build the software.
+  
+  The great majority of users do not need to have the autotools installed on their box. 
+  Historically, much confusion has been caused because many developers distribute 
+  malformed tarballs that force the user to run autoconf to regenerate the configure script,
+  and this is a packaging error. More confusion has been caused by the fact that most 
+  major linux distributions install multiple versions of the autotools, when they should not
+  be installing any of them by default. Even more confusion is caused by developers attempting
+  to use a version control system (eg cvs, git, svn) to distribute their software rather than 
+  building tarballs.
+  

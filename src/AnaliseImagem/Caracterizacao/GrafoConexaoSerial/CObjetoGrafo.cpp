@@ -34,7 +34,6 @@ using namespace std;
  *    @param  : os objetos marcados para deleção tem rótulo = deletado
  *    @param  : o vetor das conexões.
  *    @return : bool
- *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 */
 bool CObjetoGrafo::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoGrafo*>& conexao )
 {
@@ -50,7 +49,7 @@ bool CObjetoGrafo::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vect
 
      // Redimensiona o vetor das conexões (as que apontam para objetos deletados são eliminadas)
      conexao.resize ( indice_rotulo_valido );
-     /// @todo: aqui pode apagar, usando erase, os objetos além do size().
+     /// @todo: aqui pode apagar, usando erase, os objetos além do size(). Otimiza memória.
      return 1;
 }
 

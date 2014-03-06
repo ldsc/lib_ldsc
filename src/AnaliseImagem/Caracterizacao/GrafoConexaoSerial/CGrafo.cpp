@@ -45,6 +45,10 @@
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.h>
 #endif
 
+#ifndef CObjetoRede_Tipo_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Tipo.h>
+#endif
+
 #ifndef TCMatriz2D_H
 #include <Matriz/TCMatriz2D.h>
 #endif
@@ -67,9 +71,6 @@ using namespace std;
 			  Formato andre(old): esquerda(0) centro(1) direita(2)
 			  Formato novo: veja CContorno::ETipoContorno
 	@return : Retorna um ponteiro para um sítio novo.
-
-	@todo  Criar enumeração para objetos do grafo, receber como parâmetro o tipo do objeto.
-	@todo  Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 */
 CObjetoRede* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
 {
@@ -92,7 +93,7 @@ CObjetoRede* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
       data = new CObjetoRede_Sitio_CENTER ();
       break;
   }
-  assert (data); /// @todo: Implementar bloco try..catch para controle das alocações? static_assert?
+  assert (data); 
   return data;
 }
 
@@ -121,11 +122,6 @@ CObjetoRede* CGrafo::CriarObjetoGrafo (CContorno::ETipoContorno tipoContorno)
     @see    : grafos
     @param  : Nome do arquivo de disco (string)
     @return : void
-    
-    @todo sobrecarregar operador << ??; 
-    @todo Write() deve chamar operador;
-    @todo implementar versão que recebe uma ostream. 
-          Ex: grafo->Write(fout); ou fout <<grafo->Write;
 */
 void CGrafo::Write ()
 {
@@ -158,7 +154,6 @@ void CGrafo::Write ()
     @param  : Objeto do tipo CGrafo.
     @return : ostream&
     @test   : Testar/verificar os diferentes tipos de arquivos de grafo gerados.
-    @todo   : O nome do grafo defe indicar o tipo de grafo(nome classe que o gerou).
 */
 ostream & operator<< (ostream & os, CGrafo & grafo)
 {

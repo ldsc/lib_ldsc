@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CGra_3Dby2D_M6.h
+@file       CGrafo_3Dby2D_M6.h
 @begin      Oct 20 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -57,8 +57,8 @@ public:
   long double Tortuosidade() { return tortuosidade; }
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CGra_3Dby2D_M6& obj);
-//       friend istream& operator>> (istream& is, CGra_3Dby2D_M6& obj);
+//       friend ostream& operator<< (ostream& os, CGrafo_3Dby2D_M6& obj);
+//       friend istream& operator>> (istream& is, CGrafo_3Dby2D_M6& obj);
   
 };
 #endif

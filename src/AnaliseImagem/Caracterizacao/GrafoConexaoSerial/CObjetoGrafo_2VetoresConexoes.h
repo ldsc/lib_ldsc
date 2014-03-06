@@ -80,8 +80,8 @@ public:
 
 // ----------------------------------------------------------------Métodos
    /// Retorna o tipo de objeto do grafo.
-   virtual ETipo Tipo () const  override {
-      return ETipo::ObjetoGrafo_2VetoresConexoes;
+   virtual ETipoObjetoGrafo Tipo () const  override {
+      return ETipoObjetoGrafo::ObjetoGrafo_2VetoresConexoes;
    }
 
    /**

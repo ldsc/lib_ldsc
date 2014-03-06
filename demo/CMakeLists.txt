@@ -28,7 +28,7 @@ add_executable(bin/criarBola
    Geometria/geometria.cpp)
 target_link_libraries(bin/criarBola ldsc)
 
-add_executable(Grafo/Permeabilidade_GrafoConexaoSerial
-   Grafo/CGrafoTeste.cpp 
+add_executable(bin/grafo
+   Grafo/CGrafoTeste.cpp  
    Grafo/grafo.cpp)
-target_link_libraries(Grafo/Permeabilidade_GrafoConexaoSerial ldsc)
+target_link_libraries(bin/grafo ldsc)

@@ -208,24 +208,24 @@ CGrafo_3Dby2D_M3::CalcularCondutancias ( long double _viscosidade, long double _
          raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
 
          // CALCULO DA CONDUTANCIA DO OBJETO LIGACAO->POISELLE
-         if ( objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao
-               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_EST
-               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_WEST
-               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao
-               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST
-               or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST ) {
+         if ( objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST ) {
                // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
                dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
                // Converte a propriedade do objeto raio hidraulico para condutancia.
                objeto[k]->propriedade = ( variavelAuxiliar * dH * dH * dH * dH );
             }
          // CALCULO DA CONDUTANCIA DO OBJETO SITIO->KOPLIK
-         else if ( objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao
-                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_EST
-                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoRede_Ligacao_WEST
-                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao
-                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST
-                   or objeto[k]->Tipo() == CObjetoGrafo::ETipo::ObjetoEsqueleto_Ligacao_EST ) {
+         else if ( objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST ) {
                /// @todo: Trocar as duas linhas abaixo pela equação de KOPLIK
                // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
                dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
@@ -295,22 +295,22 @@ CGrafo_3Dby2D_M3::EliminarCondutanciasRepetidas ()
    cerr << "NumeroTotal de links deletados= " << totalLinksDeletados << endl;
 }
 
-// -------------------------------------------------------------------------
-// Função:       CriarObjetoGrafo
-// -------------------------------------------------------------------------
-/** @short  : 	Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado.
- * @author :	André Duarte Bueno
- * @see    :	grafos
- * @param  :       Inteiro identificando o tipo de sítio a ser criado.
- *       Formato andre: esquerda(0) centro(1) direita(2)
- *       Formato Liang: esquerda(1) centro(0) direita(2)
- * @return : 	Retorna um ponteiro para um sítio novo alocado.
-*/
-CObjetoRede*
-CGrafo_3Dby2D_M3::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
-{
-   CObjetoRede* data;
-
+// // -------------------------------------------------------------------------
+// // Função:       CriarObjetoGrafo
+// // -------------------------------------------------------------------------
+// /** @short  : 	Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado.
+//  * @author :	André Duarte Bueno
+//  * @see    :	grafos
+//  * @param  :       Inteiro identificando o tipo de sítio a ser criado.
+//  *       Formato andre: esquerda(0) centro(1) direita(2)
+//  *       Formato Liang: esquerda(1) centro(0) direita(2)
+//  * @return : 	Retorna um ponteiro para um sítio novo alocado.
+// */
+// CObjetoRede*
+// CGrafo_3Dby2D_M3::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
+// {
+//    CObjetoRede* data;
+// 
 //    switch ( tipoContorno ) {
 //       case CContorno::ETipoContorno::CENTER:
 //          data = new CObjetoRede_CC_Sitio ();
@@ -328,27 +328,9 @@ CGrafo_3Dby2D_M3::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
 //          data = new CObjetoRede_CC_Sitio ();
 //          break;
 //       }
-   switch ( tipoContorno ) {
-      case CContorno::ETipoContorno::CENTER:
-         data = new CObjetoRede_Sitio_CENTER (); // o mesmo que CObjetoRede_Sitio
-         break;
-
-      case CContorno::ETipoContorno::WEST:
-         data = new CObjetoRede_Sitio_WEST ();
-         break;
-
-      case CContorno::ETipoContorno::EST:
-         data = new CObjetoRede_Sitio_EST ();
-         break;
-
-      default:
-         data = new CObjetoRede_Sitio_CENTER ();
-         break;
-      }
-
-   assert ( data );
-   return data;
-}
+//    assert ( data );
+//    return data;
+// }
 
 // -------------------------------------------------------------------------
 // Função:               SetarMatrizAVetorB

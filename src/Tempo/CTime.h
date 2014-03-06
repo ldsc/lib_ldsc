@@ -1,4 +1,4 @@
-#if !defined(CTime_h)
+#ifndef CTime_h
 #define CTime_h
 
 /*
@@ -66,7 +66,7 @@ class CTime
   /// Hora em que a função iniciou.
 //  std::chrono::high_resolution_clock inicio;
 //  std::chrono::milliseconds	inicio;
-  decltype(std::chrono::high_resolution_clock::now()) inicio;
+  decltype(std::chrono::high_resolution_clock::now()) inicio {std::chrono::high_resolution_clock::now()};
 
   // Métodos
  public:

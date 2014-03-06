@@ -31,7 +31,6 @@ using namespace std;
 // -------------------------------------------------------------------------
 /** Recebe um objA e o conecta a this. Note que seta o valor da condutancia
  * como sendo a propriedade do objeto ao qual estou conectado (ex, raio hidraulico).
- * @todo: Note que isto pode permitir algum tipo de otimização.
     @author : André Duarte Bueno
     @see    :
     @param  : objeto a quem será conectado
@@ -215,8 +214,7 @@ ostream& CObjetoRede::Write ( ostream& out ) const
    out.setf ( ios::right );
 
    // Tipo de contorno
-   /// @todo trocar por tipo ojeto grafo!
-   out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
    // Rótulo de this
    out << ' ' << setw ( 5 ) << rotulo;
@@ -267,7 +265,6 @@ ostream& operator<< ( ostream& out, CObjetoRede& s )
     @see    :
     @param  : istream& is, CObjetoRede& s
     @return : istream&
-    @todo   : implementar esta função.
 */
 
 /*istream& operator>> (istream& is, CObjetoRede& s)
@@ -352,7 +349,6 @@ ostream& operator<< ( ostream& out, CObjetoRede& s )
     @see    :
     @param  : long double
     @return : long double
-    @todo   : verificar forma de cálculo. 
 */
 long double CObjetoRede::Go ( long double /*d */ )
 {
@@ -418,7 +414,6 @@ long double CObjetoRede::Fluxo () const
 //  *    @see    :
 //  *    @param  : unsigned int indiceObjetosDeletados
 //  *    @return : void
-//  *    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
 // */
 // bool CObjetoRede::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoRede*>& conexao )
 // {

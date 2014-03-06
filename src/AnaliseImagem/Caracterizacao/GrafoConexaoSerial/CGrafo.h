@@ -29,6 +29,8 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.h>
+// Novo, permite criar CObjetoRede_Tipo que não tem métodos virtais.
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Tipo.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Matriz/TCMatriz2D.h>
 #include <AnaliseImagem/Matriz/CVetor.h>
@@ -46,7 +48,7 @@ Desenvolvido por:
  * Um CGrafo é composto de uma lista de objetos do tipo CObjetoRede (derivado de CObjetoGrafo).
  * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoRede.
  * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e
- * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo 
+ * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo
  *
  * Exemplo:
  * Determinação do grafo de uma imagem 3D:
@@ -69,11 +71,6 @@ Desenvolvido por:
  * Note ainda que se o objeto tiver a informação do centro de massa COSitioCM então temos
  * uma espécie de esqueleto, ou seja, objetos com propriedades conectados e
  * com informação das coordenadas/posição.
- *
- * @todo: Reformular a hierarquia de objetos do grafo e a hierarquia de grafos de forma
- * a representar mais corretamente os conceitos teóricos.
- * Note que antes criava vetor de CObjetoGrafo e agora CObjetoRede pois o grafo de conexão serial
- * requer o uso de CObjetoRede. 
  *
  * RESUMO DAS CLASSES
  * CGrafo
@@ -213,8 +210,12 @@ protected:
 
 public:
    /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
-   /// @todo: trocar por unique_ptr shared_ptr?
-   std::vector<CObjetoRede*> objeto ;
+   /// @todo: trocar por unique_ptr shared_ptr
+#ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+   std::vector <CObjetoRede_Tipo*> objeto;  //  versão sem polimorfismo,  +rápida.
+#else
+   std::vector <CObjetoRede*> objeto;   // versão com polimorfismo,  economiza memória.
+#endif
 
    // -------------------------------------------------------------Construtor
    /// Constroi o grafo, recebe um nome de arquivo de disco.
@@ -223,8 +224,8 @@ public:
    // --------------------------------------------------------------Destrutor
    /// Destroi o objeto, como o grafo é o proprietário dos sítios deve eliminá-los.
    virtual ~CGrafo()  {
-      for ( auto elemento :  objeto ) {
-            delete elemento;
+      for ( auto objeto_i :  objeto ) {
+            delete objeto_i;
          }
    }
 
@@ -239,17 +240,19 @@ protected:
     * de acordo com o modelo.
     * Esta função NÃO deve ser movida para hierarquia de objetos grafo, pois muda
     * de acordo com o tipo de grafo!
-    *
-    * @todo: esta sendo sobrescrita nas classes herdeiras,
-    * para juntar tudo numa função única, precisa criar na hierarquia de objetos
-    * a enumeração ETipoObjetoGrafo
-    * e então juntar tudo numa função estática única (ver livro padrões projeto).
-    * Note que, neste caso, terá de ser movida para dentro hierarquia de objetos do grafo.
-    * Note ainda que na hora de chamar CriarObjetoGrafo nas classes herdeiras terás
-    * de passar o tipo correto do objeto do grafo.
-    * NomePadrão: CObjetoRede::CriarObjeto -> criar objeto da hierarquia grafo.
    */
    virtual CObjetoRede* CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno );
+
+   /**
+    * @brief Função usada para criar os objetos, todos do tipo CObjetoRede_Tipo
+	*que não tem métodos virtuais, sendo + rápido!
+    * Recebe o tipo de objeto a ser criado.
+	*/
+    virtual CObjetoRede_Tipo* CriarObjetoGrafo ( ETipoObjetoGrafo tipoObjeto ) {
+      CObjetoRede_Tipo* data = new CObjetoRede_Tipo ( tipoObjeto );
+      assert ( data );
+      return data;
+   };
 
    // ///Deleta um objeto do grafo
    // Deleta consideranto a posição no vetor.
@@ -280,8 +283,6 @@ public:
     * @brief Salva o grafo e seus objetos em disco.
     * Salva a informação do número de objetos e os dados de cada objeto em disco
     * chamando Write de cada objeto.
-    * @todo: renomear Write -> Salvar; ex: grafo->Salvar();
-    * @todo: renomear Read  -> Ler; ex: grafo->Ler();
     */
    virtual void Write();
 
@@ -331,3 +332,4 @@ public:
 std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 // istream& operator>> (istream& is, CGrafo& obj);
 #endif
+

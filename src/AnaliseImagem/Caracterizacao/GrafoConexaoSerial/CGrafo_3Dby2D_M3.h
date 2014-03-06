@@ -90,7 +90,7 @@ protected:
      virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
      /// Redefinida,  retorna um CObjetoRede_CC_Sitio ou derivado
-     virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
+     //virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
 
      // Função Go
      // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);

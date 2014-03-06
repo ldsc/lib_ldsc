@@ -62,7 +62,6 @@ using namespace std;
     @see    : CPermabilidade
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
-    @todo    Verificar uma forma de eliminar a dependencia destes parâmetros.
 */
 void CGrafo_3Dby2D_M2::CalcularCondutancias (long double _viscosidade, long double _dimensaoPixel, 
 				  unsigned long int _fatorAmplificacao)

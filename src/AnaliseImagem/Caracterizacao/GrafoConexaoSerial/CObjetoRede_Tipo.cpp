@@ -31,17 +31,16 @@ using namespace std;
 // -------------------------------------------------------------------------
 /** Recebe um objA e o conecta a this. Note que seta o valor da condutancia
  * como sendo a propriedade do objeto ao qual estou conectado (ex, raio hidraulico).
- * @todo: Note que isto pode permitir algum tipo de otimização.
     @author : André Duarte Bueno
     @see    :
     @param  : objeto a quem será conectado
     @return : void
 */
-inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* obj, CObjetoRede_Tipo* )
-{
-   this->conexao.push_back ( obj );
-   this->condutancia.push_back ( obj->propriedade );
-}
+// inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* )
+// {
+//    this->conexao.push_back ( objA );
+//    this->condutancia.push_back ( objA->propriedade );
+// }
 
 // -------------------------------------------------------------------------
 // Função:               Conectar
@@ -51,11 +50,11 @@ inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* obj, CObjetoRede_Tipo
 	* e o inclue na lista de conexões. 
 	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
 */
-inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _condutancia )
-{
-   this->conexao.push_back ( objA );
-   this->condutancia.push_back ( _condutancia );
-}
+// inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _condutancia )
+// {
+//    this->conexao.push_back ( objA );
+//    this->condutancia.push_back ( _condutancia );
+// }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConexao
@@ -69,14 +68,14 @@ inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _co
   Nota: o código abaixo pode deixar o processo lento se o número de conexões foram
   grande e se este método for muito chamado! Pensar em usar <list>
 */
-inline void CObjetoRede_Tipo::DeletarConexao ( unsigned int link )
-{
-   // Deleta a conexão
-   this->conexao.erase ( conexao.begin() + link );
-
-   // e, adicionalmente, deleta a condutancia associada ao objeto link
-   this->condutancia.erase ( condutancia.begin () + link );
-}
+// inline void CObjetoRede_Tipo::DeletarConexao ( unsigned int link )
+// {
+//    // Deleta a conexão
+//    this->conexao.erase ( conexao.begin() + link );
+// 
+//    // e, adicionalmente, deleta a condutancia associada ao objeto link
+//    this->condutancia.erase ( condutancia.begin () + link );
+// }
 
 /** Marca e deleta os links para objetos invalidados (marcados para deleção).
   @short  : Deleta a conexao de um ramo morto
@@ -209,13 +208,12 @@ Lista_dos_rotulos_das_conexões
 @param  : Recebe uma referencia para uma ostream
 @return : void
 */
-ostream& CObjetoRede_Tipo::Write ( ostream& out ) const
+/*inline*/ ostream& CObjetoRede_Tipo::Write ( ostream& out ) const
 {
    out.setf ( ios::right );
 
    // Tipo de contorno
-   /// @todo trocar por tipo ojeto grafo!
-   out << setw ( 5 ) << static_cast<uint8_t> ( tipo ) << '\n';
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
    // Rótulo de this
    out << ' ' << setw ( 5 ) << rotulo;
@@ -266,7 +264,6 @@ ostream& operator<< ( ostream& out, CObjetoRede_Tipo& s )
     @see    :
     @param  : istream& is, CObjetoRede_Tipo& s
     @return : istream&
-    @todo   : implementar esta função.
 */
 
 /*istream& operator>> (istream& is, CObjetoRede_Tipo& s)
@@ -351,7 +348,6 @@ ostream& operator<< ( ostream& out, CObjetoRede_Tipo& s )
     @see    :
     @param  : long double
     @return : long double
-    @todo   : verificar forma de cálculo. 
 */
 long double CObjetoRede_Tipo::Go ( long double /*d */ )
 {

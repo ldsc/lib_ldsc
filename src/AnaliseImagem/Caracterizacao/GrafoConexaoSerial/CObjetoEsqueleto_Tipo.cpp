@@ -50,7 +50,6 @@ ostream& CObjetoEsqueleto_Tipo::Write ( ostream& out ) const
     out.setf ( ios::right );
 
     // Tipo de contorno
-    /// @todo trocar por tipo ojeto grafo!
     out << setw ( 5 ) << static_cast<uint8_t> ( Tipo () ) << '\n';
 
     // Rótulo de this

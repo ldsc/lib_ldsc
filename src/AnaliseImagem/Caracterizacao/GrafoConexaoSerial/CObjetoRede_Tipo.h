@@ -34,10 +34,48 @@ Desenvolvido por:
 // #ifndef CObjetoGrafo_h
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.h>
 // #endif
+#ifndef CContorno_h
+#include <MetNum/Contorno/CContorno.h>
+#endif
 
 // Definição de CSMParametroSolver, classe base, herda x
 #ifndef CSMParametroSolver_h
 #include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
+#endif
+
+
+/// Enumeração para os diferentes tipos de grafo.
+/// @enum: ETipoGrafo
+// Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+#ifndef ETipoObjetoGrafo_
+#define ETipoObjetoGrafo_
+enum class ETipoObjetoGrafo : uint8_t {
+	ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
+	ObjetoGrafo_1VetorConexoes,
+	ObjetoGrafo_2VetoresConexoes,
+	ObjetoGrafo_MatrizConexoes,
+
+	ObjetoRede,                   // Objetos da hierarquia de objetos da rede
+	ObjetoRede_Ligacao,
+	ObjetoRede_Ligacao_CENTER,
+	ObjetoRede_Ligacao_EST,
+	ObjetoRede_Ligacao_WEST,
+	ObjetoRede_Sitio,
+	ObjetoRede_Sitio_CENTER,
+	ObjetoRede_Sitio_EST,
+	ObjetoRede_Sitio_WEST,
+// 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
+
+	ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
+	ObjetoEsqueleto_Ligacao,
+	ObjetoEsqueleto_Ligacao_CENTER,
+	ObjetoEsqueleto_Ligacao_EST,
+	ObjetoEsqueleto_Ligacao_WEST,
+	ObjetoEsqueleto_Sitio,
+	ObjetoEsqueleto_Sitio_CENTER,
+	ObjetoEsqueleto_Sitio_EST,
+	ObjetoEsqueleto_Sitio_WEST
+};
 #endif
 
 // ===============================================================================
@@ -50,7 +88,6 @@ Desenvolvido por:
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
- * @todo:    implementar operadores >>.
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoRede_Tipo : public CSMParametroSolver  {
@@ -68,7 +105,6 @@ public:
    /**
    * @brief Vetor de ponteiros para objetos do tipo CObjetoRede_Tipo.
    * Ou seja, ponteiros para objetos da hierarquia CObjetoRede_Tipo.
-   * @todo: verificar vantagens de trocar vector por list (teste desempenho).
    */
    std::vector < CObjetoRede_Tipo* >conexao;
 
@@ -77,42 +113,45 @@ public:
    */
    std::vector < long double > condutancia;
 
-   /// Enumeração para os diferentes tipos de grafo.
-   /// @enum: ETipoGrafo
-   // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
-   enum class ETipo : uint8_t {
-      ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
-      ObjetoGrafo_1VetorConexoes,
-      ObjetoGrafo_2VetoresConexoes,
-      ObjetoGrafo_MatrizConexoes,
-
-      ObjetoRede,                   // Objetos da hierarquia de objetos da rede
-      ObjetoRede_Ligacao,
-      ObjetoRede_Ligacao_EST,
-      ObjetoRede_Ligacao_WEST,
-      ObjetoRede_Sitio,
-      ObjetoRede_Sitio_EST,
-      ObjetoRede_Sitio_WEST,
-// 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
-
-      ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
-      ObjetoEsqueleto_Ligacao,
-      ObjetoEsqueleto_Ligacao_EST,
-      ObjetoEsqueleto_Ligacao_WEST,
-      ObjetoEsqueleto_Sitio,
-      ObjetoEsqueleto_Sitio_EST,
-      ObjetoEsqueleto_Sitio_WEST
-// 	  ObjetoEsqueleto_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
-   };
+// /// Enumeração para os diferentes tipos de grafo.
+// /// @enum: ETipoGrafo
+// // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
+// enum class ETipo : uint8_t {
+// 	ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
+// 	ObjetoGrafo_1VetorConexoes,
+// 	ObjetoGrafo_2VetoresConexoes,
+// 	ObjetoGrafo_MatrizConexoes,
+// 
+// 	ObjetoRede,                   // Objetos da hierarquia de objetos da rede
+// 	ObjetoRede_Ligacao,
+// 	ObjetoRede_Ligacao_CENTER,
+// 	ObjetoRede_Ligacao_EST,
+// 	ObjetoRede_Ligacao_WEST,
+// 	ObjetoRede_Sitio,
+// 	ObjetoRede_Sitio_CENTER,
+// 	ObjetoRede_Sitio_EST,
+// 	ObjetoRede_Sitio_WEST,
+// // 	  ObjetoRede_Tipo, Não faz sentido pois tem objeto tipo indicando o tipo
+// 
+// 	ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
+// 	ObjetoEsqueleto_Ligacao,
+// 	ObjetoEsqueleto_Ligacao_CENTER,
+// 	ObjetoEsqueleto_Ligacao_EST,
+// 	ObjetoEsqueleto_Ligacao_WEST,
+// 	ObjetoEsqueleto_Sitio,
+// 	ObjetoEsqueleto_Sitio_CENTER,
+// 	ObjetoEsqueleto_Sitio_EST,
+// 	ObjetoEsqueleto_Sitio_WEST
+// };
 
    /// Armazena a informação do tipo de objeto do grafo; desta forma não
    /// precisa de um monte de heranças e classes EST WEST.
    /// O problema é que aumenta o consumo de memória em um uint8_t
-   ETipo tipo;
+   ETipoObjetoGrafo tipo;
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-   CObjetoRede_Tipo ( ETipo _tipo ) {
+   CObjetoRede_Tipo ( ETipoObjetoGrafo _tipo ) {
       tipo = _tipo;
    }
 
@@ -121,21 +160,49 @@ public:
    /*virtual*/ ~ CObjetoRede_Tipo () = default;
 
 // ----------------------------------------------------------------Métodos
+   /// Enumeração para o tipo de contorno, por default assume CContorno::CENTER.
+   /// Esboço:
+   ///                         3
+   ///            5         0  1  2            6
+   ///                         4
+   ///                         NORTH
+   ///            FRONT WEST  CENTER  EST    BACK
+   ///                         SUL
+   /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
+   ///        ou seja, no código não usar conversão para unsigned char.
+   ///  enum class ETipoContorno : unsigned char
+   ///  { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
+   /// @return o número (identificação) do contorno ao qual esta associado
+   virtual CContorno::ETipoContorno Contorno () const  {
+      return CContorno::ETipoContorno::CENTER;
+   }
+
    /**
      * @brief Função nova que recebe um ponteiro para um CObjetoRede_Tipo,
      * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
     * Note que oculta versão que recebe CObjetoGrafo.
    */
-   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* objB = nullptr ) ;
+   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* objB = nullptr ) {
+      this->conexao.push_back ( objA );
+      this->condutancia.push_back ( objA->propriedade );
+   }
 
    /**
      * @brief Função nova que recebe um ponteiro para um CObjetoRede,
      * e o inclue na lista de conexões. O segundo parâmtro é a condutância.
    */
-   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, long double _condutancia );
-   
+   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, long double _condutancia ) {
+      this->conexao.push_back ( objA );
+      this->condutancia.push_back ( _condutancia );
+   }
+
    /// Deleta uma conexão.
-   inline /*virtual*/ void DeletarConexao ( unsigned int link ) ;
+   inline /*virtual*/ void DeletarConexao ( unsigned int link ) {
+      // Deleta a conexão
+      this->conexao.erase ( conexao.begin() + link );
+      // e, adicionalmente, deleta a condutancia associada ao objeto link
+      this->condutancia.erase ( condutancia.begin () + link );
+   }
 
    /**
     * @brief Deleta as conexões para objetos que foram marcados para deleção.
@@ -146,10 +213,10 @@ public:
    inline /*virtual*/ bool DeletarConexoesInvalidadas ( unsigned int deletado ) ;
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.
-   inline/*virtual*/ unsigned int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo() ;
+   /*inline*//*virtual*/ unsigned int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo() ;
 
    /// @brief Salva atributos do objeto em disco.
-   inline/*virtual*/ std::ostream& Write ( std::ostream& os ) const ;
+   /*inline*//*virtual*/ std::ostream& Write ( std::ostream& os ) const ;
 
    /**
      * @brief Função usada para calcular novo valor de x (ex: pressão).
@@ -180,7 +247,7 @@ public:
       return condutancia;
    }
    /// @brief Retorna o tipo de objeto.
-   ETipo  Tipo () const  {
+   ETipoObjetoGrafo  Tipo () const  {
       return tipo;
    }
 
@@ -198,7 +265,7 @@ public:
       condutancia = c;
    }
    /// @brief Seta vetor de condutâncias.
-   void Tipo ( ETipo _tipo ) {
+   void Tipo ( ETipoObjetoGrafo _tipo ) {
       tipo = _tipo;
    }
 

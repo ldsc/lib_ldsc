@@ -52,7 +52,7 @@ CGrafoContorno::CGrafoContorno (string _nomeArquivo, unsigned long int _numero_c
   for (unsigned long int i = 0; i < _numero_contornos; i++)
     {
       CContornoCentro *obj_cont = new CContornoCentro ();
-      assert (obj_cont); ///@todo: static_assert ou try..catch
+      assert (obj_cont); 
       contorno.push_back (obj_cont);
     }
 }

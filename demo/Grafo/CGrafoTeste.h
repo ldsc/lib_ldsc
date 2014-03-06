@@ -33,8 +33,12 @@ Desenvolvido por:
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #endif
 
+// #ifndef CMatriz3D_h
+// #include <Matriz/CMatriz3D.h>
+// #endif
+
 #ifndef CGrafo_3Dby2D_h
-#include <Grafo/CGrafo_3Dby2D.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
 #endif
 
 #ifndef CMFluido_h
@@ -45,11 +49,10 @@ Desenvolvido por:
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #endif
 
-// #include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo testar
 
 #ifndef CPermeabilidadeGrafo_h
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
-
 #endif
 
 /**
@@ -85,7 +88,7 @@ private:
     int SolicitarModeloGrafo();
 
     // Le imagem do disco // ok
-    CMatriz3D *LerImagemDisco(std::string nomeArquivo);
+    TCMatriz3D<int> *LerImagemDisco(std::string nomeArquivo);
 
     /// Solicita dados da imagem
     void SolicitarPropriedadesImagem(int &fatorAmplificacao, double &dimensaoPixel,
@@ -102,7 +105,7 @@ private:
     CGrafo_3Dby2D *CriarGrafo (int modelo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void DeterminarGrafo(CGrafo_3Dby2D * grafo, CMatriz3D * pm3D,
+    void DeterminarGrafo(CGrafo_3Dby2D * grafo, TCMatriz3D<int> * pm3D,
                         std::string nomeArquivo);
     void DeterminarGrafo(CGrafo_3Dby2D * grafo, std::string nomeArquivo);
 

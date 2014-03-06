@@ -71,8 +71,6 @@ void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned
     @see    :
     @param  : unsigned int link
     @return : void
-    @todo   : Pode-se otimizar o consumo de memória eliminando objetos deletados após resize.
-    @test   : testar!
 */
 bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {

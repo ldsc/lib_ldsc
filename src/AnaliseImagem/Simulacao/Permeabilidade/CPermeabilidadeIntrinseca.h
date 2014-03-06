@@ -28,8 +28,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Matriz/TCImagem3D.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
@@ -45,7 +45,7 @@ class CPermeabilidadeIntrinseca
 // --------------------------------------------------------------Atributos
 protected:
 	/// Ponteiro para CGrafo;
-	CGrafo_3Dby2D * grafo;
+	CGrafoConexaoSerial * grafo;
 
 	/// Ponteiro para solver (CSMDiagonalDominante);
 	CSMDiagonalDominante * solver;

@@ -18,7 +18,7 @@ TODO		Lista das tarefas a serem realizadas.
 BUGS		Lista de bugs relatados ou identificados.
 ChangeLog	Lista de modificaçoes da biblioteca.
 COPYING		Descreve as condições para cópia e instalação da libldsc
-		e a licençaa pública da GNU (Versão 2).
+		e a licença pública da GNU (Versão 2).
 AUTHORS		Lista dos autores da libldsc.
 
 ===============================================================================
@@ -35,16 +35,21 @@ CObjetosEsqueleto ( cx, cy, cz)
 [X] - Renomear diversas variáveis e funções.
 [X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
 [X] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
-[ ] - o arquivo CObjetoRede.h de ter
-[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial
+[X] - Criar #define OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
+[] - Criar CGrafo independente do GrafoConexaoSerial; 
+[] - Criar CRede independente do GrafoConexaoSerial; 
+[] - Criar CGrafoConexaoSerial como herdeiro de CRede; Manter o nome grafo pois foi o usado na tese.
+[] - Revisar os códigos e comentários do GrafoConexaoSerial;
+[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial as demais para CGrafoConexaoSerial_M1.
 [] - Fazer funcionar
 [] - Reorganizar estrutura diretorios
 /EstruturaDados 
 /EstruturaDados/Grafo 
 /EstruturaDados/Rede
 /EstruturaDados/Esqueleto 
-[] - Criado #define OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
+
+
 [] - Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 [] - 
 [] - 
@@ -408,4 +413,6 @@ TODO-> Comparativo: autotools x cmake x ninja x scons
   be installing any of them by default. Even more confusion is caused by developers attempting
   to use a version control system (eg cvs, git, svn) to distribute their software rather than 
   building tarballs.
+  
+EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.h.h
   

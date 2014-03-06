@@ -37,14 +37,14 @@ email:            andre@lmpt.ufsc.br
 #include <Tempo/CTime.h>
 
 // ------------------------------------------------------ Calculo do grafo
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M1.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M2.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M4.h>
-// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M5.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6_Tortuosidade.h>
+#include <EstruturaDados/CRedeContorno.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M1.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M2.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M4.h>
+// #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.h>
 #include <Base/COperacao.h>
 
 // -----------------------------------------------Calculo da permeabilidade
@@ -146,7 +146,7 @@ CGrafoTest::Permeabilidade (int tipoSolver)
     SolicitarPropriedadesImagem (fatorAmplificacao, dimensaoPixel, nomeArquivo);
     TCMatriz3D<int> *pm3D = LerImagemDisco (nomeArquivo);
 
-    CGrafo_3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
+    CGrafoConexaoSerial *grafo = CriarGrafo (modelo, nomeArquivo);
 
     DeterminarGrafo (grafo, pm3D, nomeArquivo);
 
@@ -183,7 +183,7 @@ CGrafoTest::Grafo ()
     int modelo = SolicitarModeloGrafo ();
     string nomeArquivo = SolicitarNomeImagem ();
     TCMatriz3D<int> *pm3D = LerImagemDisco (nomeArquivo);
-    CGrafo_3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
+    CGrafoConexaoSerial *grafo = CriarGrafo (modelo, nomeArquivo);
     DeterminarGrafo (grafo, pm3D, nomeArquivo);
     SalvarGrafo (grafo);
 
@@ -423,11 +423,11 @@ CGrafoTest::CriarSolver (int tipoSolver)
 Função: CriarGrafo
 -------------------------------------------------------------------------
 */
-CGrafo_3Dby2D *
+CGrafoConexaoSerial *
 CGrafoTest::CriarGrafo (int modelo, string nomeArquivo)
 {
     cout << "Criando objeto grafo...";
-    CGrafo_3Dby2D *grafo;
+    CGrafoConexaoSerial *grafo;
     {
         CTime *t = new CTime ("Tempo Criação do grafo = ", &cout);
         string nomeArquivoExt (nomeArquivo);
@@ -436,40 +436,40 @@ CGrafoTest::CriarGrafo (int modelo, string nomeArquivo)
         case 1:
             cout << "...Criando objeto CGrafo_3Dby2_M1...";
             nomeArquivoExt += ".mod1";
-            grafo = new CGrafo_3Dby2D_M1 (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M1 (nomeArquivoExt);
             break;
 
         case 2:
             cout << "...Criando objeto CGrafo_3Dby2_M2...";
             nomeArquivoExt += ".mod2";
-            grafo = new CGrafo_3Dby2D_M2 (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M2 (nomeArquivoExt);
             break;
 
         case 3:
             cout << "...Criando objeto CGrafo_3Dby2_M3...";
             nomeArquivoExt += ".mod3";
-            grafo = new CGrafo_3Dby2D_M3 (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M3 (nomeArquivoExt);
             break;
         case 4:
             cout << "...Criando objeto CGrafo_3Dby2_M4...";
             nomeArquivoExt += ".mod4";
-            grafo = new CGrafo_3Dby2D_M4 (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M4 (nomeArquivoExt);
             break;
 //               case 5:
 //                       cout<<"...Criando objeto CGrafo_3Dby2_M5...";
 //                       nomeArquivoExt +=  ".mod5";
-//                       grafo   = new CGrafo_3Dby2D_M5(nomeArquivoExt);
+//                       grafo   = new CGrafoConexaoSerial_M5(nomeArquivoExt);
 //                       break;
 
         case 6:
             cout << "...Criando objeto CGrafo_3Dby2_M6...";
             nomeArquivoExt += ".mod6";
-            grafo = new CGrafo_3Dby2D_M6_Tortuosidade (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M6_Tortuosidade (nomeArquivoExt);
             break;
         default:
             cout << "...Criando objeto CGrafo_3Dby2_M3...";
             nomeArquivoExt += ".mod3";
-            grafo = new CGrafo_3Dby2D_M3 (nomeArquivoExt);
+            grafo = new CGrafoConexaoSerial_M3 (nomeArquivoExt);
             break;
         };
         assert (grafo);
@@ -485,7 +485,7 @@ Função: DeterminarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::DeterminarGrafo (CGrafo_3Dby2D * grafo, TCMatriz3D<int> * pm3D, string nomeArquivo)
+CGrafoTest::DeterminarGrafo (CGrafoConexaoSerial * grafo, TCMatriz3D<int> * pm3D, string nomeArquivo)
 {
     CTime *t = new CTime ("Tempo Determinação do grafo = ", &cout);
     cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
@@ -500,7 +500,7 @@ Função: DeterminarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::DeterminarGrafo (CGrafo_3Dby2D * grafo, string nomeArquivo)
+CGrafoTest::DeterminarGrafo (CGrafoConexaoSerial * grafo, string nomeArquivo)
 {
     CTime *t = new CTime ("Tempo Determinação do grafo = ", &cout);
     cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
@@ -524,7 +524,7 @@ Função: SalvarGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::SalvarGrafo (CGrafo_3Dby2D * grafo)
+CGrafoTest::SalvarGrafo (CGrafoConexaoSerial * grafo)
 {
 //    cout << "\nGrafo salvo em path/nomeImagem.grafo.txt: " << endl;
 //     grafo->Write (grafo->NomeArquivo () + ".grafo.txt");
@@ -537,7 +537,7 @@ Função: CriarPermeabilidade
 -------------------------------------------------------------------------
 */
 CPermeabilidadeGrafo * CGrafoTest::CriarPermeabilidade  (CMFluido * fluido, CSMDiagonalDominante * solver,  // CSMDiagonalDominanteThreads* solver,
-        CGrafo_3Dby2D * grafo, TCMatriz3D<int> * pm3D, int fatorAmplificacao, double dimensaoPixel)
+        CGrafoConexaoSerial * grafo, TCMatriz3D<int> * pm3D, int fatorAmplificacao, double dimensaoPixel)
 {
     CPermeabilidadeGrafo * permeabilidade;
     {
@@ -639,7 +639,7 @@ void CGrafoTest::teste_solver()
 	// long double limiteErro = 1.0 / (float)le;
 
   // Criação dos objetos agregados
-  CGrafo_3Dby2D * 	grafo	;
+  CGrafoConexaoSerial * 	grafo	;
   CMFluido* fluido;
   CSMDiagonalDominante* solver;
   CPermeabilidadeGrafo* permeabilidade ;
@@ -934,7 +934,7 @@ CGrafoTest::Permeabilidade_By_ModelX (string nomeArquivo,
 
     CSMDiagonalDominante *solver = CriarSolver ();	// vai usar default=3
 
-    CGrafo_3Dby2D *grafo = CriarGrafo (modelo, nomeArquivo);
+    CGrafoConexaoSerial *grafo = CriarGrafo (modelo, nomeArquivo);
     // Determina o grafo passando o nome da imagem
 
     DeterminarGrafo (grafo, nomeArquivo);

@@ -11,35 +11,45 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao3D.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M1.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M2.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M4.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M5.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M6_Tortuosidade.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_1VetorConexoes.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_2VetoresConexoes.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoGrafo_MatrizConexoes.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao_EST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Ligacao_WEST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Tipo.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao_EST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Ligacao_WEST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_EST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Sitio_WEST.cpp
-AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Tipo.cpp
+
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_1VetorConexoes.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_2VetoresConexoes.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_MatrizConexoes.cpp
+
+  EstruturaDados/ObjetoRede/CObjetoRede.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_EST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_WEST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Tipo.cpp
+
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_EST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_WEST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_WEST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.cpp
+
+
+  EstruturaDados/CBaseGrafoRedeEsqueleto.cpp
+  EstruturaDados/CGrafo.cpp
+  EstruturaDados/CRede.cpp
+  EstruturaDados/CRedeContorno.cpp
+
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M1.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M2.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M4.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.cpp
+  AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.cpp
+
+  
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.cpp
@@ -258,4 +268,5 @@ AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoEsqueleto_Tipo.cpp
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.cpp
   Tempo/CTime.cpp
 )
+
 

@@ -37,8 +37,8 @@ Desenvolvido por:
 // #include <Matriz/CMatriz3D.h>
 // #endif
 
-#ifndef CGrafo_3Dby2D_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
+#ifndef CGrafoConexaoSerial_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #endif
 
 #ifndef CMFluido_h
@@ -102,21 +102,21 @@ private:
     // CSMDiagonalDominanteThreads* CriarSolver();
 
     /// Cria o grafo
-    CGrafo_3Dby2D *CriarGrafo (int modelo, std::string nomeArquivo);
+    CGrafoConexaoSerial *CriarGrafo (int modelo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void DeterminarGrafo(CGrafo_3Dby2D * grafo, TCMatriz3D<int> * pm3D,
+    void DeterminarGrafo(CGrafoConexaoSerial * grafo, TCMatriz3D<int> * pm3D,
                         std::string nomeArquivo);
-    void DeterminarGrafo(CGrafo_3Dby2D * grafo, std::string nomeArquivo);
+    void DeterminarGrafo(CGrafoConexaoSerial * grafo, std::string nomeArquivo);
 
     /// Determina o grafo
-    void SalvarGrafo(CGrafo_3Dby2D * grafo);
+    void SalvarGrafo(CGrafoConexaoSerial * grafo);
 
     /// Cria objeto permeabilidade
     CPermeabilidadeGrafo *CriarPermeabilidade
     (CMFluido * fluido, CSMDiagonalDominante * solver,
      // CSMDiagonalDominanteThreads* solver,
-     CGrafo_3Dby2D * grafo,
+     CGrafoConexaoSerial * grafo,
      TCMatriz3D<int> * pm3D,
      int fatorAmplificacao,
      double dimensaoPixel);

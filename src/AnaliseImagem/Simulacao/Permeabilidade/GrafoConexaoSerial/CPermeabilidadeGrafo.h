@@ -29,11 +29,11 @@ Desenvolvido por:
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
+#include <EstruturaDados/CRedeContorno.h>
 #include <Contorno/CContorno.h>
 #include <Contorno/CContornoCentro.h>
 
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 
 // ===============================================================================
 // Documentacao Classe: CPermeabilidadeGrafo
@@ -119,7 +119,7 @@ class CPermeabilidadeGrafo : public CPermeabilidade {
 protected:
      CMFluido *fluido; 				///< Objeto fluido
      CSMDiagonalDominante *solver; 		///< Objeto solver
-     CGrafo_3Dby2D *grafo; 				///< Objeto grafo
+     CGrafoConexaoSerial *grafo; 				///< Objeto grafo
 
 		unsigned long int nx;				///< Dimensão nx da imagem
 		unsigned long int  ny;				///< Dimensão ny da imagem
@@ -145,7 +145,7 @@ public:
      /// Construtor
      CPermeabilidadeGrafo ( CMFluido*&_fluido,
                             CSMDiagonalDominante  *&_solver,
-                            CGrafo_3Dby2D  *&_grafo,
+                            CGrafoConexaoSerial  *&_grafo,
                             unsigned long int _nx,
                             unsigned long int _ny,
                             unsigned long int _nz,
@@ -203,7 +203,7 @@ public:
      }
 
      /// Retorna ponteiro para objeto grafo
-     CGrafo_3Dby2D *Getgrafo () const {
+     CGrafoConexaoSerial *Getgrafo () const {
           return grafo;
      }
 
@@ -267,7 +267,7 @@ public:
      }
 
      /// Define o grafo
-     void Grafo ( CGrafo_3Dby2D *_p ) {
+     void Grafo ( CGrafoConexaoSerial *_p ) {
           if ( grafo ) {
                delete grafo;
           }

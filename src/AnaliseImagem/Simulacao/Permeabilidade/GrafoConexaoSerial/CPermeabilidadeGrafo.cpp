@@ -27,7 +27,7 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
 
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
+#include <Grafo/CRedeContorno.h>
 #include <MetNum/Contorno/CContorno.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
@@ -45,7 +45,7 @@ using namespace std;
 */
 CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido, 
 					  CSMDiagonalDominante *& _solver,
-						CGrafo_3Dby2D *& _grafo,
+						CGrafoConexaoSerial *& _grafo,
 						unsigned long int _nx,
 							unsigned long int _ny,
 																							unsigned long int _nz,
@@ -307,7 +307,7 @@ CPermeabilidadeGrafo::CriarObjetosAgregados ()
 
 	if(grafo)
 	delete grafo;
-	grafo = new CGrafo_3Dby2DAdvanced ();
+	grafo = new CGrafoConexaoSerialAdvanced ();
 		assert(grafo);
 */
 }

@@ -1,5 +1,5 @@
-#ifndef CTortuosidade_h
-#define CTortuosidade_h
+#ifndef CObjetoRede_Sitio_h
+#define CObjetoRede_Sitio_h
 
 /**
 ===============================================================================
@@ -7,59 +7,55 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico
+            [LDSC].
 @author     André Duarte Bueno
-@file       CGrafoConexaoSerial_M6.h
-@begin      Oct 20 2000
+@file       CObjetoRede_Sitio.h
+@begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
 */
-
-// -----------------------------------------------------------------------
-// Bibliotecas C/C++
-// -----------------------------------------------------------------------
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-// ===============================================================================
-// Documentacao Classe: CTortuosidade
-// ===============================================================================
-/**
- * @brief Representa a tortuosidade de um meio poroso.
- * @author	André Duarte Bueno
- * @see		
-*/
-class CTortuosidade
-{
-// --------------------------------------------------------------Atributos
-protected:
-  /// Representa a tortuosidade na direção z
-  long double tortuosidade { 0.0 };
-//   double tortuosidade_x; Para cálculo nas 3 direções vai ter de
-//   double tortuosidade_y; calcular o grafo em cada uma das direções
-//   double tortuosidade_z;
-
-// -------------------------------------------------------------Construtor
-public:
-  /// Construtor detault.
-  CTortuosidade() = default;
-  
-  /// Construtor sobrecarregado, recebe a tortuosidade.
-  CTortuosidade( long double _tortuosidade )  { tortuosidade = _tortuosidade; } ;
-  
-// --------------------------------------------------------------Destrutor
-  /// Destrutor detault.
-  ~CTortuosidade() = default;
-
-// ----------------------------------------------------------------Métodos
-// --------------------------------------------------------------------Get
-public:
-  long double Tortuosidade() { return tortuosidade; }
-// --------------------------------------------------------------------Set
-// -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CGrafoConexaoSerial_M6& obj);
-//       friend istream& operator>> (istream& is, CGrafoConexaoSerial_M6& obj);
-  
-};
+// Definição de CObjetoGrafo
+#ifndef CObjetoRede_h
+#include <EstruturaDados/ObjetoRede/CObjetoRede.h>
 #endif
 
+// ===============================================================================
+// Documentacao Classe: CObjetoRede_Sitio
+// ===============================================================================
+/**
+ * @brief Representa um objeto sítio de uma rede.
+ * Tendo uma variável rotulo (herdade de CObjetoGrafo)
+ * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
+ * @author:  André Duarte Bueno
+ * @see:     grafos
+ * @ingroup  HCObjetoGrafo
+*/
+
+class CObjetoRede_Sitio :  public CObjetoRede
+{
+public:
+// --------------------------------------------------------------Atributos
+// -------------------------------------------------------------Construtor
+/// Construtor
+     CObjetoRede_Sitio () = default;
+// --------------------------------------------------------------Destrutor
+/// Destrutor
+     virtual ~ CObjetoRede_Sitio () = default;
+// ----------------------------------------------------------------Métodos
+     /// Retorna o tipo de objeto do grafo.
+     virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio;  }
+
+// --------------------------------------------------------------------Get
+// --------------------------------------------------------------------Set
+// -----------------------------------------------------------------Friend
+};
+
+// Cria o tipo CObjetoRede_Sitio_CENTER, que é igual a CObjetoRede_Sitio
+// typedef CObjetoRede_Sitio CObjetoRede_Sitio_CENTER;
+using CObjetoRede_Sitio_CENTER = CObjetoRede_Sitio;
+
+#endif

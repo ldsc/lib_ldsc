@@ -38,7 +38,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMMIDFdij.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/CFMMIDFdij.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFd34

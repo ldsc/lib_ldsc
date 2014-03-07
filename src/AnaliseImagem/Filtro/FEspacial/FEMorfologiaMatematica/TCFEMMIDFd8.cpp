@@ -21,11 +21,11 @@ Liang Zirong, Paulo C. Philippi, ...
 //  ----------------------------------------------------------------------------
 //using namespace std;
 #ifndef TCFEMMIDFd8_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd8.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd8.h"
 #endif
 
 //  Classe base
-//  #include "Mascara/MCDiscreta\CMCd8.h"  //  ponteiro para
+//  #include "AnaliseImagem/Filtro/Mascara/MCDiscreta\CMCd8.h"  //  ponteiro para
 
 /*
   ==================================================================================

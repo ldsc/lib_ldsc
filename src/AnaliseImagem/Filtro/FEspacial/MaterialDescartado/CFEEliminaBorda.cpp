@@ -1,5 +1,5 @@
 
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 	BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEEliminaBorda.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFEEliminaBorda.h"
 
 CMatriz2D *
 CFEEliminaBorda::Go (CMatriz2D * imagem, int espessura)

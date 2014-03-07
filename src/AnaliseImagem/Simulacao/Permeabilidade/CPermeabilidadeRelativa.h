@@ -40,7 +40,7 @@ Desenvolvido por:
 
 
 #ifndef TCImagem3D_h
-#include <Matriz/TCImagem3D.h>
+#include <AnaliseImagem/Matriz/TCImagem3D.h>
 #endif
 
 #include <sstream>

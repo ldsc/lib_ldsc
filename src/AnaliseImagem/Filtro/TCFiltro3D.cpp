@@ -19,7 +19,7 @@ Bibliotecas
 */
 
 #ifndef TCFiltro3D_h
-#include "Filtro/TCFiltro3D.h"
+#include "AnaliseImagem/Filtro/TCFiltro3D.h"
 #endif
 
 // vazio porque as funcoes sao puras

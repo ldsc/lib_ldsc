@@ -1,5 +1,5 @@
 #ifndef TCFEConectividade3D_h
-#include <Filtro/FEspacial3D/FEConectividade3D/TCFEConectividade3D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEConectividade3D/TCFEConectividade3D.h>
 #endif
 // retorna ponteiro para imagem conectada ou NULL caso a imagem não possua conectividade ou ocorra algum erro.
 

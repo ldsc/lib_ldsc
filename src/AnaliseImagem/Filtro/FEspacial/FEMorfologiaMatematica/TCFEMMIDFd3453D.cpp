@@ -17,7 +17,7 @@ Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFd3453D.
 // Bibliotecas
 // ----------------------------------------------------------------------------
 #ifndef TCFEMMIDFd3453D_h
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h"	// Classe base
+#include "AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h"	// Classe base
 #endif
 
 /*================================================================================

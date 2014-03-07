@@ -22,7 +22,7 @@ Descricao:	 Implementa a funcao CriaMascara da classe TCFEMMIDFdij.
 //  ----------------------------------------------------------------------------
 // using namespace std;
 #ifndef TCFEMMIDFdij_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdij.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdij.h"
 #endif
 //  Classe base
 #include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdij.h"

@@ -29,7 +29,7 @@ using namespace std;
 // Bibliotecas
 // ----------------------------------------------------------------------
 #include <ConEqu/CConfiguracoesEquilibrio2D.h>
-#include <Matriz/CMatriz2D.h>
+#include <AnaliseImagem/Matriz/CMatriz2D.h>
 
 /**
  * Função main() inclui teste da biblioteca

@@ -1,5 +1,5 @@
 
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 			BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEBSubstitueValor.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFEBSubstitueValor.h"
 // Construtor:   CFEBSubstitueValor( int _valorAntigo, int  vB=0,CMatriz2D * matriz=0, unsigned int _tamanhoMascara=0 )
 // Exemplo de uso: CFEBSubstitueValor(valorAntigo,antigoValor).Go(imagem);
 

@@ -1,7 +1,7 @@
 #include <Distribuicao/CDistribuicaoIDF.h>
 
 #ifndef CFEMMIDFd34_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
 #endif
 
 bool CDistribuicaoIDF::Go ( string fname, int indice, int fundo ) {

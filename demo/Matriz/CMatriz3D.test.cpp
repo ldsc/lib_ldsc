@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include <Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 
 using namespace std;
 

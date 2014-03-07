@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 #ifndef TCFEspacial_h
-#include "Filtro/FEspacial/TCFEspacial.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEspacial.h"
 #endif
 
 #include "AnaliseImagem/Filtro/Mascara/CMPassaBaixa.h"	// O filtro espacial atua sobre a mascara do passa baixa todos os valores=1 Outros filtros usam outras mascaras.

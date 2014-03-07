@@ -25,6 +25,57 @@
 #endif
 using namespace std;
 
+/**
+ * @brief  Função usada para criar os objetos do grafo.
+ * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
+ * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
+*/
+/*virtual */
+CObjetoGrafo * CRede::CriarObjetoGrafo( ETipoObjetoGrafo tipo )
+{
+   CObjetoGrafo * data;
+
+   switch( tipo ) {
+      case ETipoObjetoGrafo::ObjetoRede :
+         data = new CObjetoRede();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao :
+         data = new CObjetoRede_Ligacao();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_EST :
+         data = new CObjetoRede_Ligacao_EST();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST :
+         data = new CObjetoRede_Ligacao_WEST();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Sitio :
+         data = new CObjetoRede_Sitio();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Sitio_EST :
+         data = new CObjetoRede_Sitio_EST();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Sitio_WEST :
+         data = new CObjetoRede_Sitio_WEST();
+         break;
+
+      case  ETipoObjetoGrafo::CObjetoRede_Tipo :
+      default
+            :
+         data = reinterpret_cast <CObjetoGrafo *>( new CObjetoRede_Tipo( tipo ) );
+         break;
+      }
+
+   assert( data );
+   return data;
+}
+
+
 // -------------------------------------------------------------------------
 // Função:     Write
 // -------------------------------------------------------------------------

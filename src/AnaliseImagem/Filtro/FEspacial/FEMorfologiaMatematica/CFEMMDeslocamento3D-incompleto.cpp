@@ -1,30 +1,30 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
-#include "Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMDeslocamento3D.h"
+#include "AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/CFEMMDeslocamento3D.h"
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMDeslocamento.h"
-#include "Mascara/MCDiscreta/CMCEuclidiana.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMDeslocamento.h"
+#include "AnaliseImagem/Filtro/Mascara/MCDiscreta/CMCEuclidiana.h"
 
 /*
 ============================================================================
 Documentacao      CriaMascara
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 			operacao da morfologia matematica usando metodo do deslocamento
 			Se a mascara ja existe deve ser eliminada
 
    Programador:      Andre Duarte Bueno
-*/ /* verificar se é mesmo comentário nesta funcao
+*/ /* verificar se ï¿½ mesmo comentï¿½rio nesta funcao
       void   CFEMMDeslocamento::CriaMascara(unsigned int _tamanhoMascara)
       {
       if(mask)                                   // se existe uma mascara
       {
-      if(mask->NX()==_tamanhoMascara)        // e é do mesmo  tamanho
+      if(mask->NX()==_tamanhoMascara)        // e ï¿½ do mesmo  tamanho
       return;                           // sai
-      delete mask;                      // se  não é do mesmo tamanho apaga
+      delete mask;                      // se  nï¿½o ï¿½ do mesmo tamanho apaga
       }                                   // e abaixo cria uma nova
 
-      mask=new CMCEuclidiana(_tamanhoMascara);          // se não existe a mascara, cria uma nova
+      mask=new CMCEuclidiana(_tamanhoMascara);          // se nï¿½o existe a mascara, cria uma nova
       }   */
 /*{
  if(mask)
@@ -36,7 +36,7 @@ Descrição:
 ============================================================================
 Documentacao      Erosao
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Operacao da morfologia matematica usando metodo classico, deslocamento do EE.
 Realiza operacao classica de erosao, percorre a imagem e compara com o EE (a mascara)
 Se a multiplicacao da mascara pela imagem der algum valor zero, deve erodir
@@ -60,12 +60,12 @@ Programador:      Andre Duarte Bueno
     raioMascaraX = mask->RaioX ();	// variaveis auxiliares
   unsigned int
     raioMascaraY = mask->RaioY ();
-  // Procede a operação de erosão desconsiderando a borda
+  // Procede a operaï¿½ï¿½o de erosï¿½o desconsiderando a borda
   // Normal, centro da imagem
   for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
     for (j = raioMascaraY; j < pm->NY () - raioMascaraY; j++)
       {
-	if (rImg.data2D[i][j] > 0)	// se o ponto é poro >0, verifica se é para erodir
+	if (rImg.data2D[i][j] > 0)	// se o ponto ï¿½ poro >0, verifica se ï¿½ para erodir
 	  for (k = 0; k < mask->NX (); k++)
 	    for (l = 0; l < mask->NY (); l++)
 	      // Se um ponto da mascara estiver ativo
@@ -220,15 +220,15 @@ Programador:      Andre Duarte Bueno
 
 
 /*
-// Modificações:
-	// 2-Procede a operação de erosão separando a imagem em partes internas e externas.
-	// a)Procede a operação de erosão no centro da imagem, desconsiderando a borda
+// Modificaï¿½ï¿½es:
+	// 2-Procede a operaï¿½ï¿½o de erosï¿½o separando a imagem em partes internas e externas.
+	// a)Procede a operaï¿½ï¿½o de erosï¿½o no centro da imagem, desconsiderando a borda
 	// 			...........
 	// 			...*****...
 	// 			...*****...
 	// 			...*****...
 	// 			...........
-	// b)Procede a operação de erosão nas regiões da borda (superior, inferior, esquerda e direita)
+	// b)Procede a operaï¿½ï¿½o de erosï¿½o nas regiï¿½es da borda (superior, inferior, esquerda e direita)
 	// 			  Superior
 	// 			 ...*****...
 	// 			 ***     ***
@@ -236,7 +236,7 @@ Programador:      Andre Duarte Bueno
 	// 			 ***     ***
 	// 			 ...*****...
 	// 				Inferior
-	// c)Procede a operação de erosão nos cantos da imagem
+	// c)Procede a operaï¿½ï¿½o de erosï¿½o nos cantos da imagem
 	// 	Canto Superior esquerdo		Canto superior direito
 	// 							 ***.....***
 	// 			 				 ...     ...
@@ -259,11 +259,11 @@ Programador:      Andre Duarte Bueno
 ============================================================================
 Documentacao      Dilatacao
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 operacao da morfologia matematica usando metodo classico, com  deslocamento do EE
 dilatacao classica, percorre a imagem com o EE e compara.
-			  // Modificações:
-			  // Pensar em trocar a multiplicação por uma combinação do tipo
+			  // Modificaï¿½ï¿½es:
+			  // Pensar em trocar a multiplicaï¿½ï¿½o por uma combinaï¿½ï¿½o do tipo
 			  // (mask->data2D[k][l] & rImg.data2D[i+k-raioMascaraX][j+l-raioMascaraY])  >0)
 			  // o operador & retorna 1 se ambos os lados forem != de 0.
 
@@ -287,7 +287,7 @@ CFEMMDeslocamento::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)
 	  for (k = 0; k < mask->NX (); k++)
 	    for (l = 0; l < mask->NY (); l++)
 	      // se houver a interseccao de um ponto da bola
-	      // com a imagem, o ponto i,j da imagem é dilatado
+	      // com a imagem, o ponto i,j da imagem ï¿½ dilatado
 	      if (mask->data2D[k][l]
 		  && rImg.data2D[i + k - raioMascaraX][j + l - raioMascaraY] >
 		  0)
@@ -299,8 +299,8 @@ CFEMMDeslocamento::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)
      	NULL;
      }
   // Percorre a Borda superior
-  // o y da imagem vai de 0 até raioMascaraY
-  // o y da mascara começa de  raioMascaraY vai até  mask->NY()
+  // o y da imagem vai de 0 atï¿½ raioMascaraY
+  // o y da mascara comeï¿½a de  raioMascaraY vai atï¿½  mask->NY()
   // ou seja, somente a borda superior
   for (i = raioMascaraX; i < pm->NX () - raioMascaraX; i++)
     for (j = 0; j < raioMascaraY; j++)
@@ -449,9 +449,9 @@ NULL;
 ============================================================================
 Documentacao      Fechamento
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 operacao da morfologia matematica usando metodo classico do deslocamento do EE.
-O fechamento é a operacao de dilatacao seguida de erosao
+O fechamento ï¿½ a operacao de dilatacao seguida de erosao
 Programador:      Andre Duarte Bueno
 */
 CMatriz2D * CFEMMDeslocamento::Fechamento (CMatriz2D * &matriz,
@@ -470,9 +470,9 @@ CMatriz2D * CFEMMDeslocamento::Fechamento (CMatriz2D * &matriz,
 ============================================================================
 Documentacao      Abertura
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Operacao da morfologia matematica usando metodo classoco, do deslocamento do EE
-A abertura é a erosao seguida da dilatacao
+A abertura ï¿½ a erosao seguida da dilatacao
 A operacao de erosao, cria uma copia de pm, cria a mascara e
 processa a erosao, devolvendo a pm erodida
 A operacao de dilatacao, cria uma copia de pm, cria a mascara
@@ -480,7 +480,7 @@ e processa a dilatacao, devolvendo a pm dilatada
 
 Pode-se  incluir diretamente aqui o processamento da erosao seguida da dilatacao
 o que deixa o processo mais rapido.
-Obs: observe que o objeto TFAbertura não cria nem usa uma mascara, são os objetos
+Obs: observe que o objeto TFAbertura nï¿½o cria nem usa uma mascara, sï¿½o os objetos
 erosao e dilatacao que criam e usam uma mascara.
 
 Programador:      Andre Duarte Bueno

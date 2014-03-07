@@ -38,7 +38,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMMIDFdi.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/CFMMIDFdi.h>
 
 
 // ----------------------------------------------------------------------------

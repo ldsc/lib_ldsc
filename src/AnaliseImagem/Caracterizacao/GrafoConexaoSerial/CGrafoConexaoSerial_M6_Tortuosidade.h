@@ -57,7 +57,7 @@ public:
      /// Construtor
      CGrafoConexaoSerial_M6_Tortuosidade ( std::string _nomeArquivo ) :CGrafoConexaoSerial_M3 ( _nomeArquivo ),
           numeroDerivacoesUsadasCalculoTortuosidade ( 0 )  {
-          tipoGrafo  =  ETipoGrafo::Grafo3DBy2D_M6;
+          tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M6;
      }
 
 // --------------------------------------------------------------Destrutor
@@ -66,7 +66,7 @@ public:
 
 // ----------------------------------------------------------------Métodos
      /**
-      * @brief Redefinida, na classe  CGra3Dby2_M3 calcula as condutâncias
+      * @brief Redefinida, na classe  CGrafoConexaoSerial_M3 calcula as condutâncias
       * dos sítios sem considerar o deslocamento dos centros de massa
       * aqui considera as posições dos centros de massa
      */

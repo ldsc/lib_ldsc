@@ -31,7 +31,8 @@ Arquivo de documentacao auxiliar:
 //----------------------------------------------------------------------------
 
 #include <TMatriz/TVetor.h>
-#include <TMatriz/TMatriz2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+
 
 //----------------------------------------------------------------------------
 //Classe: TACFractal

@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
    [LDSC].
 @author:          André Duarte Bueno
-@file:             CGra3Dby2_M2.cpp
+@file:             CGrafoConexaoSerial_M2.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -26,7 +26,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 #endif
 
 #ifndef CVetor_h
-#include <Matriz/CVetor.h>
+#include <AnaliseImagem/Matriz/CVetor.h>
 #endif
 
 using namespace std;

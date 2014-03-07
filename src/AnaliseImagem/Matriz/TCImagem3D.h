@@ -35,7 +35,7 @@ Desenvolvido por:
 #endif
 /* // comentei para poder fazer dynamic_cast
 #ifndef CImg_h
-#include <Matriz/CImg.h>
+#include <AnaliseImagem/Matriz/CImg.h>
 #endif
 */
 using namespace std;

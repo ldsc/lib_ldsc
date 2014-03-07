@@ -26,7 +26,7 @@ email:            andreduartebueno@gmail.com
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #ifndef TCMatriz2D_H
-#include <Matriz/TCMatriz2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h> 
 #endif
 
 

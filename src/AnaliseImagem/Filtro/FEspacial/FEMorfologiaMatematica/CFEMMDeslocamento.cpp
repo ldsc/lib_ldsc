@@ -2,7 +2,7 @@
 #ifndef CFEMMDeslocamento_cpp
 #define CFEMMDeslocamento_cpp
 
-#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMDeslocamento.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMDeslocamento.h"
 #include "Geometria/Bola/BCDiscreta/CBCEuclidiana.h"
 
 /*

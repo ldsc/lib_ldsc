@@ -1,4 +1,4 @@
-#include <Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEConectividade3D/CFEConectividade3D.h>
 
 CImagem3D * CFEConectividade3D::GetImagemConectada (int indice, int fundo) {
     int INDICE = indice;

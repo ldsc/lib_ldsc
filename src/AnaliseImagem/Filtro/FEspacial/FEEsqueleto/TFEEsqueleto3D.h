@@ -8,12 +8,12 @@ Bibliotecas e Defines
 */
 //inclue a biblioteca de filtros
 #ifndef TFEspacial3D_h
-#include <Filtro/FEspacial3D/FEspacial3D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEspacial3D.h>
 #endif
 
 //inclue a biblioteca de filtros
 #ifndef TMatriz3D_h
-#include <TMatriz/TMatriz3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #endif
 
 /*

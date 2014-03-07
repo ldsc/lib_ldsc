@@ -40,15 +40,17 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // #define CMatrizAPP                                                            // define a matriz como aplicativo
 #ifndef CMatriz2D_h
-#include <CMatriz/CMatriz2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+
+
 #endif
 
 #ifndef CFMorfologiaMatematica_h
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMorfologiaMatematica.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/CFMorfologiaMatematica.h>
 #endif
 
 #ifndef TMascara_h
-#include <TMascara/TMascara.h>
+#include <AnaliseImagem/Filtro/Mascara/TMascara.h>
 #endif
 
 // ----------------------------------------------------------------------------

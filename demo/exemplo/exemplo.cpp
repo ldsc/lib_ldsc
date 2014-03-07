@@ -1,7 +1,7 @@
 #include <iostream>
 //#include <string>
 
-#include <Matriz/CVetor.h>
+#include <AnaliseImagem/Matriz/CVetor.h>
 
 using namespace std;
 

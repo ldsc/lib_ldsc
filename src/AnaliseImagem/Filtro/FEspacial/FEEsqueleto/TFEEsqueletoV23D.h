@@ -7,15 +7,15 @@ Bibliotecas e Defines
 ----------------------------------------------------------------------------
 */
 #ifndef TFEEsqueleto3D_h
-#include <TFiltro/TFEspacial3D/TFEEsqueleto3D/TFEEsqueleto3D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/TFEEsqueleto3D/TFEEsqueleto3D.h>
 #endif
 
 #ifndef TMatriz3D_h
-#include <TMatriz/TMatriz3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #endif
 
 #ifndef TFMMIDF3D_h
-#include <TFiltro/TFEspacial3D/TFEMorfologiaMatematica3D/TFMMIDF3D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/TFEMorfologiaMatematica3D/TFMMIDF3D.h>
 #endif
 
 /*

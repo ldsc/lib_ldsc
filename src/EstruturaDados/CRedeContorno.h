@@ -26,7 +26,7 @@ Desenvolvido por:
 // #endif
 
 #ifndef CRede_h
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CRede.h>
+#include <EstruturaDados/CRede.h>
 #endif
 
 #ifndef CContornoCentro_h
@@ -59,7 +59,7 @@ public:
    CRedeContorno( std::string _nomeArquivo, unsigned long int _numero_contornos = 0 )
       :      CRede( _nomeArquivo ) {
       tipoGrafo  =  ETipoGrafo::Grafo_Contorno ;
-
+		contorno.reserve( _numero_contornos );
       for( unsigned long int i = 0; i < _numero_contornos; i++ ) {
             CContornoCentro * obj_cont = new CContornoCentro();
             assert( obj_cont );
@@ -94,11 +94,5 @@ public:
 
 #endif
 
-// -----------------------------------------------------------------------
-// Função     Construtor
-// -----------------------------------------------------------------------
-/** Recebe o número de contornos;
- *  Cria os objetos e adiciona ao vetor de contornos.
- *  O nomeArquivo é repassado a classe base.
- */
+
 

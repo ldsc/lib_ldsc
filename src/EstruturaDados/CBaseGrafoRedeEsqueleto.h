@@ -59,15 +59,16 @@ protected:
    /// @enum: ETipoGrafo
    // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
    enum class ETipoGrafo : uint8_t {
-      Grafo,          ///< representa grafo criado por CGrafo
-      Grafo_Contorno,  ///< representa grafo criado por CGrafo_Contorno
-      Grafo_3DBy2D,    ///< representa grafo criado por CGrafoConexaoSerial
-      Grafo_3DBy2D_M1, ///< representa grafo criado por CGrafoConexaoSerial_M1
-      Grafo_3DBy2D_M2, ///< representa grafo criado por CGrafoConexaoSerial_M2
-      Grafo_3DBy2D_M3, ///< representa grafo criado por CGrafoConexaoSerial_M3
-      Grafo_3DBy2D_M4, ///< representa grafo criado por CGrafoConexaoSerial_M4
-      Grafo_3DBy2D_M5, ///< representa grafo criado por CGrafoConexaoSerial_M5
-      Grafo_3DBy2D_M6  ///< representa grafo criado por CGrafoConexaoSerial_M6
+      BaseGrafoRedeEsqueleto,///< representa classe base virtual
+      Grafo,                 ///< representa grafo criado por CGrafo
+      Grafo_Contorno,        ///< representa grafo criado por CGrafo_Contorno
+      GrafoConexaoSerial,    ///< representa grafo criado por CGrafoConexaoSerial
+      GrafoConexaoSerial_M1, ///< representa grafo criado por CGrafoConexaoSerial_M1
+      GrafoConexaoSerial_M2, ///< representa grafo criado por CGrafoConexaoSerial_M2
+      GrafoConexaoSerial_M3, ///< representa grafo criado por CGrafoConexaoSerial_M3
+      GrafoConexaoSerial_M4, ///< representa grafo criado por CGrafoConexaoSerial_M4
+      GrafoConexaoSerial_M5, ///< representa grafo criado por CGrafoConexaoSerial_M5
+      GrafoConexaoSerial_M6  ///< representa grafo criado por CGrafoConexaoSerial_M6
    };
 
    /// Identifica o tipo de grafo, deve ser definido no construtor.
@@ -94,9 +95,9 @@ protected:
     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
    */
    virtual CObjetoGrafo * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) = 0;
-   
-      /// Deleta um objeto do grafo, considerando a posição no vetor.
-   virtual bool DeletarObjeto( int i ) =0;
+
+   /// Deleta um objeto do grafo, considerando a posição no vetor.
+   virtual bool DeletarObjeto( int i ) = 0 ;
 
    /// Deleta considerando o endereço do objeto.
    /// @todo: testar
@@ -113,17 +114,19 @@ public:
     */
    void Write() {
       std::ofstream out( NomeGrafo().c_str() );
+
       if( out.fail() )  {
             std::cerr << " Não conseguiu abrir o arquivo de disco " << nomeArquivo;
             return;
          }
+
       Write( out );
       out.close();
    }
    /**
     * @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.
     */
-   virtual void Write( std::ostream& out ) const = 0;
+   virtual void Write( std::ostream & out ) const = 0;
 
    // --------------------------------------------------------------------Get
    /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo
@@ -143,20 +146,20 @@ public:
             return {"Grafo"};
          case ETipoGrafo::Grafo_Contorno  :
             return {"Grafo_Contorno"};
-         case ETipoGrafo::Grafo_3DBy2D    : 
-            return {"Grafo_3DBy2D"};
-         case ETipoGrafo::Grafo_3DBy2D_M1 :
-            return {"Grafo_3DBy2D_M1"};
-         case ETipoGrafo::Grafo_3DBy2D_M2 :
-            return {"Grafo_3DBy2D_M2"};
-         case ETipoGrafo::Grafo_3DBy2D_M3 :
-            return {"Grafo_3DBy2D_M3"};
-         case ETipoGrafo::Grafo_3DBy2D_M4 :
-            return {"Grafo_3DBy2D_M4"};
-         case ETipoGrafo::Grafo_3DBy2D_M5 :
-            return {"Grafo_3DBy2D_M5"};
-         case ETipoGrafo::Grafo_3DBy2D_M6 :
-            return {"Grafo_3DBy2D_M6"};
+         case ETipoGrafo::GrafoConexaoSerial    :
+            return {"GrafoConexaoSerial"};
+         case ETipoGrafo::GrafoConexaoSerial_M1 :
+            return {"GrafoConexaoSerial_M1"};
+         case ETipoGrafo::GrafoConexaoSerial_M2 :
+            return {"GrafoConexaoSerial_M2"};
+         case ETipoGrafo::GrafoConexaoSerial_M3 :
+            return {"GrafoConexaoSerial_M3"};
+         case ETipoGrafo::GrafoConexaoSerial_M4 :
+            return {"GrafoConexaoSerial_M4"};
+         case ETipoGrafo::GrafoConexaoSerial_M5 :
+            return {"GrafoConexaoSerial_M5"};
+         case ETipoGrafo::GrafoConexaoSerial_M6 :
+            return {"GrafoConexaoSerial_M6"};
          }
    }
 
@@ -168,7 +171,8 @@ public:
    // friend istream& operator>> (istream& is, CBaseGrafoRedeEsqueleto& obj);
 };
 
-std::ostream & operator<< ( std::ostream & out, const CBaseGrafoRedeEsqueleto & grafo ){
+std::ostream & operator<< ( std::ostream & out, const CBaseGrafoRedeEsqueleto & grafo )
+{
    grafo.Write( out );
    return out;
 }

@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEMorfologiaMatematica_h
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMorfologiaMatematica.h>
 #endif
 
 /*

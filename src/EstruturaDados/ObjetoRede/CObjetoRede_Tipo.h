@@ -273,7 +273,7 @@ public:
    friend std::ostream& operator<< ( std::ostream& os, CObjetoRede_Tipo& obj );
 //       friend istream& operator>> (istream& is, CObjetoRede_Tipo& obj);
 
-protected:
+// protected:
 //    /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 //    /// criada para reduzir códigos nas herdeiras.
 //    bool DeletarConexoesInvalidadas_aux ( unsigned int deletado , std::vector<CObjetoRede_Tipo*>& conexao );

@@ -26,7 +26,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #endif
 */
 #include <Rotulador/CRotulador3D.h>
-#include <Matriz/CImagem3D.h>
+#include <AnaliseImagem/Matriz/CImagem3D.h>
 #include <set>
 
 /**

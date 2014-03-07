@@ -39,7 +39,7 @@ Desenvolvido por:
   * @brief Determina o grafo de imagens 3D, modelo 3.
   * @author 	André Duarte Bueno
   * @see			grafos
-  * Superclasse: CGrafo -> CGrafoConexaoSerial -> CGra3Dby2_M2 -> CGrafoConexaoSerial_M3
+  * Superclasse: CGrafo -> CGrafoConexaoSerial -> CGrafoConexaoSerial_M2 -> CGrafoConexaoSerial_M3
   * @ingroup  HCGrafo
   */
 class CGrafoConexaoSerial_M3 : public CGrafoConexaoSerial_M2 {
@@ -52,7 +52,7 @@ public:
      // -------------------------------------------------------------Construtor
      /// Construtor
      CGrafoConexaoSerial_M3 ( std::string _nomeArquivo ) :CGrafoConexaoSerial_M2 ( _nomeArquivo ) {
-          tipoGrafo  =  ETipoGrafo::Grafo3DBy2D_M3;
+          tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M3;
      }
 
      // --------------------------------------------------------------Destrutor

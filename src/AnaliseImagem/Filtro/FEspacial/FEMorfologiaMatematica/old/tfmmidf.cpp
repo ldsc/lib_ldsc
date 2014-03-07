@@ -17,8 +17,8 @@ Descricao:	 Implementa as funções da classe CFMMIDF.
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#include "TFiltro\TFEspacial\TFEMorfologiaMatematica\CFMMIDF.h"	// Classe base
-#include "TMascara\TMCDiscreta\CBCDiscreta.h"	// Cria objeto
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h"
+#include "AnaliseImagem/Geometria/Bola/BCDiscreta.h"	// Cria objeto
 
 /*
 ============================================================================

@@ -17,7 +17,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 #ifndef TCFEPassaBaixa_h
-#include "Filtro/FEspacial/TCFEPassaBaixa.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEPassaBaixa.h"
 #endif
 
 #include "AnaliseImagem/Filtro/Mascara/CMPassaBaixa.h"

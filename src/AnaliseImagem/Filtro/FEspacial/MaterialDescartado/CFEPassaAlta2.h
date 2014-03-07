@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEspacial.h>
 #endif
 
 /*

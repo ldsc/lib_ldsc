@@ -5,6 +5,7 @@
 
 #include <fstream>		//por causa ifstream e ofstream ponteiros arquivos
 
+#include <MatFuncao/poly.h>
 #include <TFuncao/poly.h>
 #include <TFuncao/poli_1g.h>
 #include <TFuncao/poli_2g.h>

@@ -12,9 +12,9 @@ Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 #include <sstream>
 #include <cstdlib>
 
-#include <Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <Geometria/Bola/BCDiscreta3D/CBCd3453D.h>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 
 using namespace std;
 

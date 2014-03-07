@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEBorda_h
-#include <Filtro/FEspacial/CFEBorda.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEBorda.h>
 #endif
 
 /*

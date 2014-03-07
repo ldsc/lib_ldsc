@@ -21,9 +21,9 @@ Termofisicas  dos Materiais.
 //  ----------------------------------------------------------------------------
 //using namespace std;
 #ifndef TCFEMMIDFd4_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd4.h"	//  Classe base
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd4.h"	//  Classe base
 #endif
-//  #include "Mascara/MCDiscreta\CMCd4.h"  //  ponteiro para
+//  #include "AnaliseImagem/Filtro/Mascara/MCDiscreta\CMCd4.h"  //  ponteiro para
 
 /*
 //  Mascara de chanfro d4

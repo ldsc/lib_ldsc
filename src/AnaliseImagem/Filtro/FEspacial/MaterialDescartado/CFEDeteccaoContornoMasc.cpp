@@ -18,14 +18,14 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 			BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEDeteccaoContornoMasc.h"
-#include "Mascara/CMDeteccaoContorno.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFEDeteccaoContornoMasc.h"
+#include "AnaliseImagem/Filtro/Mascara/CMDeteccaoContorno.h"
 
 /*
 ============================================================================
 Documentacao      CriaMascara
 ============================================================================
-Descrição:	Se a mascara ja existe deve ser eliminada
+Descriï¿½ï¿½o:	Se a mascara ja existe deve ser eliminada
 Programador:    Andre Duarte Bueno
 */
 

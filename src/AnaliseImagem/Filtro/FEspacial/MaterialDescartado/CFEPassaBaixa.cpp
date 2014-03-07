@@ -19,8 +19,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 			BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEPassaBaixa.h"
-#include "Mascara/CMPassaBaixa.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEPassaBaixa.h"
 
 /*
 ============================================================================

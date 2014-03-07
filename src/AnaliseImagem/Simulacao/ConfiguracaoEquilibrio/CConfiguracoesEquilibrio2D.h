@@ -32,7 +32,7 @@ TAREFAS:		Criar classe CConfiguracoesEquillibrio comum aos
 //  ----------------------------------------------------------------------------
 /*
 #ifndef CFiltroEspacial_h
-#include "Filtro/CFiltroEspacial.h"
+#include "AnaliseImagem/Filtro/CFiltroEspacial.h"
 #endif
 */
 #ifndef CMFluido_h

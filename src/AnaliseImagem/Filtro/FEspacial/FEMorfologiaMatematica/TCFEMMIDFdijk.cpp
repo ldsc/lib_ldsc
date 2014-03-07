@@ -20,7 +20,7 @@ Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFdijk.
 //   ----------------------------------------------------------------------------
 using namespace std;
 #ifndef TCFEMMIDFdijk_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdijk.h"	//   Classe base
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdijk.h"	//   Classe base
 #endif
 #include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk.h"	//   ponteiro para
 

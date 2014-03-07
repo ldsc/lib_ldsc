@@ -20,7 +20,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 #ifndef TCFEPassaAlta_h
-#include "Filtro/FEspacial/TCFEPassaAlta.h"
+#include "AnaliseImagem/Filtro/FEspacial/TCFEPassaAlta.h"
 #endif
 #include "AnaliseImagem/Filtro/Mascara/CMPassaAlta.h"
 

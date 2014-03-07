@@ -34,7 +34,7 @@ Desenvolvido por:
 #endif
 
 // #ifndef CMatriz3D_h
-// #include <Matriz/CMatriz3D.h>
+// #include <AnaliseImagem/Matriz/CMatriz3D.h>
 // #endif
 
 #ifndef CGrafoConexaoSerial_h

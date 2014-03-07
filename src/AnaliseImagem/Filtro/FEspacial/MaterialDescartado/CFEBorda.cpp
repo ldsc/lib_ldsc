@@ -1,5 +1,5 @@
 
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -21,7 +21,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 
-#include "Filtro/FEspacial/CFEBorda.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFEBorda.h"
 // virtual CMatriz2D* Go(CMatriz2D* imagem, int _espessura=1);
 
 CMatriz2D *

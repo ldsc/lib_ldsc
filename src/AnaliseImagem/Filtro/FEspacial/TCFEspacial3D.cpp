@@ -18,7 +18,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  */
 
 #ifndef TCFEspacial3D_h
-#include "Filtro/FEspacial3D/TCFEspacial3D.h"
+#include "AnaliseImagem/Filtro/FEspacial3D/TCFEspacial3D.h"
 #endif
 
 #include "AnaliseImagem/Filtro/Mascara/CMPassaBaixa3D.h"	// O filtro espacial atua sobre a mascara

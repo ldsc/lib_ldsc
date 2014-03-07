@@ -39,8 +39,8 @@ Arquivo de documentacao auxiliar:
 // Bibliotecas
 // ----------------------------------------------------------------------------
 
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/TFMMIDF.h>
-#include <TMascara/TMCDiscreta/TMCdijk.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/TFMMIDF.h>
+#include <AnaliseImagem/Filtro/Mascara/TMCDiscreta/TMCdijk.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFdijk

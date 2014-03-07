@@ -1,7 +1,7 @@
 //  Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 //using namespace std;
 #ifndef TCFEMorfologiaMatematica_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h"
 #endif
 
 #include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana.h"

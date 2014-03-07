@@ -18,10 +18,10 @@
 //  ----------------------------------------------------------------------------
 //using namespace std;
 #ifndef TCFEMMIDFd34_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h"	//  Classe base
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd34.h"	//  Classe base
 #endif
-//  #include "Mascara/MCDiscreta\CMCd34.h"              //  ponteiro para
-//  #include "Mascara/CMascMascDiscretad34.h"            //  Cria objeto
+//  #include "AnaliseImagem/Filtro/Mascara/MCDiscreta\CMCd34.h"              //  ponteiro para
+//  #include "AnaliseImagem/Filtro/Mascara/CMascMascDiscretad34.h"            //  Cria objeto
 
 /*================================================================================
  * Função    CorrigeAbertura

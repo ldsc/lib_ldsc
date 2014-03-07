@@ -34,9 +34,9 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta.h>
 
-// #include "Mascara/MCDiscreta/TMCdi.h"
+// #include "AnaliseImagem/Filtro/Mascara/MCDiscreta/TMCdi.h"
 
-// #include "CMascara/CMascara.h"
+// #include "CAnaliseImagem/Filtro/Mascara/CMascara.h"
 
 // ----------------------------------------------------------------------------
 // Classe:CBCdi

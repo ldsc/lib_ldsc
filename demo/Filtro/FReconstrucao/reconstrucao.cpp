@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include <Filtro/FReconstrucao/CFReconstrucao.h>
-#include <Matriz/CMatriz3D.h>
+#include <AnaliseImagem/Filtro/FReconstrucao/CFReconstrucao.h>
+#include <AnaliseImagem/Matriz/CMatriz3D.h>
 
 using namespace std;
 

@@ -87,7 +87,8 @@ class  CRede : public CBaseGrafoRedeEsqueleto {
 public:
    /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
    /// @todo: trocar por unique_ptr shared_ptr
-   std::vector <CObjetoRede *> objeto;
+//    std::vector <CObjetoRede *> objeto;
+   std::vector <value_type_objeto *> objeto;
 
    // -------------------------------------------------------------Construtor
    /// Construtor default.
@@ -107,52 +108,12 @@ public:
    // ----------------------------------------------------------------Métodos
 protected:
    /**
-    * @brief  Função usada para criar os objetos do grafo.
+    * @brief  Função usada para criar os objetos herdeiros de CObjetoGrafo 
+	 * (aqui sempre cria objetos herdeiros de CObjetoRede).
     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
    */
-   /*virtual */
-   CObjetoGrafo * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) {
-      CObjetoGrafo * data;
-
-      switch( tipo ) {
-         case ETipoObjetoGrafo::ObjetoRede :
-            data = new CObjetoRede();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Ligacao :
-            data = new CObjetoRede_Ligacao();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Ligacao_EST :
-            data = new CObjetoRede_Ligacao_EST();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST :
-            data = new CObjetoRede_Ligacao_WEST();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Sitio :
-            data = new CObjetoRede_Sitio();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Sitio_EST :
-            data = new CObjetoRede_Sitio_EST();
-            break;
-
-         case ETipoObjetoGrafo::ObjetoRede_Sitio_WEST :
-            data = new CObjetoRede_Sitio_WEST();
-            break;
-
-	 case  ETipoObjetoGrafo::CObjetoRede_Tipo :
-	 default : 
-            data = new CObjetoRede_Tipo( tipo );
-            break;
-         }
-
-      assert( data );
-      return data;
-   }
+   value_type_objeto * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) ; 
 
    /// Deleta um objeto do grafo, considerando a posição no vetor.
    virtual bool DeletarObjeto( int i ) override {
@@ -162,7 +123,7 @@ protected:
 
    /// Deleta considerando o endereço do objeto.
    /// @todo: testar
-   virtual bool DeletarObjeto( CObjetoRede * objeto_i ) /*override*/ {
+   virtual bool DeletarObjeto( value_type_objeto * objeto_i ) /*override*/ {
       delete objeto_i;
       // Para calcular valor i, preciso diminuir o ponteiro para objeto_i 
       // do ponteiro para início do vetor, que é dado por objeto.data();
@@ -188,6 +149,12 @@ public:
    friend std::ostream & operator<< ( std::ostream & os, const CRede & obj );
 
    // friend istream& operator>> (istream& is, CRede& obj);
+   // Vai criar apelido
+   #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO 
+         using value_type_objeto = CObjetoRede_Tipo;
+   #else
+         using value_type_objeto = CObjetoRede;
+   #endif
 };
 
 std::ostream & operator<< ( std::ostream & os, const CRede & obj );

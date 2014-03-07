@@ -22,7 +22,7 @@
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #ifndef TCRotulador2D_h
-#include <Rotulador/TCRotulador2D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador2D.h>
 #endif
 // using namespace std;
 /*

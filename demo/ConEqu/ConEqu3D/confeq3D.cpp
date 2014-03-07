@@ -30,7 +30,7 @@ using namespace std;
 // Bibliotecas
 // ----------------------------------------------------------------------
 #include <ConEqu/CConfiguracoesEquilibrio3D.h>
-#include <Matriz/CMatriz3D.h>
+#include <AnaliseImagem/Matriz/CMatriz3D.h>
 
 /**
  * Função main() inclui teste da biblioteca

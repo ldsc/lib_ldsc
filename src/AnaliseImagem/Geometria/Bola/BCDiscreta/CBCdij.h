@@ -23,8 +23,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 // ----------------------------------------------------------------------------
 
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta.h>
-// #include "CMascara/CMascara.h"
-// #include "Mascara/MCDiscreta/TMCDij.h"
+// #include "CAnaliseImagem/Filtro/Mascara/CMascara.h"
+// #include "AnaliseImagem/Filtro/Mascara/MCDiscreta/TMCDij.h"
 
 // ----------------------------------------------------------------------------
 // Classe:       CBCdij

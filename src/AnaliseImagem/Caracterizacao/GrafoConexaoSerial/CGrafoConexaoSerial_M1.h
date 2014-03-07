@@ -57,7 +57,7 @@ public:
 // -------------------------------------------------------------Construtor
      /// Construtor
      CGrafoConexaoSerial_M1 ( std::string _nomeArquivo ) :CGrafoConexaoSerial ( _nomeArquivo )  {
-          tipoGrafo  =  ETipoGrafo::Grafo3DBy2D_M1 ;
+          tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M1 ;
      }
 
 // --------------------------------------------------------------Destrutor

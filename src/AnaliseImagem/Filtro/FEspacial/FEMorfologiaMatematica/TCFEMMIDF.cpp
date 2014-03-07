@@ -21,10 +21,10 @@ Descricao:	 	Implementa as funções da classe CFEMMIDF.
 // ----------------------------------------------------------------------------
 using namespace std;
 #ifndef TCFEMMIDF_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h"	// Classe base
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDF.h"	// Classe base
 #endif
 
-//#include "Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h" // Utilizado pelo método CorrigeAbertura
+//#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h" // Utilizado pelo método CorrigeAbertura
 
 #include "AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta.h"			// Cria objeto
 //  Mascara\MCDiscreta\CBCDiscreta.h"   					// Cria objeto

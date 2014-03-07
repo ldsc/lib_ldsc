@@ -47,7 +47,7 @@ using namespace std;
 // -------------------------------------------------------------------------
 /**
 	* @brief Função nova que recebe um ponteiro para um CObjetoRede,
-	* e o inclue na lista de conexões. 
+	* e o inclue na lista de conexões.
 	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
 */
 // inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _condutancia )
@@ -72,7 +72,7 @@ using namespace std;
 // {
 //    // Deleta a conexão
 //    this->conexao.erase ( conexao.begin() + link );
-// 
+//
 //    // e, adicionalmente, deleta a condutancia associada ao objeto link
 //    this->condutancia.erase ( condutancia.begin () + link );
 // }
@@ -84,28 +84,28 @@ using namespace std;
   @param  : unsigned int link
   @return : void
 */
-bool CObjetoRede_Tipo::DeletarConexoesInvalidadas ( unsigned int deletado )
+bool CObjetoRede_Tipo::DeletarConexoesInvalidadas( unsigned int deletado )
 {
    unsigned int indice_rotulo_valido {0};
 
    // Percorre todas as conexões
-   for ( unsigned int i = 0; i < conexao.size (); i++ )
+   for( unsigned int i = 0; i < conexao.size(); i++ )
 
       // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
       // Se foi deletado vai ser pulado.
-      if ( conexao[i]->rotulo != deletado ) {
+      if( conexao[i]->rotulo != deletado ) {
             conexao[indice_rotulo_valido] = conexao[i];
             condutancia[indice_rotulo_valido] = condutancia[i];
             indice_rotulo_valido++;
          }
 
    // Redimensiona o vetor das conexões e deleta elementos não usados.
-   conexao.resize ( indice_rotulo_valido );
-   conexao.erase ( conexao.begin() + indice_rotulo_valido , conexao.end () );
+   conexao.resize( indice_rotulo_valido );
+   conexao.erase( conexao.begin() + indice_rotulo_valido , conexao.end() );
 
    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
-   condutancia.resize ( indice_rotulo_valido );
-   condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
+   condutancia.resize( indice_rotulo_valido );
+   condutancia.erase( condutancia.begin() + indice_rotulo_valido , condutancia.end() );
    return 1;
 }
 
@@ -121,46 +121,46 @@ unsigned int  CObjetoRede_Tipo::DeletarConeccoesRepetidas_e_SomarCondutanciasPar
 {
    // Número de links deletados
    // acumula número de links no início
-   unsigned int numeroLinksDeletados = conexao.size ();
+   unsigned int numeroLinksDeletados = conexao.size();
 
    // Cria uma cópia do vetor das conexões, ordena e elimina repeticoes
-   vector < CObjetoRede_Tipo* > c ( conexao );
+   vector < CObjetoRede_Tipo * > c( conexao );
 
    // Funcao EliminaDuplicatas para containers (pg487 stroustrup)
    {
-      sort ( c.begin (), c.end () );
+      sort( c.begin(), c.end() );
 //     vector < CObjetoRede_Tipo * >::iterator p = unique (c.begin (), c.end ());
 //     c.erase (p, c.end ()); c vai ser deletado final da função!
    }
 
    // Cria um map que associa o link com as condutâncias
-   std::map < CObjetoRede_Tipo*, long double > m;
+   std::map < CObjetoRede_Tipo *, long double > m;
 
    // Copia para o map os links (já ordenados e únicos de c) e inicializa os valores com 0.
-   for ( unsigned int i = 0; i < c.size (); i++ )
+   for( unsigned int i = 0; i < c.size(); i++ )
       m[c[i]] = 0.0;
 
    // Percorre as conexões e acumula as condutâncias no map
    //    map.insert( container_map::value_type( chave, valor ) );
-   for ( unsigned int i = 0; i < conexao.size (); i++ )
+   for( unsigned int i = 0; i < conexao.size(); i++ )
       m[conexao[i]] += condutancia[i];
 
    //   for ( iter = listatelefones.begin(); iter != listatelefones.end(); ++iter )
    //   cout << setw(campo)<<iter->first << setw(20)<< iter->second ;
-   for ( unsigned int i = 0; i < c.size (); i++ ) {
+   for( unsigned int i = 0; i < c.size(); i++ ) {
          conexao[i] = c[i];
          condutancia[i] = m[c[i]];
       }
 
    // Redimensiona o vetor das conexões e deleta elementos não usados.
-   conexao.resize (  c.size ()  );
-   conexao.erase ( conexao.begin() + c.size () , conexao.end () );
+   conexao.resize( c.size() );
+   conexao.erase( conexao.begin() + c.size() , conexao.end() );
 
    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
-   condutancia.resize (  c.size () );
-   condutancia.erase ( condutancia.begin() + c.size () , condutancia.end () );
+   condutancia.resize( c.size() );
+   condutancia.erase( condutancia.begin() + c.size() , condutancia.end() );
 
-   numeroLinksDeletados = numeroLinksDeletados - c.size ();
+   numeroLinksDeletados = numeroLinksDeletados - c.size();
    return numeroLinksDeletados;
 }
 
@@ -208,32 +208,32 @@ Lista_dos_rotulos_das_conexões
 @param  : Recebe uma referencia para uma ostream
 @return : void
 */
-/*inline*/ ostream& CObjetoRede_Tipo::Write ( ostream& out ) const
+/*inline*/ ostream & CObjetoRede_Tipo::Write( ostream & out ) const
 {
-   out.setf ( ios::right );
+   out.setf( ios::right );
 
    // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
+   out << setw( 5 ) << static_cast<uint8_t>( Tipo() ) << '\n';
 
    // Rótulo de this
-   out << ' ' << setw ( 5 ) << rotulo;
+   out << ' ' << setw( 5 ) << rotulo;
 
    // x de this (pressão)
-   out << ' ' << setw ( 10 ) << x;
+   out << ' ' << setw( 10 ) << x;
 
    // propriedade de this (condutancia)
-   out << ' ' << setw ( 10 ) << propriedade;
+   out << ' ' << setw( 10 ) << propriedade;
 
    // Numero de links do sítio
-   out << ' ' << setw ( 5 ) << conexao.size ();
+   out << ' ' << setw( 5 ) << conexao.size();
 
    // lista dos rótulos da conexao
-   for ( auto objeto_conectado : conexao )
-      out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
+   for( auto objeto_conectado : conexao )
+      out << ' ' << setw( 5 ) << objeto_conectado->rotulo;
 
    // Lista das propriedades (condutâncias das ligações)
-   for ( auto condutancia_i : condutancia )
-      out << ' ' << setw ( 10 ) << condutancia_i;
+   for( auto condutancia_i : condutancia )
+      out << ' ' << setw( 10 ) << condutancia_i;
 
    return out;
 }
@@ -249,9 +249,9 @@ Lista_dos_rotulos_das_conexões
     @param  : 	ostream& e CObjetoRede_Tipo&
     @return :		ostream&
 */
-ostream& operator<< ( ostream& out, CObjetoRede_Tipo& s )
+ostream & operator<< ( ostream & out, CObjetoRede_Tipo & s )
 {
-   s.Write ( out );
+   s.Write( out );
    return out;
 }
 
@@ -317,7 +317,7 @@ ostream& operator<< ( ostream& out, CObjetoRede_Tipo& s )
     com os demais objetos a quem esta conectado.
     Note que x(a pressão do objeto) é desconsiderada, considera condutâncias
     e x(pressão dos vizinhos).
-    
+
     @short  :
     Observe que calcula o novo valor de this->x (a pressão) e o retorna,
     mas não altera o valor de this->x.
@@ -349,11 +349,21 @@ ostream& operator<< ( ostream& out, CObjetoRede_Tipo& s )
     @param  : long double
     @return : long double
 */
-long double CObjetoRede_Tipo::Go ( long double /*d */ )
+long double CObjetoRede_Tipo::Go( long double /*d */ )
 {
-   // Ex:
-   // propriedade = condutancia
-   // x           = pressao
+   // Se this esta num contorno, apenas retorna o valor de x.
+   if( Tipo() ==  ETipoObjetoGrafo::ObjetoRede_Sitio_EST
+         or Tipo() == ETipoObjetoGrafo::ObjetoRede_Sitio_WEST
+         or Tipo() ==  ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
+         or Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
+         or Tipo() ==  ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST
+         or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST
+         or Tipo() ==  ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
+         or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_WEST )
+      return x;
+
+   // Senão calcula novo valor de x usando conexões e conditâncias.
+   // Ex: propriedade = condutancia;  x = pressao
 
    // Cria variáveis auxiliares (uma única vez, pois são estáticas)
    static long double somatorio_da_condutancia;
@@ -366,9 +376,9 @@ long double CObjetoRede_Tipo::Go ( long double /*d */ )
    //     return x;
 
    // zera o somatório (a cada passagem por Go)
- somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
+   somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
 
-   for ( unsigned int i = 0; i < conexao.size (); i++ ) {
+   for( unsigned int i = 0; i < conexao.size(); i++ ) {
          // condutância entre this e o objeto conectado vezes x(pressão) do objeto_conectado
          somatorio_da_condutancia_vezes_x += this->condutancia[i] * conexao[i]->x;
          // Acumula a condutancia total
@@ -379,6 +389,8 @@ long double CObjetoRede_Tipo::Go ( long double /*d */ )
    // retorna um novo valor de x (pressão) sem alterar x diretamente.
    return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
 }
+
+
 
 // -------------------------------------------------------------------------
 // Função:       Fluxo
@@ -391,15 +403,16 @@ long double CObjetoRede_Tipo::Go ( long double /*d */ )
    @param  : void
    @return : long double ( o fluxo associado a this)
 */
-long double CObjetoRede_Tipo::Fluxo () const
+long double CObjetoRede_Tipo::Fluxo() const
 {
    static long double fluxo ;
    fluxo =  0.0 ;
 
-   for ( unsigned long int i = 0; i < conexao.size (); i++ ) {
+   for( unsigned long int i = 0; i < conexao.size(); i++ ) {
          // Ex: x = pressao
          fluxo += condutancia[i] * ( this->x - conexao[i]->x );
       }
 
    return fluxo;
 }
+

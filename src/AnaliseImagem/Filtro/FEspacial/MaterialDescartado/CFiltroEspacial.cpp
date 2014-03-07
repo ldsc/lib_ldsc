@@ -18,15 +18,15 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ----------------------------------------------------------------------------
 */
 #define FiltroDLL		// define como sendo uma dll
-#include "Filtro/FEspacial/CFEspacial.h"
-#include "Mascara/CMPassaBaixa.h"	// O filtro espacial atua sobre a mascara
+#include "AnaliseImagem/Filtro/FEspacial/CFEspacial.h"
+#include "AnaliseImagem/Filtro/Mascara/CMPassaBaixa.h"	// O filtro espacial atua sobre a mascara
 // do passa baixa todos os valores=1// outros filtros usam outras mascaras.
 
 /*
 ============================================================================
 Documentacao      CriaMascara
 ============================================================================
-Descrição:        Se a mascara ja existe deve ser eliminada
+Descriï¿½ï¿½o:        Se a mascara ja existe deve ser eliminada
 Programador:      Andre Duarte Bueno
 */
 
@@ -36,14 +36,14 @@ CFEspacial::CriaMascara (unsigned int tamanhoMascara)
   if (mask)
     delete mask;
 
-  mask = new CMPassaBaixa (tamanhoMascara);	// CMPAssaBaixa é a default, faz a média
+  mask = new CMPassaBaixa (tamanhoMascara);	// CMPAssaBaixa ï¿½ a default, faz a mï¿½dia
 }
 
 /*
 ============================================================================
 Documentacao      Go
 ============================================================================
-Descrição:	Deve percorrer a imagem somente onde a mascara cabe // depois mudar
+Descriï¿½ï¿½o:	Deve percorrer a imagem somente onde a mascara cabe // depois mudar
 Programador:      Andre Duarte Bueno
 */
 
@@ -53,10 +53,10 @@ CFEspacial::Go ()
   CriaMascara ();		// Cria a mascara adequada
 
   // A funcao de preenchimento da mascara
-  // já calculada o peso da mascara
-  CMatriz2D *rImg = new CMatriz2D (*pm);	// rImg é uma matriz cópia da matriz pm passada
+  // jï¿½ calculada o peso da mascara
+  CMatriz2D *rImg = new CMatriz2D (*pm);	// rImg ï¿½ uma matriz cï¿½pia da matriz pm passada
 
-  int i, j, k, l;		// variáveis auxiliares
+  int i, j, k, l;		// variï¿½veis auxiliares
 
   int raioMascaraX = mask->RaioX ();	// temporaria aumenta performance
   int raioMascaraY = mask->RaioY ();
@@ -69,14 +69,14 @@ CFEspacial::Go ()
 	soma = 0.0;
 	for (k = 0; k < mask->NX (); k++)	// percorre a mascara
 	  for (l = 0; l < mask->NY (); l++)
-	    {			// realiza convolução da mascara com a imagem
+	    {			// realiza convoluï¿½ï¿½o da mascara com a imagem
 	      soma +=
 		mask->data2D[k][l] 
 		* rImg->data2D[i + k - raioMascaraX][j + l -raioMascaraY];
 	    }
 	// devo garantir que nao seja valor negativo
 	// (cor nao realizavel)
-	// o fator de peso da mascara ou é 1 ou
+	// o fator de peso da mascara ou ï¿½ 1 ou
 	// um numero maior que 1
 	if (soma > 0)
 	  pm->data2D[i][j] = soma / mask->Peso ();

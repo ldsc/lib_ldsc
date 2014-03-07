@@ -1,5 +1,5 @@
 #include <Segmentacao/3D/PorosGargantas/CPorosGargantas3D.h>
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 #include <iomanip>
 #include <cmath>
 #include <omp.h>

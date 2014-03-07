@@ -1,5 +1,5 @@
 
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -19,14 +19,14 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 		BIBLIOTECAS
 ----------------------------------------------------------------------------
 */
-#include "Filtro/FEspacial/CFEEmboss.h"
-#include "Mascara/CMEmboss.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFEEmboss.h"
+#include "AnaliseImagem/Filtro/Mascara/CMEmboss.h"
 
 /*
 ============================================================================
 Documentacao      CriaMascara
 ============================================================================
-Descrição:	Se a mascara ja existe deve ser eliminada
+Descriï¿½ï¿½o:	Se a mascara ja existe deve ser eliminada
 Programador:      Andre Duarte Bueno
 */
 

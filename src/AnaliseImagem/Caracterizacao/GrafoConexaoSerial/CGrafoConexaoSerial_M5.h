@@ -56,7 +56,7 @@ public:
 // -------------------------------------------------------------Construtor
      /// Construtor
      CGrafoConexaoSerial_M5 ( char *_nomeArquivo ) :CGrafoConexaoSerial_M4 ( _nomeArquivo )  {
-          tipoGrafo  =  ETipoGrafo::Grafo3DBy2D_M5;
+          tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M5;
 
           char arqDisco[256];
           sprintf ( arqDisco, "PixeisDeletados_%s", _nomeArquivo );

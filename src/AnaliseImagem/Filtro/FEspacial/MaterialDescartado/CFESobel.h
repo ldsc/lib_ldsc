@@ -3,7 +3,7 @@
 #define CFiltroSobel_h
 
 #ifndef CFiltroEspacial_h
-#include <Filtro/FEspacial/CFiltroEspacial.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFiltroEspacial.h>
 #endif
 
 //  class definition requiered ==================================================

@@ -22,10 +22,10 @@
 //  ----------------------------------------------------------------------------
 //using namespace std;
 #ifndef TCFEMMIDFd5711_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd5711.h"
 #endif
 //  Classe base
-//  #include "Mascara/MCDiscreta\CMCd5711.h"  //  ponteiro para
+//  #include "AnaliseImagem/Filtro/Mascara/MCDiscreta\CMCd5711.h"  //  ponteiro para
 
 /*
   ==================================================================================

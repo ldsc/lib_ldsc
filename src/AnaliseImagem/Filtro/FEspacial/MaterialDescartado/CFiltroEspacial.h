@@ -1,12 +1,12 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFiltro_h
-#include <Filtro/CFiltro.h>
+#include <AnaliseImagem/Filtro/CFiltro.h>
 #endif
 
 // inclue a biblioteca de mascaras
 #ifndef CMascara_h
-#include <Mascara/CMascara.h>
+#include <AnaliseImagem/Filtro/Mascara/CMascara.h>
 #endif
 
 /*

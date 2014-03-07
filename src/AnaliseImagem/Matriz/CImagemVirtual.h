@@ -24,7 +24,7 @@ Desenvolvido por:
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #ifndef CImagem_h
-#include <Matriz/CImagem.h>
+#include <AnaliseImagem/Matriz/CImagem.h>
 #endif
 
 /**

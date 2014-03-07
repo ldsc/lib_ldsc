@@ -27,7 +27,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #endif
 
 #ifndef CMascara_h
-#include <Mascara/CMascara.h>
+#include <AnaliseImagem/Filtro/Mascara/CMascara.h>
 #endif
 
 // ----------------------------------------------------------------------------

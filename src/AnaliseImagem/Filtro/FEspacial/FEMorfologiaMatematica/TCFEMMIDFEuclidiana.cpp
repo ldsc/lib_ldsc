@@ -19,7 +19,7 @@ Descricao:	 Implementa a função CriaMascara da classe TCFEMMIDFEuclidiana.
 
 //  #include <math.h>      //  Classe base
 #ifndef TCFEMMIDFEuclidiana_h
-#include "Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h"
+#include "AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana.h"
 #endif
 //  Classe base
 

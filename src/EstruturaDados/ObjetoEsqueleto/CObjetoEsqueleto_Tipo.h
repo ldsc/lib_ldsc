@@ -43,7 +43,7 @@ enum ETipoObjetoGrafo;
  * @ingroup  HCObjetoGrafo
  * @todo: implementar template para tipo de cx cy cz
 */
-class CObjetoEsqueleto_Tipo : public CObjetoRede_Tipo {
+class CObjetoEsqueleto_Tipo final : public CObjetoRede_Tipo {
 // --------------------------------------------------------------Atributos
 public:
    float cx {0.0}; ///< Posição x do objeto na imagem tridimensional

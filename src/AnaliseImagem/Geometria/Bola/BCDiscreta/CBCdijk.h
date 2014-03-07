@@ -20,8 +20,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 // Bibliotecas
 // ----------------------------------------------------------------------------
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta.h>
-// #include "CMascara/CMascara.h"
-// #include "Mascara/MCDiscreta/TMCDijk.h"
+// #include "CAnaliseImagem/Filtro/Mascara/CMascara.h"
+// #include "AnaliseImagem/Filtro/Mascara/MCDiscreta/TMCDijk.h"
 
 // ----------------------------------------------------------------------------
 // Classe:       CBCdijk

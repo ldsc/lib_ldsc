@@ -1,4 +1,4 @@
-//Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+//ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef TFEEsqueleto3D_cpp
 #define TFEEsqueleto3D_cpp
 /*
@@ -13,7 +13,7 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	TFEEEsqueletizacao.cpp
 Nome da classe:      TFEEEsqueletizacao
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-			Algoritimo de esqueletização
+			Algoritimo de esqueletizaï¿½ï¿½o
 */
 /*
 ----------------------------------------------------------------------------
@@ -23,9 +23,9 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 
 
 #include <AnaliseImagem/Filtro/FEspacial/FEEsqueleto/TFEEsqueleto3D.h>
-//Funcao que procura e elimina pés de galinha
+//Funcao que procura e elimina pï¿½s de galinha
 //      int valorEsqueleto;                                                                     //valor final dos pixel's que pertencem ao esqueleto
-//      int valorObjeto;                             //valor final dos pixel's que não pertencem ao esqueleto
+//      int valorObjeto;                             //valor final dos pixel's que nï¿½o pertencem ao esqueleto
 //Versao simples, se pixel atual ativo e a direita ativo, elimina o da direita
 void
 TFEEsqueleto3D::EliminaPeGalinha (TMatriz3D * imagem)
@@ -33,9 +33,9 @@ TFEEsqueleto3D::EliminaPeGalinha (TMatriz3D * imagem)
 ///////////////////////////////////////////////////////////////////
 ////////OBS: da forma como esta elimina muito mais pontos.
 ////////Se for um ponto a ser apagado valor=0
-////////Quando um ponto é o final da linha, deve ser marcado como inapagavel= valorEsqueleto+1
+////////Quando um ponto ï¿½ o final da linha, deve ser marcado como inapagavel= valorEsqueleto+1
 ////////
-////////SÖ USAR PARA ELIMINAR OS PES DE GALINHA< COMO ESQUELETO NAO FUNCIONA
+////////Sï¿½ USAR PARA ELIMINAR OS PES DE GALINHA< COMO ESQUELETO NAO FUNCIONA
 ///////////////////////////////////////////////////////////////////
   pm = imagem;
   int nx = pm->GetNX ();

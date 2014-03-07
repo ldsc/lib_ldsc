@@ -39,7 +39,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMMIDFdj.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/CFMCFMMIDFdj.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFd8

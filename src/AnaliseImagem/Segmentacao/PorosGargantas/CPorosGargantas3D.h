@@ -1,11 +1,11 @@
 #ifndef CPorosGargantas3D_H
 #define CPorosGargantas3D_H
 
-#include <Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
+#include <AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 //#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
-#include <Rotulador/TCRotulador3D.h>
-#include <Matriz/TCImagem3D.h>
-//#include <Matriz/CVetor.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
+#include <AnaliseImagem/Matriz/TCImagem3D.h>
+//#include <AnaliseImagem/Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
 //#include <sstream>

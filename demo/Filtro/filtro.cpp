@@ -1,20 +1,20 @@
 #include <iostream>
 #include <string>
-#include <Matriz/CMatriz2D.h>
-#include <Filtro/FEspacial/CFEPassaAlta.h>
-#include <Filtro/FEspacial/CFEPassaBaixa.h>
-#include <Filtro/FEspacial/CFELaplaciano.h>
-#include <Filtro/FEspacial/CFEBorda.h>
-#include <Filtro/FEspacial/CFEEmboss.h>
+#include <AnaliseImagem/Matriz/CMatriz2D.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEPassaAlta.h>
+#include <AnaliseImagem/Filtro/FEspacial/TCFEPassaBaixa.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFELaplaciano.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEBorda.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEEmboss.h>
 
-#include <Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.h>
-#include <Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.h>
-#include <Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.h>
-#include <Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEDeteccaoContorno/CFEDeteccaoContorno.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEDeteccaoContorno/CFEDCCanny.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEDeteccaoContorno/CFEDCMarrHildreth.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEDeteccaoContorno/CFEDCShenCastan.h>
 
-#include <Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEEsqueleto/CFEEsqueletoV4.h>
 
-#include <Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/CFEMMIDFd34.h>
 
 /*
   Formato do arquivo de disco img.pgm

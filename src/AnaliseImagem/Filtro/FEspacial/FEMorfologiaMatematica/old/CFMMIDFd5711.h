@@ -40,7 +40,7 @@ Arquivo de documentacao auxiliar:
 // Bibliotecas
 // ----------------------------------------------------------------------------
 
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMMIDFdijk.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/CFMMIDFdijk.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFd5711

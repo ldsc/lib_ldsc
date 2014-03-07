@@ -4,7 +4,7 @@
 
 // inclue a biblioteca de filtros
 #ifndef CFEspacial_h
-#include <Filtro/FEspacial/CFEspacial.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEspacial.h>
 #endif
 
 /*
@@ -17,7 +17,7 @@ Desenvolvido por:	Laboratorio de Meios Porosos e Propriedades Termofisicas  dos 
 Programadores:   	Andre D.Bueno, Celso P.Fernandez, Fabio S.Magnani, Liang Zirong,
 			Paulo C. Philippi, Cunha Neto J.A.B.,Nathan Mendes,...
 Copyright @1997:  	Todos os direitos reservados.
-Nome deste arquivo:	CFEPassaBaixa.h
+Nome deste arquivo:	TCFEPassaBaixa.h
 Nome da classe:      CFEPassaBaixa
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */

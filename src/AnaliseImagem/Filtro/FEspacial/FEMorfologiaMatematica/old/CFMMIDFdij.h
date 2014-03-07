@@ -40,8 +40,8 @@ Arquivo de documentacao auxiliar:
 // Bibliotecas
 // ----------------------------------------------------------------------------
 
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/TFMMIDF.h>
-#include <TMascara/TMCDiscreta/TMCdij.h>
+#include <AnaliseImagem/Filtro/FEspacial/TFEMorfologiaMatematica/TFMMIDF.h>
+#include <AnaliseImagem/Filtro/Mascara/TMCDiscreta/TMCdij.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFdij

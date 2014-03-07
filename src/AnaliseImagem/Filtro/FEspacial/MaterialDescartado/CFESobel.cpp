@@ -21,7 +21,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
 #define CFiltroDLL		// define como sendo uma dll
-#include "Filtro/FEspacial/CFiltroSobel.h"
+#include "AnaliseImagem/Filtro/FEspacial/CFiltroSobel.h"
 
 CMatriz2D *
 CFiltroSobel::Go ()

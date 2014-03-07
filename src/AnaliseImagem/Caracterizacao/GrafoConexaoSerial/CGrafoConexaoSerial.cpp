@@ -64,7 +64,7 @@ CGrafo* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*
    /*unsigned long */int i, j, k;
    maiorRotuloUtilizado = 0;
 
-   CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
+   ETipoObjetoGrafo tipoObjeto = ETipoObjetoGrafo::ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_CENTER;
 
    ifstream fin ( nomeArquivoImagem.c_str () );
 
@@ -119,8 +119,8 @@ CGrafo* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*
    ra->CalculaRaioHidraulicoObjetos ();
 
    // Define o contorno como sendo da face WEST (plano 0)
-   tipoContornoObjeto = CContorno::ETipoContorno::WEST;
-
+   tipoObjeto = ETipoObjetoGrafo::ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST;
+aqui
    // Adciona ao grafo os objetos do plano 0
    AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoContornoObjeto );
 
@@ -327,13 +327,12 @@ CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*n
  * @author :	André Duarte Bueno
  * @see    :
  * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,
- * o número do ultimo rótulo utilizado e o tipo de contorno (identifica o objeto a ser criado:
- * CObjetoRede_Sitio_EST = 0, CObjetoRede_Sitio_CENTER = 1,  CObjetoRede_Sitio_EST = 2)
+ * o número do ultimo rótulo utilizado e o tipo de contorno.
  * @return : void
 */
 void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
                                        unsigned long int ultimoRotuloUtilizado,
-                                       CContorno::ETipoContorno tipoContornoObjeto )
+                                       ETipoGrafo tipoObjeto )
 {
    // Não deve considerar o objeto 0 que é o fundo;
    // inclue o rotulo final, o objeto final, ok

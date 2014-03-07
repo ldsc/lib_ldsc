@@ -36,8 +36,8 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------------
-#include <Base/TMath.h>
-#include <TFiltro/TFEspacial/TFEMorfologiaMatematica/CFMMIDFdij.h>
+#include <Base/CMath.h>
+#include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFdij.h>
 
 // ----------------------------------------------------------------------------
 // Classe:       CFMMIDFEuclidiana

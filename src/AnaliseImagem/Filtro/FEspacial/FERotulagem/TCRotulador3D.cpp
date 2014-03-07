@@ -22,9 +22,10 @@ email:            andreduartebueno@gmail.com
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #ifndef TCRotulador3D_h
-#include <Rotulador/TCRotulador3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
 #endif
 // using namespace std;
+
 
 /*
 -------------------------------------------------------------------------

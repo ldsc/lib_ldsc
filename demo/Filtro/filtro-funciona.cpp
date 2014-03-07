@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 
-#include <Matriz/CMatriz2D.h>
-#include <Filtro/FEspacial/CFEPassaAlta.h>
-#include <Filtro/FEspacial/CFEPassaBaixa.h>
-#include <Filtro/FEspacial/CFELaplaciano.h>
-#include <Filtro/FEspacial/CFEBorda.h>
-#include <Filtro/FEspacial/CFEEmboss.h>
+#include <AnaliseImagem/Matriz/CMatriz2D.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEPassaAlta.h>
+#include <AnaliseImagem/Filtro/FEspacial/TCFEPassaBaixa.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFELaplaciano.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEBorda.h>
+#include <AnaliseImagem/Filtro/FEspacial/CFEEmboss.h>
 
 /*
 Formato do arquivo de disco img.pgm

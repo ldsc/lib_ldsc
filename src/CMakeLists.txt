@@ -34,6 +34,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M4.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M5.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABEntropiaJohansen.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABinario.cpp
@@ -171,6 +172,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeRelativa.cpp
   AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.cpp
   Base/CSolver.cpp
   Base/CSimulacao.cpp
   Base/COperacao.cpp

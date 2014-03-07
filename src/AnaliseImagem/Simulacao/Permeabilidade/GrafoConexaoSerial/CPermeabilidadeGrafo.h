@@ -25,31 +25,13 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
 #include <Base/_LIB_LDSC_CLASS.h>
-#endif
-
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
-
-#ifndef CMFluido_h
 #include <Amostra/Material/CMFluido.h>
-#endif
-
-#ifndef SMDiagonalDominante_h
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
-#endif
-
-#ifndef CGrafoContorno_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
-#endif
-
-#ifndef CContorno_h
-#include <Contorno/CContorno.h>
-#endif
-
-#ifndef CGra3Dby2D_h
+#include <MetNum/Contorno/CContorno.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
-#endif
 
 // ===============================================================================
 // Documentacao CLASSE: CPermeabilidadeGrafo

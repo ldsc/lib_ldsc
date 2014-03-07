@@ -26,6 +26,7 @@ Desenvolvido por:
 #include <fstream>
 #include <iomanip>
 #include <MetNum/Contorno/CContorno.h>
+#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
 
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
@@ -54,7 +55,7 @@ struct SPontoCentral {
 
 using namespace std;
 
-class CObjetoImagem
+class CObjetoImagem : public CSMParametroSolver
 {
 	protected:
 		//----------------------------------------------------Atributos

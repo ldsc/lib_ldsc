@@ -119,8 +119,8 @@ public:
 
 // -------------------------------------------------------------Construtor
 /// Construtor
-  CObjetoGrafo () : rotulo (0), propriedade (0)
-  {
+	CObjetoGrafo () : rotulo (0), propriedade (0)
+	{
     /*      static int cont=0;
        if(cont==0)
        fout.open("imagens/CObjetoGrafo.log.txt");
@@ -132,7 +132,7 @@ public:
        cerr << "Não abriu o arquivo de disco imagens/CObjetoGrafo.log.txt."<<endl;
        exit(0);
        } */
-  };
+	}
 
 // --------------------------------------------------------------Destrutor
 

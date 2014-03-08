@@ -14,13 +14,12 @@ Desenvolvido por:
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
 */
-
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <fstream>
-#include <vector>
-#include <cassert>
+// #include <fstream>
+// #include <vector>
+// #include <cassert>
 
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -61,22 +60,31 @@ Desenvolvido por:
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.h>
 #endif
 
+#ifndef CObjetoRede_Final_h
+#include <EstruturaDados/ObjetoRede/CObjetoRede_Final.h>
+#endif
+
 #ifndef CObjetoRede_Tipo_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Tipo.h>
 #endif
 
-/// Agrega o conjunto de classes que estão diretamente relacionadas a hierarquia HCGrafo.
-/// @defgroup HCGrafo
+#ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO // usar template!
+   using value_type_objeto = CObjetoRede_Final;
+#else
+   using value_type_objeto = CObjetoRede;
+#endif
 
 // ===============================================================================
 // Documentacao Classe: CRede
 // ===============================================================================
 /**
  * @brief Um CRede é uma representação para uma estrutura de dados.
- * Um CRede é composto de uma lista de objetos do tipo CObjetoGrafo.
- * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoGrafo.
+ * Um CRede é composto de uma lista de objetos do tipo CObjetoRede.
+ * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoRede.
  * Assim, existe uma hierarquia de grafos cujo pai é CRede e
- * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo.
+ * uma hierarquia de objetos de grafo cujo pai é CObjetoRede.
+ * Note que CObjetoRede_Tipo não é herdeiro de CObjetoRede, seu uso requer
+ * modificação do vetor de objetos (uso de #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO).
  *
  * @author André Duarte Bueno
  * @see    grafos
@@ -85,10 +93,12 @@ Desenvolvido por:
 class  CRede : public CBaseGrafoRedeEsqueleto {
    // --------------------------------------------------------------Atributos
 public:
-   /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
-   /// @todo: trocar por unique_ptr shared_ptr
-//    std::vector <CObjetoRede *> objeto;
-   std::vector <value_type_objeto *> objeto;
+   /// Usa-se objeto[i] para obter ponteiro para o objeto i da rede
+   /// @todo: trocar por unique_ptr shared_ptr ??
+   //    std::vector <CObjetoRede *> objeto;
+
+   /// Vetor de ponteiros para objetos da rede, normalmente CObjetoRede.
+   std::vector < value_type_objeto* > objeto;
 
    // -------------------------------------------------------------Construtor
    /// Construtor default.
@@ -96,68 +106,64 @@ public:
 
    // -------------------------------------------------------------Construtor
    /// Constroi o grafo, recebe um nome de arquivo de disco que tem as informações do grafo.
-   CRede( std::string _na ) : CBaseGrafoRedeEsqueleto( _na ) { }
+   CRede ( std::string _na ) : CBaseGrafoRedeEsqueleto ( _na ) { }
 
    // --------------------------------------------------------------Destrutor
    /// Destroi o objeto, como o grafo é o proprietário dos objetos deve eliminá-los.
    virtual ~CRede()  {
-      for( auto objeto_i :  objeto )
+      for ( auto objeto_i :  objeto )
          delete objeto_i;
    }
 
    // ----------------------------------------------------------------Métodos
 protected:
    /**
-    * @brief  Função usada para criar os objetos herdeiros de CObjetoGrafo 
-	 * (aqui sempre cria objetos herdeiros de CObjetoRede).
+    * @brief  Função usada para criar os objetos herdeiros de CObjetoGrafo
+    * (aqui sempre cria objetos herdeiros de CObjetoRede).
     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
    */
-   value_type_objeto * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) ; 
+   value_type_objeto* CriarObjeto ( ETipoObjetoGrafo tipo ) ;
 
    /// Deleta um objeto do grafo, considerando a posição no vetor.
-   virtual bool DeletarObjeto( int i ) override {
+   /// Pode ser lenta em Função da necessidade de mover muitos dados!
+   virtual bool DeletarObjeto ( int i ) override {
       delete objeto[i];
-      objeto.erase( objeto.begin() + i );
+      objeto.erase ( objeto.begin() + i );
    }
 
    /// Deleta considerando o endereço do objeto.
    /// @todo: testar
-   virtual bool DeletarObjeto( value_type_objeto * objeto_i ) /*override*/ {
+   virtual bool DeletarObjeto ( value_type_objeto* objeto_i ) { /*override*/
       delete objeto_i;
-      // Para calcular valor i, preciso diminuir o ponteiro para objeto_i 
+      // Para calcular valor i, preciso diminuir o ponteiro para objeto_i
       // do ponteiro para início do vetor, que é dado por objeto.data();
-      int posicao_i = objeto_i - (*objeto.data());
-      objeto.erase( objeto.begin() + posicao_i );
+      int posicao_i = objeto_i - ( *objeto.data() );
+      objeto.erase ( objeto.begin() + posicao_i );
    }
 
 public:
    /**
     * @brief Função que monta o grafo, genérica.
+	* Deve ser reescrita nas classes herdeiras.
    */
-//    virtual CRede * Go( long double, long double ) = 0;
+    virtual CRede * Go( long double, long double ) {};
 
    /**
     * @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.
     */
-   virtual void Write( std::ostream & out );
+   virtual void Write ( std::ostream& out ) const override;
 
    // --------------------------------------------------------------------Get
    // --------------------------------------------------------------------Set
    // -----------------------------------------------------------------Friend
    /// Escreve em "os" os dados do objeto grafo e seus agregados
-   friend std::ostream & operator<< ( std::ostream & os, const CRede & obj );
+   friend std::ostream& operator<< ( std::ostream& os, const CRede& obj );
 
    // friend istream& operator>> (istream& is, CRede& obj);
    // Vai criar apelido
-   #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO 
-         using value_type_objeto = CObjetoRede_Tipo;
-   #else
-         using value_type_objeto = CObjetoRede;
-   #endif
 };
 
-std::ostream & operator<< ( std::ostream & os, const CRede & obj );
+std::ostream& operator<< ( std::ostream& os, const CRede& obj );
 // istream& operator>> (istream& is, CRede& obj);
 #endif
-

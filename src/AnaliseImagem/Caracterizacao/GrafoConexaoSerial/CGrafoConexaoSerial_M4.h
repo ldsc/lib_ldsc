@@ -46,12 +46,13 @@ Desenvolvido por:
  * A classe CGrafoConexaoSerial_M5 faz o mesmo, mas elimina píxeis não conectados a ambos os planos.
  * A classe CGrafoConexaoSerial_M6_Tortuosidade faz o mesmo que o modelo 3, 
  * mas corrige condutâncias com base centro massa armazenado nos objetos do esqueleto!
+ * Ou seja, o modelo M6 usa objetos do tipo CObjetoEsqueleto.
  *
  * @author   André Duarte Bueno
  * @see	     Grafo
 * @ingroup  HCGrafo
 */
-class CGrafoConexaoSerial_M4:public CGrafoConexaoSerial_M3 {
+class CGrafoConexaoSerial_M4 : public CGrafoConexaoSerial_M3 {
 // --------------------------------------------------------------Atributos
 public:
      /// Vetor de float para armazenar a informação do cmx de cada sitio do grafo
@@ -73,13 +74,12 @@ public:
      virtual ~ CGrafoConexaoSerial_M4 () = default;
 
      /// Adiciona a saida dos centros de massa
-     virtual void Write (std::ofstream out ) override;
+     virtual void Write (std::ostream& out ) const override;
 
      // Adiciona o calculo dos centros de massa
      // virtual void  CalcularCentroMassa();
 
 // ----------------------------------------------------------------Métodos
-
 protected:
      /**
       * @brief Calcula a condutancia conforme na classe anterior,
@@ -92,7 +92,7 @@ protected:
      /// Depois de criar os objetos, determina e armazena seus centro de massa
      virtual void AdicionarObjetos
      ( CRotulador2DCm *rotulador, unsigned long int ultimoRotuloUtilizado,
-       CContorno::ETipoContorno tipoContorno ) override;
+       ETipoObjetoGrafo tipoObjeto ) override;
 
      // A funcao void CGrafoConexaoSerial::EliminarObjetosRedundantes()
      // elimina os ramos mortos(grupos de objetos CSitio),

@@ -1,14 +1,12 @@
 #ifndef CGrafoTest_h
 #define CGrafoTest_h
-
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Assunto/Ramo: CGrafoTest...
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGrafoTest.h
 @begin      Sat Sep 16 2000
@@ -65,19 +63,16 @@ class CGrafoTest
 {
 // --------------------------------------------------------------Atributos
 public:
-
 // -------------------------------------------------------------Construtor
 /// Construtor
-    CGrafoTest();
+    CGrafoTest() = default;
 
 // --------------------------------------------------------------Destrutor
-
 /// Destrutor
-    virtual ~ CGrafoTest();
+    virtual ~ CGrafoTest() = default;
 
 // ----------------------------------------------------------------Métodos
 private:
-
     /// Informacoes iniciais
     void MostrarInstrucoesArquivosExternos();
 

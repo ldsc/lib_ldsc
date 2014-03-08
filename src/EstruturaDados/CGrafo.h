@@ -18,8 +18,8 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <fstream>
-#include <vector>
+// #include <fstream>
+// #include <vector>
 #include <cassert>
 
 // ----------------------------------------------------------------------------
@@ -49,15 +49,12 @@ Desenvolvido por:
 #include <EstruturaDados/ObjetoGrafo/CObjetoGrafo_MatrizConexoes.h>
 #endif
 
-/// Agrega o conjunto de classes que estão diretamente relacionadas a hierarquia HCGrafo.
-/// @defgroup HCGrafo
-
 // ===============================================================================
 // Documentacao Classe: CGrafo
 // ===============================================================================
 /**
  * @brief Um CGrafo é uma representação para uma estrutura de dados.
- * Um CGrafo é composto de uma lista de objetos do tipo CObjetoGrafo.
+ * Um CGrafo é composto de um vetor de objetos do tipo CObjetoGrafo.
  * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoGrafo.
  * Assim, existe uma hierarquia de grafos cujo pai é CGrafo e
  * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo.
@@ -70,8 +67,8 @@ class  CGrafo : public CBaseGrafoRedeEsqueleto {
    // --------------------------------------------------------------Atributos
 public:
    /// Usa-se objeto[i] para obter ponteiro para o objeto i do grafo
-   /// @todo: trocar por unique_ptr shared_ptr
-   std::vector <CObjetoGrafo *> objeto;
+   /// @todo: trocar por unique_ptr shared_ptr ??
+   std::vector <CObjetoGrafo*> objeto;
 
    // -------------------------------------------------------------Construtor
    /// Construtor default.
@@ -79,12 +76,12 @@ public:
 
    // -------------------------------------------------------------Construtor
    /// Constroi o grafo, recebe um nome de arquivo de disco que tem as informações do grafo.
-   CGrafo( std::string _na ) : CBaseGrafoRedeEsqueleto(_na){ }
+   CGrafo ( std::string _na ) : CBaseGrafoRedeEsqueleto ( _na ) { }
 
    // --------------------------------------------------------------Destrutor
    /// Destroi o objeto, como o grafo é o proprietário dos objetos deve eliminá-los.
    virtual ~CGrafo()  {
-      for( auto objeto_i :  objeto )
+      for ( auto objeto_i :  objeto )
          delete objeto_i;
    }
 
@@ -96,15 +93,15 @@ protected:
     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
    */
    /*virtual */
-   CObjetoGrafo * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) {
-      CObjetoGrafo * data;
+   CObjetoGrafo* CriarObjeto ( ETipoObjetoGrafo tipo ) {
+      CObjetoGrafo* data;
 
-      switch( tipo ) {
+      switch ( tipo ) {
          case ETipoObjetoGrafo::ObjetoGrafo_1VetorConexoes :
             data = new CObjetoGrafo_1VetorConexoes();
             break;
 
-         case ETipoObjetoGrafo::ObjetoGrafo :
+         case ETipoObjetoGrafo::ObjetoGrafo_2VetoresConexoes:
             data = new CObjetoGrafo_2VetoresConexoes();
             break;
 
@@ -112,27 +109,28 @@ protected:
             data = new CObjetoGrafo_MatrizConexoes();
             break;
 
-         default
-               :
+         default :
             data = new CObjetoGrafo_1VetorConexoes();
             break;
          }
-      assert( data );
+
+      assert ( data );
       return data;
    }
 
    /// Deleta um objeto do grafo, considerando a posição no vetor.
-   virtual bool DeletarObjeto( int i ) override {
+   /// Note que pode ser lenta pois implica movimentação dados vetor.
+   virtual bool DeletarObjeto ( int i ) override {
       delete objeto[i];
-      objeto.erase( objeto.begin() + i );
+      objeto.erase ( objeto.begin() + i );
    }
 
-   /// Deleta considerando o endereço do objeto.
+   /// Deleta considerando o endereço do objeto (nova).
    /// @todo: testar
-   virtual bool DeletarObjeto( CObjetoGrafo * objeto_i ) override {
-      delete objeto_i;      
-      int posicao_i = objeto_i - *objeto.data(); 
-      objeto.erase( objeto.begin() + posicao_i );
+   virtual bool DeletarObjeto ( CObjetoGrafo* objeto_i )  {
+      delete objeto_i;
+      int posicao_i = objeto_i - *objeto.data();
+      objeto.erase ( objeto.begin() + posicao_i );
    }
 
 public:
@@ -144,18 +142,18 @@ public:
    /**
     * @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.
     */
-   virtual void Write( std::ostream& out );
+   virtual void Write ( std::ostream& out ) const override;
 
    // --------------------------------------------------------------------Get
    // --------------------------------------------------------------------Set
    // -----------------------------------------------------------------Friend
    /// Escreve em "os" os dados do objeto grafo e seus agregados
-   friend std::ostream & operator<< ( std::ostream & os, const CGrafo & obj );
+   friend std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 
    // friend istream& operator>> (istream& is, CGrafo& obj);
 };
 
-std::ostream & operator<< ( std::ostream & os, const CGrafo & obj );
+std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 // istream& operator>> (istream& is, CGrafo& obj);
 #endif
 

@@ -17,6 +17,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
+#include<cassert>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -50,7 +51,6 @@ Desenvolvido por:
 class CRedeContorno : public CRede {
    // --------------------------------------------------------------Atributos
 public:
-
    /// Usa-se contorno[i] para obter ponteiro para contorno i.
    std::vector < CContornoCentro * >contorno;
 
@@ -58,7 +58,7 @@ public:
    /// Cria os objetos de contorno e incluí no vetor contorno.
    CRedeContorno( std::string _nomeArquivo, unsigned long int _numero_contornos = 0 )
       :      CRede( _nomeArquivo ) {
-      tipoGrafo  =  ETipoGrafo::Grafo_Contorno ;
+      tipoGrafo  =  ETipoGrafo::Rede_Contorno ;
 		contorno.reserve( _numero_contornos );
       for( unsigned long int i = 0; i < _numero_contornos; i++ ) {
             CContornoCentro * obj_cont = new CContornoCentro();

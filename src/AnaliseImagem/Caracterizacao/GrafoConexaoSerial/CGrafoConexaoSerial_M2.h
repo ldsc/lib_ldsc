@@ -36,8 +36,8 @@ Desenvolvido por:
 
 /**
  * @brief 	Determinação do grafo de imagens 3D usando modelo 2.
- * Para cada objeto uma ligação
- * Condutancia média entre os dois objetos
+ * Condutancia média entre os dois objetos.
+ * Adicioona rotulador intermediário.
  *
  * @author 	André Duarte Bueno
  * @see			grafos
@@ -46,46 +46,54 @@ Desenvolvido por:
 class CGrafoConexaoSerial_M2 : public CGrafoConexaoSerial {
 // --------------------------------------------------------------Atributos
 protected:
-     /// Rotulador para imagem intermediária
-     CRotulador2DCm *rotInt;
+   /// Rotulador para imagem intermediária
+   CRotulador2DCm* rotInt;
 
 public:
 // -------------------------------------------------------------Construtor
-     /// Construtor
-     CGrafoConexaoSerial_M2 ( std::string _nomeArquivo ) : CGrafoConexaoSerial ( _nomeArquivo ),  rotInt ( nullptr ) {
-          tipoGrafo  =  ETipoGrafo::grafo3DBy2D_M2 ;
-     }
+   /// Construtor
+   CGrafoConexaoSerial_M2 ( std::string _nomeArquivo ) : CGrafoConexaoSerial ( _nomeArquivo ),  rotInt ( nullptr ) {
+      tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M2 ;
+   } 
 
 // --------------------------------------------------------------Destrutor
-     /// Destrutor
-     virtual ~ CGrafoConexaoSerial_M2 () = default;
+   /// Destrutor
+   virtual ~ CGrafoConexaoSerial_M2 () = default;
 
 // ----------------------------------------------------------------Métodos
-     /**
-      * @brief Transforma uma propriedade raio Hidraulico em condutancia.
-      * Tem mais de uma herdeira.
-     */
-     virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
-                                         unsigned long int _fatorAmplificacao ) override;
+   /**
+    * @brief Transforma uma propriedade raio Hidraulico em condutancia.
+    * Tem mais de uma herdeira.
+   */
+   virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
+                                       unsigned long int _fatorAmplificacao ) override;
 
-     /**
-     * @brief  Determina o grafo usando imagem 3D.
-     * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
-     */
-     virtual CGrafo *Go ( TCMatriz3D<int> *_img3D, unsigned long int _tamanhoMascara =   1 ) override;
+   /**
+   * @brief  Determina o grafo usando imagem 3D.
+   * Aqui, apenas cria o rotulador intermediário e a seguir chama CGrafoConexaoSerial::Go(), da classe base.
+   * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
+   * Depois gera-se um objeto de rotulagem com o plano intermediário
+   * (da conexão dos planos i com i+1) e um vetor de conexões válidas.
+   * Verifica os objetos no plano i e no plano i+1, se estiverem conexos
+   * estabelece a conexão nos dois sentidos. Para evitar a repetição da
+   * mesma conexão, seta o vetor de conexões para aquele rótulo como sendo inválido.
+   * Desta forma as conexões são corretamente estabelecidas, e elimina-se
+   * as conexões redundantes. Chama , deleta rotint para econimizar memória.
+   */
+   virtual CRede* Go ( TCMatriz3D<int>* _img3D, unsigned long int _tamanhoMascara =   1 ) override;
 
-     /**
-      * @brief  Determina o grafo lendo a imagem do disco, plano a plano.
-      * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
-     */
-     virtual CGrafo *Go ( std::string nomeArquivo, unsigned long int funcao ) override;
+   /**
+    * @brief  Determina o grafo lendo a imagem do disco, plano a plano.
+    * Aqui, apenas cria o rotulador intermediário e chama Go da classe base
+   */
+   virtual CRede* Go ( std::string nomeArquivo, unsigned long int funcao ) override;
 
 protected:
-     /**
-      * @brief  conecta os objetos considerando um plano intermediário,
-      * que é criado para eliminar a repetição dos links.
-     */
-     virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
+   /**
+    * @brief  conecta os objetos considerando um plano intermediário,
+    * que é criado para eliminar a repetição das conexões.
+   */
+   virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

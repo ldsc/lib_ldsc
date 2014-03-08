@@ -16,3 +16,8 @@
 // -----------------------------------------------------------------------
 #include <EstruturaDados/CBaseGrafoRedeEsqueleto.h>
 
+std::ostream & operator<< ( std::ostream & out, const CBaseGrafoRedeEsqueleto & grafo )
+{
+   grafo.Write( out );
+   return out;
+}

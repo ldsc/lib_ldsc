@@ -55,9 +55,9 @@ Passo_2: OTIMIZAR_VELOCIDADE_PROCESSAMENTO
 Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
 [] - Criar classe CObjetoRede_Final e CObjetosEsqueleto_Final com uso de final de C++11.
 [] - Comparar desempenho:
-Usando objetos virtuais
-Usando objeto Tipo (não virtual)
+Usando objetos virtuais    (é o processamento normal)
 Usando objeto Final (uso de final de C++11)
+Usando objeto Tipo (não virtual); uso de OTIMIZAR_VELOCIDADE_PROCESSAMENTO
 
 Passo_3: MUDAR SOLVER
 [ ] - Usar solver de boost
@@ -67,13 +67,27 @@ Passo_4: USAR TEMPLATE
 [ ] - Modificar hierarquia grafos
 [] - Comparar desempenho:
 
+Passo_5:
+[]- Tirar acesso public as propriedades rotulo,  condutância.
+- Desenvolver modelo M3b que considera píxeis vizinhos a area de interseccao.
+[] - Desenvolver modelo M9, considera IDF 3D.
 [] - Trocar o valor de "deletado" que deve ser numeric_limits<>max()
+[] - Corrigir códigos como:
+         sitio = dynamic_cast < CObjetoEsqueleto* > ( objeto[k] );
+         assert ( sitio );
+lanca excecao antes do assert !
 [] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
 métodos virtuais (pode ter herança).
 [] - Em CObjetoRede::Go CObjetoRede_Final CObjetoRede_Tipo::Go 
 testar desempenho com e sem o static; como o compilador usa opções de
 	/// otimização é possível que sem estáticstatic fique mais rápido!
 [] - Em CObjetoRede::Go só considera sítios vizinhos no calculo do novo x;
+[] - Testar:
+   virtual bool CGrafo::DeletarObjeto ( CObjetoGrafo* objeto_i ) override {
+      delete objeto_i;
+      int posicao_i = objeto_i - *objeto.data();
+      objeto.erase ( objeto.begin() + posicao_i );
+   }
 
 []- Melhorar resumo git, Acrescentar dicas de git.org.cz "Git Cheat Sheet"
 [] - Ver livro que fala de padrões de projeto, classe padrão para criar objetos.

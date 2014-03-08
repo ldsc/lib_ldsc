@@ -27,7 +27,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Matriz/TCImagem3D.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
+#include <EstruturaDados/CGrafo.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
@@ -108,7 +108,5 @@ public:
 // --------------------------------------------------------------------Set
 // -------------------------------------------------------------Sobrecarga
 // -----------------------------------------------------------------Friend
-
 };
-
 #endif

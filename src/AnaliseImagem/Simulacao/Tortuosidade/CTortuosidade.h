@@ -52,6 +52,10 @@ public:
   ~CTortuosidade() = default;
 
 // ----------------------------------------------------------------Métodos
+/** @short  : Calcula a Tortuosidade.
+*/
+    virtual long double CalcularTortuosidade () {};
+	
 // --------------------------------------------------------------------Get
 public:
   long double Tortuosidade() { return tortuosidade; }

@@ -14,7 +14,7 @@
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <cassert>
+// #include <cassert>
 #include <iomanip>
 
 // -----------------------------------------------------------------------
@@ -44,16 +44,22 @@ using namespace std;
     @param  : Nome do arquivo de disco (string)
     @return : void
 */
-void CGrafo::Write( std::ostream & out )
+void CGrafo::Write ( std::ostream& out ) const
 {
-   out.setf( ios::right );
+   out.setf ( ios::right );
+
+   // Tipo de grafo
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
    // Numero de objetos
-   out << setw( 5 ) << objeto.size() << endl;
+   out << setw ( 5 ) << objeto.size() << endl;
 
    // Percorre os objetos e salva em disco as informações de cada objeto.
-   for( auto objeto_i :  objeto ) {
-         objeto_i->Write( out );	 // out << (*objeto[i]) << '\n';
+   for ( auto objeto_i :  objeto ) {
+         objeto_i->Write ( out );	 
+		 // out << (*objeto[i]) << '\n';
+		 // objeto_i >> out;   <-> objeto_i << in;
+		 // objeto_i >> arquivo;   <-> objeto_i << arquivo;
          out << '\n';
       }
 }
@@ -69,8 +75,8 @@ void CGrafo::Write( std::ostream & out )
     @return : ostream&
     @test   : Testar/verificar os diferentes tipos de arquivos de grafo gerados.
 */
-ostream & operator<< ( ostream & out, CGrafo & grafo )
+ostream& operator<< ( ostream& out, CGrafo& grafo )
 {
-   grafo.Write( out );
+   grafo.Write ( out );
    return out;
 }

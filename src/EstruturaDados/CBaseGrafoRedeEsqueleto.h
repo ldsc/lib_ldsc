@@ -27,9 +27,8 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-
 #ifndef CObjetoGrafo_h
-#include <EstruturaDados/ObjetoGrafo/CObjetoGrafo.h>
+#include <EstruturaDados/ObjetoGrafo/CObjetoGrafo.h> // ETipoObjetoGrafo
 #endif
 
 /// Agrega o conjunto de classes que estão diretamente relacionadas a hierarquia HCGrafo.
@@ -39,11 +38,8 @@ Desenvolvido por:
 // Documentacao Classe: CBaseGrafoRedeEsqueleto
 // ===============================================================================
 /**
- * @brief Um CBaseGrafoRedeEsqueleto é uma representação para uma estrutura de dados.
- * Um CBaseGrafoRedeEsqueleto é composto de uma lista de objetos do tipo CObjetoGrafo.
- * A forma como os objetos se relacionam é definida, normalmente, pelo próprio CObjetoGrafo.
- * Assim, existe uma hierarquia de grafos cujo pai é CBaseGrafoRedeEsqueleto e
- * uma hierarquia de objetos de grafo cujo pai é CObjetoGrafo.
+ * @brief Um CBaseGrafoRedeEsqueleto é uma classe base para as classes
+ * CGrafo CRede CEsqueleto, que são representaçes para estruturas de dados.
  *
  * @author André Duarte Bueno
  * @see    grafos
@@ -61,7 +57,8 @@ protected:
    enum class ETipoGrafo : uint8_t {
       BaseGrafoRedeEsqueleto,///< representa classe base virtual
       Grafo,                 ///< representa grafo criado por CGrafo
-      Grafo_Contorno,        ///< representa grafo criado por CGrafo_Contorno
+      Rede,                  ///< representa rede criado por CRede
+      Rede_Contorno,        ///< representa grafo criado por CRede_Contorno
       GrafoConexaoSerial,    ///< representa grafo criado por CGrafoConexaoSerial
       GrafoConexaoSerial_M1, ///< representa grafo criado por CGrafoConexaoSerial_M1
       GrafoConexaoSerial_M2, ///< representa grafo criado por CGrafoConexaoSerial_M2
@@ -71,8 +68,8 @@ protected:
       GrafoConexaoSerial_M6  ///< representa grafo criado por CGrafoConexaoSerial_M6
    };
 
-   /// Identifica o tipo de grafo, deve ser definido no construtor.
-   ETipoGrafo tipoGrafo { ETipoGrafo::Grafo } ;
+   /// Identifica o tipo de grafo, nas herdeiras deve ser definido no construtor.
+   ETipoGrafo tipoGrafo { ETipoGrafo::BaseGrafoRedeEsqueleto } ;
 
 public:
    // -------------------------------------------------------------Construtor
@@ -89,25 +86,36 @@ public:
 
    // ----------------------------------------------------------------Métodos
 protected:
-   /**
-    * @brief  Função usada para criar os objetos do grafo.
-    * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
-    * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
-   */
-   virtual CObjetoGrafo * CriarObjetoGrafo( ETipoObjetoGrafo tipo ) = 0;
+//    /**
+//     * @brief  Função usada para criar os objetos herdeiros de CObjetoGrafo.
+//     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
+//     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
+//    */
+//    virtual CObjetoGrafo * CriarObjeto( ETipoObjetoGrafo tipo ) = 0;
+// 
+//    /**
+//     * @brief  Função usada para criar os objetos herdeiros de CObjetoRede.
+//     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
+//     * @return Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoGrafo.
+//    */
+//    #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+//    virtual CObjetoRede_Final * CriarObjetoRede( ETipoObjetoGrafo tipo ) = 0;
+//    #else
+//    virtual CObjetoRede * CriarObjetoRede( ETipoObjetoGrafo tipo ) = 0;
+//    #endif
 
    /// Deleta um objeto do grafo, considerando a posição no vetor.
    virtual bool DeletarObjeto( int i ) = 0 ;
 
-   /// Deleta considerando o endereço do objeto.
-   /// @todo: testar
-   virtual bool DeletarObjeto( CObjetoGrafo * objeto_i )  = 0;
+//    /// Deleta considerando o endereço do objeto.
+//    /// @todo: testar
+//    virtual bool DeletarObjeto( CObjetoGrafo * objeto_i )  = 0;
 
 public:
-   /**
-    * @brief Função que monta o grafo, genérica.
-   */
-   virtual CBaseGrafoRedeEsqueleto * Go( long double, long double ) {};
+//    /**
+//     * @brief Função que monta o grafo, genérica.
+//    */
+//    virtual CBaseGrafoRedeEsqueleto * Go( long double, long double ) {};
 
    /**
     * @brief Fun que salva o grafo e seus objetos em disco.
@@ -123,6 +131,7 @@ public:
       Write( out );
       out.close();
    }
+   
    /**
     * @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.
     */
@@ -131,21 +140,25 @@ public:
    // --------------------------------------------------------------------Get
    /// Retorna o nome do grafo que inclui, como extensão, o tipo grafo
    std::string NomeGrafo()  const {
-      return nomeArquivo + "." + TipoGrafoString();
+      return nomeArquivo + "." + TipoString();
    }
 
    /// Retorna o tipo de grafo
-   ETipoGrafo TipoGrafo( ) {
+   ETipoGrafo Tipo( ) const {
       return tipoGrafo;
    }
 
    /// Retorna o tipo do grafo como uma string, útil para gerar nomes arquivos saída.
-   std::string TipoGrafoString( ) const {
+   std::string TipoString( ) const {
       switch( tipoGrafo ) {
+         case ETipoGrafo::BaseGrafoRedeEsqueleto :
+            return {"BaseGrafoRedeEsqueleto"};
          case ETipoGrafo::Grafo          :
             return {"Grafo"};
-         case ETipoGrafo::Grafo_Contorno  :
-            return {"Grafo_Contorno"};
+         case ETipoGrafo::Rede    :
+            return {"Rede"};
+         case ETipoGrafo::Rede_Contorno  :
+            return {"Rede_Contorno"};
          case ETipoGrafo::GrafoConexaoSerial    :
             return {"GrafoConexaoSerial"};
          case ETipoGrafo::GrafoConexaoSerial_M1 :
@@ -167,15 +180,8 @@ public:
    // -----------------------------------------------------------------Friend
    /// Escreve em "os" os dados do objeto grafo e seus agregados
    friend std::ostream & operator<< ( std::ostream & out, const CBaseGrafoRedeEsqueleto & grafo );
-
    // friend istream& operator>> (istream& is, CBaseGrafoRedeEsqueleto& obj);
 };
-
-std::ostream & operator<< ( std::ostream & out, const CBaseGrafoRedeEsqueleto & grafo )
-{
-   grafo.Write( out );
-   return out;
-}
 // istream& operator>> (istream& is, CBaseGrafoRedeEsqueleto& obj);
 #endif
 

@@ -33,6 +33,8 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 
 #ifndef CObjetoEsqueleto_Sitio_EST
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.h>
+#include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.h>
+#include <EstruturaDados/CRede.h>
 #endif
 
 #ifndef CMath_h
@@ -40,42 +42,42 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 #endif
 using namespace std;
 
-// -------------------------------------------------------------------------
-// Função:       CriarObjetoGrafo
-// -------------------------------------------------------------------------
-/**
-@short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
-@author : André Duarte Bueno
-@see    : grafos
-@param  : CContorno::ETipoContorno tipoContorno
-@return : Retorna um ponteiro para um sítio novo
-*/
-CObjetoRede*
-CGrafoConexaoSerial_M6_Tortuosidade::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
-{
-   CObjetoRede* data;
-
-   switch ( tipoContorno ) {
-      case CContorno::ETipoContorno::CENTER:
-         data = new CObjetoEsqueleto_Sitio_CENTER ();
-         break;
-
-      case CContorno::ETipoContorno::WEST:
-         data = new CObjetoEsqueleto_Sitio_WEST ();
-         break;
-
-      case CContorno::ETipoContorno::EST:
-         data = new CObjetoEsqueleto_Sitio_EST ();
-         break;
-
-      default:
-         data = new CObjetoEsqueleto_Sitio_CENTER ();
-         break;
-      }
-
-   assert ( data );
-   return data;
-}
+// // -------------------------------------------------------------------------
+// // Função:       CriarObjeto
+// // -------------------------------------------------------------------------
+// /**
+// @short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
+// @author : André Duarte Bueno
+// @see    : grafos
+// @param  : CContorno::ETipoContorno tipoContorno
+// @return : Retorna um ponteiro para um sítio novo
+// */
+// CObjetoRede*
+// CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( CContorno::ETipoContorno tipoContorno )
+// {
+//    CObjetoRede* data;
+//
+//    switch ( tipoContorno ) {
+//       case CContorno::ETipoContorno::CENTER:
+//          data = new CObjetoEsqueleto_Sitio_CENTER ();
+//          break;
+//
+//       case CContorno::ETipoContorno::WEST:
+//          data = new CObjetoEsqueleto_Sitio_WEST ();
+//          break;
+//
+//       case CContorno::ETipoContorno::EST:
+//          data = new CObjetoEsqueleto_Sitio_EST ();
+//          break;
+//
+//       default:
+//          data = new CObjetoEsqueleto_Sitio_CENTER ();
+//          break;
+//       }
+//
+//    assert ( data );
+//    return data;
+// }
 
 // -------------------------------------------------------------------------
 // Função     AdicionarObjetos
@@ -94,44 +96,50 @@ CGrafoConexaoSerial_M6_Tortuosidade::CriarObjetoGrafo ( CContorno::ETipoContorno
 void
 CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
 ( CRotulador2DCm* rotulador, unsigned long int ultimoRotuloUtilizado,
-  CContorno::ETipoContorno tipoContornoObjeto )
+  ETipoObjetoGrafo tipoObjeto )
 {
+   // Na classe CGrafoConexaoSerial_M3 a função Go()
+   // seta o tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
+   // aqui quero criar objetos do tipo Esqueleto, então
+   // tenho de mudar o tipo antes de chamar CriarObjeto(tipo).
+   if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_CENTER;
+   else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_WEST )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST;
+   else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_EST )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST;
+   else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Final )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Final;
+
    // Calcula o centro de massa dos objetos da imagem rotulada (NOVO)
    rotulador->CentroMassaObjetos ();
 
    // Não deve considerar o objeto 0 que é o fundo.
    // inclue o rotulo final, o objeto final
-   for ( int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++ )
+   for ( int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++ ) {
+         // Código antigo
+         //// Ponteiro para objeto a ser criado
+         //CObjetoRede*      data;
+         //// Obtem um sítio novo passando o tipo
+         //data = CriarObjeto ( tipoContornoObjeto );
+         //assert ( data );
 
-      { // Código antigo
-		//// Ponteiro para objeto a ser criado
-		//CObjetoRede*      data;
-		//// Obtem um sítio novo passando o tipo
-		//data = CriarObjetoGrafo ( tipoContornoObjeto );
-		//assert ( data );
+         // Código novo
+         // Dentro de CRede, value_type_objeto esta setada para criar objeto do tipo CObjetoRede
+         // ou CObjetoRede_Tipo(tipo); depende da variável de pré-processamento
+         // OTIMIZAR_VELOCIDADE_PROCESSAMENTO;
+         // mas aqui quero criar CObjetoEsqueleto_Sitio ou ObjetoEsqueleto_Final, então uso
+         // #idef OTIMIZAR_VELOCIDADE_PROCESSAMENTO para setar corretamente o tipo de ponteiro.
+         // Lembrando que ObjetoEsqueleto_Final é +rápida pois não tem polimorfismo.
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-         // Vai criar objeto do tipo CObjetoRede_Tipo, passando o tipo (+rápida sem polimorfismo).
-         CObjetoRede_Tipo* data = nullptr;
-         // note que preciso setar o tipo de objeto a partir do tipo de contorno.
-         ETipoObjetoGrafo tipoObjeto;
-         if ( tipoContornoObjeto == CContorno::ETipoContorno::CENTER )
-            tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_CENTER;
-         else if ( tipoContornoObjeto == CContorno::ETipoContorno::WEST )
-            tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST;
-         else if ( tipoContornoObjeto == CContorno::ETipoContorno::EST )
-            tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST;
-         // Obtem um CObjetoRede_Tipo novo passando o tipo de objeto
-         data = CriarObjetoGrafo ( tipoObjeto );
-         assert ( data );
+         CObjetoEsqueleto_Final* data = nullptr;
+         data = static_cast< CObjetoEsqueleto_Final* > ( CriarObjeto ( tipoObjeto ) );
 #else
-         // Abaixo código antigo
-         // Cria objeto do tipo CObjetoRede, com polimorfismo,  economiza memória.
-         // Ponteiro para objeto a ser criado
-         CObjetoRede* data = nullptr;
-         // Obtem um sítio novo passando o tipo de contorno
-         data = CriarObjetoGrafo ( tipoContornoObjeto );
-         assert ( data );
+         CObjetoEsqueleto* data = nullptr;
+         data = static_cast< CObjetoEsqueleto* > ( CriarObjeto ( tipoObjeto ) );
 #endif
+         // Obtem um novo objeto
+         assert ( data );
 
          // No rotulador o objeto 0 é o fundo
          // como rotulo esta iniciando em 1, faço -1
@@ -144,13 +152,13 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
          // Passa para x o plano atual (sera usado na estimacao de x)
          data->x = this->plano;
 
-         // AQUI, seta cx,cy,cz de cada sítio
-         // Adiciona a posição do centro de massa
-         CObjetoEsqueleto*     objeto_esqueleto = dynamic_cast < CObjetoEsqueleto* > ( data );
-         assert ( objeto_esqueleto );
-         objeto_esqueleto->cx = rotulador->CMXObjeto ( rotulo );
-         objeto_esqueleto->cy = rotulador->CMYObjeto ( rotulo );
-         objeto_esqueleto->cz = plano;
+// AQUI, seta cx,cy,cz de cada sítio
+// Adiciona a posição do centro de massa
+// CObjetoEsqueleto_Sitio*objeto_esqueleto = dynamic_cast < CObjetoEsqueleto_Sitio* > ( data );
+// assert ( objeto_esqueleto );
+         data->cx = rotulador->CMXObjeto ( rotulo );
+         data->cy = rotulador->CMYObjeto ( rotulo );
+         data->cz = plano;
 
          // Insere o objeto criado a lista de objetos do grafo
          objeto.push_back ( data );
@@ -176,6 +184,7 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
 // FIM NOVO*********
 
    ofstream saida ( ( NomeGrafo() + ".fatorCorrecao" ).c_str() );
+   saida << "fatorCorrecaoDistancias(desviosLaterais) e fatorCorrecaoDistanciasLimitado a 2\n";
 
    // Chama função da classe base que calcula as condutâncias
    CGrafoConexaoSerial_M3::CalcularCondutancias ( _viscosidade, _dimensaoPixel, _fatorAmplificacao );
@@ -189,8 +198,7 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
    double     dy = 0.0;
 
    // Fator de correção da condutancia (distancia total entre os dois sitios)
-   double
-   fatorCorrecaoDistancias = 0.0;
+   double   fatorCorrecaoDistancias = 0.0;
 
    // Percorre  todos os objetos do  grafo
    for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
@@ -199,19 +207,19 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
          assert ( sitio );
 
          // Obtêm a informação do cmx e cmy do sitio atual (k)
-         double          cmxSitio = sitio->cx;
-         double          cmySitio = sitio->cy;
+         double cmxSitio = sitio->cx;
+         double cmySitio = sitio->cy;
 
          // Percorre todas as conexões do sitio atual
-         CObjetoEsqueleto*          sitioConexo = nullptr;
+         CObjetoEsqueleto*  sitioConexo = nullptr;
 
          for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
                sitioConexo = dynamic_cast < CObjetoEsqueleto* > ( sitio->conexao[link] );
                assert ( sitioConexo );
 
                // Recupera a informação  do centro de massa na direção x, do sitio conexo
-               double               cmxSitioConexo = sitioConexo->cx;
-               double               cmySitioConexo = sitioConexo->cy;
+               double  cmxSitioConexo = sitioConexo->cx;
+               double  cmySitioConexo = sitioConexo->cy;
 
                // Determina a distância dx e dy entre o sítio e o sitio conexo
                // Correção, como faz dx*dx, não precisa achar módulo!
@@ -220,11 +228,11 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
 
                // Calcula o fator de correção da condutancia em função  da distância entre os sitios
                fatorCorrecaoDistancias = sqrt ( 1.0 + dx * dx + dy * dy );
-               saida << fatorCorrecaoDistancias << endl;
+               saida << setw ( 10 ) << fatorCorrecaoDistancias << ' ';
                // Corrige a condutancia, considerando o fator de correção
 
-// ***********NOVO NO MODELO 6 EVITA EXCESSO DE CObjetoRedeRECAO*******
-// Este fator precisa ser melhor definido, pois é arbitrário
+               // NOVO NO MODELO 6 EVITA EXCESSO DE CORRECAO
+               // Este fator precisa ser melhor definido, pois é arbitrário; em alguns casos piora valor condutancia.
                if ( fatorCorrecaoDistancias < 2.0 ) {
                      sitio->condutancia[link] /= fatorCorrecaoDistancias;
                   }
@@ -232,19 +240,18 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
                      sitio->condutancia[link] /= 2.0;
                   }
 
-// FIM NOVO*********
-// ***********NOVO CALCULO TORTUOSIDADE*******
-               // Para cálculo da tortuosidade vai acumular as distâncias laterais
-               // e o número de derivações (número de conexões)
-               // e depois dividir pelo número de conexões.
+               saida << setw ( 10 ) << fatorCorrecaoDistancias << '\n';
+
+               // ***********NOVO CALCULO TORTUOSIDADE*******
+               // Para cálculo da tortuosidade vai acumular as distâncias laterais e o número de derivações
+               // (número de conexões); depois vai dividir pelo numeroDerivacoesUsadasCalculoTortuosidade.
                tortuosidade += fatorCorrecaoDistancias;    // acumula as distâncias
                numeroDerivacoesUsadasCalculoTortuosidade++;// acumula número conexões
-// FIM NOVO*********
-               // sitio->condutancia[link] /= sqrt (1.0 + dx * dx + dy * dy);
+               // FIM NOVO*********
             }			// for link
       }				// for k
 
-// ***********NOVO CALCULO TORTUOSIDADE*******
+   // ***********NOVO CALCULO TORTUOSIDADE*******
    tortuosidade /= numeroDerivacoesUsadasCalculoTortuosidade;// corrige a tortuosidade
 
    ofstream arq_tortuosidade ( ( NomeGrafo() + ".tortuosidade" ).c_str() );
@@ -252,9 +259,95 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
    arq_tortuosidade.close();
 
    cout << "\nA tortuosidade da imagem " << nomeArquivo << " é : " << tortuosidade << "\n";
-
-// FIM NOVO*********
+   // FIM NOVO*********
 
    saida.close ();
    return;
+}
+
+// -------------------------------------------------------------------------
+// Função:   CalcularTortuosidade
+// -------------------------------------------------------------------------
+/**
+@short  : Nova, adiciona CalcularTortuosidade sem necessidade calccular condutâncias.
+@author :	André Duarte Bueno
+@see    : Condutância
+@param  : nada
+@return : void
+*/
+long double CGrafoConexaoSerial_M6_Tortuosidade::CalcularTortuosidade ()
+{
+   tortuosidade = 0.0;
+   numeroDerivacoesUsadasCalculoTortuosidade = 0;
+
+   ofstream arq_tortuosidade ( ( NomeGrafo() + ".tortuosidade" ).c_str() );
+   arq_tortuosidade << "fatorCorrecaoDistancias(desvios laterais entre centros de massa dos objetos conectados)\n";
+
+   // Inicio do calculo da correção das condutâncias
+   // Ponteiro para sitio derivado
+   CObjetoEsqueleto*     sitio = nullptr;
+
+   // Distancia dx entre os dois sítios
+   double     dx = 0.0;
+   double     dy = 0.0;
+
+   // Fator de correção da condutancia (distancia total entre os dois sitios)
+   double   fatorCorrecaoDistancias = 0.0;
+
+   if ( objeto.size () == 0 ) {
+         cerr << "\n Chamou CalcularCondutancias antes de executar Go, ou seja, "
+              << "ainda não montou o grafo; valor de tortuosidade indefinido!\n";
+         arq_tortuosidade << "\n Chamou CalcularCondutancias antes de executar Go, ou seja, "
+                          << "ainda não montou o grafo; valor de tortuosidade indefinido!\n";
+		arq_tortuosidade.close();
+         return 0.0;
+      }
+
+   // Percorre  todos os objetos do  grafo
+   for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
+         // Converte o ponteiro ObjetoGrafo para CObjetoEsqueleto, para ter acesso ao vetor condutancia[link] e cx,cy,cz
+         sitio = dynamic_cast < CObjetoEsqueleto* > ( objeto[k] );
+         assert ( sitio );
+
+         // Obtêm a informação do cmx e cmy do sitio atual (k)
+         double cmxSitio = sitio->cx;
+         double cmySitio = sitio->cy;
+
+         // Percorre todas as conexões do sitio atual
+         CObjetoEsqueleto*  sitioConexo = nullptr;
+
+         for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
+               sitioConexo = dynamic_cast < CObjetoEsqueleto* > ( sitio->conexao[link] );
+               assert ( sitioConexo );
+
+               // Recupera a informação  do centro de massa na direção x, do sitio conexo
+               double  cmxSitioConexo = sitioConexo->cx;
+               double  cmySitioConexo = sitioConexo->cy;
+
+               // Determina a distância dx e dy entre o sítio e o sitio conexo
+               // Correção, como faz dx*dx, não precisa achar módulo!
+               dx = cmxSitio - cmxSitioConexo ;
+               dy = cmySitio - cmySitioConexo ;
+
+               // Calcula o fator de correção da condutancia em função  da distância entre os sitios
+               fatorCorrecaoDistancias = sqrt ( 1.0 + dx * dx + dy * dy );
+               arq_tortuosidade << setw ( 10 ) << fatorCorrecaoDistancias << '\n';
+               // Corrige a condutancia, considerando o fator de correção
+
+               // Para cálculo da tortuosidade vai acumular as distâncias laterais e o número de derivações
+               // (número de conexões); depois vai dividir pelo numeroDerivacoesUsadasCalculoTortuosidade.
+               tortuosidade += fatorCorrecaoDistancias;    // acumula as distâncias
+               numeroDerivacoesUsadasCalculoTortuosidade++;// acumula número conexões
+               // FIM NOVO*********
+            }			// for link
+      }				// for k
+
+   tortuosidade /= numeroDerivacoesUsadasCalculoTortuosidade;// corrige a tortuosidade
+
+   arq_tortuosidade << "\nA tortuosidade da imagem " << nomeArquivo << " é : " << tortuosidade << "\n";
+   arq_tortuosidade.close();
+
+   cout << "\nA tortuosidade da imagem " << nomeArquivo << " é : " << tortuosidade << "\n";
+
+   return tortuosidade;
 }

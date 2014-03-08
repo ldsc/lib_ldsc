@@ -59,12 +59,10 @@ using namespace std;
 O atributo plano é utilizado para armazenar no objeto criado, temporariamente,
 a informacao do plano a que pertence. Será usado para estimação
 da pressão inicial.*/
-CGrafo* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*naoUsado*/ )
+CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*naoUsado*/ )
 {
    /*unsigned long */int i, j, k;
    maiorRotuloUtilizado = 0;
-
-   ETipoObjetoGrafo tipoObjeto = ETipoObjetoGrafo::ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_CENTER;
 
    ifstream fin ( nomeArquivoImagem.c_str () );
 
@@ -119,10 +117,10 @@ CGrafo* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*
    ra->CalculaRaioHidraulicoObjetos ();
 
    // Define o contorno como sendo da face WEST (plano 0)
-   tipoObjeto = ETipoObjetoGrafo::ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST;
-aqui
+   ETipoObjetoGrafo tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;
+
    // Adciona ao grafo os objetos do plano 0
-   AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoContornoObjeto );
+   AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoObjeto );
 
    // Determina o rótulo do primeiro objeto a ser usado pelo solver.
    /// @todo: verificar retorno de ra->RotuloFinal() = último rótulo utilizado
@@ -132,7 +130,7 @@ aqui
    // ------------
    // PLANO i
    // ------------
-   tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
+   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
 
    // Le dados do plano ij
    for ( k = 1; k < nz; k++ ) {
@@ -154,12 +152,12 @@ aqui
 
          // Se for o ultimo plano, redefine o contorno e calcula rotuloUltimoObjetoPlanoN_1
          if ( k == ( nz - 1 ) ) {
-               tipoContornoObjeto = CContorno::ETipoContorno::EST;
+               tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
                rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
             }
 
          // Adiciona objetos do plano ij atual
-         AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoContornoObjeto );
+         AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoObjeto );
 
          // Estabelece os links entre os objetos
          DeterminarConeccoesObjetos ( maiorRotuloUtilizado );
@@ -199,13 +197,11 @@ aqui
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
-CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*naoUsado*/ )
+CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*naoUsado*/ )
 {
 
    // Usados para percorrer  a imagem
    /*unsigned long*/ int i, j, k;
-
-   CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
    // Armazena a informacao das dimensoes da imagem
    nx = _img3D->NX ();
@@ -254,12 +250,11 @@ CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*n
    // Calcula os vetores area, perimetro e raio hidraulico do plano 0
    ra->CalculaRaioHidraulicoObjetos ();
 
-   // Chama função que adiciona objetos rotulados (ra) ao vetor de objetos,
-   // Passa o tipo do contorno (WEST)
-   tipoContornoObjeto = CContorno::ETipoContorno::WEST;
+   // Define o contorno como sendo da face WEST (plano 0)
+   ETipoObjetoGrafo tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;
 
    // Adiciona objetos no grafo
-   AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoContornoObjeto );
+   AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoObjeto );
 
    // Determina o primeiro objeto a ser usado pelo solver
    rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
@@ -269,7 +264,7 @@ CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*n
    // ----------------------------------------------------------------------------
    // Define o tipo de contorno como sendo de objeto central
    // (não é contorno esquerdo/WEST nem direito/EST)
-   tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
+   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
 
    // k é o indice da direcao z
    for ( k = 1; k < nz; k++ ) {
@@ -291,12 +286,12 @@ CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*n
          // Se for o último plano muda o tipo de contorno,
          // de forma a criar um CObjetoRede situado na face direita/EST
          if ( k == ( nz - 1 ) ) {
-               tipoContornoObjeto = CContorno::ETipoContorno::EST;
+               tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
                rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
             }
 
          // Adiciona os sítios, a lista de sítios
-         AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoContornoObjeto );
+         AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoObjeto );
 
          // Compara as imagens ra e rp definindo as conexões entre sítios
          DeterminarConeccoesObjetos ( maiorRotuloUtilizado );
@@ -332,7 +327,7 @@ CGrafo* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*n
 */
 void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
                                        unsigned long int ultimoRotuloUtilizado,
-                                       ETipoGrafo tipoObjeto )
+                                       ETipoObjetoGrafo tipoObjeto )
 {
    // Não deve considerar o objeto 0 que é o fundo;
    // inclue o rotulo final, o objeto final, ok
@@ -341,32 +336,16 @@ void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
 		//// Ponteiro para objeto a ser criado
 		//CObjetoRede* data = nullptr;
 		//// Obtem um sítio novo passando o tipo
-		//data = CriarObjetoGrafo ( tipoContornoObjeto );
+		//data = CriarObjeto ( tipoContornoObjeto );
 		//assert ( data );
-#ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-         // Vai criar objeto do tipo CObjetoRede_Tipo, passando o tipo (+rápida sem polimorfismo).
-         CObjetoRede_Tipo* data = nullptr;
-         // note que preciso setar o tipo de objeto a partir do tipo de contorno.
-         ETipoObjetoGrafo tipoObjeto;
-         if ( tipoContornoObjeto == CContorno::ETipoContorno::CENTER )
-			 tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
-         else if ( tipoContornoObjeto == CContorno::ETipoContorno::WEST )
-            tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;
-         else if ( tipoContornoObjeto == CContorno::ETipoContorno::EST )
-            tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
 
-         // Obtem um CObjetoRede_Tipo novo passando o tipo de objeto
-         data = CriarObjetoGrafo ( tipoObjeto );
+         // Vai criar objeto do tipo CObjetoRede ou CObjetoRede_Tipo(passando o tipo (+rápida sem polimorfismo)).
+	     // depende do valor do flag de pré-proessamento OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+         value_type_objeto* data = nullptr;
+
+         // Obtem um objeto novo passando o tipo de objeto
+         data = CriarObjeto ( tipoObjeto );
 		 assert ( data );
-#else
-         // Abaixo código antigo
-         // Cria objeto do tipo CObjetoRede, com polimorfismo,  economiza memória.
-         // Ponteiro para objeto a ser criado
-         CObjetoRede* data = nullptr;
-         // Obtem um sítio novo passando o tipo de contorno
-         data = CriarObjetoGrafo ( tipoContornoObjeto );
-		 assert ( data );
-#endif
 
          // No rotulador o objeto 0 é o fundo, como rotulo esta iniciando em 1,
          // faço -1, para que o primeiro sitio tenha rotulo 0.
@@ -452,9 +431,9 @@ void CGrafoConexaoSerial::EliminarObjetosRedundantes_1 ()
 {
    // Definição de variáveis internas
    // Ponteiro para o sitio atual (1)
-   CObjetoRede_Sitio* objetoEmAnalise = nullptr;
+   value_type_objeto* objetoEmAnalise = nullptr;
    // e aquele que aponta para 1 (2)
-   CObjetoRede_Sitio* objetoConectado = nullptr;
+   value_type_objeto* objetoConectado = nullptr;
 // // usado no cast duplo CObjetoGrafo->CObjetoRede->CObjetoRede_Sitio
 // CObjetoRede *objetoConectado_tipoObjetoRede = nullptr;
 
@@ -547,11 +526,7 @@ void CGrafoConexaoSerial::EliminarObjetosRedundantes_1 ()
          // Mudar trecho abaixo: Criar novo vetor, copiar objetos válidos e então deletar vetor velho,
          // vai ficar mais rápido.
          // vector < CObjetoRede* >::iterator it = objeto.begin ();
-#ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-         vector < CObjetoRede_Tipo* >::iterator it = objeto.begin ();
-#else
-         vector < CObjetoRede* >::iterator it = objeto.begin ();
-#endif
+         vector < value_type_objeto* >::iterator it = objeto.begin ();
 
          // Para facilitar a deleção dos objetos deleta do ultimo para o primeiro
          for ( int j = rotuloUltimoObjetoPlanoN_1; j >= rotuloPrimeiroObjetoPlano1; j-- )
@@ -623,14 +598,14 @@ void CGrafoConexaoSerial::EliminarObjetosRedundantes_2 ()
 
          // ------------------------------------------------
          // Percorrer todos os objetos e marcar para deleção cada link invalidado
-         CObjetoRede_Sitio* obj = nullptr;
+       //  value_type_objeto* obj = nullptr;
 
          for ( int i = 0; i < objeto.size (); i++ ) {
-               obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
-               assert ( obj ); //? exceção ??
+//                obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
+//assert ( obj ); //? exceção ??
                // No objeto CObjetoRede_Sitio tem função nova:
                // virtual bool DeletarConexoesInvalidadas(int deletado);
-               obj->DeletarConexoesInvalidadas ( deletado );
+               objeto[i]->DeletarConexoesInvalidadas ( deletado );
             }
 
          // ------------------------------------------------
@@ -695,25 +670,25 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
       objeto[i]->rotulo != deletado &&
       // e esta no centro, vai verificar
       objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
-         CObjetoRede_Sitio* obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
-         assert ( obj ); // exceção..
+//         CObjetoRede_Sitio* obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
+//          assert ( obj ); // exceção..
 
          // Obtêm o número de conexões
-         int nlinks = obj->conexao.size ();
+         int nlinks = objeto[i]->conexao.size ();
 
          // Se 0 links, é um objeto isolado, então marca para deleção
          // ........*.........
          if ( nlinks == 0 )
-            obj->rotulo = deletado;
+            objeto[i]->rotulo = deletado;
 
          // se tem um link (ramo duplo) então marca para deleção, e pede para verificar a conexão.
          // ........*<------->*........
          // note que objetos nos planos z=0 e z=n terão geralmente 1 link, por isso a condição
          // if( ..objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER)
          else if ( nlinks == 1 ) {
-               obj->rotulo = deletado;
+               objeto[i]->rotulo = deletado;
                // Verifica o sítio a quem estou conectado (marca para deleção)
-               MarcarParaDelecaoObjeto ( obj->conexao[0]->rotulo );
+               MarcarParaDelecaoObjeto ( objeto[i]->conexao[0]->rotulo );
             }
 
          // se dois links
@@ -724,23 +699,22 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
          else if ( nlinks == 2 ) {
                // Se a conexao[0] se refere a objeto já deletado então o número efetivo
                // de conexões é 1, e precisa marcar para deletação.
-               if ( obj->conexao[0]->rotulo == deletado ) {
-                     obj->rotulo = deletado;
+               if ( objeto[i]->conexao[0]->rotulo == deletado ) {
+                     objeto[i]->rotulo = deletado;
                      // Solicita deleção da conexao 1.
-                     MarcarParaDelecaoObjeto ( obj->conexao[1]->rotulo );
+                     MarcarParaDelecaoObjeto ( objeto[i]->conexao[1]->rotulo );
                   }
 
                // Se a conexao[1] se refere a objeto já deletado então o número efetivo
                // de conexões é 1, e precisa marcar para deletação.
 
-               /*else*/ if ( obj->conexao[1]->rotulo == deletado ) {
-                     obj->rotulo = deletado;
+               /*else*/ if ( objeto[i]->conexao[1]->rotulo == deletado ) {
+                     objeto[i]->rotulo = deletado;
                      // Solicita deleção da conexao 0.
-                     MarcarParaDelecaoObjeto ( obj->conexao[0]->rotulo );
+                     MarcarParaDelecaoObjeto ( objeto[i]->conexao[0]->rotulo );
                   }
             }
       }
-
    return 1;
 }
 

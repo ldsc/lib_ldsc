@@ -238,10 +238,12 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
          raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
 
          // CALCULO DA CONDUTANCIA DO OBJETO LIGACAO->POISELLE
-         if ( objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao
+         if (     objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_CENTER
                or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
                or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
                or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao
+               or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_CENTER
                or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
                or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST ) {
                // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
@@ -251,9 +253,11 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
             }
          // CALCULO DA CONDUTANCIA DO OBJETO SITIO->KOPLIK
          else if ( objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_CENTER
                    or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
                    or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
                    or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao
+                   or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_CENTER
                    or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
                    or objeto[k]->Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST ) {
                /// @todo: Trocar as duas linhas abaixo pela equação de KOPLIK
@@ -264,7 +268,12 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
             }
          else	   {
                cerr << "\nErro: Tipo de objeto desconhecido em CGrafoConexaoSerial_M3::CalcularCondutancias.";
-               exit ( 0 );
+//               exit ( 0 );
+// AQUI AQUI CORRIGIR; acima não esta identificando corretamente o tipo de objeto!!!
+dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
+// Converte a propriedade do objeto raio hidraulico para condutancia.
+objeto[k]->propriedade = ( variavelAuxiliar * dH * dH * dH * dH );
+			   
             }
       }
 
@@ -326,7 +335,7 @@ CGrafoConexaoSerial_M3::EliminarCondutanciasRepetidas ()
 }
 
 // // -------------------------------------------------------------------------
-// // Função:       CriarObjetoGrafo
+// // Função:       CriarObjeto
 // // -------------------------------------------------------------------------
 // /** @short  : 	Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado.
 //  * @author :	André Duarte Bueno
@@ -337,7 +346,7 @@ CGrafoConexaoSerial_M3::EliminarCondutanciasRepetidas ()
 //  * @return : 	Retorna um ponteiro para um sítio novo alocado.
 // */
 // CObjetoRede*
-// CGrafoConexaoSerial_M3::CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno )
+// CGrafoConexaoSerial_M3::CriarObjeto ( CContorno::ETipoContorno tipoContorno )
 // {
 //    CObjetoRede* data;
 // 
@@ -362,119 +371,119 @@ CGrafoConexaoSerial_M3::EliminarCondutanciasRepetidas ()
 //    return data;
 // }
 
-// -------------------------------------------------------------------------
-// Função:               SetarMatrizAVetorB
-// -------------------------------------------------------------------------
-/** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
- * e preenche os mesmos com os coeficientes necessários para determinação do sistema de equações.
- * 1- O grafo já deve ter sido determinado
- * 2- Os valores iniciais de pressão já devem ter sido definidos
- * (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
- * 3- Deve receber uma matriz e um vetor vazios
- * @author :	André Duarte Bueno
- * @see    : grafos
- * @param  :
- * @return :	bool indicando sucesso da operação.
-*/
-
-bool
-CGrafoConexaoSerial_M3::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B )  const
-{
-   // vector< vector<float> > A;
-   // vector<float> B;
-
-   // Passo 0: Definição de variáveis auxiliares
-   // índice i da matriz A (ou vetor B)
-   unsigned long int mi;
-
-   // índice j da matriz A
-   unsigned long int mj;
-
-   // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2
-   long double Cij;
-
-   // Passo 1:
-   // Determinação da dimensão da matriz e do vetor
-   // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
-   // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
-   unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
-   // cout <<"\ndim="<<dim;
-
-   // Redimensiona a matriz A
-   A->Redimensiona ( dim, dim );
-   // Zera a matriz A
-   A->Constante ( 0 );
-
-   // Redimensiona o vetor B
-   B->Redimensiona ( dim );
-   // Zera o vetor B
-   B->Constante ( 0 );
-
-   unsigned int i;
-
-   for ( unsigned long int j = 0; j < objeto.size (); j++ ) {
-// Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
-//CObjetoRede_CC_Sitio* objeto_j = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[j] );
-//assert ( objeto_j );
-
-         switch ( objeto[j]->Contorno () ) {
-               // Fronteira esquerda
-            case CContorno::ETipoContorno::WEST:
-
-               // Fronteira direira
-            case CContorno::ETipoContorno::EST:
-
-               // Percorre as conexões do objeto
-               for ( i = 0; i < objeto[j]->conexao.size (); i++ ) {
-                     // Calcula Cij
-                     Cij = objeto[j]->condutancia[i];
-                     Cij = Cij * 1.0e17;	// LIXO, para gerar int
-                     // cij esta sendo armazenado em int por isto multiplico por e17
-
-                     // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
-                     mi = objeto[j]->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
-
-                     // Acumula Cij no vetor B[mi] -= Cij     * objeto[j]->x, x deve estar definido
-                     // B->data1D[ mi ] -= Cij * objeto[j]->x;
-                     B->data1D[mi] -= static_cast < int > ( Cij * objeto[j]->x );	// LIXO o static
-
-                     // Acumula -Cij na matriz A[mi][mi]
-                     // A->data2D[mi][mi] -= Cij;
-                     A->data2D[mi][mi] -= static_cast < int > ( Cij );	// LIXO o static
-                  }
-
-               break;
-
-               // Fronteira Centro
-            case CContorno::ETipoContorno::CENTER:
-
-               // Percorre as conexões do objeto
-               for ( i = 0; i < objeto[j]->conexao.size (); i++ ) {
-                     // Se o link  for  um objeto de centro (não contorno) entra
-                     if ( objeto[j]->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
-                           // Calcula Cij
-                           // Cij = ( objeto[j]->propriedade + objeto[j]->conexao[i]->propriedade ) /2.0 ;
-                           Cij = objeto[j]->condutancia[i];
-                           Cij = Cij * 1.0e17;	// LIXO para gerar int
-                           // cij esta sendo armazenado em int por isto multiplico por e17
-
-                           // Desloca os índices da matriz
-                           mi = objeto[j]->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
-                           mj = objeto[j]->rotulo - rotuloPrimeiroObjetoPlano1;
-
-                           // Define A->data2D[mi][mj]
-                           A->data2D[mi][mj] = static_cast < int > ( Cij );	// LIXO o static
-
-                           // Acumula A->data2D[mj][mj]
-                           A->data2D[mj][mj] -= static_cast < int > ( Cij );	// LIXO o static
-                        }
-                  }
-
-               break;
-            }			// switch
-      }				// for
-
-   A->Write ( "grafo.matrixA" );
-   B->Write ( "grafo.vectorB" );
-   return 1;
-}
+// // -------------------------------------------------------------------------
+// // Função:               SetarMatrizAVetorB
+// // -------------------------------------------------------------------------
+// /** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
+//  * e preenche os mesmos com os coeficientes necessários para determinação do sistema de equações.
+//  * 1- O grafo já deve ter sido determinado
+//  * 2- Os valores iniciais de pressão já devem ter sido definidos
+//  * (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
+//  * 3- Deve receber uma matriz e um vetor vazios
+//  * @author :	André Duarte Bueno
+//  * @see    : grafos
+//  * @param  :
+//  * @return :	bool indicando sucesso da operação.
+// */
+// 
+// bool
+// CGrafoConexaoSerial_M3::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B )  const
+// {
+//    // vector< vector<float> > A;
+//    // vector<float> B;
+// 
+//    // Passo 0: Definição de variáveis auxiliares
+//    // índice i da matriz A (ou vetor B)
+//    unsigned long int mi;
+// 
+//    // índice j da matriz A
+//    unsigned long int mj;
+// 
+//    // Condutância total Cij = (Cii+Cjj)/2 para o modelo 2
+//    long double Cij;
+// 
+//    // Passo 1:
+//    // Determinação da dimensão da matriz e do vetor
+//    // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
+//    // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
+//    unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
+//    // cout <<"\ndim="<<dim;
+// 
+//    // Redimensiona a matriz A
+//    A->Redimensiona ( dim, dim );
+//    // Zera a matriz A
+//    A->Constante ( 0 );
+// 
+//    // Redimensiona o vetor B
+//    B->Redimensiona ( dim );
+//    // Zera o vetor B
+//    B->Constante ( 0 );
+// 
+//    unsigned int i;
+// 
+//    for ( unsigned long int j = 0; j < objeto.size (); j++ ) {
+// // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao.
+// //CObjetoRede_CC_Sitio* objeto_j = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[j] );
+// //assert ( objeto_j );
+// 
+//          switch ( objeto[j]->Contorno () ) {
+//                // Fronteira esquerda
+//             case CContorno::ETipoContorno::WEST:
+// 
+//                // Fronteira direira
+//             case CContorno::ETipoContorno::EST:
+// 
+//                // Percorre as conexões do objeto
+//                for ( i = 0; i < objeto[j]->conexao.size (); i++ ) {
+//                      // Calcula Cij
+//                      Cij = objeto[j]->condutancia[i];
+//                      Cij = Cij * 1.0e17;	// LIXO, para gerar int
+//                      // cij esta sendo armazenado em int por isto multiplico por e17
+// 
+//                      // Desloca o índice da matriz(vetor), pois só entram os sítios que não estão na interface.
+//                      mi = objeto[j]->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;	// 3;
+// 
+//                      // Acumula Cij no vetor B[mi] -= Cij     * objeto[j]->x, x deve estar definido
+//                      // B->data1D[ mi ] -= Cij * objeto[j]->x;
+//                      B->data1D[mi] -= static_cast < int > ( Cij * objeto[j]->x );	// LIXO o static
+// 
+//                      // Acumula -Cij na matriz A[mi][mi]
+//                      // A->data2D[mi][mi] -= Cij;
+//                      A->data2D[mi][mi] -= static_cast < int > ( Cij );	// LIXO o static
+//                   }
+// 
+//                break;
+// 
+//                // Fronteira Centro
+//             case CContorno::ETipoContorno::CENTER:
+// 
+//                // Percorre as conexões do objeto
+//                for ( i = 0; i < objeto[j]->conexao.size (); i++ ) {
+//                      // Se o link  for  um objeto de centro (não contorno) entra
+//                      if ( objeto[j]->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
+//                            // Calcula Cij
+//                            // Cij = ( objeto[j]->propriedade + objeto[j]->conexao[i]->propriedade ) /2.0 ;
+//                            Cij = objeto[j]->condutancia[i];
+//                            Cij = Cij * 1.0e17;	// LIXO para gerar int
+//                            // cij esta sendo armazenado em int por isto multiplico por e17
+// 
+//                            // Desloca os índices da matriz
+//                            mi = objeto[j]->conexao[i]->rotulo - rotuloPrimeiroObjetoPlano1;
+//                            mj = objeto[j]->rotulo - rotuloPrimeiroObjetoPlano1;
+// 
+//                            // Define A->data2D[mi][mj]
+//                            A->data2D[mi][mj] = static_cast < int > ( Cij );	// LIXO o static
+// 
+//                            // Acumula A->data2D[mj][mj]
+//                            A->data2D[mj][mj] -= static_cast < int > ( Cij );	// LIXO o static
+//                         }
+//                   }
+// 
+//                break;
+//             }			// switch
+//       }				// for
+// 
+//    A->Write ( "grafo.matrixA" );
+//    B->Write ( "grafo.vectorB" );
+//    return 1;
+// }

@@ -54,13 +54,11 @@ protected:
 
 public:
 // -------------------------------------------------------------Construtor
-     /// Construtor
-     CGrafoConexaoSerial_M5 ( char *_nomeArquivo ) :CGrafoConexaoSerial_M4 ( _nomeArquivo )  {
+/// Construtor
+     CGrafoConexaoSerial_M5 ( std::string _nomeArquivo ) : CGrafoConexaoSerial_M4 ( _nomeArquivo )  {
           tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M5;
-
-          char arqDisco[256];
-          sprintf ( arqDisco, "PixeisDeletados_%s", _nomeArquivo );
-          pixeisDeletados.open ( arqDisco );
+		  string arqDisco = std::string("PixeisDeletados_") + _nomeArquivo;
+          pixeisDeletados.open ( arqDisco.c_str() );
           if ( pixeisDeletados.bad() )   {
                std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
                exit ( 0 );
@@ -75,13 +73,13 @@ public:
 
 // ----------------------------------------------------------------Métodos
      /// Processa a determinação do grafo.
-     CGrafo *Go ( TCMatriz3D<int> *_img3D, unsigned long int funcao ) override;
+     CRede *Go ( TCMatriz3D<int> *_img3D, unsigned long int funcao ) override;
 
 protected:
      /// Adiciona objetos ao grafo
      virtual void AdicionarObjetos ( CRotulador2DCm *rotulador,
                                      unsigned long int ultimoRotuloUtilizado,
-                                     CContorno::ETipoContorno tipoContornoObjeto ) override;
+                                     ETipoObjetoGrafo tipoObjeto ) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

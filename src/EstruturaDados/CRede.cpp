@@ -28,19 +28,20 @@ using namespace std;
 /**
  * @brief  Função usada para criar os objetos do grafo.
  * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
- * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
+ * @return Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoGrafo;
+ * se OTIMIZAR_VELOCIDADE_PROCESSAMENTO foi definida retorna CObjetoRede_Tipo.
 */
-/*virtual */
-CObjetoGrafo * CRede::CriarObjetoGrafo( ETipoObjetoGrafo tipo )
+value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
 {
-   CObjetoGrafo * data;
+   value_type_objeto* data;
 
-   switch( tipo ) {
+   switch ( tipo ) {
       case ETipoObjetoGrafo::ObjetoRede :
          data = new CObjetoRede();
          break;
 
       case ETipoObjetoGrafo::ObjetoRede_Ligacao :
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_CENTER :
          data = new CObjetoRede_Ligacao();
          break;
 
@@ -53,6 +54,7 @@ CObjetoGrafo * CRede::CriarObjetoGrafo( ETipoObjetoGrafo tipo )
          break;
 
       case ETipoObjetoGrafo::ObjetoRede_Sitio :
+      case ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER :
          data = new CObjetoRede_Sitio();
          break;
 
@@ -64,17 +66,19 @@ CObjetoGrafo * CRede::CriarObjetoGrafo( ETipoObjetoGrafo tipo )
          data = new CObjetoRede_Sitio_WEST();
          break;
 
-      case  ETipoObjetoGrafo::CObjetoRede_Tipo :
-      default
-            :
-         data = reinterpret_cast <CObjetoGrafo *>( new CObjetoRede_Tipo( tipo ) );
+      case ETipoObjetoGrafo::ObjetoRede_Final :
+         data = new CObjetoRede_Final( tipo );
+         break;
+
+	  case  ETipoObjetoGrafo::ObjetoRede_Tipo : // CUIDADO! bug se usado incorretamente!
+      default :
+         data = reinterpret_cast <value_type_objeto*> ( new CObjetoRede_Tipo ( tipo ) );
          break;
       }
 
-   assert( data );
+   assert ( data );
    return data;
 }
-
 
 // -------------------------------------------------------------------------
 // Função:     Write
@@ -94,16 +98,22 @@ CObjetoGrafo * CRede::CriarObjetoGrafo( ETipoObjetoGrafo tipo )
     @param  : Nome do arquivo de disco (string)
     @return : void
 */
-void CRede::Write( std::ostream & out )
+void CRede::Write ( std::ostream& out ) const
 {
-   out.setf( ios::right );
+   out.setf ( ios::right );
+
+   // Tipo de grafo
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
    // Numero de objetos
-   out << setw( 5 ) << objeto.size() << endl;
+   out << setw ( 5 ) << objeto.size() << endl;
 
    // Percorre os objetos e salva em disco as informações de cada objeto.
-   for( auto objeto_i :  objeto ) {
-         objeto_i->Write( out );	 // out << (*objeto[i]) << '\n';
+   for ( auto objeto_i :  objeto ) {
+         objeto_i->Write ( out );
+         // out << (*objeto[i]) << '\n';
+         // objeto_i >> out;   <-> objeto_i << in;
+         // objeto_i >> arquivo;   <-> objeto_i << arquivo;
          out << '\n';
       }
 }
@@ -119,8 +129,8 @@ void CRede::Write( std::ostream & out )
     @return : ostream&
     @test   : Testar/verificar os diferentes tipos de arquivos de grafo gerados.
 */
-ostream & operator<< ( ostream & out, CRede & grafo )
+ostream& operator<< ( ostream& out, const CRede& grafo )
 {
-   grafo.Write( out );
+   grafo.Write ( out );
    return out;
 }

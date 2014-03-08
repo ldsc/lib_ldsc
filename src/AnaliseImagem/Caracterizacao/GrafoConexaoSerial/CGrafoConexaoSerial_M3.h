@@ -78,7 +78,8 @@ public:
       */
      virtual void EliminarCondutanciasRepetidas () override;
 
-     virtual bool SetarMatrizAVetorB ( TCMatriz2D< int >*&A, CVetor*&B ) const override;
+// /// Seta matriz A e B de solver externo.
+// 	 virtual bool SetarMatrizAVetorB ( TCMatriz2D< int >*&A, CVetor*&B ) const override;
 
 protected:
      // Métodos redefinidos
@@ -90,7 +91,7 @@ protected:
      virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
      /// Redefinida,  retorna um CObjetoRede_CC_Sitio ou derivado
-     //virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
+     //virtual CObjetoRede *CriarObjeto ( CContorno::ETipoContorno tipoContorno ) override;
 
      // Função Go
      // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);

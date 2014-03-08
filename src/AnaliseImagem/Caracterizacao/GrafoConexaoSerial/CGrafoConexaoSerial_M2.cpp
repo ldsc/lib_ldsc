@@ -106,7 +106,7 @@ void CGrafoConexaoSerial_M2::CalcularCondutancias (long double _viscosidade, lon
  *     ------obj 45 plano 8    ------obj 45 plano 8
  *     ------------------------------obj 60 no plano 9
 */
-CGrafo * CGrafoConexaoSerial_M2::Go (string nomeArquivo, unsigned long int funcao) {
+CRede * CGrafoConexaoSerial_M2::Go (string nomeArquivo, unsigned long int funcao) {
    // Vai ler o cabecalho do arquivo de disco
    // precisa da informacao das dimensoes NX e Ny da imagem,
    // para criar o rotulador intermediario.
@@ -150,7 +150,7 @@ CGrafo * CGrafoConexaoSerial_M2::Go (string nomeArquivo, unsigned long int funca
  * @param  : Recebe o número do maior rótulo já utilizado
  * @return : void
 */
-CGrafo * CGrafoConexaoSerial_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara) {
+CRede * CGrafoConexaoSerial_M2::Go (TCMatriz3D<int> * _img3D, unsigned long int _tamanhoMascara) {
    // Cria o rotulador intermediário
    if (rotInt != nullptr)
       delete rotInt;

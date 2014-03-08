@@ -65,7 +65,14 @@ public:
      virtual ~ CGrafoConexaoSerial_M6_Tortuosidade () = default;
 
 // ----------------------------------------------------------------Métodos
-     /**
+/** @short  : Calcula a Tortuosidade (sem necessidade calcular condutâncias).
+ * Chamar Go antes de chamar CalcularTortuosidade ();
+*/
+    virtual long double CalcularTortuosidade () override;
+
+   // FUNÇÕES AUXILIARES
+protected:
+   /**
       * @brief Redefinida, na classe  CGrafoConexaoSerial_M3 calcula as condutâncias
       * dos sítios sem considerar o deslocamento dos centros de massa
       * aqui considera as posições dos centros de massa
@@ -73,22 +80,7 @@ public:
      virtual void CalcularCondutancias ( long double _viscosidade,
                                          long double _dimensaoPixel,
                                          unsigned long int _fatorAmplificacao ) override;
-
 protected:
-     /// Redefinida, para  o tipoContorno=centro retorna um CObjetoEsqueleto
-     virtual CObjetoRede *CriarObjetoGrafo ( CContorno::ETipoContorno tipoContorno ) override;
-
-//Verificar porque precisa	 redefinicao abaixo!!!
-/**
-* @brief Função usada para criar os objetos, todos do tipo CObjetoRede_Tipo
-*que não tem métodos virtuais, sendo + rápido!
-* Recebe o tipo de objeto a ser criado.
-*/
-virtual CObjetoRede_Tipo* CriarObjetoGrafo ( ETipoObjetoGrafo tipoObjeto ) {
-	CObjetoRede_Tipo* data = new CObjetoRede_Tipo ( tipoObjeto );
-	assert ( data );
-	return data;
-};
 
      /**
       * @brief Função que cria os objetos e os adiciona a lista de objetos.
@@ -96,8 +88,7 @@ virtual CObjetoRede_Tipo* CriarObjetoGrafo ( ETipoObjetoGrafo tipoObjeto ) {
       * o valor do maior rotulo utilizado o tipo de objeto a ser criado
      */
      virtual void AdicionarObjetos ( CRotulador2DCm *rotulador,unsigned long int rotuloAtual,
-                                     CContorno::ETipoContorno tipo ) override;
-
+                                     ETipoObjetoGrafo tipoObjeto ) override;
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set

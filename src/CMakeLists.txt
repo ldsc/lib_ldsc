@@ -24,6 +24,7 @@ add_library (ldsc STATIC
   EstruturaDados/ObjetoRede/CObjetoRede_Sitio.cpp
   EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.cpp
   EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Final.cpp
   EstruturaDados/ObjetoRede/CObjetoRede_Tipo.cpp
 
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto.cpp
@@ -33,6 +34,7 @@ add_library (ldsc STATIC
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio.cpp
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.cpp
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_WEST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.cpp
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.cpp
 
 

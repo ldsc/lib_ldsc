@@ -3,14 +3,12 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
-Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
-@author:          André Duarte Bueno
-@file:             CObjetoGrafo_MatrizConexoes.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+			Desenvolvido por:Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:    André Duarte Bueno
+@file:      CObjetoGrafo_MatrizConexoes.cpp
+@begin:     Sat Sep 16 2000
+@copyright: (C) 2000 by André Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -34,7 +32,7 @@ using namespace std;
  * @return : void
  * @test   : testar!
 */
-void CObjetoGrafo_MatrizConexoes::Conectar ( vector < CObjetoGrafo* >obj_vetor )
+void CObjetoGrafo_MatrizConexoes::Conectar ( vector < CObjetoGrafo* > & obj_vetor )
 {
    mconexao.push_back ( obj_vetor );
 }
@@ -46,7 +44,7 @@ void CObjetoGrafo_MatrizConexoes::Conectar ( vector < CObjetoGrafo* >obj_vetor )
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    :
-    @param  : unsigned int link
+    @param  : unsigned int pos
     @return : void
     @test   : testar!
 */
@@ -55,9 +53,9 @@ void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor )
    this->mconexao.erase ( mconexao.begin() + ivetor );
 }
 
-void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned int link )
+void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned int pos )
 {
-   mconexao[ivetor].erase ( mconexao[ivetor].begin() + link );
+   mconexao[ivetor].erase ( mconexao[ivetor].begin() + pos );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -69,7 +67,7 @@ void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    :
-    @param  : unsigned int link
+    @param  : unsigned int deletado
     @return : void
 */
 bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
@@ -96,7 +94,7 @@ bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int dele
 ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const
 {
    // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
    // Rótulo de this
    out << ' ' << setw ( 5 ) << rotulo;

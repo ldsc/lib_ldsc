@@ -28,30 +28,57 @@ AUTHORS		Lista dos autores da libldsc.
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 [Específico feature->atualizacao_grafo_conexão_serial]
 ======================================================
+PASSO_1: REORGANIZAR OBJETOS E GRAFO
 [X] - Reorganizar hierarquia de objetos do grafo:  
 CObjetosGrafo     (rotulo)
 CObjetosRede      (propriedade,  conexao,  condutancia)
 CObjetosEsqueleto ( cx, cy, cz)
 [X] - Renomear diversas variáveis e funções.
 [X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
+
+[X] - Criar CBaseGrafoRedeEsqueleto; 
+[X] - Criar CGrafo (Cria vetor CObjetoGrafo*) 
+[X] - Criar CRede  (Cria vetor CObjetoRede*)
+[X] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial as demais para CGrafoConexaoSerial_M1..
+Manter o nome grafo pois foi o usado na tese.
+[] - Revisar os códigos e comentários do GrafoConexaoSerial;
+[] - Fazer funcionar ! ! !
+[X] - Reorganizar estrutura diretorios
+/EstruturaDados
+/EstruturaDados/Grafo
+/EstruturaDados/Rede
+/EstruturaDados/Esqueleto
+
+Passo_2: OTIMIZAR_VELOCIDADE_PROCESSAMENTO
 [X] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
 [X] - Criar #define OTIMIZAR_VELOCIDADE_PROCESSAMENTO
 Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
-[] - Criar CGrafo independente do GrafoConexaoSerial; 
-[] - Criar CRede independente do GrafoConexaoSerial; 
-[] - Criar CGrafoConexaoSerial como herdeiro de CRede; Manter o nome grafo pois foi o usado na tese.
-[] - Revisar os códigos e comentários do GrafoConexaoSerial;
-[] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial as demais para CGrafoConexaoSerial_M1.
-[] - Fazer funcionar
-[] - Reorganizar estrutura diretorios
-/EstruturaDados 
-/EstruturaDados/Grafo 
-/EstruturaDados/Rede
-/EstruturaDados/Esqueleto 
+[] - Criar classe CObjetoRede_Final e CObjetosEsqueleto_Final com uso de final de C++11.
+[] - Comparar desempenho:
+Usando objetos virtuais
+Usando objeto Tipo (não virtual)
+Usando objeto Final (uso de final de C++11)
 
+Passo_3: MUDAR SOLVER
+[ ] - Usar solver de boost
+
+Passo_4: USAR TEMPLATE
+[ ] - Modificar hierarquia objetos
+[ ] - Modificar hierarquia grafos
+[] - Comparar desempenho:
+
+[] - Trocar o valor de "deletado" que deve ser numeric_limits<>max()
+[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
+métodos virtuais (pode ter herança).
+[] - Em CObjetoRede::Go CObjetoRede_Final CObjetoRede_Tipo::Go 
+testar desempenho com e sem o static; como o compilador usa opções de
+	/// otimização é possível que sem estáticstatic fique mais rápido!
+[] - Em CObjetoRede::Go só considera sítios vizinhos no calculo do novo x;
+
+[]- Melhorar resumo git, Acrescentar dicas de git.org.cz "Git Cheat Sheet"
 [] - Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 [] - 
-[] - 
+
 [] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
 [] - @todo: trocar assert? usar static_assert de C++11! ou try..catch?
 [] - Transformar Vector em template.
@@ -63,23 +90,7 @@ Ex: fout << grafo;     // Sobrecarga
 [] - renomear Write -> Salvar; ex: grafo->Salvar();
 [] - renomear Read  -> Ler; ex: grafo->Ler();
     @todo: transformar CVetor em template!
-[] - Diretórios?
-Caracterizacao/GrafoConexaoSerial
-Caracterizacao/RedePercolacao
-Depois:
-Caracterizacao/Grafo/ CObjetoGrafo CGrafo
-Caracterizacao/Rede/  CObjetoRede  CRede
-Caracterizacao/Esqueleto/  CObjetoRede  CEsqueleto
-GrafoConexaoSerial
 [] trocar unsigned int por uint32_t
-[] - otimização,  testar uso de <list> no lugar de vector.
-[] - Terminar montar hierarquia considerando classes derivadas EST WEST
-[] - Revisar todo cálculo na hierarquia de objetos CGrafo
-[] -  Testar
-
-[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
-métodos virtuais (pode ter herança).
-
 [] -   @todo:    Criar classes 
   CReta -> CReta(a,b); Calcula y = Go(x); Calcula y = Go(x,a,b);
   CSegmentoReta (prova c++)
@@ -206,17 +217,17 @@ Por exemplo,  programa pode precisar das coisas da lib_ldsc,  mas não do GrafoC
 [bueno@localhost src]$ tree -L 3 -d
 =======================================================================================lib_ldsc
 -> lib_ldsc             (dividida em bibliotecas pequenas) 
-[x] - ├── Base        (coisas muito básicas usadas com frequência em todos os lugares)
+[ ] - ├── Base        (coisas muito básicas usadas com frequência em todos os lugares)
 [x] - │   ├── Tempo
 [x] - ├── EstruturaDados (estruturas de dados em geral)
 [x] - │   ├── Grafo     (conexões ) [CObjetoGrafo + CGrafo]
 [x] - │   ├── Rede      (conexões + propriedades) [CObjetoRede + CRede]
 [x] - │   ├── Esqueleto (conexões + propriedades + coordenada) [CObjetoEsqueleto + CEsqueleto]
 [x] - ├── AnaliseImagem (encontrado livros gonzales/parker/russ/morfmat)
-[x] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem)
-[x] - │   │   └── Geometria
-[x] - │   │   │   └── Bola
-[x] - │   │   └── Matriz (CVetor CMatriz2D CMatriz3D; em métodos numéricos usar array ou matriz de boost? )[mover para lib_ldsc_base? ]
+[ ] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem)
+[ ] - │   │   └── Geometria
+[ ] - │   │   │   └── Bola
+[ ] - │   │   └── Matriz (CVetor CMatriz2D CMatriz3D; em métodos numéricos usar array ou matriz de boost? )
 [x] - │   ├── Filtro (realiza um PreProcessamento na imagem)
 [x] - │   │   ├── FAmplitude 
 [x] - │   │   ├── FEspacial
@@ -229,7 +240,7 @@ Por exemplo,  programa pode precisar das coisas da lib_ldsc,  mas não do GrafoC
 [x] - ├── Grafico (encontrado livros gráficos; acesso programas gráficos como gnuplot);
 [x] - │   └── Gnuplot
 [ ] - ├── InteligenciaArtificial(encontrado livros redes neurais e inteligência artificial);
-[x] - │   └── RedesNeurais codigos que montei para eneida
+[x] - │   └── RedesNeurais codigos que montei (falta finalizar)
 [x] - ├── MetNum       (encontrado livros métodos numéricos)
 [x] - │   ├── Contorno
 [x] - │   ├── Funcao
@@ -280,7 +291,9 @@ Por exemplo,  programa pode precisar das coisas da lib_ldsc,  mas não do GrafoC
 [x] - │   └── Solver
 [x] - │       ├── Funcao
 [x] - │       └── SistemaEquacoes
-[ ] - ├── RedesNeurais
+[ ] - ├── InteligenciaArtificial(encontrado livros redes neurais e inteligência artificial);
+[ ] - │   └── RedesNeurais 
+[x] - │       ├── AplicacaoX
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
                     TODO: Documentacao lib_ldsc 
@@ -413,5 +426,4 @@ TODO-> Comparativo: autotools x cmake x ninja x scons
   to use a version control system (eg cvs, git, svn) to distribute their software rather than 
   building tarballs.
   
-EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.h.h
   

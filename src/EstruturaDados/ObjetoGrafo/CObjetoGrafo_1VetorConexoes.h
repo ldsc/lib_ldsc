@@ -94,7 +94,7 @@ public:
    /*inline*/ virtual void Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB = nullptr ) override ;
 
    /// Deleta uma conexão.
-   /*inline*/ virtual void DeletarConexao ( unsigned int link ) override ;
+   /*inline*/ virtual void DeletarConexao ( unsigned int pos ) override ;
 
    /**
    * @brief Deleta os links para objetos que foram marcados para deleção.
@@ -106,30 +106,6 @@ public:
 
    /// @brief Salva atributos do objeto em disco.
    virtual std::ostream& Write ( std::ostream& os ) const override ;
-
-//      /// @brief Salva atributos do objeto em disco no formato do Liang
-//      virtual std::ostream &Write_Liang_Format ( std::ostream &os ) const  {
-//           Write ( os ); // deve ser reescrita nas derivadas.
-//           return os;
-//      }
-//      /**
-//      * @brief Função usada para calcular uma propriedade.
-//      */
-//      virtual long double Go ( long double d = 0 )   override {
-// 	   return 0;
-// 	 }
-//
-//      /**
-//       * @brief Função que calcula o fluxo associado as propriedade do objeto
-// 	  * e suas conexões.
-//       * Ou seja, considera-se que este objeto esta conectado a outros objetos
-//       * e que em função das propriedades dos objetos, existe alguma informação
-// 	  * que transita entre os objetos. Esta propriedade é calculada por esta função.
-//       * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-//      */
-//      virtual long double Fluxo () const  override {
-// 	   return 0;
-// 	 }
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
@@ -143,11 +119,6 @@ public:
 inline std::ostream& operator<< ( std::ostream& os, CObjetoGrafo_1VetorConexoes& obj );
 // istream& operator>> (istream& is, CObjetoGrafo_1VetorConexoes& obj);
 
-// Cria o tipo CObjetoGrafo_1VetorConexoes_CENTER, que é igual a CObjetoGrafo_1VetorConexoes
-// typedef CObjetoGrafo_1VetorConexoes CObjetoGrafo_1VetorConexoes_CENTER;
 using COG_Sitio = CObjetoGrafo_1VetorConexoes ;
- 
+
 #endif
-
-
- 

@@ -15,7 +15,8 @@
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <fstream>
+// #include <fstream>
+// #include <vector>
 #include <iomanip>
 #include <algorithm>
 #include <map>
@@ -48,7 +49,8 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA, CObjetoRede* )
 /**
 	* @brief Função nova que recebe um ponteiro para um CObjetoRede,
 	* e o inclue na lista de conexões. 
-	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
+	* O segundo parâmetro é a condutância entre this e o objA, 
+	* que é adicionada ao vetor das condutâncias.
 */
 inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia )
 {
@@ -64,25 +66,25 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia 
   @short  : Deleta conexões de ramos mortos
   @author : André Duarte Bueno
   @see    :
-  @param  : unsigned int link
+  @param  : unsigned int pos
   @return : void
   Nota: o código abaixo pode deixar o processo lento se o número de conexões foram
   grande e se este método for muito chamado! Pensar em usar <list>
 */
-void CObjetoRede::DeletarConexao ( unsigned int link )
+void CObjetoRede::DeletarConexao ( unsigned int pos )
 {
    // Deleta a conexão
-   this->conexao.erase ( conexao.begin() + link );
+   this->conexao.erase ( conexao.begin() + pos );
 
-   // e, adicionalmente, deleta a condutancia associada ao objeto link
-   this->condutancia.erase ( condutancia.begin () + link );
+   // e, adicionalmente, deleta a condutancia associada ao objeto pos
+   this->condutancia.erase ( condutancia.begin () + pos );
 }
 
 /** Marca e deleta os links para objetos invalidados (marcados para deleção).
   @short  : Deleta a conexao de um ramo morto
   @author : André Duarte Bueno
   @see    :
-  @param  : unsigned int link
+  @param  : unsigned int deletado
   @return : void
 */
 bool CObjetoRede::DeletarConexoesInvalidadas ( unsigned int deletado )
@@ -118,7 +120,7 @@ bool CObjetoRede::DeletarConexoesInvalidadas ( unsigned int deletado )
   @return : bool
   @todo   : da forma como esta funciona, mas pode ser mais simples! testar!
 */
-unsigned int  CObjetoRede::DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo()
+unsigned int  CObjetoRede::DeletarConexoesRepetidas_e_SomarCondutanciasParalelo()
 {
    // Número de links deletados
    // acumula número de links no início
@@ -130,6 +132,7 @@ unsigned int  CObjetoRede::DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo
    // Funcao EliminaDuplicatas para containers (pg487 stroustrup)
    {
       sort ( c.begin (), c.end () );
+	  // c sai de escopo e é deletado!
 //     vector < CObjetoRede * >::iterator p = unique (c.begin (), c.end ());
 //     c.erase (p, c.end ()); c vai ser deletado final da função!
    }
@@ -152,7 +155,7 @@ unsigned int  CObjetoRede::DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo
          conexao[i] = c[i];
          condutancia[i] = m[c[i]];
       }
-
+// #ifdef OTIMIZAR_MEMORIA
    // Redimensiona o vetor das conexões e deleta elementos não usados.
    conexao.resize (  c.size ()  );
    conexao.erase ( conexao.begin() + c.size () , conexao.end () );
@@ -160,13 +163,14 @@ unsigned int  CObjetoRede::DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo
    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
    condutancia.resize (  c.size () );
    condutancia.erase ( condutancia.begin() + c.size () , condutancia.end () );
+// #endif
 
    numeroLinksDeletados = numeroLinksDeletados - c.size ();
    return numeroLinksDeletados;
 }
 
 /**
- * /// @todo tentativa otimizar DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo
+ * /// @todo tentativa otimizar DeletarConexoesRepetidas_e_SomarCondutanciasParalelo
  * terminar de implementar, testar velocidade, ficar com a versao + rápida.
 int CObjetoRede::DeletarConeccoesRepetidas_V2 ()
 {
@@ -316,9 +320,9 @@ ostream& operator<< ( ostream& out, CObjetoRede& s )
 // -------------------------------------------------------------------------
 /** A função Go calcula o novo valor de x, considerando o relacionamento
     com os demais objetos a quem esta conectado.
-    Note que x(a pressão do objeto) é desconsiderada, considera condutâncias
-    e x(pressão dos vizinhos).
-    
+    Note que x(ex:a pressão do objeto) é desconsiderada, considera condutâncias
+    e x(ex:pressão dos vizinhos).
+
     @short  :
     Observe que calcula o novo valor de this->x (a pressão) e o retorna,
     mas não altera o valor de this->x.
@@ -361,7 +365,7 @@ long double CObjetoRede::Go ( long double /*d */ )
    static long double somatorio_da_condutancia_vezes_x;
    static long double condutancia;
 
-   // Se não tem nenhum link, retorna x atual (a pressão atual)
+   // Se não tem nenhuma conexão, retorna x atual (a pressão atual)
    // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
    // if (conexao.size() == 0)
    //     return x;
@@ -386,7 +390,7 @@ long double CObjetoRede::Go ( long double /*d */ )
 // -------------------------------------------------------------------------
 /**
    @short  : Determina o fluxo associado a este sítio.
-   Fluxo = Condutancia média vezes a pressao deste sítio menos  a pressao do objeto conexo
+   Fluxo = Condutancia média vezes a pressao deste sítio menos a pressao do objeto conexo
    @author : André Duarte Bueno
    @see    :
    @param  : void
@@ -395,11 +399,11 @@ long double CObjetoRede::Go ( long double /*d */ )
 long double CObjetoRede::Fluxo () const
 {
    static long double fluxo ;
-   fluxo =  0.0 ;
+   fluxo =  0.0 ; // zera a cada passagem
 
    for ( unsigned long int i = 0; i < conexao.size (); i++ ) {
-         // Ex: x = pressao
-         fluxo += condutancia[i] * ( this->x - conexao[i]->x );
+	   // Ex: se x é a  pressao; calcula condutancia * dP
+         fluxo += condutancia[i] * ( this->x - conexao[i]->x ); 
       }
 
    return fluxo;
@@ -439,4 +443,3 @@ long double CObjetoRede::Fluxo () const
 //    condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
 //    return 1;
 // }
-

@@ -44,7 +44,8 @@ bool CObjetoGrafo::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vect
           // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
           // Se foi deletado vai ser pulado.
           if ( objeto->rotulo != deletado ) {
-               conexao[indice_rotulo_valido++] = objeto;
+               conexao[indice_rotulo_valido] = objeto;
+			   indice_rotulo_valido++;
           }
 
      // Redimensiona o vetor das conexões (as que apontam para objetos deletados são eliminadas)
@@ -80,11 +81,8 @@ Função:    operator>>
 @return : ostream&
 @todo   : Note que esta armazenando o tipo de contorno em x; corrigir/analizar!
 */
-istream  &operator>> ( istream &is,  CObjetoGrafo &obj )
+istream  &operator>> ( istream &in,  CObjetoGrafo &obj )
 {
-     unsigned char contorno; ///@bug: corrigir!
-     is >> contorno;
-     is >> obj.rotulo;
-//   obj.Read(in);
-     return is;
+    obj.Read(in);
+     return in;
 }

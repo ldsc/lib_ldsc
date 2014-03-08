@@ -46,13 +46,13 @@ void CObjetoGrafo_2VetoresConexoes::Conectar ( CObjetoGrafo* objA, CObjetoGrafo*
     @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :
-    @param  : 	unsigned int link
+    @param  : 	unsigned int pos
     @return :		void
 */
-void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int link )
+void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int pos )
 {
-   this->conexaoA.erase ( conexaoA.begin() + link );
-   this->conexaoB.erase ( conexaoB.begin() + link );
+   this->conexaoA.erase ( conexaoA.begin() + pos );
+   this->conexaoB.erase ( conexaoB.begin() + pos );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -64,7 +64,7 @@ void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int link )
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
     @see    :
-    @param  : unsigned int link
+    @param  : unsigned int deletado
     @return : void
 */
 bool CObjetoGrafo_2VetoresConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )

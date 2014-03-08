@@ -44,32 +44,34 @@ Desenvolvido por:
 #ifndef ETipoObjetoGrafo_
 #define ETipoObjetoGrafo_
 enum class ETipoObjetoGrafo : uint8_t {
-	ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
-	ObjetoGrafo_1VetorConexoes,
-	ObjetoGrafo_2VetoresConexoes,
-	ObjetoGrafo_MatrizConexoes,
+   ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
+   ObjetoGrafo_1VetorConexoes,
+   ObjetoGrafo_2VetoresConexoes,
+   ObjetoGrafo_MatrizConexoes,
 
-	ObjetoRede,                   // Objetos da hierarquia de objetos da rede
-	ObjetoRede_Ligacao,
-	ObjetoRede_Ligacao_CENTER,
-	ObjetoRede_Ligacao_EST,
-	ObjetoRede_Ligacao_WEST,
-	ObjetoRede_Sitio,
-	ObjetoRede_Sitio_CENTER,
-	ObjetoRede_Sitio_EST,
-	ObjetoRede_Sitio_WEST,
-	CObjetoRede_Tipo, // Não faz sentido pois tem objeto tipo indicando o tipo??
+   ObjetoRede,                   // Objetos da hierarquia de objetos da rede
+   ObjetoRede_Ligacao,
+   ObjetoRede_Ligacao_CENTER,
+   ObjetoRede_Ligacao_EST,
+   ObjetoRede_Ligacao_WEST,
+   ObjetoRede_Sitio,
+   ObjetoRede_Sitio_CENTER,
+   ObjetoRede_Sitio_EST,
+   ObjetoRede_Sitio_WEST,
+   ObjetoRede_Final, // Inclue o tipo como atributo (final)
+   ObjetoRede_Tipo, // Inclue o tipo como atributo (sem herança)
 
-	ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
-	ObjetoEsqueleto_Ligacao,
-	ObjetoEsqueleto_Ligacao_CENTER,
-	ObjetoEsqueleto_Ligacao_EST,
-	ObjetoEsqueleto_Ligacao_WEST,
-	ObjetoEsqueleto_Sitio,
-	ObjetoEsqueleto_Sitio_CENTER,
-	ObjetoEsqueleto_Sitio_EST,
-	ObjetoEsqueleto_Sitio_WEST,
-	CObjetoEsqueleto_Tipo, // Não faz sentido pois tem objeto tipo indicando o tipo??
+   ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
+   ObjetoEsqueleto_Ligacao,
+   ObjetoEsqueleto_Ligacao_CENTER,
+   ObjetoEsqueleto_Ligacao_EST,
+   ObjetoEsqueleto_Ligacao_WEST,
+   ObjetoEsqueleto_Sitio,
+   ObjetoEsqueleto_Sitio_CENTER,
+   ObjetoEsqueleto_Sitio_EST,
+   ObjetoEsqueleto_Sitio_WEST,
+   ObjetoEsqueleto_Final, // Inclue o tipo como atributo (final)
+   ObjetoEsqueleto_Tipo, // Inclue o tipo como atributo (sem herança)
 };
 #endif
 
@@ -80,12 +82,12 @@ enum class ETipoObjetoGrafo : uint8_t {
  * @brief Representa um objeto básico de um grafo.
  * Um CGrafo representa um grafo, que é composto por um conjunto de objetos do tipo CObjetoGrafo.
  * CObjetoGrafo tem um conjunto de métodos para:
- * Conectar objetos: Conectar().
- * Deletar objetos conectados: DeletarConexao().
- * Deletar conexões inválidas: DeletarConexoesInvalidadas().
- * Retornar o tipo de contorno: Contorno().
- * Salvar o objeto em disco: Write().
- * Ler o objeto do disco: Read().
+ * Conectar objetos:             Conectar().
+ * Deletar objetos conectados:   DeletarConexao().
+ * Deletar conexões inválidas:   DeletarConexoesInvalidadas().
+ * Retornar o tipo de contorno:  Contorno().
+ * Salvar o objeto em disco:     Write().
+ * Ler o objeto do disco:        Read().
  * Determinar o fluxo de uma determinada propriedade: Fluxo().
  * Determinar alguma propriedade de interesse: Go().
  *
@@ -96,14 +98,13 @@ enum class ETipoObjetoGrafo : uint8_t {
  * @todo:    implementar Read().
  * @todo     implementar sobrecarga << e >>.
  * @ingroup  HCObjetoGrafo
- * @todo Criar template T para tipo rótulo (unsigned short, unsigned int, unsigned long,unsigned long long)
 */
 class CObjetoGrafo {
 // --------------------------------------------------------------Atributos
 public:
    /**
-   * @brief Todo objeto CObjetoGrafo tem um rotulo, que o identifica;
-    * O rótulo é usado para armazenar o objeto em disco, e para localizar o objeto, seus links e referências.
+   * @brief Todo objeto CObjetoGrafo tem um rotulo, que o identifica; O rótulo é usado
+   * para armazenar o objeto em disco, e para localizar o objeto, seus links e referências.
    */
    unsigned int rotulo {0};
 
@@ -116,6 +117,10 @@ public:
    virtual ~ CObjetoGrafo ()   = default;
 
 // ----------------------------------------------------------------Métodos
+   /// Como um objeto do grafo pode estar sujeito a algum tipo de condição
+   /// de contorno, o mesmo tem um método que informa o contorno.
+   /// Nas classes herdeiras o tipo Contorno poderá ser, por exemplo,
+   /// CContorno::ETipoContorno::WEST
    /// Enumeração para o tipo de contorno, por default assume CContorno::CENTER.
    /// Esboço:
    ///                         3
@@ -124,7 +129,7 @@ public:
    ///                         NORTH
    ///            FRONT WEST  CENTER  EST    BACK
    ///                         SUL
-   /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
+   /// @bug : como os valores da Enumeração foram alterados verificar se não implica em bug!
    ///        ou seja, no código não usar conversão para unsigned char.
    ///  enum class ETipoContorno : unsigned char
    ///  { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
@@ -141,6 +146,8 @@ public:
    /**
      * @brief Função que conecta este objeto e um objeto externo.
     * Note que recebe um ponteiro para um CObjetoGrafo, e o inclue na lista de conexões.
+   * Deve ser sobrescrita nas herdeiras pois aqui não temos o vetor de objetos.
+   * Na hierarquia de objetos do tipo CObjetoRede, receberá um CObjetoRede*.
    */
    inline virtual void Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB = nullptr ) {}; //=0;
 
@@ -148,14 +155,16 @@ public:
       * @brief Função que conecta este objeto e um vetor de objetos externos.
      * Note que recebe um um vetor de CObjetoGrafo*, e o inclue na lista de conexões.
     */
-   inline virtual void Conectar ( std::vector < CObjetoGrafo* > obj_vetor ) {};
+   inline virtual void Conectar ( std::vector < CObjetoGrafo* >& obj_vetor ) {};
 
-   /// Deleta uma conexão dada pelo link.
-   /// Se o link for inválido lança exceção.
-   inline virtual void DeletarConexao ( unsigned int link )  = 0; //{};
+   /// Deleta uma conexão dada pelo pos.
+   /// Se a pos for inválida lança exceção.
+   inline virtual void DeletarConexao ( unsigned int pos )  = 0; //{};
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.
-   virtual unsigned int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo() { return 0; };
+   virtual unsigned int DeletarConexoesRepetidas_e_SomarCondutanciasParalelo() {
+      return 0;
+   };
 
    /**
    * @brief Percorre o vetor de conexões e deleta as ligações para objetos que foram marcados para deleção.
@@ -163,15 +172,20 @@ public:
    * se o rótulo dos objetos conectados é igual a este parâmetro a conexão é eliminada.
    * Chama função auxiliar.
    */
-   inline virtual bool DeletarConexoesInvalidadas ( unsigned int deletado )  = 0 ; //{ return 1;};
+   inline virtual bool DeletarConexoesInvalidadas ( unsigned int deletado )  = 0 ; 
 
    /// @brief Salva atributos do objeto em disco.
    virtual std::ostream& Write ( std::ostream& os ) const = 0 ;
 
+   /// @brief Lê atributos do objeto em disco.
+   /// Note que não esta fazendo nada Implementar nas herdeiras!!!
+   virtual std::istream& Read ( std::istream& in ) {} ;
+
 protected:
    /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
    /// criada para reduzir códigos nas herdeiras.
-   bool DeletarConexoesInvalidadas_aux ( unsigned deletado , std::vector<CObjetoGrafo*>& conexao );
+   bool DeletarConexoesInvalidadas_aux ( unsigned deletado ,
+                                         std::vector<CObjetoGrafo*>& conexao );
 
 // --------------------------------------------------------------------Get
 public:

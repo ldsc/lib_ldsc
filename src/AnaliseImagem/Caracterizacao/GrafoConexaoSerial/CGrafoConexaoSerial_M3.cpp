@@ -316,12 +316,12 @@ CGrafoConexaoSerial_M3::EliminarCondutanciasRepetidas ()
 // CObjetoRede_CC_Sitio* obj_i = dynamic_cast < CObjetoRede_CC_Sitio* > ( objeto[i] );
 // assert ( obj_i );
 
-            // Chama DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
-//            totalLinksDeletados += obj_i->DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
-            totalLinksDeletados += objeto[i]->DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo ();
+            // Chama DeletarConexoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
+//            totalLinksDeletados += obj_i->DeletarConexoesRepetidas_e_SomarCondutanciasParalelo ();
+            totalLinksDeletados += objeto[i]->DeletarConexoesRepetidas_e_SomarCondutanciasParalelo ();
          }
 
-   // Write( "Grafo_DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo.txt");        Emedio
+   // Write( "Grafo_DeletarConexoesRepetidas_e_SomarCondutanciasParalelo.txt");        Emedio
    cerr << "NumeroTotal de links deletados= " << totalLinksDeletados << endl;
 }
 

@@ -59,7 +59,9 @@ public:
    virtual ~ CObjetoEsqueleto ()  = default;
 
    /// Retorna o tipo de objeto do grafo.
-   virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoEsqueleto;   }
+   virtual ETipoObjetoGrafo Tipo () const  override {
+      return ETipoObjetoGrafo::ObjetoEsqueleto;
+   }
 
    /// @brief Salva atributos do objeto em disco.
    virtual std::ostream& Write ( std::ostream& os ) const override ;
@@ -79,6 +81,6 @@ inline std::ostream& operator<< ( std::ostream& os, CObjetoEsqueleto& obj );
 // istream& operator>> (istream& is, CObjetoEsqueleto& obj);
 
 // Cria o tipo CObjetoEsqueletoCentro, que é igual a CObjetoEsqueleto
-using CObjetoRede_CC_Sitio_Centro = CObjetoEsqueleto ;
+using CObjetoEsqueleto_Centro = CObjetoEsqueleto ;
 
 #endif

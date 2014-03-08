@@ -26,57 +26,6 @@
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Tipo.h>
 using namespace std;
 
-// -------------------------------------------------------------------------
-// Função:               Conectar
-// -------------------------------------------------------------------------
-/** Recebe um objA e o conecta a this. Note que seta o valor da condutancia
- * como sendo a propriedade do objeto ao qual estou conectado (ex, raio hidraulico).
-    @author : André Duarte Bueno
-    @see    :
-    @param  : objeto a quem será conectado
-    @return : void
-*/
-// inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* )
-// {
-//    this->conexao.push_back ( objA );
-//    this->condutancia.push_back ( objA->propriedade );
-// }
-
-// -------------------------------------------------------------------------
-// Função:               Conectar
-// -------------------------------------------------------------------------
-/**
-	* @brief Função nova que recebe um ponteiro para um CObjetoRede,
-	* e o inclue na lista de conexões.
-	* O segundo parâmetro é a condutância, que é adicionada ao vetor das condutâncias.
-*/
-// inline void CObjetoRede_Tipo::Conectar ( CObjetoRede_Tipo* objA, long double _condutancia )
-// {
-//    this->conexao.push_back ( objA );
-//    this->condutancia.push_back ( _condutancia );
-// }
-
-// -------------------------------------------------------------------------
-// Função:       DeletarConexao
-// -------------------------------------------------------------------------
-/** Deleta conexões de ramos mortos
-  @short  : Deleta conexões de ramos mortos
-  @author : André Duarte Bueno
-  @see    :
-  @param  : unsigned int link
-  @return : void
-  Nota: o código abaixo pode deixar o processo lento se o número de conexões foram
-  grande e se este método for muito chamado! Pensar em usar <list>
-*/
-// inline void CObjetoRede_Tipo::DeletarConexao ( unsigned int link )
-// {
-//    // Deleta a conexão
-//    this->conexao.erase ( conexao.begin() + link );
-//
-//    // e, adicionalmente, deleta a condutancia associada ao objeto link
-//    this->condutancia.erase ( condutancia.begin () + link );
-// }
-
 /** Marca e deleta os links para objetos invalidados (marcados para deleção).
   @short  : Deleta a conexao de um ramo morto
   @author : André Duarte Bueno
@@ -117,7 +66,7 @@ bool CObjetoRede_Tipo::DeletarConexoesInvalidadas( unsigned int deletado )
   @return : bool
   @todo   : da forma como esta funciona, mas pode ser mais simples! testar!
 */
-unsigned int  CObjetoRede_Tipo::DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo()
+unsigned int  CObjetoRede_Tipo::DeletarConexoesRepetidas_e_SomarCondutanciasParalelo()
 {
    // Número de links deletados
    // acumula número de links no início
@@ -151,7 +100,8 @@ unsigned int  CObjetoRede_Tipo::DeletarConeccoesRepetidas_e_SomarCondutanciasPar
          conexao[i] = c[i];
          condutancia[i] = m[c[i]];
       }
-
+      
+// #ifdef OTIMIZAR_MEMORIA
    // Redimensiona o vetor das conexões e deleta elementos não usados.
    conexao.resize( c.size() );
    conexao.erase( conexao.begin() + c.size() , conexao.end() );
@@ -159,13 +109,13 @@ unsigned int  CObjetoRede_Tipo::DeletarConeccoesRepetidas_e_SomarCondutanciasPar
    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
    condutancia.resize( c.size() );
    condutancia.erase( condutancia.begin() + c.size() , condutancia.end() );
-
+//#endif
    numeroLinksDeletados = numeroLinksDeletados - c.size();
    return numeroLinksDeletados;
 }
 
 /**
- * /// @todo tentativa otimizar DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo
+ * /// @todo tentativa otimizar DeletarConexoesRepetidas_e_SomarCondutanciasParalelo
  * terminar de implementar, testar velocidade, ficar com a versao + rápida.
 int CObjetoRede_Tipo::DeletarConeccoesRepetidas_V2 ()
 {
@@ -267,47 +217,7 @@ ostream & operator<< ( ostream & out, CObjetoRede_Tipo & s )
 */
 
 /*istream& operator>> (istream& is, CObjetoRede_Tipo& s)
-  {
-
-  // Lê a informação do tipo de contorno
-  int contorno;// CContorno::ETipoContorno
-  is >> contorno; // Descartada ??
-
-  // Lê a informação do numero de ligações
-  int numeroLigacoes;
-  is >> numeroLigacoes;
-
-  // Precisa deletar o vetor de conexões existente,
-  // mas não os objetos apontados pelo vetor,
-  // os CObjetoGrafo são alocados e deletados pelo CGrafo
-
-  // Rótulo do objeto
-  int rotulo;
-
-  // Ponteiro para objeto
-  CObjetoGrafo * objA;
-  double propriedade;
-
-  // Monta vetor das conexões
-  for(unsigned long int i = 0 ; i < numeroLigacoes; i++)
-  {
-  // Lê o rotulo do objeto a quem estou conectado em i
-  is >> rotulo;
-
-  // Pesquisa e localiza objeto que tem este rotulo
-  // retorna copia do ponteiro para objeto com o rotulo
-  objA = grafo->FindObjeto(rotulo);	// Implementar Find Avançado (eficiente)
-
-  conexao.push_back(objA);
-
-
-  // Lê a propriedade
-  is >> propriedade;
-  // Armazena no ojeto ??
-  conexao[i]->propriedade = propriedade;
-  }
-
-  return is;
+  COPIAR DE CObjetoRede
   }   */
 
 // -------------------------------------------------------------------------
@@ -406,7 +316,7 @@ long double CObjetoRede_Tipo::Go( long double /*d */ )
 long double CObjetoRede_Tipo::Fluxo() const
 {
    static long double fluxo ;
-   fluxo =  0.0 ;
+   fluxo =  0.0 ; //zera a cada passagem
 
    for( unsigned long int i = 0; i < conexao.size(); i++ ) {
          // Ex: x = pressao

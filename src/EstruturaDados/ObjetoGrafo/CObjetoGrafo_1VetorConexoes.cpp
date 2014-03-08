@@ -45,12 +45,12 @@ void CObjetoGrafo_1VetorConexoes::Conectar ( CObjetoGrafo * obj, CObjetoGrafo * 
     @short  :		Deleta a conexao de um ramo morto
     @author :		André Duarte Bueno
     @see    :
-    @param  : 	unsigned int link
+    @param  : 	unsigned int pos
     @return :		void
 */
-void CObjetoGrafo_1VetorConexoes::DeletarConexao ( unsigned int link )
+void CObjetoGrafo_1VetorConexoes::DeletarConexao ( unsigned int pos )
 {
-     this->conexao.erase ( conexao.begin() + link );
+     this->conexao.erase ( conexao.begin() + pos );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -82,7 +82,7 @@ ostream & CObjetoGrafo_1VetorConexoes::Write ( ostream & out ) const
      out.setf ( ios::right );
 
      // Tipo de contorno
-     out << setw ( 5 ) << static_cast<uint8_t> ( Contorno() ) << '\n';
+     out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
 
      // Rótulo de this
      out << ' ' << setw ( 5 ) << rotulo;
@@ -113,15 +113,4 @@ ostream & operator<< ( ostream & out, CObjetoGrafo_1VetorConexoes & s )
      s.Write ( out );
      return out;
 }
-
-// -------------------------------------------------------------------------
-// Função:    operator>>
-// -------------------------------------------------------------------------
-/** Sobrecarga operador entrada streams
-    @short  :	Sobrecarga operador entrada streams
-    @author :	André Duarte Bueno
-    @see    :
-    @param  : istream& is, CObjetoGrafo_1VetorConexoes& s
-    @return : istream&
-*/
 

@@ -41,7 +41,7 @@ Desenvolvido por:
  * @see    grafos
  * @ingroup  HCObjetoGrafo
 */
-class CObjetoRede_Sitio_EST : public CObjetoRede_Sitio { 
+class CObjetoRede_Sitio_EST  final : public CObjetoRede_Sitio { 
 // --------------------------------------------------------------Atributos
 public: 
 
@@ -59,7 +59,7 @@ public:
 
 	// Redefinição de funções herdadas
 	/// Retorna o tipo de contorno
-	inline virtual CContorno::ETipoContorno Contorno () const  override {
+	/*inline*/ virtual CContorno::ETipoContorno Contorno () const  override {
 		return CContorno::ETipoContorno::EST;
 	}
 
@@ -67,7 +67,7 @@ public:
       * @brief Função herdade da classe CParametroSolver usada para
       * calcular o valor de x retorna a pressão na fronteira direita
      */
-     inline virtual long double Go ( long double d = 0 )  override {
+     /*inline*/ virtual long double Go ( long double d = 0 )  override {
           return x;
      }
 

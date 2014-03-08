@@ -103,8 +103,8 @@ class CObjetoGrafo_MatrizConexoes : public CObjetoGrafo {
 public:
    /**
    * @brief Normalmente tem-se um vetor de  CObjetoGrafo*,
-    * vector<CObjetoGrafo*>  mconexao;
-    * Aqui tenho um vetor de vetores mconexao é um vetor de objetos do tipo
+    * vector<CObjetoGrafo*>  vconexao;
+    * Aqui tenho um vetor de vetores, mconexao é um vetor de objetos do tipo
     * vector<CObjetoGrafo*> */
    std::vector < std::vector < CObjetoGrafo* > > mconexao;
 
@@ -123,15 +123,15 @@ public:
    }
 
    /**
-    * @brief Função de conexão. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
+    * @brief Função de conexão nova. Note que aqui recebe um vetor de objetos e na classe base um único objeto.
    */
-   inline virtual void Conectar ( std::vector < CObjetoGrafo* >obj_vetor ) override;
+   inline virtual void Conectar ( std::vector < CObjetoGrafo* >& obj_vetor ) override;
 
    /// Deleta uma conexão (um vetor inteiro).
    inline virtual void DeletarConexao ( unsigned int ivetor ) override ;
 
-   /// Nova: Deleta uma conexão específica (deleta o link do vetor). ~Matriz[ivetor][link].
-   inline /*virtual */void DeletarConexao ( unsigned int ivetor, unsigned int link );
+   /// Nova: Deleta uma conexão específica (deleta o pos do vetor). ~Matriz[ivetor][pos].
+   inline /*virtual */void DeletarConexao ( unsigned int ivetor, unsigned int pos );
 
    /**
    * @brief Deleta os links para objetos que foram marcados para deleção.

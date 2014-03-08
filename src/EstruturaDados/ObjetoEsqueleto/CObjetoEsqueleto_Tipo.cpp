@@ -16,14 +16,14 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include<fstream>
-#include<iomanip>
-using namespace std;
+// #include<fstream>
+// #include<iomanip>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.h>
+using namespace std;
 
 // -------------------------------------------------------------------------
 // Função:       Write
@@ -47,30 +47,31 @@ using namespace std;
 */
 ostream& CObjetoEsqueleto_Tipo::Write ( ostream& out ) const
 {
-    out.setf ( ios::right );
-
-    // Tipo de contorno
-    out << setw ( 5 ) << static_cast<uint8_t> ( Tipo () ) << '\n';
-
-    // Rótulo de this
-    out << ' ' << setw ( 5 ) << rotulo;
-
-    // x de this (pressão)
-    out << ' ' << setw ( 10 ) << x;
-
-    // propriedade de this (condutancia)
-    out << ' ' << setw ( 10 ) << propriedade;
-
-    // Numero de links do sítio
-    out << ' ' << setw ( 5 ) << conexao.size ();
-
-    // lista dos rótulos da conexao
-    for ( auto objeto_conectado : conexao )
-        out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
-
-    // Lista das propriedades (condutâncias das ligações)
-    for ( auto condutancia_i : condutancia )
-        out << ' ' << setw ( 10 ) << condutancia_i;
+    CObjetoEsqueleto_Tipo::Write(out);
+// 	out.setf ( ios::right );
+// 
+//     // Tipo de contorno
+//     out << setw ( 5 ) << static_cast<uint8_t> ( Tipo () ) << '\n';
+// 
+//     // Rótulo de this
+//     out << ' ' << setw ( 5 ) << rotulo;
+// 
+//     // x de this (pressão)
+//     out << ' ' << setw ( 10 ) << x;
+// 
+//     // propriedade de this (condutancia)
+//     out << ' ' << setw ( 10 ) << propriedade;
+// 
+//     // Numero de links do sítio
+//     out << ' ' << setw ( 5 ) << conexao.size ();
+// 
+//     // lista dos rótulos da conexao
+//     for ( auto objeto_conectado : conexao )
+//         out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
+// 
+//     // Lista das propriedades (condutâncias das ligações)
+//     for ( auto condutancia_i : condutancia )
+//         out << ' ' << setw ( 10 ) << condutancia_i;
 
     // coordenadas
     out << ' ' << cx << ' ' << cy << ' ' << cz << ' ';

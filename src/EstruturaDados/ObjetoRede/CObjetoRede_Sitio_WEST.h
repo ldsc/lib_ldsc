@@ -43,7 +43,7 @@ Desenvolvido por:
  * @see     CGrafo
  * @ingroup  HCObjetoGrafo
 */
-class CObjetoRede_Sitio_WEST : public CObjetoRede_Sitio {
+class CObjetoRede_Sitio_WEST  final : public CObjetoRede_Sitio {
 // --------------------------------------------------------------Atributos
 public:
 // -------------------------------------------------------------Construtor
@@ -59,7 +59,7 @@ public:
      virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;  }
 
      /// Retorna o tipo de contorno a que pertence
-     inline virtual CContorno::ETipoContorno Contorno () const override  {
+     /*inline*/ virtual CContorno::ETipoContorno Contorno () const override  {
           return CContorno::ETipoContorno::WEST;
      }
 
@@ -67,7 +67,7 @@ public:
      * @brief Função herdada da classe CParametroSolver,
      * usada para calcular o valor de x retorna a pressão na fronteira direita
      */
-     inline virtual long double Go ( long double d = 0 ) override  {
+     /*inline*/ virtual long double Go ( long double d = 0 ) override  {
           return x;
      }
 

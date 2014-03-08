@@ -52,7 +52,7 @@ public:
 
 // -------------------------------------------------------------/**Construtor*/
    /// Construtor
-   CObjetoEsqueleto_Tipo ( ETipoObjetoGrafo _tipo ) : CObjetoRede_Tipo(_tipo) {   }
+   CObjetoEsqueleto_Tipo ( ETipoObjetoGrafo _tipo ) : CObjetoRede_Tipo ( _tipo ) {   }
 
 // --------------------------------------------------------------/**Destrutor*/
    /// Destrutor

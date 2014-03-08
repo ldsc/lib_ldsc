@@ -48,26 +48,27 @@ Desenvolvido por:
  * Tem um rótulo (herdado de CObjetoGrafo) e uma propriedade x (herdada de CParametroSolver).
  * Acrescenta um long double propriedade, um vetor conexao e um vetor condutancia.
  * Adiciona: nova Conectar que conecta CObjetoRede*.
- * DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo().
+ * DeletarConexoesRepetidas_e_SomarCondutanciasParalelo().
  * Sobrescreve: DeletarConexao(), DeletarConexoesInvalidadas(), Write().
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
  * @ingroup  HCObjetoGrafo
+ * @todo Criar template T para tipo propriedade ( que pode ser algo simples, um double
+ * ou algo mais complexo, como uma classe função )
 */
 class CObjetoRede : /*virtual*/ public CObjetoGrafo, public CSMParametroSolver  {
 // --------------------------------------------------------------Atributos
 public:
-   /// Todo CObjetoGrafo tem uma propriedade// Ex:raio hidraulico ou condutância
+   /// Todo CObjetoRede tem uma propriedade// Ex:raio hidraulico ou condutância
    long double propriedade {0.0};
 
    /**
-   * @brief Vetor de ponteiros para objetos do tipo CObjetoRede.
-   * Ou seja, ponteiros para objetos da hierarquia CObjetoRede.
+   * @brief Vetor de ponteiros para objetos do tipo CObjetoRede*.
    * @todo: verificar vantagens de trocar vector por list (teste desempenho)
    * Note que operações conexao[i] precisam ser trocadas!!
    */
-   std::vector < CObjetoRede* >conexao;
+   std::vector < CObjetoRede* > conexao;
 
    /**
    *@brief  Lista de long doubles que armazena a condutâncias das conexões.
@@ -92,12 +93,13 @@ public:
 
    /**
      * @brief Função nova que recebe um ponteiro para um CObjetoRede,
-     * e o inclue na lista de conexões. O segundo parâmtro é a condutância.
+     * e o inclue na lista de conexões.
+	 * O segundo parâmetro é a condutância entre this e o objA.
    */
    virtual void Conectar ( CObjetoRede* objA, long double _condutancia );
 
    /// Deleta uma conexão.
-   /*inline*/ virtual void DeletarConexao ( unsigned int link ) override ;
+   /*inline*/ virtual void DeletarConexao ( unsigned int pos ) override ;
 
    /**
     * @brief Deleta as conexões para objetos que foram marcados para deleção.
@@ -108,7 +110,7 @@ public:
    /*inline*/ virtual bool DeletarConexoesInvalidadas ( unsigned int deletado ) override ;
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.
-   virtual unsigned int DeletarConeccoesRepetidas_e_SomarCondutanciasParalelo() override;
+   virtual unsigned int DeletarConexoesRepetidas_e_SomarCondutanciasParalelo() override;
 
    /// @brief Salva atributos do objeto em disco.
    virtual std::ostream& Write ( std::ostream& os ) const override ;
@@ -148,7 +150,7 @@ public:
       propriedade = p;
    }
    /// @brief Seta vetor de conexões.
-   void Conexao ( std::vector < CObjetoRede* >  c) {
+   void Conexao ( std::vector < CObjetoRede* >  c ) {
       conexao = c;
    }
    /// @brief Seta vetor de condutâncias.
@@ -160,7 +162,7 @@ public:
    friend std::ostream& operator<< ( std::ostream& os, CObjetoRede& obj );
 //       friend istream& operator>> (istream& is, CObjetoRede& obj);
 
-protected:
+// protected:
 //    /// Função auxiliar que recebe o indice das conexões a serem deletadas e um vetor de conexões.
 //    /// criada para reduzir códigos nas herdeiras.
 //    bool DeletarConexoesInvalidadas_aux ( unsigned int deletado , std::vector<CObjetoRede*>& conexao );

@@ -91,7 +91,7 @@ public:
    inline virtual void Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB = nullptr ) override ;
 
    /// Deleta uma conexão.
-   inline virtual void DeletarConexao ( unsigned int link ) override ;
+   inline virtual void DeletarConexao ( unsigned int pos ) override ;
 
    /**
    * @brief Deleta os links para objetos que foram marcados para deleção.

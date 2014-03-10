@@ -23,17 +23,27 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.h>
 
-#ifndef CObjetoEsqueleto_h
+#ifndef CObjetoEsqueleto_Sitio_h
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio.h>
 #endif
 
-#ifndef CObjetoEsqueleto_Sitio_WEST
+#ifndef CObjetoEsqueleto_Sitio_WEST_h
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_WEST.h>
 #endif
 
-#ifndef CObjetoEsqueleto_Sitio_EST
+#ifndef CObjetoEsqueleto_Sitio_EST_h
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.h>
+#endif
+
+#ifndef CObjetoEsqueleto_Final_h
 #include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.h>
+#endif
+
+#ifndef CObjetoEsqueleto_Tipo_h
+#include <EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.h>
+#endif
+
+#ifndef CRede_h
 #include <EstruturaDados/CRede.h>
 #endif
 
@@ -42,42 +52,56 @@ Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 #endif
 using namespace std;
 
-// // -------------------------------------------------------------------------
-// // Função:       CriarObjeto
-// // -------------------------------------------------------------------------
-// /**
-// @short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
-// @author : André Duarte Bueno
-// @see    : grafos
-// @param  : CContorno::ETipoContorno tipoContorno
-// @return : Retorna um ponteiro para um sítio novo
-// */
-// CObjetoRede*
-// CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( CContorno::ETipoContorno tipoContorno )
-// {
-//    CObjetoRede* data;
-//
-//    switch ( tipoContorno ) {
-//       case CContorno::ETipoContorno::CENTER:
-//          data = new CObjetoEsqueleto_Sitio_CENTER ();
-//          break;
-//
-//       case CContorno::ETipoContorno::WEST:
-//          data = new CObjetoEsqueleto_Sitio_WEST ();
-//          break;
-//
-//       case CContorno::ETipoContorno::EST:
-//          data = new CObjetoEsqueleto_Sitio_EST ();
-//          break;
-//
-//       default:
-//          data = new CObjetoEsqueleto_Sitio_CENTER ();
-//          break;
-//       }
-//
-//    assert ( data );
-//    return data;
-// }
+// -------------------------------------------------------------------------
+// Função:       CriarObjeto
+// -------------------------------------------------------------------------
+/**
+@short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
+@author : André Duarte Bueno
+@see    : grafos
+@param  : CContorno::ETipoContorno tipoContorno
+@return : Retorna um ponteiro para um sítio novo
+*/
+CObjetoRede*
+CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( ETipoObjetoGrafo tipoObjeto  )
+{
+// cerr<<"\nCriar Objeto->Tipo objeto=" << static_cast<uint16_t> (tipoObjeto) << endl;
+// #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+//          using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
+// #else
+//          using value_type_objeto_esqueleto = CObjetoEsqueleto;
+// #endif
+
+   CObjetoRede* data;
+
+   switch ( tipoObjeto ) {
+	   case ETipoObjetoGrafo::ObjetoEsqueleto_Sitio :
+         data = new CObjetoEsqueleto_Sitio ();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Sitio_WEST :
+         data = new CObjetoEsqueleto_Sitio_WEST ();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Sitio_EST :
+         data = new CObjetoEsqueleto_Sitio_EST ();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Final :
+         data = new CObjetoRede_Final ( tipoObjeto );
+         break;
+
+      case ETipoObjetoGrafo::ObjetoEsqueleto_Tipo :
+         data = reinterpret_cast<CObjetoRede*> ( new CObjetoEsqueleto_Tipo ( tipoObjeto ) );
+         break;
+
+	  default:
+         data = new CObjetoEsqueleto_Sitio ();
+         break;
+      }
+   assert ( data );
+   return data;
+}
 
 // -------------------------------------------------------------------------
 // Função     AdicionarObjetos
@@ -102,17 +126,22 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
    // seta o tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
    // aqui quero criar objetos do tipo Esqueleto, então
    // tenho de mudar o tipo antes de chamar CriarObjeto(tipo).
-   if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER )
-      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_CENTER;
+   if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio;
    else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_WEST )
       tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST;
    else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Sitio_EST )
       tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST;
    else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Final )
       tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Final;
+   else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Tipo )
+      tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Tipo;
+
+// cerr<<"\nAdicionar Objeto->Tipo objeto=" << static_cast<uint16_t> (tipoObjeto) << endl;
 
    // Calcula o centro de massa dos objetos da imagem rotulada (NOVO)
    rotulador->CentroMassaObjetos ();
+// cerr<<"\nCalculou rotulador->CentroMassaObjetos ();" << endl; 
 
    // Não deve considerar o objeto 0 que é o fundo.
    // inclue o rotulo final, o objeto final
@@ -131,14 +160,22 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
          // mas aqui quero criar CObjetoEsqueleto_Sitio ou ObjetoEsqueleto_Final, então uso
          // #idef OTIMIZAR_VELOCIDADE_PROCESSAMENTO para setar corretamente o tipo de ponteiro.
          // Lembrando que ObjetoEsqueleto_Final é +rápida pois não tem polimorfismo.
+//          value_type_objeto_esqueleto * data = nullptr;
+//          data = static_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );
+//         data = dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-         CObjetoEsqueleto_Final* data = nullptr;
-         data = static_cast< CObjetoEsqueleto_Final* > ( CriarObjeto ( tipoObjeto ) );
+         using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
+// cerr << "debug1: using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;\n";
 #else
-         CObjetoEsqueleto* data = nullptr;
-         data = static_cast< CObjetoEsqueleto* > ( CriarObjeto ( tipoObjeto ) );
+         using value_type_objeto_esqueleto = CObjetoEsqueleto;
+// cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
 #endif
-         // Obtem um novo objeto
+//          value_type_objeto_esqueleto * data = nullptr;
+// cerr<<"\nAntes dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );" << endl; 
+// 		 data = dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );
+ value_type_objeto_esqueleto * data = nullptr;
+ data = static_cast<value_type_objeto_esqueleto *> ( CriarObjeto ( tipoObjeto ) );
+	   // Obtem um novo objeto
          assert ( data );
 
          // No rotulador o objeto 0 é o fundo
@@ -152,10 +189,8 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
          // Passa para x o plano atual (sera usado na estimacao de x)
          data->x = this->plano;
 
-// AQUI, seta cx,cy,cz de cada sítio
-// Adiciona a posição do centro de massa
-// CObjetoEsqueleto_Sitio*objeto_esqueleto = dynamic_cast < CObjetoEsqueleto_Sitio* > ( data );
-// assert ( objeto_esqueleto );
+		// Adiciona a posição do centro de massa, seta cx,cy,cz de cada sítio
+// cerr<<"\nAntes data->cx = rotulador->CMXObjeto ( rotulo );" << endl; 
          data->cx = rotulador->CMXObjeto ( rotulo );
          data->cy = rotulador->CMYObjeto ( rotulo );
          data->cz = plano;
@@ -183,7 +218,7 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
    numeroDerivacoesUsadasCalculoTortuosidade = 0;
 // FIM NOVO*********
 
-   ofstream saida ( ( NomeGrafo() + ".fatorCorrecao" ).c_str() );
+   ofstream saida ( ( NomeGrafo() + ".fatorCorrecaoDistancias" ).c_str() );
    saida << "fatorCorrecaoDistancias(desviosLaterais) e fatorCorrecaoDistanciasLimitado a 2\n";
 
    // Chama função da classe base que calcula as condutâncias
@@ -191,7 +226,6 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
 
    // Inicio do calculo da correção das condutâncias
    // Ponteiro para sitio derivado
-   CObjetoEsqueleto*     sitio = nullptr;
 
    // Distancia dx entre os dois sítios
    double     dx = 0.0;
@@ -203,18 +237,27 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
    // Percorre  todos os objetos do  grafo
    for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
          // Converte o ponteiro ObjetoGrafo para CObjetoEsqueleto, para ter acesso ao vetor condutancia[link] e cx,cy,cz
-         sitio = dynamic_cast < CObjetoEsqueleto* > ( objeto[k] );
-         assert ( sitio );
+#ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+         using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
+cerr << "debug1: using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;\n";
+#else
+         using value_type_objeto_esqueleto = CObjetoEsqueleto;
+cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
+#endif		
+        value_type_objeto_esqueleto * sitio = nullptr;
+		sitio = dynamic_cast< value_type_objeto_esqueleto * > ( objeto[k] );
+        assert ( sitio );
 
          // Obtêm a informação do cmx e cmy do sitio atual (k)
          double cmxSitio = sitio->cx;
          double cmySitio = sitio->cy;
 
          // Percorre todas as conexões do sitio atual
-         CObjetoEsqueleto*  sitioConexo = nullptr;
+//          CObjetoEsqueleto*  sitioConexo = nullptr;
 
          for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
-               sitioConexo = dynamic_cast < CObjetoEsqueleto* > ( sitio->conexao[link] );
+			   value_type_objeto_esqueleto * sitioConexo = nullptr;
+			   sitioConexo = dynamic_cast< value_type_objeto_esqueleto * > ( objeto[k] );
                assert ( sitioConexo );
 
                // Recupera a informação  do centro de massa na direção x, do sitio conexo

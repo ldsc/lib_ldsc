@@ -37,8 +37,12 @@ Desenvolvido por:
 */
 /**
   * @brief Determina o grafo de imagens 3D, modelo 3.
-  * @author 	André Duarte Bueno
-  * @see			grafos
+  * Os modelos M1 e M2 não setam a condutância da conexão, apenas dos próprios objetos.
+  * O M3 necessita que os objetos tenham um vetor de condutâncias.
+  * Vai setar as condutâncias entre objetos nos planos i e i+1 
+  * considerando o raio hidrâulico do plano intermediário.
+  * @author André Duarte Bueno
+  * @see	grafos
   * Superclasse: CGrafo -> CGrafoConexaoSerial -> CGrafoConexaoSerial_M2 -> CGrafoConexaoSerial_M3
   * @ingroup  HCGrafo
   */
@@ -61,22 +65,15 @@ public:
 
      // ----------------------------------------------------------------Métodos
      /**
-       * @brief Para cada sítio calcula a condutancia do sítio considerando
-       * o raioHidraulico = area / perimetro.
-       * A condutancia é calculada usando a equação de Poiselle...(Bear, pg...).
-       * Aqui calcula a condutância dos sítios e dos links
+       * @brief Como no modelo 2, converte a propriedade do objeto (raio hidrâulico) em condutância.
+	   * O diferencial é que também calcula a condutância da conexão entre dois objetos considerando
+	   * o raio hidraulico da intersecção dos dois objetos no plano intermediário.
+       * objeto[i]->propriedade = f( objeto[i]->propriedade = raio hidraulico)
+       * objeto[i]->condutancia[j] = f(  raio hidraulico intersecção entre objetos i e j )
+       * A condutancia é calculada usando a equação de Poiselle...(Bear, pg...; veja Tese Bueno ou Liang).
       */
      virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
                                          unsigned long int _fatorAmplificacao ) override;
-
-     /**
-       * @brief Pesquisa o vetor dos links e elimina os links repetidos.
-       * é definido como público para ser chamado depois de Go e depois do
-       * calculo das condutâncias, visto que para eliminar os links repetidos,
-       * acumula as condutâncias duplicadas.
-       * Se for chamado antes do calculo das condutâncias, vai acumular os raios hidraulicos
-      */
-     virtual void EliminarCondutanciasRepetidas () override;
 
 // /// Seta matriz A e B de solver externo.
 // 	 virtual bool SetarMatrizAVetorB ( TCMatriz2D< int >*&A, CVetor*&B ) const override;
@@ -88,7 +85,7 @@ protected:
        * além de estabelecer os links entre os objetos, calcula o raio Hidraulico
        * das ligações
       */
-     virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
+     virtual void DeterminarConexoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
      /// Redefinida,  retorna um CObjetoRede_CC_Sitio ou derivado
      //virtual CObjetoRede *CriarObjeto ( CContorno::ETipoContorno tipoContorno ) override;

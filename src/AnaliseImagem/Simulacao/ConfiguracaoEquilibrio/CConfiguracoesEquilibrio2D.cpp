@@ -230,7 +230,7 @@ CConfiguracoesEquilibrio2D::CriaIDF ()
 }
 
 //  ====================================
-//  Criacao do objeto de rotulagem
+//  Criação do objeto de rotulagem
 //  ====================================
 void
 CConfiguracoesEquilibrio2D::CriaRotulador ()
@@ -432,7 +432,7 @@ void CConfiguracoesEquilibrio2D::SolucaoOmega (int &indiceRegiaoB, TCMatriz2D< i
 //  ====================================
 //  CorrecaocaxYi
 //  ====================================
-//  Determinacao da regiao Yi (ca=1)
+//  Determinação da regiao Yi (ca=1)
 //  Aqui ja tenho a solucao da regiao OMEGA, se ca = 1 imcompressivel, precisa considerar ca*Yi
 //  Aqui a camara tem a solucao para Omega no instante de tempo atual,
 //  A imagem tem a solucao no instante anterior

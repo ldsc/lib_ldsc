@@ -230,5 +230,5 @@ PS:
 	sem a exist�ncia da imagem rotulada.
   Isto implica no fato de que �rea,perimetro e raioHidraulico s�o atributos
   de um objeto imagemRotulada. Com isso estes atributos ficam encapsulados, e sua
-  determina��o e uso ficam mais claros.
+  determinação e uso ficam mais claros.
 */

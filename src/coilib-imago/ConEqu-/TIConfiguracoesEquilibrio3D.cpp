@@ -107,7 +107,7 @@ TIConfiguracoesEquilibrio3D::TIConfiguracoesEquilibrio3D (TIChamber * _chamber, 
 
     //O default � zero, se for para ter descascamento deve receber o
     //tamanho do descascamento nbo objeto  herdeiro que calcula a permeabilidade relativa
-    //Usado para descascar a imagem a ser usada na determina��o da permeabilidade
+    //Usado para descascar a imagem a ser usada na determinação da permeabilidade
     borderDiscount = 0;
 
     //Recebe uma camara, criada e definida em quadro de dialogo
@@ -140,10 +140,10 @@ TIConfiguracoesEquilibrio3D::TIConfiguracoesEquilibrio3D (TIChamber * _chamber, 
     // maxRadius = chamber->GetmaxRadius();
     //maxRadius = _maxRadius ;                             //NOVO EM 20-2-2001
 
-    //compara com o raio m�ximo passado pelo usu�rio
+    //compara com o raio m�ximo passado pelo usuário
     //if(_maxRadius != maxRadius)
     //A id�ia era, ou calcular o raio m�ximo ou receber o mesmo do di�logo
-    //agora, s� calcula, desconsidera o passado pelo usu�rio[USA O DO USUARIO]
+    //agora, s� calcula, desconsidera o passado pelo usuário[USA O DO USUARIO]
 
     //Define o raio m�nimo
     minRadius = _minRadius;
@@ -832,7 +832,7 @@ TIConfiguracoesEquilibrio3D::InvertDirection ()
     direction = !direction;
 
     //radius = 7, inc=+2--> radius = 3
-    //Recalcula o raio a ser usado na determina��o da confeq
+    //Recalcula o raio a ser usado na determinação da confeq
     //radius     = radius - 2 * increment;
     //Calcula o Raio Inicial em fun��o da dire��o
     cout << "\nCalculanndo raio e incrementos";
@@ -952,7 +952,7 @@ void TIConfiguracoesEquilibrio3D::InvertDirection()
   delete piimgY;
   imgY->ClearBits();
 
- //Redetermina��o da IDF (pois os flu�dos foram invertidos)
+ //Redeterminação da IDF (pois os flu�dos foram invertidos)
  DeterminaImgIDF();
 }
 

@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -11,7 +11,7 @@ Copyright @1997:     Todos os direitos reservados.
 Nome deste arquivo:  CFMMIDF.cpp
 Nome da classe:      CFMMIDF
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa as funções da classe CFMMIDF.
+Descricao:	 Implementa as funï¿½ï¿½es da classe CFMMIDF.
 */
 
 // ----------------------------------------------------------------------------
@@ -25,8 +25,8 @@ Descricao:	 Implementa as funções da classe CFMMIDF.
 Atributos estaticos da classe
 ============================================================================
 */
-// Se verdadeira após cada processamento recalcula a idf
-// por default, não recalcula a idf apos dilatacao ou fechamento
+// Se verdadeira apï¿½s cada processamento recalcula a idf
+// por default, nï¿½o recalcula a idf apos dilatacao ou fechamento
 bool
   CFMMIDF::atualizaIDF = 0;	
 
@@ -38,7 +38,7 @@ Executa o construtor da classe base, o CMatriz2D(NX,NY) que aloca a matriz2D.
 Define o valor do raioBola como sendo metade do tamanhoMascara, e o raioMaximo.
 */
 
-// Construtor sobrecarregado, recebe também o tamanho do raio máximo
+// Construtor sobrecarregado, recebe tambï¿½m o tamanho do raio mï¿½ximo
 CFMMIDF::CFMMIDF (CMatriz2D * &matriz, unsigned int _tamanhoMascara,
 		  unsigned int _raioMax):
 CFMorfologiaMatematica (matriz, _tamanhoMascara),
@@ -52,35 +52,35 @@ indiceInativo (0)
 
 /*
 ============================================================================
-Função    ExecutadaPorGo
+Funï¿½ï¿½o    ExecutadaPorGo
 ============================================================================
-Função usada exclusivamente por Go:
+Funï¿½ï¿½o usada exclusivamente por Go:
 
-1-Quando o usuário quer calcular a idf, chama a funcao Go (pm).
-	No caso da imagem pm passada ter dimemsões diferentes da pm passada para o construtor, devo
+1-Quando o usuÃ¡rio quer calcular a idf, chama a funcao Go (pm).
+	No caso da imagem pm passada ter dimemsï¿½es diferentes da pm passada para o construtor, devo
 	desalocar a matris idf, definir os novos valores de nx e ny e realocar a idf.
-	Se as dimensões da matriz passada e minhas forem iguais posso continuar.
+	Se as dimensï¿½es da matriz passada e minhas forem iguais posso continuar.
 
 2-Copia valores da matriz passada para a matriz idf, usando data2D[i][j]=pm->data2D[i][j]
 
-	Esta função foi incluída porque o usuário programador pode chamar Go(pm)
-	sendo pm diferente daquela passada par o construtor.	Ou seja cria-se uma segurança a mais.
+	Esta funï¿½ï¿½o foi incluï¿½da porque o usuÃ¡rio programador pode chamar Go(pm)
+	sendo pm diferente daquela passada par o construtor.	Ou seja cria-se uma seguranï¿½a a mais.
 
-	Outro fato que justifica esta função é que antes, criava objeto idf, executava Go, e depois
+	Outro fato que justifica esta funï¿½ï¿½o ï¿½ que antes, criava objeto idf, executava Go, e depois
 	podia executar a erosao, mas sempre sobre a idf da imagem passada para o construtor
-	da classe. Agora posso passar uma nova matriz para a função Go,
+	da classe. Agora posso passar uma nova matriz para a funï¿½ï¿½o Go,
 	diferente da passada para o construtor.
 
-	O terceiro motivo é que no caso de se realizar uma sequencia de erosoes com a mesma
+	O terceiro motivo ï¿½ que no caso de se realizar uma sequencia de erosoes com a mesma
 	mascara, eu precisava criar um objeto idf, calcular go e calcular a erosao,
-	criar nova idf (sobre pm erodida), executar go e então realizar a erosao...
+	criar nova idf (sobre pm erodida), executar go e entï¿½o realizar a erosao...
 	Agora posso recalcular Go a qualquer momento, sem recriar o objeto idf.
 	Exemplo:
 			cria idf      		pfmm=new TMMIDF(pm,tamanhoMascara);
 			executa go    		pfmm->Go(pm,tamanhoMascara);
 			executa erosao    pfmm->Erosao(pm,raioBola);       // erosao sobre imagem original
 			executa go    		pfmm->Go(pm,tamanhoMascara);
-			executa erosao    pfmm->Erosao(pm,raioBola);			// erosao sobre imagem já erodida
+			executa erosao    pfmm->Erosao(pm,raioBola);			// erosao sobre imagem jï¿½ erodida
 
 Assim, toda funcao Go herdeira da CFMMIDF deve chamar esta funcao:
 	 ExecutadaPorGo(matriz);
@@ -90,7 +90,7 @@ Assim, toda funcao Go herdeira da CFMMIDF deve chamar esta funcao:
 void
 CFMMIDF::ExecutadaPorGo (CMatriz2D * &matriz)	// ,unsigned int _tamanhoMascara)
 {
-  pm = matriz;			// armazena endereço matriz
+  pm = matriz;			// armazena endereï¿½o matriz
   // verifica se a matriz tem as mesmas dimensoes da idf(this)
   if (this->nx != matriz->NX () || this->ny != matriz->NY ())
     {
@@ -120,11 +120,11 @@ CFMMIDF::ExecutadaPorGo (CMatriz2D * &matriz)	// ,unsigned int _tamanhoMascara)
 
 /*
 ============================================================================
-Função    VerificaImagem
+Funï¿½ï¿½o    VerificaImagem
 ============================================================================
-Usada pelas funções Erosao,Dilatacao, fechamento e abertura para verificar se é a mesma imagem.
+Usada pelas funï¿½ï¿½es Erosao,Dilatacao, fechamento e abertura para verificar se ï¿½ a mesma imagem.
 Se for outra imagem recalcula Go.
-Tambem armazena endereço da imagem em pm.
+Tambem armazena endereï¿½o da imagem em pm.
 */
 void
 CFMMIDF::VerificaImagem (CMatriz2D * &matriz)
@@ -133,20 +133,20 @@ CFMMIDF::VerificaImagem (CMatriz2D * &matriz)
   if (pm == matriz && nx == matriz->NX () && ny == matriz->NY ())
     return;			// sai
   else
-    Go (matriz);		// senão chama Go, que redefine o tamanho da imagem
+    Go (matriz);		// senï¿½o chama Go, que redefine o tamanho da imagem
 }				// e calcula valores idf
 
 /*
 ============================================================================
-Função    Erosao
+Funï¿½ï¿½o    Erosao
 ============================================================================
-Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
+Obs: A sequï¿½ncia de execucao desta funï¿½ï¿½o nï¿½o deve ser alterada sem uma analise detalhada
 */
 CMatriz2D *
 CFMMIDF::Erosao (CMatriz2D * &matriz, unsigned int _RaioBola)	// 
 {
   // -->Padrao
-  VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
+  VerificaImagem (matriz);	// verifica se ï¿½ a mesma imagem (se diferente recalcula Go)
   tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
   // Deve calcular o tamanhoMascara antes de criar a mascara
   CriaMascara (tamanhoMascara);	// Cria a mascara adequada, do tamanho de tamanhoMascara
@@ -169,21 +169,21 @@ CFMMIDF::Erosao (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 	    pmdata2D[i][j] = indiceInativo;	// seta ponto inativo
 	}
     }
-  return pm;			// pm é a matriz erodida
+  return pm;			// pm ï¿½ a matriz erodida
 }
 
 
 /*
 ============================================================================
-Função    Abertura
+Funï¿½ï¿½o    Abertura
 ============================================================================
-Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
+Obs: A sequï¿½ncia de execucao desta funï¿½ï¿½o nï¿½o deve ser alterada sem uma analise detalhada
 */
 CMatriz2D *
 CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	// 
 {
   // -->Padrao
-  VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
+  VerificaImagem (matriz);	// verifica se ï¿½ a mesma imagem (se diferente recalcula Go)
   tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
   // Deve calcular o tamanhoMascara antes de criar a mascara
   CriaMascara (tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
@@ -193,7 +193,7 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
   // Processamento da abertura em si
   // Obs:Deve zerar a matriz exceto as bordas(resolver)
   pm->Constante (indiceInativo);	// zera a matriz imagem
-  // variáveis auxiliares para otimizacao
+  // variï¿½veis auxiliares para otimizacao
   // Otimizacao Mascara
   register int raio = maskd->RaioX ();
   int raioBolaTangente = maskd->GetraioBolaTangente ();
@@ -202,7 +202,7 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
   // Otimizacao Imagem
   register int **pmdata2D = pm->Data2D ();
 
-  // Variáveis para SIMETRIA Bola   // otimizacao
+  // Variï¿½veis para SIMETRIA Bola   // otimizacao
   unsigned int posxe, posxd;	// x esquerda e x direita
   unsigned int posys, posyn;	// y sul e y norte
   // unsigned int miXraio=mi*raio;
@@ -225,7 +225,7 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
              {
              imx=i+xx; rmx=raio+xx;			  // variaveis otimizacao
 				 for (int yy=-raio; yy <=raio;yy++)// percorre eixo y da bola
-               if(maskd->data2D[rmx][raio+yy]!=0)// se o ponto da bola é ativo
+               if(maskd->data2D[rmx][raio+yy]!=0)// se o ponto da bola ï¿½ ativo
 					pm->data2D[imx][j+yy]=1; 	  // pinta na imagem
              }
 // // // // // // // // // // // // // // // // // // // 
@@ -233,8 +233,8 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 // // // // // // // // // // // // // // // // // // // 
 // PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
 	    for (xx = 0; xx <= raio; xx++)	// Usa simetria para pintura da bola
-	      {			// só percorre meia bola
-		posxe = i - xx;	// por ser simétrica
+	      {			// sï¿½ percorre meia bola
+		posxe = i - xx;	// por ser simï¿½trica
 		posxd = i + xx;
 		rmx = raio + xx;
 		for (yy = 0; yy <= raio; yy++)
@@ -242,7 +242,7 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 		    posys = j - yy;
 
 		    posyn = j + yy;
-		    if (maskdata2D[rmx][raio + yy] != 0)	// se o ponto da bola é ativo
+		    if (maskdata2D[rmx][raio + yy] != 0)	// se o ponto da bola ï¿½ ativo
 		      pmdata2D[posxe][posyn] = pmdata2D[posxe][posys] =
 			pmdata2D[posxd][posyn] = pmdata2D[posxd][posys] =
 			indiceAtivo;
@@ -252,20 +252,20 @@ CFMMIDF::Abertura (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 	  }			// else if
       }				// for
 //  DilatacaoNosContornos();                                                     // Realiza a dilatacao nos contornos
-  return pm;			// pm é a matriz abertura
+  return pm;			// pm ï¿½ a matriz abertura
 }
 
 /*
 ============================================================================
-Função    Dilatacao
+Funï¿½ï¿½o    Dilatacao
 ============================================================================
-Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
+Obs: A sequï¿½ncia de execucao desta funï¿½ï¿½o nï¿½o deve ser alterada sem uma analise detalhada
 */
 CMatriz2D *
 CFMMIDF::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)	// 
 {
   // -->Padrao
-  VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
+  VerificaImagem (matriz);	// verifica se ï¿½ a mesma imagem (se diferente recalcula Go)
   tamanhoMascara = 2 * _RaioBola + 1;	// Define o tamanho da mascara
   // Deve calcular o tamanhoMascara antes de criar a mascara
   CriaMascara (tamanhoMascara);	// Cria a mascara adequada,do tamanho de tamanhoMascara
@@ -290,7 +290,7 @@ CFMMIDF::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 
   register int imx;		// i mais x, i+x
   register int rmx;		// raio mais x, raio+x
-  // Variáveis para SIMETRIA Bola
+  // Variï¿½veis para SIMETRIA Bola
   int posxe, posxd;		// x esquerda e x direita
   int posys, posyn;		// y sul e y norte
   int xx, yy;			// posicoes xx e yy da bola
@@ -304,15 +304,15 @@ CFMMIDF::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)	//
 
 // PINTA A BOLA OTIMIZADO: CONSIDERA SIMETRIA
 	  for (xx = 0; xx <= raio; xx++)	// Usa simetria para pintura da bola
-	    {			// só percorre meia bola
-	      posxe = i - xx;	// por ser simétrica
+	    {			// sï¿½ percorre meia bola
+	      posxe = i - xx;	// por ser simï¿½trica
 	      posxd = i + xx;
 	      rmx = raio + xx;
 	      for (yy = 0; yy <= raio; yy++)
 		{
 		  posys = j - yy;
 		  posyn = j + yy;
-		  if (maskdata2D[rmx][raio + yy] != 0)	// se o ponto da bola é ativo
+		  if (maskdata2D[rmx][raio + yy] != 0)	// se o ponto da bola ï¿½ ativo
 		    pmdata2D[posxe][posyn] = pmdata2D[posxe][posys] =
 		      pmdata2D[posxd][posyn] = pmdata2D[posxd][posys] =
 		      indiceAtivo;
@@ -327,7 +327,7 @@ CFMMIDF::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)	//
              {
              imx=i+x; rmx=raio+x;			  // variaveis otimizacao
 				 for (int y=-raio; y <=raio;y++)// percorre eixo y da bola
-               if(maskd->data2D[rmx][raio+y]!=0)// se o ponto da bola é ativo
+               if(maskd->data2D[rmx][raio+y]!=0)// se o ponto da bola ï¿½ ativo
 					pm->data2D[imx][j+y]=indiceAtivo; 	  // pinta na imagem
              }
 // // // // // // // // // // // // // // // // // // // 
@@ -335,34 +335,34 @@ CFMMIDF::Dilatacao (CMatriz2D * &matriz, unsigned int _RaioBola)	//
       }
 
   //  DilatacaoNosContornos();                                    // Realiza a dilatacao nos contornos
-  // verifica atualização idf
-  if (atualizaIDF)		// verifica o flag de atualizacao da idf após dilatação
+  // verifica atualizaï¿½ï¿½o idf
+  if (atualizaIDF)		// verifica o flag de atualizacao da idf apï¿½s dilataï¿½ï¿½o
     Go (pm);			// se ativo recalcula a idf
 
-  return pm;			// pm é a matriz Dilatacao
+  return pm;			// pm ï¿½ a matriz Dilatacao
 }
 
 /*
 ============================================================================
-Função    Fechamento
+Funï¿½ï¿½o    Fechamento
 ============================================================================
-Obs: A sequência de execucao desta função não deve ser alterada sem uma analise detalhada
+Obs: A sequï¿½ncia de execucao desta funï¿½ï¿½o nï¿½o deve ser alterada sem uma analise detalhada
 */
 CMatriz2D *
 CFMMIDF::Fechamento (CMatriz2D * &matriz, unsigned int _RaioBola)
 {
   bool atualizaIDF_old = atualizaIDF;	// armazena valor de atualizaIDF
   atualizaIDF = 1;		// ativa, para que a Dilatacao recalcule  a idf
-  Dilatacao (matriz, _RaioBola);	// processa a dilatação, e depois Go
+  Dilatacao (matriz, _RaioBola);	// processa a dilataï¿½ï¿½o, e depois Go
   atualizaIDF = atualizaIDF_old;	// atualizaIDF volta ao estado anterior
 
-  Erosao (matriz, _RaioBola);	// Processa a erosão, considerando imagem idf atualizada
+  Erosao (matriz, _RaioBola);	// Processa a erosï¿½o, considerando imagem idf atualizada
   return pm;
 }
 
 /*
 ============================================================================
-Função    Esqueleto.
+Funï¿½ï¿½o    Esqueleto.
 ============================================================================
 */
 //         virtual CMatriz2D* Esqueleto(CMatriz2D*& matriz,unsigned int _RaioBola=0);
@@ -377,7 +377,7 @@ CFMMIDF::Esqueleto (CMatriz2D * &matriz, unsigned int /*_RaioBola*/ )
   // ----------------------------------------
   // -->Padrao
   // ----------------------------------------
-  VerificaImagem (matriz);	// verifica se é a mesma imagem (se diferente recalcula Go)
+  VerificaImagem (matriz);	// verifica se ï¿½ a mesma imagem (se diferente recalcula Go)
   // Calculou a idf.
   // ----------------------------------------
   // Calcula o raio Maximo
@@ -386,11 +386,11 @@ CFMMIDF::Esqueleto (CMatriz2D * &matriz, unsigned int /*_RaioBola*/ )
   for (int j = 0; j < ny; j++)	// percorre toda a idf e
     for (int i = 0; i < nx; i++)	// pinta pontos na imagem
       if (data2D[i][j] > raioMaximo)
-	raioMaximo = data2D[i][j];	// é na verdade o maior valor da matriz
-  raioMaximo /= mi;		// agora é o raioMaximo  0->raioMaximo
+	raioMaximo = data2D[i][j];	// ï¿½ na verdade o maior valor da matriz
+  raioMaximo /= mi;		// agora ï¿½ o raioMaximo  0->raioMaximo
 
   // ----------------------------------------
-  //  Percorre a imagem de mi até raio maximo
+  //  Percorre a imagem de mi atï¿½ raio maximo
   // ----------------------------------------
   pm->Constante (0);		// zera a imagem
   int raioBolaInclusa;
@@ -407,7 +407,7 @@ CFMMIDF::Esqueleto (CMatriz2D * &matriz, unsigned int /*_RaioBola*/ )
 		  if (data2D[i][j + 1] > raioBolaInclusa)
 		    continue;	// se eu tiver algum vizinho maior que
 		  else if (data2D[i][j - 1] > raioBolaInclusa)
-		    continue;	// o raio da bola inclusa, eu não sou
+		    continue;	// o raio da bola inclusa, eu nï¿½o sou
 		  else if (data2D[i + 1][j + 1] > raioBolaInclusa)
 		    continue;	// um ponto do esqueleto (para o raio atual)
 		  else if (data2D[i + 1][j] > raioBolaInclusa)
@@ -417,7 +417,7 @@ CFMMIDF::Esqueleto (CMatriz2D * &matriz, unsigned int /*_RaioBola*/ )
 		  else if (data2D[i - 1][j + 1] > raioBolaInclusa)
 		    continue;	// se eu nao tiver nenhum vizinho
 		  else if (data2D[i - 1][j] > raioBolaInclusa)
-		    continue;	// maior que o raioBolaInclusa, então
+		    continue;	// maior que o raioBolaInclusa, entï¿½o
 		  else if (data2D[i - 1][j - 1] > raioBolaInclusa)
 		    continue;	// sou um ponto do esqueleto
 		  else
@@ -432,9 +432,9 @@ CFMMIDF::Esqueleto (CMatriz2D * &matriz, unsigned int /*_RaioBola*/ )
 
 /*
 ============================================================================
-Função    DilatacaoNosContornos
+Funï¿½ï¿½o    DilatacaoNosContornos
 ============================================================================
-Como a mascara nao pode ser encaixada nos pontos de contorno, estes são
+Como a mascara nao pode ser encaixada nos pontos de contorno, estes sï¿½o
 desconsiderados durante a diltacao. Aqui pinta os pontos desconsiderados
 */
 

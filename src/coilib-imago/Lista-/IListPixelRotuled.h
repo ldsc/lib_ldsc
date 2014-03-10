@@ -50,7 +50,7 @@ Descri��o:
 ----------------------------------------------------------------------------
 */
 
-//IListPixelRotulos que realiza a determina��o da lista de p�xeis,
+//IListPixelRotulos que realiza a determinação da lista de p�xeis,
 //utilizando a rotulagem de uma imagem bin�ria recebida
 //Determina a lista de p�xeis (lista com 1 p�xel para cada objeto)
 class IListPixelRotuled:public IListPixel

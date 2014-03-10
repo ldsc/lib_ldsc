@@ -3,7 +3,7 @@
 //#include <TMaterial/CMaterialFluido.h>
 //#include <TMaterial/CMaterialMeioPoroso.h>
 //#include <TMaterial/CMaterialMeioPorosoAmostra.h>
-/
+
 //--------------------------------------------------------------------------
 //atributo estatico precisa ser definido fora da classe
 int  CMaterial::tipo_de_material = 1;
@@ -40,7 +40,7 @@ CMaterial::Entrada ()
   Carimbo ();
   Saida ();			//apresenta os valores dos atributos
   Pergunta ();		//pergunta se deseja alterar atributos
-  //ciclo de modificao dos atributos at‚
+  //ciclo de modificao dos atributos atï¿½
   //que estejam corretos
   while (resp == 's' || resp == 'S')
     {
@@ -72,7 +72,7 @@ CMaterial::Default ()
 void
 CMaterial::Saida ()
 {
-  //f_carimbo(); nao porque apaga informacao do objeto filho
+  //f_carimbo(); nao porque apaga informaÃ§Ã£o do objeto filho
   cout << "\n\tAtributos Classe Base CMaterial:";
   cout << "\n\tnome_material=" << nome_material;
   cout << "\n\ttemperatura=" << temperatura;
@@ -145,7 +145,7 @@ CMaterial::Densidade ()
 }
 
 //---------------------------------------------------------------------------
-//Calcula e retorna o calor espec¡fico do material
+//Calcula e retorna o calor especï¿½fico do material
 double
 CMaterial::Calor_especifico ()
 {				//calor_especifico=
@@ -238,8 +238,8 @@ CMaterial::Calcula_propriedades_material (double *&v)
 //--------------------------------------------------------------------------
 //Funcao da classe virtual Banco_de_dados
 //redefinida para ler objetos com a extensao mat de material.
-//Cuidado com o uso de ptr visto que o mesmo ‚ est tico.
-//Se existir um £nico objeto material nao vai ocorrer problema, mas com
+//Cuidado com o uso de ptr visto que o mesmo ï¿½ estï¿½tico.
+//Se existir um ï¿½nico objeto material nao vai ocorrer problema, mas com
 //mais de um deve-se adotar uma formulacao diferenciada.
 void
 CMaterial::Ler_disco ()
@@ -360,19 +360,19 @@ return(0);
 */
 /*
 obs: observe que mesmo que o atributo seja calculado;
-	  ‚ importante que o usu rio entre com o seu valor
-     na funcao f_modificar. O usu rio pode estar  definindo os atributos
+	  ï¿½ importante que o usuÃ¡rio entre com o seu valor
+     na funcao f_modificar. O usuÃ¡rio pode estar  definindo os atributos
 	  para que os mesmos sejam armazenados   em disco.
 
 palavras chaves para busca:
 	mudar=algo que deve ser posteriormente modificado
-      analisar=verificar l¢gica matematica e de programacao
-      atualisar=significa que ‚ uma versao antiga
-      matematica?,fisica?=significa que devem existir erros f¡sicos
+      analisar=verificar lï¿½gica matematica e de programacao
+      atualisar=significa que ï¿½ uma versao antiga
+      matematica?,fisica?=significa que devem existir erros fï¿½sicos
 
 Obs: A tentativa de acessar um atributo de uma classe derivada_h_teta com um ponteiro
 	  para a classe base da em erro.
-     O ponteiro para a classe base s¢ tem acesso aos atributos da classe base.
+     O ponteiro para a classe base sï¿½ tem acesso aos atributos da classe base.
 	  E por este motivo que a definicao de atributos das classes derivadas
 	  e realizada com uma funcao.
 	  Foi criada uma funcao f_umidade para passagem do atributo umidade,
@@ -384,7 +384,7 @@ Obs: A tentativa de acessar um atributo de uma classe derivada_h_teta com um pon
      base.
 
 	  ex: na classe CMaterialFluido foi criada a funcao f_umidade
-     que ‚ utilizada para entrada da variavel umidade.
+     que ï¿½ utilizada para entrada da variavel umidade.
 
 
 

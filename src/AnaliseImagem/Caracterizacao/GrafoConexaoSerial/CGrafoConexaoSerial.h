@@ -55,11 +55,11 @@ class CGrafoConexaoSerial_M4;
 class CGrafoConexaoSerial_M5;
 class CGrafoConexaoSerial_M6;
 // // Lista de apelidos
-// using CGrafoConexaoSerial_M1_CondutanciaPorPixel = CGrafoConexaoSerial_M1;
-// using CGrafoConexaoSerial_M2_CondutanciaPelaAreaMedia = CGrafoConexaoSerial_M2;
-// using CGrafoConexaoSerial_M3_CondutanciaPelaAreaInterseccao = CGrafoConexaoSerial_M3;
-// using CGrafoConexaoSerial_M4_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistancia = CGrafoConexaoSerial_M4;
-// using CGrafoConexaoSerial_M6_CondutanciaPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade = CGrafoConexaoSerial_M6;
+// using CGrafoConexaoSerial_M1_CondutânciaPorPixel = CGrafoConexaoSerial_M1;
+// using CGrafoConexaoSerial_M2_CondutânciaPelaAreaMedia = CGrafoConexaoSerial_M2;
+// using CGrafoConexaoSerial_M3_CondutânciaPelaAreaInterseccao = CGrafoConexaoSerial_M3;
+// using CGrafoConexaoSerial_M4_CondutânciaPelaAreaInterseccaoCorrigidaPelaDistancia = CGrafoConexaoSerial_M4;
+// using CGrafoConexaoSerial_M6_CondutânciaPelaAreaInterseccaoCorrigidaPelaDistanciaCalculaTortuosidade = CGrafoConexaoSerial_M6;
 // using CGrafoConexaoSerial_M6_Tortuosidade = CGrafoConexaoSerial_M6;
 
 // ===============================================================================
@@ -69,34 +69,45 @@ class CGrafoConexaoSerial_M6;
  * @brief Herdeira de CRede, gera a estrutura de sítios baseado na avaliação de cada plano
  * da imagem tridimensional (planos bidimensionais).
  * Cria os atributo: nomeArquivo,  vector objeto, rotuloPrimeiroObjetoPlano1, rotuloUltimoObjetoPlanoN_1;
- * Cria os atributos: ra (rotulador imagem anterior), rp, img2D, plano, tipoContornoObjeto, maiorRotuloUtilizado.
+ * Cria os atributos: ra (rotulador plano anterior), rp(rotulador plano atual), plano(z em análise),
+ * img2D,  tipoObjeto(a ser criado), maiorRotuloUtilizado(maiorRotuloUtilizado_AnteriorPrimeiroRotuloDe_ra).
+ * 
  * Go()->Determina o grafo varrendo a imagem.
  * AdicionarObjetos->Adiciona os objetos do plano atual, usando rotulador.
- * DeterminarConeccoesObjetos->Estabelece as conexões (aqui os links são repetidos para cada conexao entre pixeis)
- * EliminarConeccoesObjetos->Elimina os ramos mortos. Num ramo morto o fluxo é nulo.
+ * DeterminarConexoesObjetos->Estabelece as conexões (nesta classe os links são paralelos, para cada píxel uma conexão)
+ * EliminarRamosMortos->Elimina os ramos mortos. Num ramo morto o fluxo é nulo.
  *
- * Nota: Observe que da forma como esta, sempre usa sítios (CSitio e herdeiros) e nunca CObjetoRede_Ligacao ou CObjetoRede_Componente.
+ * Nota: Observe que da forma como esta, sempre usa sítios (e nunca CObjetoRede_Ligacao):
+ * plano z=0        -> CObjetoRede_Sitio_EST ; 
+ * plano z < nz-1   -> CObjetoRede_Sitio (CENTER); 
+ * plano z == nz-1; -> CObjetoRede_Sitio_WEST 
  *
  * Adiciona os métodos:
- * Go()->retorna objeto do grafo (de objetos CSitio).
- * CalcularCondutancias()->converte raioHidraulico em condutancia (somente CSitio).
+ * Go()->retorna objeto do grafo (de objetos CObjetoRede_Sitio ).
+ * CalcularCondutâncias()->converte raioHidraulico em condutancia (somente CObjetoRede_Sitio ??).
  *
  * Lista dos herdeiros:
  * -CGrafoConexaoSerial_M1	Modelo_1 : Para cada pixel uma ligação;
- * Condutancia do pixel.
+ * Condutância do pixel.
  *
- * -CGrafoConexaoSerial_M2	Modelo_2 : Para cada objeto uma ligação;
- * Condutancia média entre os dois objetos.
+ * -CGrafoConexaoSerial_M2	Modelo_2 : Para cada intersecção entre objetos uma ligação;
+ * Condutância média entre os dois objetos.
  *
- * -CGrafoConexaoSerial_M3	Modelo_3 : Para cada objeto uma ligação;
- * Condutancia calculada sobre a area da intersecção.
+ * -CGrafoConexaoSerial_M3	Modelo_3 : Para cada intersecção entre objetos uma ligação;
+ * Condutância calculada sobre a area da intersecção (usa plano rotulagem adicional rotint).
  *
- * -CGrafoConexaoSerial_M4	Modelo_4 : Para cada objeto uma ligação;
- * Condutancia calculada sobre a área da intersecção.
+ * -CGrafoConexaoSerial_M4	Modelo_4 : Para cada intersecção entre objetos uma ligação;
+ * Condutância calculada sobre a area da intersecção (usa plano rotulagem adicional rotint).
  * Adicionalmente calcula as distâncias entre os objetos, para correção das condutâncias.
  *
- * -CGrafoConexaoSerial_M5	Modelo_5 : ??
- *
+ * -CGrafoConexaoSerial_M5	Modelo_5 : O mesmo que M4, mas para melhorar o cálculo do fator de correção
+ * das distâncias; elimina píxeis que não tem intersecção com planos anterior e posterior.
+ * Abaixo píxeis marcados com # são eliminados
+ * ----*************------****************------***************
+ * ---#*************#-------**************##------**** ----****## <-- # eliminados
+ * ----*************------****************------***************
+ * O M5 não foi testado (ou foi pouco testado).
+ * 
  * -CGrafoConexaoSerial_M6 : O mesmo que o M4, mas no M6 o centro de massa é armazenado
  * nos objetos; adiciona cálculo tortuosidade;
  *
@@ -108,9 +119,14 @@ class CGrafoConexaoSerial_M6;
  *  -Uso:
  * A primeira utilização desta classe, e que deu origem a ela, é a determinação do
  * grafo de "sítios" representativos da imagem 3D, a partir de imagens bidimensionais.
+ * Note que é uma rede de sítios, mas o cálculo da condutância usa equação de poiselle,
+ * pois a mesma representa mais corretamente a condutância entre "anéis" 
+ * entre planos paralelos.
  *
- * A saída pode ser obtida com a função Write,que salva em disco a estrutura de sítios
+ * A saída pode ser obtida com a função Write, que salva em disco a estrutura de sítios
  * (sua propriedade, lista conexões e lista condutâncias).
+ * O arquivo de saída inclui tipoDoGrafo, número objetos e depois dados dos objetos.
+ *
  * Também é possível usar diretamente o grafo obtido para determinar propriedades de interesse,
  * sem a necessidade de salvar os dados em disco.
  * Este mecanismo é utilizado por CPermeabilidadeGrafo.
@@ -122,11 +138,28 @@ class CGrafoConexaoSerial_M6;
 class CGrafoConexaoSerial : public CRedeContorno {
    // --------------------------------------------------------------Atributos
 private:
-   /// Indica versão da função que elimina os ramos mortos, a 2 é mais rápida.
+   /// Indica versão da função que elimina os ramos mortos;
+   /// = 0;  não elimina ramos mortos; =1 usa versão 1 (lenta); =2 usa versão 2 que é mais rápida.
    int eliminaRamosMortos { 2 } ;
-   int eliminaConeccoesRepetidas { 1 } ;	///< Elimina conexões repetidas
+//    int eliminaConexoesRepetidas { 1 } ;	///< Elimina conexões repetidas
 
 protected:
+	/// Flag que informa se é para deletar conexões em paralelo e somar suas condutâncias;
+	/// =0 pois modelo original não tinha isso; para ativar use DeletaConexoesParalelo(1);
+	bool deletaConexoesParalelo {false};
+
+   // Dimensoes da imagem tridimensional @todo: eliminar nx ny nz, usar apenas dentro de Go()
+   int nx { 0 } ; ///< Dimensão nx da imagem tridimensional
+   int ny { 0 } ; ///< Dimensão ny da imagem tridimensional
+   int nz { 0 } ; ///< Dimensão nz da imagem tridimensional
+
+   /**
+     * @brief Informa o plano que esta sendo avaliado.
+     * É passado para o objeto, fazendo-se objeto->x=plano,
+     * desta forma a previsão inicial do valor de x poderá considerar o plano.
+   */
+   unsigned long int plano { 0 };
+
    // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim,
    // não precisam ser calculados.
    // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
@@ -141,10 +174,12 @@ protected:
    /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
    unsigned int rotuloUltimoObjetoPlanoN_1 { 0 };
 
-   /// Dimensoes da imagem tridimensional
-   int nx { 0 } ; ///< Dimensão nx
-   int ny { 0 } ; ///< Dimensão ny
-   int nz { 0 } ; ///< Dimensão nz
+   /**
+     * @brief Valor do maior rotulo já utilizado.
+     * Em cada plano, os rótulos iniciam em 0 (o fundo), 1 o primeiro objeto,...n
+     * A variável maior RotuloUtilizado vai acumulando o número de objetos do grafo.
+   */
+   unsigned long int maiorRotuloUtilizado { 0 };
 
    /// Rotulador bidimensional para imagem anterior
    CRotulador2DCm* ra { nullptr };
@@ -155,13 +190,6 @@ protected:
    /// Imagem usada internamente para copiar planos ra, rp e plano intermediário
    TCMatriz2D< int >* img2D { nullptr };
 
-   /**
-     * @brief Informa o plano que esta sendo avaliado.
-     * É passado para o objeto, fazendo-se objeto->x=plano,
-     * desta forma a previsão inicial do valor de x poderá considerar o plano.
-   */
-   unsigned long int plano { 0 };
-
 // Por default o objeto esta no centro do grafo e não em seus contornos
 //  	CContorno::ETipoContorno tipoContornoObjeto = CContorno::ETipoContorno::CENTER;
 
@@ -169,18 +197,11 @@ protected:
      Ex: Se ra é o plano 12, rp é o plano 13,
      maiorRotuloUtilizado =  soma de todos os rótulos dos planos 0->11.*/
 
-   /**
-     * @brief Valor do maior rotulo já utilizado.
-     * Em cada plano, os rótulos iniciam em 0 (o fundo), 1 o primeiro objeto,...n
-     * A variável maior RotuloUtilizado vai acumulando o número de objetos do grafo.
-   */
-   unsigned long int maiorRotuloUtilizado { 0 };
-
 public:
    // -------------------------------------------------------------Construtor
    /// Construtor, recebe um nome de arquivo;
    /// Só constroi explicitamente, chamando CGrafoConexaoSerial{string};
-   explicit CGrafoConexaoSerial ( std::string _nomeArquivo )
+   explicit CGrafoConexaoSerial ( const std::string& _nomeArquivo )
       : CRedeContorno ( _nomeArquivo ) {
       tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial ;
    }
@@ -200,9 +221,16 @@ public:
    }
 
    // ----------------------------------------------------------------Métodos
-   void Write() {  CBaseGrafoRedeEsqueleto::Write(); } ;
-   virtual void Write( std::ostream & out ) const override { CRede:: Write( out); };
-   
+   /// Salva grafo em disco (redefinida).
+   void Write() const {
+      CBaseGrafoRedeEsqueleto::Write();
+   }
+
+   /// Salva grafo em disco.
+   virtual void Write ( std::ostream& out ) const override {
+      CRede:: Write ( out );
+   }
+
    /**
    * @brief 	Função Go, realiza a determinação da rede.
    * Recebe imagem 3D e _tamanhoMascara.
@@ -220,17 +248,17 @@ public:
    virtual CRede* Go ( std::string nomeArquivo, unsigned long int _tamanhoMascara = 0 ) /*override*/;
 
    /**
-     * @brief VAZIA: implementada no modelo 3, elimina os links repetidos.
+     * @brief Elimina as conexões em paralelo e acumula as condutâncias.
    */
-   virtual void EliminarCondutanciasRepetidas()	{	}
+   virtual void EliminarConexoesParalelo_SomarCondutancias();
 
    /**
     * @brief  Para o conjunto de objetos da rede, transforma uma propriedade em outra (ex: raio Hidraulico em condutancia).
     * Tem mais de uma herdeira. Ou seja a conversão raioHidraulico->condutancia  é feita de diferentes formas.
-   * Note que CalcularCondutancias muda de acordo com o problema em questão;
+   * Note que CalcularCondutâncias muda de acordo com o problema em questão;
    * aqui, o problema é a condutância de objetos relacionados a imagens,
    * então recebe parâmetros da imagem e do fluido.
-   * Em outras hierarquias, outros tipos de grafos, CalcularCondutancias receberá
+   * Em outras hierarquias, outros tipos de grafos, CalcularCondutâncias receberá
    * outros parâmetros.
    */
    virtual void CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel,
@@ -260,18 +288,18 @@ protected:
      * o valor do maior rotulo utilizado, e o tipo de objeto a ser criado.
      */
    virtual void AdicionarObjetos ( CRotulador2DCm* rotulador,
-			unsigned long int ultimoRotuloUtilizado, ETipoObjetoGrafo tipoObjeto );
+                                   unsigned long int ultimoRotuloUtilizado, ETipoObjetoGrafo tipoObjeto );
 //    virtual void AdicionarObjetos ( CRotulador2DCm* rotulador, unsigned long int rotuloAtual,
 //                                    ETipoGrafo tipoObjeto );
 
    /// Função que conecta objetos em planos adjacentes.
-   virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) = 0;
+   virtual void DeterminarConexoesObjetos ( unsigned long int maiorRotuloUtilizado ) = 0;
 
    /// Função Usada para calcular a condutancia das ligações
    // virtual void CalcularPropriedadesConeccoes() {};
 
-   /// Função que elimina sítios redundantes (com 0 links)
-   void EliminarObjetosRedundantes();
+   /// Função que elimina ramos mortos (com 0 ou 1 conexão); não contam para fluxo.
+   void EliminarRamosMortos();
 
    /**
      * @brief Reorganiza os links para cmx e cmy.
@@ -293,7 +321,7 @@ protected:
 
    /**
      * @brief Função que marca um objeto do grafo para deleção é deletado
-     * efeticamente por EliminarObjetosRedundantes_2
+     * efetivamente por EliminarRamosMortos_0_ou_1_conexao_v2
    */
    virtual bool MarcarParaDelecaoObjeto ( int i );
 
@@ -301,10 +329,10 @@ protected:
 
 private:
    /// Elimina objetos redundantes, versão 1
-   void EliminarObjetosRedundantes_1();
+   void EliminarRamosMortos_0_ou_1_conexao_v1();
 
    /// Elimina objetos redundantes, versão 2
-   void EliminarObjetosRedundantes_2();
+   void EliminarRamosMortos_0_ou_1_conexao_v2();
 
    // --------------------------------------------------------------------Get
 public:
@@ -324,25 +352,31 @@ public:
    }
 
    /// Retorna o número que informa o método que irá eliminar os ramos mortos.
-   int EliminarRamosMortos() {
+   int EliminaRamosMortos() {
       return eliminaRamosMortos;
    }
 
-   /// Elimina conexões repetidas
-   int EliminarConeccoesRepetidas() {
-      return eliminaConeccoesRepetidas;
-   }
+//    /// Elimina conexões repetidas
+//    int EliminaConexoesRepetidas() {
+//       return eliminaConexoesRepetidas;
+//    }
+
+	/// Retorna deletaConexoesParalelo, =0 default, não deleta conexões em paralelo (+ lento)
+	bool DeletaConexoesParalelo() { return deletaConexoesParalelo; };
 
    // --------------------------------------------------------------------Set
    /// Seta elimina ramos mortos
-   void EliminarRamosMortos ( int _e ) {
+   void EliminaRamosMortos ( int _e ) {
       eliminaRamosMortos = _e;
    }
 
-   /// Seta conexões repetidas
-   void EliminarConeccoesRepetidas ( int _r ) {
-      eliminaConeccoesRepetidas = _r;
-   }
+//    /// Seta conexões repetidas
+//    void EliminaConexoesRepetidas ( int _r ) {
+//       eliminaConexoesRepetidas = _r;
+//    }
+	/// @todo, testar ativação deste flag e resultados para modelo 1.
+	/// Seta deletaConexoesParalelo;  =1 indica para deletar conexões em paralelo (+ rápido)
+	void DeletaConexoesParalelo(bool b) { deletaConexoesParalelo = b; };
 
    // -----------------------------------------------------------------Friend
    //       friend ostream& operator<< (ostream& os, CGrafoConexaoSerial& obj);

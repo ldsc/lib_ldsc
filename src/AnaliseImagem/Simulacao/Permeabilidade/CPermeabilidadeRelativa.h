@@ -118,7 +118,7 @@ public:
 	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um ponteiro para CMatriz3D.
 	bool Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda = 0 );
 	
-	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe um o path de uma imagem 3D (.dbm).
+	/// Determina as curvas de permeabilidade relativa e salva o resultado em arquivo (.rpc). Recebe o path de uma imagem 3D (.dbm).
 	bool Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda = 0 );
 
 // --------------------------------------------------------------------Set

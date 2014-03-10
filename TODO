@@ -68,9 +68,28 @@ Passo_4: USAR TEMPLATE
 [] - Comparar desempenho:
 
 Passo_5:
-[]- Tirar acesso public as propriedades rotulo,  condutância.
-- Desenvolver modelo M3b que considera píxeis vizinhos a area de interseccao.
-[] - Desenvolver modelo M9, considera IDF 3D.
+[x]- No modelo M1 adicionar flag que ativa chamada eliminação das condutâncias em paralelo.
+[ ]- Tarefa: testar ativação deste flag e resultados para modelo 1.
+Jogar saidas na tela;
+[]- Tirar acesso public das propriedades rotulo,  condutância...
+[]- Desenvolver modelo M3b que considera píxeis vizinhos a area de interseccao.
+Plano
+---------------------------------------------------------
+---1111111111X3333X11111111-----1111111111111-----------
+---1111111111X3333X11111111-----1111111111111-----------
+---1111111111X3333X11111111-----1111111111111-----------
+---------------------------------------------------------
+Corte ->atual
+-----------11111111111111-----------ra
+--------------xxxxxx----------------rotint
+--------------222222----------------rp
+Corte ->novo
+-----------11111111111111-----------ra
+-------------AxxxxxxA---------------rotint adiciona 1/2 píxel A
+--------------222222----------------rp
+
+[] - Desenvolver modelo M9, considera IDF 
+3D.
 [] - Trocar o valor de "deletado" que deve ser numeric_limits<>max()
 [] - Corrigir códigos como:
          sitio = dynamic_cast < CObjetoEsqueleto* > ( objeto[k] );
@@ -88,7 +107,6 @@ testar desempenho com e sem o static; como o compilador usa opções de
       int posicao_i = objeto_i - *objeto.data();
       objeto.erase ( objeto.begin() + posicao_i );
    }
-
 []- Melhorar resumo git, Acrescentar dicas de git.org.cz "Git Cheat Sheet"
 [] - Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
 [] - 
@@ -113,6 +131,10 @@ Ex: fout << grafo;     // Sobrecarga
   usar criar CEstimativaValorBaseadaValorContorno.
 ??  
 long double EstimativaValorBaseadaValorContorno(long double a,long double b){}
+[] - Transformar
+bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
+bool CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int modelo, TCMatriz3D<int>* pm3D, ofstream& fout 
+num modelo para qualquer tipo processamento arquivos.
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
                                TODO-> TESE ALUNOS

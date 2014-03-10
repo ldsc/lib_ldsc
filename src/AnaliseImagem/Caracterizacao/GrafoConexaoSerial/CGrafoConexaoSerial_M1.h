@@ -33,18 +33,20 @@ Desenvolvido por:
 
 /**
  * @brief Determina o grafo de uma imagem 3D usando o modelo 1 (+simples),
- * para cada pixel uma ligação.
+ * para cada intersecção entre pixeis uma conexão entre objetos.
  *
  * Função Go()
  *
  * Neste modelo a função Go funciona da seguinte forma:
  * Os planos i e i+1 são rotulados, gerando-se a seguir os sítios.
  * Depois estabelece-se as conexões entre os planos consecutivos.
- * Observe que duas regiões que se interceptam vão gerar um número
- * grande de conexões (com conexões redundantes).
- * Ou seja, existe uma repetição no número de ligações entre duas regiões,
- * pois para cada conexão entre píxeis,
+ * Observe que duas regiões que se interceptam vão gerar um número grande de conexões (com conexões redundantes).
+ * Ou seja, existe uma repetição no número de ligações entre duas regiões, pois para cada intersecção entre píxeis,
  * estabelece uma conexão.
+ * Ex: * indica sítio; | indica ligação entre sítios; note diversas conexões em paralelo.
+ * --------------************-----*****-------**************---------***********
+ * --------------||||||||||||-------|||-------||||||||||||-----------|||||||||
+ * --------------************-------*****---**************---------***********--
  *
  * @author 	André Duarte Bueno
  * @see	      	Grafo
@@ -53,10 +55,10 @@ Desenvolvido por:
 class CGrafoConexaoSerial_M1 : public CGrafoConexaoSerial {
 // --------------------------------------------------------------Atributos
 public:
-
 // -------------------------------------------------------------Construtor
      /// Construtor
-     CGrafoConexaoSerial_M1 ( std::string _nomeArquivo ) :CGrafoConexaoSerial ( _nomeArquivo )  {
+     CGrafoConexaoSerial_M1 ( std::string _nomeArquivo)
+	 :CGrafoConexaoSerial ( _nomeArquivo )  {
           tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M1 ;
      }
 
@@ -73,11 +75,11 @@ public:
 
 protected:
      /// Conecta planos,  Versão com Links duplicados.
-     virtual void DeterminarConeccoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
+     virtual void DeterminarConexoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
 
      // Função Go
      // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned int _tamanhoMascara = 1);
-
+public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend

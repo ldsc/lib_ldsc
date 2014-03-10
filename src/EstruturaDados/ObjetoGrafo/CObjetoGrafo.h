@@ -44,34 +44,34 @@ Desenvolvido por:
 #ifndef ETipoObjetoGrafo_
 #define ETipoObjetoGrafo_
 enum class ETipoObjetoGrafo : uint8_t {
-   ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
-   ObjetoGrafo_1VetorConexoes,
-   ObjetoGrafo_2VetoresConexoes,
-   ObjetoGrafo_MatrizConexoes,
+   ObjetoGrafo = 0,                  // Objetos da hierarquia de objetos do grafo
+   ObjetoGrafo_1VetorConexoes = 1,
+   ObjetoGrafo_2VetoresConexoes = 2,
+   ObjetoGrafo_MatrizConexoes = 3,
 
-   ObjetoRede,                   // Objetos da hierarquia de objetos da rede
-   ObjetoRede_Ligacao,
-   ObjetoRede_Ligacao_CENTER,
-   ObjetoRede_Ligacao_EST,
-   ObjetoRede_Ligacao_WEST,
-   ObjetoRede_Sitio,
-   ObjetoRede_Sitio_CENTER,
-   ObjetoRede_Sitio_EST,
-   ObjetoRede_Sitio_WEST,
-   ObjetoRede_Final, // Inclue o tipo como atributo (final)
-   ObjetoRede_Tipo, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede = 10,                   // Objetos da hierarquia de objetos da rede
+   ObjetoRede_Final = 11, // Inclue o tipo como atributo (final)
+   ObjetoRede_Tipo = 15, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede_Ligacao = 20,
+   ObjetoRede_Ligacao_CENTER = 21,
+   ObjetoRede_Ligacao_EST = 22,
+   ObjetoRede_Ligacao_WEST = 23,
+   ObjetoRede_Sitio = 30,
+   ObjetoRede_Sitio_CENTER = 31,
+   ObjetoRede_Sitio_EST = 32,
+   ObjetoRede_Sitio_WEST = 33,
 
-   ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
-   ObjetoEsqueleto_Ligacao,
-   ObjetoEsqueleto_Ligacao_CENTER,
-   ObjetoEsqueleto_Ligacao_EST,
-   ObjetoEsqueleto_Ligacao_WEST,
-   ObjetoEsqueleto_Sitio,
-   ObjetoEsqueleto_Sitio_CENTER,
-   ObjetoEsqueleto_Sitio_EST,
-   ObjetoEsqueleto_Sitio_WEST,
-   ObjetoEsqueleto_Final, // Inclue o tipo como atributo (final)
-   ObjetoEsqueleto_Tipo, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto =  50,              // Objetos da hierarquia de objetos do esqueleto
+   ObjetoEsqueleto_Final = 51, // Inclue o tipo como atributo (final)
+   ObjetoEsqueleto_Tipo = 55, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto_Ligacao = 60,
+   ObjetoEsqueleto_Ligacao_CENTER =61,
+   ObjetoEsqueleto_Ligacao_EST = 62,
+   ObjetoEsqueleto_Ligacao_WEST = 63,
+   ObjetoEsqueleto_Sitio = 70,
+   ObjetoEsqueleto_Sitio_CENTER = 71,
+   ObjetoEsqueleto_Sitio_EST = 72,
+   ObjetoEsqueleto_Sitio_WEST = 73,
 };
 #endif
 
@@ -157,8 +157,10 @@ public:
     */
    inline virtual void Conectar ( std::vector < CObjetoGrafo* >& obj_vetor ) {};
 
-   /// Deleta uma conexão dada pelo pos.
+   /// Deleta uma conexão dada pela posição pos.
    /// Se a pos for inválida lança exceção.
+   /// Note que o controle dos objetos criados/deletados é feito por CGrafo/CRefe/CEsqueleto
+   /// Aqui controlamos apenas as conexões entre eles. Nunca deletamos os objetos!
    inline virtual void DeletarConexao ( unsigned int pos )  = 0; //{};
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.

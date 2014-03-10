@@ -163,7 +163,7 @@ Lista_dos_rotulos_das_conexões
    out.setf( ios::right );
 
    // Tipo de contorno
-   out << setw( 5 ) << static_cast<uint8_t>( Tipo() ) << '\n';
+   out << setw( 5 ) << static_cast<uint16_t>( Tipo() ) << '\n';
 
    // Rótulo de this
    out << ' ' << setw( 5 ) << rotulo;

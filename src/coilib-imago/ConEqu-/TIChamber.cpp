@@ -107,7 +107,7 @@ TIChamber::TIChamber (T3Dint32 _size, int _wb, int _ca):
 //A camara n�o molhante pode ou n�o ser desenhada, depende da molhabilidade do fluidoin.
 //Usa a imagem da camara para calcular a idf. Depois a imagem da camara � deletada.
 //PS: Antes, sempre desenhava a camara n�o molhante, e ao longo do processo
-//de determina��o das confeq apagava a camara n�o molhante
+//de determinação das confeq apagava a camara n�o molhante
 //para impedir que o flu�do n�o molhante invadisse a camara do molhante.
 I3DRawImage *
 TIChamber::CreateChamber (bool molhabilidadeFluidIn)

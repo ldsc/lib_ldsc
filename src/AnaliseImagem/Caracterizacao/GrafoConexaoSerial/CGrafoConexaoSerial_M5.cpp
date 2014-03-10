@@ -61,8 +61,8 @@ void CGrafoConexaoSerial_M5::AdicionarObjetos ( CRotulador2DCm* rotulador,
 
    // Se nao for o primeiro plano da imagem 3D nem o último, entra
    if ( plano > 0 && plano < ( img3D->NZ () - 1 ) ) {
-         // cout<<" entrou "<<endl;
-         pixeisDeletados << "\n";
+         // cout<<" entrou "<<endl;         
+	   arqpixeisDeletados << "\n";
 
          // Precisa percorrer o plano bidimensional
          // ra rotulador para plano anterior
@@ -83,26 +83,28 @@ void CGrafoConexaoSerial_M5::AdicionarObjetos ( CRotulador2DCm* rotulador,
                         {
                            rp->data2D[ii][jj] = 0;
                            totalPixeisDeletados++;
-                           pixeisDeletados << "\nPíxel Deletado (" << jj << "," << ii << "," << plano << ")";
+                           arqpixeisDeletados << "\nPíxel Deletado (" << jj << "," << ii << "," << plano << ")";
                         }
 
-                     cout << "\nPíxel Deletado (" << ii << "," << jj << "," << plano << ")";
-                     pixeisDeletados << rp->data2D[jj][ii] << " ";
+                     //cout << "\nPíxel Deletado (" << ii << "," << jj << "," << plano << ")";
+                     arqpixeisDeletados << rp->data2D[jj][ii] << " ";
                   }
-               pixeisDeletados << "\n";
+               arqpixeisDeletados << "\n";
             }
       }
 
    cout            << "\nTotal de pixeis deletados=" << totalPixeisDeletados << endl;
-   pixeisDeletados << "\nTotal de pixeis deletados=" << totalPixeisDeletados << endl;
+   arqpixeisDeletados << "\nTotal de pixeis deletados=" << totalPixeisDeletados << endl;
 
    cout            << "\nPorosidade eliminada de " << ( totalPixeisDeletados
                    / ( img3D->NX() *img3D->NY() *img3D->NZ() ) )  << endl;
-   pixeisDeletados << "\nPorosidade eliminada de " << ( totalPixeisDeletados
+   arqpixeisDeletados << "\nPorosidade eliminada de " << ( totalPixeisDeletados
                    / ( img3D->NX() *img3D->NY() *img3D->NZ() ) )  << endl;
    // --------------------------------------------------------------
    // Calcula o centro de massa dos objetos da imagem rotulada
-   rotulador->CentroMassaObjetos ();
+  rotulador->CalculaAreaObjetos () ; //atualiza vetor áreas
+  rotulador->CalculaPerimetroObjetos (); //atualiza perímetros
+  rotulador->CentroMassaObjetos ();
 
    // Percorre todos os objetos novos deste plano (rotulador)
    for ( unsigned long int cont = 1; cont <= rotulador->RotuloFinal ();

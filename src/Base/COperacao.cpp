@@ -156,3 +156,17 @@ void COperacao::RunningView (string msg)
   if (p >= 7)
     p = 0;
 }
+
+
+void COperacao::Cabecalho_ProgramasDemo_LIBLDSC ( std::ostream& os )
+{
+   os << "\n=========================================================================================="
+      << "\n=>    Laboratório de Engenharia de Exploração e Produção de Petróleo - LENEP/CCT/UENF   <="
+      << "\n=>    Setor de Modelagem Matemática e Computacional                                     <="
+      << "\n=>    Núcleo/Laboratório de Desenvolvimento de Software Científico - NDSC/LDSC          <="
+      << "\n=========================================================================================="
+      << "\n=>                 Programa Aplicativo/Demonstrativo da LIB_LDSC                        <="
+      << "\n=>                 =============================================                        <="
+      << "\n=>                                                                                      <="
+      << endl;
+}

@@ -38,16 +38,15 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: CPermeabilidadeGrafo
 // ===============================================================================
-/**@brief	Classe usada para determinar a permeabilidade
- * de uma imagem tridimensional.
- *
+/**@brief	Classe usada para determinar a permeabilidade de uma imagem tridimensional.
  * Recebe como parâmetros:
  * CGrafo		: Objeto grafo (uma representação de objetos que compõem o grafo)
  * CMFluido 	: Objeto fluido com viscosidade, compressibilidade, densidade
- * TSolver	: Objeto solver, que resolve sistemas de equações
+ * CSolver	: Objeto solver, que resolve sistemas de equações
  *
- * Descreve-se a seguir algumas diferenças em relação ao programa desenvolvido pelo Liang Zhirong, e que
- * determinava a permeabilidade a partir da classificação e geração do grafo sobre o esqueleto 3D de Ma.
+ * Descreve-se a seguir algumas diferenças em relação ao programa desenvolvido pelo Liang
+ * Zhirong, e que determinava a permeabilidade a partir da classificação e geração do grafo 
+ * sobre o esqueleto 3D de Ma.
  *
  * O programa antigo do Liang:
  * Criava um objeto Node e um objeto Grapho
@@ -75,7 +74,7 @@ Desenvolvido por:
  * 4-Cria-se um objeto de calculo da permeabilidade CPermeabilidadeGrafo,
  * passando-se como parametros os objetos agregados.
  *
- * 5-O objeto grafo tem objetos do tipo TObjetoGrafo (ex: TSitios) que
+ * 5-O objeto grafo tem objetos do tipo CObjetoGrafo (ex: CObjetoRede) que
  * tem as variaveis rótulo (que o identifica),
  * propriedade(é a condutancia) e x(a pressão).
  *
@@ -84,24 +83,24 @@ Desenvolvido por:
  * virtual void SolucaoSistema();
  *
  * Resolve o sistema como um todo,
- * 8.1)	virtual void CriarObjetosAgregados () ;// Cria objetos agregados
- * 8.2)	virtual void DefinirCondicoesContorno () ;// Define as condições de contorno
- * 8.2.1)  void AuxCalcularCondutancias(); // Chama funcao de calculo das condutâncias
- * 8.3)	virtual void DefinirValoresIniciais() ;// Define valores iniciais
- * 8.4)  virtual double Go () ;	// Calcula a permeabilidade (e os fluxos)
- * 8.4.1)  double AuxFluxoFronteira(int);// calcula os fluxos
+ * 8.1)	virtual void CriarObjetosAgregados () ;     // Cria objetos agregados
+ * 8.2)	virtual void DefinirCondicoesContorno () ;  // Define as condições de contorno
+ * 8.2.1)  void AuxCalcularCondutancias();          // Chama funcao de calculo das condutâncias
+ * 8.3)	virtual void DefinirCondicoesIniciais();      // Define valores iniciais
+ * 8.4)  virtual double Go ();                      // Calcula a permeabilidade (e os fluxos)
+ * 8.4.1)  double AuxFluxoFronteira(int);           // Calcula os fluxos
  *
- * 9 -Redefinido todo o Layout (AOO), com uma concepção moderna e genérica
+ * 9 -Redefinido todo o Layout (AOO), com uma concepção moderna e genérica.
  *
  * 10 -Foram criados vários objetos novos, com nomes claros e objetivos claros.
  *
- * 11	-Uso de vector e stl
+ * 11 -Uso de vector e stl.
  *
  * 12 -Antes as propriedades do fluído  e do solver eram passadas através de um único arquivo de
  * dados. Agora é passado um objeto CMFluido e um objeto solver.
  *
  * 13 -As operações de leitura e escrita para cada objeto, estão no próprio objeto.
- * Ou seja as operações sobre os atributos do objeto são	realizadas pelo próprio objeto.
+ * Ou seja as operações sobre os atributos do objeto são realizadas pelo próprio objeto.
  *
  * 14 -A solução do sistema de equações é realizada por um objeto TSMSOR (um solver).
  * Que é um solver genérico, que recebe um vetor de dados que se relacionam e determina
@@ -109,8 +108,8 @@ Desenvolvido por:
  *
  * O problema a ser resolvido é a determinação das pressões de equilíbrio em cada sítio,
  * dadas as condições de contorno nas fronteiras esquerda e direita.
- * Determinadas as pressões nos sítios das fronteiras, pode-se
- * determinar a permeabilidade intrinseca.
+ * Determinadas as pressões nos sítios das fronteiras, pode-se determinar 
+ * a permeabilidade intrinseca.
  * @author André Duarte Bueno
  * Superclasse:    CSimulacao -> CPermeabilidade -> CPermeabilidadeGrafo
 */
@@ -176,7 +175,7 @@ public:
      virtual void DefinirCondicoesContorno ();
 
      /// Define valores iniciais
-     virtual void DefinirValoresIniciais ();
+     virtual void DefinirCondicoesIniciais ();
 
 		/// Resolve o sistema de equações
 		virtual void SolucaoSistemaEquacoes ();
@@ -203,12 +202,12 @@ public:
      }
 
      /// Retorna ponteiro para objeto grafo
-     CGrafoConexaoSerial *Getgrafo () const {
+     CGrafoConexaoSerial *Grafo () const {
           return grafo;
      }
 
      /// Retorna numero pixeis da borda
-     unsigned long int GetnumeroPixelsBorda () const {
+     unsigned long int NumeroPixelsBorda () const {
           return numeroPixelsBorda;
      }
 
@@ -228,7 +227,7 @@ public:
      }
 
      /// Retorna dimensão do pixel
-     long double SizePixel () const {
+     long double DimensaoPixel () const {
           return dimensaoPixel;
      }
 
@@ -293,7 +292,7 @@ public:
           nz = _nz;
      }
      /// Define a dimensão do pixel
-     void SizePixel ( long double _dimensaoPixel ) {
+     void DimensaoPixel ( long double _dimensaoPixel ) {
           dimensaoPixel = _dimensaoPixel;
      }
      /// Define o fator amplificacao

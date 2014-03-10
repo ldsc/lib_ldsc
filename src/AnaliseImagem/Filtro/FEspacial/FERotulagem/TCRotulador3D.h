@@ -34,10 +34,8 @@
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 
 /**
- * @brief	Representa um objeto rotulador 3D.
- *   Herdeira da CRotulador e da CMatriz3D
+ * @brief	Representa uma imagem 3D rotulada. Herdeira das classes CRotulador e TCMatriz3D.
  * @author 	Andre Duarte Bueno
- *  @see	Rotulagem
 */
 template<typename T>
 class TCRotulador3D : public CRotulador, public TCMatriz3D<int> {

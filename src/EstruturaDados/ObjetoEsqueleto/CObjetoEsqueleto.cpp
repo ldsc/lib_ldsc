@@ -48,10 +48,10 @@ using namespace std;
 ostream& CObjetoEsqueleto::Write ( ostream& out ) const
 {
     CObjetoRede::Write(out);
-//     out.setf ( ios::right );
+//     out.setf ( ios::left );
 // 
 //     // Tipo de contorno
-//     out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
+//     out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 // 
 //     // Rótulo de this
 //     out << ' ' << setw ( 5 ) << rotulo;
@@ -74,7 +74,7 @@ ostream& CObjetoEsqueleto::Write ( ostream& out ) const
 //         out << ' ' << setw ( 10 ) << condutancia_i;
 
     // coordenadas
-    out << ' ' << cx << ' ' << cy << ' ' << cz << ' ';
+    out << ' ' << cx << ' ' << cy << ' ' << cz /*<< '\n'*/;
 
     return out;
 }

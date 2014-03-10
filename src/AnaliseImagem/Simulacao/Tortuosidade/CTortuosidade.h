@@ -45,7 +45,7 @@ public:
   CTortuosidade() = default;
   
   /// Construtor sobrecarregado, recebe a tortuosidade.
-  CTortuosidade( long double _tortuosidade )  { tortuosidade = _tortuosidade; } ;
+  CTortuosidade( long double t ) : tortuosidade { t } {};
   
 // --------------------------------------------------------------Destrutor
   /// Destrutor detault.

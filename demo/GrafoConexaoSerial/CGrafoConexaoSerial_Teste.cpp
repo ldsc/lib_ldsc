@@ -25,7 +25,7 @@ email:      andre@lmpt.ufsc.br
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include "CGrafoTeste.h"	// this
+#include "CGrafoConexaoSerial_Teste.h"
 
 //  -------------------------------------------------- Objetos da LIB_LDSC
 #include <AnaliseImagem/Matriz/CVetor.h>
@@ -74,10 +74,10 @@ CGrafoTest::Run ()
 
    do {
          cout << "\nObjeto CGrafoTest"
-              << "\nTeste das funções das classes Grafo t Permeabilidade"
+              << "\nTeste das funções das classes CGrafoConexaoSerial e CPermeabilidade"
               << "\nSelecione a opção que deseja testar"
               << "\nGrafo.........................1"
-              << "\nTortuosidade..................1"
+              << "\nTortuosidade..................2"
               << "\nPermeabilidade................3:"
               << "\nQuit..........................9:";
          cin >> selecao;
@@ -89,6 +89,11 @@ CGrafoTest::Run ()
                Grafo ();
                break;
 
+            case 2:
+               cout << "\n Chamando funcao Tortuosidade()" << endl;
+               Tortuosidade ();
+               break;
+			   
             case 3:
                cout << "\n Chamando funcao Permeabilidade()" << endl;
                Permeabilidade ();
@@ -125,6 +130,20 @@ CGrafoTest::Grafo ()
    CGrafoConexaoSerial* grafo = CriarGrafo ( modelo, nomeArquivo );
    DeterminarGrafo ( grafo, pm3D, nomeArquivo );
    SalvarGrafo ( grafo );
+   delete grafo;			// deleta objeto
+   delete pm3D;			// deleta objeto
+   return 1;
+}
+
+bool
+CGrafoTest::Tortuosidade ()
+{
+   string nomeArquivo = SolicitarNomeImagem ();
+   TCMatriz3D<int>* pm3D = LerImagemDisco ( nomeArquivo );
+   CGrafoConexaoSerial_M6_Tortuosidade* grafo = new CGrafoConexaoSerial_M6_Tortuosidade ( nomeArquivo );
+   DeterminarGrafo ( grafo, pm3D, nomeArquivo );
+   SalvarGrafo ( grafo );
+   grafo->CalcularTortuosidade();
    delete grafo;			// deleta objeto
    delete pm3D;			// deleta objeto
    return 1;
@@ -186,20 +205,21 @@ CGrafoTest::MostrarInstrucoesArquivosExternos ()
 {
    cout
          << "\n\n----------------------------------------------------------"
-         << "\nOs métodos para cálculo do grafo/rede/esqueleto e da permeabilidade, "
-         << "\nusam o método CGrafoTest::Permeabilidade()."
-         << "\n\nO mesmo requer que os seguintes dados estejam armezenados no diretório input_data:\n"
-         << "\nAtributos do objeto fluido     em:  \n\tinput_data/fluido.info (viscosidade)"
+         << "\nOs métodos para geração do grafo/rede/esqueleto e cálculo da permeabilidade ou tortuosidade, "
+         << "\nusam o método CGrafoTest::Grafo ou CGrafoTest::Permeabilidade()."
+         << "\n\nEste último requer que os seguintes dados estejam armezenados no diretório input_data:\n"
+         << "\nAtributos do objeto fluido     em:  \n\tinput_data/fluido.info\n\t\tviscosidade"
          << "\nAtributos do objeto solverSOR  em:  \n\tinput_data/solver.info "
-         << "\n\tincluindo: \n\tfatorRelaxação,LimiteIterações,LimiteErro,"
-         << "\n\ttipoSolver(1=CSMDGaussSeidel,2=CSMDSOR,3=CSMDiagonalDominanteThreads),\n\tnproc - NÃO IMPLEMENTADO)"
-         << "\n\nAtributos do objeto solverPerm em:  \n\tinput_data/solver_permeabilidade.info (LimiteIterações,LimiteErro%)"
-         << "\n\nO arquivo com as informações da imagem (fatorAmplificação e dimensaoPixel)"
-         << "\ndeve estar armazenado em path/nomeImagem.ext.dat"
+         << "\n\t\tfatorRelaxação, LimiteIterações, LimiteErro,"
+         << "\n\t\ttipoSolver(1=CSMDGaussSeidel,2=CSMDSOR,3=CSMDiagonalDominanteThreads),"
+		 << "\n\t\t\tnproc - NÃO IMPLEMENTADO)"
+         << "\nAtributos do objeto solverPerm em:  \n\tinput_data/solver_permeabilidade.info (LimiteIterações,LimiteErro%)"
+         << "\nO arquivo com as informações da imagem (fatorAmplificação e dimensaoPixel)"
+         << "deve estar armazenado em path/nomeImagem.ext.dat"
          << "\nObserve que é o mesmo nome da imagem (devendo ser adicionada a extensão .dat) "
          << "\nAlguns resultados são salvos em: "
          << "\npath/nomeImagem.modelo.grafo.log e path/nomeImagem.modelo.perm.log"
-         <<    endl;
+         <<  endl;
 }
 
 /*
@@ -267,6 +287,8 @@ CGrafoTest::LerImagemDisco ( string nomeArquivo )
       CTime ( "Tempo leitura imagem = ", &cout );
       cout << "Lendo imagem (" << nomeArquivo << ") do disco..." << endl;
       pm3D = new TCMatriz3D<int> ( nomeArquivo );
+ofstream debug("imagem_lida.pm3");
+debug << pm3D;
       assert ( pm3D );
    }
    return pm3D;
@@ -299,8 +321,7 @@ CGrafoTest::SolicitarPropriedadesImagem ( int& fatorAmplificacao,
       }
 
    cout << msg << endl
-        << "fa=" << setw ( 3 ) << fatorAmplificacao
-        << " sp=" << setw ( 8 ) << dimensaoPixel << endl;
+        << "fa=" << setw ( 3 ) << fatorAmplificacao << " sp=" << setw ( 8 ) << dimensaoPixel << endl;
 }
 
 /*
@@ -321,7 +342,6 @@ CMFluido* CGrafoTest::CriarFluido ()
          finfluido.close ();
          msg = " ...done";
       }
-
    cout << msg << endl;
 
    // Cria objeto fluido
@@ -338,7 +358,6 @@ CMFluido* CGrafoTest::CriarFluido ()
 Função: CriarSolver
 -------------------------------------------------------------------------
 */
-
 CSMDiagonalDominante*
 CGrafoTest::CriarSolver ( int tipoSolver )
 {
@@ -406,7 +425,7 @@ CGrafoTest::CriarSolver ( int tipoSolver )
         // cout << "nproc="      <<    CSMDiagonalDominanteThreadsExec::nproc
         << "\ntipo solver = "   << tipoSolver
         << "\nnproc="           << nproc << endl;
-        return solver;
+   return solver;
 }
 
 /*
@@ -426,43 +445,43 @@ CGrafoTest::CriarGrafo ( int modelo, string nomeArquivo )
       switch ( modelo ) {
          case 1:
             cout << "...Criando objeto CGrafoConexaoSerial_M1...";
-            nomeArquivoExt += ".mod1";
+//             nomeArquivoExt += ".mod1";
             grafo = new CGrafoConexaoSerial_M1 ( nomeArquivoExt );
             break;
 
          case 2:
             cout << "...Criando objeto CGrafoConexaoSerial_M2...";
-            nomeArquivoExt += ".mod2";
+//             nomeArquivoExt += ".mod2";
             grafo = new CGrafoConexaoSerial_M2 ( nomeArquivoExt );
             break;
 
          case 3:
             cout << "...Criando objeto CGrafoConexaoSerial_M1...";
-            nomeArquivoExt += ".mod3";
+//             nomeArquivoExt += ".mod3";
             grafo = new CGrafoConexaoSerial_M3 ( nomeArquivoExt );
             break;
 
          case 4:
             cout << "...Criando objeto CGrafo_3Dby2_M4...";
-            nomeArquivoExt += ".mod4";
+//             nomeArquivoExt += ".mod4";
             grafo = new CGrafoConexaoSerial_M4 ( nomeArquivoExt );
             break;
 
          case 5:
             cout << "...Criando objeto CGrafoConexaoSerial_M5...";
-            nomeArquivoExt +=  ".mod5";
+//             nomeArquivoExt +=  ".mod5";
             grafo   = new CGrafoConexaoSerial_M5 ( nomeArquivoExt );
             break;
 
          case 6:
             cout << "...Criando objeto CGrafoConexaoSerial_M6...";
-            nomeArquivoExt += ".mod6";
+//             nomeArquivoExt += ".mod6";
             grafo = new CGrafoConexaoSerial_M6_Tortuosidade ( nomeArquivoExt );
             break;
 
          default:
             cout << "...Criando objeto CGrafoConexaoSerial_M3...";
-            nomeArquivoExt += ".mod3";
+//             nomeArquivoExt += ".mod3";
             grafo = new CGrafoConexaoSerial_M3 ( nomeArquivoExt );
             break;
          };
@@ -538,8 +557,8 @@ CPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
       CTime ( "Tempo criação do CPermeabilidadeGrafo = ", &cout );
       cout << "Criando objeto CPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
       // CSMDiagonalDominante* solverold = static_cast<CSMDiagonalDominante*>(solver);// novo
-      permeabilidade_grafo = new CPermeabilidadeGrafo ( fluido, solver /*old */ , grafo, 
-				pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel );
+      permeabilidade_grafo = new CPermeabilidadeGrafo ( fluido, solver /*old */ , grafo,
+            pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel );
       assert ( permeabilidade_grafo );
       cout << " ...done" << endl;
    }
@@ -688,7 +707,7 @@ void CGrafoTest::teste_solver()
 
 /*
 -------------------------------------------------------------------------
-Função: ALL
+Função: ProcessarListaImagens
 -------------------------------------------------------------------------
 Função executada por main
 Se foi passado um parâmetro o mesmo é o nome do arquivo com a lista de imagens
@@ -701,7 +720,7 @@ nomeImagem.meio e nomeImagem.fim.
 2-Ao finalizar a simulação cria arquivo nomeImagem.fim
 */
 
-bool CGrafoTest::ALL ( unsigned int argc, char* argv[] )
+bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
 {
    // Lista as imagens------------------------------------------------------
    // Se passou parâmetro, é o nome do arquivo com a Lista de imagens
@@ -775,6 +794,7 @@ bool CGrafoTest::ALL ( unsigned int argc, char* argv[] )
                     << "Lendo Imagem (" << nomeArquivo << ") do disco" << endl;
                {
                   ifstream teste ( nomeArquivo.c_str () );
+
                   if ( teste.fail () ) {
                         cout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?).\a" << endl;
                         fout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?)." << endl;
@@ -798,23 +818,24 @@ bool CGrafoTest::ALL ( unsigned int argc, char* argv[] )
                }
 
                // Chama função de decisão do cálculo da permeabilidade
-               // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 1 ,pm3D ,fout); // modelo 1
-               // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 2 ,pm3D ,fout); // modelo 2
-               Permeabilidade_By_ModelX_Decisao ( nomeArquivo, 3, pm3D, fout );	// modelo 3 //AQUI AQUI
-               // cout<<"\a";
-               // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 4 ,pm3D ,fout); // modelo 4
-               // cout<<"\a";
-               // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 5 ,pm3D ,fout); // modelo 5
-               // Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 6 ,pm3D ,fout); // modelo 5
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 1 , pm3D , fout ); // modelo 1
                cout << "\a";
-               // delete pm3D;??
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 2 , pm3D , fout ); // modelo 2
+               cout << "\a";
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo, 3, pm3D, fout );	// modelo 3 //AQUI AQUI
+               cout << "\a";
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 4 , pm3D , fout ); // modelo 4
+               cout << "\a";
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 5 , pm3D , fout ); // modelo 5
+               cout << "\a";
+               Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 6 , pm3D , fout ); // modelo 6
+               cout << "\a";
             }
       }
    while ( fin.eof () == false && flagEnd == false );
 
    fout.close ();
    fin.close ();
-
    return 1;
 }
 
@@ -825,8 +846,8 @@ Função: Permeabilidade_By_ModelX_Decisao
 Resolve se é para iniciar a simulação
 ou para continuar uma simulação que não terminou
 */
-bool
-CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int modelo, TCMatriz3D<int>* pm3D, ofstream& fout )
+bool CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int modelo,
+      TCMatriz3D<int>* pm3D, ofstream& fout )
 {
    // Variáveis auxiliares
    ifstream in;
@@ -909,7 +930,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
                                        int tipoSolver,
                                        bool reiniciar /* =false */ )
 {
-   CTime   ( "Tempo total execução da função  Permeabilidade_By_ModelX = ",     &cout );
+   CTime ( "Tempo total execução da função  Permeabilidade_By_ModelX = ",     &cout );
 
    // Solicita propriedades da Imagem3D------------------------------------
    int fatorAmplificacao = 1;
@@ -942,7 +963,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
    {
       CTime ( "Tempo criação objeto  CPermeabilidadeGrafo = ", &cout );
       permeabilidade =  new CPermeabilidadeGrafo ( fluido, solver, grafo, grafo->Nx (),
-                                    grafo->Ny (), grafo->Nz (),fatorAmplificacao, dimensaoPixel );
+            grafo->Ny (), grafo->Nz (), fatorAmplificacao, dimensaoPixel );
       assert ( permeabilidade );
    }
 
@@ -1009,15 +1030,15 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
    cout <<
         "\n__________________________________________________________________________________";
    cout << "\nM" << modelo << " P(mD)=" << setw ( 8 ) << permeabilidade_calculada
-        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade () 
-		<< " it=" << setw ( 5 ) << permeabilidade->Iteracoes () 
-		<< " time(s)=" <<( difftime ( tfPermeabilidade, tiPermeabilidade ) ) 
-		<<"\n_________________________________________________________________________________"
+        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade ()
+        << " it=" << setw ( 5 ) << permeabilidade->Iteracoes ()
+        << " time(s)=" << ( difftime ( tfPermeabilidade, tiPermeabilidade ) )
+        << "\n_________________________________________________________________________________"
         << endl;
    fout << "\nM" << modelo << " P(mD)=" << setw ( 8 ) << permeabilidade_calculada
-        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade () 
-		<< " it=" << setw ( 5 ) << permeabilidade->Iteracoes () 
-		<< " time(s)=" <<( difftime ( tfPermeabilidade, tiPermeabilidade ) ) << endl;
+        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade ()
+        << " it=" << setw ( 5 ) << permeabilidade->Iteracoes ()
+        << " time(s)=" << ( difftime ( tfPermeabilidade, tiPermeabilidade ) ) << endl;
 
 // NOVO NOVO NOVO
    /*ofstream s( (nomeArquivo + "perm.novo.txt").c_str() );

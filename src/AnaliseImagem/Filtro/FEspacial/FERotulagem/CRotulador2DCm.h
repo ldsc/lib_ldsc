@@ -33,7 +33,8 @@
 #endif
 
 /**
- * @brief   Representa um objeto rotulador com método para cálculo do centro de massa.
+ * @brief	Representa uma imagem 2D rotulada. Herdeira da classe TCRotulador2D.
+ * Adiciona vetor para armazenar o centro de massa dos objetos.
  * Descendente de CRotulador2D que descende de CRotulador e de uma matriz 2D.
  * Rotula imagens bidimensionais.
  * @author 	André Duarte Bueno	

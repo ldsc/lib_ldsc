@@ -105,7 +105,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	}
 	
 	// ----------------------------------
-	// Criacao do ponteiro para objeto de calculo da FFT
+	// Criação do ponteiro para objeto de calculo da FFT
 	CFFT * objetoFourier;
 
 	// Definicao do vetor com as dimensões usadas no CFFT

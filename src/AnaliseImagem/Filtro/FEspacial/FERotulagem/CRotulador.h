@@ -27,7 +27,7 @@
 // Documentacao Classe: CRotulador
 // ===============================================================================
 /**
- * @brief Classe usada para rotular imagens, implementada efetivamente nas classes CRotulador2D e CRotulador3D.
+ * @brief Classe base usada para rotular imagens, implementada efetivamente nas classes CRotulador2D e CRotulador3D.
  *
  * Representa um objeto rotulador.
  * Realiza as tarefas de rotulagem.

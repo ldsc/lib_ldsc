@@ -38,7 +38,7 @@ Desenvolvido por:
 /**
 * @brief Acrescenta o conceito de correção das condutâncias com base na distância
 * do centro de massa dos objetos conectados.
- * A informacao dos centros de massa é armazenada na classe CGrafoConexaoSerial_M4 (this),
+ * A informação dos centros de massa é armazenada na classe CGrafoConexaoSerial_M4 (this),
  * usando vetores cmx, cmy, cmz. 
  * Esta solucao foi adotada por permitir a destruicao dos vetores cmx e cmy apás o 
  * cálculo das condutâncias.
@@ -94,7 +94,7 @@ protected:
      ( CRotulador2DCm *rotulador, unsigned long int ultimoRotuloUtilizado,
        ETipoObjetoGrafo tipoObjeto ) override;
 
-     // A funcao void CGrafoConexaoSerial::EliminarObjetosRedundantes()
+     // A funcao void CGrafoConexaoSerial::EliminarRamosMortos()
      // elimina os ramos mortos(grupos de objetos CSitio),
      // e reordena o vector de objetos.
 

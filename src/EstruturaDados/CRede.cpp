@@ -33,24 +33,11 @@ using namespace std;
 */
 value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
 {
-   value_type_objeto* data;
+   value_type_objeto* data { nullptr };
 
    switch ( tipo ) {
       case ETipoObjetoGrafo::ObjetoRede :
          data = new CObjetoRede();
-         break;
-
-      case ETipoObjetoGrafo::ObjetoRede_Ligacao :
-      case ETipoObjetoGrafo::ObjetoRede_Ligacao_CENTER :
-         data = new CObjetoRede_Ligacao();
-         break;
-
-      case ETipoObjetoGrafo::ObjetoRede_Ligacao_EST :
-         data = new CObjetoRede_Ligacao_EST();
-         break;
-
-      case ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST :
-         data = new CObjetoRede_Ligacao_WEST();
          break;
 
       case ETipoObjetoGrafo::ObjetoRede_Sitio :
@@ -66,6 +53,19 @@ value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
          data = new CObjetoRede_Sitio_WEST();
          break;
 
+	  case ETipoObjetoGrafo::ObjetoRede_Ligacao :
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_CENTER :
+         data = new CObjetoRede_Ligacao();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_EST :
+         data = new CObjetoRede_Ligacao_EST();
+         break;
+
+      case ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST :
+         data = new CObjetoRede_Ligacao_WEST();
+         break;
+
       case ETipoObjetoGrafo::ObjetoRede_Final :
          data = new CObjetoRede_Final( tipo );
          break;
@@ -75,10 +75,29 @@ value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
          data = reinterpret_cast <value_type_objeto*> ( new CObjetoRede_Tipo ( tipo ) );
          break;
       }
-
    assert ( data );
    return data;
 }
+
+// // -------------------------------------------------------------------------
+// // Função:     DeletarObjeto
+// // -------------------------------------------------------------------------
+// /**
+// 	@short  : Recebe um vetor com o índice dos objtos a serem deletados.
+// 	(Deleta várias objetos ao mesmo tempo).
+// */
+// bool CRede::DeletarObjeto( std::vector<unsigned int> di ) override
+// {
+//       unsigned int marcar_para_delecao = objeto.size();
+// 
+//       for ( unsigned int i = 0; i < di.size (); i++ )
+//          // Se di[i] for um rótulo inválido para conexao ocorre estouro de pilha!
+//          objeto[ di[i] ]->rotulo =  marcar_para_delecao;
+// 
+//       // Chama  DeletarConexoesInvalidadas que deleta conexões marcadas para deleção.
+//       this->DeletarConexoesInvalidadas ( marcar_para_delecao );
+//    }
+// }
 
 // -------------------------------------------------------------------------
 // Função:     Write
@@ -100,13 +119,13 @@ value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
 */
 void CRede::Write ( std::ostream& out ) const
 {
-   out.setf ( ios::right );
+   out.setf ( ios::left );
 
    // Tipo de grafo
-   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
+   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 
    // Numero de objetos
-   out << setw ( 5 ) << objeto.size() << endl;
+   out << ' '<< setw ( 5 ) << objeto.size()  << '\n';
 
    // Percorre os objetos e salva em disco as informações de cada objeto.
    for ( auto objeto_i :  objeto ) {

@@ -25,16 +25,23 @@ Desenvolvido por:
 
 /**
  * @brief Representa uma objeto ligação de uma rede.
- * Tendo uma variável rotulo (herdade de CObjetoGrafo)
+ * Tendo uma variável rotulo (herdade de CObjetoGrafo),
  * x (herdada de CParametroSolver), e uma propriedade (herdada de CObjetoRede).
- * Note que temos duas possibilidades para implementar, a primeira criar duas conexões,
+ * 
+ * Note que temos duas possibilidades para implementar: 
+ * A primeira adicionar um segundo vetor de conexões,
  * o problema é a dificuldade de resolver os métodos deletar e principalmente
- * o fato de que não fica uniforme com CObjetoRede_Sitio que tem vetor conexao.
+ * o fato de que não fica uniforme com CObjetoRede_Sitio que tem um vetor conexao.
+ * Exemplo:
  *   /// Conexões a esquerda
- *   CObjetoRede * conexaoA;
+ *   CObjetoRede * conexao; // herdado
  *   /// Conexões a direita
  *   CObjetoRede * conexaoB;
- * A segunda é fazer o mesmo que CObjetoRede, criar um vetor conexao mas com apenas duas conexões.
+ * 
+ * A segunda possibilidade é manter apenas um vetor de conexões, 
+ * ficando uniforme com CObjetoRede.
+ * A modificação seria feita na função Conetar() que receberia o endereço dos 
+ * dois sitios aos quais esta conectado.
 
  * @author  André Duarte Bueno
  * @see     grafos

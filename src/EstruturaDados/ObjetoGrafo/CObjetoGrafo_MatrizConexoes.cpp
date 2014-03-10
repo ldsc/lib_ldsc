@@ -94,7 +94,7 @@ bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int dele
 ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const
 {
    // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
+   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 
    // Rótulo de this
    out << ' ' << setw ( 5 ) << rotulo;
@@ -106,13 +106,13 @@ ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const
    for ( unsigned long int cont_conexoes = 0; cont_conexoes < mconexao.size (); cont_conexoes++ ) {
          // Para cada vetor percorrer os objetos
          // mconexao[cont_vector] retorna um ponteiro para um vetor
-         out << " " << setw ( 5 ) << mconexao[cont_conexoes].size ();
+         out << ' ' << setw ( 5 ) << mconexao[cont_conexoes].size ();
 
          // lista dos rótulos
          for ( auto objeto_conectado :  mconexao[cont_conexoes] )
-            out << " " << setw ( 5 ) << objeto_conectado->rotulo;
+            out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
       }
-
+   //out << '\n';
    return out;
 }
 

@@ -146,7 +146,7 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		}
 
 		/// Retorna o valor de dimensaoPixel
-		inline double SizePixel () const {
+		inline double DimensaoPixel () const {
 			return dimensaoPixel;
 		}
 
@@ -177,7 +177,7 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		}
 
 		/// Seta o valor de dimensaoPixel
-		inline void SizePixel ( double _dimensaoPixel) {
+		inline void DimensaoPixel ( double _dimensaoPixel) {
 			dimensaoPixel = _dimensaoPixel;
 		}
 

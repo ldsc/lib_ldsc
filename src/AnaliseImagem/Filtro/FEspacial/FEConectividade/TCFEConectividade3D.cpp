@@ -94,7 +94,7 @@ TCImagem3D<T> *TCFEConectividade3D<T>::GetImagemConectada( TCImagem3D<T> *pmOrig
  pmCon->Path(pmOrig->Path());
  pmCon->fatorAmplificacao = pmOrig->FatorAmplificacao();
  pmCon->numeroPixelsBorda = pmOrig->NumeroPixelsBorda();
- pmCon->dimensaoPixel = pmOrig->SizePixel();
+ pmCon->dimensaoPixel = pmOrig->DimensaoPixel();
 
  set<int>::iterator it0;
  // percorre a matriz rotulada (this).

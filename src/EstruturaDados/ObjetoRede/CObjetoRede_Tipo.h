@@ -47,34 +47,34 @@ Desenvolvido por:
 #ifndef ETipoObjetoGrafo_
 #define ETipoObjetoGrafo_
 enum class ETipoObjetoGrafo : uint8_t {
-   ObjetoGrafo,                  // Objetos da hierarquia de objetos do grafo
-   ObjetoGrafo_1VetorConexoes,
-   ObjetoGrafo_2VetoresConexoes,
-   ObjetoGrafo_MatrizConexoes,
+   ObjetoGrafo = 0,                  // Objetos da hierarquia de objetos do grafo
+   ObjetoGrafo_1VetorConexoes = 1,
+   ObjetoGrafo_2VetoresConexoes = 2,
+   ObjetoGrafo_MatrizConexoes = 3,
 
-   ObjetoRede,                   // Objetos da hierarquia de objetos da rede
-   ObjetoRede_Ligacao,
-   ObjetoRede_Ligacao_CENTER,
-   ObjetoRede_Ligacao_EST,
-   ObjetoRede_Ligacao_WEST,
-   ObjetoRede_Sitio,
-   ObjetoRede_Sitio_CENTER,
-   ObjetoRede_Sitio_EST,
-   ObjetoRede_Sitio_WEST,
-   ObjetoRede_Final, // Inclue o tipo como atributo (final)
-   ObjetoRede_Tipo, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede = 10,                   // Objetos da hierarquia de objetos da rede
+   ObjetoRede_Final = 11, // Inclue o tipo como atributo (final)
+   ObjetoRede_Tipo = 15, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede_Ligacao = 20,
+   ObjetoRede_Ligacao_CENTER = 21,
+   ObjetoRede_Ligacao_EST = 22,
+   ObjetoRede_Ligacao_WEST = 23,
+   ObjetoRede_Sitio = 30,
+   ObjetoRede_Sitio_CENTER = 31,
+   ObjetoRede_Sitio_EST = 32,
+   ObjetoRede_Sitio_WEST = 33,
 
-   ObjetoEsqueleto,              // Objetos da hierarquia de objetos do esqueleto
-   ObjetoEsqueleto_Ligacao,
-   ObjetoEsqueleto_Ligacao_CENTER,
-   ObjetoEsqueleto_Ligacao_EST,
-   ObjetoEsqueleto_Ligacao_WEST,
-   ObjetoEsqueleto_Sitio,
-   ObjetoEsqueleto_Sitio_CENTER,
-   ObjetoEsqueleto_Sitio_EST,
-   ObjetoEsqueleto_Sitio_WEST,
-   ObjetoEsqueleto_Final, // Inclue o tipo como atributo (final)
-   ObjetoEsqueleto_Tipo, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto =  50,              // Objetos da hierarquia de objetos do esqueleto
+   ObjetoEsqueleto_Final = 51, // Inclue o tipo como atributo (final)
+   ObjetoEsqueleto_Tipo = 55, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto_Ligacao = 60,
+   ObjetoEsqueleto_Ligacao_CENTER =61,
+   ObjetoEsqueleto_Ligacao_EST = 62,
+   ObjetoEsqueleto_Ligacao_WEST = 63,
+   ObjetoEsqueleto_Sitio = 70,
+   ObjetoEsqueleto_Sitio_CENTER = 71,
+   ObjetoEsqueleto_Sitio_EST = 72,
+   ObjetoEsqueleto_Sitio_WEST = 73,
 };
 #endif
 
@@ -83,13 +83,19 @@ enum class ETipoObjetoGrafo : uint8_t {
 // ===============================================================================
 /**
  * @brief  Representa um objeto completo de uma rede; Não é herdeiro de CObjetoGrafo,
- * apenas de CSMParametroSolver. 
+ * apenas de CSMParametroSolver.
  * Todos os atributos e métodos são criados aqui, de forma a não ter métodos virtuais.
  * Comparar com CObjetoRede_Final (que usa final de c++11).
+ *
+ * Nota importante: o modelo de cálculo das condutâncias (ex: Poiselle ou Koplic ou...)
+ * e o cálculo das condutâncias é feito na hierarquia de CGrafo.
+ * Ou seja, os objetos da rede não sabem qual modelo foi usado para cálculo da condutância.
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
  * @ingroup  HCObjetoGrafo
+ * @todo Criar template T para tipo propriedade ( que pode ser algo simples, um double
+ * ou algo mais complexo, como uma classe função )
 */
 class CObjetoRede_Tipo : public CSMParametroSolver  {
 // --------------------------------------------------------------Atributos
@@ -147,30 +153,83 @@ public:
    }
 
    /**
-     * @brief Função nova que recebe um ponteiro para um CObjetoRede_Tipo,
-     * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
+    * @brief Função que recebe um ponteiro para um CObjetoRede objA e o inclue na lista de conexões.
+    * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
     * Note que oculta versão que recebe CObjetoGrafo.
    */
-   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* objB = nullptr ) {
+   inline void Conectar ( CObjetoRede_Tipo* objA ) {
       this->conexao.push_back ( objA );
       this->condutancia.push_back ( objA->propriedade );
    }
 
    /**
-     * @brief Função nova que recebe um ponteiro para um CObjetoRede,
-     * e o inclue na lista de conexões. O segundo parâmtro é a condutância.
+   * @brief Função que recebe um ponteiro para um CObjetoRede_Tipo objA e o inclue na lista de conexões.
+   * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
+   * A condutância entre this e o objA é o segundo parâmetro (a _condutancia é calculada externamente).
    */
-   inline/*virtual*/ void Conectar ( CObjetoRede_Tipo* objA, long double _condutancia ) {
+   inline void Conectar ( CObjetoRede_Tipo* objA, long double _condutancia ) {
       this->conexao.push_back ( objA );
       this->condutancia.push_back ( _condutancia );
    }
 
-   /// Deleta uma conexão.
-   inline /*virtual*/ void DeletarConexao ( unsigned int pos ) {
+   /**
+   * @brief Função que recebe um ponteiro para um CObjetoRede_Tipo objA e um ponteiro para um objeto B
+   * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
+   * Faz a conexão de this com os objetos recebidos.
+   * Note que oculta versão que recebe CObjetoGrafo.
+   * Note que como não recebe a condutância, vai fazer a condutancia igual a
+   * propriedade do objeto ao qual estou conectado:
+   * conexao[i] = objA;
+   * condutancia[i] = objA.propriedade;
+   */
+   /*inline */virtual void Conectar ( CObjetoRede_Tipo* objA, CObjetoRede_Tipo* objB ) {
+      this->conexao.push_back ( objA );
+      this->condutancia.push_back ( objA->propriedade );
+      this->conexao.push_back ( objB );
+      this->condutancia.push_back ( objB->propriedade );
+   }
+
+   /**
+   * @brief Função que recebe um ponteiro para um CObjetoRede_Tipo objA e um ponteiro para um objeto B
+   * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
+   * Faz a conexão de this com os objetos recebidos.
+   * Note que oculta versão que recebe CObjetoGrafo.
+   * Note que como não recebe a condutância, vai fazer a condutancia igual a
+   * propriedade do objeto ao qual estou conectado:
+   * conexao[i] = objA;
+   * condutancia[i] = _condutanciaA;
+   */
+   /*inline */virtual void Conectar ( CObjetoRede_Tipo* objA, long double _condutanciaA,
+                                      CObjetoRede_Tipo* objB , long double _condutanciaB ) {
+      this->conexao.push_back ( objA );
+      this->condutancia.push_back ( _condutanciaA );
+      this->conexao.push_back ( objB );
+      this->condutancia.push_back ( _condutanciaB );
+   }
+   /** Deleta conexões de ramos mortos
+     Nota: o código abaixo pode deixar o processo lento se o número de conexões foram
+     grande e se este método for muito chamado! Pensar em usar <list>
+   */
+   void DeletarConexao ( unsigned int pos ) {
       // Deleta a conexão
       this->conexao.erase ( conexao.begin() + pos );
       // e, adicionalmente, deleta a condutancia associada ao objeto pos
       this->condutancia.erase ( condutancia.begin () + pos );
+   }
+
+   /**
+     @short  : Recebe um vetor com o índice das conexões a serem deletadas.
+     (Deleta várias conexões ao mesmo tempo).
+   */
+   void DeletarConexao ( std::vector<unsigned int> di ) {
+      unsigned int marcar_para_delecao = conexao.size();
+
+      for ( unsigned int i = 0; i < di.size (); i++ )
+         // Se di[i] for um rótulo inválido para conexao ocorre estouro de pilha!
+         conexao[ di[i] ]->rotulo =  marcar_para_delecao;
+
+      // Chama  DeletarConexoesInvalidadas que deleta conexões marcadas para deleção.
+      this->DeletarConexoesInvalidadas ( marcar_para_delecao );
    }
 
    /**
@@ -179,7 +238,7 @@ public:
     * para deleção, se o rótulo dos objetos conectados é igual a deletado a conexão é eliminada.
     * NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
     */
-   inline /*virtual*/ bool DeletarConexoesInvalidadas ( unsigned int deletado ) ;
+   /*inline*/ /*virtual*/ bool DeletarConexoesInvalidadas ( unsigned int deletado ) ;
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.
    /*inline*//*virtual*/ unsigned int DeletarConexoesRepetidas_e_SomarCondutanciasParalelo() ;

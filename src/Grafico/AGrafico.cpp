@@ -11,13 +11,13 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	AGrafico.cpp
 Nome da classe:		AGrafico
 
-Descrição: Classe base para o desenho de gráficos.
-           Permite a criação de graficos simples, do tipo
+Descriï¿½ï¿½o: Classe base para o desenho de grï¿½ficos.
+           Permite a criaï¿½ï¿½o de graficos simples, do tipo
            graficos de linhas e graficos de barra.
 	   USA OWL
 
-Criar um arquivo de base, uma biblioteca basica com funções muito usadas
-que poderiam ser acessadas pelos objetos que você cria.
+Criar um arquivo de base, uma biblioteca basica com funï¿½ï¿½es muito usadas
+que poderiam ser acessadas pelos objetos que vocï¿½ cria.
 Logo abaixo uma paleta de cores de 16 cores, poderia criar numa classe basica,
 e poder acessar de qualquer classe que use a OWL.
 */
@@ -25,7 +25,7 @@ e poder acessar de qualquer classe que use a OWL.
 //----------------------------------------------------------------------------
 // Valores de cor (assumes NUMEROCORES == 16)
 //----------------------------------------------------------------------------
-//Cria uma classe global para cores e paletas default(padrões)
+//Cria uma classe global para cores e paletas default(padrï¿½es)
 //static significa que so e visivel neste arquivo
 const NUMEROCORESPALETA16 = 16;
 static TColor paleta16[NUMEROCORESPALETA16] = {
@@ -39,7 +39,7 @@ static TColor paleta16[NUMEROCORESPALETA16] = {
 ============================================================================
 Documentacao AGraficoPonto
 ============================================================================
-Descrição: Define os valores de x0 e y0
+Descriï¿½ï¿½o: Define os valores de x0 e y0
 Programador:      Andre Duarte Bueno
 */
 AGraficoPonto::AGraficoPonto ()
@@ -51,7 +51,7 @@ AGraficoPonto::AGraficoPonto ()
 ============================================================================
 Documentacao AGraficoBox
 ============================================================================
-Descrição: Define os valores de w e h
+Descriï¿½ï¿½o: Define os valores de w e h
 Programador:      Andre Duarte Bueno
 */
 AGraficoBox::AGraficoBox ()
@@ -63,7 +63,7 @@ AGraficoBox::AGraficoBox ()
 ============================================================================
 Documentacao SetAll
 ============================================================================
-Descrição:        Função usada para definir todos os valores do box ao mesmo tempo
+Descriï¿½ï¿½o:        Funï¿½ï¿½o usada para definir todos os valores do box ao mesmo tempo
 Programador:      Andre Duarte Bueno
 */ void
 AGraficoBox::SetAll (unsigned int _x0, unsigned int _y0, unsigned int _w,
@@ -114,7 +114,7 @@ Documentacao /*
 ============================================================================
 Documentacao SetFonte
 ============================================================================
-Descrição:       Usada para definir o titulo
+Descriï¿½ï¿½o:       Usada para definir o titulo
 Programador:      Andre Duarte Bueno
 */
 
@@ -127,8 +127,8 @@ AGraficoTitulo::SetTitulo ()
 			titulo,	//prompt
 			titulo,	//bufer
 			sizeof (titulo), 0,	//tamanho bufer, modulo
-			new TFilterValidator ("A-Za-z"));	//validação de dados tem de ser tudo emendado
-  //new TFilterValidator("0-9")); //validação de dados
+			new TFilterValidator ("A-Za-z"));	//validaï¿½ï¿½o de dados tem de ser tudo emendado
+  //new TFilterValidator("0-9")); //validaï¿½ï¿½o de dados
   dialogo.Execute ();
   //if (dialogo.Execute() == IDOK)
 }
@@ -137,8 +137,8 @@ AGraficoTitulo::SetTitulo ()
 ============================================================================
 Documentacao SetFonte
 ============================================================================
-Descrição:       Usada para definir o tipo de fonte, deve abrir um quadro de diálogo
-		  default do windows para seleção da fonte
+Descriï¿½ï¿½o:       Usada para definir o tipo de fonte, deve abrir um quadro de diï¿½logo
+		  default do windows para seleï¿½ï¿½o da fonte
                  O atributo ponteiroJanela foi recebido no construtor do  AGraficoTitulo
 Programador:      Andre Duarte Bueno .
 */
@@ -148,7 +148,7 @@ AGraficoTitulo::SetFonte ()
   if (fonte)
     delete fonte;
 
-  TChooseFontDialog::TData fontData;	//cria estrutura de dados para diálogo
+  TChooseFontDialog::TData fontData;	//cria estrutura de dados para diï¿½logo
   fontData.LogFont = MainFontRec;	//passa atributo LOGFONT para estrutura de dados
   //abaixo define mais alguns atributos da estrutura de dados
   fontData.Flags =
@@ -156,15 +156,15 @@ AGraficoTitulo::SetFonte ()
   fontData.FontType = SCREEN_FONTTYPE;	//preenche alguns atributos da estrutura de dados
   fontData.SizeMin = 20;	//
   fontData.SizeMax = 20;	//
-  //Cria diálogo passando a estrutura de dados
-  TChooseFontDialog dialogo (AGraficoTitulo::ponteiroJanela, fontData);	//, "Diálogo de fontes");
+  //Cria diï¿½logo passando a estrutura de dados
+  TChooseFontDialog dialogo (AGraficoTitulo::ponteiroJanela, fontData);	//, "Diï¿½logo de fontes");
   if (dialogo.Execute () == IDOK)	//"FontDlg"
     {
-      //Pega somente o nome da fonte, o peso e se é italica- we don't care about size
+      //Pega somente o nome da fonte, o peso e se ï¿½ italica- we don't care about size
       //strcpy(MainFontRec.lfFaceName, fontData.LogFont.lfFaceName);
       //MainFontRec.lfWeight = fontData.LogFont.lfWeight;
       //MainFontRec.lfItalic = fontData.LogFont.lfItalic;
-      MainFontRec = fontData.LogFont;	//posso pegar os diversos ítens da estrutura (linhas acima)
+      MainFontRec = fontData.LogFont;	//posso pegar os diversos ï¿½tens da estrutura (linhas acima)
       //ou pegar toda a estrutura como aqui
       fonte = new TFont (&MainFontRec);	//cria fonte a partir do &LOGFONT
       //Invalidate(TRUE);
@@ -180,7 +180,7 @@ TFont(const TFont& src);
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:        Função de desenho do título
+Descriï¿½ï¿½o:        Funï¿½ï¿½o de desenho do tï¿½tulo
 Programador:      Andre Duarte Bueno
 */
 void
@@ -195,7 +195,7 @@ AGraficoTitulo::Paint (TDC & dc, bool erase, TRect & rect)
       dc.TextOut (x0 + w / 2, y0 - h / 2, titulo, strlen (titulo));	//desenhar o texto
       dc.RestoreFont ();	//restaurar a fonte
     }
-  else				//caso contrario só desenhar com a fonte atual
+  else				//caso contrario sï¿½ desenhar com a fonte atual
     dc.TextOut (x0 + w / 2, y0 - h / 2, titulo, strlen (titulo));
 
 
@@ -206,7 +206,7 @@ AGraficoTitulo::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:    Função de desenho do marco
+Descriï¿½ï¿½o:    Funï¿½ï¿½o de desenho do marco
 				  Deveria ser do tipo:
               objetoGeometria->Desenhar(cordenadas);
 Programador:      Andre Duarte Bueno
@@ -221,7 +221,7 @@ AGraficoMarco::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:       Função de desenho do grid, vazia
+Descriï¿½ï¿½o:       Funï¿½ï¿½o de desenho do grid, vazia
 Programador:      Andre Duarte Bueno
 */
 void
@@ -233,23 +233,23 @@ AGraficoGrid::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:        Função de desenho do eixo X.
+Descriï¿½ï¿½o:        Funï¿½ï¿½o de desenho do eixo X.
 Programador:      Andre Duarte Bueno
 No construtor recebe o numero de tickets, por enquanto recebe como numero de tickets
-o número de pontos do vetor.
-Para um histograma de níveis de cinza numeroTickets=255.
+o nï¿½mero de pontos do vetor.
+Para um histograma de nï¿½veis de cinza numeroTickets=255.
 */
 void
 AGraficoGridEixoX::Paint (TDC & dc, bool erase, TRect & rect)
 {
 //int
-  float dx = (10.0 * w / numeroTickets) > 1.0 ? 10.0 * w / numeroTickets : 1.0;	//calcula espaçamento da direção x
+  float dx = (10.0 * w / numeroTickets) > 1.0 ? 10.0 * w / numeroTickets : 1.0;	//calcula espaï¿½amento da direï¿½ï¿½o x
   dc.MoveTo (x0, y0);		//desenha linha do eixo X
   dc.LineTo (x0 + w, y0);	//
   for (int px = x0 + dx; px <= x0 + w; px += dx)	//desenha os tickets
     {				//antes usava px=x0+dx/2
       dc.MoveTo (px, y0);	//ponto inicial
-      dc.LineTo (px, y0 + 3);	//ponto final, altura de 3 píxel's
+      dc.LineTo (px, y0 + 3);	//ponto final, altura de 3 pï¿½xel's
     }
 }
 
@@ -257,14 +257,14 @@ AGraficoGridEixoX::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:        Função de desenho do eixo y
+Descriï¿½ï¿½o:        Funï¿½ï¿½o de desenho do eixo y
 Programador:      Andre Duarte Bueno
 */
 void
 AGraficoGridEixoY::Paint (TDC & dc, bool erase, TRect & rect)
 {
 //int
-  float dy = (10.0 * h / numeroTickets) > 1.0 ? 10.0 * h / numeroTickets : 1.0;	//calcula o espaçamento na direção y
+  float dy = (10.0 * h / numeroTickets) > 1.0 ? 10.0 * h / numeroTickets : 1.0;	//calcula o espaï¿½amento na direï¿½ï¿½o y
   dc.MoveTo (x0, y0);		//move para ponto inicial do eixo
   dc.LineTo (x0, y0 - h);	//desenha o eixo y
   for (int py = y0 - dy; py >= y0 - h; py = py - dy)	//desenha os tickets do eixo y
@@ -278,12 +278,12 @@ AGraficoGridEixoY::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao AGraficoSub
 ============================================================================
-Descrição:     Construtor
+Descriï¿½ï¿½o:     Construtor
 Programador:      Andre Duarte Bueno
 */
 AGraficoSub::AGraficoSub (TVetor * &vy)
 {
-  y = vy;			//armazena endereço do vetor
+  y = vy;			//armazena endereï¿½o do vetor
   fatorEscalaY = 1.0;		//armazena fator de escala inicial
 };
 
@@ -291,7 +291,7 @@ AGraficoSub::AGraficoSub (TVetor * &vy)
 ============================================================================
 Documentacao ~AGraficoSub
 ============================================================================
-Descrição:       Destrutor
+Descriï¿½ï¿½o:       Destrutor
 Programador:      Andre Duarte Bueno
 */
 AGraficoSub::~AGraficoSub ()
@@ -304,9 +304,9 @@ AGraficoSub::~AGraficoSub ()
 ============================================================================
 Documentacao CalculaFatoresDeEscala
 ============================================================================
-Descrição: Calcula os fatores de escala, que é a altura disponível do grafico
-				dividida pela diferença entre o maior e o menor valor do gráfico.
-            Por enquanto parte do zero até o valor máximo.
+Descriï¿½ï¿½o: Calcula os fatores de escala, que ï¿½ a altura disponï¿½vel do grafico
+				dividida pela diferenï¿½a entre o maior e o menor valor do grï¿½fico.
+            Por enquanto parte do zero atï¿½ o valor mï¿½ximo.
 Programador:      Andre Duarte Bueno
 */
 void
@@ -323,19 +323,19 @@ AGraficoSub::CalculaFatoresDeEscala ()
 ============================================================================
 Documentacao Posicao
 ============================================================================
-Descrição:        Recebe a posicao do cursor do mouse no grafico
-						Calcula a posicao relativa ao sub-gráfico
+Descriï¿½ï¿½o:        Recebe a posicao do cursor do mouse no grafico
+						Calcula a posicao relativa ao sub-grï¿½fico
                   Calcula a posicao relativa ao vetor
-						Retorna a posição x e o valor y do vetor, num formato de char*
+						Retorna a posiï¿½ï¿½o x e o valor y do vetor, num formato de char*
 Programador:      Andre Duarte Bueno
 */
 char *
-AGraficoSub::Posicao (TPoint pt)	//pt é a posicao do mouse no grafico todo
+AGraficoSub::Posicao (TPoint pt)	//pt ï¿½ a posicao do mouse no grafico todo
 {
   float dx = (float) w / (float) y->GetNX ();	//dimensao x de cada barra/linhas
   //
 //int   posicaoY=(pt.y-0.1/0.7*h)/dy;             //posicaoY (0,0) no topo do grafico
-  int posicaoX = (pt.x - x0) / dx;	//posição x real
+  int posicaoX = (pt.x - x0) / dx;	//posiï¿½ï¿½o x real
   if (posicaoX < 0)
     posicaoX = 0;
   if (posicaoX >= y->GetNX ())
@@ -345,7 +345,7 @@ AGraficoSub::Posicao (TPoint pt)	//pt é a posicao do mouse no grafico todo
 //char resultado[255];                               //formata o resultado
   int acumulado = 0;
   for (int i = 0; i <= posicaoX; i++)	//percorre os valores e acumula
-    acumulado += y->data1D[i];	//até a posicão atual
+    acumulado += y->data1D[i];	//atï¿½ a posicï¿½o atual
   wsprintf (resultado, "AGraficoSub: X=%d, Y=%d, acumulado=%d)", posicaoX,
 	    valorY, acumulado);
   return resultado;
@@ -355,13 +355,13 @@ AGraficoSub::Posicao (TPoint pt)	//pt é a posicao do mouse no grafico todo
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Deve desenhar as barras verticais
-x é o vetor para o eixoX (=0 pois é igualmente espaçado)
-y é o vetor para o eixoy(dados a serem plotados)
-x0 é a posição inicial do eixo,
-as barras devem ser centradas em relação ao ponto de interesse.
-Se quero desenhar na posição x=5, as barras iniciam em x=4,8 até x=5,2 (exemplo)
+x ï¿½ o vetor para o eixoX (=0 pois ï¿½ igualmente espaï¿½ado)
+y ï¿½ o vetor para o eixoy(dados a serem plotados)
+x0 ï¿½ a posiï¿½ï¿½o inicial do eixo,
+as barras devem ser centradas em relaï¿½ï¿½o ao ponto de interesse.
+Se quero desenhar na posiï¿½ï¿½o x=5, as barras iniciam em x=4,8 atï¿½ x=5,2 (exemplo)
 Programador:      Andre Duarte Bueno
 */
 
@@ -400,12 +400,12 @@ AGraficoSubBarra::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Deve desenhar as linhas
-x é o vetor para o eixoX (=0 pois é igualmente espaçado)
-y é o vetor para o eixoy(dados a serem plotados)
-x0 é a posição inicial do eixo,
-as linhas devem ser centradas em relação ao ponto de interesse.
+x ï¿½ o vetor para o eixoX (=0 pois ï¿½ igualmente espaï¿½ado)
+y ï¿½ o vetor para o eixoy(dados a serem plotados)
+x0 ï¿½ a posiï¿½ï¿½o inicial do eixo,
+as linhas devem ser centradas em relaï¿½ï¿½o ao ponto de interesse.
 Programador:      Andre Duarte Bueno
 */
 void
@@ -414,9 +414,9 @@ AGraficoSubLinha::Paint (TDC & dc, bool erase, TRect & rect)
 //int indicePaleta=0;
   float dx = (float) w / (float) y->GetNX ();	//dimensao x de cada barra
 //if(dx<1)
-//      dx=1;                                      //garante valor mínimo para dx, para poder avançar
-//dc.MoveTo(x0+dx,abs(y0- y->data1D[0]*fatorEscalaY)); //move para posição inicial
-  dc.MoveTo (x0, abs (y0 - y->data1D[0] * fatorEscalaY));	//move para posição inicial
+//      dx=1;                                      //garante valor mï¿½nimo para dx, para poder avanï¿½ar
+//dc.MoveTo(x0+dx,abs(y0- y->data1D[0]*fatorEscalaY)); //move para posiï¿½ï¿½o inicial
+  dc.MoveTo (x0, abs (y0 - y->data1D[0] * fatorEscalaY));	//move para posiï¿½ï¿½o inicial
   for (int i = 0; i < y->GetNX (); i++)	//percorre o eixoX
     {				//desenha linhas entre os pontos
       //dc.MoveTo(x0 +i*dx, y0);
@@ -428,7 +428,7 @@ AGraficoSubLinha::Paint (TDC & dc, bool erase, TRect & rect)
 ============================================================================
 Documentacao AGraficoSubXY
 ============================================================================
-Descrição:      Recebe uma matriz, vai desenhar sobre os dados da matriz recebida
+Descriï¿½ï¿½o:      Recebe uma matriz, vai desenhar sobre os dados da matriz recebida
 Programador:      Andre Duarte Bueno
 */
 AGraficoSubXY::AGraficoSubXY (TMatriz2D * &_my)
@@ -442,7 +442,7 @@ AGraficoSubXY::AGraficoSubXY (TMatriz2D * &_my)
 ============================================================================
 Documentacao ~AGraficoSubXY
 ============================================================================
-Descrição:        Destrutor, apaga os vetores recebidos
+Descriï¿½ï¿½o:        Destrutor, apaga os vetores recebidos
 Programador:      Andre Duarte Bueno
 */
 AGraficoSubXY::~AGraficoSubXY ()
@@ -456,14 +456,14 @@ AGraficoSubXY::~AGraficoSubXY ()
 ============================================================================
 Documentacao CalculaFatoresDeEscala
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Programador:      Andre Duarte Bueno
 */
 void
 AGraficoSubXY::CalculaFatoresDeEscala ()
 {
   AGraficoSub::CalculaFatoresDeEscala ();
-//resolver: precisa retornar o máximo da primeira linha da matriz
+//resolver: precisa retornar o mï¿½ximo da primeira linha da matriz
 //fatorEscalaX=(float)w/(float)mx->Maximo();       //calcula fator de escala (float)
 }
 
@@ -471,20 +471,20 @@ AGraficoSubXY::CalculaFatoresDeEscala ()
 //Definicao da tabela de resposta
 //agora usa TMDIChild, antes usava TFrameWindow
 DEFINE_RESPONSE_TABLE1 (AGrafico, TMDIChild) EV_WM_SIZE,	//alteracao do tamanho da janela
-  EV_WM_GETMINMAXINFO,		//dimensões mínimas da janela
+  EV_WM_GETMINMAXINFO,		//dimensï¿½es mï¿½nimas da janela
   //     EV_WM_LBUTTONDOWN,                                       //
   EV_WM_MOUSEMOVE,		//movimento mouse
-  //     EV_WM_LBUTTONUP,                                         //botão esquerdo do mouse solto
-  EV_WM_RBUTTONDOWN,		//botão direito do mouse pressinado
+  //     EV_WM_LBUTTONUP,                                         //botï¿½o esquerdo do mouse solto
+  EV_WM_RBUTTONDOWN,		//botï¿½o direito do mouse pressinado
   END_RESPONSE_TABLE;
 
 /*
 ============================================================================
 Documentacao AGrafico
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 		Herdeira publica da TMDIChild e virtual da TWindow
-		recebe como ultimos parâmetros os vetores vx e vy, que são passados para a
+		recebe como ultimos parï¿½metros os vetores vx e vy, que sï¿½o passados para a
 		AGraficoSubBarra. A classe AGraficoSubBarra deve eliminar os dois vetores no seu destrutor
 Programador:      Andre Duarte Bueno
 */
@@ -493,7 +493,7 @@ AGrafico::AGrafico (TMDIClient & parent, const char far * title,
 TMDIChild (parent, title)
 //, TWindow(parent,title)                                                                       //aqui novidade acrescentei o acesso direto a TWindow
 {
-  Attr.X = GetSystemMetrics (SM_CXSCREEN) / 8;	//obtem dimensões
+  Attr.X = GetSystemMetrics (SM_CXSCREEN) / 8;	//obtem dimensï¿½es
   Attr.Y = GetSystemMetrics (SM_CYSCREEN) / 8;
   Attr.H = Attr.Y * 6;
   Attr.W = Attr.X * 6;
@@ -516,7 +516,7 @@ TMDIChild (parent, title)
 ============================================================================
 Documentacao AGrafico
 ============================================================================
-Descrição:       Destrutor, destrõe objetos criados no construtor
+Descriï¿½ï¿½o:       Destrutor, destrï¿½e objetos criados no construtor
 Programador:      Andre Duarte Bueno
 */
 AGrafico::~AGrafico ()
@@ -544,8 +544,8 @@ AGrafico::~AGrafico ()
 ============================================================================
 Documentacao Paint
 ============================================================================
-Descrição:    A função Paint do grafico (de todo o grafico),
-				simplesmente chama as funções Paint de cada parte do gráfico.
+Descriï¿½ï¿½o:    A funï¿½ï¿½o Paint do grafico (de todo o grafico),
+				simplesmente chama as funï¿½ï¿½es Paint de cada parte do grï¿½fico.
             Assim cada objeto agregado se auto desenha.
 Programador:      Andre Duarte Bueno
 */
@@ -562,13 +562,13 @@ AGrafico::Paint (TDC & dc, bool erase, TRect & rect)
   gridY->Paint (dc, erase, rect);	//desenho do grid y
   dc.RestoreBrush ();		//restaura o brush
   //Dentro da paint de subGrafico cria um brush colorido
-  subGrafico->Paint (dc, erase, rect);	//Desenha a parte do gráfico em sí
+  subGrafico->Paint (dc, erase, rect);	//Desenha a parte do grï¿½fico em sï¿½
   dc.RestorePen ();		//restaura a caneta
 }
 
 //------------------------------------------------------------------------------
-//Função herdada da TMDIChild que é redefinida aqui
-//A redefinição é necessária, pois sempre que o usuário alterar as dimensões do gráfico
+//Funï¿½ï¿½o herdada da TMDIChild que ï¿½ redefinida aqui
+//A redefiniï¿½ï¿½o ï¿½ necessï¿½ria, pois sempre que o usuÃ¡rio alterar as dimensï¿½es do grï¿½fico
 //aqui vai atualizar as cordenadas de cada objeto agregado do grafico
 //e depois solicitar o redesenho da cada objeto
 void
@@ -577,12 +577,12 @@ AGrafico::EvSize (UINT sizeType, TSize & size)
   TFrameWindow::EvSize (sizeType, size);	//Chama classe base
   DefineCoordenadasObjetos ();	//Calcula as cordenadas dos diversos objetos
   Invalidate ();		//Solicita redesenho da janela
-  UpdateWindow ();		//Opcional (redesenhar já)
+  UpdateWindow ();		//Opcional (redesenhar jï¿½)
 }
 
 //------------------------------------------------------------------------------
-//Função herdada da TMDIChild que é redefinida aqui
-//retorna os valores mínimos da janela
+//Funï¿½ï¿½o herdada da TMDIChild que ï¿½ redefinida aqui
+//retorna os valores mï¿½nimos da janela
 void
 AGrafico::EvGetMinMaxInfo (MINMAXINFO far & mminfo)
 {
@@ -594,7 +594,7 @@ AGrafico::EvGetMinMaxInfo (MINMAXINFO far & mminfo)
 ============================================================================
 Documentacao EvRButtonDown
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 */
 void
 AGrafico::EvRButtonDown (UINT modKeys, TPoint & ponto)
@@ -606,7 +606,7 @@ AGrafico::EvRButtonDown (UINT modKeys, TPoint & ponto)
   unsigned int h = rect.Height ();	//obtem altura e
   unsigned int w = rect.Width ();	//largura
 
-  char msg[255];		//mensagem para titulo da janela do gráfico
+  char msg[255];		//mensagem para titulo da janela do grï¿½fico
   AGraficoTitulo::ponteiroJanela = (TWindow *) this;	//passa para classe de titulos o ponteiro para janela
   if (ponto.y <= h * 0.1)
     {
@@ -640,27 +640,27 @@ AGrafico::EvRButtonDown (UINT modKeys, TPoint & ponto)
 
   SetCaption (msg);		//altera o titulo da janela de acordo com objeto selecionado
   Invalidate ();		//Como objetos podem ter sido alterados Solicita redesenho da janela
-  UpdateWindow ();		//Opcional (redesenhar já)
+  UpdateWindow ();		//Opcional (redesenhar jï¿½)
 }
 
 /*
 ============================================================================
 Documentacao EvMouseMove
 ============================================================================
-Descrição:        Funcao de resposta ao  movimento do mouse  EvMouseMove
+Descriï¿½ï¿½o:        Funcao de resposta ao  movimento do mouse  EvMouseMove
 						continua selecionando area para zoom
 Programador:      Andre Duarte Bueno
 */
 void
 AGrafico::EvMouseMove (UINT modKeys, TPoint & pt_movendo)
 {
-  TWindow::EvMouseMove (modKeys, pt_movendo);	//função da classe base
+  TWindow::EvMouseMove (modKeys, pt_movendo);	//funï¿½ï¿½o da classe base
   TRect rect;			//define uma estrutura de retangulo
   GetClientRect (rect);		//obtem o retangulo da janela
   unsigned int h = rect.Height ();	//obtem altura e
   unsigned int w = rect.Width ();	//largura
 
-  char msg[255];		//mensagem para titulo da janela do gráfico
+  char msg[255];		//mensagem para titulo da janela do grï¿½fico
   if (pt_movendo.y <= h * 0.1)
     wsprintf (msg, "titulo");	//              titulo
   else if (pt_movendo.y < h * 0.8 && pt_movendo.x < w * 0.15)
@@ -682,7 +682,7 @@ AGrafico::EvMouseMove (UINT modKeys, TPoint & pt_movendo)
 ============================================================================
 Documentacao GetBitmapRect
 ============================================================================
-Descrição:      Retorna um retangulo com a área a ser impressa
+Descriï¿½ï¿½o:      Retorna um retangulo com a ï¿½rea a ser impressa
 */
 TRect
 AGrafico::GetBitmapRect ()
@@ -696,7 +696,7 @@ AGrafico::GetBitmapRect ()
 ============================================================================
 Documentacao CmTMMDeslocamentos
 ============================================================================
-Descrição: Função utilizada para calcular as cordenadas dos diferentes objetos do gráfico.
+Descriï¿½ï¿½o: Funï¿½ï¿½o utilizada para calcular as cordenadas dos diferentes objetos do grï¿½fico.
 Programador:      Andre Duarte Bueno
 */
 void
@@ -707,12 +707,12 @@ AGrafico::DefineCoordenadasObjetos ()
   unsigned int h = rect.Height ();	//obtem altura e
   unsigned int w = rect.Width ();	//largura
 
-//para cada objeto passa a informação da posicao inicial altura e largura
+//para cada objeto passa a informaï¿½ï¿½o da posicao inicial altura e largura
 //titulo->SetAll                (x0,            y0,             w,                      h);
   titulo->SetAll (0, h / 10, w, h / 10);
 
   subGrafico->SetAll (w * 0.15, h * 0.8, w * 0.85, h * 0.7);
-  subGrafico->CalculaFatoresDeEscala ();	//caso contrário fatores escala=1;
+  subGrafico->CalculaFatoresDeEscala ();	//caso contrï¿½rio fatores escala=1;
 
   gridX->SetAll (w * 0.15, h * 0.8, w * 0.85, 4);
   tituloEixoX->SetAll (0, h * 0.9, w, h / 10);
@@ -723,9 +723,9 @@ AGrafico::DefineCoordenadasObjetos ()
 }
 
 /*
-Relações inicial para os retangulos, do grafico
+Relaï¿½ï¿½es inicial para os retangulos, do grafico
 
-Posição:
+Posiï¿½ï¿½o:
 0,0 (da tela).
 ------------------------------------------------
 							titulo                 10%
@@ -740,14 +740,14 @@ t    |g              gridX
 -------------------------------------------------
                      legenda                10%
 -------------------------------------------------
-Obs: Lembre-se: A posição 0,0 é no canto superior esquerdo.
+Obs: Lembre-se: A posiï¿½ï¿½o 0,0 ï¿½ no canto superior esquerdo.
 */
 
 /*
 ============================================================================
 Documentacao AGraficoBarra
 ============================================================================
-Descrição: Construtor
+Descriï¿½ï¿½o: Construtor
 Programador:      Andre Duarte Bueno
 */
 AGraficoBarra::AGraficoBarra (TMDIClient & parent, const char far * title,
@@ -771,7 +771,7 @@ AGrafico (parent, title, vY)
 ============================================================================
 Documentacao AGraficoLinha
 ============================================================================
-Descrição:     Construtor
+Descriï¿½ï¿½o:     Construtor
 Programador:      Andre Duarte Bueno
 */
 AGraficoLinha::AGraficoLinha (TMDIClient & parent, const char far * title,

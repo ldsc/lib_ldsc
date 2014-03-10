@@ -54,7 +54,7 @@ Declara a classe TIChamber.
                        Esta classe representa unicamente a etapa de desenho da camara,
                        ou seja a constru��o da camara em s�. Ou o redesenho de partes da camara.
                        A simulac�o dos "processos" � realizada atrav�s do objeto
-                       de determina��o das configuracoes de equil�brio.
+                       de determinação das configuracoes de equil�brio.
 
                        A constru��o da camara passa pela defini��o das regi�es
                        onde est�o o meio poroso, as paredes, e as camaras dos flu�dos molhante e n�o molhante.
@@ -103,10 +103,10 @@ Obs:
                         A TSChamber permite a constru��o da camara de uma maneira simplificada.
 
                         2-A TCChamber permite a constru��o de uma camara que pode
-                        ser efetivamente desenhada pelo usu�rio.
-                        Com a camara complexa o usu�rio poder� construir qualquer tipo
+                        ser efetivamente desenhada pelo usuário.
+                        Com a camara complexa o usuário poder� construir qualquer tipo
                         de camara, podendo simular praticamente qualquer tipo de processo
-                        que envolva a determina��o das configura��es de equil�brio.
+                        que envolva a determinação das configura��es de equil�brio.
                         Inclusive com mais de um tipo de meio poroso, interagindo.
                         -Obs: Para que se possa usar mais de um tipo de meio poroso,
                         deve-se dispor de um conjunto de imagens 3D com as mesmas
@@ -125,7 +125,7 @@ Obs:
 
                         4-
                         Depois de desenhada a camara, o meio poroso � �nico, ou seja,
-                        Atrav�s do quadro de di�logo, o usu�rio pode desenhar a camara,
+                        Atrav�s do quadro de di�logo, o usuário pode desenhar a camara,
                         com diversos tipos de meios porosos, mas depois, � gerado um
                         meio poroso �nico, que aglutina todos os meios porosos.
 
@@ -158,7 +158,7 @@ Obs:
 
 
 //O QUADRO DE DI�LOGO:
-//Deve receber as entradas do usu�rio
+//Deve receber as entradas do usuário
 //Deve preencher a imagem prototipo 8bpp, definindo as regioes da camara
 //onde os indices de cor indicam o tipo de objeto.
 //Compoe as diversas imagens de meios porosos em uma �nica.

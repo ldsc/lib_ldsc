@@ -46,7 +46,8 @@ Desenvolvido por:
  * @see		Grafos
  * @ingroup  HCGrafo
 */
-class CGrafoConexaoSerial_M6_Tortuosidade : public CGrafoConexaoSerial_M3, public CTortuosidade {
+class CGrafoConexaoSerial_M6_Tortuosidade : public CGrafoConexaoSerial_M3, 
+public CTortuosidade {
 // --------------------------------------------------------------Atributos
 private:
      /// Usado no cálculo da tortuosidade, representa o número total de coneções entre os objetos
@@ -65,7 +66,10 @@ public:
      virtual ~ CGrafoConexaoSerial_M6_Tortuosidade () = default;
 
 // ----------------------------------------------------------------Métodos
-/** @short  : Calcula a Tortuosidade (sem necessidade calcular condutâncias).
+// Cria objeto do tipo CObjetoEsqueleto
+CObjetoRede* CriarObjeto ( ETipoObjetoGrafo tipoObjeto );
+
+	 /** @short  : Calcula a Tortuosidade (sem necessidade calcular condutâncias).
  * Chamar Go antes de chamar CalcularTortuosidade ();
 */
     virtual long double CalcularTortuosidade () override;

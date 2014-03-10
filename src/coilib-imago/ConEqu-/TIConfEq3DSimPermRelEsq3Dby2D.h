@@ -36,10 +36,10 @@
   Superclasse:  a propria
   Descri��o:    Declara a classe TIConfEq3DSimPermRelEsq3Dby2D.
   Herdeira da classe TIConfEq3DSim,
-  acrescenta nos calculos informa��es relacionadas a determina��o
+  acrescenta nos calculos informa��es relacionadas a determinação
   da permeabilidade relativa.Ou seja, use TConfiguracoesEquilibrio
   para obter as configuracoes de equilibrio (visualizacao)
-  TIConfEq3DSim para determina��o das curvas de pressao capilar
+  TIConfEq3DSim para determinação das curvas de pressao capilar
   e  TIConfEq3DSimPermRelEsq3Dby2D quando deseja ainda as curvas
   de permeabilidade relativa.
   @short	      Breve descri��o

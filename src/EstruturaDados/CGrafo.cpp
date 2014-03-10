@@ -46,13 +46,13 @@ using namespace std;
 */
 void CGrafo::Write ( std::ostream& out ) const
 {
-   out.setf ( ios::right );
+   out.setf ( ios::left );
 
    // Tipo de grafo
-   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) << '\n';
+   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 
    // Numero de objetos
-   out << setw ( 5 ) << objeto.size() << endl;
+   out << ' '<< setw ( 5 ) << objeto.size() << endl;
 
    // Percorre os objetos e salva em disco as informações de cada objeto.
    for ( auto objeto_i :  objeto ) {

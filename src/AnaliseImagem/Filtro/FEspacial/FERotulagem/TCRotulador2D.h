@@ -36,9 +36,7 @@
 #endif
 
 /**
- * @brief   Representa um objeto rotulador.
- * 
- * Descendente do CRotulador e de uma matriz 2D.
+ * @brief   Representa uma imagem 2D rotulada.  Herdeira de CRotulador e de uma TCMatriz2D.
  * Rotula imagens bidimensionais.
  * @author 	André Duarte Bueno	
  * @see		Rotulador

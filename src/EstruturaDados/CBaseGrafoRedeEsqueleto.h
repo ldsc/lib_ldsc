@@ -39,7 +39,8 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief Um CBaseGrafoRedeEsqueleto é uma classe base para as classes
- * CGrafo CRede CEsqueleto, que são representaçes para estruturas de dados.
+ * CBaseGrafoRedeEsqueleto->CGrafo CBaseGrafoRedeEsqueleto->CRede->CEsqueleto, 
+ * que são representações para estruturas de dados.
  *
  * @author André Duarte Bueno
  * @see    grafos
@@ -55,17 +56,17 @@ protected:
    /// @enum: ETipoGrafo
    // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
    enum class ETipoGrafo : uint8_t {
-      BaseGrafoRedeEsqueleto,///< representa classe base virtual
-      Grafo,                 ///< representa grafo criado por CGrafo
-      Rede,                  ///< representa rede criado por CRede
-      Rede_Contorno,        ///< representa grafo criado por CRede_Contorno
-      GrafoConexaoSerial,    ///< representa grafo criado por CGrafoConexaoSerial
-      GrafoConexaoSerial_M1, ///< representa grafo criado por CGrafoConexaoSerial_M1
-      GrafoConexaoSerial_M2, ///< representa grafo criado por CGrafoConexaoSerial_M2
-      GrafoConexaoSerial_M3, ///< representa grafo criado por CGrafoConexaoSerial_M3
-      GrafoConexaoSerial_M4, ///< representa grafo criado por CGrafoConexaoSerial_M4
-      GrafoConexaoSerial_M5, ///< representa grafo criado por CGrafoConexaoSerial_M5
-      GrafoConexaoSerial_M6  ///< representa grafo criado por CGrafoConexaoSerial_M6
+      BaseGrafoRedeEsqueleto = 101,///< representa classe base virtual
+      Grafo = 102,                 ///< representa grafo criado por CGrafo
+      Rede = 103,                  ///< representa rede  criada por CRede
+      Rede_Contorno = 104,         ///< representa rede  criada por CRede_Contorno
+      GrafoConexaoSerial =200,    ///< representa grafo criado por CGrafoConexaoSerial (é uma rede!)
+      GrafoConexaoSerial_M1 = 201, ///< representa grafo criado por CGrafoConexaoSerial_M1
+      GrafoConexaoSerial_M2 = 202, ///< representa grafo criado por CGrafoConexaoSerial_M2
+      GrafoConexaoSerial_M3 = 203, ///< representa grafo criado por CGrafoConexaoSerial_M3
+      GrafoConexaoSerial_M4 = 204, ///< representa grafo criado por CGrafoConexaoSerial_M4
+      GrafoConexaoSerial_M5 = 205, ///< representa grafo criado por CGrafoConexaoSerial_M5
+      GrafoConexaoSerial_M6 = 206  ///< representa grafo criado por CGrafoConexaoSerial_M6
    };
 
    /// Identifica o tipo de grafo, nas herdeiras deve ser definido no construtor.
@@ -107,7 +108,10 @@ protected:
    /// Deleta um objeto do grafo, considerando a posição no vetor.
    virtual bool DeletarObjeto( int i ) = 0 ;
 
-//    /// Deleta considerando o endereço do objeto.
+//    /// Deleta um conjunto de objetos (recebe vector com lista dos índices a serem deletados).
+//    virtual bool DeletarObjeto( std::vector<unsigned int> i ) = 0 ;
+
+   //    /// Deleta considerando o endereço do objeto.
 //    /// @todo: testar
 //    virtual bool DeletarObjeto( CObjetoGrafo * objeto_i )  = 0;
 
@@ -116,24 +120,21 @@ public:
 //     * @brief Função que monta o grafo, genérica.
 //    */
 //    virtual CBaseGrafoRedeEsqueleto * Go( long double, long double ) {};
-
    /**
-    * @brief Fun que salva o grafo e seus objetos em disco.
+    * @brief Função que salva o grafo e seus objetos em disco.
     */
-   void Write() {
+   void Write() const {
       std::ofstream out( NomeGrafo().c_str() );
-
       if( out.fail() )  {
             std::cerr << " Não conseguiu abrir o arquivo de disco " << nomeArquivo;
             return;
          }
-
       Write( out );
       out.close();
    }
-   
+
    /**
-    * @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.
+    * @brief Função que salva o grafo e seus objetos em disco, recebe a ostream.
     */
    virtual void Write( std::ostream & out ) const = 0;
 

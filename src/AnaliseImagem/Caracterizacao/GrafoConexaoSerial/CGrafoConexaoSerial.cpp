@@ -40,7 +40,7 @@ using namespace std;
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio.h>
 #endif
 
-#ifndef CObjetoRede_Sitio_Tipoh
+#ifndef CObjetoRede_Tipo_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Tipo.h>
 #endif
 
@@ -57,13 +57,11 @@ using namespace std;
 // -------------------------------------------------------------------------
 /** Determina o grafo lendo os planos da imagem diretamente do disco.
 O atributo plano é utilizado para armazenar no objeto criado, temporariamente,
-a informacao do plano a que pertence. Será usado para estimação
-da pressão inicial.*/
+a informação do plano a que pertence.
+O atributo plano será usado para estimação da pressão inicial.
+*/
 CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*naoUsado*/ )
 {
-   /*unsigned long */int i, j, k;
-   maiorRotuloUtilizado = 0;
-
    ifstream fin ( nomeArquivoImagem.c_str () );
 
    if ( fin.fail() ) {
@@ -77,7 +75,7 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    /*unsigned*/ int valor;
    fin >> d3 >> nx >> ny >> nz >> numeroCores;
 
-   // Criacao dos objetos ra,rp img2D
+   // Criação dos objetos ra,rp img2D
    if ( ra ) delete ra;
 
    ra = nullptr;
@@ -99,6 +97,8 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    // ------------
    // PLANO 0
    // ------------
+   maiorRotuloUtilizado = 0;
+   /*unsigned long */int i, j, k;
    // Le dados do plano 0
    plano = k = 0;
    cout << "\n plano = " << plano << flush;
@@ -119,18 +119,18 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    // Define o contorno como sendo da face WEST (plano 0)
    ETipoObjetoGrafo tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;
 
-   // Adciona ao grafo os objetos do plano 0
+   // Adciona ao grafo os objetos do plano 0 (face WEST)
    AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoObjeto );
 
    // Determina o rótulo do primeiro objeto a ser usado pelo solver.
    /// @todo: verificar retorno de ra->RotuloFinal() = último rótulo utilizado
    /// se for último rótulo utilizado precisa somar 1
    rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal (); // +1
-
+   cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
    // ------------
    // PLANO i
    // ------------
-   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
+   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio;//_CENTER;
 
    // Le dados do plano ij
    for ( k = 1; k < nz; k++ ) {
@@ -144,7 +144,7 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
                   fin >> img2D->data2D[i][j] ;
                }
 
-         // Rotula
+         // Rotula plano k
          rp->Go ( img2D );
 
          // Determina raio hidraulico
@@ -153,14 +153,15 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
          // Se for o ultimo plano, redefine o contorno e calcula rotuloUltimoObjetoPlanoN_1
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
-               rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
+               rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal (); //+1
+               cerr << "\nCompare rotuloUltimoObjetoPlanoN_1 =" << rotuloUltimoObjetoPlanoN_1 << " com dados grafo;\n";
             }
 
          // Adiciona objetos do plano ij atual
          AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoObjeto );
 
          // Estabelece os links entre os objetos
-         DeterminarConeccoesObjetos ( maiorRotuloUtilizado );
+         DeterminarConexoesObjetos ( maiorRotuloUtilizado );
 
          // Determina o maior rotulo utilizado
          maiorRotuloUtilizado = maiorRotuloUtilizado + ra->RotuloFinal ();
@@ -173,10 +174,10 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    fin.close ();
 
    cout << endl;
-   // Elimina objetos com 0 links
+   // Elimina objetos com 0 ou 1 conexão
    {
-      CTime ( "Tempo processamento função EliminarObjetosRedundantes= ", &cout );
-      EliminarObjetosRedundantes ();
+      CTime ( "Tempo processamento função EliminarRamosMortos = ", &cout );
+      EliminarRamosMortos ();
    }
 
    return this;
@@ -190,8 +191,8 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
   Copia o plano 3D para a imagem 2D,
   Realiza a rotulagem,
   AdicionarObjetos,
-  DeterminarConeccoesObjetos,
-  EliminarObjetosRedundantes.
+  DeterminarConexoesObjetos,
+  EliminarRamosMortos.
 @author :	André Duarte Bueno
 @see    :	Grafos, rotulagem
 @param  :	Uma matriz 3D e um identificador
@@ -199,18 +200,12 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
 */
 CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*naoUsado*/ )
 {
-
-   // Usados para percorrer  a imagem
-   /*unsigned long*/ int i, j, k;
-
-   // Armazena a informacao das dimensoes da imagem
+   // Armazena a informação das dimensoes da imagem
    nx = _img3D->NX ();
    ny = _img3D->NY ();
    nz = _img3D->NZ ();
 
-   maiorRotuloUtilizado = 0;
-
-   // Criacao dos objetos ra,rp img2D
+   // Criação dos objetos ra,rp img2D
    // Cria 2 objetos de rotulagem 2D
    // Rotulador para imagem anterior
    if ( ra ) delete ra;
@@ -237,6 +232,9 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
    // ------------
    // PLANO 0
    // ------------
+   // Usados para percorrer  a imagem
+   /*unsigned long*/ int i, j, k;
+   maiorRotuloUtilizado = 0;
    plano = k = 0;
    cout << "\nplano " << plano << " " << flush;
 
@@ -257,14 +255,15 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
    AdicionarObjetos ( ra, maiorRotuloUtilizado, tipoObjeto );
 
    // Determina o primeiro objeto a ser usado pelo solver
-   rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1
+   rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1!!!! aqui falta +1
+   cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
 
    // ----------------------------------------------------------------------------
    // Percorre todos os demais planos
    // ----------------------------------------------------------------------------
    // Define o tipo de contorno como sendo de objeto central
    // (não é contorno esquerdo/WEST nem direito/EST)
-   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_CENTER;
+   tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio;//_CENTER;
 
    // k é o indice da direcao z
    for ( k = 1; k < nz; k++ ) {
@@ -288,29 +287,31 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
                rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
+               cerr << "\nCompare rotuloUltimoObjetoPlanoN_1 =" << rotuloUltimoObjetoPlanoN_1 << " com dados grafo;\n";
             }
 
          // Adiciona os sítios, a lista de sítios
          AdicionarObjetos ( rp, maiorRotuloUtilizado + ra->RotuloFinal (), tipoObjeto );
 
          // Compara as imagens ra e rp definindo as conexões entre sítios
-         DeterminarConeccoesObjetos ( maiorRotuloUtilizado );
+         DeterminarConexoesObjetos ( maiorRotuloUtilizado );
 
          // Adiciona ao maiorRotuloUtilizado o número de sítios da ultima imagem rotulada.
          // Depois de determinar o relacionamento entre os objetos posso
          // atualizar o identificador do maior Rotulo utilizado.
          maiorRotuloUtilizado = maiorRotuloUtilizado + ra->RotuloFinal ();
 
-         // faz o swap dos rotuladores
+         // faz o swap dos rotuladores, rp passa a ser o ra
          swap ( ra , rp );
       }
 
    cout << endl;
 
+   // aqui? ra e rp não são mais usados; deveriam ser deletados aqui!
    // Elimina sítios com 0 links
    {
-      CTime ( "Tempo processamento função  EliminarObjetosRedundantes= ", &cout );
-      EliminarObjetosRedundantes ();
+      CTime ( "Tempo processamento função  EliminarRamosMortos= ", &cout );
+      EliminarRamosMortos ();
    }
    return this;
 }
@@ -326,33 +327,32 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
  * @return : void
 */
 void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
-                                       unsigned long int ultimoRotuloUtilizado,
-                                       ETipoObjetoGrafo tipoObjeto )
+      unsigned long int ultimoRotuloUtilizado,
+      ETipoObjetoGrafo tipoObjeto )
 {
    // Não deve considerar o objeto 0 que é o fundo;
    // inclue o rotulo final, o objeto final, ok
    for ( unsigned long int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++ ) {
-		// Código antigo
-		//// Ponteiro para objeto a ser criado
-		//CObjetoRede* data = nullptr;
-		//// Obtem um sítio novo passando o tipo
-		//data = CriarObjeto ( tipoContornoObjeto );
-		//assert ( data );
+         // Código antigo
+         //// Ponteiro para objeto a ser criado
+         //CObjetoRede* data = nullptr;
+         //// Obtem um sítio novo passando o tipo
+         //data = CriarObjeto ( tipoContornoObjeto );
+         //assert ( data );
 
          // Vai criar objeto do tipo CObjetoRede ou CObjetoRede_Tipo(passando o tipo (+rápida sem polimorfismo)).
-	     // depende do valor do flag de pré-proessamento OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+         // depende do valor do flag de pré-proessamento OTIMIZAR_VELOCIDADE_PROCESSAMENTO
          value_type_objeto* data = nullptr;
 
-         // Obtem um objeto novo passando o tipo de objeto
-         data = CriarObjeto ( tipoObjeto );
-		 assert ( data );
+         // Obtem um objeto novo passando o tipo de objeto a ser criado
+         data = CriarObjeto ( tipoObjeto ); // implementada em CRede::CriarObjeto(..)
+         assert ( data );
 
          // No rotulador o objeto 0 é o fundo, como rotulo esta iniciando em 1,
          // faço -1, para que o primeiro sitio tenha rotulo 0.
-         // Tarefa: verificar possibilidade eliminar -1; testar.
          data->rotulo = rotulo + ultimoRotuloUtilizado - 1;
 
-         // Propriedade raio hidraulico
+         // Propriedade raio hidraulico, obtida da imagem rotulada
          data->propriedade = rotulador->RaioHidraulicoObjetos ( rotulo );
 
          // Passa para x o plano atual (sera usado na estimacao de x)
@@ -363,28 +363,27 @@ void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
       }
 }
 
-
 // -----------------------------------------------------------------------------
-// Função EliminarObjetosRedundantes ()
+// Função EliminarRamosMortos ()
 // -----------------------------------------------------------------------------
-void CGrafoConexaoSerial::EliminarObjetosRedundantes ()
+void CGrafoConexaoSerial::EliminarRamosMortos ()
 {
    switch ( eliminaRamosMortos ) {
-      case 0:			// não elimina os ramos mortos.
+      case 0:   // não elimina os ramos mortos.
          break;
 
       case 1:
-         EliminarObjetosRedundantes_1 ();
+         EliminarRamosMortos_0_ou_1_conexao_v1 ();
          break;
 
       case 2:
       default:
-         EliminarObjetosRedundantes_2 ();
+         EliminarRamosMortos_0_ou_1_conexao_v2 ();
          break;
       }
 }
 // -----------------------------------------------------------------------------
-// Função EliminarObjetosRedundantes_1()
+// Função EliminarRamosMortos_0_ou_1_conexao_v1()
 // -----------------------------------------------------------------------------
 /** Elimina  sítios com 0 links;
 Percorre  todo o grafo, considerando cada plano.
@@ -394,10 +393,10 @@ Repete o procedimento num do..while até que não ocorram mais deleções.
 É lento porque percorre grafo várias vezes e usa delete(it) num vector grande!
 Observe abaixo os resultados, observe que o número de objetos do grafo reduziu de 1827 para 1709
 Comparação do tempo de processamento:
-EliminarObjetosRedundantes_1 : img 300 demorou 14min41seg
-EliminarObjetosRedundantes_2 : img 300 demorou 12seg
+EliminarRamosMortos_0_ou_1_conexao_v1 : img 300 demorou 14min41seg
+EliminarRamosMortos_0_ou_1_conexao_v2 : img 300 demorou 12seg
 
-Abaixo resultado sem a funcao EliminarObjetosRedundantes (a ordem esta Rotulo Condutancia)
+Abaixo resultado sem a funcao EliminarRamosMortos (a ordem esta Rotulo Condutancia)
 1827
    0    1   28 1.75737e+09
    0    3   28 1.75737e+09   28 1.75737e+09   28 1.75737e+09
@@ -413,7 +412,7 @@ Abaixo resultado sem a funcao EliminarObjetosRedundantes (a ordem esta Rotulo Co
    2    1 1801 2.83958e+09
    2    2 1800 1.41374e+09 1802 2.97751e+07
 
-Abaixo resultado com a funcao EliminarObjetosRedundantes (a ordem esta Rotulos Condutancias)
+Abaixo resultado com a funcao EliminarRamosMortos (a ordem esta Rotulos Condutancias)
 1709
    1    1   28 1.75737e+09
    1    3   28   28   28 1.75737e+09 1.75737e+09 1.75737e+09
@@ -427,29 +426,29 @@ Abaixo resultado com a funcao EliminarObjetosRedundantes (a ordem esta Rotulos C
    2    1 1801 2.83958e+09
    2    2 1800 1802 1.41374e+09 2.97751e+07
 */
-void CGrafoConexaoSerial::EliminarObjetosRedundantes_1 ()
+void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v1 ()
 {
    // Definição de variáveis internas
    // Ponteiro para o sitio atual (1)
-   value_type_objeto* objetoEmAnalise = nullptr;
-   // e aquele que aponta para 1 (2)
-   value_type_objeto* objetoConectado = nullptr;
-// // usado no cast duplo CObjetoGrafo->CObjetoRede->CObjetoRede_Sitio
-// CObjetoRede *objetoConectado_tipoObjetoRede = nullptr;
+   value_type_objeto* objetoEmAnalise { nullptr };
+   // e aquele para quem o objetoEmAnalise aponta (1->2)
+   value_type_objeto* objetoConectado { nullptr };
 
    // Número total de passagens realizadas
-   unsigned long int numeroPassagens = 0;
+   unsigned long int numeroPassagens { 0 };
 
-   // Numero de objetos deletados em cada passagem e numero total de objetos deletados
-   unsigned long int numeroObjetosDeletadosNestaPassagem ;
-   unsigned long int numeroTotalObjetosDeletados = 0;
+   // Número de objetos deletados nesta passagem
+   unsigned long int numeroObjetosDeletadosNestaPassagem  { 0 };
+
+   // Número total de objetos deletados
+   unsigned long int numeroTotalObjetosDeletados  { 0 };
 
    // Número de links do objeto 1 e 2
-   unsigned long int numeroLinksObjetoEmAnalise;
-   unsigned long int numeroLinksObjetoConectado;
+   unsigned long int numeroLinksObjetoEmAnalise  { 0 };
+   unsigned long int numeroLinksObjetoConectado  { 0 };
 
    // Rotulo do objeto 1 em análise
-   unsigned long int rotulo;
+   unsigned long int rotulo  { 0 };
 
    // Cria-se um vector com o rotulo dos objetos eliminados
    // permitindo a fácil identificação dos objetos que precisam,
@@ -558,7 +557,7 @@ void CGrafoConexaoSerial::EliminarObjetosRedundantes_1 ()
 }
 
 // -----------------------------------------------------------------------------
-// Função EliminarObjetosRedundantes_2()
+// Função EliminarRamosMortos_0_ou_1_conexao_v2()
 // -----------------------------------------------------------------------------
 /**
 Etapa 1)
@@ -574,7 +573,7 @@ Elimina os objetos marcados para deleção
 Etapa 5)
 Realiza uma recursão até que nenhum objeto seja deletado.
 */
-void CGrafoConexaoSerial::EliminarObjetosRedundantes_2 ()
+void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
 {
    // O numero de objetos no ultimo plano é o numero total de objetos
    // menos o indice do ultimo objeto do solver
@@ -598,7 +597,7 @@ void CGrafoConexaoSerial::EliminarObjetosRedundantes_2 ()
 
          // ------------------------------------------------
          // Percorrer todos os objetos e marcar para deleção cada link invalidado
-       //  value_type_objeto* obj = nullptr;
+         //  value_type_objeto* obj = nullptr;
 
          for ( int i = 0; i < objeto.size (); i++ ) {
 //                obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
@@ -715,6 +714,7 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
                   }
             }
       }
+
    return 1;
 }
 
@@ -872,6 +872,36 @@ bool CGrafoConexaoSerial::SalvarVetorPropriedades_x ()
 
    return 1;
 }
+
+// -------------------------------------------------------------------------
+// Função:   EliminarConexoesParalelo_SomarCondutancias
+// -------------------------------------------------------------------------
+/** @short  : Percorre todos os objetos e elimina conexões repetidas (deve ser chamada depois do
+ * calculo das condutâncias, pois soma as condutâncias das conexões repetidas.
+ * se chamar antes, vai acumular o raio hidraulico)
+ * Chama função de cada sítio, que elimina links repetidos.
+ * @author : André Duarte Bueno
+ * @see    : Condutância
+ * @param  : nada
+ * @return : void
+*/
+void
+CGrafoConexaoSerial::EliminarConexoesParalelo_SomarCondutancias ()
+{
+   CTime ( "Tempo processamento função EliminarConexoesParalelo_SomarCondutancias  = ", &cout );
+   unsigned long int totalConexoesParalelo = 0;
+   unsigned long int ConexoesParaleloObjeto_i = 0;
+   // Percorre todos os objetos do grafo
+   if ( deletaConexoesParalelo  == true )
+      for ( auto objeto_i :  objeto ) {
+            // Chama DeletarConexoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
+            ConexoesParaleloObjeto_i = objeto_i->DeletarConexoesRepetidas_e_SomarCondutanciasParalelo ();
+            totalConexoesParalelo += ConexoesParaleloObjeto_i ;
+cout << "\nNúmero total de ConexoesParaleloObjeto_i = " << ConexoesParaleloObjeto_i << '\n';
+         }
+cout << "\nNumeroTotal de conexões em paralelo deletadas = " << totalConexoesParalelo << endl;
+}
+
 
 // -------------------------------------------------------------------------
 // Função:               SetarMatrizAVetorB

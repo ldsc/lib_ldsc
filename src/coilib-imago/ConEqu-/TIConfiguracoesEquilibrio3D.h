@@ -56,7 +56,7 @@ Assunto:        Configuracoes Equilibrio 3D
 Superclasse:    TIConfiguracoesEquilibrio3D
 Descri��o:
 @short	     	Declara a classe TIConfiguracoesEquilibrio3D.
-                Cont�m atributos � m�todos necess�rios para a determina��o das
+                Cont�m atributos � m�todos necess�rios para a determinação das
                 configura��es de equilibrio.
 
                 Use TConfiguracoesEquilibrio para obter as configuracoes de
@@ -66,7 +66,7 @@ Descri��o:
                 a permeabilidade relativa
 
 PS:
-A determina��o da permeabilidade relativa deve ser realizada por um objeto
+A determinação da permeabilidade relativa deve ser realizada por um objeto
 PermeabilidadeRelativa
 	No contrutor:
    Cria um objeto confEq (ou recebe um)
@@ -88,7 +88,7 @@ private:
     //Listas de p�xeis
     //Lista dos pixeis que compoem a imagem da camara molhante e N�o molhante
     IListPixelRotuled * LPWChamber;
-    //usada para determina��o das conectividades
+    //usada para determinação das conectividades
     IListPixelRotuled *LPNWChamber;
 
     //Objetos fluidos reais

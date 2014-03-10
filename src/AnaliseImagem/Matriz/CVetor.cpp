@@ -111,7 +111,7 @@ Funcao:  Construtor
 -------------------------------------------------------------------------
 @short  :Constroe objeto a partir de arquivo de disco
 Chama classe base, já chama a funcao que le o Vetor do disco.
-A informacao da dimensao  é o	primeiro elemento do arquivo de disco.
+A informação da dimensao  é o	primeiro elemento do arquivo de disco.
 Se dim=1 vetor, se dim=2 matriz, se dim=3 matriz 3D.
 @author :Andre Duarte Bueno
 @see    :

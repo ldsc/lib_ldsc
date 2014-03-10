@@ -41,39 +41,35 @@
 void
 CRotulador2DCm::CentroMassaObjetos ()
 {
-  // Precisa determinar a área dos objetos                                
-  // se já calculado calcula novamente                      
-  CalculaAreaObjetos ();
+   // Precisa determinar a área dos objetos
+   // se já calculado calcula novamente
+   CalculaAreaObjetos ();
 
-  // Só procede o calculo se a matriz rótulo foi determinada
-  if (rotulado)
-    {
-      // CALCULO DO CENTRO DE MASSA NAS DIRECOES X e Y
-      cmx.reserve (numeroObjetos);
-      cmy.reserve (numeroObjetos);
+   // Só procede o calculo se a matriz rótulo foi determinada
+   if ( rotulado ) {
+         // CALCULO DO CENTRO DE MASSA NAS DIRECOES X e Y
+         cmx.reserve ( numeroObjetos );
+         cmy.reserve ( numeroObjetos );
 
-      // Zera o centro de  massa
-      for (int i = 0; i < numeroObjetos; i++)
-	{
-	  cmx[i] = 0;
-	  cmy[i] = 0;
-	}
+         // Zera o centro de  massa
+         for ( int i = 0; i < numeroObjetos; i++ ) {
+               cmx[i] = 0;
+               cmy[i] = 0;
+            }
 
-      // Acumula os valores
-      for (int i = 0; i < NX (); i++)
-	for (int j = 0; j < NY (); j++)
-	  {
-	    cmx[data2D[i][j]] += i;
-	    cmy[data2D[i][j]] += j;
-	  }
+         // Acumula os valores
+         for ( int i = 0; i < NX (); i++ )
+            for ( int j = 0; j < NY (); j++ ) {
+                  cmx[data2D[i][j]] += i;
+                  cmy[data2D[i][j]] += j;
+               }
 
-      // Calcula o centro de massa     
-      for (long int no = 0; no < numeroObjetos; no++)
-	{
-	  cmx[no] = cmx[no] / (double) areaObjetos->data1D[no];
-	  cmy[no] = cmy[no] / (double) areaObjetos->data1D[no];
-	}
-    }				// if(rotulado)
+         // Calcula o centro de massa
+         for ( long int no = 0; no < numeroObjetos; no++ ) {
+               cmx[no] = cmx[no] / ( double ) areaObjetos->data1D[no];
+               cmy[no] = cmy[no] / ( double ) areaObjetos->data1D[no];
+            }
+      }				// if(rotulado)
 }
 
 /*
@@ -87,7 +83,7 @@ CRotulador2DCm::CentroMassaObjetos ()
   // CALCULO DO CENTRO DE MASSA NAS DIRECOES X e Y
   if ( cmx )		// Cria vetor com os centros de massa em x
   delete cmx;
-  cmx = new CVetor (numeroObjetos);  		
+  cmx = new CVetor (numeroObjetos);
   assert( cmx );
 
   if( cmy )		// Cria vetor com os centros de massa em y
@@ -106,12 +102,12 @@ CRotulador2DCm::CentroMassaObjetos ()
   {
   cmx->data1D[ data2D[i][j] ] += i ;			// Acumula os valores das posicoes i
   cmy->data1D[ data2D[i][j] ] += j ;			// Acumula os valores das posicoes i
-  }	
+  }
 
   for(  long int no = 0 ; no < numeroObjetos ; no++)
   {
-  cmx->data1D[ no ] = 1000000.0* (double) cmx->data1D[ no ] / (double) areaObjetos->data1D[ no ];	
-  cmy->data1D[ no ] = 1000000.0* (double) cmy->data1D[ no ] / (double) areaObjetos->data1D[ no ];	
+  cmx->data1D[ no ] = 1000000.0* (double) cmx->data1D[ no ] / (double) areaObjetos->data1D[ no ];
+  cmy->data1D[ no ] = 1000000.0* (double) cmy->data1D[ no ] / (double) areaObjetos->data1D[ no ];
   }
   }// if( cmxObjetos && cmyObjetos)
   }// if(rotulado)
@@ -130,11 +126,12 @@ CRotulador2DCm::CentroMassaObjetos ()
   @return :
 */
 double
-CRotulador2DCm::CMXObjeto (int k) const 
+CRotulador2DCm::CMXObjeto ( int k ) const
 {
-  if (k < (numeroObjetos))
-    return cmx[k];
-  return 0.0;
+   if ( k < ( numeroObjetos ) )
+      return cmx[k];
+
+   return 0.0;
 };
 
 /*
@@ -158,11 +155,12 @@ CRotulador2DCm::CMXObjeto (int k) const
   @return :
 */
 double
-CRotulador2DCm::CMYObjeto (int k) const 
+CRotulador2DCm::CMYObjeto ( int k ) const
 {
-  if (k < (numeroObjetos))
-    return cmy[k];
-  return 0.0;
+   if ( k < ( numeroObjetos ) )
+      return cmy[k];
+
+   return 0.0;
 };
 
 /*

@@ -1,0 +1,97 @@
+===============================================================================
+NDSC
+===============================================================================
+Nome deste arquivo: 	TODO-NDSC
+Conteudo:		Lista das tarefas a serem realizadas pelo grupo NDSC.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Organizacao NDSC -> LDSC
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Específico Servidores]
+=======================================
+Objetivo: Montar servidores onde ficarão dados compartilhados.
+Objetivo: Montar servidores para desenvolvimento simulações pesadas.
+
+[Específico Documentação]
+=======================================
+Objetivo: Criar repositórios com informações compartilhadas.
+[ ] - Configurar servidor para núcleo rede científica (grupo ldsc).
+[ ] - Sites
+[ ] - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
+[ ] - Baixar wget -r http://cppreference.com
+
+[ ] - Montra estrutura diretórios uniforme (site cnpq/livros)
+[x] - Montar resumo C++11
+[x] - Montar resumo Git
+[ ] - Cópia livro C++ Bueno
+[ ] - Cópia material baixado internet 
+
+[Específico Padrão de Desenvolvimento]
+=======================================
+[ ] - Definir fluxo de trabalho (passo a passo para montagem nova feature).
+Ver diagrama sala Bueno.
+[ ] - Definir ferramentas de apoio: git, IDE,..
+[ ] - Definir bibliotecas: C++11,  boost, ...
+
+[Específico Ambiente Desenvolvimento]
+=======================================
+Objetivo: Estudar ambientes desenvolvimento QT-designer e Kdevelop.
+[] - Estudar QT-designer; montar apresentação com comparação.
+[] - Estudar kdevelop; montar apresentação com comparação.
+[] - Selecionar o mais prático.
+
+[Específico Softwares Apoio]
+=======================================
+Objetivo: manter atualizados os softwares de apoio, anote abaixo a versão mais atual em que o 
+sistema foi gerado corretamente:
+[1.8.3] - doxygen (versão do arquivo doxyfile).
+[20]    - fedora (versão do sistema operacional).
+[4.8.2] - g++ (versão do compilador da gnu).
+[5.1]   - qt (versão do QT).
+
+[Específico Bibliotecas]
+=======================================
+Objetivo: selecionar bibliotecas que sejam:
+- OO em C++ 
+- bem montadas/organizadas
+- fáceis de usar 
+- rápidas
+- e que estejam sendo constantemente atualizadas.
+[ ] - Verificar bibliotecas de Boost relacionadas a métodos numéricos.
+[ ] - Verificar bibliotecas da GNU relacionadas a métodos numéricos.
+[ ] - Selecionar biblioteca específica para suporte a parte das necessidades de métodos numéricos.
+[ ] - Analisar em detalhes a magick++.
+[ ] - Adotar parte de magick++ para processamento de imagens?
+[ ] - Pensar em como vai ser a relacao com qt (a ideia é que a lib seja independente de qt)
+[ ] - Criar métodos InputDialog() ? para leitura dos atributos da classe?
+
+[Específico Atualização Conhecimentos]
+=======================================
+[ ] - Ler livros sobre padroes para desenvolvimento (nomes classes/atributos/métodos)...
+[ ] - Ler livros sobre UML2
+[ ] - Ler livros sobre C++11
+[ ] - Ler livros sobre Boost
+[ ] - Ler livros sobre Padroes de projeto
+[ ] - Ler livros sobre outras bibliotecas específicas aos problemas efetivamente usados
+
+[Específico Otimizacao]
+============================================
+[ ] - Aprender a usar gprof.
+[ ] - Aprender a usar Valgrind; ver integração com QT-designer e kdevelop.
+[ ] - Fazer analise de desempenho e consumo de memória.
+[ ] - Eliminar dependencia de commonC++.
+[ ] - Eliminar dependencia de openMP.
+[ ] - usar thread do novo padrão de C++11.
+
+[Específico uniformizacao código]
+============================================
+[ ] - Estudar a implementação de sobrecargas virtuais usando:
+obj >> os;
+obj << is;
+Como os é externo,  sempre tenho de implementar como função membro, 
+a ideia é inverter a ordem de chamada.
+No caso da biblioteca de Grafos cada classe tem método Write
+e a sobrecarga do operador chama Write que é virtual.
+

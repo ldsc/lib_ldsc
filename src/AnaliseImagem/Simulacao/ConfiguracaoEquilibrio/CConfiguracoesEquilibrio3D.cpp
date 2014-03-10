@@ -354,7 +354,8 @@ void CConfiguracoesEquilibrio3D::SolucaoOmega (int &indiceRegiaoB, TCMatriz3D<in
 }
 
 /** Metodo que determina a  CorrecaocaxYi
-  Determinacao da região Yi (ca=1)
+  Determinação
+ da região Yi (ca=1)
  Aqui ja tenho a solução da região OMEGA,se ca=1 imcompressivel, precisa considerar ca*Yi
  Aqui a camara tem a solucao para Omega no instante de tempo atual,
  A imagem tem a solucao no instante anterior

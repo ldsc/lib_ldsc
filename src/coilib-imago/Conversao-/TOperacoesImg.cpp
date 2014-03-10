@@ -623,7 +623,7 @@ Fun��o:
 */
 //-------------------------------------------------------------------------------
 //Fun��o que determina o numero de pixeis em uma imagem 3D
-//usada para determina��o da porosidade da imagem
+//usada para determinação da porosidade da imagem
 uint32
 TOperacoesImg::GetNumberOfPixelsActived (I3DRawImage * imgBinaria)
 {

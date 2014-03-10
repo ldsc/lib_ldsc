@@ -72,10 +72,10 @@ bool CPermeabilidadeRelativa::Go ( TCImagem3D<int> *imagem3D ) {
 	imagemB->FatorAmplificacao( imagem3D->FatorAmplificacao() );
 	imagemA->NumeroPixelsBorda( imagem3D->NumeroPixelsBorda() );
 	imagemB->NumeroPixelsBorda( imagem3D->NumeroPixelsBorda() );
-	imagemA->SizePixel( imagem3D->SizePixel() );
-	imagemB->SizePixel( imagem3D->SizePixel() );
+	imagemA->DimensaoPixel( imagem3D->DimensaoPixel() );
+	imagemB->DimensaoPixel( imagem3D->DimensaoPixel() );
 
-	return Go( dynamic_cast< TCMatriz3D<int> *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda());
+	return Go( dynamic_cast< TCMatriz3D<int> *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda());
 }
 
 bool CPermeabilidadeRelativa::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {

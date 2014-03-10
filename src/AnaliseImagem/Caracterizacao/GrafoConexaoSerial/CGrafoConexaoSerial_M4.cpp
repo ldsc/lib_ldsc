@@ -202,18 +202,11 @@ void CGrafoConexaoSerial_M4::CalcularCondutancias ( long double _viscosidade,
 // Salva adicionalmente a informação dos centros de massa
 void CGrafoConexaoSerial_M4::Write ( std::ostream & out ) const
 {
-   out.setf ( ios::right );
-
-   // Numero de objetos
-   out << setw ( 5 ) << objeto.size () << endl;
-
-   // Percorre os objetos e salva em disco as informações de cada objeto
-   for ( unsigned long int i = 0; i < objeto.size (); i++ )
-      objeto[i]->Write ( out ); // não coloca mais o endl
-
+  CGrafoConexaoSerial::Write( out );
+  
    // Adiciona informação do centro de massa (cmz sempre == 1)
    for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
-         out << ' ' << setw ( 5 ) << cmx[k] << ' ' << cmy[k] << ' ' << cmz[k];
+         out << ' ' << setw ( 5 ) << cmx[k] << ' ' << cmy[k] << ' ' << cmz[k] << '\n';
       }
 }
 

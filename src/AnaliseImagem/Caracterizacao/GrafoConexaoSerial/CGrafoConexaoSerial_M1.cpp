@@ -31,18 +31,19 @@ Desenvolvido por:
 using namespace std;
 
 /**
--------------------------------------------------------------------------
-Função:   DeterminarConeccoesObjetos
--------------------------------------------------------------------------
-@short  : DeterminarConeccoesObjetos entre planos consecutivos.
-          Nesta versão compara-se diretamente os planos bidimensionais
-          rotulados (ra e rp).
-          A comparação é feita píxel a pixel,
-          de forma que duas regiões conexas vão gerar tantas conexões
-          quanto forem o número de píxeis da intersecção das duas regioes.
-          Ou seja se a região_A do plano ra tiver 5 píxeis conectados
-          a região_B do plano rp
-          vai criar 5 links entre os objetos.
+ * -------------------------------------------------------------------------
+ * Função:   DeterminarConexoesObjetos
+ * -------------------------------------------------------------------------
+ * @short  : DeterminarConexoesObjetos entre planos consecutivos.
+ *          Nesta versão compara-se diretamente os planos bidimensionais rotulados (ra e rp).
+ *          A comparação é feita píxel a pixel, de forma que duas regiões conexas vão gerar 
+ *          tantas conexões quantos forem o número de píxeis da intersecção das duas regioes.
+ *          Ou seja se a região_A do plano ra tiver 5 píxeis conectados a região_B do plano rp
+ *          vai criar 5 links entre os objetos.
+ * Ex: * indica sítio; | indica ligação entre sítios; note diversas conexões em paralelo.
+ * --------------************-----*****-------**************---------***********
+ * --------------||||||||||||-------|||-------||||||||||||-----------|||||||||
+ * --------------************-------*****---**************---------***********--
 @author :	André Duarte Bueno
 @see    : grafos
 @param  : Rótulo do maior rótulo já utilizado no grafo
@@ -51,38 +52,41 @@ Função:   DeterminarConeccoesObjetos
 */
 void
 CGrafoConexaoSerial_M1::
-DeterminarConeccoesObjetos (unsigned long int maiorRotuloUtilizado)
+DeterminarConexoesObjetos (unsigned long int maiorRotuloUtilizado)
 {
-  // Variáveis auxiliares (rotulos dos planos ra e rp)
-  unsigned long int pa, pp;
+  // Variáveis auxiliares 
+  unsigned long int rpa; // rótulo do píxel[i,j] no plano ra
+  unsigned long int rpp; // rótulo do píxel[i,j] no plano rp
 
   // Percorre os planos de rotulagem
   for (unsigned long int i = 0; i < ra->NX (); i++)
     for (unsigned long int j = 0; j < ra->NY (); j++)
       {
-		// Armazena o rotulo dos objetos
-		pa = ra->data2D[i][j];
-		pp = rp->data2D[i][j];
+		// Armazena o rótulo dos objetos
+		rpa = ra->data2D[i][j];
+		rpp = rp->data2D[i][j];
 
 		// Verifica se estão conectados (ambos > 0)
-		if (pa && pp)
+		if (rpa && rpp)
 		  {
 			// No plano ra, soma o maiorRotuloUtilizado
-			pa += maiorRotuloUtilizado;
+			rpa += maiorRotuloUtilizado;
 
 			// No plano rp, soma o maiorRotuloUtilizado + ra->RotuloFinal()
-			pp += maiorRotuloUtilizado + ra->RotuloFinal ();
+			rpp += maiorRotuloUtilizado + ra->RotuloFinal ();
 
 			// Cada sítio tem uma lista das conexões
 			// Adiciona nos dois sítios a informação do link
 			// ou seja, conecta os sítios.
-			// PS: pa-1 porque o sítio de rótulo 1 esta na posição [0]
+			// PS: rpa-1 porque o sítio de rótulo 1 esta na posição [0]
 
-			// Informa pa-1 que esta conectado a pp-1
-			objeto[pa - 1]->Conectar (objeto[pp - 1]);
+			// Informa rpa-1 que esta conectado a rpp-1
+			// note que já poderia passar o valor da condutância aqui; mas tem de mudar outras coisas!
+			objeto[rpa - 1]->Conectar (objeto[rpp - 1]); 
 
-			// Informa pp-1 que esta conectado a pa-1
-			objeto[pp - 1]->Conectar (objeto[pa - 1]);
+			// Informa rpp-1 que esta conectado a rpa-1
+			// note que já poderia passar o valor da condutância aqui; mas tem de mudar outras coisas!
+			objeto[rpp - 1]->Conectar (objeto[rpa - 1]);
 		  }
       }
 }
@@ -104,7 +108,7 @@ Função:   CalcularCondutancias
 void
 CGrafoConexaoSerial_M1::CalcularCondutancias (long double _viscosidade,
 				       long double _dimensaoPixel,
-				       unsigned long int _fatorAmplificacao) 
+				       unsigned long int _fatorAmplificacao)
 {
   // Variáveis auxiliares
   long double raio_hidraulico;
@@ -112,17 +116,17 @@ CGrafoConexaoSerial_M1::CalcularCondutancias (long double _viscosidade,
   long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
 
   // long double PI=3.141592653589;
-  long double variavelAuxiliar =
-    (CMath::PI) / (128.0 * _viscosidade * dimensaoPixelXfatorAmplificacao);
+  long double variavelAuxiliar = (CMath::PI) / (128.0 * _viscosidade * dimensaoPixelXfatorAmplificacao);
 
   // Percorre  todos os objetos do  grafo
   raio_hidraulico = 0.25 * dimensaoPixelXfatorAmplificacao;
-  dH = 4.0 * raio_hidraulico;
+  dH =  raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
   long double condutanciaDoPixel = variavelAuxiliar * dH * dH * dH * dH;
 
   for (unsigned long int k = 0; k < objeto.size (); k++)
     {
       objeto[k]->propriedade = condutanciaDoPixel;
     }
+
   return;
 }

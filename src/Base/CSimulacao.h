@@ -92,7 +92,7 @@ class CSimulacao
 		virtual void DefinirCondicoesContorno () = 0;
 
 		/** Define valores iniciais */
-		virtual void DefinirValoresIniciais () = 0;
+		virtual void DefinirCondicoesIniciais () = 0;
 
 		/** Resolve o sistema de equações */
 		virtual void SolucaoSistemaEquacoes () = 0;
@@ -103,7 +103,7 @@ class CSimulacao
 		virtual bool SolucaoSistema () {
 			CriarObjetosAgregados ();
 			DefinirCondicoesContorno ();
-			DefinirValoresIniciais ();
+			DefinirCondicoesIniciais ();
 			SolucaoSistemaEquacoes ();
 			sistemaResolvido = true;
 			return 1 ;

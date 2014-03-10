@@ -96,7 +96,7 @@ protected:
     }
 
     /// Define valores iniciais
-    virtual void DefinirValoresIniciais ()
+    virtual void DefinirCondicoesIniciais ()
     {
     }
 

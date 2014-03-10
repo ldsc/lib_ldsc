@@ -77,7 +77,7 @@ TICChamber::Draw (I3DRawImage * &imgBinaria, uint32 & cIndex)
             piimgBinaria->Set (cPaintBrush);
 }
 
-//Desenha o meio poroso em si, verificando a informacao na imagem prototipo
+//Desenha o meio poroso em si, verificando a informação na imagem prototipo
 //Observe que n�o precisa receber a imagem do meio poroso, visto que
 //a imagem prototipo j� cont�m a informa��o do meio poroso
 //Recebe a mesma por compatibilidade com a classe base.

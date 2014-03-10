@@ -47,9 +47,13 @@ Desenvolvido por:
  * @brief  Representa um objeto de uma rede é herdeiro de CObjetoGrafo e CSMParametroSolver.
  * Tem um rótulo (herdado de CObjetoGrafo) e uma propriedade x (herdada de CParametroSolver).
  * Acrescenta um long double propriedade, um vetor conexao e um vetor condutancia.
- * Adiciona: nova Conectar que conecta CObjetoRede*.
+ * Adiciona: novas funções Conectar que conectam objetos do tipo CObjetoRede*.
+ * Sobrescreve: DeletarConexao(), DeletarConexoesInvalidadas(), Write(), 
  * DeletarConexoesRepetidas_e_SomarCondutanciasParalelo().
- * Sobrescreve: DeletarConexao(), DeletarConexoesInvalidadas(), Write().
+ * 
+ * Nota importante: o modelo de cálculo das condutâncias (ex: Poiselle ou Koplic ou...)
+ * e o cálculo das condutâncias é feito na hierarquia de CGrafo.
+ * Ou seja, os objetos da rede não sabem qual modelo foi usado para cálculo da condutância.
  *
  * @author:  André Duarte Bueno
  * @see:     grafos
@@ -85,28 +89,59 @@ public:
 
 // ----------------------------------------------------------------Métodos
    /**
-     * @brief Função nova que recebe um ponteiro para um CObjetoRede,
-     * e o inclue na lista de conexões. Lista dos objetos a quem estou conectado.
+    * @brief Função que recebe um ponteiro para um CObjetoRede objA e o inclue na lista de conexões.
+    * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
     * Note que oculta versão que recebe CObjetoGrafo.
    */
-   virtual void Conectar ( CObjetoRede* objA, CObjetoRede* objB = nullptr );
+   virtual void Conectar ( CObjetoRede* objA );
 
    /**
-     * @brief Função nova que recebe um ponteiro para um CObjetoRede,
-     * e o inclue na lista de conexões.
-	 * O segundo parâmetro é a condutância entre this e o objA.
+   	* @brief Função que recebe um ponteiro para um CObjetoRede objA e o inclue na lista de conexões.
+    * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
+	* A condutância entre this e o objA é o segundo parâmetro (a condutância calculada externamente).
    */
    virtual void Conectar ( CObjetoRede* objA, long double _condutancia );
+
+    /*
+	 * @brief Função que recebe um ponteiro para um CObjetoRede objA e um ponteiro para um objeto B
+	 * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
+    * Faz a conexão de this com os objetos recebidos.
+    * Note que oculta versão que recebe CObjetoGrafo.
+    * Note que como não recebe a condutância, vai fazer a condutancia igual a
+    * propriedade do objeto ao qual estou conectado:
+	* conexao[i] = objA;
+	* condutancia[i] = objA.propriedade;
+   */
+   /*inline */virtual void Conectar ( CObjetoRede* objA, CObjetoRede* objB ) ;
+
+    /*
+	 * @brief Função que recebe um ponteiro para um CObjetoRede objA e um ponteiro para um objeto B
+	 * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
+    * Faz a conexão de this com os objetos recebidos.
+    * Note que oculta versão que recebe CObjetoGrafo.
+    * Note que como não recebe a condutância, vai fazer a condutancia igual a
+    * propriedade do objeto ao qual estou conectado:
+	* conexao[i] = objA;
+	* condutancia[i] = _condutanciaA;
+   */
+   /*inline */virtual void Conectar ( CObjetoRede* objA, long double _condutanciaA , 
+									  CObjetoRede* objB , long double _condutanciaB );
 
    /// Deleta uma conexão.
    /*inline*/ virtual void DeletarConexao ( unsigned int pos ) override ;
 
+/** 
+  @short  : Recebe um vetor com o índice das conexões a serem deletadas.
+  (Deleta várias conexões ao mesmo tempo).
+*/
+virtual void DeletarConexao ( std::vector<unsigned int> di );
+
    /**
-    * @brief Deleta as conexões para objetos que foram marcados para deleção.
-    * Recebe um número que identifica os objetos que foram marcados
-    * para deleção, se o rótulo dos objetos conectados é igual a deletado a conexão é eliminada.
-    * NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
-    */
+       * @brief Deleta as conexões para objetos que foram marcados para deleção.
+       * Recebe um número que identifica os objetos que foram marcados
+       * para deleção, se o rótulo dos objetos conectados é igual a deletado a conexão é eliminada.
+       * NOTA: mesmo código de CObjetoGrafo_1VetorConexoes
+       */
    /*inline*/ virtual bool DeletarConexoesInvalidadas ( unsigned int deletado ) override ;
 
    /// Deleta as conexões repetidas, retorna o número de conexões deletadas.

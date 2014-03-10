@@ -104,8 +104,8 @@ long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> *
 	cout << "\nsolver->LimiteErro() = " << solver->LimiteErro();
 	
 	 cout << "\n\nperm->FatorAmplificacao() = " << perm->FatorAmplificacao();
-	 cout << "\nperm->SizePixel() = " << perm->SizePixel();
-	 cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetnumeroPixelsBorda() << endl;
+	 cout << "\nperm->DimensaoPixel() = " << perm->DimensaoPixel();
+	 cout << "\nperm->NumeroPixelsBorda() = " << perm->NumeroPixelsBorda() << endl;
 	
 	
 	cout << "Calculando grafo->Go( matriz3D )...." << endl;
@@ -135,7 +135,7 @@ long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long dou
 	matriz3D = dynamic_cast< TCMatriz3D<int> *>(imagem3D);
 	if ( ! matriz3D)
 		return 0.0;
-	return Go( matriz3D, imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda(), fatorRelaxacao);
+	return Go( matriz3D, imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda(), fatorRelaxacao);
 }
 
 long double CPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {

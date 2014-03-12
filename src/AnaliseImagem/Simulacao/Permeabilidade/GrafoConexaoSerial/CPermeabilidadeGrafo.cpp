@@ -17,11 +17,8 @@ email:            andreduartebueno@gmail.com
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <cassert>
-
 #include <cmath>
-
 #include <fstream>
-
 #include <iomanip>
 
 // -----------------------------------------------------------------------
@@ -29,21 +26,10 @@ email:            andreduartebueno@gmail.com
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
 
-#ifndef CSMDSOR_h
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
-#endif
-
-#ifndef CGrafoContorno_h
-#include <Grafo/CGrafoContorno.h>
-#endif
-
-#ifndef CContorno_h
-#include <Contorno/CContorno.h>
-#endif
-
-#ifndef CContornoCentro_h
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
+#include <MetNum/Contorno/CContorno.h>
 #include <MetNum/Contorno/CContornoCentro.h>
-#endif
 
 using namespace std;
 
@@ -54,19 +40,19 @@ using namespace std;
 @short  : Construtor da classe CPermeabilidadeGrafo
 @author : Andre Duarte Bueno
 @see    : Construtores
-@param  : objetos fluido,solver,grafo, nx,ny,nz,
-		fator amplificacao,	tamanhoDoPixel, numeroDePixeisDaBorda
+@param  : objetos fluido,solver,grafo, nx,ny,nz, fator amplificacao, tamanhoDoPixel, numeroDePixeisDaBorda
 @return : nada
 */
-CPermeabilidadeGrafo::CPermeabilidadeGrafo (	CMFluido * &_fluido, 
-																							CSMDiagonalDominante *& _solver,
-																							CGra3Dby2D *& _grafo,
-																							unsigned long int _nx,
-																							unsigned long int _ny,
-																							unsigned long int _nz,
-																							unsigned long int _fatorAmplificacao,
-																							long double _sizePixel,
-																							unsigned long int _numeroPixelsBorda )
+CPermeabilidadeGrafo::CPermeabilidadeGrafo (
+		CMFluido * &_fluido,
+		CSMDiagonalDominante *& _solver,
+		CGra3Dby2D *& _grafo,
+		unsigned long int _nx,
+		unsigned long int _ny,
+		unsigned long int _nz,
+		unsigned long int _fatorAmplificacao,
+		long double _sizePixel,
+		unsigned long int _numeroPixelsBorda )
 	:
 		fluido (_fluido),
 		solver (_solver),

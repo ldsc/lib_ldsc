@@ -83,8 +83,8 @@ class CPermeabilidadeRede : public CPermeabilidade
 				unsigned int _nx,
 				unsigned int _ny,
 				unsigned int _nz,
-				unsigned int _fatorAmplificacao,
-				long double _sizePixel,
+				unsigned int _fatorAmplificacao = 1,
+				long double _sizePixel = 1.0,
 				unsigned int _numeroPixelsBorda = 0
 		);
 

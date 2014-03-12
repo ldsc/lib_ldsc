@@ -22,8 +22,12 @@ CPermeabilidadeRede::CPermeabilidadeRede (
 		long double _sizePixel,
 		unsigned int _numeroPixelsBorda
 	) :
-		fluido (_fluido), solver (_solver), rede (_rede),
-		nx (_nx), ny (_ny), nz (_nz),
+		fluido (_fluido),
+		solver (_solver),
+		rede (_rede),
+		nx (_nx),
+		ny (_ny),
+		nz (_nz),
 		fatorAmplificacao (_fatorAmplificacao),
 		sizePixel (_sizePixel),
 		numeroPixelsBorda (_numeroPixelsBorda),
@@ -75,7 +79,7 @@ void CPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	long double pressao_face_esquerda = 1.0;
 	long double pressao_face_direita = 0.0;
 
-	// Criando contorno esquerdo
+	// Criando contorno esquerdo = 0;
 	CContorno *contorno_esquerdo = new CContorno ();
 	assert (contorno_esquerdo);
 	rede->contorno.push_back (contorno_esquerdo);
@@ -94,7 +98,7 @@ void CPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	unsigned long int ultimoObjeto = rede->matrizObjetos.size() - 1;
 
 	// determina o valor de pmax
-	long double pmax = (rede->matrizObjetos[ultimoObjeto].pontoCentral.x);
+	long double pmax = (rede->matrizObjetos[ultimoObjeto].x);
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pmax;
@@ -112,26 +116,27 @@ void CPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	*contorno_direito = pressao_face_direita;
 }
 
-// DefinicaoValoresIniciais
-void CPermeabilidadeRede::DefinicaoValoresIniciais ()
-{
+// Definicao de Valores Iniciais
+void CPermeabilidadeRede::DefinicaoValoresIniciais () {
 	// Para todos os objetos do rede associa valores iniciais de pressão
 	unsigned long int numeroObjetos = rede->matrizObjetos.size();
 
 	// Percorre todos os objetos do rede, de define valores iniciais de x (pressão)
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
-	for (unsigned long int k = 0; k < numeroObjetos; k++) {
+	for (unsigned long int k = 0; k < numeroObjetos; ++k) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (rede->matrizObjetos[k].Contorno() == CContorno::CENTER)	// 1
-			rede->matrizObjetos[k].pontoCentral.x = rede->contorno[1]->Go(rede->matrizObjetos[k].pontoCentral.x);
-		else if (rede->matrizObjetos[k].Contorno () == CContorno::WEST) // Se contorno=CContorno::WEST  objeto esta na esquerda	// 0
-			rede->matrizObjetos[k].pontoCentral.x = (*(rede->contorno[0]));
-		else // Se contorno=CContorno::EST objeto esta na direita	// 2
-			rede->matrizObjetos[k].pontoCentral.x = (*(rede->contorno[2]));
+			rede->matrizObjetos[k].x = rede->contorno[1]->Go(rede->matrizObjetos[k].x);
+		// Se contorno=CContorno::WEST  objeto esta na esquerda	// 0
+		else if (rede->matrizObjetos[k].Contorno () == CContorno::WEST)
+			rede->matrizObjetos[k].x = (*(rede->contorno[0]));
+		// Se contorno=CContorno::EST objeto esta na direita	// 2
+		else
+			rede->matrizObjetos[k].x = (*(rede->contorno[2]));
 	}
 
 	// Transforma as propriedades raioHidraulico em condutancias
-	// o calculo das condutancias agora é realizado no proprio rede
+	// o calculo das condutancias agora é realizado na propria rede
 	//rede->CalculoCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
 
 	// No rede ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
@@ -151,32 +156,22 @@ void CPermeabilidadeRede::DefinicaoValoresIniciais ()
 	iteracoes = 1;
 }
 
-// -------------------------------------------------------------------------
-// Funcao:  SolucaoSistemaEquacoes()
-// -------------------------------------------------------------------------
-/**
-@short  : Definição SolucaoSistema
-@author : Andre Duarte Bueno
-@see    :
-@param  : nada
-@return : void
-*/
+// Solucao do Sistema de Equações
 void CPermeabilidadeRede::SolucaoSistemaEquacoes ()
-{ /*
-	// Pega ponteiro para vetor do tipo CSMParametroSolver*
-	vector < CSMParametroSolver * >*ptr_obj = (vector < CSMParametroSolver * >*) & (rede->objeto);
-
-	// vector<CSMParametroSolver*> * ptr_obj = static_cast<vector<CSMParametroSolver*> *  >( &(rede->objeto));
+{ // Pega ponteiro para vetor do tipo CSMParametroSolver*
+	vector < CSMParametroSolver * > * ptr_obj;
+	for ( auto e : rede->matrizObjetos ){
+		ptr_obj->push_back( static_cast< CSMParametroSolver * > (&(e.second)) );
+	}
 	long double erroSolver = solver->Go (ptr_obj);
 
 	cout << "\nIts[" << setw (4) << solver->Iteracoes ()
 			 << "] LEs[" << setw (10) << solver->LimiteErro ()
 			 << "] Es[" << erroSolver
 			 << "] Erro[" << setw (10) << solver->Erro () << "]" << endl;
-	*/
 }
 
-// Next - Calcular a permeabilidade do rede.
+// Next - Calcula a permeabilidade da rede.
 /* Calculo:
 	fluxo = (permeabilidade * area * diferencaPressao) / (viscosidade * comprimento)
 	permeabilidade = (fluxo * viscosidade * comprimento) / (area * diferencaPressao)
@@ -296,16 +291,12 @@ long double CPermeabilidadeRede::Go () {
 // Pode e deve ser otimizada, pois não precisa varrer todo a rede.
 // Durante o calculo da rede, anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
 long double CPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
-	/*
-	long double fluxos = 0.0;
-	long double fluxoObjeto = 0.0;
-
+	/*long double fluxos = 0.0;
 	// Para todos os objetos da rede
-	for (unsigned long int k = 0; k < rede->matrizObjetos.size (); ++k) {
+	for ( auto & mo : rede->matrizObjetos ) {
 		// verificar se é um objeto com a fronteira solicitada
-		if (rede->matrizObjetos[k].Contorno () == tipoFronteira) { // se afirmativo, calcula o fluxo na fronteira e acumula
-			fluxoObjeto = rede->matrizObjetos[k].Fluxo ();
-			fluxos += fluxoObjeto;
+		if (mo.second.Contorno () == tipoFronteira) { // se afirmativo, calcula o fluxo na fronteira e acumula
+			fluxos += mo.second.Fluxo ();
 		}
 	}
 	return fluxos;

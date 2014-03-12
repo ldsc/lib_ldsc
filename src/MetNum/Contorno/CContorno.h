@@ -4,11 +4,11 @@
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CContorno...
+						Assunto/Ramo: CContorno...
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+						Laboratorio de Desenvolvimento de Software Cientifico
+						[LDSC].
 @author     André Duarte Bueno
 @file       CContorno.h
 @begin      Sat Sep 16 2000
@@ -63,57 +63,57 @@ Desenvolvido por:
 class CContorno
 {
 
-// --------------------------------------------------------------Atributos
-public:
+		// --------------------------------------------------------------Atributos
+	public:
 
-    /// Enumeração para o tipo de contorno
-    enum ETipoContorno
-    { CENTER = 0, WEST=1, EST=2, SOUTH=3, NORTH=4, FRONT=5, BACK=6 };
+		/// Enumeração para o tipo de contorno
+		enum ETipoContorno
+		{ CENTER = 0, WEST=1, EST=2, SOUTH=3, NORTH=4, FRONT=5, BACK=6 };
 
-    /// Valor da propriedade no contorno
-    long double valorContorno;
+		/// Valor da propriedade no contorno
+		long double valorContorno;
 
-// -------------------------------------------------------------Construtor
-    /// Construtor
-    CContorno ()
-    {
-    }
+		// -------------------------------------------------------------Construtor
+		/// Construtor
+		CContorno ()
+		{
+		}
 
-// --------------------------------------------------------------Destrutor
-    /// Destrutor
-    virtual ~ CContorno ()
-    {
-    }
+		// --------------------------------------------------------------Destrutor
+		/// Destrutor
+		virtual ~ CContorno ()
+		{
+		}
 
-// ----------------------------------------------------------------Métodos
-public:
-    /// Calcula (atualiza) valor da propriedade no contorno
-    virtual long double Go (long double x = 0, long double y = 0) {
-		x=x; y=y; //evitar warning
-        return valorContorno;
-    }
+		// ----------------------------------------------------------------Métodos
+	public:
+		/// Calcula (atualiza) valor da propriedade no contorno
+		virtual long double Go (long double x = 0, long double y = 0) {
+			x=x; y=y; //evitar warning
+			return valorContorno;
+		}
 
-// -------------------------------------------------------------Sobrecarga
-    /// Recebe um double: double x = 5.1; obj = x;
-    long double &operator= (long double &_d)
-    {
-        valorContorno = _d;
-        return valorContorno;
-    }
+		// -------------------------------------------------------------Sobrecarga
+		/// Recebe um double: double x = 5.1; obj = x;
+		long double &operator= (long double &_d)
+		{
+			valorContorno = _d;
+			return valorContorno;
+		}
 
-    /// Converte para double (cast): double x = obj;
-    // usar explicit ?
-    operator  long double ()
-    {
-        return valorContorno;
-    }
+		/// Converte para double (cast): double x = obj;
+		// usar explicit ?
+		operator  long double ()
+		{
+			return valorContorno;
+		}
 
-// --------------------------------------------------------------------Get
-// --------------------------------------------------------------------Set
-// -----------------------------------------------------------------Friend
-/// Sobrecarga do operador <<.
-    friend std::ostream & operator<< (std::ostream & os, const CContorno & obj);
-//   friend istream& operator>> (istream& is, CContorno& obj);
+		// --------------------------------------------------------------------Get
+		// --------------------------------------------------------------------Set
+		// -----------------------------------------------------------------Friend
+		/// Sobrecarga do operador <<.
+		friend std::ostream & operator<< (std::ostream & os, const CContorno & obj);
+		//   friend istream& operator>> (istream& is, CContorno& obj);
 
 };
 

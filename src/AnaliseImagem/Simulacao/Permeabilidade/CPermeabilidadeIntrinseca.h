@@ -123,10 +123,10 @@ public:
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
 	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo TCImagem3D.
+	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo TCImagem3D.
 	long double Go( string pathFileName, long double fatorRelaxacao = 0.7);
 	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para path do arquivo CMatriz3D.
+	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo CMatriz3D.
 	long double Go( string pathFileName, unsigned int fatorAmplificacao, double sizePixel, unsigned int numeroPixelsBorda = 0, long double fatorRelaxacao = 0.7);
 	
 	/// Permite alterar as propriedades do fluido.

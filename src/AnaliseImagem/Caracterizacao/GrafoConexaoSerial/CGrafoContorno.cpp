@@ -64,7 +64,7 @@ CGrafoContorno::CGrafoContorno (string _fileName,
       assert (obj_cont);
       contorno.push_back (obj_cont);
     }
-};
+}
 
 // -----------------------------------------------------------------------
 // Função     Destrutor
@@ -76,7 +76,7 @@ CGrafoContorno::~CGrafoContorno ()
   for (unsigned long int i = 0; i < contorno.size (); i++)
     if (contorno[i])
       delete contorno[i];
-};
+}
 
 /*
 -------------------------------------------------------------------------

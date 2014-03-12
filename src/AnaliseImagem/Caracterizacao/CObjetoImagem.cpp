@@ -76,57 +76,29 @@ std::string CObjetoImagem::StrTipo() {
 	}
 }
 
-/*
-/// Seta o tipo de objeto a partir de uma string
-void CObjetoImagem::Tipo ( std::string _tipo )
-{
-	if ( _tipo == "Sitio" )
-		tipo = SITIO;
-	else if ( _tipo == "Ligacao" )
-		tipo = LIGACAO;
-	else if ( _tipo == "Ramo_Morto" )
-		tipo = RAMO_MORTO;
-	else
-		tipo = NAO_IDENTIFICADO;
-
-	return;
-}
-*/
-
-// -------------------------------------------------------------------------
-// Função:       Fluxo (sítio)
-// Determina o fluxo associado a este sítio.
-// Fluxo = Condutancia da ligação vezes, a
-// pressao deste sítio menos  a pressao do sítio conexo
-/*
-long double COGSitio::Fluxo () const {
-	long double fluxo = 0;
-	static long double condutanciaMedia;
-	for (unsigned long int i = 0; i < coneccao.size (); i++)
-		{
-			// Ex:
-			// propriedade = condutancia
-			// x                                         =       pressao
-			condutanciaMedia =
-	(this->coneccao[i]->propriedade + this->propriedade) / 2.0;
-			fluxo += condutanciaMedia * (this->x - coneccao[i]->x);
-		}
+// Calcula o fluxo associado ao objeto.
+long double CObjetoImagem::Fluxo (std::map<int, CObjetoImagem> * moi) {
+	long double fluxo = 0.0;
+	int i;
+	for ( auto & c : sConexao ) {
+		i = c.first;
+		fluxo += propriedade * ( this->x - moi->at(i).x);
+	}
+	/*switch (tipo) {
+		case SITIO: // SITIO
+			// Fluxo = média da condutância do sítio com a ligação vezes, a pressao no sítio menos a pressao na ligação
+			static long double condutanciaMedia;
+			for ( auto & c : sConexao ) {
+				condutanciaMedia = ( propriedade + (moi[c->first])->second.Propriedade() ) / 2.0;
+				fluxo += condutanciaMedia * (this->x - (moi[c->first])->second.x);
+			}
+			break;
+		case LIGACAO: // LIGACAO
+			// Fluxo = Condutancia da ligação vezes, a pressao deste sítio menos a pressao do sítio conexo.
+			for ( auto & c : sConexao ) {
+				fluxo += propriedade * (this->x - (moi[c->first])->second.x);
+			}
+			break;
+	}*/
 	return fluxo;
 }
-*/
-
-//-------------------------------------------------------------------------
-// Função: Fluxo (ligação)
-//-------------------------------------------------------------------------
-// Condutancia da ligação vezes, a pressao deste sítio menos  a
-// pressao do sítio conexo declarado no CGrafo  vector<CObjetoGrafo*> objeto;
-/*
-long double COGLigacao::Fluxo () const {
-	long double fluxo = 0;
-	for (unsigned long int i = 0; i < coneccaoA.size (); i++)
-		// fluxo += condutancia_ligacao * (sitioA[i]->pressão -sitioB[i]->pressão)
-		// fluxo += propriedade *  (coneccaoA[i]->x  - coneccaoB[i]->x);
-		fluxo += propriedade * (coneccaoA[i]->x - coneccaoB[i]->x);
-	return fluxo;
-}
-*/

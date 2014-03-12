@@ -200,8 +200,8 @@ long double CPermeabilidadeRede::Next () {
 		long double fluxod = FluxoFronteira (CContorno::EST);
 
 		// 2.3) Calcula a permeabilidade
-		permEsq = (fluxoe * fluido->Viscosidade () * comprimento) / (area * diferencaPressao);
-		permDir = (fluxod * fluido->Viscosidade () * comprimento) / (area * diferencaPressao);
+		permEsq = (fluxoe * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
+		permDir = (fluxod * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
 
 		// permeabilidade media
 		permeabilidade = (permEsq - permDir) / 2.0;	// tem sinais contrarios
@@ -287,18 +287,17 @@ long double CPermeabilidadeRede::Go () {
 	return permeabilidade;
 }
 
-// FluxoFronteira - Determina o fluxo nos sítios da fronteira rede->objeto[k] retorna o sítio k
+// FluxoFronteira - Determina o fluxo nos sítios da fronteira
 // Pode e deve ser otimizada, pois não precisa varrer todo a rede.
 // Durante o calculo da rede, anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
 long double CPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
-	/*long double fluxos = 0.0;
+	long double fluxos = 0.0;
 	// Para todos os objetos da rede
 	for ( auto & mo : rede->matrizObjetos ) {
 		// verificar se é um objeto com a fronteira solicitada
 		if (mo.second.Contorno () == tipoFronteira) { // se afirmativo, calcula o fluxo na fronteira e acumula
-			fluxos += mo.second.Fluxo ();
+			fluxos += mo.second.Fluxo ( &(rede->matrizObjetos) );
 		}
 	}
 	return fluxos;
-	*/
 }

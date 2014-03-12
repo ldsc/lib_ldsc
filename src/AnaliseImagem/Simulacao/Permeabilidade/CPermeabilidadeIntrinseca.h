@@ -1,4 +1,3 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 #ifndef CPermeabilidadeIntrinseca_h
 #define CPermeabilidadeIntrinseca_h
 
@@ -12,7 +11,7 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	   CPermeabilidadeIntrinseca.h
+@file				CPermeabilidadeIntrinseca.h
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
@@ -20,55 +19,25 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#ifndef __IOSTREAM_H
 #include <iostream>
-#endif
-
 #include<iomanip>
 
 // -----------------------------------------------------------------------
 // Bibliotecas lib_ldsc
 // -----------------------------------------------------------------------
-#ifndef TCImagem3D_h
 #include <AnaliseImagem/Matriz/TCImagem3D.h>
-#endif
-
-#ifndef TCMatriz3D_h
-#include <Matriz/TCMatriz3D.h>
-#endif
-
-#ifndef CGrafo_h
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo.h>
-#endif
-
-#ifndef CGra3Dby2D_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
-#endif
-
-#ifndef CGra3Dby2D_M3_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
-#endif
-
-#ifndef CPermeabilidadeGrafo_h
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
-#endif
-
-#ifndef CSMDiagonalDominante_h
-#include <SMatriz/SMDiagonal/CSMDiagonalDominante.h>
-#endif
-
-#ifndef CMFluido_h
-#include <Material/CMFluido.h>
-#endif
-
-
-#ifndef TCFEConectividade3D_h
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <Amostra/Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
-#endif
 
 /**
  * @brief Determina a permeabilidade intrinseca a partir de uma imagem 3D.
- *
+ * que será representada através de um grafo de conexão serial
 */
 
 class CPermeabilidadeIntrinseca
@@ -102,7 +71,7 @@ public:
 
 // --------------------------------------------------------------Destrutor
 	/// Destrutor
-	virtual ~ CPermeabilidadeIntrinseca();
+	~ CPermeabilidadeIntrinseca();
 
 // ----------------------------------------------------------------Métodos
 protected:

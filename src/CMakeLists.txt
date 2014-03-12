@@ -170,6 +170,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara3D.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeRelativa.cpp
   AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.cpp
   AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.cpp

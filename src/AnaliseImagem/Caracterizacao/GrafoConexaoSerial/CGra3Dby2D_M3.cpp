@@ -21,26 +21,11 @@
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
-
-#ifndef COGSitio_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitio.h>
-#endif
-
-#ifndef COGSitioLR_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioLR.h>
-#endif
-
-#ifndef COGSitioEsqLR_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioEsqLR.h>
-#endif
-
-#ifndef COGSitioDirLR_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/COGSitioDirLR.h>
-#endif
-
-#ifndef CMath_h
 #include <Base/CMath.h>
-#endif
 
 using namespace std;
 

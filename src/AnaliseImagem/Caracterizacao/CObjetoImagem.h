@@ -72,7 +72,7 @@ class CObjetoImagem : public CSMParametroSolver
 		//std::set<int> sConexao;
 
 		/// Matriz que armazena conexões e propriedade de cada conexão
-		std::map<int,double> sConexao;
+		std::map<int, double> sConexao;
 
 		/// Armazena propriedade do objeto (condutância)
 		double propriedade = 0.0;
@@ -106,6 +106,14 @@ class CObjetoImagem : public CSMParametroSolver
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
 
+		/** @brief Calcula o fluxo associado ao objeto, ou seja, considera-se que este objeto
+		 * esta conectado a outros objetos e que em função das propriedades dos objetos,
+		 * existe alguma informação que transita entre os objetos.
+		 * Esta propriedade é calculada por esta função.
+		 * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
+		*/
+		long double Fluxo (std::map<int, CObjetoImagem> *moi );
+
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
 		inline ETipoObjetoImagem Tipo() { return tipo; }
@@ -131,7 +139,7 @@ class CObjetoImagem : public CSMParametroSolver
 		//inline int Rotulo() { return rotulo; }
 
 		/// Retorna referencia para o Set das conexoes
-		inline std::map<int,double> & SConexao() 	{
+		inline std::map<int, double> & SConexao() 	{
 		//inline std::set< int > & SConexao() 	{
 			return sConexao;
 		}
@@ -150,12 +158,6 @@ class CObjetoImagem : public CSMParametroSolver
 		inline double Propriedade() {
 			return propriedade;
 		}
-
-		// Retorna rotulo da conexao i
-		//int  SConexao( int i ) { return sConexao[i]; }
-
-		// Retorna tipo como uma string
-		// 	std::string Tipo() ;
 
 		// --------------------------------------------------------------------Set
 		// /// Seta o rotulo

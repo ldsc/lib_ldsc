@@ -22,9 +22,12 @@ class CRedeContorno : public CRedeDePercolacao
 		/// Usa-se contorno[i] para obter ponteiro para contorno i.
 		std::vector < CContorno * >contorno;
 
-		// -------------------------------------------------------------Construtor
-		/// Cria os objetos de contorno e incluí no vetor contorno.
-		CRedeContorno (TCImagem3D<int> *&_pm, std::string _fileName, unsigned long int _numero_contornos = 0);
+		// -------------------------------------------------------------Construtores
+		/// Cria os objetos de contorno e incluí no vetor contorno (recebe imagem binária que será segmentada).
+		CRedeContorno (TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos=0);
+
+		/// Cria os objetos de contorno e incluí no vetor contorno (recebe imagem em tons de cinza fundo=0; sitio=1, ligação=2).
+		CRedeContorno (TCImagem3D<int> *&_pm, unsigned long int _numero_contornos = 0);
 
 		// --------------------------------------------------------------Destrutor
 		/// Delete os objetos de contorno do vetor contorno.

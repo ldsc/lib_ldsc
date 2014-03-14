@@ -47,9 +47,9 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
 			 formatoImagem == D4_X_Y_Z_BINARY ||
 			 formatoImagem == D5_X_Y_Z_GRAY_BINARY ||
 			 formatoImagem == D6_X_Y_Z_COLOR_BINARY ) {
-		fout.open (fullFileName.c_str (), ios::binary ); // Abre arquivo de disco no formato Binario
+		fout.open (fullFileName.c_str (), ios::binary | ios::trunc ); // Abre arquivo de disco no formato Binario
 	} else {
-		fout.open (fullFileName.c_str ()); // Abre arquivo de disco formato ASCII
+		fout.open (fullFileName.c_str (), ios::trunc); // Abre arquivo de disco formato ASCII
 	}
 	if (fout.good ()) { //  Testa abertura do arquivo
 		//fout.width (larguraCampo); // Define a largura do campo
@@ -66,8 +66,8 @@ bool CBaseMatriz::Write(string fileName, int separado) const {
 		fout << endl;
 		fout.close();
 		return true;
-	} else
-		return false;
+	}
+	return false;
 }
 
 bool CBaseMatriz::SalvaCores (ofstream & fout) const {

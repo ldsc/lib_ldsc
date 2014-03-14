@@ -99,7 +99,7 @@ class CPermeabilidadeRede : public CPermeabilidade
 
 	protected:
 		/// Cria objetos agregados
-		virtual void CriacaoObjetosAgregados ();
+		virtual void CriacaoObjetosAgregados () {}
 
 		/// Define as condições de contorno e adicionalmente chama funcao de calculo das condutancias
 		virtual void DefinicaoCondicoesContorno ();

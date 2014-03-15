@@ -52,7 +52,8 @@ email:      andre@lmpt.ufsc.br
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 //  novo
 // #include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h>
 using namespace std;
@@ -74,7 +75,7 @@ CGrafoTest::Run ()
 
    do {
          cout << "\nObjeto CGrafoTest"
-              << "\nTeste das funções das classes CGrafoConexaoSerial e CPermeabilidade"
+              << "\nTeste das funções das classes CGrafoConexaoSerial e CSimPermeabilidade"
               << "\nSelecione a opção que deseja testar"
               << "\nGrafo.........................1"
               << "\nTortuosidade..................2"
@@ -186,7 +187,7 @@ CGrafoTest::Permeabilidade ( int tipoSolver )
 
    CSMDiagonalDominante* solver = CriarSolver ( tipoSolver );
 
-   CPermeabilidadeGrafo* permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel );
+   CSimPermeabilidadeGrafo* permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel );
 
    double permeabilidade_calculada = DeterminarPermeabilidade ( permeabilidade );
 
@@ -547,17 +548,17 @@ CGrafoTest::SalvarGrafo ( CGrafoConexaoSerial* grafo )
 Função: CriarPermeabilidade
 -------------------------------------------------------------------------
 */
-CPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
+CSimPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
       CSMDiagonalDominante* solver,     // CSMDiagonalDominanteThreads* solver,
       CGrafoConexaoSerial* grafo, TCMatriz3D<int>* pm3D, int fatorAmplificacao,
       double dimensaoPixel )
 {
-   CPermeabilidadeGrafo* permeabilidade_grafo;
+   CSimPermeabilidadeGrafo* permeabilidade_grafo;
    {
-      CTime ( "Tempo criação do CPermeabilidadeGrafo = ", &cout );
-      cout << "Criando objeto CPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
+      CTime ( "Tempo criação do CSimPermeabilidadeGrafo = ", &cout );
+      cout << "Criando objeto CSimPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
       // CSMDiagonalDominante* solverold = static_cast<CSMDiagonalDominante*>(solver);// novo
-      permeabilidade_grafo = new CPermeabilidadeGrafo ( fluido, solver /*old */ , grafo,
+      permeabilidade_grafo = new CSimPermeabilidadeGrafo ( fluido, solver /*old */ , grafo,
             pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel );
       assert ( permeabilidade_grafo );
       cout << " ...done" << endl;
@@ -570,7 +571,7 @@ CPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
 Função: DeterminarPermeabilidade
 -------------------------------------------------------------------------
 */
-double CGrafoTest::DeterminarPermeabilidade ( CPermeabilidadeGrafo* permeabilidade )
+double CGrafoTest::DeterminarPermeabilidade ( CSimPermeabilidadeGrafo* permeabilidade )
 {
    {
       CTime ( "Tempo permeabilidade->SolucaoSistema(); = ", &cout );
@@ -652,7 +653,7 @@ void CGrafoTest::teste_solver()
   CGrafoConexaoSerial * 	grafo	;
   CMFluido* fluido;
   CSMDiagonalDominante* solver;
-  CPermeabilidadeGrafo* permeabilidade ;
+  CSimPermeabilidadeGrafo* permeabilidade ;
 	{
 	CTime* t = new CTime("Tempo criação objetos agregados = ",&fout);
 	fluido = new CMFluido(viscosidade);
@@ -665,7 +666,7 @@ void CGrafoTest::teste_solver()
 	sprintf(nomeArquivoExt,"%s.mod4_FR%i_LES%e.txt",nomeArquivo,fr,(float)limiteErro);
 	grafo	= new CGrafo_3Dby2_M4(nomeArquivoExt);
 	permeabilidade =
-  		new CPermeabilidadeGrafo(fluido,solver,grafo, pm3D->NX(),pm3D->NY(),pm3D->NZ(),
+  		new CSimPermeabilidadeGrafo(fluido,solver,grafo, pm3D->NX(),pm3D->NY(),pm3D->NZ(),
 		fatorAmplificacao,dimensaoPixel);
 	}
 
@@ -959,10 +960,10 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
 
    // Cria permeabilidade------------------------------------------------------
    // aqui
-   CPermeabilidadeGrafo* permeabilidade = nullptr;
+   CSimPermeabilidadeGrafo* permeabilidade = nullptr;
    {
-      CTime ( "Tempo criação objeto  CPermeabilidadeGrafo = ", &cout );
-      permeabilidade =  new CPermeabilidadeGrafo ( fluido, solver, grafo, grafo->Nx (),
+      CTime ( "Tempo criação objeto  CSimPermeabilidadeGrafo = ", &cout );
+      permeabilidade =  new CSimPermeabilidadeGrafo ( fluido, solver, grafo, grafo->Nx (),
             grafo->Ny (), grafo->Nz (), fatorAmplificacao, dimensaoPixel );
       assert ( permeabilidade );
    }

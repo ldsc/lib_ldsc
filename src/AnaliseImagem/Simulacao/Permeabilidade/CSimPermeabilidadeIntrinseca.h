@@ -1,9 +1,9 @@
-#ifndef CPermeabilidadeIntrinseca_h
-#define CPermeabilidadeIntrinseca_h
+#ifndef CSimPermeabilidadeIntrinseca_h
+#define CSimPermeabilidadeIntrinseca_h
 
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CPermeabilidadeIntrinseca
+PROJETO:    Biblioteca libldsc CSimPermeabilidadeIntrinseca
 =========================================================================
 Desenvolvido por:	
             LDSC - Laboratorio de Desenvolvimento de Software Científico 
@@ -11,7 +11,7 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file				CPermeabilidadeIntrinseca.h
+@file 	   CSimPermeabilidadeIntrinseca.h
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
@@ -30,7 +30,7 @@ Desenvolvido por:
 #include <EstruturaDados/CGrafo.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
@@ -40,7 +40,7 @@ Desenvolvido por:
  * que será representada através de um grafo de conexão serial
 */
 
-class CPermeabilidadeIntrinseca
+class CSimPermeabilidadeIntrinseca
 {
 // --------------------------------------------------------------Atributos
 protected:
@@ -53,8 +53,8 @@ protected:
 	/// Ponteiro para CMFluido;
 	CMFluido * fluido;
 
-	/// Ponteiro para CPermeabilidadeGrafo responsável pelo cálculo da permeabilidade;
-	CPermeabilidadeGrafo * perm;
+	/// Ponteiro para CSimPermeabilidadeGrafo responsável pelo cálculo da permeabilidade;
+	CSimPermeabilidadeGrafo * perm;
 
 public:
 	// Depois os atributos abaixo devem ser retirados pois fazem parte do solver
@@ -67,11 +67,11 @@ public:
 // -----------------------------------------------------------Construtores
 public:	
 	/// Construtor Default
-	CPermeabilidadeIntrinseca();
+	CSimPermeabilidadeIntrinseca();
 
 // --------------------------------------------------------------Destrutor
 	/// Destrutor
-	~ CPermeabilidadeIntrinseca();
+	virtual ~ CSimPermeabilidadeIntrinseca();
 
 // ----------------------------------------------------------------Métodos
 protected:

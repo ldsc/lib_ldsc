@@ -1,15 +1,15 @@
-#ifndef CPermeabilidade_h
-#define CPermeabilidade_h
+#ifndef CSimPermeabilidade_h
+#define CSimPermeabilidade_h
 
 /**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CPermeabilidade...
+            Assunto/Ramo: CSimPermeabilidade...
 ===============================================================================
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CPermeabilidade.h
+@file       CSimPermeabilidade.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -33,45 +33,42 @@ Desenvolvido por:
 #endif
 
 /**
- * @brief Objeto para cálculo e armazenagem da permeabilidade.
+ * @brief Representa o conceito de um simulador que calcula a permeabilidade de meios porosos (rochas reservatório).
+ * CSimPermeabilidade é herdeira de CSimulacao, e terá diversas classes filhas que simulam a permeabilidade
+ * de diferentes maneiras.
  *
- * Esta é a classe base de uma hierarquia onde cada filho vai ter uma metodologia para determinação da permeabilidade.
- *
- * A primeira herdeira desenvolvida foi a CPermeabilidadeGrafo que determina a permeabilidade intrinseca a partir
- * do grafo de uma imagem tridimensional.  Veja CPermeabilidadeGrafo para maiores detalhes.
+ * A primeira herdeira de CSimPermeabilidade foi a CSimPermeabilidadeGrafo que determina a permeabilidade intrinseca 
+ * a partir do grafo de uma imagem tridimensional. 
+ * @see CSimPermeabilidadeGrafo para maiores detalhes.
  * @author 	André Duarte Bueno
 */
-class CPermeabilidade : public CSimulacao
+class CSimPermeabilidade : public CSimulacao
 {
 // --------------------------------------------------------------Atributos
 protected:
-    ///< Valor da permeabilidade
+    ///< Permeabilidade do meio poroso (rocha reservatório)
     long double permeabilidade {0.0};
-	/// @todo: verificar do ponto de vista da modelagem computacional, a vantagem de cada classe que envolva o
-	/// cálculo de uma propriedade física ter, uma variável com o valor do erro.
-    ///< Valor de erro
-//     long double erro {0.0};
 
 public:
 // -------------------------------------------------------------Construtor
     /// Construtor Default
-    CPermeabilidade ()  = default;
+    CSimPermeabilidade ()  = default;
 
     /// Construtor com argumentos
-    CPermeabilidade (long double _p/*, long double _erro*/) {
+    CSimPermeabilidade (long double _p/*, long double _erro*/) {
         permeabilidade = _p;
 // 		erro = _erro;
     }
 
     /// Construtor de cópia
-    CPermeabilidade (const CPermeabilidade & aCPermeabilidade) {   
-		permeabilidade = aCPermeabilidade.permeabilidade;
-///		erro = aCPermeabilidade.erro;
+    CSimPermeabilidade (const CSimPermeabilidade & aCSimPermeabilidade) {   
+		permeabilidade = aCSimPermeabilidade.permeabilidade;
+///		erro = aCSimPermeabilidade.erro;
 	}
 
 // --------------------------------------------------------------Destrutor
     /// Destrutor
-    virtual ~ CPermeabilidade ()  = default;
+    virtual ~ CSimPermeabilidade ()  = default;
 
 // ----------------------------------------------------------------Métodos
 
@@ -104,13 +101,13 @@ public:
 
 // -------------------------------------------------------------Sobrecarga
     /// Operador atribuição
-    CPermeabilidade & operator= (const CPermeabilidade & aCPermeabilidade) = default;
+    CSimPermeabilidade & operator= (const CSimPermeabilidade & aCSimPermeabilidade) = default;
 
     /// Comparação igualdade
-    bool operator== (const CPermeabilidade & aCPermeabilidade) const;
+    bool operator== (const CSimPermeabilidade & aCSimPermeabilidade) const;
 
     /// Comparação diferença
-    bool operator!= (const CPermeabilidade & aCPermeabilidade) const;
+    bool operator!= (const CSimPermeabilidade & aCSimPermeabilidade) const;
 
 // --------------------------------------------------------------------Get
     /// Retorna a permeabilidade
@@ -127,16 +124,16 @@ public:
 // -----------------------------------------------------------------Friend
     /// Sobrecarga operador<<
     friend std::ostream & operator<< (std::ostream & os,
-                                      const CPermeabilidade & obj);
+                                      const CSimPermeabilidade & obj);
 
     /// Sobrecarga operador>>
-    friend std::istream & operator>> (std::istream & is, CPermeabilidade & obj);
+    friend std::istream & operator>> (std::istream & is, CSimPermeabilidade & obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, CPermeabilidade & obj);
+std::ostream & operator<< (std::ostream & os, CSimPermeabilidade & obj);
 
-std::istream & operator>> (std::istream & is, CPermeabilidade & obj);
+std::istream & operator>> (std::istream & is, CSimPermeabilidade & obj);
 
 #endif

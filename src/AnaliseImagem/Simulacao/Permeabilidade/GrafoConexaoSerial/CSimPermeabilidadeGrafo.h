@@ -1,15 +1,15 @@
-#ifndef CPermeabilidadeGrafo_h
-#define CPermeabilidadeGrafo_h
+#ifndef CSimPermeabilidadeGrafo_h
+#define CSimPermeabilidadeGrafo_h
 
 /**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-						Assunto/Ramo: CPermeabilidadeGrafo...
+            Assunto/Ramo: CSimPermeabilidadeGrafo...
 ===============================================================================
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CPermeabilidadeGrafo.h
+@file       CSimPermeabilidadeGrafo.h
 @begin      Sat Sep 16 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -25,7 +25,7 @@ Desenvolvido por:
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <Base/_LIB_LDSC_CLASS.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #include <EstruturaDados/CRedeContorno.h>
@@ -34,7 +34,7 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 
 // ===============================================================================
-// Documentacao Classe: CPermeabilidadeGrafo
+// Documentacao Classe: CSimPermeabilidadeGrafo
 // ===============================================================================
 /**@brief	Classe usada para determinar a permeabilidade de uma imagem tridimensional
  * usando o GrafoConexaoSerial.
@@ -69,13 +69,13 @@ Desenvolvido por:
  * solver			- representa um solucionador de matrizes.
  * fluido			- representa um fluido.
  *
- * 4-Cria-se um objeto de cálculo da permeabilidade CPermeabilidadeGrafo,
+ * 4-Cria-se um objeto de cálculo da permeabilidade CSimPermeabilidadeGrafo,
  * passando-se como parametros os objetos agregados.
  *
  * 5-O objeto grafo tem objetos do tipo CObjetoGrafo (ex: CObjetoRede) que tem as variaveis rótulo (que o identifica),
  * propriedade(é a condutancia) e x(a pressão).
  *
- * 6-Criado o objeto CPermeabilidadeGrafo, pode-se chamar a função 
+ * 6-Criado o objeto CSimPermeabilidadeGrafo, pode-se chamar a função 
  * virtual void SolucaoSistema() 
  * que resolve o sistema como um todo:
  * 8.1)		virtual void CriarObjetosAgregados () ;     // Cria objetos agregados
@@ -107,9 +107,9 @@ Desenvolvido por:
  * resolver  o sistema de equações para as pressões. Resolvidas as pressões de equilíbrio em cada sítio,
  * pode-se determinar o fluxo nas fronteiras esquerda e direita e a seguir a permeabilidade intrinseca.
  * @author André Duarte Bueno
- * Superclasse:    CSimulacao -> CPermeabilidade -> CPermeabilidadeGrafo
+ * Superclasse:    CSimulacao -> CSimPermeabilidade -> CSimPermeabilidadeGrafo
 */
-class CPermeabilidadeGrafo : public CPermeabilidade {
+class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 // --------------------------------------------------------------Atributos
 protected:
      /// Propriedades da imagem!
@@ -144,7 +144,7 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
      /// Construtor
-     CPermeabilidadeGrafo ( CMFluido *&_fluido,
+     CSimPermeabilidadeGrafo ( CMFluido *&_fluido,
                             CSMDiagonalDominante *&_solver,
                             CGrafoConexaoSerial *&_grafo,
                             unsigned long int _nx,
@@ -154,9 +154,9 @@ public:
                             long double _dimensaoPixel,
                             unsigned long int _numeroPixelsBorda = 0 );
 
-		// --------------------------------------------------------------Destrutor
-		/// Destrutor
-		virtual ~ CPermeabilidadeGrafo ();
+// --------------------------------------------------------------Destrutor
+     /// Destrutor
+     virtual ~ CSimPermeabilidadeGrafo ();
 
 // ----------------------------------------------------------------Métodos
 public:
@@ -191,7 +191,7 @@ protected:
 
 private:
 
-     // Funções internas auxiliares, próprias da classe  CPermeabilidadeGrafo
+     // Funções internas auxiliares, próprias da classe  CSimPermeabilidadeGrafo
      /// Calcula o fluxo na fronteira; recebe como parâmetro a identificação da fronteira
      long double FluxoFronteira ( CContorno::ETipoContorno fronteira );
 
@@ -308,13 +308,13 @@ public:
 
 // -----------------------------------------------------------------Friend
      friend std::ostream &operator<< ( std::ostream &os,
-                                       const CPermeabilidadeGrafo &obj );
-     // friend istream& operator>> (istream& is, CPermeabilidadeGrafo& obj);
+                                       const CSimPermeabilidadeGrafo &obj );
+     // friend istream& operator>> (istream& is, CSimPermeabilidadeGrafo& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
 std::ostream &operator<< ( std::ostream &os,
-                           const CPermeabilidadeGrafo &obj );
-// istream& operator>> (istream& is, CPermeabilidadeGrafo& obj);
+                           const CSimPermeabilidadeGrafo &obj );
+// istream& operator>> (istream& is, CSimPermeabilidadeGrafo& obj);
 #endif

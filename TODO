@@ -145,6 +145,11 @@ num modelo para qualquer tipo processamento arquivos.
  * 	Propriedade2 = valor
  * uma função auxiliar verificaria a existência dos arquivos individuais e do arquivo genérico
  * e, em função do padrão definido pelo usuário leria um ou outro arquivo.
+[] - Tipos de erro.
+ * @todo: Toda simulação tem erros, portanto, seria interessante adicionar aqui um objeto de erro;
+ * inicialmente pode ser uma variável long double para indicar o erro associado; depois, pensar em criar
+ * uma hierarquia de objetos do tipo CTipoErro e uma enumeção ETipoErro.
+ * Dar uma olhada em bibliotecas da gnu e boost, para ver como tratam este tipo de problema.
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
                                TODO-> TESE ALUNOS

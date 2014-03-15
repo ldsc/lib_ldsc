@@ -6,7 +6,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:
 			Laboratorio de Desenvolvimento de Software Cientifico	[LDSC].
 @author:    André Duarte Bueno
-@file:      CPermeabilidade.cpp
+@file:      CSimPermeabilidade.cpp
 @begin:     Sat Sep 16 2000
 @copyright: (C) 2000 by André Duarte Bueno
 @email:     andreduartebueno@gmail.com
@@ -21,7 +21,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 
 using namespace std;
 
@@ -33,16 +33,16 @@ using namespace std;
 // @short  : OPerador igualdade (atribuição)
 // @author : André Duarte Bueno
 // @see    :
-// @param  : CPermeabilidade&
+// @param  : CSimPermeabilidade&
 // @return : *this
 // */
-// CPermeabilidade & CPermeabilidade::
-// operator= (const CPermeabilidade & aCPermeabilidade)
+// CSimPermeabilidade & CSimPermeabilidade::
+// operator= (const CSimPermeabilidade & aCSimPermeabilidade)
 // {
-//   if (this == &aCPermeabilidade)
+//   if (this == &aCSimPermeabilidade)
 //     return *this;
 //
-//   permeabilidade = aCPermeabilidade.permeabilidade;
+//   permeabilidade = aCSimPermeabilidade.permeabilidade;
 //   return *this;
 // }
 
@@ -53,10 +53,10 @@ Função:  operator==
 @short  : Operador comparação igualdade
 @author : André Duarte Bueno
 @see    :
-@param  : const CPermeabilidade&
+@param  : const CSimPermeabilidade&
 @return : bool==1 se iguais, ==0 se diferentes
 */
-bool CPermeabilidade::operator== ( const CPermeabilidade& ori )  const
+bool CSimPermeabilidade::operator== ( const CSimPermeabilidade& ori )  const
 {
    return this->permeabilidade == ori.permeabilidade;
 }
@@ -68,10 +68,10 @@ Função:  operator!=
 @short  :  Operador diferença
 @author :  André Duarte Bueno
 @see    :
-@param  :  const CPermeabilidade&
+@param  :  const CSimPermeabilidade&
 @return :  bool==0 se iguais, ==1 se diferentes
 */
-bool CPermeabilidade::operator!= ( const CPermeabilidade& ori )  const{
+bool CSimPermeabilidade::operator!= ( const CSimPermeabilidade& ori )  const{
    return this->permeabilidade != ori.permeabilidade;
 }
 
@@ -82,10 +82,10 @@ Função: operator<<
 @short  : Salva atributos do objeto em disco
 @author : André Duarte Bueno
 @see    :
-@param  : ostream& os, const CPermeabilidade& p
+@param  : ostream& os, const CSimPermeabilidade& p
 @return : ostream& os,
 */
-ostream& operator<< ( ostream& os, const CPermeabilidade& p ){
+ostream& operator<< ( ostream& os, const CSimPermeabilidade& p ){
    os << p.permeabilidade << endl;
    return os;
 }
@@ -97,10 +97,10 @@ Função:  operator>>
 @short  : Sobrecarga operador entrada streams
 @author : André Duarte Bueno
 @see    :
-@param  : istream& is, CPermeabilidade& p
+@param  : istream& is, CSimPermeabilidade& p
 @return : istream& is
 */
-istream& operator>> ( istream& is, CPermeabilidade& p ){
+istream& operator>> ( istream& is, CSimPermeabilidade& p ){
    is >> p.permeabilidade;
    return is;
 }
@@ -112,14 +112,14 @@ Função:   Read
 @short  :
 	Lê atributos do objeto do arquivo de disco
 	Recebe nome do arquivo de disco
-	void CPermeabilidade::Read(string nomeArquivo)
+	void CSimPermeabilidade::Read(string nomeArquivo)
 @author : André Duarte Bueno
 @see    : Read
 @param  : string nomeArquivo
 @return : void
 */
 void
-CPermeabilidade::Read ( string nomeArquivo )
+CSimPermeabilidade::Read ( string nomeArquivo )
 {
    // Abre o arquivo de disco
    ifstream fin ( nomeArquivo.c_str () );

@@ -49,8 +49,8 @@ Desenvolvido por:
 
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo testar
 
-#ifndef CPermeabilidadeGrafo_h
-#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
+#ifndef CSimPermeabilidadeGrafo_h
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 #endif
 
 /**
@@ -108,7 +108,7 @@ private:
    void SalvarGrafo ( CGrafoConexaoSerial* grafo );
 
    /// Cria objeto permeabilidade
-   CPermeabilidadeGrafo* CriarPermeabilidade ( CMFluido* fluido,
+   CSimPermeabilidadeGrafo* CriarPermeabilidade ( CMFluido* fluido,
          CSMDiagonalDominante* solver,      // CSMDiagonalDominanteThreads* solver,
          CGrafoConexaoSerial* grafo,
          TCMatriz3D<int>* pm3D,
@@ -116,7 +116,7 @@ private:
          double dimensaoPixel );
 
    /// Determina a permeabilidade
-   double DeterminarPermeabilidade ( CPermeabilidadeGrafo* permeabilidade );
+   double DeterminarPermeabilidade ( CSimPermeabilidadeGrafo* permeabilidade );
 
    // -------------------------------------------------------------------Funcoes privadas auxiliares
    /// Verifica se a simulação ja terminou, vai reiniciar ou iniciar.

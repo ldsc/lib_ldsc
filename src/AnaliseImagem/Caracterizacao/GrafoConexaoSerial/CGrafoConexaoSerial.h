@@ -129,7 +129,7 @@ class CGrafoConexaoSerial_M6;
  *
  * Também é possível usar diretamente o grafo obtido para determinar propriedades de interesse,
  * sem a necessidade de salvar os dados em disco.
- * Este mecanismo é utilizado por CPermeabilidadeGrafo.
+ * Este mecanismo é utilizado por CSimPermeabilidadeGrafo.
 
  * @author	André Duarte Bueno
  * @see		Grafo

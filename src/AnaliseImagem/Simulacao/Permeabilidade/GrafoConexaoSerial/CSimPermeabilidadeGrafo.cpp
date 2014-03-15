@@ -6,7 +6,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por: 
 				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:        Andre Duarte Bueno
-@file:          CPermeabilidadeGrafo.cpp
+@file:          CSimPermeabilidadeGrafo.cpp
 @begin:         Sat Sep 16 2000
 copyright:      (C) 2000 by Andre Duarte Bueno
 @email:         andreduartebueno@gmail.com
@@ -23,7 +23,7 @@ copyright:      (C) 2000 by Andre Duarte Bueno
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
 #include <Grafo/CRedeContorno.h>
@@ -35,12 +35,12 @@ using namespace std;
 // Funcao: Construtor
 // -------------------------------------------------------------------------
 /**
-@short  : Construtor da classe CPermeabilidadeGrafo
+@short  : Construtor da classe CSimPermeabilidadeGrafo
 @author : Andre Duarte Bueno
 @see    : Construtores
 @param  : objetos fluido,solver,grafo, nx,ny,nz, fator amplificacao, tamanhoDoPixel, numeroDePixeisDaBorda
 */
-CPermeabilidadeGrafo::CPermeabilidadeGrafo ( CMFluido*& _fluido,
+CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo ( CMFluido*& _fluido,
       CSMDiagonalDominante*& _solver,
       CGrafoConexaoSerial*& _grafo,
       unsigned long int _nx,
@@ -72,11 +72,11 @@ Funcao:		Construtor de copia
 @short  : Constróe objeto  igual ao passado como parâmetro
 @author : Andre Duarte Bueno
 @see    : Construtor de cópia
-@param  : CPermeabilidadeGrafo&
+@param  : CSimPermeabilidadeGrafo&
 @return : nada
 */
 /*
-CPermeabilidadeGrafo::CPermeabilidadeGrafo(const CPermeabilidadeGrafo& obj )
+CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo(const CSimPermeabilidadeGrafo& obj )
 {
 	fluido 	=	new 	CMFluido(*(obj.fluido));
 	assert(fluido);
@@ -95,8 +95,8 @@ CPermeabilidadeGrafo::CPermeabilidadeGrafo(const CPermeabilidadeGrafo& obj )
 	numeroPixelsBorda	=	obj.numeroPixelsBorda;
 	fluxoFronteira		=	obj.fluxoFronteira;
 
-	// Da class CPermeabilidade
-	// this = (CPermeabilidade) obj;
+	// Da class CSimPermeabilidade
+	// this = (CSimPermeabilidade) obj;
 	permeabilidade = obj.permeabilidade;
 
 	// Da classe TSimulação
@@ -114,7 +114,7 @@ CPermeabilidadeGrafo::CPermeabilidadeGrafo(const CPermeabilidadeGrafo& obj )
 @param  : nada
 @return : nada
 */
-CPermeabilidadeGrafo::~CPermeabilidadeGrafo ()
+CSimPermeabilidadeGrafo::~CSimPermeabilidadeGrafo ()
 {
    /* RETIRADO EM 14/10/2009 com Leandro - verificar se pode deletar, se
    não tem dois ponteiros para mesmo bloco, esta deletando o objeto, setando o ponteiro local como null,
@@ -134,17 +134,17 @@ CPermeabilidadeGrafo::~CPermeabilidadeGrafo ()
 // OPerador igualdade (atribuição)
 // ----------------------------------------------------------------------------
 /*
-CPermeabilidadeGrafo& CPermeabilidadeGrafo::operator= (const CPermeabilidadeGrafo&
-aCPermeabilidadeGrafo)
+CSimPermeabilidadeGrafo& CSimPermeabilidadeGrafo::operator= (const CSimPermeabilidadeGrafo&
+aCSimPermeabilidadeGrafo)
 {
-	if (this == &aCPermeabilidadeGrafo) return *this;
+	if (this == &aCSimPermeabilidadeGrafo) return *this;
 	// int i = 0;
-	CPermeabilidade::operator= (aCPermeabilidadeGrafo);	// ancestral
-	fluido = 	aCPermeabilidadeGrafo.fluido;
-	fatorAmplificacao = aCPermeabilidadeGrafo.fatorAmplificacao;
-	numeroPixelsBorda = aCPermeabilidadeGrafo.numeroPixelsBorda;
-	comprimentoPixel  = aCPermeabilidadeGrafo.comprimentoPixel;
-	solver = 	aCPermeabilidadeGrafo.solver;
+	CSimPermeabilidade::operator= (aCSimPermeabilidadeGrafo);	// ancestral
+	fluido = 	aCSimPermeabilidadeGrafo.fluido;
+	fatorAmplificacao = aCSimPermeabilidadeGrafo.fatorAmplificacao;
+	numeroPixelsBorda = aCSimPermeabilidadeGrafo.numeroPixelsBorda;
+	comprimentoPixel  = aCSimPermeabilidadeGrafo.comprimentoPixel;
+	solver = 	aCSimPermeabilidadeGrafo.solver;
 
 	fluido 	=	new 	CMFluido(*(obj.fluido));
 	assert(fluido);
@@ -161,20 +161,20 @@ aCPermeabilidadeGrafo)
 // ----------------------------------------------------------------------------
 // OPerador comparação igualdade
 // ----------------------------------------------------------------------------
-/*int CPermeabilidadeGrafo::operator== (const CPermeabilidadeGrafo& aCPermeabilidadeGrafo) const
+/*int CSimPermeabilidadeGrafo::operator== (const CSimPermeabilidadeGrafo& aCSimPermeabilidadeGrafo) const
 {
  return (
  // Verifica classe base
- (CPermeabilidade::operator== (aCPermeabilidadeGrafo)) &&
+ (CSimPermeabilidade::operator== (aCSimPermeabilidadeGrafo)) &&
 
  // Verifica atributos simples
- (fatorAmplificacao ==  aCPermeabilidadeGrafo.fatorAmplificacao) &&
- (numeroPixelsBorda == 		aCPermeabilidadeGrafo.numeroPixelsBorda) &&
- (comprimentoPixel == 	aCPermeabilidadeGrafo.comprimentoPixel) &&
+ (fatorAmplificacao ==  aCSimPermeabilidadeGrafo.fatorAmplificacao) &&
+ (numeroPixelsBorda == 		aCSimPermeabilidadeGrafo.numeroPixelsBorda) &&
+ (comprimentoPixel == 	aCSimPermeabilidadeGrafo.comprimentoPixel) &&
  // Verifica os objetos agregados, usando == de cada objeto
- (*fluido == 				*aCPermeabilidadeGrafo.fluido) &&
- (*solver == 		*aCPermeabilidadeGrafo.solver) &&
- (*grafo == 	*aCPermeabilidadeGrafo.grafo)
+ (*fluido == 				*aCSimPermeabilidadeGrafo.fluido) &&
+ (*solver == 		*aCSimPermeabilidadeGrafo.solver) &&
+ (*grafo == 	*aCSimPermeabilidadeGrafo.grafo)
  );
 }
 */
@@ -186,10 +186,10 @@ Funcao:  	operator<<
 @short  :	Sobrecarga operador saída stream
 @author :	Andre Duarte Bueno
 @see    :
-@param  :	ostream& os, const CPermeabilidadeGrafo& obj
+@param  :	ostream& os, const CSimPermeabilidadeGrafo& obj
 @return :	ostream&
 */
-ostream& operator<< ( ostream& os, const CPermeabilidadeGrafo& obj )
+ostream& operator<< ( ostream& os, const CSimPermeabilidadeGrafo& obj )
 {
 os<< "\n=====Dados Fluido=====\n";
    os << * ( obj.fluido );
@@ -216,10 +216,10 @@ os<< "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; flux
 @short  :		Sobrecarga operador entrada streams
 @author :		Andre Duarte Bueno
 @see    :
-@param  : 	istream& is, CPermeabilidadeGrafo& p
+@param  : 	istream& is, CSimPermeabilidadeGrafo& p
 @return :		istream&
 */
-/*istream& operator>> (istream& is, CPermeabilidadeGrafo& p)
+/*istream& operator>> (istream& is, CSimPermeabilidadeGrafo& p)
 {
 	is >> p.fatorAmplificacao;
 	is >> p.numeroPixelsBorda;
@@ -255,14 +255,14 @@ os<< "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; flux
 @return : void
 */
 /*
-void CPermeabilidadeGrafo::Read(string nomeArquivo)
+void CSimPermeabilidadeGrafo::Read(string nomeArquivo)
 {
 	ifstream fin(nomeArquivo.c_str());	// Abre o arquivo de disco
 	if(fin)                               // se ok
 		fin>>*this;                     // Envia dados para este objeto
  //  else
  //   {
- //  	  	cout << "\nEnter Object Attribute Values or 0 - Class CPermeabilidadeGrafo";
+ //  	  	cout << "\nEnter Object Attribute Values or 0 - Class CSimPermeabilidadeGrafo";
  // 		cout<<"\nEnter fatorAmplificacao: ";
  // 		cin>>fatorAmplificacao;
  // 	   cout<<"\nEnter numeroPixelsBorda: ";
@@ -294,7 +294,7 @@ void CPermeabilidadeGrafo::Read(string nomeArquivo)
 @return : void
 */
 void
-CPermeabilidadeGrafo::CriarObjetosAgregados ()
+CSimPermeabilidadeGrafo::CriarObjetosAgregados ()
 {
    /*
    if(fluido)
@@ -332,7 +332,7 @@ CPermeabilidadeGrafo::CriarObjetosAgregados ()
 		Logo: 1 atm = 101325 Pa
 */
 void
-CPermeabilidadeGrafo::DefinirCondicoesContorno ()
+CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 {
    //
    // Uma atmosfera
@@ -387,7 +387,7 @@ CPermeabilidadeGrafo::DefinirCondicoesContorno ()
 @return : void
 */
 void
-CPermeabilidadeGrafo::DefinirCondicoesIniciais ()
+CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
 {
    // Para todos os objetos do grafo associa valores iniciais de pressão
    unsigned long int numeroObjetos = grafo->objeto.size ();
@@ -445,7 +445,7 @@ fout.close();
 @return : void
 */
 void
-CPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
+CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 {
 // Pega ponteiro para vetor do tipo CSMParametroSolver*
 /// @todo: alterar para dynamic_cast
@@ -512,7 +512,7 @@ Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm]
 @return : void
 */
 long double
-CPermeabilidadeGrafo::Next ()
+CSimPermeabilidadeGrafo::Next ()
 {
    // 0)Solucao do sistema como um todo
    // 2-Processo iterativo,
@@ -583,7 +583,7 @@ CPermeabilidadeGrafo::Next ()
 @param  :
 @return :   long double
 */
-long double CPermeabilidadeGrafo::Go ()
+long double CSimPermeabilidadeGrafo::Go ()
 {
    // Solicita propriedades do solver relativo a permeabilidade
    unsigned long int limiteIteracoes { 5000 };
@@ -640,7 +640,7 @@ long double CPermeabilidadeGrafo::Go ()
 Pode e deve ser otimizada, pois não precisa varrer todo o grafo,
 durante o cálculo do grafo anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
 */
-long double CPermeabilidadeGrafo::FluxoFronteira ( CContorno::ETipoContorno tipoFronteira )
+long double CSimPermeabilidadeGrafo::FluxoFronteira ( CContorno::ETipoContorno tipoFronteira )
 {
    long double fluxos { 0.0 };
    long double fluxoObjeto { 0.0 };

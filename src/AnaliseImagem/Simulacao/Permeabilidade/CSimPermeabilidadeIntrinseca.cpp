@@ -1,6 +1,6 @@
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CPermeabilidadeIntrinseca
+PROJETO:    Biblioteca libldsc CSimPermeabilidadeIntrinseca
 =========================================================================
 Desenvolvido por:	
 						LDSC - Laboratorio de Desenvolvimento de Software Científico
@@ -8,24 +8,24 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	  CPermeabilidadeIntrinseca.cpp
+@file 	  CSimPermeabilidadeIntrinseca.cpp
 @license    GNU General Public License - version 2
 						see  $LICENSEFILE$ for the full license text.
 */
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h> //novo
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h> //novo
 
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.h>
 
 using namespace std;
 
 // Construtor
-CPermeabilidadeIntrinseca::CPermeabilidadeIntrinseca ()
+CSimPermeabilidadeIntrinseca::CSimPermeabilidadeIntrinseca ()
 {
 	grafo	= nullptr;	// Ponteiro para CGrafo;
 	solver	= nullptr;	// Ponteiro para CSMDiagonalDominante;
 	fluido	= nullptr;	// Ponteiro para CMFluido;
-	perm		= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
+	perm		= nullptr;	// Ponteiro para CSimPermeabilidadeGrafo;
 
 	// valores usados em CSMDiagonalDominante
 	limiteIteracoes = 5000; // depois retirar
@@ -33,20 +33,20 @@ CPermeabilidadeIntrinseca::CPermeabilidadeIntrinseca ()
 }
 
 //Destrutor
-CPermeabilidadeIntrinseca::~CPermeabilidadeIntrinseca ()
+CSimPermeabilidadeIntrinseca::~CSimPermeabilidadeIntrinseca ()
 {
 	DestruirObjetos();
 }
 
 //Métodos
-void CPermeabilidadeIntrinseca::DestruirObjetos () {
+void CSimPermeabilidadeIntrinseca::DestruirObjetos () {
 	if ( grafo  ) { delete grafo;  grafo  = nullptr; }
 	if ( solver ) { delete solver; solver = nullptr; }
 	if ( fluido ) { delete fluido; fluido = nullptr; }
 	if ( perm   ) { delete perm;	 perm   = nullptr; }
 }
 
-bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
+bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 	/*
 	unsigned int size = matriz3D->NX(); 			// em 64bits int já é bem grande
@@ -68,14 +68,14 @@ bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsign
 		DestruirObjetos();
 		return false;
 	}
-	cout << "limiteErro em CPermeabilidadeIntrinseca::CriarObjetos: " << limiteErro << endl;
+	cout << "limiteErro em CSimPermeabilidadeIntrinseca::CriarObjetos: " << limiteErro << endl;
 	solver = static_cast < CSMDiagonalDominante * > (new  CSMDSOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
 	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;
 	}
 	
-	perm = new CPermeabilidadeGrafo ( fluido, solver, grafo, matriz3D->NX(), matriz3D->NY(), matriz3D->NZ(), fatorAmplificacao, dimensaoPixel/*,numeroPixelsBorda*/ );
+	perm = new CSimPermeabilidadeGrafo ( fluido, solver, grafo, matriz3D->NX(), matriz3D->NY(), matriz3D->NZ(), fatorAmplificacao, dimensaoPixel/*,numeroPixelsBorda*/ );
 	if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;
@@ -83,7 +83,7 @@ bool CPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsign
 	return true;
 }
 
-long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> * matriz3D ) {
+long double CSimPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> * matriz3D ) {
 	// cria objetos para verificar se existe conectividade em Y, na matriz3D recebida.
 	TCFEConectividade3D<int> * objCon = new TCFEConectividade3D<int>( matriz3D, 1, 0 );
 	bool conectada  = objCon->isConnected( matriz3D );
@@ -121,7 +121,7 @@ long double CPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int> *
 	return p;
 }
 
-long double CPermeabilidadeIntrinseca::Go( string pathNomeArquivo, long double fatorRelaxacao ) {
+long double CSimPermeabilidadeIntrinseca::Go( string pathNomeArquivo, long double fatorRelaxacao ) {
 	TCImagem3D<int> * img3D = nullptr;
 	img3D = new TCImagem3D<int>( pathNomeArquivo ); 				// não é deletado ?
 	if ( img3D )
@@ -130,7 +130,7 @@ long double CPermeabilidadeIntrinseca::Go( string pathNomeArquivo, long double f
 		return 0.0;
 }
 
-long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long double fatorRelaxacao ) {
+long double CSimPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long double fatorRelaxacao ) {
 	TCMatriz3D<int> * matriz3D = nullptr;
 	matriz3D = dynamic_cast< TCMatriz3D<int> *>(imagem3D);
 	if ( ! matriz3D)
@@ -138,7 +138,7 @@ long double CPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long dou
 	return Go( matriz3D, imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda(), fatorRelaxacao);
 }
 
-long double CPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
+long double CSimPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
 	TCMatriz3D<int> * mat3D = nullptr;
 	mat3D = new TCMatriz3D<int>( pathNomeArquivo ); 				// não é deletado ?
 	if ( ! mat3D )
@@ -146,14 +146,14 @@ long double CPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int 
 	return Go( mat3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda, fatorRelaxacao );
 }
 
-long double CPermeabilidadeIntrinseca::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
+long double CSimPermeabilidadeIntrinseca::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
 	 if ( CriarObjetos( matriz3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda, fatorRelaxacao ) ) {
 		return CalcularPermeabilidade( matriz3D );
 	}
 	return 0.0;
 }
 
-void CPermeabilidadeIntrinseca::SetarPropriedadesFluido( double viscosidade, bool densidade, bool compressibilidade, bool molhabilidade ) {
+void CSimPermeabilidadeIntrinseca::SetarPropriedadesFluido( double viscosidade, bool densidade, bool compressibilidade, bool molhabilidade ) {
 	if(fluido) {
 		fluido->Viscosidade(viscosidade);
 		fluido->Compressibilidade(compressibilidade);
@@ -162,7 +162,7 @@ void CPermeabilidadeIntrinseca::SetarPropriedadesFluido( double viscosidade, boo
 	}
 }
 
-void CPermeabilidadeIntrinseca::SetarPropriedadesSolver( long double _limiteErro, unsigned long int _limiteIteracoes ) {
+void CSimPermeabilidadeIntrinseca::SetarPropriedadesSolver( long double _limiteErro, unsigned long int _limiteIteracoes ) {
 	limiteIteracoes = _limiteIteracoes; 	//depois apagar...tirar estes atributos
 	limiteErro = _limiteErro;			//depois apagar...tirar estes atributos
 	

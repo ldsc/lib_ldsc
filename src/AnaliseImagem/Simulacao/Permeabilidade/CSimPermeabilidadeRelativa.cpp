@@ -1,6 +1,6 @@
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CPermeabilidadeRelativa
+PROJETO:    Biblioteca libldsc CSimPermeabilidadeRelativa
 =========================================================================
 Desenvolvido por:
             LDSC - Laboratorio de Desenvolvimento de Software Científico
@@ -8,19 +8,19 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	  CPermeabilidadeRelativa.cpp
+@file 	  CSimPermeabilidadeRelativa.cpp
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeRelativa.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeRelativa.h>
 
 // Construtor
-CPermeabilidadeRelativa::CPermeabilidadeRelativa ( ofstream & out ) {
+CSimPermeabilidadeRelativa::CSimPermeabilidadeRelativa ( ofstream & out ) {
 	foutPermRel = & out; // Cria arquivo que receberá os dados de permeabilidade relativa
 
-	permA	= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
-	permB	= nullptr;	// Ponteiro para CPermeabilidadeGrafo;
+	permA	= nullptr;	// Ponteiro para CSimPermeabilidadeGrafo;
+	permB	= nullptr;	// Ponteiro para CSimPermeabilidadeGrafo;
 	confeq	= nullptr;	// Ponteiro para CConfiguracoesEquilibrio3D;
 
 	imagemA = new TCImagem3D<int>(); //Estou criando imagens A e B no construtor para poder setar paramentor de recontrução antes da execução de Go()
@@ -35,11 +35,11 @@ CPermeabilidadeRelativa::CPermeabilidadeRelativa ( ofstream & out ) {
 }
 
 //Destrutor
-CPermeabilidadeRelativa::~CPermeabilidadeRelativa () {
+CSimPermeabilidadeRelativa::~CSimPermeabilidadeRelativa () {
 	DestruirObjetos();		// destroi os objetos criados.
 }
 
-void CPermeabilidadeRelativa::DestruirObjetos () {
+void CSimPermeabilidadeRelativa::DestruirObjetos () {
 	//if ( permA   ) { delete permA;	permA	= nullptr; }
 	//if ( permB   ) { delete permB;	permB	= nullptr; }
 	//COMENTADO PARA NÃO DAR FALHA DE SEGMENTAÇÃO
@@ -49,14 +49,14 @@ void CPermeabilidadeRelativa::DestruirObjetos () {
 }
 
 // Métodos
-bool CPermeabilidadeRelativa::Go( string pathNomeArquivo ) {
+bool CSimPermeabilidadeRelativa::Go( string pathNomeArquivo ) {
 	TCImagem3D<int> * imagem3D = new TCImagem3D<int>( pathNomeArquivo );
 	bool retorno = Go( imagem3D );
 	delete imagem3D;
 	return retorno;
 }
 
-bool CPermeabilidadeRelativa::Go ( TCImagem3D<int> *imagem3D ) {
+bool CSimPermeabilidadeRelativa::Go ( TCImagem3D<int> *imagem3D ) {
 	if ( ! imagem3D )
 		return false;
 
@@ -78,14 +78,14 @@ bool CPermeabilidadeRelativa::Go ( TCImagem3D<int> *imagem3D ) {
 	return Go( dynamic_cast< TCMatriz3D<int> *>( imagem3D ), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda());
 }
 
-bool CPermeabilidadeRelativa::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
+bool CSimPermeabilidadeRelativa::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
 	TCMatriz3D<int> * mat3D = new TCMatriz3D<int>( pathNomeArquivo );
 	bool retorno = Go( mat3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda );
 	delete mat3D;
 	return retorno;
 }
 
-bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
+bool CSimPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda ) {
 	if ( ! matriz3D ) {
 		DestruirObjetos();
 		cerr << "Erro: Imagem matriz3D nula!" << endl;
@@ -118,7 +118,7 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 	}
 
 	cout << "Calculando permeabilidade intrinseca..." << endl;
-	CPermeabilidadeIntrinseca permIn;
+	CSimPermeabilidadeIntrinseca permIn;
 	permIn.SetarPropriedadesSolver(limiteErro, limiteIteracoes);
 	long double permeabilidadeIntrinseca = permIn.Go( matriz3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda );
 	cout << "Permeabilidade intrinseca = " << permeabilidadeIntrinseca << endl;
@@ -182,7 +182,7 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 		cout << "\nCalculando Permeabilidade da imagem A no passo " << passo << endl;
 // 		permeabilidadeA = a->CalcularPermeabilidade( imagemA );
 //isto estava fora do loop. mudei para testes...
-		permA = new CPermeabilidadeIntrinseca ();
+		permA = new CSimPermeabilidadeIntrinseca ();
 		if ( ! permA ) {
 			DestruirObjetos();
 			cerr << "Erro: permA nula!" << endl;
@@ -197,7 +197,7 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 // 		permeabilidadeB = permB->CalcularPermeabilidade( imagemB );
 
 //isto estava fora do loop. mudei para testes...
-		permB = new CPermeabilidadeIntrinseca ();
+		permB = new CSimPermeabilidadeIntrinseca ();
 		if ( ! permB ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 			DestruirObjetos();
 			cerr << "Erro: permB nula!" << endl;
@@ -224,7 +224,7 @@ bool CPermeabilidadeRelativa::Go ( TCMatriz3D<int> * matriz3D, unsigned int fato
 	return true;
 }
 
-void CPermeabilidadeRelativa::SalvarImagens( ) {
+void CSimPermeabilidadeRelativa::SalvarImagens( ) {
 	static int cont = 1;
 	ostringstream outA;
 	outA	<< "imagemA-"<< setw(0) << cont << ".dbm";

@@ -98,7 +98,7 @@ Função:   CalcularCondutancias
 @short  : Transforma a propriedades raioHidraulico dos sítios em condutâncias.
 	Função que percorre todo o grafo e transforma a propriedade
 	raioHidraulico em condutancia (dos sítios)
-	pois para o objeto CPermeabilidadeGrafo o que interessa é a condutividade
+	pois para o objeto CSimPermeabilidadeGrafo o que interessa é a condutividade
 	que é usada pelo próprio objeto sítio para calcular a sua pressão (x).
 @author :	André Duarte Bueno
 @see    : Condutância

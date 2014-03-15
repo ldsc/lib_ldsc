@@ -1,16 +1,16 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: Base
 ===============================================================================
 
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-		  	[LDSC].
-@author:          Andre Duarte Bueno
-@file:             CSimulacao.cpp
-@begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by Andre Duarte Bueno
-@email:            andreduartebueno@gmail.com
+Desenvolvido por:
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:    Andre Duarte Bueno
+@file:      CSimulacao.cpp
+@begin:     Sat Sep 16 2000
+copyright:  (C) 2000 by Andre Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 //-----------------------------------------------------------------------

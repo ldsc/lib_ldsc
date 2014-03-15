@@ -1,10 +1,10 @@
 // Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
-#ifndef CPermeabilidadeRelativa_h
-#define CPermeabilidadeRelativa_h
+#ifndef CSimPermeabilidadeRelativa_h
+#define CSimPermeabilidadeRelativa_h
 
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CPermeabilidadeRelativa
+PROJETO:    Biblioteca libldsc CSimPermeabilidadeRelativa
 =========================================================================
 Desenvolvido por:	
             LDSC - Laboratorio de Desenvolvimento de Software Científico 
@@ -12,7 +12,7 @@ Desenvolvido por:
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	   CPermeabilidadeRelativa.h
+@file 	   CSimPermeabilidadeRelativa.h
 @license    GNU General Public License - version 2
             see  $LICENSEFILE$ for the full license text.
 */
@@ -34,8 +34,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio3D.h>
 #endif
 
-#ifndef CPermeabilidadeIntrinseca_h
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.h>
+#ifndef CSimPermeabilidadeIntrinseca_h
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.h>
 #endif
 
 
@@ -56,7 +56,7 @@ using namespace std;
  * 
 */
 
-class CPermeabilidadeRelativa
+class CSimPermeabilidadeRelativa
 {
 // --------------------------------------------------------------Atributos
 protected:
@@ -66,11 +66,11 @@ protected:
 	/// Ponteiro para TCMatriz3D<int> (imagemB);
 	TCImagem3D<int> * imagemB;
 
-	/// Ponteiro para CPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase A;
-	CPermeabilidadeIntrinseca * permA;
+	/// Ponteiro para CSimPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase A;
+	CSimPermeabilidadeIntrinseca * permA;
 
-	/// Ponteiro para CPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase B;
-	CPermeabilidadeIntrinseca * permB;
+	/// Ponteiro para CSimPermeabilidadeIntrinseca responsável pelo cálculo da permeabilidade da fase B;
+	CSimPermeabilidadeIntrinseca * permB;
 
 	/// Ponteiro para CConfiguracoesEquilibrio3D responsável por determinar as configurações de equilíbrio da imagem 3D;
   	CConfiguracoesEquilibrio3D *confeq;
@@ -93,11 +93,11 @@ public:
 // -----------------------------------------------------------Construtores
 public:	
 	/// Construtor Default
-	CPermeabilidadeRelativa( ofstream & out );
+	CSimPermeabilidadeRelativa( ofstream & out );
 
 // --------------------------------------------------------------Destrutor
 	/// Destrutor
-	virtual ~ CPermeabilidadeRelativa();
+	virtual ~ CSimPermeabilidadeRelativa();
 
 // ----------------------------------------------------------------Métodos
 protected:

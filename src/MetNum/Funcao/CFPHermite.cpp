@@ -49,8 +49,8 @@ CFPHermite::Go (double x, double y)
 
 // Calcula o polinomio de hermite eq.3.24
 // funcao repetida diversas vezes
-// Aceleracao do calculo
-// Se m e y assumirem valores repetidos, montar uma matriz de Hermite para acelerar o calculo
+// Aceleracao do cálculo
+// Se m e y assumirem valores repetidos, montar uma matriz de Hermite para acelerar o cálculo
 double
 CFPHermite::Hermite (int mm, double y)
 {

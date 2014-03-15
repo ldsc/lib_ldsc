@@ -1,4 +1,4 @@
-//  Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+//  ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	CFMMIDFdijk.cpp
 Nome da classe:      CFMMIDFdijk
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:	 Implementa a função CriaMascara da classe CFMMIDFdijk.
+Descricao:	 Implementa a funï¿½ï¿½o CriaMascara da classe CFMMIDFdijk.
 */
 
 //  ----------------------------------------------------------------------------
@@ -27,10 +27,10 @@ using namespace std;
 ============================================================================
 Documentacao 		CriaMascara
 ============================================================================
-Descrição:        Funcao que cria a mascara de chanfro adequada.
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:        Funcao que cria a mascara de chanfro adequada.
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 
@@ -42,11 +42,11 @@ CFMMIDFdijk::CriaMascara (unsigned int _tamanhoMascara)
 {
   if (mask)			//  se existe uma mascara
     {
-      if (mask->NX () == _tamanhoMascara)//  e é do mesmo  tamanho
+      if (mask->NX () == _tamanhoMascara)//  e ï¿½ do mesmo  tamanho
 	return;			//  sai
-      delete mask;		//  se  não é do mesmo tamanho apaga
+      delete mask;		//  se  nï¿½o ï¿½ do mesmo tamanho apaga
     }				//  e abaixo cria uma nova
-  //  se não existe a mascara, cria uma nova
+  //  se nï¿½o existe a mascara, cria uma nova
   mask = new CBCdijk (_tamanhoMascara, mi, mj, mk, raioBase);
 }
 
@@ -54,18 +54,18 @@ CFMMIDFdijk::CriaMascara (unsigned int _tamanhoMascara)
 ============================================================================
 Documentacao 		Funcao Go
 ============================================================================
-Descrição:
+Descriï¿½ï¿½o:
 Antes realizava um processo mais lento, criava uma mascara da mascara e depois
 percorria os valores da imagem usando esta mascara da mascara num processo mais confuso e lento.
-Da forma como esta não existe mais a necessidade de se definir uma mascara da mascara,
-de preencher os valores da mesma e realizar loops de calculo.
-Aqui substitui as chamadas a mascara da mascara pelo próprio valor, e substitui o loop pela repetição do código
+Da forma como esta nï¿½o existe mais a necessidade de se definir uma mascara da mascara,
+de preencher os valores da mesma e realizar loops de cÃ¡lculo.
+Aqui substitui as chamadas a mascara da mascara pelo prï¿½prio valor, e substitui o loop pela repetiï¿½ï¿½o do cï¿½digo
 de teste para cada ponto da mascara.
-Para a d5711 tem-se 8 testes, o que não deixa o código muito extenso e
-compensa pela maior velocidade e compreensão.
+Para a d5711 tem-se 8 testes, o que nï¿½o deixa o cï¿½digo muito extenso e
+compensa pela maior velocidade e compreensï¿½o.
 
-Observe que não percorre toda a imagem, como são acessados valores -2 e +2
-deve percorrer a parte interna da imagem, não acessando a borda da imagem.
+Observe que nï¿½o percorre toda a imagem, como sï¿½o acessados valores -2 e +2
+deve percorrer a parte interna da imagem, nï¿½o acessando a borda da imagem.
 Ou seja desconsidera-se os pontos da borda da imagem.
 */
 //  CMatriz2D * CFMMIDFdijk::Go( CMatriz2D *& matriz)
@@ -79,8 +79,8 @@ CFMMIDFdijk::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
   //  observe o for iniciar de 2, deixando de fora 0 e 1.
   //  A funcao abaixo considera os planos 0
 //   IDFNosPlanosDeContornoIDA(mi);
-  //  Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faço a seguir
-  //  por simplificacao faço ponto igual a 5, posteriormente calcular corretamente
+  //  Falta considerar os planos em que x=1 e y=x, x=nx-2, y=ny-2, o que faï¿½o a seguir
+  //  por simplificacao faï¿½o ponto igual a 5, posteriormente calcular corretamente
   for (y = 1; y < ny - 1; y++)
     if (data2D[1][y] != 0)	//  percorre linha x=1
       data2D[1][y] = mi;
@@ -88,11 +88,11 @@ CFMMIDFdijk::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
     if (data2D[x][1] != 0)	//  percorre linha y=1
       data2D[x][1] = mi;
 
-  //  deve considerar adicionalmente a segunda linha, pois abaixo a mesma não é verificada.
+  //  deve considerar adicionalmente a segunda linha, pois abaixo a mesma nï¿½o ï¿½ verificada.
 
   //  ida   MinimoIda
-  //  Da forma como esta não percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-  for (y = 2; y < ny - 2; y++)	//  NY() é igual a ny, ny da matriz idf
+  //  Da forma como esta nï¿½o percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+  for (y = 2; y < ny - 2; y++)	//  NY() ï¿½ igual a ny, ny da matriz idf
     for (x = 2; x < nx - 2; x++)
       if (data2D[x][y] != 0)	//  Testa a imagem, se nao for solido entra
 	{			//  
@@ -121,8 +121,8 @@ CFMMIDFdijk::Go (CMatriz2D * &matriz, unsigned int /*_tamanhoMascara*/ )
     if (data2D[x][ny - 2] != 0)	//  percorre linha y=ny-2
       data2D[x][ny - 2] = mi;
 
-  //  Da forma como esta não percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
-  for (y = ny - 3; y > 1; y--)	//  -2 pois começa do zero e a mascara tem tamanho 1
+  //  Da forma como esta nï¿½o percorre a borda (pontos 0,0 e 0,n ) pois causaria estouro por acesso a pontos inexistentes.
+  for (y = ny - 3; y > 1; y--)	//  -2 pois comeï¿½a do zero e a mascara tem tamanho 1
     for (x = nx - 3; x > 1; x--)
       if (data2D[x][y] != 0)	//  Se nao for solido
 	{

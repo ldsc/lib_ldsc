@@ -205,7 +205,7 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
 // -------------------------------------------------------------------------
 /**
 @short  : Redefinida, em relação a CGrafo.
-        Adiciona o calculo das condutâncias das ligações
+        Adiciona o cálculo das condutâncias das ligações
 @author :	André Duarte Bueno
 @see    : Condutância
 @param  : nada
@@ -224,7 +224,7 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
    // Chama função da classe base que calcula as condutâncias
    CGrafoConexaoSerial_M3::CalcularCondutancias ( _viscosidade, _dimensaoPixel, _fatorAmplificacao );
 
-   // Inicio do calculo da correção das condutâncias
+   // Inicio do cálculo da correção das condutâncias
    // Ponteiro para sitio derivado
 
    // Distancia dx entre os dois sítios
@@ -326,7 +326,7 @@ long double CGrafoConexaoSerial_M6_Tortuosidade::CalcularTortuosidade ()
    ofstream arq_tortuosidade ( ( NomeGrafo() + ".tortuosidade" ).c_str() );
    arq_tortuosidade << "fatorCorrecaoDistancias(desvios laterais entre centros de massa dos objetos conectados)\n";
 
-   // Inicio do calculo da correção das condutâncias
+   // Inicio do cálculo da correção das condutâncias
    // Ponteiro para sitio derivado
    CObjetoEsqueleto*     sitio = nullptr;
 

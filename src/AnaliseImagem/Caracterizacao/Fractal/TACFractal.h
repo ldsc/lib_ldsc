@@ -41,7 +41,7 @@ class TACFractal
 {
 //Atributos novos
 public:
-  TVetor * vetorDados;		//vetor com dados para calculo da dimens�o fractal
+  TVetor * vetorDados;		//vetor com dados para cálculo da dimens�o fractal
 protected:
   float dimensaoFractal;	//dimensao fractal calculada
   //Construtor e destrutor

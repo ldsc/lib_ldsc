@@ -111,7 +111,7 @@ void TIConfEq3DSimPermRel::PrepareConfEqSim ()
     I3DRawImage *imagem = chamber->GetimgPorousMedia ();
     assert (imagem != NULL);
 
-    //salva imagem usada para calculo da permeabilidade intrinseca
+    //salva imagem usada para cálculo da permeabilidade intrinseca
     //SaveImg1bpp ( imagem, "imagem_chamber_GetimgPorousMedia.i3d");
 
     //obtem imagem do n�cleo
@@ -121,7 +121,7 @@ void TIConfEq3DSimPermRel::PrepareConfEqSim ()
     delete imagem;
     assert (imgNucleo != NULL);
 
-    //salva imagem usada para calculo da permeabilidade intrinseca
+    //salva imagem usada para cálculo da permeabilidade intrinseca
     //     SaveImg1bpp ( imgNucleo, "imagem_chamber_GetimgPorousMedia_nucleo.i3d");
     //calcula permeabilidade intrinseca
     //   intrinsicPermeability = TIConfEq3DSimPermRel::CalculaPermeabilidade(imgNucleo);
@@ -181,7 +181,7 @@ TIConfEq3DSimPermRel::IntermediatNextOutput ()
     fout << " detPerm = " << determinarPermeabilidade;
 }
 
-//Fun��o de calculo da permeabilidade em s�.
+//Fun��o de cálculo da permeabilidade em s�.
 //calcula direto, sem o uso do di�logo
 double
 TIConfEq3DSimPermRel::CalculaPermeabilidade (I3DRawImage * &img)

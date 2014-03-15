@@ -15,7 +15,7 @@ class CETesteMediaDuasAmostras;
 
 /**
  * @brief Classe estatística básica, determina informações como média, desvio padrão, variância, covariancia.
- * A classe CEstatistica deve ter objetos agregados para a realização de calculos estatisticos.
+ * A classe CEstatistica deve ter objetos agregados para a realização de cálculos estatisticos.
  * */
 class CEstatistica
 {

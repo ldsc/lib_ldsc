@@ -37,7 +37,7 @@ CFEDeteccaoContornoMasc::CriaMascara (unsigned int _tamanhoMascara)
     delete mask;
   mask = new CMDeteccaoContorno (_tamanhoMascara);	// Cria a mascara
   // O construtor da mascara chama a funcao
-  // de preenchimento da mascara e de calculo
+  // de preenchimento da mascara e de cálculo
   // do peso da mascara        
 }
 

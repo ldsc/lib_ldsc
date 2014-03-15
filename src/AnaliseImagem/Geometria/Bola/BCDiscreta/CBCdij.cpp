@@ -24,8 +24,8 @@ Descricao:	 Implementa as funções da classe CBCdij.
   ==================================================================================
   Documentacao Construtor
   ==================================================================================
-  Descrição:        Chama as funcoes de calculo do raio da bola e depois	chama preenche mascara
-  Divide o tamanho da mascara por dois, porque o método atual de calculo
+  Descrição:        Chama as funcoes de cálculo do raio da bola e depois	chama preenche mascara
+  Divide o tamanho da mascara por dois, porque o método atual de cálculo
   só usa a metade da mascara :CBCDiscreta((tamanhoMascara-1)/2+1)
   CBCdij(unsigned int tm,int i,int j,int rb):CMascara(tm),TMCDij(i,j,rb)
 
@@ -46,19 +46,19 @@ CBCdij::CBCdij (unsigned int tm, int mi, int mj, int /*raioBase */ )
    unsigned int dist;		// distancia calculada
    unsigned int raio = RaioX ();	// Como a bola é quadrada uso raio=raioX=raioY
 
-   // calculo raio bola inclusa e tangente
+   // cálculo raio bola inclusa e tangente
    raioBolaInclusa = mi * (raio);	// 3*(raio);
    raioBolaTangente = mi * (raio + 1);	// 3*(raio + 1);
 
-   // variaveis otimizacao, usadas calculo simetria
+   // variaveis otimizacao, usadas cálculo simetria
    unsigned int posxe, posxd;	// x esquerda e x direita
    unsigned int posys, posyn;	// y sul e y norte
    unsigned int miXraio = mi * raio;
-   for (unsigned int xx = 0; xx <= raio; xx++){	// Usa simetria para calculo da bola
+   for (unsigned int xx = 0; xx <= raio; xx++){	// Usa simetria para cálculo da bola
       posxe = raio - xx;
       posxd = raio + xx;
       for (unsigned int yy = 0; yy <= raio; yy++) {	// só percorre meia bola
-      	// por ser simétrica, calculo distancia
+      	// por ser simétrica, cálculo distancia
          // Falta o uso do raioBase?
          if (xx == yy) {
             dist = mj * xx;	// dist=4*xx;   // ou 4*yy
@@ -94,7 +94,7 @@ CBCdij::CBCdij (unsigned int tm, int mi, int mj, int /*raioBase */ )
 unsigned int posxe,posxd;// x esquerda e x direita
 unsigned int posys,posyn;// y sul e y norte
 unsigned int miXraio=mi*raio;
-for (unsigned int xx=0; xx <= raio; xx++)// Usa simetria para calculo da bola
+for (unsigned int xx=0; xx <= raio; xx++)// Usa simetria para cálculo da bola
   {
     posxe=raio - xx;
     posxd=raio + xx;

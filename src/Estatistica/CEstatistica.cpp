@@ -105,7 +105,7 @@ CEstatistica::Variancia (double *Re_data, int NX, int NY, int NZ)
 
 // Criar duas, uma para media, uma para desvio padrão
 // e trabalhar com um TVetor
-// Antes de chamar o calculo do DesvioPadrao deve zerar as variáveis chamando
+// Antes de chamar o cálculo do DesvioPadrao deve zerar as variáveis chamando
 // a função Inicializa(..)
 double
 CEstatistica::DesvioPadrao (double *x, int numeroDados)

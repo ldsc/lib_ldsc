@@ -5,7 +5,7 @@
 
 #include "Interpolacao.h"
 //---------------------------------------------------------------------------
-//vari†veis estaticas precisam ser definidas abaixo da classe
+//variÔøΩveis estaticas precisam ser definidas abaixo da classe
 double
   Interpolacao::peclet = 0.0;
 double
@@ -21,16 +21,16 @@ Interpolacao *
 
 //---------------------------------------------------------------------------
 //sobrecarga operadores cin>> e cout<<   template
-//informa ao template que Ç para criar esta funcao para esta classe
+//informa ao template que ÔøΩ para criar esta funcao para esta classe
 ostream & operator << (ostream & op, Interpolacao * &c);
 istream & operator >> (istream & op, Interpolacao * &c);
 
 /*
 //---------------------------------------------------------------------------
-//Com a definicao da funáao genÇrica a partir do template, nao temos
+//Com a definicao da funÔøΩao genÔøΩrica a partir do template, nao temos
 //a necessidade de digitar as funcoes abaixo.
 //Funcao sobrecarregada de entrada dos dados (cin>>objetoclima)
-//Como Ç uma funcao friend nao entra o nome da classe::
+//Como ÔøΩ uma funcao friend nao entra o nome da classe::
 istream& operator >> (istream& op,Interpolacao*& c)
 {
  c->f_entrada();
@@ -38,7 +38,7 @@ istream& operator >> (istream& op,Interpolacao*& c)
 }
 //---------------------------------------------------------------------------
 //Funcao sobrecarregada de saida dos dados (cout<<objetoclima)
-//Como Ç uma funcao friend nao entra o nome da classe::
+//Como ÔøΩ uma funcao friend nao entra o nome da classe::
 ostream& operator << (ostream& op,Interpolacao*& c)
 {
  c->f_saida();
@@ -83,9 +83,9 @@ Interpolacao::f_saida ()
   cout << "\n\tbeta=" << beta;
 }
 
-//…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
-//∫                         CLASSE  Diferencas_Centrais                  ∫
-//»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕª
+//ÔøΩ                         CLASSE  Diferencas_Centrais                  ÔøΩ
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕº
 //Utiliza aproximacao por diferencas centrais.
 //Alfa e beta sao constantes
 class Diferencas_Centrais:public Interpolacao
@@ -94,7 +94,7 @@ class Diferencas_Centrais:public Interpolacao
 public:
   Diferencas_Centrais ();	//Construtor
   virtual ~ Diferencas_Centrais ();	//Destrutor
-  virtual void f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  virtual void f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //Construtor
@@ -113,20 +113,20 @@ Diferencas_Centrais::~Diferencas_Centrais ()
 }
 
 //---------------------------------------------------------------------------
-//funcao de calculo de alfa e beta.
-//Esta funcao Ç redefinida .
-//observe que aqui nao realiza nenhum c†lculo.
+//funcao de c√°lculo de alfa e beta.
+//Esta funcao ÔøΩ redefinida .
+//observe que aqui nao realiza nenhum cÔøΩlculo.
 //pois para o Diferencas_Centrais alfa e beta sao constantes
 //e foram definidos no construtor
 void
-Diferencas_Centrais::f_calculo_alfa_beta
+Diferencas_Centrais::f_c√°lculo_alfa_beta
   (double &u, double &dxc, double &ro, double &dif)
 {
 }
 
-//…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
-//∫                          CLASSE Upwind                               ∫
-//»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕª
+//ÔøΩ                          CLASSE Upwind                               ÔøΩ
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕº
 //Utiliza aproximacao por Upwind
 //Alfa e beta sao constantes
 class
@@ -140,7 +140,7 @@ public:
   virtual ~
   Upwind ();			//construtor
   virtual void
-    f_calculo_alfa_beta		//destrutor
+    f_c√°lculo_alfa_beta		//destrutor
   (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
@@ -160,18 +160,18 @@ Upwind::~Upwind ()
 }
 
 //---------------------------------------------------------------------------
-//funcao de calculo de alfa e beta.
-//Esta funcao Ç redefinida .
-//observe que aqui nao realiza nenhum c†lculo.
+//funcao de c√°lculo de alfa e beta.
+//Esta funcao ÔøΩ redefinida .
+//observe que aqui nao realiza nenhum cÔøΩlculo.
 //pois para o upwind alfa e beta sao constantes e foram definidos no construtor
 void
-Upwind::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Upwind::f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
 }
 
-//…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
-//∫                          CLASSE Wuds                                 ∫
-//»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕª
+//ÔøΩ                          CLASSE Wuds                                 ÔøΩ
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕº
 //Utiliza aproximacao Wuds, que 'e baseada na solucao exata do problema
 //Entretanto faz uma aproximacao dos coeficientes alfa e beta
 //classe Interpolacao deve calcular os coeficientes alfa e beta.
@@ -186,7 +186,7 @@ public:
   virtual ~
   Wuds ();
   virtual void
-  f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //construtor
@@ -205,11 +205,11 @@ Wuds::~Wuds ()
 }
 
 //---------------------------------------------------------------------------
-//funcao de calculo de alfa e beta.
-//observe que Ç definida na classe base e aqui redefinida.
-//os parametros sao passados por referencia por ser mais r†pido
+//funcao de c√°lculo de alfa e beta.
+//observe que ÔøΩ definida na classe base e aqui redefinida.
+//os parametros sao passados por referencia por ser mais rÔøΩpido
 void
-Wuds::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Wuds::f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
   peclet = u * dxc * ro / dif;
   pe2 = peclet * peclet;
@@ -217,9 +217,9 @@ Wuds::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
   beta = (1.0 + 0.005 * pe2) / (1.0 + 0.05 * pe2);
 }
 
-//…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
-//∫                          CLASSE Exata                                ∫
-//»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕª
+//ÔøΩ                          CLASSE Exata                                ÔøΩ
+//ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÕº
 //Utiliza aproximacao exata, que 'e baseada na solucao exata do problema
 //Os coeficientes alfa e beta calculados sao exatos.
 //A velocidade recebida como parametro nao pode ser zero.
@@ -229,7 +229,7 @@ class Exata:public Interpolacao
 public:
   Exata ();			//Construtor
   virtual ~ Exata ();		//Destrutor
-  virtual void f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  virtual void f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //Construtor
@@ -255,7 +255,7 @@ Exata::~Exata ()
 //Pode-se futuramente incluir aqui um tratamento de excessao
 //para o estouro da pilha.
 void
-Exata::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Exata::f_c√°lculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
   peclet = u * dxc * ro / dif;	//v=0 peclet=0
   c3 = pow (E, peclet) - 1.0;	//c1=e^peclet-1
@@ -325,10 +325,10 @@ main()
   clrscr();
 
   //calcula os valores de alfa e beta
-  dc->f_calculo_alfa_beta(u,dxc,ro,dif);
-  up->f_calculo_alfa_beta(u,dxc,ro,dif);
-  wu->f_calculo_alfa_beta(u,dxc,ro,dif);
-  ex->f_calculo_alfa_beta(u,dxc,ro,dif);
+  dc->f_c√°lculo_alfa_beta(u,dxc,ro,dif);
+  up->f_c√°lculo_alfa_beta(u,dxc,ro,dif);
+  wu->f_c√°lculo_alfa_beta(u,dxc,ro,dif);
+  ex->f_c√°lculo_alfa_beta(u,dxc,ro,dif);
 
   //mostra os valores de alfa e beta
   cout<<dc;

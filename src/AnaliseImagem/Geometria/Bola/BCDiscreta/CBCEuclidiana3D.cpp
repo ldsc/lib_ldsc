@@ -27,7 +27,7 @@ Descricao: Implementa as funções da classe CBCEuclidiana3D.
 ==================================================================================
 Documentacao Construtor
 ==================================================================================
-Descrição:        Chama as funcoes de calculo do raio da bola,
+Descrição:        Chama as funcoes de cálculo do raio da bola,
     e depois a funcao de preenchimento da mascara.
 Pré-condições:
 Excessões:        tipos de excessoes
@@ -35,7 +35,7 @@ Concorrência:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:	Obs: as mascaras de chanfro discretas d4,d8,d34, e d5711
-                  usam no seu processo de calculo só o primeiro quadrante,
+                  usam no seu processo de cálculo só o primeiro quadrante,
                   de forma que o tamanho da mascara é (size-1)/2+1. =GetRaioX()+1
                   Aqui usa o procedimento padrão, usa a mascara em 2D
                   com o tamanho passado pelo usuário.
@@ -48,7 +48,7 @@ CBCEuclidiana3D::CBCEuclidiana3D (unsigned int tamanhoMascara)
    unsigned int i, j, k;		// contadores
    unsigned int ixi, jxj;	// otimizacao
    unsigned int raio = RaioX ();	// raio da bola
-   raioBolaTangente = (raio + 1) * 100;	// *100  Multiplica por 100, porque todo o calculo da bola
+   raioBolaTangente = (raio + 1) * 100;	// *100  Multiplica por 100, porque todo o cálculo da bola
    raioBolaInclusa = (raio) * 100;	// é realizado assim
    float dist;			// Distancia calculada
    unsigned int posxe, posxd;	// Variaveis simetria: x esquerda e x direita  // rebatimento x

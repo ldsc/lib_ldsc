@@ -427,7 +427,7 @@ int main ( int argc, char *argv[] )
 
 			case 9:
 			{
-				cout << "Selecionou calculo porosidade." << endl;
+				cout << "Selecionou cálculo porosidade." << endl;
 				result = system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
@@ -589,7 +589,7 @@ int main ( int argc, char *argv[] )
 
 			case 16:
 			{
-				cout << "Selecionou calculo porosidade." << endl;
+				cout << "Selecionou cálculo porosidade." << endl;
 				result = system("ls *.pbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;

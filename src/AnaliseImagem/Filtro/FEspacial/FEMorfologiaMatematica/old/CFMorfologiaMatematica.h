@@ -55,7 +55,7 @@ public:
     EEHitMiss1 = EEHitMiss2 = false;
   };
   // Abaixo a fun��o Go que � reescrita aqui, vazia, para inibir o
-  // calculo da convolu��o realizado na classe TFEspacial
+  // cálculo da convolu��o realizado na classe TFEspacial
   // As opera��es da morfologia matem�tica s�o diferentes.
   // virtual CMatriz2D * Go( CMatriz2D*& matriz){return matriz;};// 
   virtual CMatriz2D *Go (CMatriz2D * &matriz, unsigned int _tamanhoMascara =

@@ -37,11 +37,11 @@
 */
 template<typename T>
 void TCRotulador2D<T>::CalculaAreaObjetos () {
-   // só procede o calculo se a matriz rótulo já foi determinada
+   // só procede o cálculo se a matriz rótulo já foi determinada
    if (!rotulado)
       Go (pm);			// Calcula a matriz rotulo
 
-   if (rotulado) {			// Só procede o calculo se a matriz rótulo foi determinada
+   if (rotulado) {			// Só procede o cálculo se a matriz rótulo foi determinada
       if (areaObjetos)		// Se o vetor areaObjetos já existe, apaga
          delete areaObjetos;
       areaObjetos = new CVetor (numeroObjetos);	// Cria vetor área dos objetos
@@ -85,11 +85,11 @@ void TCRotulador2D<T>::CalculaAreaObjetos () {
 */
 template<typename T>
 void TCRotulador2D<T>::CalculaPerimetroObjetos () {
-   if (!rotulado)		// só procede o calculo se a matriz rótulo já foi determinada
+   if (!rotulado)		// só procede o cálculo se a matriz rótulo já foi determinada
       Go (pm);			// Cria e calcula a matriz rotulo
    // BUG: se pm tiver sido deletado, trocar por Go(this)?
 
-   if (rotulado) {			// só procede o calculo se a matriz rótulo foi determinada
+   if (rotulado) {			// só procede o cálculo se a matriz rótulo foi determinada
       if (perimetroObjetos)	// Cria vetor perimetroObjetos
          delete perimetroObjetos;
       perimetroObjetos = new CVetor (numeroObjetos);
@@ -507,7 +507,7 @@ void TCRotulador2D<T>::IdentificaObjetos () {
 
 
   Versão 7: Temporariamente o deslocamente de rótulos foi eliminado
-  por adicionar verificações no calculo do perimetro e do raioHidraulico.
+  por adicionar verificações no cálculo do perimetro e do raioHidraulico.
 
   @author :André Duarte Bueno
   @see    :

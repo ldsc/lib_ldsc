@@ -166,7 +166,7 @@ TIConfEq3DSim::Next ()
 };
 
 //Cria as imagens nucleo, que ser�o utilizadas
-//no calculos da IntermediatNextCalculate
+//no cálculos da IntermediatNextCalculate
 //Calculo das satura��es das imagens e evcentualmente
 //da permeabilidade relativa
 void

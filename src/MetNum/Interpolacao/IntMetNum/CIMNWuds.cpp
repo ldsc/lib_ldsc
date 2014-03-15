@@ -18,7 +18,7 @@ CIMNWuds::~CIMNWuds ()
 }
 
 // ---------------------------------------------------------------------------
-// funcao de calculo de alfa e beta.
+// funcao de cálculo de alfa e beta.
 // observe que é definida na classe base e aqui redefinida.
 // os parametros sao passados por referencia por ser mais rápido
 void

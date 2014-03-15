@@ -105,7 +105,7 @@ void CAberturaDilatacao3D::DistTotalPoros() {
 			break;//raioElem = ( matrizAuxiliar->NX() - 1 ) / 2 + 1; // encerra o for
 
 		// Condição de parada
-		// necessário senão o calculo fica muito demorado.
+		// necessário senão o cálculo fica muito demorado.
 		//if( raioElem > raioMaximoElementoEstruturante )
 		//	break;
 	}
@@ -122,7 +122,7 @@ void CAberturaDilatacao3D::SequenciaAberturaTonsCinza() {
 	TCMatriz3D<bool>* matrizAbertura = new TCMatriz3D<bool>( *pm );
 
 	// Entra num looping para o raio do elemento estruturante
-	cout << "Entrando no looping de calculo das aberturas..." << endl ;
+	cout << "Entrando no looping de cálculo das aberturas..." << endl ;
 	for ( int raioEE = 1; raioEE <= (pm->NX()-1)/2; raioEE++ ) {
 		cout << "==>RAIO Elemento Estruturante = " <<  raioEE << endl ;
 
@@ -428,7 +428,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura );//chama calculo idf 1x
+	pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
@@ -810,7 +810,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_8() {
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura );//chama calculo idf 1x
+	pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
@@ -1130,7 +1130,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 		//Só recalcula a IDF se o raio do EE utilizado na abertura form <= ao raio do EE utilizado na dilatação.
 		if (raioEE <= raioEEDilatacao) {
 			cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-			pfmf->Go( matrizAbertura );//chama calculo idf 1x
+			pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 			cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 		}
 
@@ -1144,7 +1144,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 		//Só executa dilatação se o raio do EE utilizado na abertura form menor que raio do EE utilizado na dilatação.
 		if (raioEE < raioEEDilatacao) {
 			cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-			pfmf->Go( matrizAbertura );//chama calculo idf 1x
+			pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 			cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 			cout << "-->Processando Dilatacao...\t\t\t"; cout.flush(); timing = omp_get_wtime();
@@ -1419,7 +1419,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura );//chama calculo idf 1x
+	pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;
@@ -2085,7 +2085,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	TCMatriz3D<int>* matrizRotulada = new TCMatriz3D<int>( *matrizRotulo );
 
 	cout << "-->Preparando filtro...\t\t\t\t"; cout.flush(); timing = omp_get_wtime();
-	pfmf->Go( matrizAbertura );//chama calculo idf 1x
+	pfmf->Go( matrizAbertura );//chama cálculo idf 1x
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "Entrando no looping para indentificar poros e gargantas..." << endl ;

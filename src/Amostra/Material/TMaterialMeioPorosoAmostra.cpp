@@ -122,10 +122,10 @@ CMaterialMeioPorosoAmostra::Saida ()
 {
   // se na funcao de entrada, permite a entrada dos atributos dos dois objetos
   // estaticos, MF e MMP, aqui deveria mostrar os atributos destes dois objetos
-  // para que o usuario possa os alterar?
+  // para que o usuário possa os alterar?
   // Isto nao e necessario, pois voce executa as funcoes f_entrada dos objetos
   // estaticos, e a funcao f_entrada ja verifica a entrada correta dos dados
-  // possibilitando ao usuario a alteracao atributos errados. OK.
+  // possibilitando ao usuário a alteracao atributos errados. OK.
 
   cout <<
     "\n\tObjeto material meio poroso amostra, atributos da classe base.";
@@ -313,10 +313,10 @@ double  CMaterialMeioPorosoAmostra::f_conteudo_wl()
 // wl em funcao de ol, e depois a umidade pela curva de adsorcao.
 
 // Depois que estiver implementado o banco de dados de materiais
-// o usuario podera� selecionar o material onde estao  definidos
+// o usuário podera� selecionar o material onde estao  definidos
 // os atributos do material, inclusive os relativos aos ensaios realizados
-// A umidade calculada por f_adsorcao � armazenada em umidade
-// O calculo da adsorcao e da dessorcao deve ser realizado com um unico
+// A umidade calculada por f_adsorcao � armazenada em umidade
+// O cálculo da adsorcao e da dessorcao deve ser realizado com um unico
 // polinomio; permitindo seu armazenamento em disco?
 // Basta criar dois objetos polinomios.
 
@@ -354,7 +354,7 @@ CMaterialMeioPorosoAmostra::Adsorcao ()
 	umidade=26.8817*conteudo_wl+95.419;
 	}
 // EQUACAO PARA ADSORCAO ANDRE TELHA
-	else if(tipo=='t'||tipo=='T')// tipo=t telha Andr�, d de default
+	else if(tipo=='t'||tipo=='T')// tipo=t telha Andr�, d de default
 	{t1=30;
 	 if (conteudo_wl<=0.0163)
 	umidade=3894*conteudo_wl;
@@ -388,7 +388,7 @@ CMaterialMeioPorosoAmostra::Adsorcao ()
 double
 CMaterialMeioPorosoAmostra:Dessorcao ()
 {
-  Adsorcao ();		// chama o calculo da adsorcao (curva de dessorcao nao calculada)
+  Adsorcao ();		// chama o cálculo da adsorcao (curva de dessorcao nao calculada)
   return (umidade);
 }
 
@@ -415,7 +415,7 @@ CMaterialMeioPorosoAmostra::Derivada_h_teta_h_ol ()
 // calcula a difusividade global a transferencia de fluido
 // Observe que por enquanto esta definida como a curva de difusividade
 // da argamassa de cal e cimento
-// Posteriormente dever� ser alterada, incluindo as difusividade
+// Posteriormente dever� ser alterada, incluindo as difusividade
 // de massa e de temperatura.
 // Obs Modificar para polinomio, a difusividade deve poder
 // ser posta na forma de um ou dois polinomios.
@@ -440,7 +440,7 @@ CMaterialMeioPorosoAmostra::Difusividade_massica ()	// redefinida
   if (difusividade_massica > 2e-6)	// assegura valor maximo difusividade_massica
     difusividade_massica = 2e-6;	// alteracao- o correto e fixar conteudo_ol?
   // se conteudo_ol ja foi fixado, entao basta
-  // verificar o calculo da difusividade para a regiao
+  // verificar o cálculo da difusividade para a regiao
   // do conteudo_ol.
   return (difusividade_massica);
 
@@ -448,11 +448,11 @@ CMaterialMeioPorosoAmostra::Difusividade_massica ()	// redefinida
 
 /*
 Esta funcao deveria chamar as funcoes:
-	f_calculo_difusividade_dtl();
+	f_cálculo_difusividade_dtl();
 
-	f_calculo_difusividade_dtv();
-	f_calculo_difusividade_doll();
-	f_calculo_difusividade_dolv();
+	f_cálculo_difusividade_dtv();
+	f_cálculo_difusividade_doll();
+	f_cálculo_difusividade_dolv();
 	f_fator_experimental(); 			// subst. por polinomio p_fe
 	f_derivada_h_teta_h_ol();
 	e calcular a difusividade massica por
@@ -464,7 +464,7 @@ Esta funcao deveria chamar as funcoes:
 // ---------------------------------------------------------------------------
 // Difusividade termica fase liquida
 double
-CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtl ()
+CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtl ()
 {
   // dtl=dtv;  // para baixos conteudos desprezo o DTL
   dtl = 1e-12;
@@ -472,9 +472,9 @@ CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtl ()
 }
 
 // ---------------------------------------------------------------------------
-// Difusividade t�rmica fase vapor
+// Difusividade t�rmica fase vapor
 double
-CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtv ()
+CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtv ()
 {				/*
 				   double h1;
 				   double dif_vapor_ar=1.0;
@@ -491,7 +491,7 @@ CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtv ()
 // ---------------------------------------------------------------------------
 // Difusividade massica fase liquida
 double
-CMaterialMeioPorosoAmostra::f_calculo_difusividade_doll ()
+CMaterialMeioPorosoAmostra::f_cálculo_difusividade_doll ()
 {
   doll = 1e-8;			// dolv;
   return (doll);
@@ -508,7 +508,7 @@ CMaterialMeioPorosoAmostra::Calculo_difusividade_dolv ()
 				   double densidade_vapor_saturado=1.0;
 				   double densidade_fluido=1.0;
 
-				   // dhol=f_calculo_didufisidade_oll(ol);// ???
+				   // dhol=f_cálculo_didufisidade_oll(ol);// ???
 				   dolv=dif_vapor_ar*fator_experimental*densidade_vapor_saturado
 				   *doll/densidade_fluido;// ?
 				   Dol2=64.868427*conteudo_ol*conteudo_ol-11.32096*conteudo_ol-9.075419;
@@ -523,13 +523,13 @@ CMaterialMeioPorosoAmostra::Calculo_difusividade_dolv ()
 }
 
 // ---------------------------------------------------------------------------
-// Chama as funcoes de calculo desta classe.
+// Chama as funcoes de cálculo desta classe.
 // Observe que a ordem pode ser importante.
 // os dois parametros recebidos sao v1 temperatura e v2 conteudo_ol
 // Obs: a temperatura do nodo e a temperatura do meio poroso
 // e a temperatura do fluido sao as mesmas.
-// O conteudo_ol s� tem sentido para esta classe
-// Observe ainda que para calculo das propriedades do fluido � necess�ria
+// O conteudo_ol s� tem sentido para esta classe
+// Observe ainda que para cálculo das propriedades do fluido � necess�ria
 // a umidade, assim com o conteudo_ol calcula a umidade e joga como
 // parametro para o objeto material fluido.
 void
@@ -544,14 +544,14 @@ CMaterialMeioPorosoAmostra::Calcula_propriedades_material (double *&v)
   // Precisamos passar a umidade para o objeto fluido MF
   // para tal usa-se a funcao f_umidade, que recebe a umidade.
 //  MF->f_umidade(umidade);      // passa para objeto MF a umidade (sem utilidade)
-  MF->Calcula_propriedades_material (v);	// a funcao de calculo da condutividade
+  MF->Calcula_propriedades_material (v);	// a funcao de cálculo da condutividade
   // do meio poroso amostra, necessita das propriedades do fluido
 
   // executa funcoes do  objeto todo parte TMaterial Meio Poroso (A seco)
-  MMP->Calcula_propriedades_material (v);	// a funcao de calculo da condutividade
+  MMP->Calcula_propriedades_material (v);	// a funcao de cálculo da condutividade
   // do meio poroso amostra, necessita das propriedades do MMP
 
-  // Depois calcula conteudo_wl (usado no calculo da umidade, funcao f_adsorcao)
+  // Depois calcula conteudo_wl (usado no cálculo da umidade, funcao f_adsorcao)
   conteudo_wl = conteudo_ol * MF->Densidade () / MMP->Densidade ();
 
   // Depois calcula a umidade chamando f_adsorcao
@@ -577,13 +577,13 @@ CMaterialMeioPorosoAmostra::Calcula_propriedades_material (double *&v)
   // Os metodos abaixo devem posteriormente serem verificados e implementados
 
   // Calcula das curvas de difusividade
-  // A funcao de calculo da difusividade e' que deve chamar estas funcoes
+  // A funcao de cálculo da difusividade e' que deve chamar estas funcoes
   // na ordem correta
   // f_difusividade();????
-  // f_calculo_difusividade_dtl();
-  // f_calculo_difusividade_dtv();
-  // f_calculo_difusividade_doll();
-  // f_calculo_difusividade_dolv();
+  // f_cálculo_difusividade_dtl();
+  // f_cálculo_difusividade_dtv();
+  // f_cálculo_difusividade_doll();
+  // f_cálculo_difusividade_dolv();
 
   // metodos novos desta classe ainda nao calculados
   // fator_experimental=p_fe.f_calcular(conteudo_ol);
@@ -605,7 +605,7 @@ CMaterialMeioPorosoAmostra::Ler_disco ()
 // --------------------------------------------------------------------------
 // Funcao da classe base Banco_de_dados, redefinida
 // cuidado com o uso de ptr.
-// Com o uso de dois objetos est�ticos, Estatico_MF e Estatico_MMP
+// Com o uso de dois objetos est�ticos, Estatico_MF e Estatico_MMP
 // os dois sao automaticamente salvos ao se salvar o MMPA.
 void
 CMaterialMeioPorosoAmostra::Salvar_disco ()

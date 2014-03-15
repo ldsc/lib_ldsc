@@ -66,7 +66,7 @@ Declara a classe TIChamber.
                        Ou seja: A imagem da camara � representada por uma imagem reduzida.
                        Uma imagem prototipo.
 
-                       Esta classe (TIChamber) representa o conceito de camara generica.
+                       Esta classe (TIChamber) representa o conceito de camara genérica.
                        A classe TSChamber representa uma camara simples
                        A classe TCChamber representa uma camara complexa
                        As classes TSCMercuryInjection2F ,TSCMercuryInjection4F,
@@ -119,7 +119,7 @@ Obs:
                         do sistema, e aumenta sua clareza.
                         Elimina-se o uso das membranas desenhando-se as camaras com
                         flu�do molhante como se fossem s�lidos (inativa), desta forma as mesmas
-                        n�o s�o consideradas no processo de calculo da IDF (abertura).
+                        n�o s�o consideradas no processo de cálculo da IDF (abertura).
                         Mas para efeito da verifica��o das conectividades desenha-se
                         as camaras com flu�do molhante como ativas.
 

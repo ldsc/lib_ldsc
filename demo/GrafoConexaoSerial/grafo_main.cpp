@@ -49,35 +49,36 @@ int main ( int argc, char* argv[] )
 //    << "\n=>                 Programa Aplicativo/Demonstrativo da LIB_LDSC                        <="
 //    << "\n=>                 =============================================                        <="
 //    << "\n=>                                                                                      <="
-   cout <<   "=> Programa para cálculo da Permeabilidade de Rochas Reservatório de Petróleo           <="
-        << "\n=> usando imagens 3D (reconstruídas ou microtomográficas)                               <="
-        << "\n=> e o Grafo de Conexão Serial                                                          <="
+   cout <<   "=> Programa para cálculo:                                                               <="
+        << "\n=> - do Grafo de Conexão Serial de imagens 3D (reconstruídas ou microtomográficas)      <="
+        << "\n=> - da Permeabilidade de imagens 3D                                                    <="
+        << "\n=> - da Tortuosidade de imagens 3D                                                      <="
         << "\n=========================================================================================="
         << "\nUso:"
-        << "\n./GrafoConexaoSerial [lista_img]"
+        << "\n./Permeabilidade_GrafoConexaoSerial [lista_img]"
         << "\nonde lista_img é um arquivo ascii com endereço completo das imagens a serem processadas." 
-		<< "\nA palavra end finaliza a lista."
+		  << "\nA palavra end finaliza a lista."
         << "\nSe a lista_img não for passada vai solicitar o nome da imagem e os dados da simulação."
         << "\n=========================================================================================="
         << endl;
 
-   // Cria objeto grafo_test
-   CGrafoTest* grafo_test = nullptr;
-   grafo_test = new CGrafoTest;
-   assert ( grafo_test );
+   // Cria objeto grafo_demo
+   CGrafoTest* grafo_demo = nullptr;
+   grafo_demo = new CGrafoTest;
+   assert ( grafo_demo );
 
    // Se passou argumento na linha de comando com o nome da imagem chama metodo
    // para determinação da permeabilidade.
    if ( argc == 1 ) {
-         //double perm = grafo_test->Permeabilidade ();
-         grafo_test->Run();
+         //double perm = grafo_demo->Permeabilidade ();
+         grafo_demo->Run();
       }
    // Senão chama método global, que solicita dados para o usuário.
    else {
-         grafo_test->ProcessarListaImagens ( argc, argv );
+         grafo_demo->ProcessarListaImagens ( argc, argv );
       }
 
-   delete grafo_test;
+   delete grafo_demo;
    return EXIT_SUCCESS;
 }
 

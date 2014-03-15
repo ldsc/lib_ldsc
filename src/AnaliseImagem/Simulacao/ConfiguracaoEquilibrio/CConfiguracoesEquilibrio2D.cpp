@@ -316,7 +316,7 @@ void CConfiguracoesEquilibrio2D::ConectividadeKGB0 ()
 
   camara->DefineCamaraInferior ();					// Redesenha camara inferior, eliminada na abertura
 									// no sistema novo, implementado com coilib, isto é desnecessário,
-									// (não tem a membrana, a camara não entra no calculo da abertura)
+									// (não tem a membrana, a camara não entra no cálculo da abertura)
 									//  ....Tem na camara(0,G=3,B0=4)...
   TCMatriz2D< int >* ptr_camara = static_cast<TCMatriz2D< int >*>( camara );
   rotulador->Go ( ptr_camara );						//  Realiza a rotulagem
@@ -545,7 +545,7 @@ void CConfiguracoesEquilibrio2D::RestabeleceIDFPositiva ()
 }
 
 
-// Salva a matriz imagem em disco, monta o nome considerando parametros da simulacao.
+// Salva a matriz imagem em disco, monta o nome considerando parametros da simulação.
 void CConfiguracoesEquilibrio2D::Salvar (TCMatriz2D< int > * &imagem, string msg)
 {
   char nomeArquivo[255];

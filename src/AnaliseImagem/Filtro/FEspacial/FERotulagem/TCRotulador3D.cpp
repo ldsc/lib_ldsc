@@ -39,10 +39,10 @@ Função: AreaObjetos
 */
 template<typename T>
 void TCRotulador3D<T>::CalculaAreaObjetos () {
-	if (rotulado == false)	// Só procede o calculo se a matriz rótulo já foi determinada
+	if (rotulado == false)	// Só procede o cálculo se a matriz rótulo já foi determinada
 		Go (pm);			// Calcula a matriz rotulo
 
-	if (rotulado == true) {		// Só procede o calculo se a matriz rótulo foi determinada
+	if (rotulado == true) {		// Só procede o cálculo se a matriz rótulo foi determinada
 		if (areaObjetos != NULL)	// Se a areaObjetos já existe, apaga
 			delete areaObjetos;
 		areaObjetos = new CVetor (numeroObjetos);	// Cria vetor área dos objetos
@@ -71,10 +71,10 @@ PerimetroObjetos
 template<typename T>
 void TCRotulador3D<T>::CalculaPerimetroObjetos () {
 	// cout<<"\nCalculo PerimetroObjetos não implementado em 3D, valores de perimetro definidos como sendo 1";
-	if (rotulado == false)	// Só procede o calculo se a matriz rótulo já foi determinada
+	if (rotulado == false)	// Só procede o cálculo se a matriz rótulo já foi determinada
 		Go (pm);			// Calcula a matriz rotulo
 
-	if (rotulado == true) {		// Só procede o calculo se a matriz rótulo foi determinada
+	if (rotulado == true) {		// Só procede o cálculo se a matriz rótulo foi determinada
 		if (perimetroObjetos != NULL)	// Se a perimetroObjetos já existe, apaga
 			delete perimetroObjetos;
 

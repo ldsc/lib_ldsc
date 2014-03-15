@@ -76,7 +76,7 @@ using namespace std;
   * -------*****************----------************--------------------------- plano i
   * -----------------|######----------|##-------|#--------------------------- plano intermediário (interseções)
   * -----------------********************-------***************-------------- plano i+1
- * No modelo M3  a diferença é que acrescenta  o calculo dos raiosHidraulicos para o plano intermediário,
+ * No modelo M3  a diferença é que acrescenta  o cálculo dos raiosHidraulicos para o plano intermediário,
  * e seta em cada objeto[i]->condutancia = funcao( raioHidraulico plano intermediário );
  * ou seja, o M3 requer que os objetos da rede tenham um vetor condutância.
  * @author : André Duarte Bueno
@@ -161,7 +161,7 @@ CGrafoConexaoSerial_M3::DeterminarConexoesObjetos ( unsigned long int maiorRotul
 // // -------------------------------------------------------------------------
 // // Função:   CalcularCondutancias
 // // -------------------------------------------------------------------------
-// /** @short : Redefinida, em relação a CGrafoConexaoSerial adiciona o calculo das condutâncias
+// /** @short : Redefinida, em relação a CGrafoConexaoSerial adiciona o cálculo das condutâncias
 //  * das conexões entre os objetos.
 //  * No caso do GrafoConexaoSerial todos os objetos são do tipo CObjetoRede_Sitio..
 //  * mas o cálculo da condutância usa equação de POISELLE pois a conexão entre planos
@@ -281,7 +281,7 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
          // ct = 1.0 / (1.0/c1 + 1.0/c2); -> o mesmo que -> ct = c1*c2/(c1+c2);
          // como preciso calcular no centro e não nas bordas
          // ct' = 2*c1*c2/(c1+c2)
-         // @todo: o calculo abaixo pode incluir um if..else para os tipos de objetos, ou
+         // @todo: o cálculo abaixo pode incluir um if..else para os tipos de objetos, ou
          // CalcularCondutancias pode ser reescrito de acordo com tipo de grafo.
 //          for ( unsigned int link = 0; link < objeto[k]->conexao.size (); link++ ) {
 //                ct = objeto[k]->propriedade * objeto[k]->conexao[link]->propriedade /

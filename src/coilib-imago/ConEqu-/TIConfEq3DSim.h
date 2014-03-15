@@ -47,7 +47,7 @@ Superclasse:    TIConfEq3DSim
 @short
 		Declara a classe TIConfEq3DSim.
 		Herdeira da classe TConfiguracoesEquilibrio,
-                acrescenta o calculo das curvas de press�o capilar. Ou seja, depois
+                acrescenta o cálculo das curvas de press�o capilar. Ou seja, depois
                 de determinar as imagens imgB,nucleoImgA, imgY, determina as
                 propor��es (porosidades) destas imagens.
 
@@ -82,7 +82,7 @@ protected:
     ISimpleVectorOf < float >curvaPressaoCapilarImgY;
 
     //Atributos auxiliares
-    //Ponteiro para imagens utilizadas nos calculos internos
+    //Ponteiro para imagens utilizadas nos cálculos internos
     I3DRawImage *nucleoImgB;
     I3DRawImage *nucleoImgA;
     I3DRawImage *nucleoImgY;

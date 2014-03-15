@@ -39,7 +39,7 @@ class CIntNewtonDivDiff:public CInterpolacao
 //Atributos
 protected:
 	
-  int buildMatFlag;		///< Flag de calculo da  tabela auxiliar diffTable
+  int buildMatFlag;		///< Flag de cálculo da  tabela auxiliar diffTable
   double *diffTable;		///< Tabela auxiliar  (vetor)
 
 //Métodos

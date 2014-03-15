@@ -107,7 +107,7 @@ void TCFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int
 	for ( j = 0; j < this->ny; j++ ) {
 		for ( i = 0; i < this->nx; i++ ) {
 			if ( matriz->data2D[i][j] != this->FUNDO ) {	// como a imagem recebida pode ser uma outra idf
-				this->data2D[i][j] = mi; // Troquei 1 por mi. Elimina calculo dos planos de contorno, logo, fica mais rápido.
+				this->data2D[i][j] = mi; // Troquei 1 por mi. Elimina cálculo dos planos de contorno, logo, fica mais rápido.
 			} else {
 				this->data2D[i][j] = 0; // O fundo da IDF é sempre 0
 			}
@@ -329,7 +329,7 @@ Função    Esqueleto.
 */
 //         virtual TCMatriz2D< int >* Esqueleto(TCMatriz2D< int >*& matriz,unsigned int _RaioBola=0);
 //////////// //////////// //////////// //////////// // // // // //
-// Depois que o calculo do esqueleto com o objeto esqueleto
+// Depois que o cálculo do esqueleto com o objeto esqueleto
 // estiver pronto, copiar aqui?? resolver
 //////////// //////////// //////////// //////////// // // // // //
 template<typename T>

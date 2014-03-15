@@ -293,7 +293,7 @@ int main(int argc, char* argv[])
         cout << "*** Plotando novamente em uma janela" << endl;
         g1.ShowOnScreen();                        // Ativa janela de saida grafica
 
-        // Usando vetores do usuario (conjunto de dados)
+        // Usando vetores do usuário (conjunto de dados)
         cout << "*** Criando vetores x, y, y2, dy, z a serem plotados" << endl;
         std::vector<double> x, y, y2, dy, z;
 

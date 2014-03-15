@@ -45,7 +45,7 @@ class TCFEMorfologiaMatematica : public TCFEspacial<T>
 
 		/**
 				 *  Abaixo a funcao Go que é reescrita aqui, vazia, para inibir o
-				 * calculo da convolucao realizado na classe CFEspacial<int>
+				 * cálculo da convolucao realizado na classe CFEspacial<int>
 				 * As operacaes da morfologia matematica sao diferentes.
 				 * (Verificar necessidade de herança/).
 				 * @param matriz

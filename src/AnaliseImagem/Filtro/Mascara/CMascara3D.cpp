@@ -28,7 +28,7 @@ Descrição:        Passa atributo tamanhoMascara para classe base CMatriz3D,
 		x e y e z  da matriz.
 		Define-se ainda o peso da mascara como sendo 1.
 		Em algumas mascaras o peso=1, nao sendo necessário chamar a funcao
-		de calculo do peso.
+		de cálculo do peso.
 Programador:    Andre Duarte Bueno
 */
 CMascara3D::CMascara3D (unsigned int tamanhoMascara):

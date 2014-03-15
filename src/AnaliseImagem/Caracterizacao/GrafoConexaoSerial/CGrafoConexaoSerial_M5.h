@@ -34,7 +34,7 @@ Desenvolvido por:
  * Elimina os sítios isolados. Sítios que estao no plano atual rp
  * e nao tem conexão com o plano anterior (ra)
  * e posterior (img3D[i][j][ plano + 1 ])
- * De forma que o calculo das distâncias reais entre os sítios
+ * De forma que o cálculo das distâncias reais entre os sítios
  * vai ser mais correto no que se refere ao escoamento.
 
  * Superclasse:    CGrafo -> CGrafoConexaoSerial -> CGrafoConexaoSerial_M2

@@ -39,7 +39,7 @@ CGrafoConexaoSerial_M5::Go ( TCMatriz3D<int>* _img3D, unsigned long int funcao )
  * Novo no Mod5
  * Elimina os sítios isolados. Sítios que estao no plano atual rp
  * e nao tem conexão com o plano anterior (ra) e posterior (img3D[i][j][ plano + 1 ]).
- * De forma que o calculo das distâncias reais entre os sítios
+ * De forma que o cálculo das distâncias reais entre os sítios
  * vai ser mais correto no que se refere ao escoamento.
  * Note que não recalcula área, perímetro nem raio RaioHidraulicoObjetos.
  * img3D -> ponteiro para imagem 3D,

@@ -42,7 +42,7 @@ Documentacao Classe: CFuncao
  * O motivo que levou a criação desta classe foi sua utilização por métodos
  * de integração.
  *
- * A função principal de calculo deve receber unicamente as cordenadas x e
+ * A função principal de cálculo deve receber unicamente as cordenadas x e
  * y e retornar a cordenada z, ou seja uma funcao z = f(x,y).
  *
  * Observe que Go é virtual, logo, sua chamada recursiva pode implicar

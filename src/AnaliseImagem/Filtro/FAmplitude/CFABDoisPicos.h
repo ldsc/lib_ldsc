@@ -25,13 +25,13 @@ Nome da classe:      CFABDoisPicos
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
-/** @brief Filtro de amplitude, método de calculo baseado na determinação
+/** @brief Filtro de amplitude, método de cálculo baseado na determinação
  * dos dois picos de níveis de cinza na imagem.
  *
  * é um filtro que atua sobre o a amplitude da imagem, ou seja
  * sobre o espaço de cor da imagem.
  *
- * Método de calculo da posição de corte (threshold)
+ * Método de cálculo da posição de corte (threshold)
  * baseado na determinação dos dois picos de níveis de cinza na imagem
  * ideal para imagem com duas regiões de níveis de cinza
  *

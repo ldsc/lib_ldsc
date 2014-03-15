@@ -58,7 +58,7 @@ TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 	// 4-Agora vai calcular o histograma da imagem pm, mas considerando
 	// somente os pontos de pm que satisfaçam a condição de nivel de corte
 	// definida pela matriz laplaciano
-	// ----------inicio calculo histograma-------
+	// ----------inicio cálculo histograma-------
 	histograma->Constante (0);	// zera o histograma
 	for (i = 0; i < this->pm->NX (); i++)	// percorre a imagem
 		for (j = 0; j < this->pm->NY (); j++)	{
@@ -71,7 +71,7 @@ TCMatriz2D<T> * CFABPixelContorno<T>::Go (TCMatriz2D<T> * &matriz, unsigned int 
 
 	for (unsigned int k = 0; k < histograma->NX (); k++)
 		histograma->data1D[k] = histograma->data1D[k] * 100.0 / area;
-	// ----------fim calculo histograma-------
+	// ----------fim cálculo histograma-------
 
 
 	delete lap;			// elimina objeto matriz laplaciano

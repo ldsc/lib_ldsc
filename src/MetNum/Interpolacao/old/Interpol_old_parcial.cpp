@@ -59,10 +59,10 @@ main()
   clrscr();
 
   //calcula os valores de alfa e beta
-  dc->f_calculo_alfa_beta(u,dxc,ro,dif);
-  up->f_calculo_alfa_beta(u,dxc,ro,dif);
-  wu->f_calculo_alfa_beta(u,dxc,ro,dif);
-  ex->f_calculo_alfa_beta(u,dxc,ro,dif);
+  dc->f_cálculo_alfa_beta(u,dxc,ro,dif);
+  up->f_cálculo_alfa_beta(u,dxc,ro,dif);
+  wu->f_cálculo_alfa_beta(u,dxc,ro,dif);
+  ex->f_cálculo_alfa_beta(u,dxc,ro,dif);
 
   //mostra os valores de alfa e beta
   cout<<dc;

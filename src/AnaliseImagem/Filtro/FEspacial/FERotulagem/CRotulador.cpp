@@ -169,7 +169,7 @@ void CRotulador::CalculaRaioHidraulicoObjetos () {
 	//Se ainda não determinada,      calcula o perimetro dos objetos
 	if (perimetroObjetos == nullptr)
 		CalculaPerimetroObjetos ();
-	//só procede o calculo se a matriz rótulo foi determinada
+	//só procede o cálculo se a matriz rótulo foi determinada
 }
 
 /*
@@ -435,7 +435,7 @@ void CRotulador::VerificaContorno (int contorno, int rotuloAtual) {
 	AreaObjetos();//calcula a área dos objetos
 	if(perimetroObjetos==nullptr)//Se ainda não determinada, determina
 	PerimetroObjetos();//calcula o perimetro dos objetos
-	//só procede o calculo se a matriz rótulo foi determinada
+	//só procede o cálculo se a matriz rótulo foi determinada
 	if(areaObjetos && perimetroObjetos)
 	{
 	if(raioHidraulicoObjetos)

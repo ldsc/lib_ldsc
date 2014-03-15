@@ -14,7 +14,7 @@ CCorrelacao3D::~CCorrelacao3D () {
 
 // -----------------------------------------------------------------------
 // Determina autocorrelação. Recebe ponteiro para CMatriz3D, o tipo de correlação a ser
-// calculada e o número de planos que serão utilizados para o calculo da média das correlações.
+// calculada e o número de planos que serão utilizados para o cálculo da média das correlações.
 // Se o número de planos informado for zero ou negativo, o defalt será 10% dos planos.
 // -----------------------------------------------------------------------
 bool CCorrelacao3D::Go (TCMatriz3D<bool> *img, Tipos tipo, int indice, int numPlanos) {

@@ -34,7 +34,7 @@ Desenvolvido por:
 /**
  * @brief Representa um sítio(CObjetoRede_Sitio) conectado a face direita do grafo.
  * Assume valor de contorno = CContorno::EST.
- * O valor de contorno é usado no calculo dos fluxo da malha como um todo.
+ * O valor de contorno é usado no cálculo dos fluxo da malha como um todo.
  * Ou seja, um algoritimo externo percorre toda a malha,
  * e se o contorno for igual ao solicitado calcula alguma propriedade neste contorno.
  * @author André Duarte Bueno

@@ -109,7 +109,7 @@ CFMMIDF::ExecutadaPorGo (CMatriz2D * &matriz)	// ,unsigned int _tamanhoMascara)
 	this->data2D[i][j] = mi;	// define this com 0 e 1
   // =mi                                           // // // // // // // // // // // // // 
   // AQUI AQUI AQUI AQUI: trocar 1 por mi
-  // elimina calculo dos planos de contorno
+  // elimina cálculo dos planos de contorno
   // fica mais rapido
   // // // // // // // // // // // // // 
       else
@@ -367,7 +367,7 @@ Fun��o    Esqueleto.
 */
 //         virtual CMatriz2D* Esqueleto(CMatriz2D*& matriz,unsigned int _RaioBola=0);
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
-// Depois que o calculo do esqueleto com o objeto esqueleto
+// Depois que o cálculo do esqueleto com o objeto esqueleto
 // estiver pronto, copiar aqui?? resolver
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
 CMatriz2D *

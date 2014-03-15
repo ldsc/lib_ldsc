@@ -11,7 +11,7 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	TACFraDisPor.cpp
 Nome da classe:      TACFraDisPor
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:           Implementa as funções da classe TACFraDisPor.
+Descricao:           Implementa as funï¿½ï¿½es da classe TACFraDisPor.
 							E' derivada da classe TACFractal.
 */
 
@@ -25,10 +25,10 @@ Descricao:           Implementa as funções da classe TACFraDisPor.
 ============================================================================
 Documentacao Construtor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -43,10 +43,10 @@ TACFraDisPor::TACFraDisPor ()
 ============================================================================
 Documentacao Destrutor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -65,7 +65,7 @@ float
 TACFraDisPor::CalculaDimensaoFractal (TMatriz2D * &pm)
 {
   CalculaVetorDados (pm);
-//deve proceder ao calculo da dimensão fractal com o vetor de dados
+//deve proceder ao cÃ¡lculo da dimensï¿½o fractal com o vetor de dados
   return dimensaoFractal;
 }
 
@@ -73,7 +73,7 @@ TACFraDisPor::CalculaDimensaoFractal (TMatriz2D * &pm)
 ============================================================================
 Documentacao CalculaVetorDados
 ============================================================================
-Descrição:        Calcula o vetor de dados para calculo da dimensao fractal
+Descriï¿½ï¿½o:        Calcula o vetor de dados para cÃ¡lculo da dimensao fractal
                   Funcionamento:
    
 Programador:      Andre Duarte Bueno                            .

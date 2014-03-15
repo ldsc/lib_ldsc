@@ -18,7 +18,7 @@ CIMNDiferencasCentrais::~CIMNDiferencasCentrais ()
 }
 
 // ---------------------------------------------------------------------------
-// funcao de calculo de alfa e beta.
+// funcao de cálculo de alfa e beta.
 // Esta funcao é redefinida .
 // observe que aqui nao realiza nenhum cálculo.
 // pois para o CIMNDiferencasCentrais alfa e beta sao constantes

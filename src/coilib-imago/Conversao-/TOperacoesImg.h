@@ -207,7 +207,7 @@ Ex:
    imgRot->Go();								//Processa rotulagem
    imgRot->image->Size();				//acesso a imagem
    ptrImg = imgRot->imageptr();	//retorna ponteiro para imagem
-   imgRot->Area(rotuloObjeto);  //Retorna �rea do objeto (fun��o interna, realiza o calculo 1 ves)
+   imgRot->Area(rotuloObjeto);  //Retorna �rea do objeto (fun��o interna, realiza o cálculo 1 ves)
    imgRot->area(rotuloObjeto);	//vetor �rea
 
    imgRot->ListPixeis(rotuloObjeto); 			//Retorna um objeto lista de p�xeis

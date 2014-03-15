@@ -8,7 +8,7 @@
 
 // Inclusao de arquivos da LIB_LDSC
 #include <AnaliseImagem/Matriz/TCMatriz2D.h>					// Matriz normal da libldsc
-#include <AnaliseImagem/Filtro/FFrequencial/FFT/CFFT.h>						// Objeto calculo transformada fourier
+#include <AnaliseImagem/Filtro/FFrequencial/FFT/CFFT.h>						// Objeto cálculo transformada fourier
 #include <MetNum/Interpolacao/Interpolacao2D/CInt2DBilinear.h> 	// Objeto de interpolacao
 
 // Arquivo cabecalho
@@ -69,7 +69,7 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 		return 0;
 	}
 
-	// Chama funcao de calculo da autocorrelacao
+	// Chama funcao de cálculo da autocorrelacao
 	Go ( Re_data, NX, NY );
 
 	// Saída da funcao autocorrelacao
@@ -78,7 +78,7 @@ int CCorrelacaoFFT::GoMain (int argc, char **argv) {
 	// Saída da funcao autocorrelacao e dados adicionais
 	Writerzf ( nomeArquivo );
 
-	// Re_data é destruido no destrutor, o objetivo e evitar realocacoes a cada novo calculo.
+	// Re_data é destruido no destrutor, o objetivo e evitar realocacoes a cada novo cálculo.
 	return 1;
 }
 
@@ -105,7 +105,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	}
 	
 	// ----------------------------------
-	// Criação do ponteiro para objeto de calculo da FFT
+	// Criação do ponteiro para objeto de cálculo da FFT
 	CFFT * objetoFourier;
 
 	// Definicao do vetor com as dimensões usadas no CFFT
@@ -195,7 +195,7 @@ bool CCorrelacaoFFT::Go ( float * Re_data, int _NX, int _NY, int indice ) {
 	// NOVO, pois acima nao calcula o ponto 0, pois k comeca em 1
 	correlacao[0] = MatrizReal(0, 0);
 	
-	// Note que Im_data vai ser deletado no destrutor, evitando-se realocacoes de Im_data a cada calculo.
+	// Note que Im_data vai ser deletado no destrutor, evitando-se realocacoes de Im_data a cada cálculo.
 	return true;
 }
 

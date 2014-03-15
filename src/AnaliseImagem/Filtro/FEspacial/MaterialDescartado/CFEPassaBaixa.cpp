@@ -1,4 +1,4 @@
-// Ítens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
+// ï¿½tens conferidos: 1[ ] 2[ ] 3[ ] 4[ ] 5[ ] 6[ ] 7[ ] 8[ ] 9[ ] 10[ ]
 
 /*
 ----------------------------------------------------------------------------
@@ -25,9 +25,9 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 ============================================================================
 Documentacao      CriaMascara
 ============================================================================
-Descrição:	Se a mascara ja existe deve ser eliminada
+Descriï¿½ï¿½o:	Se a mascara ja existe deve ser eliminada
 	        O construtor da mascara chama a funcao de preenchimento da mascara e
-                de calculo do peso da mascara
+                de cÃ¡lculo do peso da mascara
 Programador:    Andre Duarte Bueno
 */
 

@@ -54,7 +54,7 @@ protected:
   /// Vetor de ponteiros para objetos do tipo CSMParametroSolver 
   static    std::vector <  CSMParametroSolver * >*    obj;
 
-  //  Atributos estaticos usados nos calculos em go
+  //  Atributos estaticos usados nos cálculos em go
   /// Número de processos
   static int    nproc;
   /// fator de relaxação

@@ -24,7 +24,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
  * @brief Representa uma mascara, é herdeira da matriz 2D, ou seja
  * é uma máscara bibimensional.
  * 
- * Acrescenta funções de preenchimento da mascara, e calculo do peso.
+ * Acrescenta funções de preenchimento da mascara, e cálculo do peso.
  * O peso é a soma dos elementos da máscara
  * 
  * Considerações gerais:

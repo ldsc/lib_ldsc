@@ -3,7 +3,7 @@
 #include <MetNum/Interpolacao/CIntBarycentric.h>
 
 //------------------------------------------------------------------------
-//Função de calculo da tabela auxilliar
+//Função de cálculo da tabela auxilliar
 //------------------------------------------------------------------------
 //Calculo do vetor de pesos
 //Usa n, xarr

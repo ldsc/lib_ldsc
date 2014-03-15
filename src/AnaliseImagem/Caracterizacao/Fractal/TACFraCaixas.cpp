@@ -11,7 +11,7 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	TACFraCaixas.cpp
 Nome da classe:      TACFraCaixas
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao: Implementa as funções da classe TACFraCaixas.
+Descricao: Implementa as funï¿½ï¿½es da classe TACFraCaixas.
 				E' derivada da classe TACFractal.
 */
 //----------------------------------------------------------------------------
@@ -24,10 +24,10 @@ Descricao: Implementa as funções da classe TACFraCaixas.
 ============================================================================
 Documentacao Construtor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -42,10 +42,10 @@ TACFraCaixas::TACFraCaixas ()
 ============================================================================
 Documentacao Destrutor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -64,7 +64,7 @@ float
 TACFraCaixas::CalculaDimensaoFractal (TMatriz2D * &pm)
 {
   CalculaVetorDados (pm);
-//deve proceder ao calculo da dimensão fractal com o vetor de dados
+//deve proceder ao cÃ¡lculo da dimensï¿½o fractal com o vetor de dados
   return dimensaoFractal;
 }
 
@@ -72,13 +72,13 @@ TACFraCaixas::CalculaDimensaoFractal (TMatriz2D * &pm)
 ============================================================================
 Documentacao CalculaVetorDados
 ============================================================================
-Descrição:        Calcula o vetor de dados para calculo da dimensao fractal
+Descriï¿½ï¿½o:        Calcula o vetor de dados para cÃ¡lculo da dimensao fractal
                   Funcionamento:
-                  Determina o maior quadro que pode ser incluído na imagem.
+                  Determina o maior quadro que pode ser incluï¿½do na imagem.
                   Depois determina o ponto central.
-                  A partir daí calcula o número de pontos Pretos da imagem aumentando progressivamente
-                  o tamanho do quadro.   Observe que a cada passo, só percorre a borda do quadro.
-                  A variável LMax é o maior tamanho do quadro. As variáveis x e y são usadas
+                  A partir daï¿½ calcula o nï¿½mero de pontos Pretos da imagem aumentando progressivamente
+                  o tamanho do quadro.   Observe que a cada passo, sï¿½ percorre a borda do quadro.
+                  A variï¿½vel LMax ï¿½ o maior tamanho do quadro. As variï¿½veis x e y sï¿½o usadas
                   para percorrer as linhas e as colunas.
                   Esboco:
                                                      .
@@ -91,26 +91,26 @@ TVetor *
 TACFraCaixas::CalculaVetorDados (TMatriz2D * &pm)
 {				//determina o tamanho do maior quadro,
   //Ex: se NX=5 LMax=2 e se NX=6 LMax=2
-  unsigned int LMax = (pm->GetNX () > pm->GetNY ())? (pm->GetNY () - 1) / 2 : (pm->GetNX () - 1) / 2;	//retorna a menor dimensão da imagem (d-1)/2
-  unsigned int cx = LMax;	//armazena posição x do ponto central da imagem
-  unsigned int cy = LMax;	//armazena posição y do ponto central da imagem
+  unsigned int LMax = (pm->GetNX () > pm->GetNY ())? (pm->GetNY () - 1) / 2 : (pm->GetNX () - 1) / 2;	//retorna a menor dimensï¿½o da imagem (d-1)/2
+  unsigned int cx = LMax;	//armazena posiï¿½ï¿½o x do ponto central da imagem
+  unsigned int cy = LMax;	//armazena posiï¿½ï¿½o y do ponto central da imagem
   float ContadorNumeroPontos = 0;	//conta o numero de pontos ativos
-  vetorDados = new TVetor (LMax + 1);	//cria vetor onde o índice representa o tamanho do box,
-  //e o conteúdo o numero acumulado de pontos
+  vetorDados = new TVetor (LMax + 1);	//cria vetor onde o ï¿½ndice representa o tamanho do box,
+  //e o conteï¿½do o numero acumulado de pontos
   int L, x, y;			//L representa a metade do box
   if (pm->data2D[cx][cy] > 0)
     ContadorNumeroPontos++;	//Considera ponto central da imagem
   vetorDados->data1D[0] = 0;	//define primeiro ponto do vetor de dados
   for (L = 1; L <= LMax; L++)	//Varia L que representa 1/2 do tamanho da caixa
     {
-      for (x = -L; x <= L; x++)	//percorre a direção x
+      for (x = -L; x <= L; x++)	//percorre a direï¿½ï¿½o x
 	{
 	  if (pm->data2D[cx + x][cy + L] > 0)	//percorre ---->  (borda superior)
 	    ContadorNumeroPontos++;
 	  if (pm->data2D[cx + x][cy - L] > 0)	//percorre <----  (borda inferior)
 	    ContadorNumeroPontos++;
 	}
-      for (y = -L + 1; y <= L - 1; y++)	//percorre a direção y, descontando o primeiro e ultimo ponto já considerados acima
+      for (y = -L + 1; y <= L - 1; y++)	//percorre a direï¿½ï¿½o y, descontando o primeiro e ultimo ponto jï¿½ considerados acima
 	{
 	  if (pm->data2D[cx + L][cy + y] > 0)	//percorre para baixo ,  (borda direita)
 	    ContadorNumeroPontos++;
@@ -121,7 +121,7 @@ TACFraCaixas::CalculaVetorDados (TMatriz2D * &pm)
     }
 
 //Agora deve determinar a reta formada por
-//cuja tangente=dimensão fractal.
+//cuja tangente=dimensï¿½o fractal.
 //   . ln(L)   *
 //  /|\     *
 //   |   *

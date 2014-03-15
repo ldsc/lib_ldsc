@@ -6,7 +6,7 @@
 #endif
 
 /**
- * @brief Classe para calculo da curva de TStudent.
+ * @brief Classe para cálculo da curva de TStudent.
  * 
  * Herdeira de CENormal.
  * O valor de z esta no intervalo -00 \<z< +00

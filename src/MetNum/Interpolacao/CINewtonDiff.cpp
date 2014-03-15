@@ -3,7 +3,7 @@
 
 #include <MetNum/Interpolacao/CIntNewtonDiff.h>
 /*
-Função de calculo dos valores auxiliares,
+Função de cálculo dos valores auxiliares,
 observe que são independentes do valor de x, usam
 apenas os vetores x e y.
 */
@@ -37,19 +37,19 @@ CIntNewtonDiff::GeraTabelaAuxiliar (double h, double *yarr, int n)
     }
 }
 
-//Função de calculo em sí.
+//Função de cálculo em sí.
 //Observe que cria duas variáveis x0 e h usadas pelo método original
 double
 CIntNewtonDiff::Go (double *xarr, double *yarr, int n, double x)
 {
   //Pedaço usado para criar as variáveis x0 e h, usadas pelo método
-  //original de calculo.
+  //original de cálculo.
   if (n < 2)
     return 0;			//Evita acesso a xarr[1] que não existe
   double x0 = xarr[0];
   double h = xarr[1] - xarr[0];
 
-  //Se necessário chama função de calculo da tabela auxiliar
+  //Se necessário chama função de cálculo da tabela auxiliar
   if (buildMatFlag)
     GeraTabelaAuxiliar (h, yarr, n);
 

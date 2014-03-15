@@ -24,7 +24,7 @@ Descricao:Implementa as funções da classe CBCdijk.
 ==================================================================================
 Documentacao Construtor
 ==================================================================================
-Descrição:        O construtor chama as funções de calculo do raio bola e
+Descrição:        O construtor chama as funções de cálculo do raio bola e
   		depois a funcao de preenchimento da mascara
 Pré-condições:
 Excessões:        tipos de excessoes
@@ -34,7 +34,7 @@ Tamanho(bits):
 Comentarios:
 Programador:      Andre Duarte Bueno
 */
-// Divide o tamanho da mascara por dois, porque o método atual de calculo
+// Divide o tamanho da mascara por dois, porque o método atual de cálculo
 // só usa a metade da mascara // :CBCDiscreta ((tamanhoMascara-1)/2+1)
 
 // Mascara dijk  comparando com a d5711 fica da forma:
@@ -46,13 +46,13 @@ CBCdijk::CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase):
 
     unsigned int raio = RaioX ();	// Como a bola é quadrada uso raio=raioX=raioY
 
-    // variaveis otimizacao, usadas calculo simetria
+    // variaveis otimizacao, usadas cálculo simetria
 
     unsigned int posxe, posxd;	// x esquerda e x direita
 
     unsigned int posys, posyn;	// y sul e y norte
 
-    // calculo raio bola inclusa e tangente
+    // cálculo raio bola inclusa e tangente
 
     raioBolaInclusa = mi * (raio);	// d4, raio=1, mi=1,raioBolaInclusa=1
 
@@ -68,7 +68,7 @@ CBCdijk::CBCdijk (unsigned int tm, int mi, int mj, int mk, int raioBase):
 
         for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola
         {			// por ser simétrica
-            // calculo da distancia
+            // cálculo da distancia
             // Falta generalizar (valores 3 e 4), e o uso do raio base
             if (xx > raioBase * yy)
                 dist = mi * xx + yy;	//       // 6

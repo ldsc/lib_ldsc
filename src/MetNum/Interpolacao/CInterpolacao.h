@@ -21,7 +21,7 @@
  * 
  * Informacoes de montagem:
  * Este módulo foi inicialmente desenvolvido como
- * parte integrante do programa de simulacao numérica s3dmp.
+ * parte integrante do programa de simulação numérica s3dmp.
  * A versão inicial tinha as funções de interpolação descritas
  * no livro de métodos numéricos do Prof. C.R.Maliska, adapatadas
  * usando uma formulação orientada a objeto.
@@ -52,7 +52,7 @@
  * herdando principalmente os mesmos atributos.
  * Também tem uma função GeraTabelaAuxiliar.
  * Como os atributos recebidos pela função original éram um pouco diferentes,
- * incluí o calculo dos dois novos atributos na função Go.
+ * incluí o cálculo dos dois novos atributos na função Go.
  * (herança de atributos da classe base e obtenção de formato padrão para Go, por mecanismo
  * de adaptação coerente das entradas)
  * 
@@ -60,7 +60,7 @@
  * para este método, e que são recebidos no construtor.
  * 
  * Para a classe CIntBarycentric foram criados atributos auxiliares
- * e função de calculo auxiliar. Para conseguir Go padrão.
+ * e função de cálculo auxiliar. Para conseguir Go padrão.
  * 
  * Exemplo de uso:
  * CInterpolacao* interpolacao = new  CIntNewtonDivDiff();
@@ -102,20 +102,20 @@
 		| Quadratica | | Quadratica | | Newton |
 		.------------. .------------. .--------.
 
- * Funcionamento com o programa de simulacao numérica:
+ * Funcionamento com o programa de simulação numérica:
  * A funcao Main cria um objeto Simulador, este cria objetos No_Coeficientes.
  * Os objetos No_Coeficientes tem um ponteiro para uma único objeto interpolacao,
  * assim todos os objetos No_Coeficientes acessam o mesmo objeto interpolacao.
  * O objeto Interpolacao  criado a partir da chamada da funcao
  * f_selecao_tipo_interpolacao.
  *
- * A classe Interpolacao tem uma funcao de calculo chamada f_calcula_alfa_beta
- * esta funcao calculo os coeficientes alfa e beta.
+ * A classe Interpolacao tem uma funcao de cálculo chamada f_calcula_alfa_beta
+ * esta funcao cálculo os coeficientes alfa e beta.
  * Estes coeficientes sao publicos podendo ser acessados dentro da funcao
- * de calculo do No_Coeficientes.
+ * de cálculo do No_Coeficientes.
  * 
- * A funcao f_simulador chama a funcao de calculo dos coeficientes dos nós.
- * A funcao de calculo dos coeficientes chama a funcao de calculo de alfa e beta,
+ * A funcao f_simulador chama a funcao de cálculo dos coeficientes dos nós.
+ * A funcao de cálculo dos coeficientes chama a funcao de cálculo de alfa e beta,
  * e depois usa os valores de alfa e beta.
  * 
  * Maiores informacoes entre em contato com;
@@ -134,7 +134,7 @@
  * 
  * Antigo:
  * A Classe Interpolacao deve calcular os coeficientes alfa e beta.
- * Observe que na funcao de calculo de alfa e beta os parametros
+ * Observe que na funcao de cálculo de alfa e beta os parametros
  * sao passados por referencia, isto evita a cópia da variável o que
  * deixa a funcao mais rápida.
 */
@@ -170,7 +170,7 @@ Posição x
 double Lagrange	(double* xarr, double* yarr,int n, double x);
 +
 Vetor wt (pesos)
-flag  calcWtFlag (flag de calculo dos pesos)
+flag  calcWtFlag (flag de cálculo dos pesos)
 double Barycentric(double* xarr, double* yarr,double* wt,int calcWtFlag, int n, double x);
 ok
 double ED_Barycentric(double* xarr, double* yarr,int n, double x);

@@ -67,7 +67,7 @@ protected:
     /// Valor do incremento do raio do elemento estruturante
     int incrementoRaioElementoEstruturante ;
 
-    /// Numero do modelo de calculo
+    /// Numero do modelo de cálculo
     int modelo;
 
     /// Se ativo salva os resultados parciais

@@ -25,7 +25,7 @@
  //para double
 //na segunda REAL=float e cria versão para float.
 
-//Função principal de calculo.
+//Função principal de cálculo.
 //int CFFT::FFTN (int ndim, const int dims[],REAL Re [],REAL Im [],int iSign, double scaling)
 int
 CFFT::fftn (int ndim, const int dims[], REAL Re[], REAL Im[], int iSign,

@@ -215,9 +215,9 @@ CMaterial::Emissividade ()
 //}
 
 //---------------------------------------------------------------------------
-//Executa todas os metodos de calculo da classe CMaterial
+//Executa todas os metodos de cálculo da classe CMaterial
 //Observe que pode haver interdependencia entre os metodos
-//neste caso voce deve respeitar a sequencia de calculo.
+//neste caso voce deve respeitar a sequencia de cálculo.
 //v[1]=temperatura, v[0]=conteudo de umidade ol ou umidade
 void
 CMaterial::Calcula_propriedades_material (double *&v)
@@ -232,7 +232,7 @@ CMaterial::Calcula_propriedades_material (double *&v)
   Condutividade ();		//fixa ou funcao do conteudo de umidade                   //necessario
   Difusividade_termica ();	//idem
   //f_absortividade();  //fixa
-  //f_emissividade();   //funcao da temperatura usada no calculo e*sigma*t^4
+  //f_emissividade();   //funcao da temperatura usada no cálculo e*sigma*t^4
 }
 
 //--------------------------------------------------------------------------

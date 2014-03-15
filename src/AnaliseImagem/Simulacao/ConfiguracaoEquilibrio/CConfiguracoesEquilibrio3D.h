@@ -80,7 +80,7 @@ protected:
 
 		TCFEMMIDF3D<int> * idf;					/// É uma cópia da imagem com a IDF (3D)
 
-    CConectividade3D *rotulador;				/// Objeto de calculo da conectividade (3D) realiza a verificacao da conectividade.
+    CConectividade3D *rotulador;				/// Objeto de cálculo da conectividade (3D) realiza a verificacao da conectividade.
 
     int raioMaximo;					/// raioMaximo da operacao
 

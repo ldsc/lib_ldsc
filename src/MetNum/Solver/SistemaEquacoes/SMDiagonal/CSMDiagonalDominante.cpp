@@ -43,7 +43,7 @@ ostream & operator<< (ostream & os, const CSMDiagonalDominante & obj)
 // -----------------------------------------------------------------------
 // Obs: lembre-se que erro,limiteErro, iteracoes e limiteIteracoes foram herdados de CSolver
 // Obs: A função Go recebe um vetor de objetos, vai percorrer todos os objeto, e atualizar
-// as variáveis de calculo nos objeto usando a função Go do objeto.
+// as variáveis de cálculo nos objeto usando a função Go do objeto.
 // double  CSMDiagonalDominante::Go(CSMParametroSolver* objeto,int _numeroobjeto)
 
 // Ex:

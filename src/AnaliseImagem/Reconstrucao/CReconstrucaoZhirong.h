@@ -5,10 +5,10 @@
 #include <string>
 #include <sstream>
 
-// calculo da transformada de fourier (Singleton)
+// cálculo da transformada de fourier (Singleton)
 #include <AnaliseImagem/Reconstrucao/CReconstrucao.h>
 
-// calculo da transformada de fourier (Singleton)
+// cálculo da transformada de fourier (Singleton)
 #include <AnaliseImagem/Filtro/FFrequencial/FFT/CFFTPropriedades.h>
 
 // dada um valor de q calcula u, sendo q a integral da equação normal e

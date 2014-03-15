@@ -14,11 +14,11 @@ using namespace std;
 class CCorrelacao3D
 {
 protected:
-   /// Deslocamento máximo da imagem usado para calculo correlacao
+   /// Deslocamento máximo da imagem usado para cálculo correlacao
    int size;
 
 public:
-    /// Enumera os tipos de calculo de correlação
+    /// Enumera os tipos de cálculo de correlação
     enum Tipos {
        Espacial,
        Frequencial
@@ -39,7 +39,7 @@ public:
     /// Destrutor
     ~ CCorrelacao3D ();
 
-    /// Determina autocorrelação. Recebe ponteiro para CMatriz3D, o tipo de correlação a ser calculada, o valor de índice a ser considerado e o número de planos que serão utilizados para o calculo da média das correlações.
+    /// Determina autocorrelação. Recebe ponteiro para CMatriz3D, o tipo de correlação a ser calculada, o valor de índice a ser considerado e o número de planos que serão utilizados para o cálculo da média das correlações.
     /// Se o número de planos informado for menor que 1, o defalt será 10% dos planos.
 		bool Go (TCMatriz3D<bool> *img, Tipos tipo, int indice=1, int numPlanos=0);
 

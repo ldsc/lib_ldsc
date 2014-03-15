@@ -60,7 +60,7 @@ public:
     limiteSuperior = x;
 
     Dx ();
-    // Aqui abaixo, nas classes herdeiras entra o calculo da integral em sí
+    // Aqui abaixo, nas classes herdeiras entra o cálculo da integral em sí
 
     return 1;
   }

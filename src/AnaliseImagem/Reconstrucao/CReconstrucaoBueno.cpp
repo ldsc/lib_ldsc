@@ -26,7 +26,7 @@ using namespace std;
 
 
 // ----------------------------------------
-// calculo de Ry
+// cálculo de Ry
 // ----------------------------------------
 // Obs: Cria objeto externo TFuncaoNaoLinearRzRy equivale a antiga função ry=Rzry(yc,porosidade,rz);
 // Determina todos os valores de Ry e salva o resultado em disco
@@ -63,7 +63,7 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
    fout.precision (5);		// precisao de 5 digitos na saída para disco
 
    // diferente:liang calcula rz para todo o cz e salva cz e rz em disco
-   for (int i = 0; i < numeroPontosLidosArquivoCz; i++) {				// calculo de Ry em funcao de Rz
+   for (int i = 0; i < numeroPontosLidosArquivoCz; i++) {				// cálculo de Ry em funcao de Rz
       rz = (Cz[i] - porosidadeAoQuadrado) / (porMenospor2);	// Cz normalizada
 
       Ry[i] = funcaoNaoLinearRzRy->Go (rz);	// calcula Ry de rz
@@ -84,7 +84,7 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
       Ry[i] = Ry[i * fatorAmplificacaoNumeroPontos];	// usa fator de redução para
    }
 
-   // novo: o calculo do Ry esta todo correto. Fornece exatamente os mesmos resultados do liang
+   // novo: o cálculo do Ry esta todo correto. Fornece exatamente os mesmos resultados do liang
    for (i = 0; i <= numeroPontosCz * fatorAmplificacaoNumeroPontos; i++)
       fout << "\n" << i << "\t" << Ry[i];	// determinar pontos a serem utilizados
    fout.close ();		// fecha ponteiro para arquivo

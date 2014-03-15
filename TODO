@@ -135,6 +135,16 @@ long double EstimativaValorBaseadaValorContorno(long double a,long double b){}
 bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
 bool CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int modelo, TCMatriz3D<int>* pm3D, ofstream& fout 
 num modelo para qualquer tipo processamento arquivos.
+[] - Criar padrão para arquivos com dados objetos.
+* @todo: como padrão de modelagem, seria interessante ter duas possibilidades; 
+ * i) Por padrão os dados de cada objeto são armazenados em arquivos de disco, isto é, 
+ * para cada objeto um arquivo de disco.
+ * ii) Possibilidade de ter todos os dados num único arquivo de disco com formato genérico:
+ * [objeto]
+ * 	Propriedade1 = valor
+ * 	Propriedade2 = valor
+ * uma função auxiliar verificaria a existência dos arquivos individuais e do arquivo genérico
+ * e, em função do padrão definido pelo usuário leria um ou outro arquivo.
 
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
                                TODO-> TESE ALUNOS

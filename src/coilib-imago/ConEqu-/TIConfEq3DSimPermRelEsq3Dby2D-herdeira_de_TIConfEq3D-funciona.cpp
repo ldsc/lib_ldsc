@@ -67,7 +67,7 @@
 #include <TMaterial/TMFluido.h>
 #include <TSMatriz/TSMDiagonal/TSMDSOR.h>
 
-// -------------------------------------------------------------- Objetos calculo permeabilidade
+// -------------------------------------------------------------- Objetos cálculo permeabilidade
 #include <TPermeabilidade/TPermeabilidadeGrafo.h>
 
 //NA classe TIConfEq3DSim usa:
@@ -87,12 +87,12 @@ void TIConfEq3DSimPermRelEsq3Dby2D::PrepareConfEqSim ()
     //Calcula a permeabilidade intrinseca
     I3DRawImage *imagem = chamber->GetimgPorousMedia ();	//obtem imagem
     assert (imagem != NULL);
-    //      SaveImg1bpp ( imagem, "imagem_chamber_GetimgPorousMedia.i3d");                  //salva imagem usada para calculo da permeabilidade intrinseca
+    //      SaveImg1bpp ( imagem, "imagem_chamber_GetimgPorousMedia.i3d");                  //salva imagem usada para cálculo da permeabilidade intrinseca
 
     I3DRawImage *imgNucleo = chamber->GetImgNucleo (imagem, borderDiscount);	//obtem imagem do n�cleo
     delete imagem;		//deleta imagem parcial
     assert (imgNucleo != NULL);
-    //      SaveImg1bpp ( imgNucleo, "imagem_chamber_GetimgPorousMedia_nucleo.i3d"); //salva imagem usada para calculo da permeabilidade intrinseca
+    //      SaveImg1bpp ( imgNucleo, "imagem_chamber_GetimgPorousMedia_nucleo.i3d"); //salva imagem usada para cálculo da permeabilidade intrinseca
     //intrinsicPermeability = TIConfEq3DSimPermRel::CalculaPermeabilidade(imgNucleo); //calcula permeabilidade intrinseca
     intrinsicPermeability = CalculaPermeabilidade (imgNucleo);	//calcula permeabilidade intrinseca
     delete imgNucleo;
@@ -110,7 +110,7 @@ void TIConfEq3DSimPermRelEsq3Dby2D::PrepareConfEqSim ()
 void
 TIConfEq3DSimPermRelEsq3Dby2D::IntermediatNextCalculate ()
 {
-    TIConfEq3DSim::IntermediatNextCalculate ();	//calculo das curvas de press�o capilar na classe base
+    TIConfEq3DSim::IntermediatNextCalculate ();	//cálculo das curvas de press�o capilar na classe base
 
     //Calculo da permeabilidade relativa para FLUIDO B (imgB)
     prfb[radius - minRadius] = CalculaPermeabilidade (nucleoImgB);	//intrinsicPermeability ;
@@ -127,7 +127,7 @@ TIConfEq3DSimPermRelEsq3Dby2D::IntermediatNextOutput ()
             minRadius];
 }
 
-//Fun��o de calculo da permeabilidade em s�.
+//Fun��o de cálculo da permeabilidade em s�.
 //calcula direto, sem o uso do di�logo
 /*
   double  TIConfEq3DSimPermRel::CalculaPermeabilidade(I3DRawImage*& img)
@@ -146,7 +146,7 @@ Classify cls;					//Cria filtro de classificacao
   }
 */
 
-//Fun��o de calculo da permeabilidade em s�.
+//Fun��o de cálculo da permeabilidade em s�.
 //calcula direto, sem o uso do di�logo.
 double
 TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
@@ -206,18 +206,18 @@ TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
         //Determina o grafo---------------------------------------------------
         grafo->Go (pm3D);
 
-        //Cria objeto de calculo da permeabilidade-------------------------------------
+        //Cria objeto de cálculo da permeabilidade-------------------------------------
         TPermeabilidadeGrafo *permeabilidade =
             new TPermeabilidadeGrafo (fluido, solver, grafo, pm3D->GetNX (),
                                       pm3D->GetNY (), pm3D->GetNZ (),
                                       fatorAmplificacao, dimensaoPixel);
         assert (permeabilidade);
 
-        //Chama fun��o de inicializa��o do sistema de calculo da permeabilidade------------------
+        //Chama fun��o de inicializa��o do sistema de cálculo da permeabilidade------------------
         //Seta condi��es de contorno, valores iniciais, chama solver pela 1 vez
         permeabilidade->SolucaoSistema ();
 
-        //Chama fun��o de calculo da permeabilidade-----------------------------------
+        //Chama fun��o de cálculo da permeabilidade-----------------------------------
         perm = permeabilidade->Go ();
         delete pm3D;
         delete permeabilidade;

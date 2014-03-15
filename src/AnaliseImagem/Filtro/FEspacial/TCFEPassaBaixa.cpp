@@ -27,7 +27,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 Documentacao      CriaMascara
 ==================================================================================
 Descrição:	Se a mascara ja existe deve ser eliminada o construtor da mascara chama
-a funcao de preenchimento da mascara e de calculo do peso da mascara
+a funcao de preenchimento da mascara e de cálculo do peso da mascara
 Programador:    Andre Duarte Bueno
 */
 template<typename T>

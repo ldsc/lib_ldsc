@@ -101,8 +101,8 @@ CMaterialFluido::Modificar ()
 }
 
 //---------------------------------------------------------------------------
-//Calcula a pressao do vapor saturado para a  gua
-//Observe que usa para o calculo a temperatura
+//Calcula a pressao do vapor saturado para a ï¿½gua
+//Observe que usa para o cÃ¡lculo a temperatura
 //Esta funcao foi retirado do manual do CIBS
 double
 CMaterialFluido::Pressao_vapor_saturado ()
@@ -119,7 +119,7 @@ CMaterialFluido::Pressao_vapor_saturado ()
 //Coeficientes de expansao volumetrica do vapor T(C)  "Alfa"
 // derivada_h_teta de rovs em relacao a T  "drovs"
 //Para a linguagem C log significa logaritmo neperiano.
-//util para o calculo de DTV
+//util para o cÃ¡lculo de DTV
 double
 CMaterialFluido::Coef_exp_vol ()
 {
@@ -169,32 +169,32 @@ CMaterialFluido::Dif_vapor_ar ()	//corrigir
 //Executa as funcoes da classe clima
 //Observe que a ordem pode ser importante
 // v[1]=temperatura, e v[0]=conteudo_ol
-//a umidade ‚ passada na classe Material_Meio_Poroso_Amostra.
-//observe que a umidade ‚ usada no calculo da concentracao de vapor
+//a umidade ï¿½ passada na classe Material_Meio_Poroso_Amostra.
+//observe que a umidade ï¿½ usada no cÃ¡lculo da concentracao de vapor
 void
 CMaterialFluido::Calcula_propriedades_material (double *&v)
 {
   //Chama funcao da classe base
-  //O parametro v1 representa a temperatura que ‚ armazenada.
+  //O parametro v1 representa a temperatura que ï¿½ armazenada.
   CMaterial::f_calcula_propriedades_material (v);	//classe base
 
 
 // f_pressao_vapor_saturado(); //Nao e necessario calcular aqui?
   //pois o objeto CMaterial meio poroso amostra
-  //chama a funcao de calculo f_pressao_vapor_saturado diretamente ??
+  //chama a funcao de cÃ¡lculo f_pressao_vapor_saturado diretamente ??
 
   //f_dif_vapor_ar();        //calcula a difusao do vapor no ar
   //f_coef_exp_vol();        //calcula o coeficiente de expansao volumetrica
 
   //calor_latente=p_cl.f_calcular(temperatura);//calor_latente =2256685,0;
 
-  //f_calor_especifico();    //‚ chamada pela classe base
+  //f_calor_especifico();    //ï¿½ chamada pela classe base
   //calor_especifico=p_cp.f_calcular(temperatura);
 }
 
 //--------------------------------------------------------------------------
 //funcao da classe base Banco_de_dados redefinida
-//Obs: o uso de ptr, que ‚ um ponteiro para a classse base material
+//Obs: o uso de ptr, que ï¿½ um ponteiro para a classse base material
 //esta de acordo se o objeto material fluido foi o ultimo
 //objeto criado com a funcao Selecao_tipo_de_material.
 void

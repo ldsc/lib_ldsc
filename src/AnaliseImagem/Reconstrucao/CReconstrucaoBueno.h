@@ -4,10 +4,10 @@
 
 #include <string>
 
-// calculo da transformada de fourier (Singleton)
+// cálculo da transformada de fourier (Singleton)
 #include <AnaliseImagem/Reconstrucao/CReconstrucaoZhirong.h>
 
-// calculo da transformada de fourier (Singleton)
+// cálculo da transformada de fourier (Singleton)
 #include <AnaliseImagem/Filtro/FFrequencial/FFT/CFFTPropriedades.h>
 
 // ------------------------------------------------------------------------------

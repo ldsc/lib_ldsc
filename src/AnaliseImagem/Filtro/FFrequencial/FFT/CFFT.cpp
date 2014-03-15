@@ -269,7 +269,7 @@ CFFT::fft_free ()
 }
 
 
-//Chama a função de calculo da transformada de Fourier formato double
+//Chama a função de cálculo da transformada de Fourier formato double
 int
 CFFT::Go (double *real, double *imaginaria)
 {
@@ -278,7 +278,7 @@ CFFT::Go (double *real, double *imaginaria)
   return fftn (ndim, dims, real, imaginaria, iSign, scaling);
 }
 
-//Chama a função de calculo da transformada inversa de Fourier formato double
+//Chama a função de cálculo da transformada inversa de Fourier formato double
 int
 CFFT::Go_Inverse (double *real, double *imaginaria)
 {
@@ -286,7 +286,7 @@ CFFT::Go_Inverse (double *real, double *imaginaria)
   return fftn (ndim, dims, real, imaginaria, iSign, scaling);
 }
 
-//Chama a função de calculo da transformada de Fourier formato float
+//Chama a função de cálculo da transformada de Fourier formato float
 int
 CFFT::Go (float *real, float *imaginaria)
 {
@@ -295,7 +295,7 @@ CFFT::Go (float *real, float *imaginaria)
   return fftn (ndim, dims, real, imaginaria, iSign, scaling);
 }
 
-//Chama a função de calculo da transformada inversa de Fourier formato float
+//Chama a função de cálculo da transformada inversa de Fourier formato float
 int
 CFFT::Go_Inverse (float *real, float *imaginaria)
 {

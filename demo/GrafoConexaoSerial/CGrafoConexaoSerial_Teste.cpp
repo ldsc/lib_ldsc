@@ -248,7 +248,7 @@ int
 CGrafoTest::SolicitarModeloGrafo ()
 {
    cout << "\n\n---------------------------------------------------------------------------"
-        << "\nselecione um dos modelos para calculo da permeabilidade:"
+        << "\nselecione um dos modelos para cálculo da permeabilidade:"
         << "\nModelo1: CGrafoConexaoSerial_M1........................................1"
         << "\n(condutâncias dada por um feixe de tubos, cada pixel uma cconexão)"
         << "\nModelo2: CGrafoConexaoSerial_M2......................................2"
@@ -770,7 +770,7 @@ bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
       }
 
    // Abre imagem do disco-----------------------------------------------
-   // Abre a imagem do disco, e chama as funções de calculo
+   // Abre a imagem do disco, e chama as funções de cálculo
    // da permeabilidade para os diferentes modelos
    fin.open ( argv[1] );
    flagEnd = false;

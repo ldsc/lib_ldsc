@@ -193,7 +193,7 @@ CFFTPropriedades::FFTY_of_ModY (double *Re_data, double *Im_data)	//,int semente
   //Percorre os planos k=1 até k<NZ/2             /*k=1-NZdiv2-1   */
   //--------------------------------------------------------------------
   //*******************************************************************
-  //Principal for de calculo. Calcula todos os planos de z=1 até z=NZ/2-1
+  //Principal for de cálculo. Calcula todos os planos de z=1 até z=NZ/2-1
   //Ou seja o ítem 17 somado aos ítens 15 e 16 preenchem metade da matriz 3D
   for (k = 1; k < NZdiv2; k++)
     {

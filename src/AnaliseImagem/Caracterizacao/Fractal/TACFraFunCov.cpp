@@ -11,7 +11,7 @@ Copyright @1997:  	Todos os direitos reservados.
 Nome deste arquivo:	TACFraFunCov.cpp
 Nome da classe:      TACFraFunCov
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
-Descricao:          Implementa as funções da classe TACFraFunCov.
+Descricao:          Implementa as funï¿½ï¿½es da classe TACFraFunCov.
 */
 //----------------------------------------------------------------------------
 //Bibliotecas
@@ -23,10 +23,10 @@ Descricao:          Implementa as funções da classe TACFraFunCov.
 ============================================================================
 Documentacao Construtor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -40,10 +40,10 @@ TACFraFunCov::TACFraFunCov ()
 ============================================================================
 Documentacao Destrutor
 ============================================================================
-Descrição:
-Pré-condições:
-Excessões:        tipos de excessoes
-Concorrência:
+Descriï¿½ï¿½o:
+Prï¿½-condiï¿½ï¿½es:
+Excessï¿½es:        tipos de excessoes
+Concorrï¿½ncia:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
@@ -62,7 +62,7 @@ float
 TACFraFunCov::CalculaDimensaoFractal (TMatriz2D * &pm)
 {
   CalculaVetorDados (pm);
-//deve proceder ao calculo da dimensão fractal com o vetor de dados
+//deve proceder ao cÃ¡lculo da dimensï¿½o fractal com o vetor de dados
   return dimensaoFractal;
 }
 
@@ -70,7 +70,7 @@ TACFraFunCov::CalculaDimensaoFractal (TMatriz2D * &pm)
 ============================================================================
 Documentacao CalculaVetorDados
 ============================================================================
-Descrição:        Calcula o vetor de dados para calculo da dimensao fractal
+Descriï¿½ï¿½o:        Calcula o vetor de dados para cÃ¡lculo da dimensao fractal
                   Funcionamento:
 Programador:      Andre Duarte Bueno                            .
 */

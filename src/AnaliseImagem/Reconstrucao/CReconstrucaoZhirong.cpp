@@ -114,7 +114,7 @@ void CReconstrucaoZhirong::LeituraArquivoCz () {
 }
 
 // ----------------------------------------
-// calculo de Ry
+// cálculo de Ry
 // ----------------------------------------
 // Obs: Cria objeto externo TFuncaoNaoLinearRzRy equivale a antiga função ry=Rzry(yc,porosidade,rz);
 // Determina todos os valores de Ry e salva o resultado em disco
@@ -147,7 +147,7 @@ void CReconstrucaoZhirong::Calculo_Ry1D () {
    fout.precision (5);		// precisão de 5 digitos na saída para disco
    // diferente:liang calcula rz para todo o cz e salva cz e rz em disco
    for (int i = 0; i < numeroPontosLidosArquivoCz; i++) {
-      // calculo de Ry em funcao de Rz
+      // cálculo de Ry em funcao de Rz
       rz = (Cz[i] - porosidadeAoQuadrado) / (porMenospor2);	// Cz normalizada
       Ry[i] = funcaoNaoLinearRzRy->Go (rz);	// calcula Ry de rz
       // cout<<"\nRz["<<i<<"]="<<rz<<"\tRy["<<i<<"]="<<Ry[i];             // mostra na tela
@@ -161,7 +161,7 @@ void CReconstrucaoZhirong::Calculo_Ry1D () {
    for (i = 0; i <= numeroPontosCz; i++) {
       Ry[i] = Ry[i * fatorAmplificacaoNumeroPontos];	// usa fator de redução para
    }
-   // novo: o calculo do Ry esta todo correto. Fornece exatamente os mesmos resultados do liang
+   // novo: o cálculo do Ry esta todo correto. Fornece exatamente os mesmos resultados do liang
    for (i = 0; i <= numeroPontosCz * fatorAmplificacaoNumeroPontos; i++)
       fout << "\n" << i << "\t" << Ry[i];	// determinar pontos a serem utilizados
    fout.close ();		// fecha ponteiro para arquivo
@@ -432,7 +432,7 @@ int CReconstrucaoZhirong::Go () {
    cout << "\nTempo decorrido processo (LeituraArquivoCz)" << (difftime (tf, ti));
 
    ti = time (nullptr);
-   cout << "\nCriando objeto CENormal para calculo de yc ...";
+   cout << "\nCriando objeto CENormal para cálculo de yc ...";
    CENormal *normal = new CENormal ();	// Cria objeto CENormal que representa a curva normal
    cout << " ...objeto CENormal criado.";
    normal->limiteErro = 1e-10;
@@ -455,12 +455,12 @@ int CReconstrucaoZhirong::Go () {
    tf = time (nullptr);
    cout << "\nTempo decorrido processo (Calcula_Ry3D_de_1D)" << (difftime (tf, ti));
 
-   // Cria objeto para calculo das transformadas de Fourier
+   // Cria objeto para cálculo das transformadas de Fourier
    int dims[3];
    dims[0] = NX;
    dims[1] = NY;
    dims[2] = NZ;
-   cout << "\nCriando objeto TFFT_Properties para calculo das transformadas ...";
+   cout << "\nCriando objeto TFFT_Properties para cálculo das transformadas ...";
    objetoFourier = new CFFTPropriedades (3, dims, -1);
    cout << " ...objeto TFFT_Properties criado.";
 

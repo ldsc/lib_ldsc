@@ -45,7 +45,7 @@ CRotulador2DCm::CentroMassaObjetos ()
    // se já calculado calcula novamente
    CalculaAreaObjetos ();
 
-   // Só procede o calculo se a matriz rótulo foi determinada
+   // Só procede o cálculo se a matriz rótulo foi determinada
    if ( rotulado ) {
          // CALCULO DO CENTRO DE MASSA NAS DIRECOES X e Y
          cmx.reserve ( numeroObjetos );
@@ -78,7 +78,7 @@ CRotulador2DCm::CentroMassaObjetos ()
   // Precisa determinar a área dos objetos
   AreaObjetos();// se já calculado calcula novamente
 
-  if( rotulado )	// Só procede o calculo se a matriz rótulo foi determinada
+  if( rotulado )	// Só procede o cálculo se a matriz rótulo foi determinada
   {
   // CALCULO DO CENTRO DE MASSA NAS DIRECOES X e Y
   if ( cmx )		// Cria vetor com os centros de massa em x

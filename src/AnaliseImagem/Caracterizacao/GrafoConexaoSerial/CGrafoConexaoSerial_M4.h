@@ -76,7 +76,7 @@ public:
      /// Adiciona a saida dos centros de massa
      virtual void Write (std::ostream& out ) const override;
 
-     // Adiciona o calculo dos centros de massa
+     // Adiciona o cálculo dos centros de massa
      // virtual void  CalcularCentroMassa();
 
 // ----------------------------------------------------------------Métodos

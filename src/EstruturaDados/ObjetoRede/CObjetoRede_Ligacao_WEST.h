@@ -36,7 +36,7 @@ Desenvolvido por:
  * Assunto:        CGrafo
  * Superclasse:    CParametroSolver->CObjetoGrafo->CObjetoRede_Sitio->CObjetoRede_Ligacao_WEST
  *
- * O valor de contorno é usado no calculo dos fluxo da malha como  um todo.
+ * O valor de contorno é usado no cálculo dos fluxo da malha como  um todo.
  * Ou seja, um algoritimo externo percorre toda a malha, e se o contorno for igual ao
  * solicitado calcula alguma propriedade neste contorno.
  * @author  André Duarte Bueno

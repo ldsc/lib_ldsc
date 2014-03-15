@@ -24,7 +24,7 @@
   ==================================================================================
   Documentacao Construtor
   ==================================================================================
-  Descricao:        O construtor chama as funções de calculo do raio bola e
+  Descricao:        O construtor chama as funções de cálculo do raio bola e
   depois a funcao de preenchimento da mascara
   Pre-condicoes:
   Excecoes:        tipos de excessoes
@@ -35,18 +35,18 @@
   Programador:      Andre Duarte Bueno
 */
 
-// Divide o tamanho da mascara por dois, porque o metodo atual de calculo
+// Divide o tamanho da mascara por dois, porque o metodo atual de cálculo
 // só usa a metade da mascara // :CBCDiscreta ((tamanhoMascara-1)/2+1)
 /*
 CBCd5711::CBCd5711(unsigned int  tamanhoMascara):CBCDiscreta (tamanhoMascara)
 {
   unsigned int dist;		  	// distancia calculada
   unsigned int raio=GetRaioX();	// Como a bola é quadrada uso raio=raioX=raioY
-  // variaveis otimizacao, usadas calculo simetria
+  // variaveis otimizacao, usadas cálculo simetria
   unsigned int posxe,posxd;            // x esquerda e x direita
   unsigned int posyb,posya;	        // y baixo e y alto
 
-  // calculo raio bola inclusa e tangente
+  // cálculo raio bola inclusa e tangente
   raioBolaInclusa= 5*(raio-1);        // 5
   raioBolaTangente=5*(raio-1) +1;     // 6
 
@@ -56,7 +56,7 @@ CBCd5711::CBCd5711(unsigned int  tamanhoMascara):CBCDiscreta (tamanhoMascara)
       posxd=raio + xx;
       for (unsigned int yy=0; yy <= raio; yy++) 	// só percorre meia bola
 	{ // por ser simétrica
-	  // calculo da distancia
+	  // cálculo da distancia
      	  if (xx>2*yy)
 	    dist=5*xx+yy;		// 6
 	  else if (xx==2*yy)

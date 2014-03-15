@@ -4,7 +4,7 @@
 #include <MetNum/Interpolacao/CIntNewtonDivDiff.h>
 
 /*
-Função de calculo dos valores auxiliares,
+Função de cálculo dos valores auxiliares,
 observe que são independentes do valor de x, usam
 apenas os vetores x e y.
 */
@@ -41,8 +41,8 @@ CIntNewtonDivDiff::GeraTabelaAuxiliar (double *xarr, double *yarr, int n)
 }
 
 /*
-Função de calculo em sí
-se necessário, chama antes o calculo dos valores auxiliares
+Função de cálculo em sí
+se necessário, chama antes o cálculo dos valores auxiliares
 */
 double
 CIntNewtonDivDiff::Go (double *xarr, double *yarr, int n, double x)

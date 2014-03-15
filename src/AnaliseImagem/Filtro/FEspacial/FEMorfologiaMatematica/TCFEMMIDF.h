@@ -41,7 +41,7 @@ template<typename T>
 class TCFEMMIDF : public TCFEMorfologiaMatematica<T>, public TCMatriz2D<int> {
 		// Atributos
 	protected:
-		int minimo;					/// valor minimo utilizado no calculo minimoIda e minimoVolta
+		int minimo;					/// valor minimo utilizado no cálculo minimoIda e minimoVolta
 		int raioMaximo;	/// raio máximo da idf
 		int raioBola;		/// raio da bola atual,entre 0 e raioMaximo
 		static bool atualizaIDF;	/// Se verdadeira após cada processamento recalcula a idf

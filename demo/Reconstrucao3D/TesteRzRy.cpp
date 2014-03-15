@@ -108,7 +108,7 @@ TesteRzRy::~TesteRzRy()
 void TesteRzRy::Calculo_Cz()
 {
     // Porosidade
-    // função de calculo de Cz normalizado em função de:
+    // função de cálculo de Cz normalizado em função de:
     // u=deslocamento
     // lambda = comprimentoCorrelacao em píxeis
     // 	std::cout << "\n aqui2000
@@ -117,7 +117,7 @@ void TesteRzRy::Calculo_Cz()
 }
 
 // ----------------------------------------
-// calculo de Ry
+// cálculo de Ry
 // ----------------------------------------
 void TesteRzRy::Calculo_Ry()
 {
@@ -187,7 +187,7 @@ int TesteRzRy::Go()
     ofstream fout("log_testeRzRy.txt");
 
     // Cria objeto CNormalque representa a curva normal
-    fout << "\nCriando objeto CENormal para calculo de yc ...";
+    fout << "\nCriando objeto CENormal para cálculo de yc ...";
     CENormal* normal = new CENormal();
     fout << " ...objeto CNormal criado.";
     normal->limiteErro=1e-10;

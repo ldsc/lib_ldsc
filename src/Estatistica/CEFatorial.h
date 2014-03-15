@@ -9,7 +9,7 @@
  * 
  * Cria um vetor e armazena os valores de fatorial ate nMaximo
  * passado para o construtor.
- * O objetivo e acelerar o processo, evitando o recalculo do fatorial.
+ * O objetivo e acelerar o processo, evitando o recálculo do fatorial.
  * Se n passado for maior que nMaximo passado para o construtor,
  * calcula o fatorial a partir de nMaximo
  * mas neste caso o vetor de fatoriais nao é alterado.

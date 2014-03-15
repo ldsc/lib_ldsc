@@ -50,7 +50,7 @@ public:
    // Enumerated para resposta
    // ex: if( obj->Resposta == 0)
    /**
-    * EResposta a uma enumeracao para respostas do usuario
+    * EResposta a uma enumeracao para respostas do usuário
    */
    enum EResposta
    { no = 0, yes, dont_care };

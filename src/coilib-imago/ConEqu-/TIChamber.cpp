@@ -101,7 +101,7 @@ TIChamber::TIChamber (T3Dint32 _size, int _wb, int _ca):
     maxRadius = 10;
 };
 
-//Funcao chamada antes do calculo da idf no objeto TConfiguracoesEquilibrio.
+//Funcao chamada antes do cálculo da idf no objeto TConfiguracoesEquilibrio.
 //Recebe a molhabilidade do fluido que vai invadir o meio poroso.
 //Retorna uma imagem binaria com 0 e 1, sendo 1 o meio Poroso [e a camara n�o molhante]
 //A camara n�o molhante pode ou n�o ser desenhada, depende da molhabilidade do fluidoin.

@@ -26,7 +26,7 @@ Descricao:Implementa as funções da classe CBCdijk3D.
 ==================================================================================
 Documentacao Construtor
 ==================================================================================
-Descrição:        O construtor chama as funções de calculo do raio bola e
+Descrição:        O construtor chama as funções de cálculo do raio bola e
 			depois a funcao de preenchimento da mascara
 Pré-condições:
 Excessões:        tipos de excessoes
@@ -36,7 +36,7 @@ Tamanho(bits):
 Comentarios:
 Programador:      Andre Duarte Bueno
 */
-// Divide o tamanho da mascara por dois, porque o método atual de calculo
+// Divide o tamanho da mascara por dois, porque o método atual de cálculo
 // só usa a metade da mascara // :CBCDiscreta ((tamanhoMascara-1)/2+1)
 
 // Mascara dijk  comparando coma d5711 fica da forma:
@@ -46,11 +46,11 @@ CBCdijk3D::CBCdijk3D (unsigned int tm, int i, int j, int k, int rb)
 	unsigned int dist;		// distancia calculada
 	unsigned int raio = RaioX ();	// Como a bola é cúbica uso raio=raioX=raioY=raioZ
 
-	// calculo raio bola inclusa e tangente
+	// cálculo raio bola inclusa e tangente
 	raioBolaInclusa = mi * (raio);	//
 	raioBolaTangente = mi * (raio + 1);	//
 
-	// variaveis otimizacao, usadas calculo simetria
+	// variaveis otimizacao, usadas cálculo simetria
 	unsigned int posxe, posxd;	// x esquerda e x direita
 	unsigned int posys, posyn;	// y sul e y norte
 	unsigned int poszf, poszb;	// z front , e z back
@@ -60,7 +60,7 @@ CBCdijk3D::CBCdijk3D (unsigned int tm, int i, int j, int k, int rb)
 		posxe = raio - xx;
 		posxd = raio + xx;
 		for (unsigned int yy = 0; yy <= raio; yy++) {	// só percorre meia bola por ser simétrica
-			// calculo da distancia, Falta generalizar (valores 3 e 4), e o uso do raio base
+			// cálculo da distancia, Falta generalizar (valores 3 e 4), e o uso do raio base
 			posys = raio - yy;
 			posyn = raio + yy;
 			for (unsigned int zz = 0; zz <= raio; zz++)	{ // calcula distancias

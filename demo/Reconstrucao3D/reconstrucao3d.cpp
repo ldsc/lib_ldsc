@@ -13,7 +13,7 @@ using namespace std;
 #include "Reconstrucao/CReconstrucaoBueno.h" // novo
 
 /**
-	  * Função para teste do calculo da permeabilidade.
+	  * Função para teste do cálculo da permeabilidade.
 	  * @param argc
 	  * @param argv
 	  * @return

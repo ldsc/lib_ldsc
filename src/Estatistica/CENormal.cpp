@@ -38,7 +38,7 @@ CENormal & CENormal::operator= (const CENormal & aCENormal)
 // Descrição:
 // Função que retorna a área da cauda esquerda da curva normal dado um valor de z.
 // Dado um valor de z retorna a área da cauda esquerda da curva normal
-// Existem duas funções de calculo, a Go1 que á mais rápida pois utiliza um polinômio que
+// Existem duas funções de cálculo, a Go1 que á mais rápida pois utiliza um polinômio que
 // aproxima a área da curva normal e a Go2 que á mais lenta mas mais precisa
 // pois realiza uma integração sobre a curva normal.
 double
@@ -128,7 +128,7 @@ CENormal::Go2 (double _z)
 
 // Descrição:
 // Calculate the inverse normal.
-// Existem duas funções de calculo a GoInv1 que utiliza um polinomio para aproximar
+// Existem duas funções de cálculo a GoInv1 que utiliza um polinomio para aproximar
 // a equação normal, sendo mais rápida mas menos precisa.
 // A segunda a GoInv2 realiza a integração numérica sobre a curva, sendo
 // mais precisa e mais lenta.
@@ -172,7 +172,7 @@ CENormal::GoInv1 (double _area)
   sum2 =
     1.0 + 1.432788 * tempo + 0.189269 * tempo2 + 0.001308 * tempo2 * tempo;
 
-  z = tempo - sum1 / sum2;	// calculo de z
+  z = tempo - sum1 / sum2;	// cálculo de z
 
   z = (area < 0.5) ? -z : z;
   return z;			// retorna resultado

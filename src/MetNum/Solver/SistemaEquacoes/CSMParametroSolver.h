@@ -65,7 +65,7 @@ Desenvolvido por:
  * Assim Go calcula a propriedade de interesse no instante de tempo atual,
  * com base no tempo anterior, mas sem alterar o valor da propriedade.
  * Voce deve criar objetos herdeiros de  CSMParametroSolver e acrescentar,
- * os atributos e métodos necessários para o calculo da  propriedade
+ * os atributos e métodos necessários para o cálculo da  propriedade
  * no instante de tempo anterior e atual.
  *
  * Exemplo:

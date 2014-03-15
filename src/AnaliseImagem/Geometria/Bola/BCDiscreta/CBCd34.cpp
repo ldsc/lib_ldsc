@@ -24,7 +24,7 @@
   ==================================================================================
   Documentacao Construtor
   ==================================================================================
-  Descrição:         Chama as funcoes de calculo do raio da bola e depois
+  Descrição:         Chama as funcoes de cálculo do raio da bola e depois
   chama preenche mascara
   Pré-condições:
   Excessões:        tipos de excessoes
@@ -35,18 +35,18 @@
   Programador:      Andre Duarte Bueno
 */
 
-// Divide o tamanho da mascara por dois, porque o método atual de calculo
+// Divide o tamanho da mascara por dois, porque o método atual de cálculo
 // só usa a metade da mascara :CBCDiscreta((tamanhoMascara-1)/2+1)
 /*
 CBCd34::CBCd34(unsigned int  tamanhoMascara):CBCDiscreta(tamanhoMascara)
 {
   unsigned int dist; // distancia calculada
   unsigned int raio=GetRaioX(); // Como a bola é quadrada uso raio=raioX=raioY
-  // variaveis otimizacao, usadas calculo simetria
+  // variaveis otimizacao, usadas cálculo simetria
   unsigned int posxe,posxd; // x esquerda e x direita
   unsigned int posyb,posya; // y baixo e y alto
 
-  // calculo raio bola inclusa e tangente
+  // cálculo raio bola inclusa e tangente
   raioBolaInclusa= 3*(raio-1);
   raioBolaTangente=3*(raio-1) +1;
 
@@ -56,7 +56,7 @@ CBCd34::CBCd34(unsigned int  tamanhoMascara):CBCDiscreta(tamanhoMascara)
       posxd=raio + xx;
       for (unsigned int yy=0; yy <= raio; yy++) // só percorre meia bola
 	{                                      // por ser simétrica
-	  // calculo distancia
+	  // cálculo distancia
 	  if      (xx==yy)	dist=4*xx;           // ou 4*yy
 	  else if (xx >yy)	dist=3*xx+yy;
 	  else 					dist=3*yy+xx;

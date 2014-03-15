@@ -62,7 +62,7 @@ using namespace std;
  *  Sendo assim, o consumo extra de memória é temporário.
  *
  *	PS: a vantagem de armazenar cmx no grafo é deletar
- *	todo o vetor cmx logo após o calculo das condutâncias.
+ *	todo o vetor cmx logo após o cálculo das condutâncias.
  *
  * @author :	Andre Duarte Bueno
  * @see    :
@@ -97,7 +97,7 @@ CGrafoConexaoSerial_M4::AdicionarObjetos
 // Funcao:   CalcularCondutancias
 // -------------------------------------------------------------------------
 /** @short  : Redefinida, em relação a CGrafoConexaoSerial_M3
- *	Faz o calculo da condutancia de forma semelhante aquela definida em CGrafoConexaoSerial_M3.
+ *	Faz o cálculo da condutancia de forma semelhante aquela definida em CGrafoConexaoSerial_M3.
  *	A diferença é adicionar um fator de correção das condutâncias,
  *	que considera a distância efetiva entre os sítios conexos.
  *	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
@@ -118,7 +118,7 @@ void CGrafoConexaoSerial_M4::CalcularCondutancias ( long double _viscosidade,
    CGrafoConexaoSerial_M3::CalcularCondutancias ( _viscosidade, _dimensaoPixel,
          _fatorAmplificacao );
 
-   // Inicio do calculo da correção das condutâncias
+   // Inicio do cálculo da correção das condutâncias
    // Centro de massa na direção x,y do sitio
    float    cmxSitio {0.0};
    float    cmySitio {0.0};

@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
 
 
-    cout << "Deseja modificar atributos da simulacao e dos fluidos (s)(n)? ";
+    cout << "Deseja modificar atributos da simulação e dos fluidos (s)(n)? ";
     char resp;
     bool disco = 0;
     cin >> resp;

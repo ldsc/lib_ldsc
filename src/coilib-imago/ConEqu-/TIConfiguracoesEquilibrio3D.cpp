@@ -214,7 +214,7 @@ TIConfiguracoesEquilibrio3D::TIConfiguracoesEquilibrio3D (TIChamber * _chamber, 
     */
 
     //Fun��o que determina a imagem de dist�ncia ao fundo imgIDF, para a imagem da camara
-    //novo, agora ao passar por DeterminaAbertura chama o calculo da IDf
+    //novo, agora ao passar por DeterminaAbertura chama o cálculo da IDf
     //DeterminaImgIDF();
 
     //Determina o raio inicial como sendo o raio m�nimo ou m�ximo
@@ -645,7 +645,7 @@ TIConfiguracoesEquilibrio3D::Next ()
     }
 
 //Dados da simula��o para este passo
-    cout << "\nDados da simulacao passo=" << pass << endl;
+    cout << "\nDados da simulação passo=" << pass << endl;
     cout << "maxRadius:(" << maxRadius << ")";
     cout << " minRadius:(" << minRadius << ")";
     cout << " radius:(" << radius << ")";
@@ -658,7 +658,7 @@ TIConfiguracoesEquilibrio3D::Next ()
     cout << " numberInversion:(" << numberInversion << ")" << endl;
 
     ofstream hout ("histerese.dat", ios::app);
-    hout << "\nDados da simulacao passo=" << pass << endl;
+    hout << "\nDados da simulação passo=" << pass << endl;
     hout << "maxRadius:(" << maxRadius << ")";
     hout << " minRadius:(" << minRadius << ")";
     hout << " radius:(" << radius << ")";
@@ -702,7 +702,7 @@ TIConfiguracoesEquilibrio3D::Histerese (int numeroCiclos)
 {
 
     //Enquanto maxRadius for maior ou igual a minRadius
-    cout << "\nFun��o de calculo da histerese." << endl;
+    cout << "\nFun��o de cálculo da histerese." << endl;
     for (int i = 0; i < numeroCiclos; i++)
     {
         cout << "\a\nExecutando o ciclo: " << i << endl;
@@ -819,7 +819,7 @@ TIConfiguracoesEquilibrio3D::InvertDirection ()
 
     //A cada invers�o esta reduzindo o maxRadius e aumentando o minRadius
     //
-    //maxRadius--;Antes o intervalo de calculo ia sendo reduzido
+    //maxRadius--;Antes o intervalo de cálculo ia sendo reduzido
     //minRadius++;agora vai de ponta a ponta
 
     cout << "\nInvertendo o fluxo";
@@ -900,7 +900,7 @@ TIConfiguracoesEquilibrio3D::InvertDirection ()
     //Se B for molhante a camara n�o � desenhada, e a IDF
     //� calculada somente sobre a regi�o do meio poroso
     //Se B for N�o molhante, a camara com o flu�do n�o molhante
-    //(mercurio) � desenhada e entra no calculo da IDF
+    //(mercurio) � desenhada e entra no cálculo da IDF
     cout << "\nRedefinindo a camara";
     cout << "\nRecalculando a IDF" << endl;
     DeterminaImgIDF ();

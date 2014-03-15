@@ -44,7 +44,7 @@ CSFRichmond::Go (double semente)
 
       x -= diferenca;		// determina novo x
 
-      erro = fabs (diferenca);	// padronizar calculo do erro em x
+      erro = fabs (diferenca);	// padronizar cálculo do erro em x
 
       iteracoes++;		// acumula iterações
 

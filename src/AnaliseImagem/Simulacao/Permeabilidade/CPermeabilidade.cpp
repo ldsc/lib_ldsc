@@ -1,22 +1,21 @@
-/*
+/**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: TPadrao_ramo
 ===============================================================================
-
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-	[LDSC].
-@author:          André Duarte Bueno
-@file:             CPermeabilidade.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+Desenvolvido por:
+			Laboratorio de Desenvolvimento de Software Cientifico	[LDSC].
+@author:    André Duarte Bueno
+@file:      CPermeabilidade.cpp
+@begin:     Sat Sep 16 2000
+@copyright: (C) 2000 by André Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <cstdlib>
+// #include <cstdlib>
 #include <fstream>
 
 // -----------------------------------------------------------------------
@@ -26,41 +25,26 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 
 using namespace std;
 
-/*
--------------------------------------------------------------------------
-Função: Construtor de copia
--------------------------------------------------------------------------
-@short  : Copia atributos do objeto
-@author :	André Duarte Bueno
-@see    : Construtores
-@param  : CPermeabilidade&
-@return : nada
-*/
-// Construtor de copia
-CPermeabilidade::CPermeabilidade (const CPermeabilidade & aCPermeabilidade)
-{
-  permeabilidade = aCPermeabilidade.permeabilidade;
-}
 
-/*
--------------------------------------------------------------------------
-Função:  operator=
--------------------------------------------------------------------------
-@short  : OPerador igualdade (atribuição)
-@author : André Duarte Bueno
-@see    :
-@param  : CPermeabilidade&
-@return : *this
-*/
-CPermeabilidade & CPermeabilidade::
-operator= (const CPermeabilidade & aCPermeabilidade)
-{
-  if (this == &aCPermeabilidade)
-    return *this;
-
-  permeabilidade = aCPermeabilidade.permeabilidade;
-  return *this;
-}
+// /*
+// -------------------------------------------------------------------------
+// Função:  operator=
+// -------------------------------------------------------------------------
+// @short  : OPerador igualdade (atribuição)
+// @author : André Duarte Bueno
+// @see    :
+// @param  : CPermeabilidade&
+// @return : *this
+// */
+// CPermeabilidade & CPermeabilidade::
+// operator= (const CPermeabilidade & aCPermeabilidade)
+// {
+//   if (this == &aCPermeabilidade)
+//     return *this;
+//
+//   permeabilidade = aCPermeabilidade.permeabilidade;
+//   return *this;
+// }
 
 /*
 -------------------------------------------------------------------------
@@ -72,9 +56,9 @@ Função:  operator==
 @param  : const CPermeabilidade&
 @return : bool==1 se iguais, ==0 se diferentes
 */
-bool CPermeabilidade::operator== (const CPermeabilidade & ori)  const
+bool CPermeabilidade::operator== ( const CPermeabilidade& ori )  const
 {
-  return this->permeabilidade == ori.permeabilidade;
+   return this->permeabilidade == ori.permeabilidade;
 }
 
 /*
@@ -87,9 +71,8 @@ Função:  operator!=
 @param  :  const CPermeabilidade&
 @return :  bool==0 se iguais, ==1 se diferentes
 */
-bool CPermeabilidade::operator!= (const CPermeabilidade & ori)  const
-{
-  return this->permeabilidade != ori.permeabilidade;
+bool CPermeabilidade::operator!= ( const CPermeabilidade& ori )  const{
+   return this->permeabilidade != ori.permeabilidade;
 }
 
 /*
@@ -102,10 +85,9 @@ Função: operator<<
 @param  : ostream& os, const CPermeabilidade& p
 @return : ostream& os,
 */
-ostream & operator<< (ostream & os, const CPermeabilidade & p)
-{
-  os << p.permeabilidade << endl;
-  return os;
+ostream& operator<< ( ostream& os, const CPermeabilidade& p ){
+   os << p.permeabilidade << endl;
+   return os;
 }
 
 /*
@@ -118,10 +100,9 @@ Função:  operator>>
 @param  : istream& is, CPermeabilidade& p
 @return : istream& is
 */
-istream & operator>> (istream & is, CPermeabilidade & p)
-{
-  is >> p.permeabilidade;
-  return is;
+istream& operator>> ( istream& is, CPermeabilidade& p ){
+   is >> p.permeabilidade;
+   return is;
 }
 
 /*
@@ -138,18 +119,16 @@ Função:   Read
 @return : void
 */
 void
-CPermeabilidade::Read (string nomeArquivo)
+CPermeabilidade::Read ( string nomeArquivo )
 {
-  // Abre o arquivo de disco
-  ifstream fin (nomeArquivo.c_str ());
-  if (!fin)
-    {
-      cerr << "\nNao abriu arquivo de disco " << nomeArquivo << endl;
-      exit (0);
-    }
-  // se ok
-  // Envia dados para este objeto
-  //  if(fin.good())
-  //      fin >> (*this);
+   // Abre o arquivo de disco
+   ifstream fin ( nomeArquivo.c_str () );
 
+   if ( !fin ) {
+         cerr << "\nNao abriu arquivo de disco " << nomeArquivo << endl;
+         exit ( 0 );
+      }
+
+  fin >> permeabilidade;
+  fin.close();
 }

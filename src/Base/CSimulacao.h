@@ -28,9 +28,9 @@
 #endif
 
 /**
- * @brief Classe generica (e pura) para simulacao de sistemas.
+ * @brief Classe genérica (e pura) para simulação de sistemas.
  *
- * Usualmente o usuario vai chamar:
+ * Usualmente o usuário vai chamar:
  * CriarObjetosAgregados (); para criar objetos agregados
  * Definir as condições de contorno,
  * Definir os valores iniciais, e
@@ -39,96 +39,92 @@
  * Depois pode chamar Go para calcular propriedades/conceitos específicos
  * (que dependem do sistema resolvido).
  *
- * Note que aqui são criadas diversas funções virtuais puras, que serão
- * redefinidas (implementadas nas classes filhas).
- *
- * Note que a funcao Go() é usada para calcular a propriedade que se deseja.
- * A funcao Go() vai ser redefinida nas classes filhas para realizar o calculo da
+ * A funcao Go() é usada para calcular a propriedade que se deseja;
+ * vai ser redefinida nas classes filhas para realizar o cálculo da
  * propriedade desejada.
  *
  * Observe a diferença, SolucaoSistema() resolve o sistema como um todo,
  * Go() calcula alguma propriedade de interesse.
+ *
+ * Note que aqui são criadas diversas funções virtuais puras, que serão
+ * redefinidas (implementadas nas classes filhas).
 
 	 @author 	Andre Duarte Bueno
 	 @version
-	 @see			simulacao
 */
-class CSimulacao
-{
-		//--------------------------------------------------------------Atributos
-	protected:
+class CSimulacao {
+   //--------------------------------------------------------------Atributos
+protected:
 
-		/**
-	 * true se o sistema já esta resolvido, falso se não resolvido.
+   /**
+   * true se o sistema já esta resolvido, falso se não resolvido.
+   */
+   bool sistemaResolvido {  false };
+
+public:
+   //-------------------------------------------------------------Construtor
+   /**
+   * Construtor
+   */
+   CSimulacao () = default;
+
+   //--------------------------------------------------------------Destrutor
+   /**
+   * Destrutor
+   */
+   virtual ~ CSimulacao () = default;
+
+   //----------------------------------------------------------------Métodos
+protected:
+
+   /** Cria objetos agregados */
+   virtual void CriarObjetosAgregados () = 0;
+
+   /** Define as condições de contorno */
+   virtual void DefinirCondicoesContorno () = 0;
+
+   /** Define valores iniciais */
+   virtual void DefinirCondicoesIniciais () = 0;
+
+   /** Resolve o sistema de equações */
+   virtual void SolucaoSistemaEquacoes () = 0;
+
+public:
+
+   /** Resolve o sistema como um todo através da chamada das funções a seguir */
+   virtual bool SolucaoSistema () {
+      CriarObjetosAgregados ();
+      DefinirCondicoesContorno ();
+      DefinirCondicoesIniciais ();
+      SolucaoSistemaEquacoes ();
+      sistemaResolvido = true;
+      return 1 ;
+   }
+
+   /** Resolve um problema especifico, como exemplo o cálculo de uma 
+	* propriedade fisica que se deseja;
+	* Ou seja, depois de chamar SolucaoSistema() posso chamar Go()
+	* para calcular itens específicos.
+	* Go() vai ser redefinida nas classes filhas para realizar o cálculo da
+	* propriedade desejada.
 	*/
-		bool sistemaResolvido;
+	virtual long double Go () = 0;
 
-	public:
-		//-------------------------------------------------------------/**Construtor*/
-		/**
-	 * Construtor
-	 * @return
-	 */
-		CSimulacao () : sistemaResolvido (false)
-		{
-		}
+   //--------------------------------------------------------------------Get
+   /** Retorna flag que informa se o sistema esta resolvido ou não*/
+   bool SistemaResolvido () {
+      return sistemaResolvido ;
+   }
 
-		//--------------------------------------------------------------/**Destrutor*/
-		/**
-	 * Destrutor
-	 * @return
-	 */
-		virtual ~ CSimulacao ()
-		{
-		}
+   //--------------------------------------------------------------------Set
+   /**Define se o sistema esta resolvido ou não*/
+   void SistemaResolvido ( bool sr ) {
+      sistemaResolvido = sr;
+   }
 
-		//----------------------------------------------------------------Métodos
-	protected:
-
-		/** Cria objetos agregados */
-		virtual void CriarObjetosAgregados () = 0;
-
-		/** Define as condições de contorno */
-		virtual void DefinirCondicoesContorno () = 0;
-
-		/** Define valores iniciais */
-		virtual void DefinirCondicoesIniciais () = 0;
-
-		/** Resolve o sistema de equações */
-		virtual void SolucaoSistemaEquacoes () = 0;
-
-	public:
-
-		/** Resolve o sistema como um todo através da chamada das funções a seguir */
-		virtual bool SolucaoSistema () {
-			CriarObjetosAgregados ();
-			DefinirCondicoesContorno ();
-			DefinirCondicoesIniciais ();
-			SolucaoSistemaEquacoes ();
-			sistemaResolvido = true;
-			return 1 ;
-		}
-
-		/** Resolve o problema especifico definido em Go*/
-		virtual long double Go () = 0;
-
-		//--------------------------------------------------------------------Get
-		/**Define se o sistema esta resolvido ou não*/
-		bool SistemaResolvido ()
-		{
-			return sistemaResolvido ;
-		}
-
-		//--------------------------------------------------------------------Set
-		/**Define se o sistema esta resolvido ou não*/
-		void SistemaResolvido (bool sr)
-		{
-			sistemaResolvido = sr;
-		}
-
-		//-----------------------------------------------------------------Friend
-		//      friend ostream& operator<< (ostream& os, CSimulacao& obj);
-		//      friend istream& operator>> (istream& is, CSimulacao& obj);
+   //-----------------------------------------------------------------Friend
+   //      friend ostream& operator<< (ostream& os, CSimulacao& obj);
+   //      friend istream& operator>> (istream& is, CSimulacao& obj);
 };
 
 //-----------------------------------------------------------------Friend
@@ -136,5 +132,5 @@ class CSimulacao
 //ostream& operator<< (ostream& os, CSimulacao& obj);
 //istream& operator>> (istream& is, CSimulacao& obj);
 
-#endif 
+#endif
 

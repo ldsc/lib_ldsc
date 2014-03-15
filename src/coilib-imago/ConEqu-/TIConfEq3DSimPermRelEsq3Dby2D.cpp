@@ -81,7 +81,7 @@ Fun��o:
 #include <TMaterial/TMFluido.h>
 #include <TSMatriz/TSMDiagonal/TSMDSOR.h>
 
-// -------------------------------------------------------------- Objetos calculo permeabilidade
+// -------------------------------------------------------------- Objetos cálculo permeabilidade
 #include <TPermeabilidade/TPermeabilidadeGrafo.h>
 
 //NA classe TIConfEq3DSim usa:
@@ -96,7 +96,7 @@ COI20_CLASSID_DEF1 (TIConfEq3DSimPermRelEsq3Dby2D, TIConfEq3DSimPermRel)
 //A chamada a fun��o Calcula permeabilidade estava acessando
 //a funcao da classe TIConfEq3DSimPermRel::CalculaPermeabilidade
 //e nao a CalculaPermeabilidade desta classe.
-//Este problema so ocorria no calculo da permebilidade intrinseca.
+//Este problema so ocorria no cálculo da permebilidade intrinseca.
 //Fiz uma copia da fun��o PrepareConfEqSim() para verificar se o problema
 //cessa.
 //Depois verificar onde esta o problema, e eliminar esta fun��o
@@ -116,7 +116,7 @@ void TIConfEq3DSimPermRelEsq3Dby2D::PrepareConfEqSim ()
     I3DRawImage *imagem = chamber->GetimgPorousMedia ();
     assert (imagem != NULL);
 
-    //salva imagem usada para calculo da permeabilidade intrinseca
+    //salva imagem usada para cálculo da permeabilidade intrinseca
     //SaveImg1bpp ( imagem, "imagem_chamber_GetimgPorousMedia.i3d");
 
     //Obtem imagem do n�cleo
@@ -127,7 +127,7 @@ void TIConfEq3DSimPermRelEsq3Dby2D::PrepareConfEqSim ()
     delete imagem;
     assert (imgNucleo != NULL);
 
-    //salva imagem usada para calculo da permeabilidade intrinseca
+    //salva imagem usada para cálculo da permeabilidade intrinseca
     //SaveImg1bpp ( imgNucleo, "imagem_chamber_GetimgPorousMedia_nucleo.i3d");
     //calcula permeabilidade intrinseca
     //intrinsicPermeability = TIConfEq3DSimPermRel::CalculaPermeabilidade(imgNucleo);
@@ -149,7 +149,7 @@ void TIConfEq3DSimPermRelEsq3Dby2D::PrepareConfEqSim ()
     fout.close ();
 }
 
-//Fun��o de calculo da permeabilidade em s�.
+//Fun��o de cálculo da permeabilidade em s�.
 //calcula direto, sem o uso do di�logo.
 double
 TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
@@ -219,18 +219,18 @@ TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage *
         //Determina o grafo---------------------------------------------------
         grafo->Go (pm3D);
 
-        //Cria objeto de calculo da permeabilidade-------------------------------------
+        //Cria objeto de cálculo da permeabilidade-------------------------------------
         TPermeabilidadeGrafo *permeabilidade =
             new TPermeabilidadeGrafo (fluido, solver, grafo, pm3D->GetNX (),
                                       pm3D->GetNY (), pm3D->GetNZ (),
                                       fatorAmplificacao, dimensaoPixel);
         assert (permeabilidade);
 
-        //Chama fun��o de inicializa��o do sistema de calculo da permeabilidade------------------
+        //Chama fun��o de inicializa��o do sistema de cálculo da permeabilidade------------------
         //Seta condi��es de contorno, valores iniciais, chama solver pela 1 vez
         permeabilidade->SolucaoSistema ();
 
-        //Chama fun��o de calculo da permeabilidade-----------------------------------
+        //Chama fun��o de cálculo da permeabilidade-----------------------------------
         perm = permeabilidade->Go ();
         delete pm3D;
         delete permeabilidade;

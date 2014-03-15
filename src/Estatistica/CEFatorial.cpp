@@ -29,7 +29,7 @@ CEFatorial::~CEFatorial ()
 }
 
 /*
-// Função de calculo do fatorial.
+// Função de cálculo do fatorial.
 Observe a existencia de 3 possibilidades:
 (1)- nMaximo é negativo, o vetor de fatoriais não é alocado.
 E o fatorial deve ser sempre calculado.

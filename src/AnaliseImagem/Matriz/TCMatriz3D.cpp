@@ -123,7 +123,7 @@ bool TCMatriz3D<T>::AlocaMatriz3D(int _nx, int _ny, int _nz) {
 			}
 		}
 	} else {
-		nx = ny = nz = 0;		// ou o usuario verifica dat ou faz nx=ny=0
+		nx = ny = nz = 0;		// ou o usuário verifica dat ou faz nx=ny=0
 		cerr << "Não alocou data3D em TCMatriz3D<T>::AlocaMatriz3D" << endl;
 		return false;			// informa retornando 0
 	}

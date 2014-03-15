@@ -24,7 +24,7 @@
 //   Adotar padrao C++, isto e, usar sobrecarga nas chamadas.
 //   (v2)
 //   Criar classe herdeira CGnuplot, que inclui somente a nova interface.
-//   como e herdeira, o usuario vai poder usar nome antigos.
+//   como e herdeira, o usuário vai poder usar nome antigos.
 //   Vantagem: preserva classe original, cria nova interface, fica a critério do usuário
 //   qual interface utilizar.
 ////////////////////////////////////////////////////////////////////////////////////////

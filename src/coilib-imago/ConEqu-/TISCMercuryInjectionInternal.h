@@ -147,7 +147,7 @@ public:
 //      friend istream& operator>> (istream& is, |CLASSNAME|& obj);
 
 
-//Desativa calculo flu�do que sai
+//Desativa cálculo flu�do que sai
 // virtual bool GetcalculateFluidOut()          const   {return false;};
 //e fluido isolado
 // virtual bool GetcalculateFluidIsolated()     const   {return false;};

@@ -57,7 +57,7 @@ class CAberturaDilatacao
 		/// Valor do incremento do raio do elemento estruturante
 		int incrementoRaioElementoEstruturante;
 
-		/// Numero do modelo de calculo
+		/// Numero do modelo de cálculo
 		int modelo;
 
 		/// Valor que indentifica os objetos de interesse na imagem

@@ -62,7 +62,7 @@ public:
 // ----------------------------------------------------------------Métodos
    /**
     * @brief Transforma uma propriedade raio Hidraulico em condutancia.
-    * Tem mais de uma herdeira. Aqui o calculo da condutância entre os objetos
+    * Tem mais de uma herdeira. Aqui o cálculo da condutância entre os objetos
     * considera uma condutancia média.
     * cm = (c1 + c2)/2;
     */

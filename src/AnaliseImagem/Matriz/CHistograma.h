@@ -36,7 +36,7 @@ Desenvolvido por:
  *  O usuário cria o histograma, chamando CHistograma(numeroCores);
  * o número de cores é usado para alocar o vetor histograma.
  * Depois o usuário acessa a função Go(pm)
- * passa a matriz para a função Go que executa o calculo do histograma
+ * passa a matriz para a função Go que executa o cálculo do histograma
  * em sí.
  * 
  * Pode-se obter o valor médio do histograma acessando a função

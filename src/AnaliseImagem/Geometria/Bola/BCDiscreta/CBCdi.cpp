@@ -51,7 +51,7 @@ CBCdi::CBCdi (unsigned int tm, int mi, int /*raioBase */ )
 
     raioBolaTangente = (raio) + 1;
 
-    // variaveis otimizacao, usadas calculo simetria
+    // variaveis otimizacao, usadas cálculo simetria
 
     unsigned int posxe, posxd;	// x esquerda e x direita
 
@@ -94,14 +94,14 @@ CBCdi::CBCdi (unsigned int tm, int mi, int /*raioBase */ )
 
 }
 
-// calculo raio bolas inclusa e tangente---
+// cálculo raio bolas inclusa e tangente---
 /*void CBCdi::CalculaRaioBola()
   {
   raioBolaInclusa= (RaioX());
   raioBolaTangente=(RaioX()) +1;
   } */
 /*
-  Pode-se criar uma funcao virtual preenche bola generica, que para cada classe
+  Pode-se criar uma funcao virtual preenche bola genérica, que para cada classe
   filha executaria as funcoes abaixo:
   void CBCdi::CalculaRaioBolaECondicao()
 {

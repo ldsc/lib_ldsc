@@ -311,11 +311,11 @@ void CAberturaDilatacaoOld::DistTotalPoros()
 			break;//raioElem = ( matrizAuxiliar->NX() - 1 ) / 2 + 1; // encerra o for
 
 		// Condição de parada
-		// necessário senão o calculo fica muito demorado.
+		// necessário senão o cálculo fica muito demorado.
 		//if( raioElem > raioMaximoElementoEstruturante )
 		//	break;
 	}
-	/* 		desnecessario, pois esta usando para calculo a matriz auxiliar
+	/* 		desnecessario, pois esta usando para cálculo a matriz auxiliar
 		for (int j=0; j < matrizAuxiliar->NY();j++)
 			for (int i=0; i < matrizAuxiliar->NX();i++)
 				pm->data2D[i][j] = copiaMatriz.data2D[i][j];
@@ -393,8 +393,8 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_0() {
 	// auxiliar, usada para encerrar looping ??
 	double porosidadeAposAbertura=	0.0;
 
-	// LOOOPING de calculo
-	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
+	// LOOOPING de cálculo
+	cout << "Entrando no looping de cálculo das distribuicoes..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= ( pm->NX() - 1 ) / 2; raioElemen += incrementoRaioElementoEstruturante ) {
 		cout << "================================>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
 
@@ -557,7 +557,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_1()
 	modelo = 1 ;
 
 	int result;
-	// Remove arquivos gerados na ultima simulacao
+	// Remove arquivos gerados na ultima simulação
 	cout << "Apaga resultados antigos... Arquivos Matriz*" << endl;
 	result = system ("rm Matriz*");
 
@@ -617,7 +617,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_1()
 	ostringstream os;
 
 	// Entra num looping para o raio do elemento estruturante
-	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
+	cout << "Entrando no looping de cálculo das distribuicoes..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante  ) {
 		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
 
@@ -850,7 +850,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_2()
 
 	// Entra num looping para o raio do elemento estruturante
 	// o incremento é dado pelo incrementoRaioElementoEstruturante
-	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
+	cout << "Entrando no looping de cálculo das distribuicoes..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante  ) {
 		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
 		// 	cout << "Pressione enter para iniciar processamento deste raio." << endl;
@@ -1259,7 +1259,7 @@ void CAberturaDilatacaoOld::DistSitiosLigacoes_Modelo_3()
 
 	// Entra num looping para o raio do elemento estruturante
 	// o incremento é dado pelo incrementoRaioElementoEstruturante
-	cout << "Entrando no looping de calculo das distribuicoes..." << endl ;
+	cout << "Entrando no looping de cálculo das distribuicoes..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen += incrementoRaioElementoEstruturante ) {
 		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;
 		// 	cout << "Pressione enter para iniciar processamento deste raio." << endl;
@@ -1647,7 +1647,7 @@ void CAberturaDilatacaoOld::SequenciaAberturaTonsCinza()
 	pfmf = new TCFEMorfologiaMatematica<int>( pm , 3 );
 
 	// Entra num looping para o raio do elemento estruturante
-	cout << "Entrando no looping de calculo das aberturas..." << endl ;
+	cout << "Entrando no looping de cálculo das aberturas..." << endl ;
 	for ( int raioElemen = 1; raioElemen <= (pm->NX()-1)/2; raioElemen++ )
 	{
 		cout << "==>RAIO Elemento Estruturante = " <<  raioElemen << endl ;

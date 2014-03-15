@@ -35,7 +35,7 @@
   Antes realizava um processo mais lento, criava uma mascara da mascara e depois
   percorria os valores da imagem usando esta mascara da mascara num processo mais confuso e lento.
   Da forma como esta não existe mais a necessidade de se definir uma mascara da mascara,
-  de preencher os valores da mesma e realizar loops de calculo.
+  de preencher os valores da mesma e realizar loops de cálculo.
   Aqui substitui as chamadas a mascara da mascara pelo próprio valor, e substitui o loop pela repetição do código
   de teste para cada ponto da mascara.
   Para a d5711 tem-se 8 testes, o que não deixa o código muito extenso e

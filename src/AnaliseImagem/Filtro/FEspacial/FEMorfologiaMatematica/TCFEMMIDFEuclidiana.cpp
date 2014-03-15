@@ -196,7 +196,7 @@ Executa abertura a partir da idf
 //  Só usa valores da mascara, não usa valores da mascmasc (que foi eliminada).
 
 //  Para cada RaioBola apaga a mascara atual e cria uma nova.
-//  A alteração do tamanho da mascara, implica num calculo da PreencheMascara diferente, pois a
+//  A alteração do tamanho da mascara, implica num cálculo da PreencheMascara diferente, pois a
 //  PreencheMascara usa valores de raio da mascara.
 
 //  Da forma como foi definida a mascara só usa valores em que y=0, maskd->data2D[x][0]
@@ -215,7 +215,7 @@ Executa abertura a partir da idf
 //  for(int i=maskd->Getraio(); i< nx-maskd->Getraio(); i++)
 */
 
-//  O calculo da função  Abertura nesta classe é diferente do da classe base.
+//  O cálculo da função  Abertura nesta classe é diferente do da classe base.
 //  A primeira diferença é que a idf calculada usando a TCFEMMIDFEuclidiana, esta multiplicada por 100.
 //  Logo preciso considerar isso, e o faço multiplicando as funções Getraio.. por 100.
 //  A segunda é que a mascara CBCEuclidiana é uma mascara preenchida corretamente, e não  um vetor

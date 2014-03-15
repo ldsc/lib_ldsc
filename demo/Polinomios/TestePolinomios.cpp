@@ -28,7 +28,7 @@ int main ()
     polinomio->entrada ();	//entrada de coefificientes
     cout << "\nVai mostrar os coeficientes que voce digitou:";
     polinomio->saida ();		//mostra coeficientes
-    cout << "\nEntre com o parametro de calculo para o polinomio de 5 grau:";
+    cout << "\nEntre com o parametro de cálculo para o polinomio de 5 grau:";
     cin >> r1;
     r2 = polinomio->calcular (r1);
     cout << "\nResultado polinomio=" << r2;
@@ -42,7 +42,7 @@ int main ()
     senoide->entrada ();
     cout << "\nVai mostrar os coeficientes que voce digitou:";
     senoide->saida ();
-    cout << "\nEntre com o parametro de calculo para a senoide: ";
+    cout << "\nEntre com o parametro de cálculo para a senoide: ";
     cin >> r2;
     r2 = senoide->calcular (r2);
     cout << "\nResultado senoide=" << r2;
@@ -61,7 +61,7 @@ int main ()
     g2->entrada ();
     g3->entrada ();
     g4->entrada ();
-    cout << "\n\tEntre com o parametro de calculo para os polinomios: ";
+    cout << "\n\tEntre com o parametro de cálculo para os polinomios: ";
     cin >> r1;
     cout << "\n1g resultado=" << g1->calcular (r1);	//calcula polinomios
     cout << "\n2g resultado=" << g2->calcular (r1);
@@ -159,7 +159,7 @@ int main ()
     polinomio->f_entrada ();
     polinomio->f_saida ();
     cout <<
-         "\n\tEntre com o parametro de calculo para o polinomio base de 5 grau:";
+         "\n\tEntre com o parametro de cálculo para o polinomio base de 5 grau:";
     cin >> r1;
     r2 = polinomio->f_calcular (r1);
     cout << "\n\tResultado polinomio=" << r2;
@@ -174,7 +174,7 @@ int main ()
     senoide->f_saida ();
     senoide->f_entrada ();
     senoide->f_saida ();
-    cout << "\n\tEntre com o parametro de calculo para a senoide: ";
+    cout << "\n\tEntre com o parametro de cálculo para a senoide: ";
     cin >> r2;
     r2 = senoide->f_calcular (r2);
     cout << "\n\tResultado senoide=" << r2;
@@ -189,7 +189,7 @@ int main ()
     //g2->f_definir(1,2,3); nao � membro de TPolinomio
     g3->f_entrada ();
     g4->f_entrada ();
-    cout << "\n\tEntre com o parametro de calculo para o polinomio: ";
+    cout << "\n\tEntre com o parametro de cálculo para o polinomio: ";
     cin >> r1;
     cout << "\n1g resultado=" << g1->f_calcular (r1);	//calcula polinomios
     cout << "\n2g resultado=" << g2->f_calcular (r1);

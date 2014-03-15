@@ -36,7 +36,7 @@
   Superclasse:  a propria
   Descri��o:    Declara a classe TIConfEq3DSimPermRelEsq3Dby2D.
   Herdeira da classe TIConfEq3DSim,
-  acrescenta nos calculos informa��es relacionadas a determinação
+  acrescenta nos cálculos informa��es relacionadas a determinação
   da permeabilidade relativa.Ou seja, use TConfiguracoesEquilibrio
   para obter as configuracoes de equilibrio (visualizacao)
   TIConfEq3DSim para determinação das curvas de pressao capilar
@@ -51,10 +51,10 @@
 class TIConfEq3DSimPermRelEsq3Dby2D:public TIConfEq3DSimPermRel
 {
     COI20_CLASSID COI20_SAFECAST (TIConfEq3DSimPermRelEsq3Dby2D, IObject)
-    //Define o tipo de modelo de calculo das condutâncias
+    //Define o tipo de modelo de cálculo das condutâncias
 private:
 
-    //Usado para definir o modelo de calculo da permeabilidade
+    //Usado para definir o modelo de cálculo da permeabilidade
     int tipoGrafo;
 
     //Usado para gerar o nome do arquivo a ser passado para o grafo
@@ -101,10 +101,10 @@ public:
 private:
 protected:
 
-    //Nao esta sendo chamada para calculo da permeabilidade intrinseca
+    //Nao esta sendo chamada para cálculo da permeabilidade intrinseca
     virtual double CalculaPermeabilidade (I3DRawImage * &img);
     //Foi incluida para verificar se chama acima tambem para
-    //o calculo da permeabilidade intrinseca
+    //o cálculo da permeabilidade intrinseca
     virtual void PrepareConfEqSim ();
 
     //-------------------------------------------------------------Sobrecarga

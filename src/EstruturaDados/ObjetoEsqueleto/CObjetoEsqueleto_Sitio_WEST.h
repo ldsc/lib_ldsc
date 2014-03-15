@@ -28,7 +28,7 @@ Desenvolvido por:
  * @brief Representa um objeto esqueleto conectado a face esquerda do grafo.
  *
  * Assume valor de contorno = CContorno::WEST.
- * O valor de contorno é usado no calculo dos fluxo da malha como
+ * O valor de contorno é usado no cálculo dos fluxo da malha como
  * um todo. Ou seja, um algoritimo externo percorre todo
  * o grafo, e se o contorno for igual ao solicitado
  * calcula alguma propriedade neste contorno.

@@ -60,7 +60,7 @@ class CFMMIDF:public CFMorfologiaMatematica, public CMatriz2D
 {
 // Atributos
 protected:
-  int minimo;			// valor minimo utilizado calculo minimoIda e minimoVolta
+  int minimo;			// valor minimo utilizado cálculo minimoIda e minimoVolta
 
   unsigned int raioMaximo;	// raio m�ximo da idf
   unsigned int raioBola;	// raio da bola atual,entre 0 e raioMaximo

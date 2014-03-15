@@ -40,7 +40,7 @@ protected:
    /// Ponteiro para Matriz 2D
    // TCMatriz2D< int > *pm2d;
 
-   /// Deslocamento máximo da imagem usado para calculo correlacao
+   /// Deslocamento máximo da imagem usado para cálculo correlacao
    int size;
 
 public:

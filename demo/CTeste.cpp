@@ -36,7 +36,7 @@ using namespace std;
   -------------------------------------------------------------------------
   @short  :
   Funcao principal, executada por main.
-  Vai solicitar ao usuario o tipo de objeto a ser criado,
+  Vai solicitar ao usuário o tipo de objeto a ser criado,
   criar o objeto e passar o controle
   do programa para o objeto criado
 

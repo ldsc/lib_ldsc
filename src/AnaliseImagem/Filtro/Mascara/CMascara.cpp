@@ -27,7 +27,7 @@ Descrição:        Passa atributo tamanhoMascara para classe base TCMatriz2D< i
 				da matriz.
 				Define-se ainda o peso da mascara como sendo 1.
 				Em algumas mascaras o peso=1, nao sendo necessário chamar a funcao
-				de calculo do peso.
+				de cálculo do peso.
 Programador:      Andre Duarte Bueno
 */
 CMascara::CMascara (unsigned int tamanhoMascara)

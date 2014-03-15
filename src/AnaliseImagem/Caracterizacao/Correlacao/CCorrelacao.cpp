@@ -82,7 +82,7 @@ bool CCorrelacao::Write (string nomeArquivo) {
 }
 
 // -----------------------------------------------------------------------
-// Definicao do intervalo de calculo da correlacao (deslocamento u) de acordo com tam informado (NX/2)
+// Definicao do intervalo de cálculo da correlacao (deslocamento u) de acordo com tam informado (NX/2)
 // Futuramente considerar extensao/reflexao da imagem
 // Se a dimensao da imagem mudou, muda a dimensao do vetor correlacao e realoca o vetor.
 // Se a dimensão não mudou apenas zera o vetor correlacao.

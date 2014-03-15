@@ -1,4 +1,3 @@
-
 /**
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
@@ -877,7 +876,7 @@ bool CGrafoConexaoSerial::SalvarVetorPropriedades_x ()
 // Função:   EliminarConexoesParalelo_SomarCondutancias
 // -------------------------------------------------------------------------
 /** @short  : Percorre todos os objetos e elimina conexões repetidas (deve ser chamada depois do
- * calculo das condutâncias, pois soma as condutâncias das conexões repetidas.
+ * cálculo das condutâncias, pois soma as condutâncias das conexões repetidas.
  * se chamar antes, vai acumular o raio hidraulico)
  * Chama função de cada sítio, que elimina links repetidos.
  * @author : André Duarte Bueno

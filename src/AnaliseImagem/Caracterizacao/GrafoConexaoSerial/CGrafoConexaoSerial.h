@@ -162,7 +162,7 @@ protected:
 
    // O primeiro e último plano tem propriedades fixas(pressão constante), sendo assim,
    // não precisam ser calculados.
-   // O objetivo de se criar os atributos abaixo é eliminar a chamada do calculo das propriedades
+   // O objetivo de se criar os atributos abaixo é eliminar a chamada do cálculo das propriedades
    // nos objetos destes planos.
    // firstObjectOf Solver=rotuloPrimeiroObjetoPlano1;
    // lastObjectOf Solver=rotuloUltimoObjetoPlanoN_1
@@ -269,7 +269,7 @@ public:
 
    /**
     * @brief No caso de queda de energia, foi projetado um sistema de reconstrução do grafo();
-    * A primeira etapa é o recalculo de todo o grafo a partir da imagem (é rápido);
+    * A primeira etapa é o recálculo de todo o grafo a partir da imagem (é rápido);
     * Em seguida, faz a leitura de um arquivo de disco que armazena as propriedades x (pressões)
     * de cada objeto do grafo. Esta função lê os valores de x de cada objeto do grafo.
     */

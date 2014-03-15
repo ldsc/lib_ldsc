@@ -52,7 +52,7 @@
  * Ou seja, elimina-se os furos na sequência, exigia uma terceira passagem pela imagem.
  *
  * Versao3:
- * Funcional. Nesta versao o procedimento de calculo foi todo reformulado pelo Andre, com a inclusão do vetor de conversao.
+ * Funcional. Nesta versao o procedimento de cálculo foi todo reformulado pelo Andre, com a inclusão do vetor de conversao.
  * Usava a Go_OLD, que era lenta.
  *
  * Versao4:
@@ -61,8 +61,8 @@
  *
  * Versao5:
  * Funcional. Em determinado momento foi adicionada a possibilidade de se adicionar o rotulo inicial, a partir do qual a imagem seria rotulada.
- * Na primeira versao que admitia o rotulo inicial, a funcao IdentificaObjetos recebia um int rotuloInicial, e todo o calculo era modificado,
- * entretanto, o calculo da area e perimetro dava um pau (bug), pois os vetores eram definidos para (Ex: 50 objetos), e acessava (ex: rotuloInicial=77, de 77->77+50).
+ * Na primeira versao que admitia o rotulo inicial, a funcao IdentificaObjetos recebia um int rotuloInicial, e todo o cálculo era modificado,
+ * entretanto, o cálculo da area e perimetro dava um pau (bug), pois os vetores eram definidos para (Ex: 50 objetos), e acessava (ex: rotuloInicial=77, de 77->77+50).
  * A solucao adotada foi voltar atrás, deixar a imagem com rotulos de 0->rotuloMaximo, e criar funções Get para acessar os vetores area, perimetro, e raioHidraulico.
  * Adicionados os atributos: rotuloInicial e rotuloFinal.
  *
@@ -71,11 +71,11 @@
  * Também foi adicionada a funcao GetRotulo(i,j) que retorna data2D[i][j]+rotuloInicial???????
  *
  * Versao 7:
- * Eliminada a possibilidade de se passar o rutuloInicial, criava uma série de dificuldades que condicionavam o calculo do vetorArea e do vetorPerimetro
+ * Eliminada a possibilidade de se passar o rutuloInicial, criava uma série de dificuldades que condicionavam o cálculo do vetorArea e do vetorPerimetro
  * a fazerem um conjunto de testes que prejudicavam a performance.
- * Reformulado o calculo da funcao perimetro objetos, agora nao compara mais com 0, e sim com a variavel FUNDO.
+ * Reformulado o cálculo da funcao perimetro objetos, agora nao compara mais com 0, e sim com a variavel FUNDO.
  *
- * Reformulado o calculo do perimetro, antes considerava o centro da imagem e as bordas
+ * Reformulado o cálculo do perimetro, antes considerava o centro da imagem e as bordas
  * (esquerda,direita,superior e inferior) agora inclue também os 4 pontos das 4 bordas da imagem.
  *
  * PS: Existe um BUG declarado(lógico), que é o seguinte. Se toda a imagem for preta, vai ficar com rotulo 1, mas vai declarar a existencia de dois objetos o 0 e o 1.

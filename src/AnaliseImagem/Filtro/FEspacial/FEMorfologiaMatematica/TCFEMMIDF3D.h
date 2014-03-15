@@ -54,7 +54,7 @@ class TCFEMMIDF3D : public TCFEMorfologiaMatematica3D<T> , public TCMatriz3D<int
 {
 		// Atributos
 	protected:
-		int minimo; 				///< valor minimo utilizado no calculo minimoIda e minimoVolta
+		int minimo; 				///< valor minimo utilizado no cálculo minimoIda e minimoVolta
 		unsigned int raioMaximo;	///< raio máximo da idf
 		unsigned int raioBola;		///< raio da bola atual,entre 0 e raioMaximo
 

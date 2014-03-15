@@ -31,7 +31,7 @@ class CIntNewtonDiff : public CIntNewtonDivDiff
 private:
   /** @brief Função que calcula a tabela auxiliar
    * A função GeraTabelaAuxiliar desta classe é diferente da da classe CIntNewtonDivDiff
-   * aqui recebe um double h lê um double*xarr, o calculo também muda. 
+   * aqui recebe um double h lê um double*xarr, o cálculo também muda. 
   */
   void GeraTabelaAuxiliar (double h, double *yarr, int n);
 

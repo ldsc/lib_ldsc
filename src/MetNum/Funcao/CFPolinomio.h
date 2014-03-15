@@ -5,11 +5,11 @@
                        framework    CFPolinomio
 // ----------------------------------------------------------------------
 Cria o conceito de polinomio e de algumas funcoes básicas
- muito utilizadas em calculos científicos como polinomios
+ muito utilizadas em cálculos científicos como polinomios
  funcoes senoidais, cossenos, tangentes, entre outras.
 
 Um objeto polinomio deve ter definido o seu grau, e permitir
- a alteracao dos coeficientes do polinomio, o calculo do polinomio
+ a alteracao dos coeficientes do polinomio, o cálculo do polinomio
  e a visualizacao dos valores dos coeficientes dos polinomios.
 
 Exemplos de polinomios
@@ -36,7 +36,7 @@ Exemplos de polinomios
  * @brief Representa um polinômio.
  * 
  * Esta classe é utilizada para a manipulacao de polinomios
- * Um polinomio é usado para realizacao de algum tipo de calculo
+ * Um polinomio é usado para realizacao de algum tipo de cálculo
  * Aloca espaco para um polinomio de tamanho n
  * inicializa com zeros os coeficientes dos polinomios
  * 
@@ -142,7 +142,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 1 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio1g : public CFPolinomio
@@ -164,7 +164,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 2 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio2g:public CFPolinomio
@@ -186,7 +186,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 3 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio3g:public CFPolinomio
@@ -208,7 +208,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 4 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio4g:public CFPolinomio
@@ -229,7 +229,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 5 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio5g:public CFPolinomio
@@ -252,7 +252,7 @@ public:
 // ----------------------------------------------------------------------
 /**
  * @brief Cria um polinomio de 6 grau.
- * A diferença em relacao a classe polinomio é que a funcao de calculo
+ * A diferença em relacao a classe polinomio é que a funcao de cálculo
  * é mais rapida por ser definida e nao necessitar de um for.
  * */
 class CFPolinomio6g:public CFPolinomio

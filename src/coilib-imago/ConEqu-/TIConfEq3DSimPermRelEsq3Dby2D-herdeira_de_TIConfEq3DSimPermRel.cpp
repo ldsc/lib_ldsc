@@ -67,7 +67,7 @@ Fun��o:
 #include <TMaterial/TMFluido.h>
 #include <TSMatriz/TSMDiagonal/TSMDSOR.h>
 
-// -------------------------------------------------------------- Objetos calculo permeabilidade
+// -------------------------------------------------------------- Objetos cálculo permeabilidade
 #include <TPermeabilidade/TPermeabilidadeGrafo.h>
 
 //NA classe TIConfEq3DSim usa:
@@ -77,7 +77,7 @@ Fun��o:
 //NA classe TIConfEq3DSimPermRelEsq3Dby2D usa:
 //  COI20_CLASSID_DEF1( TIConfEq3DSimPermRelEsq3Dby2D, ITask )compilador reclama
 COI20_CLASSID_DEF1 (TIConfEq3DSimPermRelEsq3Dby2D, TIConfEq3DSimPermRel)
-//Fun��o de calculo da permeabilidade em s�.
+//Fun��o de cálculo da permeabilidade em s�.
 //calcula direto, sem o uso do di�logo.
 double TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage * &imgConnect)
 {
@@ -135,18 +135,18 @@ double TIConfEq3DSimPermRelEsq3Dby2D::CalculaPermeabilidade (I3DRawImage * &imgC
         //Determina o grafo---------------------------------------------------
         grafo->Go (pm3D);
 
-        //Cria objeto de calculo da permeabilidade-------------------------------------
+        //Cria objeto de cálculo da permeabilidade-------------------------------------
         TPermeabilidadeGrafo *permeabilidade =
             new TPermeabilidadeGrafo (fluido, solver, grafo, pm3D->GetNX (),
                                       pm3D->GetNY (), pm3D->GetNZ (),
                                       fatorAmplificacao, dimensaoPixel);
         assert (permeabilidade);
 
-        //Chama fun��o de inicializa��o do sistema de calculo da permeabilidade------------------
+        //Chama fun��o de inicializa��o do sistema de cálculo da permeabilidade------------------
         //Seta condi��es de contorno, valores iniciais, chama solver pela 1 vez
         permeabilidade->SolucaoSistema ();
 
-        //Chama fun��o de calculo da permeabilidade-----------------------------------
+        //Chama fun��o de cálculo da permeabilidade-----------------------------------
         perm = permeabilidade->Go ();
         delete pm3D;
         delete permeabilidade;

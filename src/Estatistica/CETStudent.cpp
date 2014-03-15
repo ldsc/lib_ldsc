@@ -59,7 +59,7 @@ CETStudent::GoInv (double _area)
 
   Pwr[9] = Pwr[2] * Pwr[7];
 
-  // calculo dos quatro termos
+  // cálculo dos quatro termos
   termo[0] = 0.25 * (Pwr[3] + Pwr[1]);	// 3,1
 
   termo[1] = (5. * Pwr[5] + 16. * Pwr[3] + 3. * Pwr[1]) / 96.;	// 5,3,1
@@ -68,7 +68,7 @@ CETStudent::GoInv (double _area)
 
   termo[3] = (79. * Pwr[9] + 776. * Pwr[7] + 1482. * Pwr[5] - 1920. * Pwr[3] - 945. * Pwr[1]) / 92160.0;	// 9,7,5,3,1
 
-  // calculo de z
+  // cálculo de z
   z =
     z + termo[0] / df1 + termo[1] / (df1 * df1) +
     termo[2] / (df1 * df1 * df1) + termo[3] / (df1 * df1 * df1 * df1);

@@ -76,7 +76,7 @@ TISChamber::TISChamber (I3DRawImage * _imgPorousMedia, int _wb, int _ca):
     imgPorousMedia = TOI::GetCopyBinaria (_imgPorousMedia);
     assert (imgPorousMedia != NULL);
 
-    //Novo calculo o raio m�ximo aqui
+    //Novo cálculo o raio m�ximo aqui
     maxRadius = TOI::GetMaxIDFRadius (imgPorousMedia);
     //fim novo
 

@@ -29,7 +29,7 @@ CISimpson::Go (double x, double y)
 }
 
 /*
-Abaixo saida para tela dos calculos
+Abaixo saida para tela dos cálculos
 cout<<"\nFunção CISimpson::Go()";
 cout<<"\nda="<<dx;
 cout<<"\n0.5*f(liminf="<<limiteInferior<<")="<<(0.5*funcao->Go(limiteInferior));

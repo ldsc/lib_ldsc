@@ -119,7 +119,7 @@ private:
    double DeterminarPermeabilidade ( CPermeabilidadeGrafo* permeabilidade );
 
    // -------------------------------------------------------------------Funcoes privadas auxiliares
-   /// Verifica se a simulacao ja terminou, vai reiniciar ou iniciar.
+   /// Verifica se a simulação ja terminou, vai reiniciar ou iniciar.
    bool Permeabilidade_By_ModelX_Decisao ( std::string nomeArquivo, int modelo,
                                            TCMatriz3D<int>* pm3D, std::ofstream& fout );
 

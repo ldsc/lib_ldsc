@@ -95,7 +95,7 @@ CFEDCShenCastan::Go (TCMatriz2D< int > * &matriz, unsigned int _tamanhoMascara)
 
   TCMatriz2D< int > *res;		// matriz resultado
 
-  // inicia procedimento de calculo
+  // inicia procedimento de cálculo
 
   embed (pm, OUTLINE_SC);	// chama função embed, passando a imagem e OUTLINE_SC
 
@@ -585,7 +585,7 @@ CFEDCShenCastan::estimate_thresh (double *low, double *hi, int nr, int nc)
 
 // conferir:
 // Cria matriz temporaria, maior que a passada, realiza procedimento
-// de calculo. Depois,
+// de cálculo. Depois,
 // apaga a matriz passada e iguala ponteiro im a matriz temporaria
 void
 CFEDCShenCastan::embed (TCMatriz2D< int > * &im, int width)

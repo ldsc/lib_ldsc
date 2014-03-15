@@ -38,7 +38,7 @@ CFEEmboss::CriaMascara (unsigned int _tamanhoMascara)
     delete mask;
   mask = new CMEmboss (_tamanhoMascara);	// Cria a mascara
   // O construtor da mascara chama a funcao
-  // de preenchimento da mascara e de calculo
+  // de preenchimento da mascara e de cálculo
   // do peso da mascara
 }
 

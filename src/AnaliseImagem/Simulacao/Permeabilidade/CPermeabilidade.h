@@ -1,14 +1,13 @@
 #ifndef CPermeabilidade_h
 #define CPermeabilidade_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Assunto/Ramo: CPermeabilidade...
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CPermeabilidade.h
 @begin      Sat Sep 16 2000
@@ -29,96 +28,83 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef TSimulacao_h
+#ifndef CSimulacao_h
 #include <Base/CSimulacao.h>
 #endif
 
 /**
- * @brief	Objeto para calculo e armazenagem da permeabilidade.
+ * @brief Objeto para cálculo e armazenagem da permeabilidade.
  *
- * Conta com hierarquia onde cada filho vai ter uma metodologia para
- * determinação da permeabilidade.
+ * Esta é a classe base de uma hierarquia onde cada filho vai ter uma metodologia para determinação da permeabilidade.
  *
- * A primeira herdeira desenvolvida foi a CPermeabilidadeGrafo
- * que determina a permeabilidade intrinseca a partir
- * do grafo de uma imagem tridimensional.
- *
- * Veja CPermeabilidadeGrafo para maiores detalhes.
+ * A primeira herdeira desenvolvida foi a CPermeabilidadeGrafo que determina a permeabilidade intrinseca a partir
+ * do grafo de uma imagem tridimensional.  Veja CPermeabilidadeGrafo para maiores detalhes.
  * @author 	André Duarte Bueno
- * @see		Propriedades Físicas
 */
 class CPermeabilidade : public CSimulacao
 {
 // --------------------------------------------------------------Atributos
-public:
+protected:
     ///< Valor da permeabilidade
-    long double permeabilidade;
+    long double permeabilidade {0.0};
+	/// @todo: verificar do ponto de vista da modelagem computacional, a vantagem de cada classe que envolva o
+	/// cálculo de uma propriedade física ter, uma variável com o valor do erro.
     ///< Valor de erro
-    long double erro;
+//     long double erro {0.0};
+
 public:
 // -------------------------------------------------------------Construtor
     /// Construtor Default
-    CPermeabilidade () {
-        erro = 0.0;
-        permeabilidade = 0.0;
-    }
+    CPermeabilidade ()  = default;
 
     /// Construtor com argumentos
-    CPermeabilidade (long double _p) {
+    CPermeabilidade (long double _p/*, long double _erro*/) {
         permeabilidade = _p;
+// 		erro = _erro;
     }
 
     /// Construtor de cópia
-    CPermeabilidade (const CPermeabilidade & aCPermeabilidade);
+    CPermeabilidade (const CPermeabilidade & aCPermeabilidade) {   
+		permeabilidade = aCPermeabilidade.permeabilidade;
+///		erro = aCPermeabilidade.erro;
+	}
 
 // --------------------------------------------------------------Destrutor
     /// Destrutor
-    virtual ~ CPermeabilidade ()
-    {
-    }
+    virtual ~ CPermeabilidade ()  = default;
 
 // ----------------------------------------------------------------Métodos
 
 protected:
 
-    // A função abaixo foi definida em TSimulação e chama as demais
+    // A função SolucaoSistema(); foi definida em CSimulação e chama as demais
     // virtual void SolucaoSistema();
 
-    // Definição das funções da classe base (herdadas)
-    /// Cria objetos agregados
-    virtual void CriarObjetosAgregados ()
-    {
-    }
-
-    /// Define as condições de contorno
-    virtual void DefinirCondicoesContorno ()
-    {
-    }
-
-    /// Define valores iniciais
-    virtual void DefinirCondicoesIniciais ()
-    {
-    }
-
-    /// Resolve o sistema de equações
-    virtual void SolucaoSistemaEquacoes ()
-    {
-    }
-
+//     // Definição das funções da classe base (herdadas)
+//     /// Cria objetos agregados
+//     virtual void CriarObjetosAgregados ()    {}
+// 
+//     /// Define as condições de contorno
+//     virtual void DefinirCondicoesContorno ()     {    }
+// 
+//     /// Define valores iniciais
+//     virtual void DefinirCondicoesIniciais ()    {    }
+// 
+//     /// Resolve o sistema de equações
+//     virtual void SolucaoSistemaEquacoes ()    {    }
 
 public:
-    /// Abre e lê o arquivo de disco
+    /// Abre e lê arquivo de disco com dados necessários
     virtual void Read (std::string nomeArquivo);
 
-    /// Função de calculo da permeabilidade
-    virtual long double Go ()
-    {
+    /// Função de cálculo da permeabilidade, será redefinida nas classes herdeiras.
+    virtual long double Go ()    {
         return permeabilidade;
     }
 
 // -------------------------------------------------------------Sobrecarga
-    /// Operador igualdade (atribuição)
-    CPermeabilidade & operator= (const CPermeabilidade & aCPermeabilidade);
+    /// Operador atribuição
+    CPermeabilidade & operator= (const CPermeabilidade & aCPermeabilidade) = default;
 
     /// Comparação igualdade
     bool operator== (const CPermeabilidade & aCPermeabilidade) const;
@@ -128,15 +114,13 @@ public:
 
 // --------------------------------------------------------------------Get
     /// Retorna a permeabilidade
-    long double Getpermeabilidade () const
-    {
+    long double Permeabilidade () const     {
         return permeabilidade;
     }
 
 // --------------------------------------------------------------------Set
     /// Seta a permeabilidade
-    void Setpermeabilidade (long double _p)
-    {
+    void Permeabilidade (long double _p)    {
         permeabilidade = _p;
     }
 

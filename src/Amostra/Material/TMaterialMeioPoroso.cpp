@@ -57,7 +57,7 @@ CMaterialMeioPoroso::Modificar ()
 }
 
 // ---------------------------------------------------------------------------
-// O m‚todo f_porosidade calcula a porosidade e a retorna
+// O mï¿½todo f_porosidade calcula a porosidade e a retorna
 double
 CMaterialMeioPoroso::Porosidade ()
 {
@@ -68,7 +68,7 @@ CMaterialMeioPoroso::Porosidade ()
 // ---------------------------------------------------------------------------
 // Executa as funcoes da classe CMaterialMeioPoroso
 // observe que a sequencia pode ser importante
-// foi redefinida para poder chamar a funcao de calculo da porosidade
+// foi redefinida para poder chamar a funcao de cÃ¡lculo da porosidade
 void
 CMaterialMeioPoroso::Calcula_propriedades_material (double *&v)
 {

@@ -655,7 +655,7 @@ Fun��o:
 //ou seja, retorna uma imagem nova definida pelos dois pontos.
 //Adicionalmente acrescentou-se o corte, que objetiva aplicar um corte sobre a imagem,
 //diminuindo a imagem final, isto se justifica, porque as configuracoes de equilibrio
-//tendem a ter imagens desconectadas, e para o calculo da permeabilidade as mesmas
+//tendem a ter imagens desconectadas, e para o cálculo da permeabilidade as mesmas
 //precisam estar conectadas. Normalmente o valor de corte � de 2 p�xeis.
 
 //static I3DRawImage*  ExtractImage( I3DRawImage* imgDados, int xi,int yi, int zi, int xf, int yf, int zf, int corte = 0 );

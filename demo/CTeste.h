@@ -63,7 +63,7 @@ public:
     //----------------------------------------------------------------Metodos
 public:
     /** Funcao principal, executada por main().
-        Vai solicitar ao usuario o tipo de objeto a ser criado,
+        Vai solicitar ao usuário o tipo de objeto a ser criado,
         criar o objeto e passar o controle
         do programa para o objeto criado */
     void Run (unsigned int argc = 1, char *argv[] = 0);

@@ -42,11 +42,11 @@ CBCd4::CBCd4(unsigned int  tamanhoMascara)	:CBCDiscreta(tamanhoMascara)
 {
   unsigned int dist;			// distancia calculada
   unsigned int raio=GetRaioX();		// Como a bola é quadrada uso raio=raioX=raioY
-  // variaveis otimizacao, usadas calculo simetria
+  // variaveis otimizacao, usadas cálculo simetria
   unsigned int posxe,posxd;             // x esquerda e x direita
   unsigned int posyb,posya;	        // y baixo e y alto
 
-  // calculo raio bolas inclusa e tangente---
+  // cálculo raio bolas inclusa e tangente---
   raioBolaInclusa= (raio);
   raioBolaTangente=(raio) +1;
 
@@ -56,7 +56,7 @@ CBCd4::CBCd4(unsigned int  tamanhoMascara)	:CBCDiscreta(tamanhoMascara)
       posxd=raio + xx;
       for (unsigned int yy=0; yy <= raio; yy++) 	// só percorre meia bola
 	{                                        		// por ser simétrica
-	  // calculo das distancias
+	  // cálculo das distancias
 	  if 	  (xx==yy)	dist=xx + yy; 	 	// calcula valores de distância
 	  else if (xx>yy) 	dist=xx + yy; 		// 1*x+y;
 	  else 					dist=yy + xx; 		// 1*y+x;

@@ -56,7 +56,7 @@ class CSegPorosGargantas3D : public CMatrizObjetoImagem
 		/// Raio do Elemento Estruturante usado na operação de dilatação (Modelo 7)
 		int raioEEDilatacao;
 
-		/// Numero do modelo de calculo
+		/// Numero do modelo de cálculo
 		int modelo;
 
 		/// Valor que indentifica os objetos de interesse na imagem

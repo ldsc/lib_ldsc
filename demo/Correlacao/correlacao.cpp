@@ -129,7 +129,7 @@ void Read2D()
             fscanf(fpin,"%d",&aux);
             Real_E1(i,j)=aux;
 
-            if (aux == 1) // calculo porosidade
+            if (aux == 1) // cálculo porosidade
                 cont++;
         }
         fscanf(fpin,"\n");

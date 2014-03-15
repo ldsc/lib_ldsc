@@ -292,7 +292,7 @@ int main ( int argc, char *argv[] )
 				break;
 			} //fim opcao8
 			case 9: {
-				cout << "Selecionou calculo porosidade." << endl;
+				cout << "Selecionou cálculo porosidade." << endl;
 				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;
@@ -440,7 +440,7 @@ int main ( int argc, char *argv[] )
 				break;
 			} //fim opcao15
 			case 16: {
-				cout << "Selecionou calculo porosidade:" << endl;
+				cout << "Selecionou cálculo porosidade:" << endl;
 				result = system("ls *.dbm");
 				cout << "Nome da imagem (nome.extensao): " << endl;
 				cin >> nomeimg;

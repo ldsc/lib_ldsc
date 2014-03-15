@@ -10,10 +10,10 @@
  * Como preciso de um objeto para realizar a transformada de Fourier,
  * simplesmente encapsulei o programa fftn, que determina a transformada de
  * Fourier direta e inversa.
- * Como o procedimento de calculo é complexo, o codigo não tem nenhuma
+ * Como o procedimento de cálculo é complexo, o codigo não tem nenhuma
  * linha alterada.
  * Simplesmente cria-se um objeto CFFT que basicamente chama
- * a função de calculo da transformada de Fourier.
+ * a função de cálculo da transformada de Fourier.
  *
  * 
  * Principais parâmetros utilizados: 

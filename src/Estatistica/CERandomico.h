@@ -25,7 +25,7 @@ class CERandomico		/*:public CEstatistica  */
   long int semente;	///< semente do gerador
 
  private:
-  double ran2 (long *idum);	///< função de calculo do número randomico
+  double ran2 (long *idum);	///< função de cálculo do número randomico
 
   // metodos
  public:

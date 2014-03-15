@@ -16,7 +16,7 @@
  * PS: observe que se trata de um sistema especializado, específico
  * para os métodos de volumes de controle, descritos em C.R.Maliska.
  * 
- * Observe que na funcao de calculo de alfa e beta os parametros
+ * Observe que na funcao de cálculo de alfa e beta os parametros
  * sao passados por referencia, isto evita a cópia da variável o que
  * deixa a funcao mais rápida.
 */

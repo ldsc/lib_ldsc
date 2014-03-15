@@ -36,7 +36,7 @@ Concorrência:
 Tempo processamento(s):
 Tamanho(bits):
 Comentarios:
-	Divide o tamanho da mascara por dois, porque o método atual de calculo
+	Divide o tamanho da mascara por dois, porque o método atual de cálculo
 	só usa a metade da mascara
 Programador:      Andre Duarte Bueno
 */
@@ -52,13 +52,13 @@ CBCdj::CBCdj (unsigned int tm, int mj, int /*raioBase */ ):	/*TMCdi(j,rb), */
 
     unsigned int raio = RaioX ();	// Como a bola é quadrada uso raio=raioX=raioY
 
-    // calculo raio bolas inclusa e tangente---
+    // cálculo raio bolas inclusa e tangente---
 
     raioBolaInclusa = (raio);
 
     raioBolaTangente = (raio + 1);
 
-    // variaveis otimizacao, usadas calculo simetria
+    // variaveis otimizacao, usadas cálculo simetria
     unsigned int posxe, posxd;	// x esquerda e x direita
 
     unsigned int posyb, posya;	// y baixo e y alto
@@ -72,7 +72,7 @@ CBCdj::CBCdj (unsigned int tm, int mj, int /*raioBase */ ):	/*TMCdi(j,rb), */
         for (unsigned int yy = 0; yy <= raio; yy++)	// só percorre meia bola
         {			// por ser simétrica
 
-            // calculo das distancias
+            // cálculo das distancias
 
             if (xx == yy)
                 dist = xx;		// calcula valores de distância

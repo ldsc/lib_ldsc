@@ -1031,13 +1031,13 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
    cout <<
         "\n__________________________________________________________________________________";
    cout << "\nM" << modelo << " P(mD)=" << setw ( 8 ) << permeabilidade_calculada
-        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade ()
+        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroRelativo ()
         << " it=" << setw ( 5 ) << permeabilidade->Iteracoes ()
         << " time(s)=" << ( difftime ( tfPermeabilidade, tiPermeabilidade ) )
         << "\n_________________________________________________________________________________"
         << endl;
    fout << "\nM" << modelo << " P(mD)=" << setw ( 8 ) << permeabilidade_calculada
-        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroPermeabilidade ()
+        << " E(%)=" << setw ( 4 ) << permeabilidade->ErroRelativo ()
         << " it=" << setw ( 5 ) << permeabilidade->Iteracoes ()
         << " time(s)=" << ( difftime ( tfPermeabilidade, tiPermeabilidade ) ) << endl;
 

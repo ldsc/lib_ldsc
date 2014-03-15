@@ -56,14 +56,13 @@ public:
 
     /// Construtor com argumentos
     CSimPermeabilidade (long double _p/*, long double _erro*/) {
-        permeabilidade = _p;
-// 		erro = _erro;
+        permeabilidade = _p; // 		erro = _erro;
     }
 
     /// Construtor de cópia
     CSimPermeabilidade (const CSimPermeabilidade & aCSimPermeabilidade) {   
 		permeabilidade = aCSimPermeabilidade.permeabilidade;
-///		erro = aCSimPermeabilidade.erro;
+		erro = aCSimPermeabilidade.erro;
 	}
 
 // --------------------------------------------------------------Destrutor
@@ -71,25 +70,6 @@ public:
     virtual ~ CSimPermeabilidade ()  = default;
 
 // ----------------------------------------------------------------Métodos
-
-protected:
-
-    // A função SolucaoSistema(); foi definida em CSimulação e chama as demais
-    // virtual void SolucaoSistema();
-
-//     // Definição das funções da classe base (herdadas)
-//     /// Cria objetos agregados
-//     virtual void CriarObjetosAgregados ()    {}
-// 
-//     /// Define as condições de contorno
-//     virtual void DefinirCondicoesContorno ()     {    }
-// 
-//     /// Define valores iniciais
-//     virtual void DefinirCondicoesIniciais ()    {    }
-// 
-//     /// Resolve o sistema de equações
-//     virtual void SolucaoSistemaEquacoes ()    {    }
-
 public:
     /// Abre e lê arquivo de disco com dados necessários
     virtual void Read (std::string nomeArquivo);

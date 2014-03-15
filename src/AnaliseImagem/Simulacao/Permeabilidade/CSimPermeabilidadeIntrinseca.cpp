@@ -46,14 +46,14 @@ void CSimPermeabilidadeIntrinseca::DestruirObjetos () {
 	if ( perm   ) { delete perm;	 perm   = nullptr; }
 }
 
-bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao) {
+bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda, long double fatorRelaxacao) {
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 	/*
 	unsigned int size = matriz3D->NX(); 			// em 64bits int já é bem grande
 	cerr << "size: " << size << endl;
 	cerr << "fatorAmplificacao: " << fatorAmplificacao << endl;
 	cerr << "dimensaoPixel: " << dimensaoPixel << endl;
-	cerr << "numeroPixelsBorda: " << numeroPixelsBorda << endl;
+	cerr << "numeroPixeisBorda: " << numeroPixeisBorda << endl;
 	cerr << "fatorRelaxacao: " << fatorRelaxacao << endl;
 	*/
 
@@ -75,7 +75,7 @@ bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, uns
 		return false;
 	}
 	
-	perm = new CSimPermeabilidadeGrafo ( fluido, solver, grafo, matriz3D->NX(), matriz3D->NY(), matriz3D->NZ(), fatorAmplificacao, dimensaoPixel/*,numeroPixelsBorda*/ );
+	perm = new CSimPermeabilidadeGrafo ( fluido, solver, grafo, matriz3D->NX(), matriz3D->NY(), matriz3D->NZ(), fatorAmplificacao, dimensaoPixel/*,numeroPixeisBorda*/ );
 	if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;
@@ -138,16 +138,16 @@ long double CSimPermeabilidadeIntrinseca::Go ( TCImagem3D<int> * imagem3D, long 
 	return Go( matriz3D, imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda(), fatorRelaxacao);
 }
 
-long double CSimPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
+long double CSimPermeabilidadeIntrinseca::Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda, long double fatorRelaxacao ) {
 	TCMatriz3D<int> * mat3D = nullptr;
 	mat3D = new TCMatriz3D<int>( pathNomeArquivo ); 				// não é deletado ?
 	if ( ! mat3D )
 		return 0.0;
-	return Go( mat3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda, fatorRelaxacao );
+	return Go( mat3D, fatorAmplificacao, dimensaoPixel, numeroPixeisBorda, fatorRelaxacao );
 }
 
-long double CSimPermeabilidadeIntrinseca::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixelsBorda, long double fatorRelaxacao ) {
-	 if ( CriarObjetos( matriz3D, fatorAmplificacao, dimensaoPixel, numeroPixelsBorda, fatorRelaxacao ) ) {
+long double CSimPermeabilidadeIntrinseca::Go ( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda, long double fatorRelaxacao ) {
+	 if ( CriarObjetos( matriz3D, fatorAmplificacao, dimensaoPixel, numeroPixeisBorda, fatorRelaxacao ) ) {
 		return CalcularPermeabilidade( matriz3D );
 	}
 	return 0.0;

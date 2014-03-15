@@ -53,7 +53,7 @@ protected:
    /** true se o sistema já esta resolvido, false se não resolvido. */
    bool sistemaResolvido { false };
 
-    ///< Valor de erro
+    ///< Valor do erro no cálculo da propriedade de interesse;
     long double erro {0.0};
 	
 public:

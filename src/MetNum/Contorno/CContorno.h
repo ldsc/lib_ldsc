@@ -7,8 +7,7 @@ PROJETO:    Biblioteca LIB_LDSC
 						Assunto/Ramo: CContorno...
 ===============================================================================
 Desenvolvido por:
-						Laboratorio de Desenvolvimento de Software Cientifico
-						[LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CContorno.h
 @begin      Sat Sep 16 2000
@@ -31,12 +30,10 @@ Desenvolvido por:
 /**
  * @brief Classe utilizada para especificar condições de contorno.
  *
- * Quando da solução de sistemas que envolvam uma malha, de uma maneira
- * geral deve-se especificar as condições de contorno.
+ * Quando da solução de sistemas que envolvam uma malha, de uma maneira geral deve-se especificar as condições de contorno.
  * Este objeto procura representar este conceito.
  *
- * Da forma como esta ele funciona como um número double, podendo ser igualado
- * a um double e podendo receber um double.
+ * Da forma como esta ele funciona como um número double, podendo ser igualado a um double e podendo receber um double.
  * @todo: Posteriormente esta classe deve ser ampliada e definida uma herança.
  *
  * Quando temos um problema de engenharia para resolver,
@@ -44,16 +41,14 @@ Desenvolvido por:
  * -Se o sistema for isolado, significa que não existe interferência do meio (contorno).
  * Desta forma, um sistema isolado forma um universo independente.
  *
- * -Se, entretanto, o meio externo interferir de alguma forma na solução do nosso
- * problema, diz-se que o sistema não é isolado, e portanto é mais complexo.
+ * -Se, entretanto, o meio externo interferir de alguma forma na solução do problema, 
+ * diz-se que o sistema não é isolado, e portanto é mais complexo.
  *
- * É de praxe pesquisar este contorno a procura de elementos que possam interferir
- * na solução do problema.
+ * É de praxe pesquisar este contorno a procura de elementos que possam interferir na solução do problema.
  *
- * Esta hierarquia de classes procura representar este conceito, o conceito de contorno.
+ * Esta hierarquia de classes procura representar este conceito, o conceito de condição de contorno.
  *
  * @author      André Duarte Bueno
- * @version
  * @see         contorno
 */
 class CContorno
@@ -136,4 +131,5 @@ class CContorno
 // Declaração de Funções Friend
 std::ostream & operator<< (std::ostream & os, const CContorno & obj);
 std::istream&  operator>> (std::istream& is, CContorno& obj);
+
 #endif

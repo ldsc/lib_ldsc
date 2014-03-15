@@ -37,7 +37,6 @@ add_library (ldsc STATIC
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.cpp
   EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.cpp
 
-
   EstruturaDados/CBaseGrafoRedeEsqueleto.cpp
   EstruturaDados/CGrafo.cpp
   EstruturaDados/CRede.cpp
@@ -50,9 +49,8 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M4.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.cpp
-
-  
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
+  
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
@@ -151,6 +149,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Filtro/Mascara/MCDiscreta/CMCEuclidiana.cpp
   AnaliseImagem/Filtro/TCFiltro.h
   AnaliseImagem/Filtro/TCFiltro3D.h
+  
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdi.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdj.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdij.cpp
@@ -165,6 +164,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCdijk3D.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.cpp
+  
   AnaliseImagem/Matriz/CImg.cpp
   AnaliseImagem/Matriz/TCImagem3D.h
   AnaliseImagem/Matriz/CImagem.cpp
@@ -180,28 +180,32 @@ add_library (ldsc STATIC
   AnaliseImagem/Reconstrucao/CReconstrucaoBueno.cpp
   AnaliseImagem/Reconstrucao/CReconstrucaoEsferas.cpp
   AnaliseImagem/Reconstrucao/CReconstrucaoZhirong.cpp
+  
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacaoOld.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CObjetoImagem.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CSegPorosGargantas3D.cpp
+  
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio2D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio3D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara2D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara3D.cpp
-  AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.cpp
-  AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.cpp
-  AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeRelativa.cpp
-  AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeRelativa.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.cpp
   AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.cpp
   AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.cpp
+
   Base/CSolver.cpp
   Base/CSimulacao.cpp
   Base/COperacao.cpp
   Base/CMath.cpp
   Base/CFuncao.cpp
+  
   Estatistica/CERandomico.cpp
   Estatistica/CEstatistica.cpp
   Estatistica/CEFatorial.cpp
@@ -213,9 +217,12 @@ add_library (ldsc STATIC
   Estatistica/CEFSnedecor.cpp
   Estatistica/CEIntervalosConfianca.cpp
   Estatistica/CETesteMediaDuasAmostras.cpp
+  
   Grafico/Gnuplot/CGnuplot.cpp
+  
   MetNum/Contorno/CContornoCentro.cpp
   MetNum/Contorno/CContorno.cpp
+  
   MetNum/Funcao/CFChebyshev.cpp
   MetNum/Funcao/CFGamma.cpp
   MetNum/Funcao/CFLegendre.cpp
@@ -235,6 +242,7 @@ add_library (ldsc STATIC
   MetNum/Funcao/CFLaguerre.cpp
   MetNum/Funcao/CFPHermiteRec.cpp
   MetNum/Funcao/CFuncoesEspeciais.cpp
+  
   MetNum/Integral/CIGauss.cpp
   MetNum/Integral/CIGHermiteQuadrature.cpp
   MetNum/Integral/CIGLegendreQuadrature.cpp
@@ -242,6 +250,7 @@ add_library (ldsc STATIC
   MetNum/Integral/CIGLaguerreQuadrature.cpp
   MetNum/Integral/CIntegral.cpp
   MetNum/Integral/CISimpson.cpp
+  
   MetNum/Interpolacao/CIntLagrange.cpp
   MetNum/Interpolacao/CINewtonDiff.cpp
   MetNum/Interpolacao/CINewtonDivDiff.cpp
@@ -256,11 +265,13 @@ add_library (ldsc STATIC
   MetNum/Interpolacao/IntMetNum/CIMNWuds.cpp
   MetNum/Interpolacao/Interpolacao2D/CInterpolacao2D.cpp
   MetNum/Interpolacao/Interpolacao2D/CInt2DBilinear.cpp
+  
   MetNum/Solver/Funcao/CSFBissecao.cpp
   MetNum/Solver/Funcao/CSFCordas.cpp
   MetNum/Solver/Funcao/CSFuncao.cpp
   MetNum/Solver/Funcao/CSFNewton.cpp
   MetNum/Solver/Funcao/CSFRichmond.cpp
+
   MetNum/Solver/SistemaEquacoes/CSMatriz.cpp
   MetNum/Solver/SistemaEquacoes/CSMParametroSolver.cpp
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.cpp
@@ -268,7 +279,6 @@ add_library (ldsc STATIC
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.cpp
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDJacobi.cpp
   MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.cpp
+  
   Tempo/CTime.cpp
 )
-
-

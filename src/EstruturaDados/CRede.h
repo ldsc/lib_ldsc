@@ -77,6 +77,7 @@ Desenvolvido por:
    using value_type_objeto = CObjetoRede;
 // std::cout << "debug:    using value_type_objeto = CObjetoRede;\n";
 #endif
+
 // ===============================================================================
 // Documentacao Classe: CRede
 // ===============================================================================

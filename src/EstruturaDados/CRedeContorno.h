@@ -45,36 +45,36 @@ Desenvolvido por:
  * Note que existe uma hierarquia para objetos de contorno, este
  * vetor terá ponteiros para objetos da classe base da hierarquia de contornos.
  * @author 	André Duarte Bueno
- * @see		Grafo
  * @ingroup  HCGrafo
 */
+
 class CRedeContorno : public CRede {
    // --------------------------------------------------------------Atributos
 public:
    /// Usa-se contorno[i] para obter ponteiro para contorno i.
-   std::vector < CContornoCentro * >contorno;
+   std::vector < CContornoCentro* >contorno;
 
    // -------------------------------------------------------------Construtor
    /// Cria os objetos de contorno e incluí no vetor contorno.
-   CRedeContorno( std::string _nomeArquivo, unsigned long int _numero_contornos = 0 )
-      :      CRede( _nomeArquivo ) {
+   CRedeContorno ( std::string _nomeArquivo, unsigned long int _numero_contornos = 0 )
+      : CRede ( _nomeArquivo ) {
       tipoGrafo  =  ETipoGrafo::Rede_Contorno ;
-		contorno.reserve( _numero_contornos );
-      for( unsigned long int i = 0; i < _numero_contornos; i++ ) {
-            CContornoCentro * obj_cont = new CContornoCentro();
-            assert( obj_cont );
-            contorno.push_back( obj_cont );
+      contorno.reserve ( _numero_contornos );
+
+	  for ( unsigned long int i = 0; i < _numero_contornos; i++ ) {
+            CContornoCentro* obj_cont = new CContornoCentro();
+            assert ( obj_cont );
+            contorno.push_back ( obj_cont );
          }
    }
 
    // --------------------------------------------------------------Destrutor
    /// Delete os objetos de contorno do vetor contorno.
    virtual ~ CRedeContorno()   {
-      for( auto contorno_i : contorno )
-         if( contorno_i )
+      for ( auto contorno_i : contorno )
+         if ( contorno_i )
             delete contorno_i;
    }
-
 
    // ----------------------------------------------------------------Métodos
    // virtual void Write(std::string nomeArquivo);
@@ -93,6 +93,3 @@ public:
 // istream& operator>> (istream& is, CRedeContorno& obj);
 
 #endif
-
-
-

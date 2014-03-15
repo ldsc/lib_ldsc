@@ -112,7 +112,7 @@ bool CReconstrucaoBueno::SalvarImagemEmDisco (string arqimg) {
    fimg << setw (0) << "D1\n" << NX << " " << NY << " " << NZ << "\n";
    fimg << setw (0) << "# fatorAmplificacao: " << fatorAmplificacaoNumeroPontos << "\n";
    fimg << setw (0) << "# dimensaoPixel: " 	    << dimensaoPixel << "\n";
-   fimg << setw (0) << "# numeroPixelsBorda: " << 0 << "\n";
+   fimg << setw (0) << "# numeroPixeisBorda: " << 0 << "\n";
 
    for (k = 0; k < NZ; k++)
       for (j = 0; j < (NY); j++) {

@@ -48,7 +48,7 @@ using namespace std;
  * x0, y0, z0  - representam as coordenadas centrais na matriz de dados.
  * fatorAmplificacao - representa o fator de amplificação utilizado para recontruir a imagem
  * dimensaoPixel - resolução utilizada na obtenção da imagem pelo microscópio
- * numeroPixelsBorda - número de pixels que representam a borda da imagem (normalmente = 0).
+ * numeroPixeisBorda - número de pixels que representam a borda da imagem (normalmente = 0).
  *
  * Acrescenta a funcao Contem (int i, int j, int k) que verifica
  * se o ponto passado pertence a imagem.
@@ -64,13 +64,13 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		int x0, y0, z0;									/// Coordenadas x0, y0 e z0 da imagem 3D
 		unsigned int fatorAmplificacao; /// Fator de amplificação utilizado na recontrução da imagem
 		double dimensaoPixel;               /// Resolução utilizada na obtenção da imagem pelo microscópio
-		unsigned int numeroPixelsBorda; /// Número de pixels que representam a borda da imagem (normalmente = 0).
+		unsigned int numeroPixeisBorda; /// Número de pixels que representam a borda da imagem (normalmente = 0).
 
 
 		// -------------------------------------------------------------Construtor
 		/// Constrói imagem 3D vazia, não alocada.
 		TCImagem3D ()
-			: TCMatriz3D<T> ()/*, CImg()*/, x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixelsBorda (0) {
+			: TCMatriz3D<T> ()/*, CImg()*/, x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixeisBorda (0) {
 		}
 
 		/// Constróe imagem 3D a partir de imagem 3D no disco
@@ -81,23 +81,23 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 
 		/// Construtor le arquivo RAW do disco. Recebe nome do arquivo, largura, altura, profundidade e tipo (D4_X_Y_Z_BINARY (default), D5_X_Y_Z_GRAY_BINARY ou D6_X_Y_Z_COLOR_BINARY) da imagem.
 		TCImagem3D (std::string fileRAW, int _nx, int _ny, int _nz, EImageType tipo=D4_X_Y_Z_BINARY )
-			:TCMatriz3D<T>(fileRAW, _nx, _ny, _nz, tipo), x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixelsBorda (0) {
+			:TCMatriz3D<T>(fileRAW, _nx, _ny, _nz, tipo), x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixeisBorda (0) {
 		}
 
 		/// Construtor de cópia
 		TCImagem3D (TCImagem3D & img)
-			: TCMatriz3D<T> (img),/* CImg(),*/ x0(img.x0), y0(img.y0), z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao), dimensaoPixel (img.dimensaoPixel), numeroPixelsBorda (img.numeroPixelsBorda) {
+			: TCMatriz3D<T> (img),/* CImg(),*/ x0(img.x0), y0(img.y0), z0 (img.z0), fatorAmplificacao (img.fatorAmplificacao), dimensaoPixel (img.dimensaoPixel), numeroPixeisBorda (img.numeroPixeisBorda) {
 		}
 
 		/// Constróe imagem vazia, com as dimensões nx,ny,nz
 		TCImagem3D (int nx, int ny, int nz)
-			: TCMatriz3D<T> (nx, ny, nz),/* CImg(),*/ x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixelsBorda (0) {
+			: TCMatriz3D<T> (nx, ny, nz),/* CImg(),*/ x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixeisBorda (0) {
 
 		}
 
 		/// Construtor de cópia  a partir de uma matriz 3D
 		TCImagem3D (TCMatriz3D<T> & matriz)
-			: TCMatriz3D<T> (matriz), x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixelsBorda (0) {
+			: TCMatriz3D<T> (matriz), x0(0), y0(0), z0(0), fatorAmplificacao (1), dimensaoPixel (1), numeroPixeisBorda (0) {
 		}
 
 		// --------------------------------------------------------------Destrutor
@@ -150,9 +150,9 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 			return dimensaoPixel;
 		}
 
-		/// Retorna o valor de numeroPixelsBorda
+		/// Retorna o valor de numeroPixeisBorda
 		inline unsigned int NumeroPixelsBorda () const {
-			return numeroPixelsBorda;
+			return numeroPixeisBorda;
 		}
 
 		// --------------------------------------------------------------------Set
@@ -181,9 +181,9 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 			dimensaoPixel = _dimensaoPixel;
 		}
 
-		/// Seta o valor de numeroPixelsBorda
-		inline void NumeroPixelsBorda ( unsigned int _numeroPixelsBorda) {
-			numeroPixelsBorda = _numeroPixelsBorda;
+		/// Seta o valor de numeroPixeisBorda
+		inline void NumeroPixelsBorda ( unsigned int _numeroPixeisBorda) {
+			numeroPixeisBorda = _numeroPixeisBorda;
 		}
 
 		/// Seta os valores de x0 y0 e z0 simultaneamente

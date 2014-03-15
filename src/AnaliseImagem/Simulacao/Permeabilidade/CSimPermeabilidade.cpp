@@ -4,7 +4,7 @@ PROJETO:          Biblioteca LIB_LDSC
                   Ramo: TPadrao_ramo
 ===============================================================================
 Desenvolvido por:
-			Laboratorio de Desenvolvimento de Software Cientifico	[LDSC].
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:    André Duarte Bueno
 @file:      CSimPermeabilidade.cpp
 @begin:     Sat Sep 16 2000
@@ -24,7 +24,6 @@ Desenvolvido por:
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 
 using namespace std;
-
 
 // /*
 // -------------------------------------------------------------------------
@@ -86,7 +85,8 @@ Função: operator<<
 @return : ostream& os,
 */
 ostream& operator<< ( ostream& os, const CSimPermeabilidade& p ){
-   os << p.permeabilidade << endl;
+   os << p.erro << '\n';
+   os << p.permeabilidade << '\n';
    return os;
 }
 
@@ -101,6 +101,7 @@ Função:  operator>>
 @return : istream& is
 */
 istream& operator>> ( istream& is, CSimPermeabilidade& p ){
+   is >> p.erro;
    is >> p.permeabilidade;
    return is;
 }
@@ -110,9 +111,7 @@ istream& operator>> ( istream& is, CSimPermeabilidade& p ){
 Função:   Read
 -------------------------------------------------------------------------
 @short  :
-	Lê atributos do objeto do arquivo de disco
-	Recebe nome do arquivo de disco
-	void CSimPermeabilidade::Read(string nomeArquivo)
+	Recebe nome do arquivo de disco e a seguir le atributos do objeto do arquivo
 @author : André Duarte Bueno
 @see    : Read
 @param  : string nomeArquivo
@@ -129,6 +128,7 @@ CSimPermeabilidade::Read ( string nomeArquivo )
          exit ( 0 );
       }
 
+  fin >> erro;
   fin >> permeabilidade;
   fin.close();
 }

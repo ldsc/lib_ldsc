@@ -93,7 +93,7 @@ TCImagem3D<T> *TCFEConectividade3D<T>::GetImagemConectada( TCImagem3D<T> *pmOrig
  pmCon->NumCores(pmOrig->NumCores());
  pmCon->Path(pmOrig->Path());
  pmCon->fatorAmplificacao = pmOrig->FatorAmplificacao();
- pmCon->numeroPixelsBorda = pmOrig->NumeroPixelsBorda();
+ pmCon->numeroPixeisBorda = pmOrig->NumeroPixelsBorda();
  pmCon->dimensaoPixel = pmOrig->DimensaoPixel();
 
  set<int>::iterator it0;

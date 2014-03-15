@@ -89,78 +89,78 @@ Desenvolvido por:
  * @author 	André Duarte Bueno
  * @see		SMatriz
 */
-class CSMParametroSolver
-{
-		// --------------------------------------------------------------Atributos
-	public:
-		/// Variável a ser calculada
-		long double x;
+class CSMParametroSolver {
+// --------------------------------------------------------------Atributos
+public:
+/// Variável a ser calculada
+   long double x {0.0};
 
-		// -------------------------------------------------------------Construtor
-		/// Contrutor
-		CSMParametroSolver() : x(0) {	}
+// -------------------------------------------------------------Construtor
+/// Contrutor
+   CSMParametroSolver () = default;
 
-		// --------------------------------------------------------------Destrutor
-		/// Destrutor
-		virtual ~ CSMParametroSolver() { }
+// --------------------------------------------------------------Destrutor
+/// Destrutor
+   virtual ~ CSMParametroSolver () = default;
 
-		// ----------------------------------------------------------------Métodos
-	public:
-		/**
-	* @brief A função Go, deve utilizar o parametro d para calcular
-	* uma nova estimativa do valor da variável, mas Go não deve
-	* alterar o valor da variável.
-	*
-	* Ou seja dado ti posso calcular ti+1 mas não altero ti.
-	* Se o usuário desejar alterar o valor da variável deverá fazer:
-	* obj = obj->Go(d);
-*/
-		virtual long double Go (long double d = 0) {
-			return d;
-		}
+// ----------------------------------------------------------------Métodos
+public:
+   /**
+    * @brief A função Go, deve utilizar o parametro d para calcular
+    * uma nova estimativa do valor da variável, mas Go não deve
+    * alterar o valor da variável.
+    *
+    * Ou seja dado ti posso calcular ti+1 mas não altero ti.
+    * Se o usuário desejar alterar o valor da variável deverá fazer:
+    * obj = obj->Go(d);
+   */
+   virtual long double Go ( long double d = 0 ) = 0;
+//  {    return d;  }
 
-		// -------------------------------------------------------------Sobrecarga
-		// Operadores sobrecarregados
-		/// Sobrecarga operador de Comparação obj_a == obj_b
-		virtual bool operator== (const CSMParametroSolver & par) {
-			return this->x == par.x;
-		}
+// -------------------------------------------------------------Sobrecarga
+   // Operadores sobrecarregados
+/// Sobrecarga operador de Comparação obj_a == obj_b
+   virtual bool operator== ( const CSMParametroSolver& par )  {
+      return this->x == par.x;
+   }
 
-		/// Sobrecarga operador diferença obj_a != obj_b
-		virtual bool operator!= (const CSMParametroSolver & par) const {
-			return this->x != par.x;
-		}
+   /// Sobrecarga operador diferença obj_a != obj_b
+   virtual bool operator!= ( const CSMParametroSolver& par ) const {
+      return this->x != par.x;
+   }
 
-		/// Sobrecarga operador de igualdade Iguala obj_a=obj_b
-		virtual CSMParametroSolver & operator= (const CSMParametroSolver & par) {
-			x = par.x;
-			return *this;
-		}
+   /// Sobrecarga operador de igualdade Iguala obj_a=obj_b
+   virtual CSMParametroSolver& operator= ( const CSMParametroSolver& par ) {
+      x = par.x;
+      return *this;
+   }
 
-		/**Recebe um double: double x=5.1; obj=x;*/
-		long double operator= (const long double &d) {
-			return x = d;
-		}
+   /**Recebe um double: double x=5.1; obj=x;*/
+   long double operator= ( const long double& d ) {
+      return x = d;
+   }
 
-		/// Converte para double (cast): double x=obj;
-		operator  long double () const {
-			return x;
-		}
+/// Converte para double (cast): double x=obj;
+   operator  long double () const {
+      return x;
+   }
 
-		// --------------------------------------------------------------------Get
-		// --------------------------------------------------------------------Set
-		// -----------------------------------------------------------------Friend
-		/// Sobrecarga do operador <<
-		friend std::ostream & operator<< (std::ostream & os, const CSMParametroSolver & obj);
+// --------------------------------------------------------------------Get
+// --------------------------------------------------------------------Set
+// -----------------------------------------------------------------Friend
+   /// Sobrecarga do operador <<
+   friend std::ostream& operator<< ( std::ostream& os,
+                                     const CSMParametroSolver& obj );
 
-		/// Sobrecarga do operador >>
-		friend std::istream & operator>> (std::istream & is, CSMParametroSolver & obj);
+   /// Sobrecarga do operador >>
+   friend std::istream& operator>> ( std::istream& is,
+                                     CSMParametroSolver& obj );
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, const CSMParametroSolver & obj);
+std::ostream& operator<< ( std::ostream& os, const CSMParametroSolver& obj );
 
-std::istream & operator>> (std::istream & is, CSMParametroSolver & obj);
+std::istream& operator>> ( std::istream& is, CSMParametroSolver& obj );
 
 #endif

@@ -111,3 +111,4 @@ public:
 // istream& operator>> (istream& is, CContornoCentro& obj);
 
 #endif
+

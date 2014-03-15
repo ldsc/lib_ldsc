@@ -381,7 +381,7 @@ bool CReconstrucaoEsferas::Grava_dbm ( string nomeimg, unsigned char *inimeio ) 
       fout << setw (0) << "D1\n" << dimens << " " << dimens << " " << dimens << "\n";
       fout << setw (0) << "# fatorAmplificacao: " << fat_amp << "\n";
       fout << setw (0) << "# dimensaoPixel: " 	     << tam_pixel << "\n";
-      fout << setw (0) << "# numeroPixelsBorda: " << 0 << "\n";
+      fout << setw (0) << "# numeroPixeisBorda: " << 0 << "\n";
       for ( int z = 0; z < dimens; z++ ) {
          for ( int y = 0; y < dimens; y++ ) {
             for ( int x = 0; x < dimens; x++ ) {

@@ -335,9 +335,9 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
 //
 //    // Passo 1:
 //    // Determinação da dimensão da matriz e do vetor
-//    // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
+//    // cout << "\nrotuloPrimeiroObjetoPlanoN="               <<       rotuloPrimeiroObjetoPlanoN;
 //    // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
-//    unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
+//    unsigned int dim = rotuloPrimeiroObjetoPlanoN - rotuloPrimeiroObjetoPlano1 + 1;
 //    // cout <<"\ndim="<<dim;
 //
 //    // Redimensiona a matriz A

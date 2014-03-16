@@ -59,6 +59,8 @@ public:
      CGrafoConexaoSerial_M6_Tortuosidade ( std::string _nomeArquivo ) :CGrafoConexaoSerial_M3 ( _nomeArquivo ),
           numeroDerivacoesUsadasCalculoTortuosidade ( 0 )  {
           tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M6;
+   // abaixo é necessário pois senão vai apagar diversos ramos e calcular tortuosidade erroneamente
+   EliminaRamosMortos (0);
      }
 
 // --------------------------------------------------------------Destrutor

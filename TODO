@@ -43,6 +43,11 @@ CObjetosEsqueleto ( cx, cy, cz)
 Manter o nome grafo pois foi o usado na tese.
 [] - Revisar os códigos e comentários do GrafoConexaoSerial;
 [] - Fazer funcionar ! ! !
+[]- Fazer deletado = numeric_limits<unsigned int>::max(); evitando problema com objeto.size()!
+[]- Testar com calma EliminaRamosMortos(1) pois esta provocando falha de segmentação!
+Note que a versão para Eneida, isto é, antes de reestruturas os códigos, estava funcionando!
+[]- Testar com calma EliminaRamosMortos(2) pois esta apagando partes válidas da imagem! não deveria ler objetos dos planos z=0 e z=n-1!
+Note que a versão para Eneida, isto é, antes de reestruturas os códigos, estava funcionando!
 [X] - Reorganizar estrutura diretorios
 /EstruturaDados
 /EstruturaDados/Grafo

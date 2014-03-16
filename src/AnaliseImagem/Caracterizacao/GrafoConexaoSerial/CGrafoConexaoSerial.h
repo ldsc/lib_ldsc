@@ -68,7 +68,7 @@ class CGrafoConexaoSerial_M6;
 /**
  * @brief Herdeira de CRede, gera a estrutura de sítios baseado na avaliação de cada plano
  * da imagem tridimensional (planos bidimensionais).
- * Cria os atributo: nomeArquivo,  vector objeto, rotuloPrimeiroObjetoPlano1, rotuloUltimoObjetoPlanoN_1;
+ * Cria os atributo: nomeArquivo,  vector objeto, rotuloPrimeiroObjetoPlano1, rotuloPrimeiroObjetoPlanoN;
  * Cria os atributos: ra (rotulador plano anterior), rp(rotulador plano atual), plano(z em análise),
  * img2D,  tipoObjeto(a ser criado), maiorRotuloUtilizado(maiorRotuloUtilizado_AnteriorPrimeiroRotuloDe_ra).
  * 
@@ -165,14 +165,14 @@ protected:
    // O objetivo de se criar os atributos abaixo é eliminar a chamada do cálculo das propriedades
    // nos objetos destes planos.
    // firstObjectOf Solver=rotuloPrimeiroObjetoPlano1;
-   // lastObjectOf Solver=rotuloUltimoObjetoPlanoN_1
+   // lastObjectOf Solver=rotuloPrimeiroObjetoPlanoN -1
    /// Rótulo do primeiro objeto do plano z=1 (logo após o plano z=0)
    /// @todo: Pensar em criar um vector<int> indicePrimeiroObjetoPlano;
    /// sendo indicePrimeiroObjetoPlano[i] o rótulo do primeiro objeto do plano.
    unsigned int rotuloPrimeiroObjetoPlano1 { 0 };
 
    /// Rótulo do último objeto do plano z=n-1 (imediatamente antes do plano z=n)
-   unsigned int rotuloUltimoObjetoPlanoN_1 { 0 };
+   unsigned int rotuloPrimeiroObjetoPlanoN { 0 };
 
    /**
      * @brief Valor do maior rotulo já utilizado.

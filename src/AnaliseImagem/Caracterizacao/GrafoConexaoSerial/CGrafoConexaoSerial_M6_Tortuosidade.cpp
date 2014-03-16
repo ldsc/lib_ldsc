@@ -79,15 +79,15 @@ CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( ETipoObjetoGrafo tipoObjeto  
          data = new CObjetoEsqueleto_Sitio ();
          break;
 
-      case ETipoObjetoGrafo::ObjetoRede_Sitio_WEST :
+      case ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST :
          data = new CObjetoEsqueleto_Sitio_WEST ();
          break;
 
-      case ETipoObjetoGrafo::ObjetoRede_Sitio_EST :
+      case ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST :
          data = new CObjetoEsqueleto_Sitio_EST ();
          break;
 
-      case ETipoObjetoGrafo::ObjetoRede_Final :
+      case ETipoObjetoGrafo::ObjetoEsqueleto_Final :
          data = new CObjetoRede_Final ( tipoObjeto );
          break;
 

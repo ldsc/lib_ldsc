@@ -61,9 +61,9 @@ O atributo plano será usado para estimação da pressão inicial.
 */
 CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*naoUsado*/ )
 {
-   ifstream fin ( nomeArquivoImagem.c_str () );
+	ifstream fin ( nomeArquivoImagem.c_str () );
 
-   if ( fin.fail() ) {
+	if ( fin.fail() ) {
          cerr << "Nao conseguiu abrir o arquivo " << nomeArquivoImagem.c_str ();
          return 0;
       }
@@ -125,7 +125,7 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    /// @todo: verificar retorno de ra->RotuloFinal() = último rótulo utilizado
    /// se for último rótulo utilizado precisa somar 1
    rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal (); // +1
-   cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
+cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
    // ------------
    // PLANO i
    // ------------
@@ -149,11 +149,11 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
          // Determina raio hidraulico
          rp->CalculaRaioHidraulicoObjetos ();
 
-         // Se for o ultimo plano, redefine o contorno e calcula rotuloUltimoObjetoPlanoN_1
+         // Se for o ultimo plano, redefine o contorno e calcula rotuloPrimeiroObjetoPlanoN
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
-               rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal (); //+1
-               cerr << "\nCompare rotuloUltimoObjetoPlanoN_1 =" << rotuloUltimoObjetoPlanoN_1 << " com dados grafo;\n";
+               rotuloPrimeiroObjetoPlanoN = maiorRotuloUtilizado + ra->RotuloFinal (); //+1
+               cerr << "\nCompare rotuloPrimeiroObjetoPlanoN =" << rotuloPrimeiroObjetoPlanoN << " com dados grafo;\n";
             }
 
          // Adiciona objetos do plano ij atual
@@ -285,8 +285,8 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
          // de forma a criar um CObjetoRede situado na face direita/EST
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
-               rotuloUltimoObjetoPlanoN_1 = maiorRotuloUtilizado + ra->RotuloFinal ();
-               cerr << "\nCompare rotuloUltimoObjetoPlanoN_1 =" << rotuloUltimoObjetoPlanoN_1 << " com dados grafo;\n";
+               rotuloPrimeiroObjetoPlanoN = maiorRotuloUtilizado + ra->RotuloFinal ();
+               cerr << "\nCompare rotuloPrimeiroObjetoPlanoN =" << rotuloPrimeiroObjetoPlanoN  << " com dados grafo;\n";
             }
 
          // Adiciona os sítios, a lista de sítios
@@ -449,22 +449,16 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v1 ()
    // Rotulo do objeto 1 em análise
    unsigned long int rotulo  { 0 };
 
-   // Cria-se um vector com o rotulo dos objetos eliminados
-   // permitindo a fácil identificação dos objetos que precisam,
-   // ser deletados no vetor cmx e cmy.
-// vector < unsigned int >vObjetosEliminados; ///@todo não é usado??
-// vObjetosEliminados.reserve ( 1000 );
-
-   // O numero de objetos no ultimo plano é o numero total de objetos
+   // O número de objetos no último plano é o número total de objetos
    // menos o rótulo do ultimo objeto do plano N-1.
-   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloUltimoObjetoPlanoN_1;
-
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloPrimeiroObjetoPlanoN;
+cerr << "\nnumeroObjetosNoPlanoZn =" << numeroObjetosNoPlanoZn << endl;
    // Passo 1: Vai varrer os planos e marcar objetos a serem deletados
    do {
          numeroObjetosDeletadosNestaPassagem = 0;
 
          // Percorre todos os objetos do grafo, exceto os dos planos 0 e N
-         for ( long int rotulo = rotuloPrimeiroObjetoPlano1; rotulo <= rotuloUltimoObjetoPlanoN_1; rotulo++ ) {
+         for ( long int rotulo = rotuloPrimeiroObjetoPlano1; rotulo < rotuloPrimeiroObjetoPlanoN; rotulo++ ) {
                // Um objeto[i] é um ponteiro para um CObjetoRede;
                // Abaixo sempre trabalho com objetos do tipo CObjetoRede_Sitio, sendo assim,
                // preciso fazer um dynamic_cast para poder acessar o vetor das conexões.
@@ -527,7 +521,7 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v1 ()
          vector < value_type_objeto* >::iterator it = objeto.begin ();
 
          // Para facilitar a deleção dos objetos deleta do ultimo para o primeiro
-         for ( int j = rotuloUltimoObjetoPlanoN_1; j >= rotuloPrimeiroObjetoPlano1; j-- )
+         for ( int j = rotuloPrimeiroObjetoPlanoN - 1; j >= rotuloPrimeiroObjetoPlano1; j-- )
             if ( objeto[j] == nullptr )
                objeto.erase ( it + j ); // processo muitoooo lento!!
 
@@ -552,7 +546,7 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v1 ()
    // O número do ultimo objeto do solver precisa ser corrigido??
    // E se algum objeto do plano zn foi deletado ?
    // resp: objetos do plano zn não são verificados, portanto não são deletados!
-   rotuloUltimoObjetoPlanoN_1 = objeto.size () - numeroObjetosNoPlanoZn;
+   rotuloPrimeiroObjetoPlanoN = objeto.size () - numeroObjetosNoPlanoZn;
 }
 
 // -----------------------------------------------------------------------------
@@ -576,10 +570,10 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
 {
    // O numero de objetos no ultimo plano é o numero total de objetos
    // menos o indice do ultimo objeto do solver
-   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloUltimoObjetoPlanoN_1;
+   unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloPrimeiroObjetoPlanoN;
 
-   unsigned long int numeroObjetosDeletadosNestaPassagem;
-   unsigned long int numeroTotalObjetosDeletados = 0;
+   unsigned long int numeroObjetosDeletadosNestaPassagem {0};
+   unsigned long int numeroTotalObjetosDeletados {0};
 
    /// @test: Como deve deletar tudo numa única passagem, não precisa do do..while?
    do {
@@ -590,19 +584,19 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
          // A função MarcarParaDelecaoObjeto percorre os objetos do grafo
          // e marca para deleção os que fazem parte de ramo morto.
          // Todo o ramo é marcado para deleção.
-         for ( int i = 0; i < objeto.size (); i++ ) {
-               MarcarParaDelecaoObjeto ( i );
+//Abaixo aparentementepois apaga objetos dos planos z=0 e z=n-1! testar!
+		 for ( int i = 0; i < objeto.size (); i++ ) {
+//bug!          for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) {
+			MarcarParaDelecaoObjeto ( i );
             }
 
          // ------------------------------------------------
          // Percorrer todos os objetos e marcar para deleção cada link invalidado
          //  value_type_objeto* obj = nullptr;
 
-         for ( int i = 0; i < objeto.size (); i++ ) {
-//                obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
-//assert ( obj ); //? exceção ??
-               // No objeto CObjetoRede_Sitio tem função nova:
-               // virtual bool DeletarConexoesInvalidadas(int deletado);
+//Abaixo aparentemente apaga objetos dos planos z=0 e z=n-1! testar!
+          for ( int i = 0; i < objeto.size (); i++ ) {
+//bug!         for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) {
                objeto[i]->DeletarConexoesInvalidadas ( deletado );
             }
 
@@ -611,12 +605,14 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
          int indice_rotulo_valido = 0;
 
          // Percorre todos os objetos
-         for ( int i = 0; i < objeto.size (); i++ )
-
+//Abaixo aparentementepois apaga objetos dos planos z=0 e z=n-1! testar!
+          for ( int i = 0; i < objeto.size (); i++ )
+//bug!         for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) 
             // Se o objeto para quem aponta não foi deletado, armazena no vetor dos objetos;
             // Se foi deletado vai ser pulado.
             if ( objeto[i]->rotulo != deletado ) {
-                  objeto[indice_rotulo_valido++] = objeto[i];
+                  objeto[indice_rotulo_valido] = objeto[i];
+                  indice_rotulo_valido++;
                }
 
          // Redimensiona o vetor das conexões (as que apontam para objetos deletados são eliminadas)
@@ -645,7 +641,7 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
    // O rótulo do último objeto do solver precisa ser corrigido.
    // Dúvida: e se algum objeto do plano zn foi deletado ?
    // Resp: objetos do plano zn não são marcados para deleção.
-   rotuloUltimoObjetoPlanoN_1 = objeto.size () - numeroObjetosNoPlanoZn;
+   rotuloPrimeiroObjetoPlanoN = objeto.size () - numeroObjetosNoPlanoZn;
 }
 
 bool
@@ -663,11 +659,10 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
    // o que explica o if(..i != deletado)
    if (	// Se o objeto ja foi deletado, o indice i == deletado, deve ser desconsiderado.
       i != deletado		// sempre primeiro a verificar
-      &&
-      // Se o objeto já  foi deletado
-      objeto[i]->rotulo != deletado &&
+      // Se o objeto já foi deletado
+      and objeto[i]->rotulo != deletado 
       // e esta no centro, vai verificar
-      objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
+      and objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
 //         CObjetoRede_Sitio* obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
 //          assert ( obj ); // exceção..
 
@@ -939,12 +934,12 @@ bool CGrafoConexaoSerial::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B
 
    // Passo 1:
    // Determinação da dimensão da matriz e do vetor
-   // cout << "\nrotuloUltimoObjetoPlanoN_1="               <<       rotuloUltimoObjetoPlanoN_1;
+   // cout << "\nrotuloPrimeiroObjetoPlanoN="               <<       rotuloPrimeiroObjetoPlanoN;
    // cout << "\nrotuloPrimeiroObjetoPlano1="      <<  rotuloPrimeiroObjetoPlano1;
 
    // A dimensão do sistema de equações considera os planos 1->n-1,
    // pois os planos 0 e n-1 tem pressões constantes.
-   unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1;
+   unsigned int dim = rotuloPrimeiroObjetoPlanoN - rotuloPrimeiroObjetoPlano1 + 1;
    // cout <<"\ndim="<<dim;
 
    // Redimensiona a matriz A
@@ -1043,11 +1038,11 @@ bool CGrafo::SetarMatrizAVetorB(TCMatriz2D< int >* &A, CVetor* &B) const
 
   // Passo 1:
   // Determinação da dimensão da matriz e do vetor
-  // cout << "\nrotuloUltimoObjetoPlanoN_1="		<<	 rotuloUltimoObjetoPlanoN_1;
+  // cout << "\nrotuloPrimeiroObjetoPlanoN="		<<	 rotuloPrimeiroObjetoPlanoN;
   // cout << "\nrotuloPrimeiroObjetoPlano1="	<<  rotuloPrimeiroObjetoPlano1;
 
 
-  unsigned int dim = rotuloUltimoObjetoPlanoN_1 - rotuloPrimeiroObjetoPlano1 + 1 ;
+  unsigned int dim = rotuloPrimeiroObjetoPlanoN - rotuloPrimeiroObjetoPlano1 + 1 ;
   // cout <<"\ndim="<<dim;
 
   // Redimensiona a matriz A

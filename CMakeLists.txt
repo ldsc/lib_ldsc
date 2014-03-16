@@ -52,15 +52,15 @@ set(${PROJECT_NAME}_PATCH_LEVEL ${DAY})
 FIND_PACKAGE( OpenMP REQUIRED)
 
 if(UNIX) # True for UNIX and UNIX like operating systems.
-  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=gnu++11 -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__ -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
-  set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -p -std=gnu++11 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -p -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
 endif()
 #else()
 if(WIN32) # True on windows systems, including win64
-    set(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=gnu++11 -fopenmp -lgomp")
-    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -std=gnu++11 -fopenmp -lgomp")
-    set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
-    #set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=gnu++11 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
+  set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
+  #set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE on)

@@ -35,7 +35,7 @@ Desenvolvido por:
 #endif
 
 /** Grupo de classes da hierarguia de objetos de grafo.
- * @defgroup HCObjetoGrafo
+ * @defgroup HCObjetoGrafo Hierarquia para diferentes objetos do grafo
  */
 
 /// Enumeração para os diferentes tipos de grafo.
@@ -43,6 +43,7 @@ Desenvolvido por:
 // Note que sempre que criar classe herdeira tem de colocar aqui a enumeração correspondente.
 #ifndef ETipoObjetoGrafo_
 #define ETipoObjetoGrafo_
+
 enum class ETipoObjetoGrafo : uint8_t {
    ObjetoGrafo = 0,                  // Objetos da hierarquia de objetos do grafo
    ObjetoGrafo_1VetorConexoes = 1,
@@ -215,3 +216,4 @@ inline std::ostream& operator<< ( std::ostream& os, const CObjetoGrafo& obj );
 inline std::istream& operator>> ( std::istream& is, CObjetoGrafo& obj );
 
 #endif
+

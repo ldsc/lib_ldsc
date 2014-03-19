@@ -833,7 +833,6 @@ bool CGrafoConexaoSerial::LerVetorPropriedades_x ()
    for ( auto objeto_grafo : objeto ) {
          fin >> objeto_grafo->x ;
 
-///  @bug: Teste do uso do tag bug do doxygen.
 ///  @test: o código abaixo poderia ser comentado pois não deve ocorrer!
          if ( fin.eof () )
             return 0;

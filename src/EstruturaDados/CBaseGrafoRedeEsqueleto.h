@@ -32,7 +32,7 @@ Desenvolvido por:
 #endif
 
 /// Agrega o conjunto de classes que estão diretamente relacionadas a hierarquia HCGrafo.
-/// @defgroup HCGrafo
+/// @defgroup HCGrafo Hierarquia para diferentes tipos de  grafos
 
 // ===============================================================================
 // Documentacao Classe: CBaseGrafoRedeEsqueleto

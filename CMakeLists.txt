@@ -59,6 +59,7 @@ if(UNIX) # True for UNIX and UNIX like operating systems.
   set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -D_GNU_SOURCE -std=gnu++11 -fopenmp -lgomp")
 endif()
 #else()
+
 if(WIN32) # True on windows systems, including win64
 #  set(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=gnu++11 -fopenmp -lgomp")
   set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++11 -fopenmp -lgomp")
@@ -68,9 +69,9 @@ if(WIN32) # True on windows systems, including win64
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE on)
-
 #set(CMAKE_BUILD_TYPE Release)
 #set(CMAKE_BUILD_TYPE Debug)
+
 #set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")
 
 #file(MAKE_DIRECTORY lib)
@@ -86,7 +87,8 @@ add_subdirectory(test)
 add_subdirectory(demo)
 
 if(WIN32) # True on windows systems, including win64
-  set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  #set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
+  set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-fopenmp -lgomp")
   set_target_properties(ldsc PROPERTIES LINK_FLAGS_DEBUG "-s -fopenmp -lgomp")
   #set_target_properties(ldsc PROPERTIES LINK_FLAGS "-O2 -fopenmp -lgomp")
 endif()

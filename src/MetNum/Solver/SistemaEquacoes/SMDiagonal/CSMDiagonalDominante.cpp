@@ -82,11 +82,12 @@ CSMDiagonalDominante::Go (vector < CSMParametroSolver * >*objeto)
 // k=iproc k+= nproc
       for (k = 0; k < obj->size (); k++)	// percorre todos os objeto
 	{
-	  xk0 = (long double) (*((*obj)[k]));	// valor de x[k] no instante anterior
-
+	  xk0 = (long double) (*((*obj)[k]));	// valor de x[k] no instante anterior // aqui aqui só funciona se objeto tiver conversão para double!
+cerr << "\nxk0 = (long double) (*((*obj)[" << k << "])) = " << xk0;
 	  // Atualiza os valores do vetor X
 // precisa passar o k
 	  AtualizaX ();		// definida de forma diferente nas classes herdeiras
+cerr << " depois AtualizaX -> xk0 = " << xk0 ;
 	  // em alguns casos ja atualiza as propriedades
 	  // nos objeto  CSMParametroSolver
 

@@ -74,10 +74,10 @@ public:
     /// Abre e lê arquivo de disco com dados necessários
     virtual void Read (std::string nomeArquivo);
 
-    /// Função de cálculo da permeabilidade, será redefinida nas classes herdeiras.
-    virtual long double Go ()    {
-        return permeabilidade;
-    }
+//     /// Função de cálculo da permeabilidade, será redefinida nas classes herdeiras.
+//     virtual long double Go ()    {
+//         return permeabilidade;
+//     }
 
 // -------------------------------------------------------------Sobrecarga
     /// Operador atribuição

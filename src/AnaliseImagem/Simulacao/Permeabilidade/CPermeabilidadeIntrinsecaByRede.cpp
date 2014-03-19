@@ -132,7 +132,7 @@ long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( /*TCImagem3
 	cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetnumeroPixelsBorda() << endl;
 		
 	cout << "Calculando rede->Go( )...." << endl;
-	rede->Go( 500, 500, 500 );
+	rede->Go( 300, 300, 300 );
 	cout << "rede->Go( )...ok!" << endl;
 
 	cout << "Calculando perm->SolucaoSistema()" << endl;

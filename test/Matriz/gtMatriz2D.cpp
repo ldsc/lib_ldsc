@@ -72,6 +72,7 @@ TEST_F(TestMatriz2D, discos) {
 	}
 }
 */
+/*
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd34.h>
 #include <iostream>
 TEST_F(TestMatriz2D, perimetroDiscos) {
@@ -115,3 +116,4 @@ TEST_F(TestMatriz2D, perimetroDiscos) {
 		EXPECT_TRUE(false);
 	}
 }
+*/

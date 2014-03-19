@@ -259,12 +259,12 @@ long double CPermeabilidadeRede::Go () {
 		msg += " ...done";
 	}
 	cout << "\nInformacoes do SOLVER das permeabilidades" << endl;
-	cout << " limIt[" << limiteIteracoes << "] limErro[" << limiteErro << "]" << endl;
+	cout << " limIt[" << setw (4) << limiteIteracoes
+			 << "] limErro[" << setw (10) << limiteErro << "]" << endl;
 
 	cout << "Informacoes do SOLVER das pressões" << endl;
-	cout << " limIt[" << setw (4) << solver->LimiteIteracoes ()
-			 << "] limErro[" << setw (10) << solver->LimiteErro ()
-			 << "] " << endl;
+	cout << " limIt[" << setw (4) << solver->LimiteIteracoes()
+			 << "] limErro[" << setw (10) << solver->LimiteErro() << "]" << endl;
 
 	cout << "Chamando SolucaoSistema (solver->Go)..." << endl;
 

@@ -228,8 +228,8 @@ CGrafoTest::SolicitaNomeImagem ()
 {
     cout << "\nEntre com o nome da imagem"
          << "\nExemplo:\n";
-    system ("dir *.txt *.pm3");
-
+		int r = system ("dir *.txt *.pm3");
+		r = r; //evitar warming
     string fileName;
     getline (cin, fileName);
     return fileName;

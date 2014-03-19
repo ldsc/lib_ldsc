@@ -76,7 +76,7 @@ std::vector<unsigned short int> CRedeDePercolacao::perimetroCirculo
 // Construtor matriz binária
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo )
 	: CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo ),
-		CMatrizObjetoImagem(), pm(nullptr), calcPixeis(false)
+		CMatrizObjetoRede(), pm(nullptr), calcPixeis(false)
 {
 	srand (time(nullptr)); //inicia seed randômica;
 }
@@ -84,7 +84,7 @@ CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<bool> *&_pm, int _raioMaximo, i
 // Construtor imagem tons de cinza
 CRedeDePercolacao::CRedeDePercolacao( TCImagem3D<int> *&_pm )
 	: CDistribuicaoTamanhoPorosGargantas( _pm ),
-		CMatrizObjetoImagem(), pm (nullptr), calcPixeis(false)
+		CMatrizObjetoRede(), pm (nullptr), calcPixeis(false)
 {
 	srand (time(nullptr)); //inicia seed randômica;
 }
@@ -101,17 +101,17 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CRedeDePercolacao::SalvarListaObjetos(std::string fileName) {
-	return CMatrizObjetoImagem::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
+	return CMatrizObjetoRede::SalvarListaObjetos(fileName, pm->NX(), pm->NY(), pm->NZ());
 }
 
 // Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
 bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string fileName) {
-	return CMatrizObjetoImagem::SalvarListaObjetosGrafo(fileName);
+	return CMatrizObjetoRede::SalvarListaObjetosGrafo(fileName);
 }
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
 // g = (r^3) / (3*viscosidade) ->
-double CRedeDePercolacao::CondutanciaSitio (CObjetoImagem &objetoImagem, double sizePixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitio (CObjetoRede &objetoImagem, double sizePixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
 	double raio = (double)objetoImagem.Raio();
@@ -123,7 +123,7 @@ double CRedeDePercolacao::CondutanciaSitio (CObjetoImagem &objetoImagem, double 
 
 // Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
 // condutancia = pi*dH^4/(128*viscosidade*comprimento)
-double CRedeDePercolacao::CondutanciaLigacao (CObjetoImagem &objetoImagem, double &_comprimento, double sizePixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaLigacao (CObjetoRede &objetoImagem, double &_comprimento, double sizePixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
 	double comprimento = _comprimento * sizePixel * fatorAmplificacao;
@@ -138,7 +138,7 @@ double CRedeDePercolacao::CondutanciaLigacao (CObjetoImagem &objetoImagem, doubl
 }
 
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoImagem &objImgSitio, CObjetoImagem &objImgLigacao, double &comprimento, double sizePixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRede &objImgSitio, CObjetoRede &objImgLigacao, double &comprimento, double sizePixel, double fatorAmplificacao) {
 	double gSitio = CondutanciaSitio(objImgSitio, sizePixel, fatorAmplificacao);
 	double meioL = comprimento/2;
 	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,sizePixel,fatorAmplificacao);
@@ -195,7 +195,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	double random;
 	int raio;
 	int diametro;
-	std::map<int, CObjetoImagem> matrizObjetosTemp; // Matriz de objetos temporária;
+	std::map<int, CObjetoRede> matrizObjetosTemp; // Matriz de objetos temporária;
 	matrizObjetos.clear(); // Matriz de objetos final
 	phiDist  = dtpg.first->AreaObjetos();
 	phiRede = 0.0;
@@ -310,7 +310,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 		// Posso criar os objetos diretamente, em ordem decrescente de tamanho.
 		// Outra opção seria, após este loop, rotular os objetos e percorrer a matriz setando cada objeto na matrizObjetos.
 		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
-		matrizObjetosTemp[cont] = CObjetoImagem(SITIO,NumPixeisEsfera(raio));
+		matrizObjetosTemp[cont] = CObjetoRede(SITIO,NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 		matrizObjetosTemp[cont].pontoCentral.x = x;
 		matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -331,8 +331,8 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	raios.clear(); // limpa vetor de raios (não será mais utilizado)
 	// 0rdena os objetos (sitios) por proximidade.
 	std::cerr << "Ordenando os sítios por proximidade..." << std::endl;
-	std::map<int, CObjetoImagem>::iterator it;
-	std::map<int, CObjetoImagem>::iterator itMatObj;
+	std::map<int, CObjetoRede>::iterator it;
+	std::map<int, CObjetoRede>::iterator itMatObj;
 	cont = 1;
 	// O primeiro objeto foi encontrado no loop anterior
 	matrizObjetos[cont] = matrizObjetosTemp[objeto];
@@ -405,7 +405,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 	double gSitioLigacao; //Condutância entre sítio e ligação
 	int tamMatObjs = matrizObjetos.size();
 	cont = matrizObjetos.rbegin()->first; //índice do último elemento da matriz
-	std::map<int, CObjetoImagem>::iterator itt;
+	std::map<int, CObjetoRede>::iterator itt;
 
 	std::cerr << "Criando ligacoes..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
@@ -481,7 +481,7 @@ bool CRedeDePercolacao::Go(  int nx, int ny, int nz, CDistribuicao3D::Metrica3D 
 			phiRede += phiObjeto; //acumula a porosidade
 			++cont;
 			// Conecta os objetos
-			matrizObjetos[cont] = CObjetoImagem(LIGACAO,NumPixeisCilindro(raio, distancia));
+			matrizObjetos[cont] = CObjetoRede(LIGACAO,NumPixeisCilindro(raio, distancia));
 			itMatObj = matrizObjetos.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);

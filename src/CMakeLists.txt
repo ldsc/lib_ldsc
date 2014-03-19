@@ -3,7 +3,6 @@
 add_library (ldsc STATIC
 #add_library (ldsc SHARED
   Amostra/Material/CMFluido.cpp
-  AnaliseImagem/Caracterizacao/CObjetoImagem.cpp
   AnaliseImagem/Caracterizacao/Correlacao/CCorrelacao.cpp
   AnaliseImagem/Caracterizacao/Correlacao/CCorrelacao3D.cpp
   AnaliseImagem/Caracterizacao/Correlacao/CCorrelacaoEspacial.cpp
@@ -35,6 +34,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M5.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABEntropiaJohansen.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABinario.cpp
@@ -154,6 +154,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Matriz/TCMatriz3D.h
   AnaliseImagem/Matriz/CBaseMatriz.cpp
   AnaliseImagem/Matriz/CMatrizObjetoImagem.cpp
+  AnaliseImagem/Matriz/CMatrizObjetoRede.cpp
   AnaliseImagem/Reconstrucao/CFReconstrucao.cpp
   AnaliseImagem/Reconstrucao/CReconstrucao.cpp
   AnaliseImagem/Reconstrucao/CReconstrucaoBueno.cpp
@@ -162,6 +163,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacaoOld.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.cpp
+  AnaliseImagem/Segmentacao/PorosGargantas/CObjetoImagem.cpp
   AnaliseImagem/Segmentacao/PorosGargantas/CSegPorosGargantas3D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio2D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio3D.cpp

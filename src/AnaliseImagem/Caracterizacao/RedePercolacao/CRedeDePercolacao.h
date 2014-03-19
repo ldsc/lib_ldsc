@@ -3,7 +3,7 @@
 
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
-#include <AnaliseImagem/Matriz/CMatrizObjetoImagem.h>
+#include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
 #include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #include <cstdlib>
 #include <ctime>
@@ -26,7 +26,7 @@
  * @author Leandro Puerari <puerari@gmail.com>
  * @author André Duarte Bueno <andreduartebueno@gmail.com>
 */
-class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMatrizObjetoImagem
+class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMatrizObjetoRede
 {		// Atributos
 	public:
 		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
@@ -112,13 +112,13 @@ class CRedeDePercolacao : public CDistribuicaoTamanhoPorosGargantas, public CMat
 		}
 
 		/// Calcula a condutância de objetos do tipo sítio
-		double CondutanciaSitio (CObjetoImagem &objetoImagem, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitio (CObjetoRede &objetoImagem, double sizePixel=1.0, double fatorAmplificacao=1.0);
 
 		/// Calcula a condutância de objetos do tipo ligação
-		double CondutanciaLigacao (CObjetoImagem &objetoImagem, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaLigacao (CObjetoRede &objetoImagem, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-		double CondutanciaSitioLigacao (CObjetoImagem &objImgSitio, CObjetoImagem &objImgLigacao, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitioLigacao (CObjetoRede &objImgSitio, CObjetoRede &objImgLigacao, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
 };
 
 #endif // CRedeDePercolacao_H

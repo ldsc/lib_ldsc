@@ -25,8 +25,6 @@ Desenvolvido por:
 #include <string>
 #include <fstream>
 #include <iomanip>
-#include <MetNum/Contorno/CContorno.h>
-#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
 
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
@@ -55,15 +53,12 @@ struct SPontoCentral {
 
 using namespace std;
 
-class CObjetoImagem : public CSMParametroSolver
+class CObjetoImagem
 {
 	protected:
 		//----------------------------------------------------Atributos
 		/// Identifica o tipo do objeto
 		ETipoObjetoImagem  tipo = NAO_IDENTIFICADO;
-
-		/// Identifica em qual posição o objeto se encontra (Leste, Oeste, Centro...).
-		CContorno::ETipoContorno contorno = CContorno::ETipoContorno::CENTER;
 
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs = 0;
@@ -73,9 +68,6 @@ class CObjetoImagem : public CSMParametroSolver
 
 		/// Matriz que armazena conexões e propriedade de cada conexão
 		std::map<int, double> sConexao;
-
-		/// Armazena propriedade do objeto (condutância)
-		double propriedade = 0.0;
 
 	public:
 		/// Identifica o voxel central do objeto
@@ -102,17 +94,6 @@ class CObjetoImagem : public CSMParametroSolver
 
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).
 		void GravarObjeto(ofstream &_fout);
-
-		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
-		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
-
-		/** @brief Calcula o fluxo associado ao objeto, ou seja, considera-se que este objeto
-		 * esta conectado a outros objetos e que em função das propriedades dos objetos,
-		 * existe alguma informação que transita entre os objetos.
-		 * Esta propriedade é calculada por esta função.
-		 * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
-		*/
-		long double Fluxo (std::map<int, CObjetoImagem> *moi );
 
 		// --------------------------------------------------------------------Get
 		/// Retorna tipo de objeto
@@ -149,16 +130,6 @@ class CObjetoImagem : public CSMParametroSolver
 			return sConexao.size();
 		}
 
-		/// Retorna a camada na qual o objeto se encontra
-		inline CContorno::ETipoContorno Contorno() {
-			return contorno;
-		}
-
-		/// Retorna a propriedade do objeto (condutância)
-		inline double Propriedade() {
-			return propriedade;
-		}
-
 		// --------------------------------------------------------------------Set
 		// /// Seta o rotulo
 		// inline void Rotulo ( int _rotulo) { rotulo = _rotulo; }
@@ -168,12 +139,6 @@ class CObjetoImagem : public CSMParametroSolver
 
 		/// Seta o número de objetos
 		inline void NumObjs(int _n) { numObjs = _n; }
-
-		/// Seta a camada na qual o objeto se encontra
-		inline void Contorno(CContorno::ETipoContorno _c) { contorno = _c; }
-
-		/// Seta a propriedade do objeto (condutância)
-		inline void Propriedade( double p ) { propriedade = p; }
 
 		/// Seta o ponto central se o valor de df informado for maior que o atual.
 		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {

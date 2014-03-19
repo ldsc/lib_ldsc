@@ -1,5 +1,5 @@
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao.h>
-#include <AnaliseImagem/Caracterizacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
+#include <AnaliseImagem/Segmentacao/PorosGargantas/CObjetoImagem.h> // novo, repreenta objeto da imagem
 #include <iomanip>
 #include <cmath>
 

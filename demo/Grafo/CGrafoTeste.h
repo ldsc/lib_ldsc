@@ -29,26 +29,27 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-#ifndef CMatriz3D_h
-#include <Matriz/CMatriz3D.h>
+#ifndef TCMatriz3D_h
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
 #endif
 
 #ifndef CGra3Dby2D_h
-#include <Grafo/CGra3Dby2D.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
 #endif
 
 #ifndef CMFluido_h
-#include <Material/CMFluido.h>
+#include <Amostra/Material/CMFluido.h>
 #endif
 
 #ifndef CSMDiagonalDominante_h
-#include <SMatriz/SMDiagonal/CSMDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
 #endif
 
-#include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo
+// #include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo
 
 #ifndef CPermeabilidadeGrafo_h
-#include <Permeabilidade/CPermeabilidadeGrafo.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
+
 #endif
 
 /**
@@ -84,7 +85,7 @@ private:
     int SolicitaModeloGrafo();
 
     // Le imagem do disco // ok
-    CMatriz3D *LeImagemDisco(std::string fileName);
+    TCMatriz3D<int> *LeImagemDisco(std::string fileName);
 
     /// Solicita dados da imagem
     void SolicitaPropriedadesImagem(int &fatorAmplificacao, double &sizePixel,
@@ -101,7 +102,7 @@ private:
     CGra3Dby2D *CriaGrafo (int modelo, std::string fileName);
 
     /// Determina o grafo
-    void DeterminaGrafo(CGra3Dby2D * grafo, CMatriz3D * pm3D,
+    void DeterminaGrafo(CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D,
                         std::string fileName);
     void DeterminaGrafo(CGra3Dby2D * grafo, std::string fileName);
 
@@ -113,7 +114,7 @@ private:
     (CMFluido * fluido, CSMDiagonalDominante * solver,
      // CSMDiagonalDominanteThreads* solver,
      CGra3Dby2D * grafo,
-     CMatriz3D * pm3D,
+     TCMatriz3D<int> * pm3D,
      int fatorAmplificacao,
      double sizePixel);
 
@@ -123,12 +124,12 @@ private:
     // Funcoes privadas auxiliares
     /// Verifica se a simulacao ja terminou, vai reiniciar ou iniciar.
     bool Permeabilidade_By_ModelX_Decisao(std::string fileName, int modelo,
-                                          CMatriz3D * pm3D,
+                                          TCMatriz3D<int> * pm3D,
                                           std::ofstream & fout);
 
     /// Executa a determinacao da permeabilidade para o caso especificado
     bool Permeabilidade_By_ModelX(std::string fileName, int modelo,
-                                  CMatriz3D * pm3D, std::ofstream & fout,
+                                  TCMatriz3D<int> * pm3D, std::ofstream & fout,
                                   int tipoSolver = 2, bool reiniciar = false);
 
 public:

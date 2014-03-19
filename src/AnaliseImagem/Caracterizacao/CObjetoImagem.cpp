@@ -82,7 +82,8 @@ long double CObjetoImagem::Fluxo (std::map<int, CObjetoImagem> * moi) {
 	int i;
 	for ( auto & c : sConexao ) {
 		i = c.first;
-		fluxo += propriedade * ( this->x - moi->at(i).x);
+//		fluxo += propriedade * ( this->x - moi->at(i).x);
+		fluxo += c.second * ( this->x - moi->at(i).x);
 	}
 	/*switch (tipo) {
 		case SITIO: // SITIO

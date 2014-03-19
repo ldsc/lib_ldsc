@@ -27,3 +27,8 @@ target_link_libraries(bin/idf3D ldsc)
 add_executable(bin/criarBola
    Geometria/geometria.cpp)
 target_link_libraries(bin/criarBola ldsc)
+
+add_executable(bin/Permeabilidade_GrafoConexaoSerial
+   Grafo/CGrafoTeste.cpp 
+   Grafo/grafo.cpp)
+target_link_libraries(bin/Permeabilidade_GrafoConexaoSerial ldsc)

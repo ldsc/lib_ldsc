@@ -29,33 +29,33 @@ email:            andre@lmpt.ufsc.br
 #include "CGrafoTeste.h"	// this
 
 //  -------------------------------------------------- Objetos da LIB_LDSC
-#include <Matriz/CVetor.h>
-#include <Matriz/CMatriz2D.h>
-#include <Matriz/CMatriz3D.h>
-#include <Rotulador/CRotulador2D.h>
-#include <Rotulador/CRotulador3D.h>
+#include <AnaliseImagem/Matriz/CVetor.h>
+#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador2D.h>
+#include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
 #include <Tempo/CTime.h>
 
 // ------------------------------------------------------ Calculo do grafo
-#include <Grafo/CGrafoContorno.h>
-#include <Grafo/CGra3Dby2D.h>
-#include <Grafo/CGra3Dby2D_M1.h>
-#include <Grafo/CGra3Dby2D_M2.h>
-#include <Grafo/CGra3Dby2D_M3.h>
-#include <Grafo/CGra3Dby2D_M4.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoContorno.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M1.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M2.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M3.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M4.h>
 // #include <Grafo/CGra3Dby2D_M5.h>
-#include <Grafo/CGra3Dby2D_M6.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGra3Dby2D_M6.h>
 #include <Base/COperacao.h>
 
 // -----------------------------------------------Calculo da permeabilidade
-#include <Material/CMFluido.h>
-#include <SMatriz/SMDiagonal/CSMDiagonalDominante.h>
-#include <SMatriz/SMDiagonal/CSMDGaussSeidel.h>
-#include <SMatriz/SMDiagonal/CSMDSOR.h>
-#include <Permeabilidade/CPermeabilidade.h>
-#include <Permeabilidade/CPermeabilidadeGrafo.h>
+#include <Amostra/Material/CMFluido.h>
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h>
+#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CPermeabilidadeGrafo.h>
 //  novo
-#include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h>
+// #include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h>
 
 using namespace std;
 
@@ -144,7 +144,7 @@ CGrafoTest::Permeabilidade (int tipoSolver)
     int fatorAmplificacao = 2;
     double sizePixel = 5.0e-6;
     SolicitaPropriedadesImagem (fatorAmplificacao, sizePixel, fileName);
-    CMatriz3D *pm3D = LeImagemDisco (fileName);
+    TCMatriz3D<int> *pm3D = LeImagemDisco (fileName);
 
     CGra3Dby2D *grafo = CriaGrafo (modelo, fileName);
 
@@ -182,7 +182,7 @@ CGrafoTest::Grafo ()
 {
     int modelo = SolicitaModeloGrafo ();
     string fileName = SolicitaNomeImagem ();
-    CMatriz3D *pm3D = LeImagemDisco (fileName);
+    TCMatriz3D<int> *pm3D = LeImagemDisco (fileName);
     CGra3Dby2D *grafo = CriaGrafo (modelo, fileName);
     DeterminaGrafo (grafo, pm3D, fileName);
     SalvaGrafo (grafo);
@@ -271,15 +271,15 @@ CGrafoTest::SolicitaModeloGrafo ()
 Função: LeImagemDisco
 -------------------------------------------------------------------------
 */
-CMatriz3D *
+TCMatriz3D<int> *
 CGrafoTest::LeImagemDisco (string fileName)
 {
-    CMatriz3D *pm3D;
+    TCMatriz3D<int> *pm3D;
     {
         CTime *t = new CTime ("Tempo leitura imagem = ", &cout);
         cout << "Lendo imagem (" << fileName << ") do disco...";
         cout.flush ();
-        pm3D = new CMatriz3D (fileName);
+        pm3D = new TCMatriz3D<int> (fileName);
         assert (pm3D);
         delete t;				// deleta objeto
     }
@@ -339,7 +339,7 @@ CMFluido * CGrafoTest::CriaFluido ()
 
     // Cria objeto fluido
     cout << "Criando objeto fluido...";
-    CMFluido *fluido = new CMFluido (viscosidade);
+    CMFluido *fluido = new CMFluido (viscosidade,0,true,true);
     assert (fluido);
     cout << " ...done" << endl;
     cout << "fluido.Viscosidade()=" << fluido->Viscosidade () << endl;
@@ -485,7 +485,7 @@ Função: DeterminaGrafo
 -------------------------------------------------------------------------
 */
 void
-CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, CMatriz3D * pm3D, string fileName)
+CGrafoTest::DeterminaGrafo (CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, string fileName)
 {
     CTime *t = new CTime ("Tempo Determinação do grafo = ", &cout);
     cout << "Determinando o grafo da imagem(" << fileName << ")..." << "\nChamando o grafo->Go()" << endl;
@@ -536,7 +536,7 @@ Função: CriaPermeabilidade
 -------------------------------------------------------------------------
 */
 CPermeabilidadeGrafo * CGrafoTest::CriaPermeabilidade  (CMFluido * fluido, CSMDiagonalDominante * solver,  // CSMDiagonalDominanteThreads* solver,
-        CGra3Dby2D * grafo, CMatriz3D * pm3D, int fatorAmplificacao, double sizePixel)
+        CGra3Dby2D * grafo, TCMatriz3D<int> * pm3D, int fatorAmplificacao, double sizePixel)
 {
     CPermeabilidadeGrafo * permeabilidade;
     {
@@ -607,11 +607,11 @@ void CGrafoTest::teste_solver()
 	char fileName[256];
 	strcpy(fileName,"input.dat");
 
-  CMatriz3D* pm3D;
+  TCMatriz3D<int>* pm3D;
   // Abre o arquivo de disco e lê a imagem Resultados
 	{
 	CTime* t = new CTime("Tempo leitura imagem = ",&fout);
-	pm3D = new CMatriz3D(fileName);
+	pm3D = new TCMatriz3D<int>(fileName);
   assert(pm3D);
 	}
 
@@ -777,7 +777,7 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
         {
             string msg ("Tempo total processamento da imagem (" + fileName + " = ");
             CTime *t = new CTime (msg, &cout);
-            CMatriz3D *pm3D = NULL;
+            TCMatriz3D<int> *pm3D = NULL;
             cout << "=============================================================\n"
                  << "Lendo Imagem (" << fileName << ") do disco" << endl;
             fout << "=============================================================\n"
@@ -799,7 +799,7 @@ bool CGrafoTest::ALL (unsigned int argc, char *argv[])
                     // -->Originalmente carregava a imagem do disco aqui
                     // CTime* t = new CTime("Demora na abertura da imagem do disco = ",&cout);
                     // cout<<"Criando img3D ..."<<endl;
-                    // pm3D = new CMatriz3D(fileName);
+                    // pm3D = new TCMatriz3D<int>(fileName);
                     // assert(pm3D);
                     // pm3D=NULL;
                     // cout <<"...done";
@@ -839,7 +839,7 @@ ou para continuar uma simulação que não terminou
 */
 bool
 CGrafoTest::Permeabilidade_By_ModelX_Decisao (string fileName, int modelo,
-        CMatriz3D * pm3D, ofstream & fout)
+        TCMatriz3D<int> * pm3D, ofstream & fout)
 {
     // Variáveis auxiliares
     string nomeTeste;
@@ -917,7 +917,7 @@ a imagem , um fout, e um flag de reinicialização.
 bool
 CGrafoTest::Permeabilidade_By_ModelX (string fileName,
                                       int modelo,
-                                      CMatriz3D * pm3D,
+                                      TCMatriz3D<int> * pm3D,
                                       ofstream & fout,
                                       int tipoSolver,
                                       bool reiniciar /* =false */ )

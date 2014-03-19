@@ -142,7 +142,7 @@ double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoImagem &objImgSitio, C
 	double gSitio = CondutanciaSitio(objImgSitio, sizePixel, fatorAmplificacao);
 	double meioL = comprimento/2;
 	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,sizePixel,fatorAmplificacao);
-	return (gSitio + gLigacao);
+    return 1.0/(1.0/gSitio + 1.0/gLigacao);
 }
 
 // Executa o cálculo das distribuições e cria a rede de percolação.

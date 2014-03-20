@@ -4,13 +4,13 @@ PROJETO:          Biblioteca LIB_LDSC
                   Ramo: Base
 ===============================================================================
 
-Desenvolvido por: Laboratorio de Desenvolvimento de Software Cientifico 	
-[LDSC].
-@author:          Andre Duarte Bueno
-@file:             CSolver.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+Desenvolvido por: 
+				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:        Andre Duarte Bueno
+@file:          CSolver.cpp
+@begin:         Sat Sep 16 2000
+@copyright:     (C) 2000 by André Duarte Bueno
+@email:         andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -31,8 +31,11 @@ using namespace std;
 // Escreve os atributos do objeto na ostream (saida para disco)
 ostream & operator<< (ostream & os, const CSolver & s)
 {
-  os << s.limiteErro << '\n'
-     << s.limiteIteracoes << '\n';
+  os << s.limiteIteracoes << '\n'
+     << s.iteracoes << '\n'
+	  << s.limiteErro << '\n'
+	  << s.erro << '\n'
+	  << s.erroMedio << '\n';
   return os;
 }
 
@@ -42,8 +45,11 @@ ostream & operator<< (ostream & os, const CSolver & s)
 // Lê os dados do objeto da istream
 istream & operator>> (istream & is, CSolver & s)
 {
-  is >> s.limiteErro;
-  is >> s.limiteIteracoes;
+  is >> s.limiteIteracoes
+     >> s.iteracoes 
+     >> s.limiteErro
+	  >> s.erro
+	  >> s.erroMedio ;
   return is;
 }
 
@@ -65,14 +71,12 @@ CSolver::Read (string nomeArquivo)
   else
     {
       // Se falhou, solicita os dados do objeto
+      cout << "\nEntre com o  limiteIteracoes: ";
+      cin >> limiteIteracoes;
+      cin.get ();
       cout << "\nEntre com os atributos do objeto - Class CSolver";
       cout << "\nEntre com o limiteErro: ";
       cin >> limiteErro;
-      cin.get ();
-      cout << "\nEntre com o  limiteIteracoes: ";
-      cin >> limiteIteracoes;
-      cin.get ();				// Pega o retorno de carro
-
       // cout << "\nEntre com o fatorRelaxacao: ";   	// resolver
       // cin >> fatorRelaxacao;
       // cin.get();

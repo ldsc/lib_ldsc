@@ -1,14 +1,13 @@
 #ifndef CSMDiagonalDominante_h
 #define CSMDiagonalDominante_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Assunto/Ramo: CSMDiagonalDominante...
 ===============================================================================
 Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CSMDiagonalDominante.h
 @begin      Sun Sep 17 2000
@@ -40,89 +39,90 @@ Desenvolvido por:
 
 /**
  * @brief Classe para solvers de matriz diagonal dominante.
- * @author André Duarte Bueno	
- * @see	 SMatriz
+ * Solução para Jacobi
+ * vx[k]=obj[k]->Go();		// Go() calcula e retorna o valor atual da variável, mas não atualiza no proprio objeto.
+ * Solução para GaussSeidel
+ * vx[k]=obj[k]->Go();		// Go calcula e retorna o valor atual da variável.
+ * *oj[k]=vx[k];            // atualiza a variável no objeto.
+ * Solução para GaussSeidelSOR
+ * vx[k]=obj[k]->Go(); 		// Go calcula e retorna o valor atual da variável.
+ * Relaxacao(k);            // Considera o fator de relaxacao(somente se criado um CSMSOR).
+ * *oj[k]=vx[k];            // atualiza a variável no objeto.
+ * @author André Duarte Bueno
 */
-class CSMDiagonalDominante:public CSolver
+class CSMDiagonalDominante : public CSolver
 {
 // --------------------------------------------------------------Atributos
 protected:
-  unsigned long int k;  ///< iteracao k
-  unsigned long int dimensaoVetor; ///< Dimensao do vetor
-  std::vector < CSMParametroSolver * >*obj; ///< Vetor ponteiros para objetos do tipo CSMParametroSolver 
-  long double erroMedio; ///< Erro medio
-  long double *X; ///< Vetor de ponteiros do tipo double
+  /// Vetor de ponteiros para objetos do tipo CSMParametroSolver 
+  /// um CSMParametroSolver tem um método Go() que calcula nova estimativa de x.
+  std::vector < CSMParametroSolver * >* obj{ nullptr }; 
+  /// Dimensão do vetor.
+  unsigned long int dimensaoVetor{0};
+  /// Vetor de ponteiros do tipo double (novo valor de x).
+  long double *vx { nullptr };
+  
+  /// Índice do objeto que esta sendo processado
+  unsigned long int k {0};
 
 public:
-	/// Construtor
-  CSMDiagonalDominante ( unsigned long int _limiteIteracoes=100, long double _limiteErro = 0.00001, unsigned long int _size = 0 )
-		: CSolver ( _limiteIteracoes, _limiteErro ), k (0), dimensaoVetor (_size), obj (0), erroMedio (0), X (nullptr)
-  {
-  	if (dimensaoVetor > 0)
-	{
-		X = new long double (_size);
-		assert (X);
-		//std::cerr << "\nERRO! alocacao do vetor X em CSMDiagonalDominante::CSMDiagonalDominante()." << std::endl;
+  /// Construtor, recebe o vetor de objetos o limite iterações e limite de erro.
+  CSMDiagonalDominante ( /*std::vector < CSMParametroSolver * >* obj =  nullptr ,*/
+						 unsigned long int _limiteIteracoes = 1000, 
+						 long double _limiteErro = 1.0e-8 )
+  : CSolver ( _limiteIteracoes, _limiteErro )/*, dimensaoVetor ( obj->size() )*/ {
+	 // se a dimensão do vetor for maior que zero aloca o mesmo
+  	if ( dimensaoVetor > 0 ) {
+		vx = new long double ( dimensaoVetor );
+		assert (vx);
 	}
   }
 
-  /// Destrutor
-  virtual ~ CSMDiagonalDominante ()
-  {
-    if (X)
-      delete [] X;
+  /// Destrutor.
+  virtual ~ CSMDiagonalDominante () {
+    if (vx)
+      delete [] vx;
   }
-  
+
 // ----------------------------------------------------------------Métodos
 protected:
-	/// Atualiza o valor de x
-  virtual void AtualizaX ()
-  {
-  }
-  
-  /// Atualiza o objeto final
-  virtual void AtualizaObjFinal ()
-  {
-  }
-  
+  /// O método Go(), atualiza o valor de x.
+  /// Os objetos armazenados em std::vector < CSMParametroSolver * >*, do tipo CSMParametroSolver,
+  /// tem uma função Go() que é usada para gerar uma nova estimativa de x.
+  /// O método AtualizaX () chama Go() do objeto.
+  virtual void AtualizaX ()  {  }
+
+  /// Atualiza a propriedade x no objeto.
+  virtual void AtualizaObjFinal ()  {  }
+
 public:
-	/// Realiza a determinação da solução do sistema
+  /// Realiza a determinação da solução do sistema de equações.
   virtual double Go (std::vector < CSMParametroSolver * >*objeto);
 
-/// Retorna vetor de ponteiros para x
-  long double *GetX () const
-  {
-    return X;
+// --------------------------------------------------------------------Get
+  /// Retorna vetor de ponteiros para x, vx.
+  long double *Vx () const  {
+    return vx;
   }
-  
-  /// Retorna k
-  unsigned long int Getk () const
-  {
-    return k;
+
+  /// Retorna vetor de objetos obj.
+  std::vector < CSMParametroSolver * >* Obj () const  {
+    return obj;
   }
-  
-  /// Retorna erro médio
-  long double GeterroMedio () const
-  {
-    return erroMedio;
+// --------------------------------------------------------------------Set
+  /// Seta vetor de ponteiro para x, vx.
+  void Vx (long double *_vx)  {
+    vx = _vx;
   }
-  /// Seta ponteiro para vetor x
-  void SetX (long double *_X)
-  {
-    X = _X;
-  }
-  
-  /// Seta k
-  void Setk (unsigned long int _k)
-  {
-    k = _k;
+
+  /// Seta vetor de objetos, obj.
+  void  Obj ( std::vector < CSMParametroSolver * >* _objeto )  {
+    obj = _objeto;
   }
 
   /// Sobrecarga do operador <<
-  friend std::ostream & operator<< (std::ostream & os,
-				    const CSMDiagonalDominante & obj);
+//   friend std::ostream & operator<< (std::ostream & os, const CSMDiagonalDominante & obj);
 };
 
-std::ostream & operator<< (std::ostream & os,
-			   const CSMDiagonalDominante & obj);
+// std::ostream & operator<< (std::ostream & os, const CSMDiagonalDominante & obj);
 #endif

@@ -1,19 +1,18 @@
 #ifndef CSMDSOR_h
 #define CSMDSOR_h
 
-/*
+/**
   ===============================================================================
   PROJETO:    Biblioteca LIB_LDSC
   Assunto/Ramo: CSMDSOR...
   ===============================================================================
   Desenvolvido por:	
-  Laboratorio de Desenvolvimento de Software Cientifico 	
-  [LDSC].
-  @author     André Duarte Bueno
-  @file       CSMDSOR.h
-  @begin      Sun Sep 17 2000
-  @copyright  (C) 2000 by André Duarte Bueno
-  @email      andreduartebueno@gmail.com
+				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+  @author     	André Duarte Bueno
+  @file       	CSMDSOR.h
+  @begin      	Sun Sep 17 2000
+  @copyright  	(C) 2000 by André Duarte Bueno
+  @email      	andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -29,17 +28,13 @@
 #include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h>
 
 /**
- * @brief Solução de sistema de equações usando sobre relaxações.
- * 
- * é um metodo de solucao de sistema de equacoes derivado do Gauss_Seidel
- * isto fica evidenciado pela herança.
- * 
+ * @brief Solução de sistema de equações usando sobre-relaxações.
+ * É um metodo de solucao de sistema de equacoes derivado do Gauss_Seidel, isto fica evidenciado pela herança.
  * A diferenca em relacao ao Gauss_Seidel é o uso da funcao de relaxamento.
- * O coeficiente de relaxamento funciona como um acelerador ou retardador
- * da solucao do sistema.
+ * O coeficiente de relaxamento funciona como um acelerador ou retardador da solucao do sistema.
  * Observe entretando que ao acelerar pode ocasionar a divergencia do sistema
  * e ao retardar pode tornar a solucao do sistema muito lenta.
- * 
+ *
  * Obs: O valor do fator de relaxacao deve estar entre 1,5 e 1,7.
  * Valores acima  de 1 aceleram a solução do sistema.
  * Valores abaixo de 1 retardam a solução do sistema.
@@ -48,7 +43,6 @@
  * Ex: FR=0.7 fica   0.7*X + (1-0.7)*X0 ou 0.7*X+0.3*X0
  * 
  * @author 	André Duarte Bueno	
- * @see		SMatriz
 */
 class CSMDSOR:public CSMDGaussSeidel
 {
@@ -68,28 +62,22 @@ class CSMDSOR:public CSMDGaussSeidel
   // limites de erro e de iterações
 	 /// Construtor
   CSMDSOR (unsigned long int _limiteIteracoes, long double _limiteErro, 
-	   long double _fatorRelaxacao, unsigned long int _size = 0)
-    :CSMDGaussSeidel (_limiteIteracoes, _limiteErro, _size),
-    fatorRelaxacao (_fatorRelaxacao),
-    fatorRelaxacaoC (1.0 - _fatorRelaxacao)
-      {
+		   long double _fatorRelaxacao/*, unsigned long int _size = 0*/)
+    : CSMDGaussSeidel (_limiteIteracoes, _limiteErro/*, _size*/),
+    fatorRelaxacao (_fatorRelaxacao), fatorRelaxacaoC (1.0 - _fatorRelaxacao) {
       }
 
     // --------------------------------------------------------------Destrutor
-/// Destrutor   
-       virtual ~ CSMDSOR ()
-      {
-      }
+    /// Destrutor   
+    virtual ~ CSMDSOR () = default;
 
     // ----------------------------------------------------------------Métodos
  protected:
 
-    /// Função que atualiza os valores de X,
-    // a diferença é que considera o fator de relaxação
+    /// Função que atualiza os valores de X, a diferença é que considera o fator de relaxação.
     virtual void AtualizaX ();
 
-    /// Faz obj[k]=X[k];
-    // a diferença é que considera o fator de relaxação
+    /// Faz obj[k]=X[k]; a diferença é que considera o fator de relaxação
     virtual void AtualizaObjFinal ();
 
  public:
@@ -97,18 +85,16 @@ class CSMDSOR:public CSMDGaussSeidel
 
     // --------------------------------------------------------------------Get
     /// Retorna o fator de relaxação
-    double FatorRelaxacao () const
-    {
+    double FatorRelaxacao () const    {
       return fatorRelaxacao;
-    };
+    }
 
     // --------------------------------------------------------------------Set
     /// Define o fator de relaxação, e seu complemento
-    void FatorRelaxacao (long double _fr)
-    {
+    void FatorRelaxacao (long double _fr)  {
       fatorRelaxacao = _fr;
       fatorRelaxacaoC = 1.0 - _fr;
-    };
+    }
 
     // -----------------------------------------------------------------Friend
     /// Sobrecarga operador <<

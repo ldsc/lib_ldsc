@@ -1,14 +1,13 @@
 #ifndef CSMParametroSolver_h
 #define CSMParametroSolver_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
 						Assunto/Ramo: Solver...
 ===============================================================================
 Desenvolvido por:
-						Laboratorio de Desenvolvimento de Software Cientifico
-						[LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CSMParametroSolver.h
 @begin      Sun Sep 17 2000
@@ -35,59 +34,48 @@ Desenvolvido por:
 /**
  * @brief
  * Classe que representa as propriedades e funções que um objeto deve ter
- * para poder ser resolvido por um objeto solver (do tipo TSDiagonalDominante).
+ * para poder ser resolvido por um objeto solver (do tipo CSDiagonalDominante).
  *
- * Basicamente, quando voce utiliza um solver voce quer resolver um
- * sistema de equações.
- *
+ * Basicamente, quando voce utiliza um solver voce quer resolver um sistema de equações.
  * Se o seu objeto for um volume de controle e voce estiver resolvendo
- * um problema de transferencia de calor, a variável a ser resolvida é a
- * temperatura. Neste caso, você terá um nó com os diferentes coeficientes Ai.
- * Você cria um objeto solver, e passa para ele a matriz (ou vetor)
- * de objetos volumes de controle. Estes objetos vão ser acessados e utilizados
- * pelo solver, através das funções virtuais declaradas nesta classe.
+ * um problema de transferência de calor, a variável a ser resolvida é a temperatura. 
+ * Neste caso, você terá um nó com os diferentes coeficientes Ai.
+ * Você cria um objeto solver, e passa para ele a matriz (ou vetor) de objetos volumes de controle. 
+ * Estes objetos vão ser acessados e utilizados pelo solver, através das funções virtuais declaradas nesta classe.
  *
  * Exemplo: (algo como:)
- * TNo* no = new TNo[nx][ny][nz];...
+ * CNo* no = new CNo[nx][ny][nz];...
  * solver->Go(no);...
  *
- * Obs: Se um solver tradicional trabalha sobre um vetor, basta
- * fazer com que esta classe se comporte como um CVetor, criando um vetor
- * de CSMParametroSolver e passando para o objeto solver.
+ * Obs: Se um solver tradicional trabalha sobre um vetor, basta fazer com que esta classe se comporte como um CVetor, 
+ * criando um vetor de CSMParametroSolver e passando para o objeto solver.
  *
- * Observe que na classe  CSMParametroSolver
- * sao criadas sobrecargas para operações básicas como
- * igualar o objeto a um double, igualar um double ao objeto,
- * comparar e igualar dois objetos.
+ * Observe que na classe  CSMParametroSolver são criadas sobrecargas para operações básicas como igualar o objeto a um double, 
+ * igualar um double ao objeto, comparar e igualar dois objetos.
  *
- * A função Go tem uma utilidade especial, éla é utilizada para calcularo
- * valor da variável no instante de tempo atual.
- * Assim Go calcula a propriedade de interesse no instante de tempo atual,
- * com base no tempo anterior, mas sem alterar o valor da propriedade.
- * Voce deve criar objetos herdeiros de  CSMParametroSolver e acrescentar,
- * os atributos e métodos necessários para o cálculo da  propriedade
- * no instante de tempo anterior e atual.
+ * A função Go() do objeto CNo tem uma utilidade especial, éla deve calcular o valor da variável no instante de tempo atual.
+ * Assim Go() calcula a propriedade de interesse no instante de tempo atual, com base no tempo anterior, mas sem alterar o valor da propriedade.
+ * (ex: calcula nova temperatura sem atualizar a temperatura no nó).
+ * 
+ * Na prática você deve criar objetos herdeiros de  CSMParametroSolver e acrescentar os atributos e métodos necessários 
+ * para o cálculo da  propriedade no instante de tempo anterior e atual.
  *
  * Exemplo:
  * Cria 10 objetos do tipo CSMParametroSolver
- * CSMParametroSolver* obj=new CSMParametroSolver(10);
- * for(int i=0;i< 10;i++}
+ * CSMParametroSolver* obj = new CSMParametroSolver [10];
+ * for( int i = 0 ; i < 10; i++}
  * {
  * // usa cast para double
  * valorDaVariavel_tempoAnterior = obj[i];
  *
  * // calcula propriedade atualizada
  * valorDaVariavel_tempoAtual = obj[i]->Go(double parametro);
- * // iguala a variável entre os dois objetos
- * obj[i]=obj[j];
- * // armazena 5.333 na propriedade do objeto
- * obj[i]=5.333;
  * }
  *
- * OBS: Pensar em transformar o CSMParametroSolver em uma função.
- * Ou seja herdeiro da TFuncao. Go(x,y)?
+ * Obs: Pensar em transformar o CSMParametroSolver em uma função.
+ * Ou seja herdeiro da CFuncao. Go(x,y)?
+ * Dado um valor/parâmetro, gera um novo valor.
  * @author 	André Duarte Bueno
- * @see		SMatriz
 */
 class CSMParametroSolver {
 // --------------------------------------------------------------Atributos
@@ -106,20 +94,19 @@ public:
 // ----------------------------------------------------------------Métodos
 public:
    /**
-    * @brief A função Go, deve utilizar o parametro d para calcular
-    * uma nova estimativa do valor da variável, mas Go não deve
-    * alterar o valor da variável.
+    * @brief A função Go(), deve utilizar o parametro d para calcular uma nova estimativa do valor da variável x, 
+	 * mas Go() não deve alterar o valor da variável.
     *
     * Ou seja dado ti posso calcular ti+1 mas não altero ti.
     * Se o usuário desejar alterar o valor da variável deverá fazer:
     * obj = obj->Go(d);
+    * Vai ser reescrita nas classes herdeiras.
    */
    virtual long double Go ( long double d = 0 ) = 0;
-//  {    return d;  }
 
 // -------------------------------------------------------------Sobrecarga
    // Operadores sobrecarregados
-/// Sobrecarga operador de Comparação obj_a == obj_b
+   /// Sobrecarga operador de Comparação obj_a == obj_b
    virtual bool operator== ( const CSMParametroSolver& par )  {
       return this->x == par.x;
    }
@@ -136,7 +123,7 @@ public:
    }
 
    /**Recebe um double: double x=5.1; obj=x;*/
-   long double operator= ( const long double& d ) {
+   long double& operator= ( const long double& d ) {
       return x = d;
    }
 
@@ -146,7 +133,11 @@ public:
    }
 
 // --------------------------------------------------------------------Get
+  long double& X() { return x; }
+
 // --------------------------------------------------------------------Set
+  void X( long double& _x ) { x = _x; }
+
 // -----------------------------------------------------------------Friend
    /// Sobrecarga do operador <<
    friend std::ostream& operator<< ( std::ostream& os,

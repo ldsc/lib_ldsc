@@ -51,17 +51,15 @@ class CSMDJacobi : public CSMDiagonalDominante
 
   // -------------------------------------------------------------Construtor
 	  /// Construtor
-  CSMDJacobi (unsigned long int _limiteIteracoes, long double _limiteErro, 
-	      unsigned long int _size = 0):CSMDiagonalDominante 
-    (_limiteIteracoes, _limiteErro,    _size)
-    {
+  CSMDJacobi (unsigned long int _limiteIteracoes, long double _limiteErro/*, 
+	      unsigned long int _size = 0*/) : CSMDiagonalDominante 
+    (_limiteIteracoes, _limiteErro/*,    _size*/)    {
     }
 
     // --------------------------------------------------------------Destrutor
     
     /// Destrutor
-    virtual ~ CSMDJacobi ()
-      {
+    virtual ~ CSMDJacobi ()      {
       }
 
     // ----------------------------------------------------------------Métodos

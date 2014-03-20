@@ -1,19 +1,13 @@
 #ifndef CObjetoRede_h
 #define CObjetoRede_h
 
-/*
+/**
 =========================================================================
 PROJETO:    Biblioteca libldsc CObjetoRede
 =========================================================================
-Desenvolvido por:
-						LDSC - Laboratorio de Desenvolvimento de Software Científico
-@author     Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
-@begin      2010
-@copyright  (C) 2010 by Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
-@email      <bueno@lenep.uenf.br>
-@file 	  CObjetoImagem.h
-@license    GNU General Public License - version 2
-						see  $LICENSEFILE$ for the full license text.
+Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
+@author     Leandro Puerari <puerari@gmail.com>
+@file 	    CObjetoRede.h
 */
 
 // -----------------------------------------------------------------------
@@ -34,6 +28,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 
 using namespace std;
+class CMatrizObjetoRede;
 
 class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
 {
@@ -45,13 +40,17 @@ class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
 		/// Armazena propriedade do objeto (condutância)
 		double propriedade = 0.0;
 
+		/// Ponteiro para matriz de objetos que poderão estar conectados ao objeto this
+		CMatrizObjetoRede * matrizObjetos = nullptr;
+
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
 		CObjetoRede() : CObjetoImagem()	{
 		}
 
-		/// Construtor sobrecarregado. Recebe tipo do objeto, rótulo e opcionalmente o número de objetos representados
+		/// Construtor sobrecarregado. Recebe ponteiro para metriz de objetos, tipo do objeto, rótulo e opcionalmente o número de objetos representados
+		//CObjetoRede( CMatrizObjetoRede * ptrMatObjs, ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n), matrizObjetos(ptrMatObjs) {
 		CObjetoRede( ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n) {
 		}
 
@@ -91,6 +90,9 @@ class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
 
 		/// Seta a propriedade do objeto (condutância)
 		inline void Propriedade( double p ) { propriedade = p; }
+
+		/// Seta ponteiro para matriz de objetos
+		inline void MatrizObjetos (CMatrizObjetoRede * ptr) { matrizObjetos = ptr; }
 
 };
 

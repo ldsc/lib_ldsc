@@ -12,11 +12,11 @@ TEST(TestCaracterizacao, RedeDePercolacao) {
 	TCImagem3D<bool>* pm = new TCImagem3D<bool>(cfg5.original3D);
 
 	//Cria objeto rede
-	CRedeDePercolacao rede = CRedeDePercolacao(pm,23,2,1,1,ONZE,1,0);
+	CRedeDePercolacao rede = CRedeDePercolacao(100, 100, 100);
 
 	//Segmenta a imagem, calcula as distribuicoes e cria a rede
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
-	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
+	rede.Go(pm,23,2,1,1,ONZE,1,0,CDistribuicao3D::d345 );
 	rede.SalvarListaObjetos("../../data/result_CaracterizacaoRedeDePercolacao.rsl");
 	rede.SalvarListaObjetosGrafo("../../data/result_CaracterizacaoRedeDePercolacao.grafo.txt");
 
@@ -42,12 +42,12 @@ TEST(TestCaracterizacao, RedeDePercolacaoPhiCalc) {
 	TCImagem3D<bool>* pm = new TCImagem3D<bool>(cfg5.original3D);
 
 	//Cria objeto rede
-	CRedeDePercolacao rede = CRedeDePercolacao(pm,23,2,1,1,ONZE,1,0);
+	CRedeDePercolacao rede = CRedeDePercolacao(100, 100, 100);
 	rede.calcPixeis = true;
 
 	//Segmenta a imagem, calcula as distribuicoes e cria a rede
 	srand(1); //faz com que a função rand gere sempre os mesmos números rândomicos
-	rede.Go( 100, 100, 100, CDistribuicao3D::d345 );
+	rede.Go( pm,23,2,1,1,ONZE,1,0,CDistribuicao3D::d345 );
 	rede.SalvarListaObjetos("../../data/result_CaracterizacaoRedeDePercolacaoPhiCalc.rsl");
 	rede.SalvarListaObjetosGrafo("../../data/result_CaracterizacaoRedeDePercolacaoPhiCalc.grafo.txt");
 

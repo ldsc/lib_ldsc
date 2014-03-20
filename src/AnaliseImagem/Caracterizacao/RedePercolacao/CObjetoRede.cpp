@@ -2,15 +2,11 @@
 =========================================================================
 PROJETO:    Biblioteca libldsc CObjetoRede
 =========================================================================
-Desenvolvido por:
-						LDSC - Laboratorio de Desenvolvimento de Software Científico
-@author     Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
-@begin      2010
-@copyright  (C) 2010 by Andre Duarte Bueno - http://www.lenep.uenf.br/~bueno
-@email      <bueno@lenep.uenf.br>
-@file 	  CObjetoRede.cpp
-@license    GNU General Public License - version 2
-						see  $LICENSEFILE$ for the full license text.
+Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
+@author     Leandro Puerari
+@email      <puerari@gmail.com>
+@begin      2014
+@file 	    CObjetoRede.h
 */
 
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.h>

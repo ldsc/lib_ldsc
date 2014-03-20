@@ -44,7 +44,7 @@ void CPermeabilidadeIntrinsecaByRede::DestruirObjetos () {
 	if ( perm   ) { delete perm;		perm   = nullptr; }
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (TCImagem3D<int> * imagem3D, long double &fatorRelaxacao) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (TCImagem3D<int> * imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, long double &fatorRelaxacao) {
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 	/*
 	unsigned int size = matriz3D->NX(); 			// em 64bits int já é bem grande
@@ -55,7 +55,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (TCImagem3D<int> * imagem3D, 
 	cerr << "fatorRelaxacao: " << fatorRelaxacao << endl;
 	*/
 
-	rede = new CRedeContorno(imagem3D);		// Cria objeto rede
+	rede = new CRedeContorno(nx, ny, nz);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;
@@ -81,10 +81,11 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (TCImagem3D<int> * imagem3D, 
 	return true;
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * imagem3D, int &_raioMaximo, int &_raioDilatacao, int &_fatorReducao, int &_incrementoRaio, EModelo &_modelo, int &_indice, int &_fundo, unsigned long int &_numero_contornos, long double &fatorRelaxacao ) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int &_raioMaximo, int &_raioDilatacao, int &_fatorReducao, int &_incrementoRaio, EModelo &_modelo, int &_indice, int &_fundo, unsigned long int &_numero_contornos, long double &fatorRelaxacao ) {
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 
-	rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
+	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
+	rede = new CRedeContorno(nx, ny, nz);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;

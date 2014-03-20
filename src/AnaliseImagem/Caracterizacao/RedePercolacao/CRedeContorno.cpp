@@ -9,18 +9,8 @@
 //#include <AnaliseImagem/Caracterizacao/RedePercolacao/COGSitioDireita.h>
 
 // Cria os objetos de contorno e incluí no vetor contorno (recebe imagem binária que será segmentada).
-CRedeContorno::CRedeContorno (TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos)
-	: CRedeDePercolacao(_pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo ) {
-	for (unsigned long int i = 0; i < _numero_contornos; ++i) {
-		CContorno *obj_cont = new CContorno ();
-		assert (obj_cont);
-		contorno.push_back (obj_cont);
-	}
-}
-
-// Construtor - Cria os objetos de contorno e incluí no vetor contorno (recebe imagem em tons de cinza fundo=0; sitio=1, ligação=2).
-CRedeContorno::CRedeContorno (TCImagem3D<int> *&_pm, unsigned long int _numero_contornos)
-	: CRedeDePercolacao(_pm) {
+CRedeContorno::CRedeContorno (unsigned int nx, unsigned int ny, unsigned int nz, unsigned long int _numero_contornos)
+	: CRedeDePercolacao(nx, ny, nz) {
 	for (unsigned long int i = 0; i < _numero_contornos; ++i) {
 		CContorno *obj_cont = new CContorno ();
 		assert (obj_cont);

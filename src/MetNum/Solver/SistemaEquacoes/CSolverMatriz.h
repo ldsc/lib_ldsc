@@ -1,16 +1,16 @@
-#ifndef CSMatriz_h
-#define CSMatriz_h
+#ifndef CSolverMatriz_h
+#define CSolverMatriz_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CSMatriz...
+            Assunto/Ramo: CSolverMatriz...
 ===============================================================================
 Desenvolvido por:	
             Laboratorio de Desenvolvimento de Software Cientifico 	
             [LDSC].
 @author     André Duarte Bueno
-@file       CSMatriz.h
+@file       CSolverMatriz.h
 @begin      Sun Sep 17 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -51,7 +51,7 @@ Desenvolvido por:
 
 /*
 ===============================================================================
-Documentacao Classe: CSMatriz
+Documentacao Classe: CSolverMatriz
 ===============================================================================
 */
 /**
@@ -79,7 +79,7 @@ Documentacao Classe: CSMatriz
  * @author 	André Duarte Bueno	
  * @see		SMatriz
 */
-class CSMatriz : public CSolver
+class CSolverMatriz : public CSolver
 {
 // --------------------------------------------------------------Atributos
 protected:
@@ -97,12 +97,12 @@ public:
   static int tipoSolver;
 
   /// Ponteiro para ultimo objeto Solver
-  static CSMatriz *ptr;
+  static CSolverMatriz *ptr;
 
 
 // -------------------------------------------------------------Construtor
   /// Construtor
-    CSMatriz ( unsigned long int _limiteIteracoes, long double _limiteErro )
+    CSolverMatriz ( unsigned long int _limiteIteracoes, long double _limiteErro )
     		   : CSolver ( _limiteIteracoes, _limiteErro ), index (0), determinante (0)
   {
     // err = CMath::eTipoErro::ok; bug
@@ -110,7 +110,7 @@ public:
 
 // --------------------------------------------------------------Destrutor
   /// Destrutor
-  virtual ~ CSMatriz ()
+  virtual ~ CSolverMatriz ()
   {
   }
 
@@ -134,20 +134,20 @@ public:
   CMath::EMathError Inversa (TCMatriz2D< int > * &A);
 
   /// Cria objeto solver e retorna
-  static CSMatriz *Selecao (int tipo = 0);
+  static CSolverMatriz *Selecao (int tipo = 0);
 
 // -------------------------------------------------------------Sobrecarga
 
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CSMatriz& obj);
-//       friend istream& operator>> (istream& is, CSMatriz& obj);
+//       friend ostream& operator<< (ostream& os, CSolverMatriz& obj);
+//       friend istream& operator>> (istream& is, CSolverMatriz& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-// ostream& operator<< (ostream& os, CSMatriz& obj);
-// istream& operator>> (istream& is, CSMatriz& obj);
+// ostream& operator<< (ostream& os, CSolverMatriz& obj);
+// istream& operator>> (istream& is, CSolverMatriz& obj);
 
 #endif

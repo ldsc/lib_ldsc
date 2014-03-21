@@ -1,16 +1,15 @@
-#ifndef CSMDTDMA_h
-#define CSMDTDMA_h
+#ifndef CSolverMatrizDiagonalDominante_TDMA_h
+#define CSolverMatrizDiagonalDominante_TDMA_h
 
 /*
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CSMDTDMA...
+            Assunto/Ramo: CSolverMatrizDiagonalDominante_TDMA...
 ===============================================================================
 Desenvolvido por:	
-            Laboratorio de Desenvolvimento de Software Cientifico 	
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     Andre Duarte Bueno
-@file       CSMDTDMA.h
+@file       CSolverMatrizDiagonalDominante_TDMA.h
 @begin      Sun Sep 17 2000
 @copyright  (C) 2000 by Andre Duarte Bueno
 @email      andre@lmpt.ufsc.br
@@ -23,10 +22,10 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <SMatriz/SMDiagonal/CSMDiagonalDominante.h>
+#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante.h>
 
 // ===============================================================================
-// Documentacao Classe: CSMDTDMA
+// Documentacao Classe: CSolverMatrizDiagonalDominante_TDMA
 // ===============================================================================
 /**
  * @brief 	Solucao do sistema de equacoes usando o metodo TDMA.
@@ -56,21 +55,21 @@ Desenvolvido por:
  * @author 	Andre Duarte Bueno	
  * @see		SMatriz
 */
-class CSMDTDMA : public CSMDiagonalDominante
+class CSolverMatrizDiagonalDominante_TDMA : public CSolverMatrizDiagonalDominante
 {
 // --------------------------------------------------------------Atributos
 protected:
 	double *p;	///< Variáveis auxiliares
-	double  *q;	///< Variáveis auxiliares
+	double *q;	///< Variáveis auxiliares
 
 public:
 // -------------------------------------------------------------Construtor
     /// Construtor
-	CSMDTDMA ();
+	CSolverMatrizDiagonalDominante_TDMA ();
 
 // --------------------------------------------------------------Destrutor
     /// Destrutor
-	virtual ~ CSMDTDMA ();
+	virtual ~ CSolverMatrizDiagonalDominante_TDMA ();
 
 // ----------------------------------------------------------------Métodos
 protected:
@@ -88,13 +87,13 @@ public:
 // --------------------------------------------------------------------Get
 // --------------------------------------------------------------------Set
 // -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CSMDTDMA& obj);
-//       friend istream& operator>> (istream& is, CSMDTDMA& obj);
+//       friend ostream& operator<< (ostream& os, CSolverMatrizDiagonalDominante_TDMA& obj);
+//       friend istream& operator>> (istream& is, CSolverMatrizDiagonalDominante_TDMA& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funcoes Friend
-// ostream& operator<< (ostream& os, CSMDTDMA& obj);
-// istream& operator>> (istream& is, CSMDTDMA& obj);
+// ostream& operator<< (ostream& os, CSolverMatrizDiagonalDominante_TDMA& obj);
+// istream& operator>> (istream& is, CSolverMatrizDiagonalDominante_TDMA& obj);
 
 #endif

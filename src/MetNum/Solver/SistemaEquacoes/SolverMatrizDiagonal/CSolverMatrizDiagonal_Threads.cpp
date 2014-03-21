@@ -6,7 +6,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
                   	[LDSC].
 @author:          André Duarte Bueno
-@file:             CSMDiagonalDominanteThreads.cpp
+@file:             CSolverMatrizDiagonalDominante_Threads.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -20,11 +20,11 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 #include <iomanip>
 
 // -----------------------------------------------------------------------
-// Bibliotecas LIB_LDSCCSMDSOR.cpp
+// Bibliotecas LIB_LDSCCSolverMatrizDiagonal_SOR.cpp
 // -----------------------------------------------------------------------
 #include <Base/COperacao.h>
 
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_Threads.h>
 
 using namespace std;
 
@@ -34,29 +34,29 @@ using namespace std;
 // -----------------------------------------------------------------------
 // Atributos estáticos
 long double *
-  CSMDiagonalDominanteThreadsExec::X;
-vector < CSMParametroSolver * >*CSMDiagonalDominanteThreadsExec::obj;
+  CSolverMatrizDiagonalDominante_ThreadsExec::X;
+vector < CSolverMatriz_ParametroSolver * >*CSolverMatrizDiagonalDominante_ThreadsExec::obj;
 long double *
-  CSMDiagonalDominanteThreadsExec::ptr_erro;
+  CSolverMatrizDiagonalDominante_ThreadsExec::ptr_erro;
 
 Mutex
-  CSMDiagonalDominanteThreadsExec::mutex_erro;
+  CSolverMatrizDiagonalDominante_ThreadsExec::mutex_erro;
 int
-  CSMDiagonalDominanteThreadsExec::nproc = 1;
+  CSolverMatrizDiagonalDominante_ThreadsExec::nproc = 1;
 long double
-  CSMDiagonalDominanteThreadsExec::limiteErro;
+  CSolverMatrizDiagonalDominante_ThreadsExec::limiteErro;
 long double
-  CSMDiagonalDominanteThreadsExec::fatorRelaxacao;
+  CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacao;
 long double
-  CSMDiagonalDominanteThreadsExec::fatorRelaxacaoC;
+  CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacaoC;
 unsigned long int
-  CSMDiagonalDominanteThreadsExec::limiteIteracoes;
+  CSolverMatrizDiagonalDominante_ThreadsExec::limiteIteracoes;
 
 // -----------------------------------------------------------------------
 // Funcao Go
 // -----------------------------------------------------------------------
 double
-CSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto)
+CSolverMatrizDiagonalDominante_Threads::Go (vector < CSolverMatriz_ParametroSolver * >*objeto)
 {
   obj = objeto;
   if (X == nullptr || dimensaoVetor < obj->size ())
@@ -68,28 +68,28 @@ CSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto)
     }
 
   // Passa atributos estaticos
-  CSMDiagonalDominanteThreadsExec::obj = objeto;
-  CSMDiagonalDominanteThreadsExec::X = X;
+  CSolverMatrizDiagonalDominante_ThreadsExec::obj = objeto;
+  CSolverMatrizDiagonalDominante_ThreadsExec::X = X;
 
   // Cria objetos thread e executa
-  CSMDiagonalDominanteThreadsExec *pthread = 0;
-  vector <CSMDiagonalDominanteThreadsExec *> vthread(CSMDiagonalDominanteThreadsExec::nproc);
+  CSolverMatrizDiagonalDominante_ThreadsExec *pthread = 0;
+  vector <CSolverMatrizDiagonalDominante_ThreadsExec *> vthread(CSolverMatrizDiagonalDominante_ThreadsExec::nproc);
   cout << "dimensão do vetor de threads = " << vthread.size () << endl;
 
-  for (int p = 0; p < CSMDiagonalDominanteThreadsExec::nproc; p++)
+  for (int p = 0; p < CSolverMatrizDiagonalDominante_ThreadsExec::nproc; p++)
     {
       pthread = nullptr;
-      pthread = new CSMDiagonalDominanteThreadsExec(p);
+      pthread = new CSolverMatrizDiagonalDominante_ThreadsExec(p);
       if (pthread == nullptr)
 	{
-	  cerr << "\nfalha alocação pthread objeto CSMDiagonalDominanteThreadsExec " << p;
+	  cerr << "\nfalha alocação pthread objeto CSolverMatrizDiagonalDominante_ThreadsExec " << p;
 	}
       vthread[p] = pthread;
       cout << "Executando a thread p=" << p << endl;
       vthread[p]->start();
     }
 
-  for (int pp = 0; pp < CSMDiagonalDominanteThreadsExec::nproc; pp++)
+  for (int pp = 0; pp < CSolverMatrizDiagonalDominante_ThreadsExec::nproc; pp++)
     {
       while (vthread[pp]->isRunning())
       	Thread::sleep (10000);	// milisegundos = 10s
@@ -103,7 +103,7 @@ CSMDiagonalDominanteThreads::Go (vector < CSMParametroSolver * >*objeto)
 //                              PARTE PARALELA
 // -----------------------------------------------------------------------
 void
-CSMDiagonalDominanteThreadsExec::run ()
+CSolverMatrizDiagonalDominante_ThreadsExec::run ()
 {
   // Valor de x para objeto k no instante anterior
   long double xk0;
@@ -172,7 +172,7 @@ CSMDiagonalDominanteThreadsExec::run ()
 
 /*
 void
-CSMDiagonalDominanteThreadsExec::RunningView ()
+CSolverMatrizDiagonalDominante_ThreadsExec::RunningView ()
 {
   static int p = 0;
   switch (p)
@@ -200,9 +200,9 @@ CSMDiagonalDominanteThreadsExec::RunningView ()
 }
 //aqui 2009 */
 
-// *********************CSMDiagonalDominanteThreads fim
+// *********************CSolverMatrizDiagonalDominante_Threads fim
 /*
 g++ -D__LINUX__ -D__INTEL__ -D__X11__ -D__MESA__
 -I/home/andre/Andre/Desenvolvimento/LIB_LDSC/lib_lmpt/include -I/usr/include/imago/ -I/usr/include/coi20/
--I/usr/local/include/cc++2 -D_GNU_SOURCE -pthread    -L/usr/local/lib  -c CSMDiagonalDominanteThreads.cpp
+-I/usr/local/include/cc++2 -D_GNU_SOURCE -pthread    -L/usr/local/lib  -c CSolverMatrizDiagonalDominante_Threads.cpp
 */

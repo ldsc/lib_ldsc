@@ -48,14 +48,13 @@ email:      andre@lmpt.ufsc.br
 
 // -----------------------------------------------Calculo da permeabilidade
 #include <Amostra/Material/CMFluido.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.h>
+#include <MetNum/Solver/SistemaEquacoes//SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 //  novo
-// #include <SMatriz/SMDiagonal/CSMDiagonalDominanteThreads.h>
+//#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante_Threads.h>
 using namespace std;
 
 /*
@@ -185,7 +184,7 @@ CGrafoTest::Permeabilidade ( int tipoSolver )
    // Determinação da Permeabilidade
    CMFluido* fluido = CriarFluido ();
 
-   CSMDiagonalDominante* solver = CriarSolver ( tipoSolver );
+   CSolverMatrizDiagonalDominante* solver = CriarSolver ( tipoSolver );
 
    CSimPermeabilidadeGrafo* permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel );
 
@@ -212,7 +211,7 @@ CGrafoTest::MostrarInstrucoesArquivosExternos ()
          << "\nAtributos do objeto fluido     em:  \n\tinput_data/fluido.info\n\t\tviscosidade"
          << "\nAtributos do objeto solverSOR  em:  \n\tinput_data/solver.info "
          << "\n\t\tfatorRelaxação, LimiteIterações, LimiteErro,"
-         << "\n\t\ttipoSolver(1=CSMDGaussSeidel,2=CSMDSOR,3=CSMDiagonalDominanteThreads),"
+         << "\n\t\ttipoSolver(1=CSolverMatrizDiagonal_GaussSeidel,2=CSolverMatrizDiagonal_SOR,3=CSolverMatrizDiagonalDominante_Threads),"
 		 << "\n\t\t\tnproc - NÃO IMPLEMENTADO)"
          << "\nAtributos do objeto solverPerm em:  \n\tinput_data/solver_permeabilidade.info (LimiteIterações,LimiteErro%)"
          << "\nO arquivo com as informações da imagem (fatorAmplificação e dimensaoPixel)"
@@ -359,7 +358,7 @@ CMFluido* CGrafoTest::CriarFluido ()
 Função: CriarSolver
 -------------------------------------------------------------------------
 */
-CSMDiagonalDominante*
+CSolverMatrizDiagonalDominante*
 CGrafoTest::CriarSolver ( int tipoSolver )
 {
    // Solicita propriedades do solver
@@ -384,46 +383,46 @@ CGrafoTest::CriarSolver ( int tipoSolver )
 
    cout << msg << endl;
 
-   cout << "Criando objeto CSMDiagonalDominante* solver= \n1=CSMDGaussSeidel,"
-        << "\n2=CSMDSOR,\n3=CSMDiagonalDominanteThreads"
+   cout << "Criando objeto CSolverMatrizDiagonalDominante* solver= \n1=CSolverMatrizDiagonal_GaussSeidel,"
+        << "\n2=CSolverMatrizDiagonal_SOR,\n3=CSolverMatrizDiagonalDominante_Threads"
         << "\nUsando opção:" << tipoSolver << endl;
-   CSMDiagonalDominante* solver;
+   CSolverMatrizDiagonalDominante* solver;
 
    // Cria objeto solver
    switch ( tipoSolver ) {
       case 1:
          solver =
-            static_cast < CSMDiagonalDominante* > ( new CSMDGaussSeidel ( limiteIteracoes, limiteErro ) );
+            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_GaussSeidel ( limiteIteracoes, limiteErro ) );
          break;
 
       case 2:
          solver =
-            static_cast < CSMDiagonalDominante* > ( new CSMDSOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
+            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
          break;
 
       case 3:
       default:
          /*2009      solver =
-         	static_cast < CSMDiagonalDominante * >(new CSMDiagonalDominanteThreads
+         	static_cast < CSolverMatrizDiagonalDominante * >(new CSolverMatrizDiagonalDominante_Threads
          					       (nproc, fatorRelaxacao, limiteIteracoes, limiteErro));
                */
-         cerr << "\nNão implementado, usando modelo 2, CSMDSOR.\n" ;
+         cerr << "\nNão implementado, usando modelo 2, CSolverMatrizDiagonal_SOR.\n" ;
          solver =
-            static_cast < CSMDiagonalDominante* > ( new CSMDSOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
+            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
          break;
          break;
       }
 
-   // CSMDiagonalDominanteThreadsExec::nproc = nproc;
-   // CSMDiagonalDominanteThreadsExec::fatorRelaxacao = fatorRelaxacao;
-   // CSMDiagonalDominanteThreadsExec::fatorRelaxacaoC = 1 - fatorRelaxacao;
+   // CSolverMatrizDiagonalDominante_ThreadsExec::nproc = nproc;
+   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacao = fatorRelaxacao;
+   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacaoC = 1 - fatorRelaxacao;
    assert ( solver );
    cout << "\n ...done"
         // cout << "fatorRelaxacao=" <<  fatorRelaxacao
         << "\nfatorRelaxacao="  << fatorRelaxacao
         << "\nlimiteIteracoes=" << solver->LimiteIteracoes ()
         << "\nlimiteErro="      << solver->LimiteErro ()
-        // cout << "nproc="      <<    CSMDiagonalDominanteThreadsExec::nproc
+        // cout << "nproc="      <<    CSolverMatrizDiagonalDominante_ThreadsExec::nproc
         << "\ntipo solver = "   << tipoSolver
         << "\nnproc="           << nproc << endl;
    return solver;
@@ -549,7 +548,7 @@ Função: CriarPermeabilidade
 -------------------------------------------------------------------------
 */
 CSimPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
-      CSMDiagonalDominante* solver,     // CSMDiagonalDominanteThreads* solver,
+      CSolverMatrizDiagonalDominante* solver,     // CSolverMatrizDiagonalDominante_Threads* solver,
       CGrafoConexaoSerial* grafo, TCMatriz3D<int>* pm3D, int fatorAmplificacao,
       double dimensaoPixel )
 {
@@ -557,7 +556,7 @@ CSimPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
    {
       CTime ( "Tempo criação do CSimPermeabilidadeGrafo = ", &cout );
       cout << "Criando objeto CSimPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
-      // CSMDiagonalDominante* solverold = static_cast<CSMDiagonalDominante*>(solver);// novo
+      // CSolverMatrizDiagonalDominante* solverold = static_cast<CSolverMatrizDiagonalDominante*>(solver);// novo
       permeabilidade_grafo = new CSimPermeabilidadeGrafo ( fluido, solver /*old */ , grafo,
             pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel );
       assert ( permeabilidade_grafo );
@@ -652,15 +651,15 @@ void CGrafoTest::teste_solver()
   // Criação dos objetos agregados
   CGrafoConexaoSerial * 	grafo	;
   CMFluido* fluido;
-  CSMDiagonalDominante* solver;
+  CSolverMatrizDiagonalDominante* solver;
   CSimPermeabilidadeGrafo* permeabilidade ;
 	{
 	CTime* t = new CTime("Tempo criação objetos agregados = ",&fout);
 	fluido = new CMFluido(viscosidade);
 	if(tipoSolver==1)
-	  solver = new CSMDGaussSeidel(limiteIteracoes,limiteErro);
+	  solver = new CSolverMatrizDiagonal_GaussSeidel(limiteIteracoes,limiteErro);
 	else
-	  solver = new CSMDSOR(limiteIteracoes,limiteErro,fatorRelaxacao);
+	  solver = new CSolverMatrizDiagonal_SOR(limiteIteracoes,limiteErro,fatorRelaxacao);
 
 	char nomeArquivoExt[256];
 	sprintf(nomeArquivoExt,"%s.mod4_FR%i_LES%e.txt",nomeArquivo,fr,(float)limiteErro);
@@ -939,7 +938,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
    SolicitarPropriedadesImagem ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
    CMFluido* fluido = CriarFluido ();
 
-   CSMDiagonalDominante* solver = CriarSolver ();	// vai usar default=3
+   CSolverMatrizDiagonalDominante* solver = CriarSolver ();	// vai usar default=3
 
    CGrafoConexaoSerial* grafo = CriarGrafo ( modelo, nomeArquivo );
    // Determina o grafo passando o nome da imagem

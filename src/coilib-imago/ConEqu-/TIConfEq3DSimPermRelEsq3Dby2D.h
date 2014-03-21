@@ -9,10 +9,10 @@
   Desenvolvido por:
   Laboratorio de Meios Porosos e Propriedades Termofisicas
   [LMPT].
-  @author     	Andr� Duarte Bueno
+  @author     	André Duarte Bueno
   @file       	TIConfEq3DSimPermRelEsq3Dby2D.h
   @begin      	Fri Nov 17 2000
-  @copyright  	(C) 2000 by Andr� Duarte Bueno
+  @copyright  	(C) 2000 by André Duarte Bueno
   @email      	andre@lmpt.ufsc.br
 */
 
@@ -43,7 +43,7 @@
   e  TIConfEq3DSimPermRelEsq3Dby2D quando deseja ainda as curvas
   de permeabilidade relativa.
   @short	      Breve descri��o
-  @author       Andr� Duarte Bueno
+  @author       André Duarte Bueno
   @version
   @see	      Veja assunto
 */

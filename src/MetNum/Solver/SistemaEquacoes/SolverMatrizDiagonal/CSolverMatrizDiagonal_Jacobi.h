@@ -1,16 +1,16 @@
-#ifndef CSMDJacobi_h
-#define CSMDJacobi_h
+#ifndef CSolverMatrizDiagonal_Jacobi_h
+#define CSolverMatrizDiagonal_Jacobi_h
 
 /*
   ===============================================================================
   PROJETO:    Biblioteca LIB_LDSC
-  Assunto/Ramo: CSMDJacobi...
+  Assunto/Ramo: CSolverMatrizDiagonal_Jacobi...
   ===============================================================================
   Desenvolvido por:	
   Laboratorio de Desenvolvimento de Software Cientifico 	
   [LDSC].
   @author     Andre Duarte Bueno
-  @file       CSMDJacobi.h
+  @file       CSolverMatrizDiagonal_Jacobi.h
   @begin      Sun Sep 17 2000
   @copyright  (C) 2000 by Andre Duarte Bueno
   @email      andreduartebueno@gmail.com
@@ -24,12 +24,12 @@
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-// #include "CSolverMatriz\CSMDiagonalDominante.h"
+// #include "CSolverMatriz\CSolverMatrizDiagonalDominante.h"
 #include <Base/_LIB_LDSC_CLASS.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 
 //  ===============================================================================
-//   Documentacao Classe: CSMDJacobi
+//   Documentacao Classe: CSolverMatrizDiagonal_Jacobi
 //  ===============================================================================
 /**
  * @brief 	Resolve o sistema de equacoes utilizando a rotina de Jacobi.
@@ -44,23 +44,23 @@
  * @author 	Andre Duarte Bueno	
  * @see		SMatriz
 */
-class CSMDJacobi : public CSMDiagonalDominante
+class CSolverMatrizDiagonal_Jacobi : public CSolverMatrizDiagonalDominante
 {
   // --------------------------------------------------------------Atributos
   public:
 
   // -------------------------------------------------------------Construtor
 	  /// Construtor
-  CSMDJacobi (unsigned long int _limiteIteracoes, long double _limiteErro/*, 
-	      unsigned long int _size = 0*/) : CSMDiagonalDominante 
+  CSolverMatrizDiagonal_Jacobi (unsigned long int _limiteIteracoes, long double _limiteErro/*, 
+	      unsigned long int _size = 0*/) : CSolverMatrizDiagonalDominante 
     (_limiteIteracoes, _limiteErro/*,    _size*/)    {
     }
 
     // --------------------------------------------------------------Destrutor
     
     /// Destrutor
-    virtual ~ CSMDJacobi ()      {
-      }
+    virtual ~ CSolverMatrizDiagonal_Jacobi ()      {
+    }
 
     // ----------------------------------------------------------------Métodos
  protected:
@@ -85,13 +85,13 @@ class CSMDJacobi : public CSMDiagonalDominante
     // --------------------------------------------------------------------Get
     // --------------------------------------------------------------------Set
     // -----------------------------------------------------------------Friend
-    //       friend ostream& operator<< (ostream& os, CSMDJacobi& obj);
-    //       friend istream& operator>> (istream& is, CSMDJacobi& obj);
+    //       friend ostream& operator<< (ostream& os, CSolverMatrizDiagonal_Jacobi& obj);
+    //       friend istream& operator>> (istream& is, CSolverMatrizDiagonal_Jacobi& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funcoes Friend
-// ostream& operator<< (ostream& os, CSMDJacobi& obj);
-// istream& operator>> (istream& is, CSMDJacobi& obj);
+// ostream& operator<< (ostream& os, CSolverMatrizDiagonal_Jacobi& obj);
+// istream& operator>> (istream& is, CSolverMatrizDiagonal_Jacobi& obj);
 
 #endif

@@ -1,0 +1,2 @@
+add_library(SolverMatrizDiagonal CSolverMatrizDiagonalDominante.cpp CSolverMatrizDiagonal_Jacobi.cpp CSolverMatrizDiagonal_GaussSeidel.cpp CSolverMatrizDiagonal_SOR.cpp CSolverMatrizDiagonal_Threads.cpp  )
+

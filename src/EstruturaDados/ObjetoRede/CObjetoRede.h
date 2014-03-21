@@ -35,16 +35,16 @@ Desenvolvido por:
 #include <EstruturaDados/ObjetoGrafo/CObjetoGrafo.h>
 #endif
 
-// Definição de CSMParametroSolver, classe base, herda x
-#ifndef CSMParametroSolver_h
-#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
+// Definição de CSolverMatriz_ParametroSolver, classe base, herda x
+#ifndef CSolverMatriz_ParametroSolver_h
+#include <MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.h>
 #endif
 
 // ===============================================================================
 // Documentacao Classe: CObjetoRede
 // ===============================================================================
 /**
- * @brief  Representa um objeto de uma rede é herdeiro de CObjetoGrafo e CSMParametroSolver.
+ * @brief  Representa um objeto de uma rede é herdeiro de CObjetoGrafo e CSolverMatriz_ParametroSolver.
  * Tem um rótulo (herdado de CObjetoGrafo) e uma propriedade x (herdada de CParametroSolver).
  * Acrescenta um long double propriedade, um vetor conexao e um vetor condutancia.
  * Adiciona: novas funções Conectar que conectam objetos do tipo CObjetoRede*.
@@ -61,7 +61,7 @@ Desenvolvido por:
  * @todo Criar template T para tipo propriedade ( que pode ser algo simples, um double
  * ou algo mais complexo, como uma classe função )
 */
-class CObjetoRede : /*virtual*/ public CObjetoGrafo, public CSMParametroSolver  {
+class CObjetoRede : /*virtual*/ public CObjetoGrafo, public CSolverMatriz_ParametroSolver  {
 // --------------------------------------------------------------Atributos
 public:
    /// Todo CObjetoRede tem uma propriedade// Ex:raio hidraulico ou condutância

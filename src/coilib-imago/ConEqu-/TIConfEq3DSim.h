@@ -10,10 +10,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TIConfEq3DSim.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -54,7 +54,7 @@ Superclasse:    TIConfEq3DSim
                 Ou seja, use TConfiguracoesEquilibrio para obter as configuracoes
                 de equilibrio (visualizacao)
                 e  TIConfEq3DSim quando deseja obter as curvas de press�o capilar.
-@author 	Andr� Duarte Bueno
+@author 	André Duarte Bueno
 @version
 @see		Veja assunto
 ----------------------------------------------------------------------------

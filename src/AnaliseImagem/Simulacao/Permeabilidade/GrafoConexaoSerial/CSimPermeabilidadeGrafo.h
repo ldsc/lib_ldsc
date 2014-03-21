@@ -27,7 +27,7 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 #include <Amostra/Material/CMFluido.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <EstruturaDados/CRedeContorno.h>
 #include <Contorno/CContornoCentro.h>
 
@@ -98,7 +98,7 @@ Desenvolvido por:
  * 13 -As operações de leitura e escrita para cada objeto, estão no próprio objeto.
  * Ou seja as operações sobre os atributos do objeto são realizadas pelo próprio objeto.
  *
- * 14 -A solução do sistema de equações é realizada por um objeto CSMDiagonalDominante 
+ * 14 -A solução do sistema de equações é realizada por um objeto CSolverMatrizDiagonalDominante 
  * (um solver para matrizes com diagonal dominante - na realizada gera uma matriz esparsa).
  * Que é um solver genérico, que recebe um vetor de dados que se relacionam e determina
  * os valores deste vetor para um próximo passo de tempo.
@@ -128,7 +128,7 @@ protected:
 
      /// Objetos agregados.
      CMFluido *fluido{nullptr}; 				///< Objeto fluido.
-     CSMDiagonalDominante *solver{nullptr};		///< Objeto solver.
+     CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
      CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
 
      /// Propriedades da simulação (solver local cálculo permeabilidade).
@@ -156,7 +156,7 @@ public:
      /// Construtor, recebe os objetos agregados: fluido, solver, grafo; e as propriedades da imagem.
 	/// Propriedades da simulação, solver interno e externo, estão sendo lidas de arquivo de disco.
      CSimPermeabilidadeGrafo ( CMFluido *& _fluido,
-                            CSMDiagonalDominante *& _solver,
+                            CSolverMatrizDiagonalDominante *& _solver,
                             CGrafoConexaoSerial *& _grafo,
                             unsigned long int _nx,
                             unsigned long int _ny,
@@ -215,7 +215,7 @@ public:
      }
 
      /// Retorna ponteiro para objeto solver
-     CSMDiagonalDominante *Solver () const {
+     CSolverMatrizDiagonalDominante *Solver () const {
           return solver;
      }
 
@@ -275,7 +275,7 @@ public:
      }
 
      /// Define o solver
-     void Solver ( CSMDiagonalDominante *_p )  {
+     void Solver ( CSolverMatrizDiagonalDominante *_p )  {
           if ( solver ) {
                delete solver;
           }

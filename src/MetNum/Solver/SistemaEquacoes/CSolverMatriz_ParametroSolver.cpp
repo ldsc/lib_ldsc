@@ -7,7 +7,11 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:
 				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:  	André Duarte Bueno
+<<<<<<< HEAD:src/MetNum/Solver/SistemaEquacoes/CSMParametroSolver.cpp
 @file:    	CSMParametroSolver.cpp
+=======
+@file:    	CSolverMatriz_ParametroSolver.cpp
+>>>>>>> renomeada hierarquia solvers matriz diagonal; criado @defgroup HCSolver para doxygen.:src/MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.cpp
 @begin:   	Sat Sep 16 2000
 @copyright: (C) 2000 by André Duarte Bueno
 @email:     andreduartebueno@gmail.com
@@ -20,7 +24,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
+#include <MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.h>
 
 using namespace std;
 
@@ -30,10 +34,10 @@ using namespace std;
 /** Salva atributos do objeto em disco.
 @author :	André Duarte Bueno
 @see    :
-@param  :	ostream& os, CSMParametroSolver& obj
+@param  :	ostream& os, CSolverMatriz_ParametroSolver& obj
 @return : ostream& os
 */
-ostream & operator<< (ostream & os, const CSMParametroSolver & obj)
+ostream & operator<< (ostream & os, const CSolverMatriz_ParametroSolver & obj)
 {
   os << obj.x << endl;
   return os;
@@ -46,10 +50,10 @@ ostream & operator<< (ostream & os, const CSMParametroSolver & obj)
 @short  : Lê os atributos do objeto do arquivo de disco
 @author :	André Duarte Bueno
 @see    :
-@param  :	istream& is, CSMParametroSolver& obj
+@param  :	istream& is, CSolverMatriz_ParametroSolver& obj
 @return :	istream&
 */
-istream & operator>> (istream & is, CSMParametroSolver & obj)
+istream & operator>> (istream & is, CSolverMatriz_ParametroSolver & obj)
 {
   is >> obj.x;
   return is;

@@ -10,10 +10,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TIConfiguracoesEquilibrio3d.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -75,7 +75,7 @@ PermeabilidadeRelativa
    Obt�m as imagens
    Determina as permeabilidades intrinsecas
    Calcula a permeabilidade relativa para o ponto
-@author 				Andr� Duarte Bueno
+@author 				André Duarte Bueno
 @version
 @see						Veja assunto
 */

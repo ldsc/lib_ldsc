@@ -272,13 +272,13 @@ add_library (ldsc STATIC
   MetNum/Solver/Funcao/CSFNewton.cpp
   MetNum/Solver/Funcao/CSFRichmond.cpp
 
-  MetNum/Solver/SistemaEquacoes/CSMatriz.cpp
-  MetNum/Solver/SistemaEquacoes/CSMParametroSolver.cpp
-  MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.cpp
-  MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.cpp
-  MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.cpp
-  MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDJacobi.cpp
-  MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.cpp
-  
+  MetNum/Solver/SistemaEquacoes/CSolverMatriz.cpp
+  MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.cpp
+  MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.cpp
+  MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.cpp
+  MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.cpp
+  MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_Jacobi.cpp
+  MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_Threads.cpp
+
   Tempo/CTime.cpp
 )

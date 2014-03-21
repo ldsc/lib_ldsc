@@ -4,10 +4,10 @@
 //=======================================================================
 //Desenvolvido por: Laboratorio de Meios Porosos
 //                  Propriedades Termofisicas     [LMPT].
-//@author:          Andr� Duarte Bueno
+//@author:          André Duarte Bueno
 //File:             TOperacoesImg.cpp
 //begin:            Fri Nov 17 2000
-//copyright:        (C) 2000 by Andr� Duarte Bueno
+//copyright:        (C) 2000 by André Duarte Bueno
 //email:            andre@lmpt.ufsc.br
 
 //-----------------------------------------------------------------------
@@ -45,7 +45,7 @@ Fun��o:   SaveImg
 @short  :	Salva imagem binaria em disco
           Abre uma stream para um arquivo de disco (fout), verifica se o mesmo
           abriu corretamente e salva os valores da imagem em disco.
-@author : Andr� Duarte Bueno
+@author : André Duarte Bueno
 @see    :
 @param  : Recebe como parametros, uma imagem 3D binaria, e um nome de arquivo.
 @return : Retorna um true/false que indica se a operacao ocorreu corretamente.
@@ -295,7 +295,7 @@ TOperacoesImg::OpenImg16bpp (string nomeArquivo,
 Fun��o:	OpenImg16bppFrom1bpp
 -------------------------------------------------------------------------
 @short  :
-@author : Andr� Duarte Bueno
+@author : André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -340,7 +340,7 @@ Fun��o:	GetCopy1bpp
 -------------------------------------------------------------------------
 @short  :   Obt�m uma c�pia da imagem
 	    Oberve que al�m de copiar os dados, copia os atributos VoxelSize e AmplifyFactor
-@author :   Andr� Duarte Bueno
+@author :   André Duarte Bueno
 */
 I3DRawImage *
 TOperacoesImg::GetCopy1bpp (I3DRawImage * img)
@@ -374,7 +374,7 @@ TOperacoesImg::GetCopy1bpp (I3DRawImage * img)
 Fun��o:  GetImg1bppFrom16bpp
 -------------------------------------------------------------------------
 @short  : Recebe uma imagem16bpp e um indice de corte, retorna uma imagem binaria (nova)
-@author : Andr� Duarte Bueno
+@author : André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -414,7 +414,7 @@ TOperacoesImg::GetImg1bppFrom16bpp (I3DRawImage * img16bpp,
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -459,7 +459,7 @@ TOperacoesImg::GetImg16bppFrom1bpp (I3DRawImage * imgBinaria,
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -499,7 +499,7 @@ TOperacoesImg::SetImg1bppFrom16bppColor (I3DRawImage * img16bpp,
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -554,7 +554,7 @@ TOperacoesImg::GetCopyResampled (I3DRawImage * img, unsigned int resample)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -587,7 +587,7 @@ TOperacoesImg::GetMaxValueFrom16bppImage (I3DRawImage * img16bpp)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -616,7 +616,7 @@ TOperacoesImg::GetMaxValueFrom32bppImage (I3DRawImage * img32bpp)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -644,7 +644,7 @@ TOperacoesImg::GetNumberOfPixelsActived (I3DRawImage * imgBinaria)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -722,7 +722,7 @@ TOperacoesImg::GetNewImgShelled (I3DRawImage * imgDados,
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -762,7 +762,7 @@ TOperacoesImg::GetMaxIDFRadius (I3DRawImage * img3D)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -793,7 +793,7 @@ TOperacoesImg::ActivePixelInFirstPlane (I3DRawImage * img)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -827,7 +827,7 @@ TOperacoesImg::ActivePixelInLastPlane (I3DRawImage * img)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -850,7 +850,7 @@ TOperacoesImg::Conected (I3DRawImage * img)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :
@@ -886,7 +886,7 @@ TOperacoesImg::GetCopyConected (I3DRawImage * img)
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :

@@ -28,21 +28,31 @@ using namespace std;
 // ----------------------------------------------------------------------------
 // Sobrecarga operador saida stream
 // ----------------------------------------------------------------------------
-// Escreve os atributos do objeto na ostream (saida para disco)
+/**
+* Sobrecarga operador <<, escreve os atributos do objeto na ostream (saida para disco).
+* @param ostream & os
+* @param const CSolver & s
+* @return std::ostream & os
+*/
 ostream & operator<< (ostream & os, const CSolver & s)
 {
   os << s.limiteIteracoes << '\n'
      << s.iteracoes << '\n'
-	  << s.limiteErro << '\n'
-	  << s.erro << '\n'
-	  << s.erroMedio << '\n';
+	 << s.limiteErro << '\n'
+	 << s.erro << '\n'
+	 << s.erroMedio ;
   return os;
 }
 
 // ----------------------------------------------------------------------------
 // Sobrecarga operador entrada streams
 // ----------------------------------------------------------------------------
-// Lê os dados do objeto da istream
+/**
+* Sobrecarga operador >>, lê os dados do objeto da istream.
+* @param istream & is
+* @param CSolver & s
+* @return std::istream &
+*/
 istream & operator>> (istream & is, CSolver & s)
 {
   is >> s.limiteIteracoes
@@ -56,9 +66,10 @@ istream & operator>> (istream & is, CSolver & s)
 // ----------------------------------------------------------------------------
 // Função: Read
 // ----------------------------------------------------------------------------
-// Lê atributos do objeto do arquivo de disco
-// Recebe nome do arquivo de disco
-// Retorna: void
+/** Lê atributos do objeto do arquivo de disco.
+ * @param:  nome do arquivo de disco.
+ * @return: void.
+ */
 void
 CSolver::Read (string nomeArquivo)
 {
@@ -75,6 +86,9 @@ CSolver::Read (string nomeArquivo)
       cin >> limiteIteracoes;
       cin.get ();
       cout << "\nEntre com os atributos do objeto - Class CSolver";
+      cout << "\nEntre com o  limiteIteracoes: ";
+      cin >> limiteIteracoes;
+      cin.get ();
       cout << "\nEntre com o limiteErro: ";
       cin >> limiteErro;
       // cout << "\nEntre com o fatorRelaxacao: ";   	// resolver

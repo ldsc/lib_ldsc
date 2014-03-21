@@ -5,10 +5,10 @@
 //
 //Desenvolvido por:     Laboratorio de Meios Porosos
 //e Propriedades Termofisicas     [LMPT].
-//@author:          Andr� Duarte Bueno
+//@author:          André Duarte Bueno
 //File:             TICChamber.cpp
 //begin:            Fri Nov 17 2000
-//copyright:        (C) 2000 by Andr� Duarte Bueno
+//copyright:        (C) 2000 by André Duarte Bueno
 //email:            andre@lmpt.ufsc.br
 
 //-----------------------------------------------------------------------
@@ -26,7 +26,7 @@
 Fun��o:
 -------------------------------------------------------------------------
 @short  :
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :
 @param  :
 @return :

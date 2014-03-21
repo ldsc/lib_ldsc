@@ -6,10 +6,10 @@ PROJETO:          Biblioteca LIB_LMPT
 
 Desenvolvido por:	Laboratorio de Meios Porosos
 		e Propriedades Termofisicas	[LMPT].
-@author:          Andr� Duarte Bueno
+@author:          André Duarte Bueno
 File:             CMFluido.cpp
 begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by Andr� Duarte Bueno
+copyright:        (C) 2000 by André Duarte Bueno
 email:            andre@lmpt.ufsc.br
 */
 
@@ -32,7 +32,7 @@ using namespace std;
 Fun��o: Construtor de c�pia
 -------------------------------------------------------------------------
 @short  :O Construtor de c�pia cria uma c�pia do objeto
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :constructor
 @param  :Uma refer�ncia para um objeto
 @return :sem retorno
@@ -51,7 +51,7 @@ CMFluido::CMFluido (const CMFluido & fluido)
 Fun��o: OPerador igualdade (atribui��o)
 -------------------------------------------------------------------------
 @short  :Operador de igualdade, copia todos os atributos do objeto
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :operador=
 @param  :Uma refer�ncia para um objeto
 @return :o pr�prio objeto (pode haver encadeamento)
@@ -77,7 +77,7 @@ CMFluido & CMFluido::operator= (const CMFluido & fluido)
 OPerador compara��o igualdade
 -------------------------------------------------------------------------
 @short  :Operador de compara��o de igualdade, compara todos os atributos
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :operador==
 @param  :Uma refer�ncia para um objeto
 @return :bool
@@ -98,7 +98,7 @@ CMFluido::operator== (const CMFluido & fluido)  const
 Sobrecarga operador sa�da stream
 -------------------------------------------------------------------------
 @short  :Operador de iostream
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :operador<<
 @param  :uma ostream e uma refer�ncia para um objeto
 @return :ostream
@@ -147,7 +147,7 @@ Recebe nome do arquivo de disco
 Sobrecarga operador entrada streams
 -----------------------------------------------------------------------
 @short  :Operador>> para istream
-@author :Andr� Duarte Bueno
+@author :André Duarte Bueno
 @see    :operador>>
 @param  :uma istream e um ponteiro para um objeto
 @return :ostream

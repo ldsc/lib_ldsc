@@ -1,4 +1,4 @@
-ma/*
+/*
 =========================================================================
 PROJETO:          Biblioteca LIB_LMPT
                   Ramo: TPadrao_ramo
@@ -6,10 +6,10 @@ PROJETO:          Biblioteca LIB_LMPT
 
 Desenvolvido por:	Laboratorio de Meios Porosos
 		e Propriedades Termofisicas	[LMPT].
-@author:          AndrÈ Duarte Bueno
-File:             CSMDTDMA.cpp
+@author:          Andr√© Duarte Bueno
+File:             CSolverMatrizDiagonalDominante_TDMA.cpp
 begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by AndrÈ Duarte Bueno
+copyright:        (C) 2000 by Andr√© Duarte Bueno
 email:            andre@lmpt.ufsc.br
 */
 
@@ -21,7 +21,7 @@ email:            andre@lmpt.ufsc.br
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LMPT
 // -----------------------------------------------------------------------
-#include <SMatriz/SMDiagonal/CSMDTDMA.h>
+#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante_TDMA.h>
 
 #include <Base/COperacao.h>
 
@@ -30,18 +30,18 @@ email:            andre@lmpt.ufsc.br
 // ---------------------------------------------------------------------------
 // Construtor
 // ---------------------------------------------------------------------------
-CSMDTDMA::CSMDTDMA ():CSMDiagonalDominante ()
+CSolverMatrizDiagonalDominante_TDMA::CSolverMatrizDiagonalDominante_TDMA ():CSolverMatrizDiagonalDominante ()
 {
   int    numeroObjetos = 10;
   p = new double[numeroObjetos];
   q = new double[numeroObjetos];
-  COperacao::TestaAlocacao (q, "CSMDTDMA coeficientes p,q");
+  COperacao::TestaAlocacao (q, "CSolverMatrizDiagonalDominante_TDMA coeficientes p,q");
 }
 
 // ---------------------------------------------------------------------------
 // Destrutor
 // ---------------------------------------------------------------------------
-CSMDTDMA::~CSMDTDMA ()
+CSolverMatrizDiagonalDominante_TDMA::~CSolverMatrizDiagonalDominante_TDMA ()
 {
   if (p)
     delete[]p;
@@ -54,33 +54,33 @@ CSMDTDMA::~CSMDTDMA ()
 // Atualiza o valor de X
 // ---------------------------------------------------------------------------
 Possivel formato generico para o TDMA
-1- Para poder acessar atributos do objeto nÛ avanÁado, precisa de um cast dinamico
-  // obj È um ponteiro para a classe pai
-	 CSMParametroSolverAvancado* no=dynamic_cast<CSMParametroSolverAvancado*>(obj);
+1- Para poder acessar atributos do objeto n√≥ avan√ßado, precisa de um cast dinamico
+  // obj √© um ponteiro para a classe pai
+	 CSolverMatriz_ParametroSolverAvancado* no=dynamic_cast<CSolverMatriz_ParametroSolverAvancado*>(obj);
 
-2- Antes de calcular P e Q, os parametros Ai do objeto nÛ devem ser atualizados
+2- Antes de calcular P e Q, os parametros Ai do objeto n√≥ devem ser atualizados
 	 obja->AtualizaParametrosAi();
     	// se for no de contorno deve considerar o contorno
-3- Deve ent„o calcular os valores de P e Q
+3- Deve ent√£o calcular os valores de P e Q
      Calcula PQ
 4- Atualiza todos os valores de X
 5- Faz k=numeroObjetos encerrando o for k do solver,
 	e eventualmente iteracoes=limiteIteracoes encerrando o do..while() do solver.
 */
 void
-CSMDTDMA::AtualizaX ()
+CSolverMatrizDiagonalDominante_TDMA::AtualizaX ()
 {
   // -------------------------------------------------------------------------
   // cast dinamico para acesso a atributos extras
   TNo *no = dynamic_cast < TNo * > (obj);
-	// obs obj È um ponteiro de ponteiro, por isso usei *obj
+	// obs obj √© um ponteiro de ponteiro, por isso usei *obj
 
   // -------------------------------------------------------------------------
   // Atualiza os valores dos coeficientes Ai do no
   no->AtualizaCoeficientesAi ();
 
   // -------------------------------------------------------------------------
-  // FunÁ„o CalculaPQ(); // Com base nos coeficientes Ai calcula P e Q
+  // Fun√ß√£o CalculaPQ(); // Com base nos coeficientes Ai calcula P e Q
   p[0] = no[0].ae / no[0].ap;
   q[0] = no[0].b / no[0].ap;
   for (int i = 1; i < numeroObjetos - 1; i++)
@@ -98,7 +98,7 @@ CSMDTDMA::AtualizaX ()
 
   // -------------------------------------------------------------------------
 
-  // AtualizaÁ„o de todos os valores de X
+  // AtualizaÔøΩÔøΩo de todos os valores de X
   X[numeroObjetos - 1] = q[numeroObjetos - 1];	// calcula X[N]=q[N];
   for (int i = numeroObjetos - 1; i > 0; i--)
     X[i - 1] = p[i - 1] * X[i] + q[i - 1];	// calcula os demais X
@@ -107,13 +107,13 @@ CSMDTDMA::AtualizaX ()
 
 /*
 Obs:
- Segundo a hierarquia, a funÁ„o AtualizaX deveria atualizar o valor de X.
+ Segundo a hierarquia, a fun√ß√£o AtualizaX deveria atualizar o valor de X.
  Mas o TDMA usa um procedimento de calcular todos os p e q,
  e posteriormente atualizar todos os valores de X.
- A soluÁ„o È:
+ A solu√ß√£o √©:
  1- Tirar o TDMA desta hierarquia (inicialmente desconsiderada)
  Optei por:
- 2- A funÁ„o atualiza X faria o seguinte:
+ 2- A fun√ß√£o atualiza X faria o seguinte:
    -Atualizaria os valores dos coeficientes Ai
  	-Chamaria CalculaPQ (que calcularia todos os valores de p e q)
    -Atualizaria todos os valores de X
@@ -123,7 +123,7 @@ Obs:
 // ---------------------------------------------------------------------------
 // Funcao calcula PQ antiga      (Auxiliar)
 // ---------------------------------------------------------------------------
-/*void CSMDTDMA::CalculaPQ()
+/*void CSolverMatrizDiagonalDominante_TDMA::CalculaPQ()
 {
   p[0]=ae[0]/ap[0];
   q[0]=b[0]/ap[0];

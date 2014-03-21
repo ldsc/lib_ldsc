@@ -24,7 +24,7 @@ copyright:      (C) 2000 by Andre Duarte Bueno
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <Grafo/CRedeContorno.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
@@ -40,7 +40,7 @@ using namespace std;
 @param  : objetos fluido,solver,grafo, nx,ny,nz, fator amplificacao, tamanhoDoPixel, numeroDePixeisDaBorda
 */
 CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo ( CMFluido*& _fluido,
-      CSMDiagonalDominante*& _solver,
+      CSolverMatrizDiagonalDominante*& _solver,
       CGrafoConexaoSerial*& _grafo,
       unsigned long int _nx,
       unsigned long int _ny,
@@ -146,7 +146,7 @@ aCSimPermeabilidadeGrafo)
 
 	fluido 	=	new 	CMFluido(*(obj.fluido));
 	assert(fluido);
-	// Abaixo cria objeto SMDiagonalDominante, mas o obj.solver pode ser um CSMDSOR
+	// Abaixo cria objeto SMDiagonalDominante, mas o obj.solver pode ser um CSolverMatrizDiagonal_SOR
 	// ou seja, tem de criar funcao em todos os objeto com hierarquia com o nome
 	// GetCopy, uso: obj->GetCopy();
 	solver 	=	new  	SMDiagonalDominante (*(obj.solver));
@@ -300,7 +300,7 @@ CSimPermeabilidadeGrafo::CriarObjetosAgregados ()
 
    if(solver)
    delete solver;
-   solver = new  CSMDSOR ();
+   solver = new  CSolverMatrizDiagonal_SOR ();
    assert(solver);
 
    if(grafo)
@@ -460,12 +460,12 @@ CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
 void
 CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 {
-// Pega ponteiro para vetor do tipo CSMParametroSolver*
+// Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
 /// @todo: Não permite static_cast nem dynamic_cast pois tirei métodos virtuais
-/// da classe CSMParametroSolver. Ver como resolver!
-	/// 1 - Recolocar CSMParametroSolver como virtual.
-   vector < CSMParametroSolver* >* ptr_obj = ( vector < CSMParametroSolver* >* ) & ( grafo->objeto );
-//    vector<CSMParametroSolver*>* ptr_obj = dynamic_cast<vector<CSMParametroSolver*> *  > ( & ( grafo->objeto ) );
+/// da classe CSolverMatriz_ParametroSolver. Ver como resolver!
+	/// 1 - Recolocar CSolverMatriz_ParametroSolver como virtual.
+   vector < CSolverMatriz_ParametroSolver* >* ptr_obj = ( vector < CSolverMatriz_ParametroSolver* >* ) & ( grafo->objeto );
+//    vector<CSolverMatriz_ParametroSolver*>* ptr_obj = dynamic_cast<vector<CSolverMatriz_ParametroSolver*> *  > ( & ( grafo->objeto ) );
 
    // Resolve o sistema para as pressões.
    long double erroSolver = solver->Go ( ptr_obj );

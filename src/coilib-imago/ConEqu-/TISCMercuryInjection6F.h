@@ -10,10 +10,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TISCMercuryInjection6F.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -42,7 +42,7 @@ Descri��o:
 @short					Declara a classe TISCMercuryInjection6F.
                 Representa uma camara de um porosimetro a mercurio
                 com 6 faces de intrus�o
-@author 				Andr� Duarte Bueno
+@author 				André Duarte Bueno
 @version
 @see						Veja assunto
 */

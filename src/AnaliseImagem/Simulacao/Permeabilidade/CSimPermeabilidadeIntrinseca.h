@@ -31,8 +31,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
-#include <Amostra/Material/CMFluido.h>
+#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante.h>
+#include <Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
 
 /**
@@ -47,8 +47,8 @@ protected:
 	/// Ponteiro para CGrafo;
 	CGrafoConexaoSerial * grafo;
 
-	/// Ponteiro para solver (CSMDiagonalDominante);
-	CSMDiagonalDominante * solver;
+	/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
+	CSolverMatrizDiagonalDominante * solver;
 
 	/// Ponteiro para CMFluido;
 	CMFluido * fluido;

@@ -9,10 +9,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TISCDraynage.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -37,7 +37,7 @@ Descri��o: 			Declara a classe TISCDraynage.
                 a criar uma simula��o de drenagem.
                 PS: De fato ocorre o que define a drenagem
 @short					Breve descri��o
-@author 				Andr� Duarte Bueno
+@author 				André Duarte Bueno
 @version
 @see						Veja assunto
 */

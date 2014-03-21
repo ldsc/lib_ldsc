@@ -354,7 +354,7 @@ CMaterialMeioPorosoAmostra::Adsorcao ()
 	umidade=26.8817*conteudo_wl+95.419;
 	}
 // EQUACAO PARA ADSORCAO ANDRE TELHA
-	else if(tipo=='t'||tipo=='T')// tipo=t telha Andr�, d de default
+	else if(tipo=='t'||tipo=='T')// tipo=t telha André, d de default
 	{t1=30;
 	 if (conteudo_wl<=0.0163)
 	umidade=3894*conteudo_wl;

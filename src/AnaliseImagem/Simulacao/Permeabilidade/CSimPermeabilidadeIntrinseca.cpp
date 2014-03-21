@@ -12,8 +12,8 @@ Desenvolvido por:
 @license    GNU General Public License - version 2
 						see  $LICENSEFILE$ for the full license text.
 */
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h> //novo
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h> //novo
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.h> //novo
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h> //novo
 
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.h>
 
@@ -23,11 +23,11 @@ using namespace std;
 CSimPermeabilidadeIntrinseca::CSimPermeabilidadeIntrinseca ()
 {
 	grafo	= nullptr;	// Ponteiro para CGrafo;
-	solver	= nullptr;	// Ponteiro para CSMDiagonalDominante;
+	solver	= nullptr;	// Ponteiro para CSolverMatrizDiagonalDominante;
 	fluido	= nullptr;	// Ponteiro para CMFluido;
 	perm		= nullptr;	// Ponteiro para CSimPermeabilidadeGrafo;
 
-	// valores usados em CSMDiagonalDominante
+	// valores usados em CSolverMatrizDiagonalDominante
 	limiteIteracoes = 5000; // depois retirar
 	limiteErro = 0.000010;  // depois retirar
 }
@@ -69,7 +69,7 @@ bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, uns
 		return false;
 	}
 	cout << "limiteErro em CSimPermeabilidadeIntrinseca::CriarObjetos: " << limiteErro << endl;
-	solver = static_cast < CSMDiagonalDominante * > (new  CSMDSOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
+	solver = static_cast < CSolverMatrizDiagonalDominante * > (new  CSolverMatrizDiagonal_SOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
 	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;

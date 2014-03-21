@@ -7,7 +7,7 @@ PROJETO:          Biblioteca LIB_LDSC
 Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 		  	[LDSC].
 @author:          André Duarte Bueno
-@file:             CSMatriz.cpp
+@file:             CSolverMatriz.cpp
 @begin:            Sat Sep 16 2000
 @copyright:        (C) 2000 by André Duarte Bueno
 @email:            andreduartebueno@gmail.com
@@ -22,7 +22,7 @@ Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <MetNum/Solver/SistemaEquacoes/CSMatriz.h>
+#include <MetNum/Solver/SistemaEquacoes/CSolverMatriz.h>
 using namespace std;
 
 // -----------------------------------------------------------------------
@@ -34,7 +34,7 @@ using namespace std;
 // para usala, cria no programa principal um ponteiro para Solver
 // Ex:
 //               Solver* ptr_solver=Solver::f_seleciona_solver(n,dimensao);
-CSMatriz * CSMatriz::Selecao (int tipo)
+CSolverMatriz * CSolverMatriz::Selecao (int tipo)
 {
 /*
   // f_carimbo();
@@ -67,7 +67,7 @@ CSMatriz * CSMatriz::Selecao (int tipo)
 // Funcao Determinante
 // -----------------------------------------------------------------------
 double
-CSMatriz::Determinante (TCMatriz2D< int > * &A)	// ;// , int numRows);
+CSolverMatriz::Determinante (TCMatriz2D< int > * &A)	// ;// , int numRows);
 {
 /*
 BUG: a matriz deve ser double e não int
@@ -86,7 +86,7 @@ BUG: a matriz deve ser double e não int
 // Funcao Inversa
 // -----------------------------------------------------------------------
 // Deve pertencer a   TM2DOperacoesBasicas
-CMath::EMathError CSMatriz::Inversa (TCMatriz2D< int > * &A)	// ;// , int numRows);// MatInverse
+CMath::EMathError CSolverMatriz::Inversa (TCMatriz2D< int > * &A)	// ;// , int numRows);// MatInverse
 {
 /*  CVetor colVect(A->GetNX());
   unsigned int i, j;
@@ -111,7 +111,7 @@ CMath::EMathError CSMatriz::Inversa (TCMatriz2D< int > * &A)	// ;// , int numRow
 // Funcao LUBackSubst
 // -----------------------------------------------------------------------
 void
-CSMatriz::LUBackSubst (TCMatriz2D< int > * &A, CVetor * &B)	// ;// CVetor& Index,int A.GetNX(),
+CSolverMatriz::LUBackSubst (TCMatriz2D< int > * &A, CVetor * &B)	// ;// CVetor& Index,int A.GetNX(),
 {
 /*
 BUG: a matriz deve ser double e não int
@@ -148,7 +148,7 @@ BUG: a matriz deve ser double e não int
 CVetor Index(A.GetNX());       		// A.GetNX()= numRows
 int rowSwapFlag;
 */
-CMath::EMathError CSMatriz::LUDecomp (TCMatriz2D< int > * &A)
+CMath::EMathError CSolverMatriz::LUDecomp (TCMatriz2D< int > * &A)
 {
 /*
 BUG: a matriz deve ser double e não int

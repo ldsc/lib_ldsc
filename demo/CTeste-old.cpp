@@ -5,10 +5,10 @@
   ===============================================================================
   Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
   	[LDSC].
-  @author:          Andr� Duarte Bueno
+  @author:          André Duarte Bueno
   File:             TTeste.cpp
   begin:            Sat Sep 16 2000
-  copyright:        (C) 2000 by Andr� Duarte Bueno
+  copyright:        (C) 2000 by André Duarte Bueno
   email:            andre@lmpt.ufsc.br
 */
 // -----------------------------------------------------------------------

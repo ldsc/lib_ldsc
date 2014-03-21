@@ -26,7 +26,7 @@ CSimPermeabilidadeRelativa::CSimPermeabilidadeRelativa ( ofstream & out ) {
 	imagemA = new TCImagem3D<int>(); //Estou criando imagens A e B no construtor para poder setar paramentor de recontrução antes da execução de Go()
 	imagemB = new TCImagem3D<int>(); //Como as imagens podem ser destruídas em Go(), sempre verificar se são != nullptr;
 
-	// valores usados em CSMDiagonalDominante
+	// valores usados em CSolverMatrizDiagonalDominante
 	limiteIteracoes = 5000;
 	limiteErro = 0.000010;
 

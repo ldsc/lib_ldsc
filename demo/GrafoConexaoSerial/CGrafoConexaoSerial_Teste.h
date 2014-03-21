@@ -43,11 +43,11 @@ Desenvolvido por:
 #include <Amostra/Material/CMFluido.h>
 #endif
 
-#ifndef CSMDiagonalDominante_h
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#ifndef CSolverMatrizDiagonalDominante_h
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #endif
 
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominanteThreads.h> // novo testar
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_Threads.h> // novo testar
 
 #ifndef CSimPermeabilidadeGrafo_h
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
@@ -92,8 +92,8 @@ private:
    CMFluido* CriarFluido();
 
    /// Cria um solver
-   CSMDiagonalDominante* CriarSolver ( int tipoSolver = 2 );
-   // CSMDiagonalDominanteThreads* CriarSolver();
+   CSolverMatrizDiagonalDominante* CriarSolver ( int tipoSolver = 2 );
+   // CSolverMatrizDiagonalDominante_Threads* CriarSolver();
 
    /// Cria o grafo
    CGrafoConexaoSerial* CriarGrafo ( int modelo, std::string nomeArquivo );
@@ -109,7 +109,7 @@ private:
 
    /// Cria objeto permeabilidade
    CSimPermeabilidadeGrafo* CriarPermeabilidade ( CMFluido* fluido,
-         CSMDiagonalDominante* solver,      // CSMDiagonalDominanteThreads* solver,
+         CSolverMatrizDiagonalDominante* solver,      // CSolverMatrizDiagonalDominante_Threads* solver,
          CGrafoConexaoSerial* grafo,
          TCMatriz3D<int>* pm3D,
          int fatorAmplificacao,

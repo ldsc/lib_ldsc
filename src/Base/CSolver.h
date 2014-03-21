@@ -15,6 +15,10 @@ Desenvolvido por:
 @email      andreduartebueno@gmail.com
 */
 
+/** 
+ * @defgroup  HCSolver Hierarquia de objetos do tipo solver.
+ */
+
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
@@ -29,7 +33,7 @@ Desenvolvido por:
 #endif
 
 /**
- * @brief Classe solver, base para solução de sistemas (funções, matrizes).
+ * @brief Classe solver, base para solução de sistemas (zero de funções e solver matrizes).
  *
  * Inclue os atributos:
  * limiteIteracoes	- número máximo de iterações que devem ser realizadas.
@@ -43,7 +47,7 @@ Desenvolvido por:
  * estes erros podem ser relatados através de uma enumeração colocada aqui.
  * Assim o usuário criaria o objeto solver, executaria o mesmo obtendo a
  * solução final mas para usá-la deveria verificar o atributo de erro.
- *
+ * @ingroup HCSolver
  * @author 	André Duarte Bueno
 */
 class CSolver {
@@ -68,7 +72,7 @@ public:
 public:
 // --------------------------------------------------------------Construtores
    /**
-    * Construtor default
+    * Construtor default.
     */
    CSolver() = default;
 
@@ -87,7 +91,7 @@ public:
 
 // ----------------------------------------------------------------Métodos
 public:
-   /// Lê atributos internos (mudar para ifstream>>)
+   /// Lê atributos internos (mudar para ifstream>>).
    void Read( std::string nomeArquivo );
 
 // --------------------------------------------------------------------Get
@@ -126,17 +130,11 @@ public:
 // -----------------------------------------------------------------Friend
    /**
     * Sobrecarga operador <<.
-    * @param os
-    * @param obj
-    * @return std::ostream & os
     */
    friend std::ostream & operator << ( std::ostream & os, const CSolver & obj );
 
    /**
     * Sobrecarga operador >>.
-    * @param is
-    * @param obj
-    * @return std::istream &
     */
    friend std::istream & operator >> ( std::istream & is, CSolver & obj );
 };

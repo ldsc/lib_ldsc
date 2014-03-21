@@ -1,5 +1,5 @@
-#ifndef CSMParametroSolver_h
-#define CSMParametroSolver_h
+#ifndef CSolverMatriz_ParametroSolver_h
+#define CSolverMatriz_ParametroSolver_h
 
 /**
 ===============================================================================
@@ -9,7 +9,7 @@ PROJETO:    Biblioteca LIB_LDSC
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
-@file       CSMParametroSolver.h
+@file       CSolverMatriz_ParametroSolver.h
 @begin      Sun Sep 17 2000
 @copyright  (C) 2000 by André Duarte Bueno
 @email      andreduartebueno@gmail.com
@@ -29,7 +29,7 @@ Desenvolvido por:
 #endif
 
 // ===============================================================================
-// Documentacao Classe: CSMParametroSolver
+// Documentacao Classe: CSolverMatriz_ParametroSolver
 // ===============================================================================
 /**
  * @brief
@@ -48,21 +48,21 @@ Desenvolvido por:
  * solver->Go(no);...
  *
  * Obs: Se um solver tradicional trabalha sobre um vetor, basta fazer com que esta classe se comporte como um CVetor, 
- * criando um vetor de CSMParametroSolver e passando para o objeto solver.
+ * criando um vetor de CSolverMatriz_ParametroSolver e passando para o objeto solver.
  *
- * Observe que na classe  CSMParametroSolver são criadas sobrecargas para operações básicas como igualar o objeto a um double, 
+ * Observe que na classe  CSolverMatriz_ParametroSolver são criadas sobrecargas para operações básicas como igualar o objeto a um double, 
  * igualar um double ao objeto, comparar e igualar dois objetos.
  *
  * A função Go() do objeto CNo tem uma utilidade especial, éla deve calcular o valor da variável no instante de tempo atual.
  * Assim Go() calcula a propriedade de interesse no instante de tempo atual, com base no tempo anterior, mas sem alterar o valor da propriedade.
  * (ex: calcula nova temperatura sem atualizar a temperatura no nó).
  * 
- * Na prática você deve criar objetos herdeiros de  CSMParametroSolver e acrescentar os atributos e métodos necessários 
+ * Na prática você deve criar objetos herdeiros de  CSolverMatriz_ParametroSolver e acrescentar os atributos e métodos necessários 
  * para o cálculo da  propriedade no instante de tempo anterior e atual.
  *
  * Exemplo:
- * Cria 10 objetos do tipo CSMParametroSolver
- * CSMParametroSolver* obj = new CSMParametroSolver [10];
+ * Cria 10 objetos do tipo CSolverMatriz_ParametroSolver
+ * CSolverMatriz_ParametroSolver* obj = new CSolverMatriz_ParametroSolver [10];
  * for( int i = 0 ; i < 10; i++}
  * {
  * // usa cast para double
@@ -72,12 +72,13 @@ Desenvolvido por:
  * valorDaVariavel_tempoAtual = obj[i]->Go(double parametro);
  * }
  *
- * Obs: Pensar em transformar o CSMParametroSolver em uma função.
+ * Obs: Pensar em transformar o CSolverMatriz_ParametroSolver em uma função.
  * Ou seja herdeiro da CFuncao. Go(x,y)?
  * Dado um valor/parâmetro, gera um novo valor.
+ * @ingroup HCSolver
  * @author 	André Duarte Bueno
 */
-class CSMParametroSolver {
+class CSolverMatriz_ParametroSolver {
 // --------------------------------------------------------------Atributos
 public:
 /// Variável a ser calculada
@@ -85,11 +86,11 @@ public:
 
 // -------------------------------------------------------------Construtor
 /// Contrutor
-   CSMParametroSolver () = default;
+   CSolverMatriz_ParametroSolver () = default;
 
 // --------------------------------------------------------------Destrutor
 /// Destrutor
-   virtual ~ CSMParametroSolver () = default;
+   virtual ~ CSolverMatriz_ParametroSolver () = default;
 
 // ----------------------------------------------------------------Métodos
 public:
@@ -107,17 +108,17 @@ public:
 // -------------------------------------------------------------Sobrecarga
    // Operadores sobrecarregados
    /// Sobrecarga operador de Comparação obj_a == obj_b
-   virtual bool operator== ( const CSMParametroSolver& par )  {
+   virtual bool operator== ( const CSolverMatriz_ParametroSolver& par )  {
       return this->x == par.x;
    }
 
    /// Sobrecarga operador diferença obj_a != obj_b
-   virtual bool operator!= ( const CSMParametroSolver& par ) const {
+   virtual bool operator!= ( const CSolverMatriz_ParametroSolver& par ) const {
       return this->x != par.x;
    }
 
    /// Sobrecarga operador de igualdade Iguala obj_a=obj_b
-   virtual CSMParametroSolver& operator= ( const CSMParametroSolver& par ) {
+   virtual CSolverMatriz_ParametroSolver& operator= ( const CSolverMatriz_ParametroSolver& par ) {
       x = par.x;
       return *this;
    }
@@ -141,17 +142,19 @@ public:
 // -----------------------------------------------------------------Friend
    /// Sobrecarga do operador <<
    friend std::ostream& operator<< ( std::ostream& os,
-                                     const CSMParametroSolver& obj );
+                                     const CSolverMatriz_ParametroSolver& obj );
 
    /// Sobrecarga do operador >>
    friend std::istream& operator>> ( std::istream& is,
-                                     CSMParametroSolver& obj );
+                                     CSolverMatriz_ParametroSolver& obj );
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream& operator<< ( std::ostream& os, const CSMParametroSolver& obj );
+std::ostream& operator<< ( std::ostream& os, const CSolverMatriz_ParametroSolver& obj );
 
-std::istream& operator>> ( std::istream& is, CSMParametroSolver& obj );
+std::istream& operator>> ( std::istream& is, CSolverMatriz_ParametroSolver& obj );
 
 #endif
+
+

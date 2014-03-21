@@ -1,1 +1,0 @@
-add_library(SMDiagonal CSMDGaussSeidel.cpp CSMDSOR.cpp CSMDiagonalDominante.cpp CSMDJacobi.cpp CSMDiagonalDominanteThreads.cpp)

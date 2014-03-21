@@ -9,10 +9,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TOperacoesImg.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -46,7 +46,7 @@ Assunto:        Interface com  COILIB e IMAGO
 Superclasse:    TOperacoesImg
 @short		Classe criada para fornecer funcoes simples de alteracao
               	de imagens da COI-LIB
-@author 	Andr� Duarte Bueno
+@author 	André Duarte Bueno
 @version
 @see
 */

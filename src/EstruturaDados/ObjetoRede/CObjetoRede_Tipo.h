@@ -36,9 +36,9 @@ Desenvolvido por:
 #include <MetNum/Contorno/CContorno.h>
 #endif
 
-// Definição de CSMParametroSolver, classe base, herda x
-#ifndef CSMParametroSolver_h
-#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
+// Definição de CSolverMatriz_ParametroSolver, classe base, herda x
+#ifndef CSolverMatriz_ParametroSolver_h
+#include <MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.h>
 #endif
 
 /// Enumeração para os diferentes tipos de grafo.
@@ -83,7 +83,7 @@ enum class ETipoObjetoGrafo : uint8_t {
 // ===============================================================================
 /**
  * @brief  Representa um objeto completo de uma rede; Não é herdeiro de CObjetoGrafo,
- * apenas de CSMParametroSolver.
+ * apenas de CSolverMatriz_ParametroSolver.
  * Todos os atributos e métodos são criados aqui, de forma a não ter métodos virtuais.
  * Comparar com CObjetoRede_Final (que usa final de c++11).
  *
@@ -97,7 +97,7 @@ enum class ETipoObjetoGrafo : uint8_t {
  * @todo Criar template T para tipo propriedade ( que pode ser algo simples, um double
  * ou algo mais complexo, como uma classe função )
 */
-class CObjetoRede_Tipo : public CSMParametroSolver  {
+class CObjetoRede_Tipo : public CSolverMatriz_ParametroSolver  {
 // --------------------------------------------------------------Atributos
 public:
    /**

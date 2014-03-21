@@ -40,7 +40,7 @@ Desenvolvido por:
 // ===============================================================================
 /**
  * @brief  Representa um objeto completo de uma rede, Não é herdeiro de CObjetoGrafo,
- * apenas de CSMParametroSolver.
+ * apenas de CSolverMatriz_ParametroSolver.
  * Todos os atributos e métodos são criados aqui, de forma a não ter métodos virtuais.
  *
  * @author:  André Duarte Bueno

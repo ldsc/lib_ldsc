@@ -8,10 +8,10 @@ PROJETO:    Biblioteca LIB_LMPT
 Desenvolvido por:
             Laboratorio de Meios Porosos e Propriedades Termofisicas
             [LMPT].
-@author     Andr� Duarte Bueno
+@author     André Duarte Bueno
 @file       TIChamber.h
 @begin      Fri Nov 17 2000
-@copyright  (C) 2000 by Andr� Duarte Bueno
+@copyright  (C) 2000 by André Duarte Bueno
 @email      andre@lmpt.ufsc.br
 */
 
@@ -151,7 +151,7 @@ Obs:
  //pode deletar a imagem do meio poroso, a mesma passa a ser fornecida pela imgPrototype.
 
 @short		Breve descri��o
-@author 	Andr� Duarte Bueno
+@author 	André Duarte Bueno
 @version
 @see		Veja assunto
 */

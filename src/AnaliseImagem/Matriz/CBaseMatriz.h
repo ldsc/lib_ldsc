@@ -124,7 +124,7 @@ using namespace std;
 // ===============================================================================
 /**
  * @brief Classe base para as classes CVetor, TCMatriz2D< int > e CMatriz3D.
- *   Inclue as definições em comum.
+ *   Inclui as definições em comum.
  *
  * Obs:
  * A funcao virtual void LeCabecalho(ifstream& fin)=0;

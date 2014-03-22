@@ -30,7 +30,7 @@ using namespace std;
 /** Escreve os atributos do objeto em disco.
     @short  :	Sobrecarga operador entrada streams (antiga CObjetoRede_SitioEsqueleto).
     @author :	André Duarte Bueno
-    @see    :
+     
     @param  :	ostream& e CObjetoRede_Sitio&
     @return :	ostream&
 */
@@ -75,7 +75,7 @@ ostream& operator<< ( ostream& out, CObjetoEsqueleto_Final& s )
         conexao[i]->propriedade * grafo->objeto[i]->x;
 
     @author : André Duarte Bueno
-    @see    :
+     
     @param  : long double
     @return : long double
 */

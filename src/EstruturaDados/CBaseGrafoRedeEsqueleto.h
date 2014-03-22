@@ -87,39 +87,12 @@ public:
 
    // ----------------------------------------------------------------Métodos
 protected:
-//    /**
-//     * @brief  Função usada para criar os objetos herdeiros de CObjetoGrafo.
-//     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
-//     * @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
-//    */
-//    virtual CObjetoGrafo * CriarObjeto( ETipoObjetoGrafo tipo ) = 0;
-// 
-//    /**
-//     * @brief  Função usada para criar os objetos herdeiros de CObjetoRede.
-//     * @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
-//     * @return Retorna um objeto herdeiro de CObjetoRede, de acordo com o ETipoGrafo.
-//    */
-//    #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
-//    virtual CObjetoRede_Final * CriarObjetoRede( ETipoObjetoGrafo tipo ) = 0;
-//    #else
-//    virtual CObjetoRede * CriarObjetoRede( ETipoObjetoGrafo tipo ) = 0;
-//    #endif
 
    /// Deleta um objeto do grafo, considerando a posição no vetor.
    virtual bool DeletarObjeto( int i ) = 0 ;
 
-//    /// Deleta um conjunto de objetos (recebe vector com lista dos índices a serem deletados).
-//    virtual bool DeletarObjeto( std::vector<unsigned int> i ) = 0 ;
-
-   //    /// Deleta considerando o endereço do objeto.
-//    /// @todo: testar
-//    virtual bool DeletarObjeto( CObjetoGrafo * objeto_i )  = 0;
 
 public:
-//    /**
-//     * @brief Função que monta o grafo, genérica.
-//    */
-//    virtual CBaseGrafoRedeEsqueleto * Go( long double, long double ) {};
    /**
     * @brief Função que salva o grafo e seus objetos em disco.
     */

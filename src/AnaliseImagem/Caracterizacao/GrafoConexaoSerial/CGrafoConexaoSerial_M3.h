@@ -83,16 +83,9 @@ protected:
      /**
       * @brief Determina as conexões entre os objetos
        * além de estabelecer os links entre os objetos, calcula o raio Hidraulico
-       * das ligações
+       * das ligações.
       */
      virtual void DeterminarConexoesObjetos ( unsigned long int maiorRotuloUtilizado ) override;
-
-     /// Redefinida,  retorna um CObjetoRede_CC_Sitio ou derivado
-     //virtual CObjetoRede *CriarObjeto ( CContorno::ETipoContorno tipoContorno ) override;
-
-     // Função Go
-     // virtual CGrafo* Go( TCMatriz3D<int> * _img3D,unsigned long int  _tamanhoMascara = 1);
-     // virtual CGrafo* Go( std::string nomeArquivo,unsigned long int _tamanhoMascara = 0) ;
 
      // --------------------------------------------------------------------Get
      // --------------------------------------------------------------------Set

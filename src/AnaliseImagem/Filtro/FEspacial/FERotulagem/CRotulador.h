@@ -119,7 +119,7 @@ class CRotulador
   //        int rotuloFinal;
 
   /** @brief Calculado no final da funcao PesquisaRotulosValidosEOrdena.
-     É o numero de objetos identificados na imagem .Inclue o objeto 0.*/
+     É o numero de objetos identificados na imagem .Inclui o objeto 0.*/
   int numeroObjetos;
 
   /// Vetor com a area dos objetos (inicia com objeto 0)

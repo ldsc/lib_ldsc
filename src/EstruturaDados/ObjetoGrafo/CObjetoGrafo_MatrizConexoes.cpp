@@ -26,7 +26,7 @@ using namespace std;
 // Função:       Conectar
 // -------------------------------------------------------------------------
 /** Função : Conectar
- * @see    : Adiciona ao vetor conexão o vetor passado
+ *   Adiciona ao vetor conexão o vetor passado
  * @author:  André Duarte Bueno
  * @param  : recebe um vetor de  CObjetoGrafo*
  * @return : void
@@ -41,12 +41,11 @@ void CObjetoGrafo_MatrizConexoes::Conectar ( vector < CObjetoGrafo* > & obj_veto
 // Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta a conexao de um ramo morto, note que esta deletando um vetor inteiro.
-    @short  : Deleta a conexao de um ramo morto
-    @author : André Duarte Bueno
-    @see    :
-    @param  : unsigned int pos
-    @return : void
-    @test   : testar!
+@short  : Deleta a conexao de um ramo morto
+@author : André Duarte Bueno
+@param  : unsigned int pos
+@return : void
+@test   : testar!
 */
 void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor )
 {
@@ -64,11 +63,10 @@ void CObjetoGrafo_MatrizConexoes::DeletarConexao ( unsigned int ivetor, unsigned
  * então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
  * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
-    @short  : Deleta a conexao de um ramo morto
-    @author : André Duarte Bueno
-    @see    :
-    @param  : unsigned int deletado
-    @return : void
+@short  : Deleta a conexao de um ramo morto
+@author : André Duarte Bueno
+@param  : unsigned int deletado
+@return : void
 */
 bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
@@ -85,10 +83,9 @@ bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int dele
 // Funcao:     Write
 // ------------------------------------------------------------------------------
 /** Salva o grafo em disco (em fout)
-@see  		:
-@author:    André Duarte Bueno
-@param		: Recebe uma ofstream& fout
-@return   : ostream&
+@author : André Duarte Bueno
+@param	: Recebe uma ofstream& fout
+@return : ostream&
 @test   : testar!
 */
 ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const

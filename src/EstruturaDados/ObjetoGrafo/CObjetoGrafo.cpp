@@ -24,16 +24,17 @@ using namespace std;
 // -----------------------------------------------------------------------
 #include <EstruturaDados/ObjetoGrafo/CObjetoGrafo.h>
 
+// -----------------------------------------------------------------------
+// Função DeletarConexoesInvalidadas_aux
+// -----------------------------------------------------------------------
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
  * Funciona assim: percorre os objetos das conexões,
  * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
- *    @short  : Deleta a conexao de um ramo morto
- *    @author : André Duarte Bueno
- *    @see    :
- *    @param  : os objetos marcados para deleção tem rótulo = deletado
- *    @param  : o vetor das conexões.
- *    @return : bool
+ * @author : André Duarte Bueno
+ * @param  : os objetos marcados para deleção tem rótulo = deletado
+ * @param  : o vetor das conexões.
+ * @return : bool
 */
 bool CObjetoGrafo::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoGrafo*>& conexao )
 {
@@ -60,7 +61,6 @@ Função:    operator<<
 -------------------------------------------------------------------------
 @short  : Escreve em os as propriedades do objeto
 @author : André Duarte Bueno
-@see    :
 @param  : const CContorno &
 @return : ostream&
 */
@@ -76,7 +76,6 @@ Função:    operator>>
 -------------------------------------------------------------------------
 @short  : Lê as propriedades do objeto
 @author : André Duarte Bueno
-@see    :
 @param  : CContorno &
 @return : ostream&
 @todo   : Note que esta armazenando o tipo de contorno em x; corrigir/analizar!

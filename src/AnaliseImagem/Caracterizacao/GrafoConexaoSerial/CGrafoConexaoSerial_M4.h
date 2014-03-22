@@ -7,8 +7,7 @@ PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico
-            [LDSC].
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CGrafoConexaoSerial_M4.h
 @begin      Oct 20 2000

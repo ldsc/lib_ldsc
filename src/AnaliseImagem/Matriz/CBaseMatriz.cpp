@@ -258,7 +258,7 @@ return 0;
 	Se o arquivo foi aberto como ASCII e o formato correto é o binário,
 	reabre o arquivo como binario
 	@author : André Duarte Bueno, modificado por: Leandro Puerari
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -296,7 +296,7 @@ bool CBaseMatriz::AbreArquivo (ifstream & fin, string nomeArquivo) { // Abre arq
 	-------------------------------------------------------------------------
 	@short  :VerificaFormatoSalvamento
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 

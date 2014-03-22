@@ -35,7 +35,7 @@ using namespace std;
  * (e usa o rotulador intermediário).
  * A imagem é lida plano a plano, diretamente do disco.
  * @author :	André Duarte Bueno
- * @see    :
+ *  
  * @param  : Recebe o nome do arquivo de disco com a imagem e  o número do maior rótulo já utilizado
  * @return : void
  *  OBS:
@@ -93,7 +93,7 @@ CRede* CGrafoConexaoSerial_M2::Go ( string nomeArquivo, unsigned long int funcao
  * (e usa o rotulador intermediário).
  * Recebe a imagem 3D que já foi lida.
  * @author : André Duarte Bueno
- * @see    :
+ *  
  * @param  : Recebe o número do maior rótulo já utilizado
  * @return : void
 */
@@ -154,7 +154,7 @@ CRede* CGrafoConexaoSerial_M2::Go ( TCMatriz3D<int>* _img3D, unsigned long int _
   * Ou seja, o plano intermediario pode ter mais de um objeto, com intersecção entre os planos ra e rp.
   *
   * @author : André Duarte Bueno
-  * @see    :
+  *  
   * @param  : Recebe o número do maior rótulo já utilizado
   * @return : void
 */
@@ -252,7 +252,7 @@ CGrafoConexaoSerial_M2::DeterminarConexoesObjetos ( unsigned long int maiorRotul
     Na classe CGrafoConexaoSerial_M2::CalcularCondutancias considera o raio hidraulico de this para
     calcular a condutancia.
     @author : André Duarte Bueno
-    @see    : CPermabilidade
+      CPermabilidade
     @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel.
     @return : void
 */

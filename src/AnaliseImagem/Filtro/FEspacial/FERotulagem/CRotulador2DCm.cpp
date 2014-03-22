@@ -32,7 +32,7 @@
   -------------------------------------------------------------------------
   @short  :	Calcula o centro de massa cmx e cmy
   @author :	André Duarte Bueno
-  @see    :
+   
   o intervalo de um int -2.147.483.648 -> 2.147.483.647 (2bi)
   @param  : void
   @return : void
@@ -121,7 +121,7 @@ CRotulador2DCm::CentroMassaObjetos ()
   -------------------------------------------------------------------------
   @short  : Retorna o centro de massa  na direção x
   @author : André Duarte Bueno
-  @see    :
+   
   @param  :
   @return :
 */
@@ -150,7 +150,7 @@ CRotulador2DCm::CMXObjeto ( int k ) const
   -------------------------------------------------------------------------
   @short  : Retorna o centro de massa  na direção y
   @author : André Duarte Bueno
-  @see    :
+   
   @param  :
   @return :
 */

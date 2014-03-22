@@ -33,7 +33,7 @@ Função: AreaObjetos
 -------------------------------------------------------------------------
 @short  :Calcula area de cada objeto
 @author :André Duarte Bueno
-@see    :rotulagem
+ rotulagem
 @param  :void
 @return :void
 */
@@ -63,7 +63,7 @@ Função: 	PerimetroObjetos
 -------------------------------------------------------------------------
 @short  :	Calcula PerimetroObjetos de cada objeto
 @author :	André Duarte Bueno
-@see    : rotulagem
+  rotulagem
 @param  : void
 @return : void
 PerimetroObjetos
@@ -271,7 +271,7 @@ Função: PreparaImagem
 	 Armazena o ponteiro para a imagem e verifica se a imagem tem as mesmas dimensões
 	 caso contrário, realoza a imagem.
 @author :André Duarte Bueno
-@see    :rotulagem
+ rotulagem
 @param  :CMatriz3D
 @return :bool
 */
@@ -325,7 +325,7 @@ Função:IdentificaObjetos
 @short  :Executa a primeira passagem pela imagem, identifica os píxeis ativos
 e define os rotulos indiretos no vetor de conversão.
 @author :André Duarte Bueno
-@see    :rotulagem
+ rotulagem
 @param  :matriz 3D
 @return :void
 
@@ -491,7 +491,7 @@ Função: RotulaImagem
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 

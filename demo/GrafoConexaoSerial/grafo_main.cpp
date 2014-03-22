@@ -36,7 +36,7 @@ using namespace std;
  * usando o grafo de conexao serial.
  * @param argc
  * @param argv[]
- * @return
+ * @return int
  */
 int main ( int argc, char* argv[] )
 {

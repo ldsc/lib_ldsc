@@ -156,4 +156,3 @@ public:
 std::ostream& operator<< ( std::ostream& os, const CGrafo& obj );
 // istream& operator>> (istream& is, CGrafo& obj);
 #endif
-

@@ -36,7 +36,7 @@ using namespace std;
 /**
 @short  : Construtor da classe CSimPermeabilidadeGrafo
 @author : Andre Duarte Bueno
-@see    : Construtores
+  Construtores
 @param  : objetos fluido,solver,grafo, nx,ny,nz, fator amplificacao, tamanhoDoPixel, numeroDePixeisDaBorda
 */
 CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo ( CMFluido*& _fluido,
@@ -75,7 +75,7 @@ Funcao:		Construtor de copia
 -------------------------------------------------------------------------
 @short  : Constróe objeto  igual ao passado como parâmetro
 @author : Andre Duarte Bueno
-@see    : Construtor de cópia
+  Construtor de cópia
 @param  : CSimPermeabilidadeGrafo&
 @return : nada
 */
@@ -114,7 +114,7 @@ CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo(const CSimPermeabilidadeGrafo& 
 /**
 @short  : Destrói o objeto e deleta objetos agregados
 @author :	Andre Duarte Bueno
-@see    : Destrutores
+  Destrutores
 @param  : nada
 @return : nada
 */
@@ -189,7 +189,7 @@ Funcao:  	operator<<
 -------------------------------------------------------------------------
 @short  :	Sobrecarga operador saída stream
 @author :	Andre Duarte Bueno
-@see    :
+ 
 @param  :	ostream& os, const CSimPermeabilidadeGrafo& obj
 @return :	ostream&
 */
@@ -219,7 +219,7 @@ ostream& operator<< ( ostream& os, const CSimPermeabilidadeGrafo& obj )
 /**
 @short  :		Sobrecarga operador entrada streams
 @author :		Andre Duarte Bueno
-@see    :
+ 
 @param  : 	istream& is, CSimPermeabilidadeGrafo& p
 @return :		istream&
 */
@@ -254,7 +254,7 @@ ostream& operator<< ( ostream& os, const CSimPermeabilidadeGrafo& obj )
 @short  : Lê atributos do objeto do arquivo de disco;
 		Recebe nome do arquivo de disco
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  : char* nomeArquivo
 @return : void
 */
@@ -291,7 +291,7 @@ void CSimPermeabilidadeGrafo::Read(string nomeArquivo)
 @short  :	Cria objetos agregados, herdada da CSimulacao e obrigatoriamente definida  (é virtual na classe base).
 			Não esta fazendo nada, pois todos os objetos agregados foram recebidos no construtor da classe.
 @author :	Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return : void
 */
@@ -322,7 +322,7 @@ CSimPermeabilidadeGrafo::CriarObjetosAgregados ()
 /**
 @short  : Usada para definir as condições de contorno
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  : nada
 @return : void
 */
@@ -448,9 +448,9 @@ CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
       }
 
 // debug
-   ofstream fout ( "perm1_aposDefinirCondicoesIniciais.grafo" );
-   fout << *this;
-   fout.close();
+//     ofstream fout ( "perm1_aposDefinirCondicoesIniciais.grafo" );
+//     fout << *this;
+//     fout.close();
 }
 
 // -------------------------------------------------------------------------
@@ -459,7 +459,7 @@ CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
 /**
 @short  : Solução do Sistema de Equações, resolve as pressões.
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  : nada
 @return : void
 */
@@ -493,9 +493,9 @@ CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
         << "] solver->Erro[" 		<< setw ( 10 ) 	<< solver->Erro ()
         << "] solver->Go[" 			<< erroSolver 	<< endl << "]" 		<< endl;
 // debug
-   ofstream fout ( "perm2_aposSolucaoSistemaEquacoes.grafo" );
-   fout << *this;
-   fout.close();
+//    ofstream fout ( "perm2_aposSolucaoSistemaEquacoes.grafo" );
+//    fout << *this;
+//    fout.close();
 }
 
 // -------------------------------------------------------------------------
@@ -534,7 +534,7 @@ Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm]
 							area[cm]   *  dp [atm]
 
 @author : Andre Duarte Bueno
-@see    : permeabilidade
+  permeabilidade
 @param  : nada
 @return : void
 */
@@ -603,7 +603,7 @@ CSimPermeabilidadeGrafo::Next ()
 /**
 @short  : Go() chama Next() até que o sistema esteja resolvido ou iterações tenha ultrapassado o limite
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :   long double
 */

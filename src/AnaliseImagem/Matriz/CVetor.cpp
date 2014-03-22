@@ -37,7 +37,7 @@ Aloca um conjunto de numeros inteiros e armazena
 endereco do primeiro elemento em data1D.
 data1D é um ponteiro para um array de numeros inteiros.
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -71,7 +71,7 @@ Funcao:   DesalocaVetor
 -------------------------------------------------------------------------
 @short  :
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -95,7 +95,7 @@ Funcao:  Construtor vazio
 -------------------------------------------------------------------------
 @short  :
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -114,7 +114,7 @@ Chama classe base, já chama a funcao que le o Vetor do disco.
 A informação da dimensao  é o	primeiro elemento do arquivo de disco.
 Se dim=1 vetor, se dim=2 matriz, se dim=3 matriz 3D.
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -134,7 +134,7 @@ Funcao:
 Cria copia deve copiar nx, depois alocar a
 Vetor e entao copiar membro a membro
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -159,7 +159,7 @@ Funcao: Construtor
 Copia nx, aloca o Vetor e preenche com zeros
 
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -181,7 +181,7 @@ e retorna ponteiro para o programa que chamou, deve
 garantir que o objeto aqui criado seja deletado
 pelo programa que chamou???
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -214,7 +214,7 @@ Funcao:  operator-
 GetMaiorValor retorna o maior valor da matriz
 GetMenorValor retorna o menor valor da matriz
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -249,7 +249,7 @@ Observe que retorna this, isto e importante pois pode-se ter
 casos como x=y=z;
 Excessões:        No caso dos vetores terem dimensoes diferentes.
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -279,7 +279,7 @@ Funcao: operator==
 @short  :
 Obs: Para considerar igual considerar somente os dados, desconsidera
 o atributo formatoImagem@author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -315,7 +315,7 @@ Funcao:  operator!=
 Obs: Para considerar igual considerar somente os dados, desconsidera
 o atributo formatoImagem.
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -336,7 +336,7 @@ Funcao: operator<<
 @short  :
 Despacha os valores do vetor para a ostream
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -352,7 +352,7 @@ Funcao: SalvaCabecalho
 -------------------------------------------------------------------------
 @short  :
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -425,7 +425,7 @@ Funcao:
 @short  :
 Salva dados "colados" sem espaço
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -442,7 +442,7 @@ Funcao:
 @short  :
 Salva dados com um espaco " "
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -461,7 +461,7 @@ Funcao: Constante
 -------------------------------------------------------------------------
 @short  :
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -487,7 +487,7 @@ Deixar as funcoes abaixo apenas enquanto nao mudar no Anaimp o uso
 de tmatriz por timagem
 // pouco sentido, eliminar daqui
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -511,7 +511,7 @@ Funcao:
 
 retorna o maior valor do vetor
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -530,7 +530,7 @@ Funcao:
 @short  :
 retorna o menor valor do vetor
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -580,7 +580,7 @@ Funcao:  Media
 -------------------------------------------------------------------------
 @short  :calcula a media
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -601,7 +601,7 @@ Funcao:
 @short  :
 A funcao Replace, troca todos os valores i no vetor por j
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -625,7 +625,7 @@ Funcao:
 -------------------------------------------------------------------------
 @short  : Abre arquivo de disco e lê os dados.
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -721,7 +721,7 @@ Funcao:   LeDados
 -------------------------------------------------------------------------
 @short  :Le os dados separados por " "
 @author :Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -741,7 +741,7 @@ Funcao: LeDadosColados
 -------------------------------------------------------------------------
 @short  : Le os dados, colados 010111001
 @author : Andre Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */

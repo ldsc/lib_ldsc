@@ -31,7 +31,7 @@ Função:  contem
 -------------------------------------------------------------------------
 @short  :Verifica se a imagem contem o ponto passado
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :Posição x e y do píxel a ser testado
 @return :
 */
@@ -52,7 +52,7 @@ Função:  Inverter
 -------------------------------------------------------------------------
 @short  :	Inverte valores 0-1
 @author : André Duarte Bueno
-@see    : Matrizes
+  Matrizes
 @param  : void
 @return : void
 */
@@ -73,7 +73,7 @@ Função:  Intersecao
 -------------------------------------------------------------------------
 @short  :Faz a interseção entre this e pm2
 @author :André Duarte Bueno
-@see    :Matrizes
+ Matrizes
 @param  :Um ponteiro para uma matriz bidimensional
 @return :Retorna this, com o resultado da intersecção
 */
@@ -108,7 +108,7 @@ Função:  Uniao
 	Verifica pontos ativos em pm2, se for ativo em pm2 ativa em this
 
 @author :	André Duarte Bueno
-@see    : Matrizes
+  Matrizes
 @param  : Uma matriz bidimensional
 @return :	Retorna uma matriz bidimensional
 */
@@ -134,7 +134,7 @@ Abaixo uma função global pertencia a biblioteca lib.c aloca uma matriz 2D.
 trocar por TCMatriz2D< int >* =  new TCMatriz2D< int >(nr,nc);
 
 @author :	André Duarte Bueno
-@see    :	Matrizes
+ 	Matrizes
 @param  : Dimensões nx y ny
 @return : Ponteiro para matriz de float's
 */

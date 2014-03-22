@@ -21,7 +21,7 @@ que poderiam ser acessadas pelos objetos que voc� cria.
 Logo abaixo uma paleta de cores de 16 cores, poderia criar numa classe basica,
 e poder acessar de qualquer classe que use a OWL.
 */
-#include <TGrafico/AGrafico.h>	//Inclue a classe
+#include <TGrafico/AGrafico.h>	//Inclui a classe
 //----------------------------------------------------------------------------
 // Valores de cor (assumes NUMEROCORES == 16)
 //----------------------------------------------------------------------------

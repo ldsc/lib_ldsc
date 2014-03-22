@@ -10,7 +10,7 @@
  * @brief Calculo de integral pelo método de Gauss.
  * 
  *  A funcao Go() calcula a integral de uma funcao passada. 
- * Inclue o atributo  numeroSubIntervalos, que é
+ * Inclui o atributo  numeroSubIntervalos, que é
  * utilizado para se dividir a região a ser calculada em uma série de subintervalos.
  * A função AreaSubintervalo determina a área de um subintervalo, é reescrita
  * para as diversas classes herdeiras.

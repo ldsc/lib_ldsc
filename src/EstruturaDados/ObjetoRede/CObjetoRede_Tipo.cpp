@@ -29,7 +29,7 @@ using namespace std;
 /** Marca e deleta os links para objetos invalidados (marcados para deleção).
   @short  : Deleta a conexao de um ramo morto
   @author : André Duarte Bueno
-  @see    :
+   
   @param  : unsigned int link
   @return : void
 */
@@ -61,8 +61,6 @@ bool CObjetoRede_Tipo::DeletarConexoesInvalidadas( unsigned int deletado )
 /**
   @short  : Deleta as conexões repetidas.
   @author : André Duarte Bueno
-  @see    :
-  @param  :
   @return : bool
   @todo   : da forma como esta funciona, mas pode ser mais simples! testar!
 */
@@ -154,7 +152,7 @@ x             // pressão
 NumeroConeccoes
 Lista_dos_rotulos_das_conexões
 @author : André Duarte Bueno
-@see    :
+ 
 @param  : Recebe uma referencia para uma ostream
 @return : void
 */
@@ -195,7 +193,7 @@ Lista_dos_rotulos_das_conexões
     @short  :		Escreve os atributos do objeto em disco.
     Sobrecarga operador entrada streams (antiga CObjetoRede_TipoEsqueleto).
     @author :	André Duarte Bueno
-    @see    :
+     
     @param  : 	ostream& e CObjetoRede_Tipo&
     @return :		ostream&
 */
@@ -211,7 +209,7 @@ ostream & operator<< ( ostream & out, CObjetoRede_Tipo & s )
 /** Sobrecarga operador entrada streams
     @short  :	Sobrecarga operador entrada streams
     @author :	André Duarte Bueno
-    @see    :
+     
     @param  : istream& is, CObjetoRede_Tipo& s
     @return : istream&
 */
@@ -255,7 +253,7 @@ ostream & operator<< ( ostream & out, CObjetoRede_Tipo & s )
         conexao[i]->propriedade * grafo->objeto[i]->x;
 
     @author : André Duarte Bueno
-    @see    :
+     
     @param  : long double
     @return : long double
 */
@@ -309,7 +307,7 @@ long double CObjetoRede_Tipo::Go( long double /*d */ )
    @short  : Determina o fluxo associado a este sítio.
    Fluxo = Condutancia média vezes a pressao deste sítio menos  a pressao do objeto conexo
    @author : André Duarte Bueno
-   @see    :
+    
    @param  : void
    @return : long double ( o fluxo associado a this)
 */

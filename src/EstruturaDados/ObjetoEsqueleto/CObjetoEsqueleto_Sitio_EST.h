@@ -1,7 +1,7 @@
 #ifndef CObjetoEsqueleto_Sitio_EST_h
 #define CObjetoEsqueleto_Sitio_EST_h
 
-/*
+/**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
             Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial

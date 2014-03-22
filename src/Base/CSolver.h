@@ -35,7 +35,7 @@ Desenvolvido por:
 /**
  * @brief Classe solver, base para solução de sistemas (zero de funções e solver matrizes).
  *
- * Inclue os atributos:
+ * Inclui os atributos:
  * limiteIteracoes	- número máximo de iterações que devem ser realizadas.
  * iteracoes 		- número de iterações efetivamente realizadas.
  * limiteErro		- limite de erro.

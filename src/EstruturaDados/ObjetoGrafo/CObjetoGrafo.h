@@ -45,14 +45,14 @@ Desenvolvido por:
 #define ETipoObjetoGrafo_
 
 enum class ETipoObjetoGrafo : uint8_t {
-   ObjetoGrafo = 0,                  // Objetos da hierarquia de objetos do grafo
+   ObjetoGrafo = 0,                  	// Objetos da hierarquia de objetos do grafo
    ObjetoGrafo_1VetorConexoes = 1,
    ObjetoGrafo_2VetoresConexoes = 2,
    ObjetoGrafo_MatrizConexoes = 3,
 
-   ObjetoRede = 10,                   // Objetos da hierarquia de objetos da rede
-   ObjetoRede_Final = 11, // Inclue o tipo como atributo (final)
-   ObjetoRede_Tipo = 15, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede = 10,                   	// Objetos da hierarquia de objetos da rede
+   ObjetoRede_Final = 11, 				// Inclui o tipo como atributo (final)
+   ObjetoRede_Tipo = 15, 				// Inclui o tipo como atributo (sem herança)
    ObjetoRede_Ligacao = 20,
    ObjetoRede_Ligacao_CENTER = 21,
    ObjetoRede_Ligacao_EST = 22,
@@ -62,9 +62,9 @@ enum class ETipoObjetoGrafo : uint8_t {
    ObjetoRede_Sitio_EST = 32,
    ObjetoRede_Sitio_WEST = 33,
 
-   ObjetoEsqueleto =  50,              // Objetos da hierarquia de objetos do esqueleto
-   ObjetoEsqueleto_Final = 51, // Inclue o tipo como atributo (final)
-   ObjetoEsqueleto_Tipo = 55, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto =  50,              	// Objetos da hierarquia de objetos do esqueleto
+   ObjetoEsqueleto_Final = 51, 			// Inclui o tipo como atributo (final)
+   ObjetoEsqueleto_Tipo = 55, 			// Inclui o tipo como atributo (sem herança)
    ObjetoEsqueleto_Ligacao = 60,
    ObjetoEsqueleto_Ligacao_CENTER =61,
    ObjetoEsqueleto_Ligacao_EST = 62,
@@ -95,9 +95,7 @@ enum class ETipoObjetoGrafo : uint8_t {
  * Nota: as conexões entre objetos serão definidas nas classes herdeiras.
  *
  * @author   André Duarte Bueno.
- * @see      grafos.
  * @todo:    implementar Read().
- * @todo     implementar sobrecarga << e >>.
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoGrafo {
@@ -145,8 +143,8 @@ public:
    }
 
    /**
-     * @brief Função que conecta este objeto e um objeto externo.
-    * Note que recebe um ponteiro para um CObjetoGrafo, e o inclue na lista de conexões.
+   * @brief Função que conecta este objeto e um objeto externo.
+   * Note que recebe um ponteiro para um CObjetoGrafo, e o inclue na lista de conexões.
    * Deve ser sobrescrita nas herdeiras pois aqui não temos o vetor de objetos.
    * Na hierarquia de objetos do tipo CObjetoRede, receberá um CObjetoRede*.
    */

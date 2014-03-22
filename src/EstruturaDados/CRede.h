@@ -68,14 +68,10 @@ Desenvolvido por:
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Tipo.h>
 #endif
 
-// #include <iostream>
-
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO // usar template!
    using value_type_objeto = CObjetoRede_Final;
-// std::cout << "debug: using value_type_objeto = CObjetoRede_Final;\n";
 #else
    using value_type_objeto = CObjetoRede;
-// std::cout << "debug:    using value_type_objeto = CObjetoRede;\n";
 #endif
 
 // ===============================================================================
@@ -102,7 +98,7 @@ class  CRede : public CBaseGrafoRedeEsqueleto {
 public:
    /// Usa-se objeto[i] para obter ponteiro para o objeto i da rede
    /// @todo: trocar por unique_ptr shared_ptr ??
-   //    std::vector <CObjetoRede *> objeto;
+   //  std::vector <CObjetoRede *> objeto;
 
    /// Vetor de ponteiros para objetos da rede, normalmente CObjetoRede.
    std::vector < value_type_objeto* > objeto;

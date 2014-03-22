@@ -31,7 +31,7 @@
   -------------------------------------------------------------------------
   @short  :	Calcula area de cada objeto
   @author :André Duarte Bueno
-  @see    :
+   
   @param  : void
   @return : void
 */
@@ -75,7 +75,7 @@ void TCRotulador2D<T>::CalculaAreaObjetos () {
   ----------------------
 
   @author :	André Duarte Bueno
-  @see    :
+   
   @param  : void
   @return : void
   Pré-condições:   já ter realizado a rotulagem com a chamada a GO
@@ -235,7 +235,7 @@ void TCRotulador2D<T>::CalculaPerimetroObjetos () {
   -------------------------------------------------------------------------
   @short  :Executa toda a sequencia de rotulagem
   @author :André Duarte Bueno
-  @see    :
+   
   @param  :
   @return :
 */
@@ -293,7 +293,7 @@ bool TCRotulador2D<T>::Go (TCMatriz2D<T> * matriz) {
   caso contrário, realoca a imagem.
   Depois copia os dados da imagem.
   @author :André Duarte Bueno
-  @see    :
+   
   @param  :
   @return :
 */
@@ -394,7 +394,7 @@ bool TCRotulador2D<T>::PreparaImagem (TCMatriz2D<T> * matriz) {
   Agora sua total segurança só poderá ser comprovada depois de inúmeros testes com diferentes
   tipos de imagens.
   @author :André Duarte Bueno
-  @see    :
+   
   @param  :void
   @return :void
 */
@@ -510,7 +510,7 @@ void TCRotulador2D<T>::IdentificaObjetos () {
   por adicionar verificações no cálculo do perimetro e do raioHidraulico.
 
   @author :André Duarte Bueno
-  @see    :
+   
   @param  :void
   @return :void
 */
@@ -555,7 +555,7 @@ void TCRotulador2D<T>::RotulaImagem () {
   Obs: Esta função já calcula a área dos objetos (desnecessário) e a substituição
   dos rótulos indiretos é realizado na segunda passagem (+lento).
   @author :André Duarte Bueno
-  @see    :
+   
   @param  :void
   @return :void
 */
@@ -704,7 +704,7 @@ rotulado=1;							// define que o objeto ja esta rotulado
    Depois atualiza os rotulos, numa sequencia 0,1,2,3,4... sem saltos.
    Da forma como esta realiza 2 passagens para rotulagem e +2 para deixar sequencial
    @author :André Duarte Bueno
-   @see    :
+    
    @param  :
    @return :
  */

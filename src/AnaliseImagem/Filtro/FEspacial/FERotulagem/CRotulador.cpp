@@ -28,7 +28,7 @@ using namespace std;
 	-------------------------------------------------------------------------
 	@short  :Zera ponteiros e inicializa variaveis.
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -55,7 +55,7 @@ CRotulador::CRotulador ( int _indice, int _fundo ) : INDICE(_indice), FUNDO(_fun
 	-------------------------------------------------------------------------
 	@short  :Destrói objetos alocados dinamicamente
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -84,7 +84,7 @@ CRotulador::~CRotulador () {
 	mesmos por rotulos validos e ordenados.
 	Ou seja, substitue valores positivos com falhas na sequência por positivos sem falhas.
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -130,7 +130,7 @@ void CRotulador::PesquisaRotulosValidosEOrdena() {
 	naquele algoritimo para cada pixel negativo da imagem faz esta busca.
 	Agora, esta busca é realizada uma única vez.
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -178,7 +178,7 @@ void CRotulador::CalculaRaioHidraulicoObjetos () {
 	-------------------------------------------------------------------------
 	@short  :Função nova, dado o indice retorna o raioHidraulico em double.
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -194,7 +194,7 @@ double CRotulador::RaioHidraulicoObjetos (int k) const {
 	-------------------------------------------------------------------------
 	@short  :
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -211,7 +211,7 @@ int CRotulador::AreaObjetos (int k) const {
 	-------------------------------------------------------------------------
 	@short  :
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -241,7 +241,7 @@ int CRotulador::PerimetroObjetos (int k) const {
 
 	Contorno é uma posição do vetor de conversão
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */
@@ -279,7 +279,7 @@ void CRotulador::VerificaContorno (int contorno, int rotuloAtual) {
 	Obs: Em-4-12-98 Acrescentei a variavel   maiorRotuloUtilizado que deixa mais eficiente.
 	Esta função foi descartada, só esta sendo utilizada por Go_Old.
 	@author :André Duarte Bueno
-	@see    :
+	 
 	@param  :
 	@return :
 */

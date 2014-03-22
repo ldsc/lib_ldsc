@@ -4,12 +4,12 @@ PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-                  Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
-@author:          André Duarte Bueno
-@file:             CGrafoConexaoSerial_M1.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:    André Duarte Bueno
+@file:      CGrafoConexaoSerial_M1.cpp
+@begin:     Sat Sep 16 2000
+@copyright: (C) 2000 by André Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -45,14 +45,10 @@ using namespace std;
  * --------------||||||||||||-------|||-------||||||||||||-----------|||||||||
  * --------------************-------*****---**************---------***********--
 @author :	André Duarte Bueno
-@see    : grafos
 @param  : Rótulo do maior rótulo já utilizado no grafo
 @return : void
-@version:
 */
-void
-CGrafoConexaoSerial_M1::
-DeterminarConexoesObjetos (unsigned long int maiorRotuloUtilizado)
+void CGrafoConexaoSerial_M1::DeterminarConexoesObjetos (unsigned long int maiorRotuloUtilizado)
 {
   // Variáveis auxiliares 
   unsigned long int rpa; // rótulo do píxel[i,j] no plano ra
@@ -100,13 +96,11 @@ Função:   CalcularCondutancias
 	raioHidraulico em condutancia (dos sítios)
 	pois para o objeto CSimPermeabilidadeGrafo o que interessa é a condutividade
 	que é usada pelo próprio objeto sítio para calcular a sua pressão (x).
-@author :	André Duarte Bueno
-@see    : Condutância
+@author : André Duarte Bueno
 @param  : viscosidade, dimensão do pixel e fator de amplificação do pixel
 @return : void
 */
-void
-CGrafoConexaoSerial_M1::CalcularCondutancias (long double _viscosidade,
+void CGrafoConexaoSerial_M1::CalcularCondutancias (long double _viscosidade,
 				       long double _dimensaoPixel,
 				       unsigned long int _fatorAmplificacao)
 {

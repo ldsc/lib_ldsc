@@ -80,7 +80,7 @@ using namespace std;
  * e seta em cada objeto[i]->condutancia = funcao( raioHidraulico plano intermediário );
  * ou seja, o M3 requer que os objetos da rede tenham um vetor condutância.
  * @author : André Duarte Bueno
- * @see    :
+ *  
  * @param  : Recebe o número do maior rótulo já utilizado
  * @return : void
 */
@@ -157,65 +157,6 @@ CGrafoConexaoSerial_M3::DeterminarConexoesObjetos ( unsigned long int maiorRotul
                   }
             }
 }
-
-// // -------------------------------------------------------------------------
-// // Função:   CalcularCondutancias
-// // -------------------------------------------------------------------------
-// /** @short : Redefinida, em relação a CGrafoConexaoSerial adiciona o cálculo das condutâncias
-//  * das conexões entre os objetos.
-//  * No caso do GrafoConexaoSerial todos os objetos são do tipo CObjetoRede_Sitio..
-//  * mas o cálculo da condutância usa equação de POISELLE pois a conexão entre planos
-//  * se assemelha a conexão dos anéis de uma ligação.
-//  * @author : André Duarte Bueno
-//  * @see    : Condutância
-//  * @param  : nada
-//  * @return : void
-//  * @todo   : Otimização: Da forma como esta, para cada objeto calcula a condutancia, mas os raiosHidraulicos
-//  * de todos os objetos estarão num intervalo raio=1 ->raio=max, poderia criar vetor
-//  * vector<double> converteRHcondutancia; onde armazena as condutâncias.
-//  * Depois faz objeto[k]->propriedade = converteRHcondutancia[objeto[k]->propriedade];
-// */
-// void
-// CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long double _dimensaoPixel, unsigned long int _fatorAmplificacao )
-// {
-//    // Variáveis auxiliares
-//    long double raio_hidraulico {0.0};
-//    long double dH {0.0};
-//    long double dimensaoPixelXfatorAmplificacao = _dimensaoPixel * _fatorAmplificacao;
-//    long double variavelAuxiliar = ( CMath::PI ) / ( 128.0 * _viscosidade * _dimensaoPixel * _fatorAmplificacao );
-// 
-//    // Passo 1: Percorre  todos os objetos do grafo e calcula as condutâncias de cada um
-//    // tendo como base o raio hidraulico (armazenado em objeto[k]->propriedade)
-//    // armazena resultado, a condutância do objeto em objeto[k]->propriedade
-//    // ou seja, converte raio hidraulico em condutância.
-//    for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
-//          // Converte raio hidraulico de pixel para metro
-//          raio_hidraulico = objeto[k]->propriedade * dimensaoPixelXfatorAmplificacao;
-// 
-//          //->POISELLE
-//          // Calcula a condutancia da ligação dH=4.0*(raio_hidraulico);
-//          dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
-//          // Converte a propriedade do objeto raio hidraulico para condutancia.
-//          objeto[k]->propriedade = ( variavelAuxiliar * dH * dH * dH * dH );
-//       }
-// 
-//    // Passo 2: Percorre  todos os objetos k do grafo e calcula as condutâncias das conexões entre os objetos,
-//    // armazena resultado em objeto[k]->condutancia[i]
-//    long double ct ;
-// 
-//    for ( unsigned long int k = 0; k < objeto.size (); k++ ) {
-//          for ( unsigned int conexao_i = 0; conexao_i < objeto[k]->conexao.size (); conexao_i++ ) {
-//                raio_hidraulico = objeto[k]->condutancia[conexao_i];
-//                // Converte para SI (metros)
-//                raio_hidraulico *= sizePixelXfatorAmplificacao;
-//                // Determina o diâmetro hidraulico como sendo 4*raioHidraulico
-//                dH = raio_hidraulico + raio_hidraulico + raio_hidraulico + raio_hidraulico;
-//                // Calcula a condutância da ligação e armazena
-//                objeto[k]->condutancia[conexao_i] = ( variavelAuxiliar * dH * dH * dH * dH );
-//             }
-//       }
-//    return;
-// }
 
 // Abaixo nova versão; possibilita calcular as condutâncias considerando os diferentes tipos de objetos
 void
@@ -312,7 +253,7 @@ CGrafoConexaoSerial_M3::CalcularCondutancias ( long double _viscosidade, long do
 //  * (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0)
 //  * 3- Deve receber uma matriz e um vetor vazios
 //  * @author :	André Duarte Bueno
-//  * @see    : grafos
+//  *   grafos
 //  * @param  :
 //  * @return :	bool indicando sucesso da operação.
 // */

@@ -31,7 +31,7 @@ using namespace std;
 // -------------------------------------------------------------------------
 // @short  : OPerador igualdade (atribuição)
 // @author : André Duarte Bueno
-// @see    :
+//  
 // @param  : CSimPermeabilidade&
 // @return : *this
 // */
@@ -51,7 +51,7 @@ Função:  operator==
 -------------------------------------------------------------------------
 @short  : Operador comparação igualdade
 @author : André Duarte Bueno
-@see    :
+ 
 @param  : const CSimPermeabilidade&
 @return : bool==1 se iguais, ==0 se diferentes
 */
@@ -66,7 +66,7 @@ Função:  operator!=
 -------------------------------------------------------------------------
 @short  :  Operador diferença
 @author :  André Duarte Bueno
-@see    :
+ 
 @param  :  const CSimPermeabilidade&
 @return :  bool==0 se iguais, ==1 se diferentes
 */
@@ -80,7 +80,7 @@ Função: operator<<
 -------------------------------------------------------------------------
 @short  : Salva atributos do objeto em disco
 @author : André Duarte Bueno
-@see    :
+ 
 @param  : ostream& os, const CSimPermeabilidade& p
 @return : ostream& os,
 */
@@ -96,7 +96,7 @@ Função:  operator>>
 -------------------------------------------------------------------------
 @short  : Sobrecarga operador entrada streams
 @author : André Duarte Bueno
-@see    :
+ 
 @param  : istream& is, CSimPermeabilidade& p
 @return : istream& is
 */
@@ -113,7 +113,7 @@ Função:   Read
 @short  :
 	Recebe nome do arquivo de disco e a seguir le atributos do objeto do arquivo
 @author : André Duarte Bueno
-@see    : Read
+  Read
 @param  : string nomeArquivo
 @return : void
 */

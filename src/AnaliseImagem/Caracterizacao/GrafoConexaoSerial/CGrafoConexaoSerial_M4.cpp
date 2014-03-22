@@ -3,14 +3,13 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
 Desenvolvido por:
-				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
-@author:          Andre Duarte Bueno
-@file:             CGrafoConexaoSerial_M4.cpp
-@begin:            Sat Sep 16 2000
-copyright:        (C) 2000 by Andre Duarte Bueno
-@email:            andreduartebueno@gmail.com
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:    Andre Duarte Bueno
+@file:      CGrafoConexaoSerial_M4.cpp
+@begin:     Sat Sep 16 2000
+copyright:  (C) 2000 by Andre Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 // -----------------------------------------------------------------------
@@ -37,19 +36,6 @@ using namespace std;
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio.h>
 #endif
 
-// #ifndef CObjetoRede_Sitio_h
-// #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio.h>
-// #endif
-//
-// #ifndef CObjetoRede_Sitio_WEST_h
-// #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.h>
-// #endif
-//
-// #ifndef CObjetoRede_Sitio_EST_h
-// #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.h>
-// #endif
-
-
 // -------------------------------------------------------------------------
 // Funcao     AdicionarObjetos
 // -------------------------------------------------------------------------
@@ -65,7 +51,6 @@ using namespace std;
  *	todo o vetor cmx logo após o cálculo das condutâncias.
  *
  * @author :	Andre Duarte Bueno
- * @see    :
  * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,	o número do ultimo
  * rótulo utilizado e o tipo de objeto (identifica o objeto a ser criado:
  * @return : void
@@ -97,17 +82,14 @@ CGrafoConexaoSerial_M4::AdicionarObjetos
 // Funcao:   CalcularCondutancias
 // -------------------------------------------------------------------------
 /** @short  : Redefinida, em relação a CGrafoConexaoSerial_M3
- *	Faz o cálculo da condutancia de forma semelhante aquela definida em CGrafoConexaoSerial_M3.
- *	A diferença é adicionar um fator de correção das condutâncias,
- *	que considera a distância efetiva entre os sítios conexos.
- *	A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor
- *	this->cmx a informação do centro de massa na direção x do sítio.
- *	PS1: Como o modelo considera a interação entre planos consecutivos,
- *	nao é necessário armazenar o cmz pois a distância na direção z
- *	vai ser sempre de 1 pixel.
- *
+ * Faz o cálculo da condutancia de forma semelhante aquela definida em CGrafoConexaoSerial_M3.
+ * A diferença é adicionar um fator de correção das condutâncias, que considera a distância efetiva entre 
+ * os sítios conexos.
+ * A função AdicionarObjetos foi redefinida, de forma a armazenar no vetor this->cmx a informação do 
+ * centro de massa na direção x do sítio.
+ * PS1: Como o modelo considera a interação entre planos consecutivos,
+ * nao é necessário armazenar o cmz pois a distância na direção z vai ser sempre de 1 pixel.
  * @author :	Andre Duarte Bueno
- * @see    : Condutância
  * @param  : nada
  * @return : void
 */
@@ -217,12 +199,9 @@ void CGrafoConexaoSerial_M4::Write ( std::ostream & out ) const
  * Após a eliminação dos ramos mortos, um conjunto de objetos foi destruído;
  * Como os vetores cmx e cmy estão separados dos objetos, preciso reorganizar
  * cmx e cmy, de forma a levarem em conta a nova situação do grafo.
- * Observe que se as informações de cmx e cmy estivessem nos próprios objetos
- * isto nao seria necessário.
- * Ou seja, o modelo 4 otimiza memória quando comparado com modelo 6;
- * mas tem esta função extra.
+ * Observe que se as informações de cmx e cmy estivessem nos próprios objetos isto nao seria necessário.
+ * Ou seja, o modelo 4 otimiza memória quando comparado com modelo 6; mas tem esta função extra.
  * @author :	Andre Duarte Bueno
- * @see    : Condutância
  * @param  : nada
  * @return : void
 */

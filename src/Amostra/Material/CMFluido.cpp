@@ -33,7 +33,7 @@ Função: Construtor de cópia
 -------------------------------------------------------------------------
 @short  :O Construtor de cópia cria uma cópia do objeto
 @author :André Duarte Bueno
-@see    :constructor
+ constructor
 @param  :Uma referência para um objeto
 @return :sem retorno
 */
@@ -52,7 +52,7 @@ Função: OPerador igualdade (atribuição)
 -------------------------------------------------------------------------
 @short  :Operador de igualdade, copia todos os atributos do objeto
 @author :André Duarte Bueno
-@see    :operador=
+ operador=
 @param  :Uma referência para um objeto
 @return :o próprio objeto (pode haver encadeamento)
 */
@@ -78,7 +78,7 @@ OPerador comparação igualdade
 -------------------------------------------------------------------------
 @short  :Operador de comparação de igualdade, compara todos os atributos
 @author :André Duarte Bueno
-@see    :operador==
+ operador==
 @param  :Uma referência para um objeto
 @return :bool
 */
@@ -99,7 +99,7 @@ Sobrecarga operador saída stream
 -------------------------------------------------------------------------
 @short  :Operador de iostream
 @author :André Duarte Bueno
-@see    :operador<<
+ operador<<
 @param  :uma ostream e uma referência para um objeto
 @return :ostream
 */
@@ -148,7 +148,7 @@ Sobrecarga operador entrada streams
 -----------------------------------------------------------------------
 @short  :Operador>> para istream
 @author :André Duarte Bueno
-@see    :operador>>
+ operador>>
 @param  :uma istream e um ponteiro para um objeto
 @return :ostream
 */

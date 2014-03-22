@@ -29,7 +29,7 @@ Função:    operator<<
 -------------------------------------------------------------------------
 @short  : Escreve em os as propriedades do objeto
 @author : André Duarte Bueno
-@see    : 
+  
 @param  : const CContorno & 
 @return : ostream&
 @todo   : verificar padrão, não deveria ter o endl!
@@ -46,7 +46,7 @@ Função:    operator>>
 -------------------------------------------------------------------------
 @short  : Lê as propriedades do objeto
 @author : André Duarte Bueno
-@see    : 
+  
 @param  : CContorno & 
 @return : ostream&
 */

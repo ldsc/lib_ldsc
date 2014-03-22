@@ -53,8 +53,8 @@ enum class ETipoObjetoGrafo : uint8_t {
    ObjetoGrafo_MatrizConexoes = 3,
 
    ObjetoRede = 10,                   // Objetos da hierarquia de objetos da rede
-   ObjetoRede_Final = 11, // Inclue o tipo como atributo (final)
-   ObjetoRede_Tipo = 15, // Inclue o tipo como atributo (sem herança)
+   ObjetoRede_Final = 11, // Inclui o tipo como atributo (final)
+   ObjetoRede_Tipo = 15, // Inclui o tipo como atributo (sem herança)
    ObjetoRede_Ligacao = 20,
    ObjetoRede_Ligacao_CENTER = 21,
    ObjetoRede_Ligacao_EST = 22,
@@ -65,8 +65,8 @@ enum class ETipoObjetoGrafo : uint8_t {
    ObjetoRede_Sitio_WEST = 33,
 
    ObjetoEsqueleto =  50,              // Objetos da hierarquia de objetos do esqueleto
-   ObjetoEsqueleto_Final = 51, // Inclue o tipo como atributo (final)
-   ObjetoEsqueleto_Tipo = 55, // Inclue o tipo como atributo (sem herança)
+   ObjetoEsqueleto_Final = 51, // Inclui o tipo como atributo (final)
+   ObjetoEsqueleto_Tipo = 55, // Inclui o tipo como atributo (sem herança)
    ObjetoEsqueleto_Ligacao = 60,
    ObjetoEsqueleto_Ligacao_CENTER =61,
    ObjetoEsqueleto_Ligacao_EST = 62,

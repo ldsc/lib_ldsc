@@ -33,7 +33,7 @@ Fun��o: Construtor de c�pia
 -------------------------------------------------------------------------
 @short  :O Construtor de c�pia cria uma c�pia do objeto
 @author :André Duarte Bueno
-@see    :constructor
+ constructor
 @param  :Uma refer�ncia para um objeto
 @return :sem retorno
 */
@@ -52,7 +52,7 @@ Fun��o: OPerador igualdade (atribui��o)
 -------------------------------------------------------------------------
 @short  :Operador de igualdade, copia todos os atributos do objeto
 @author :André Duarte Bueno
-@see    :operador=
+ operador=
 @param  :Uma refer�ncia para um objeto
 @return :o pr�prio objeto (pode haver encadeamento)
 */
@@ -78,7 +78,7 @@ OPerador compara��o igualdade
 -------------------------------------------------------------------------
 @short  :Operador de compara��o de igualdade, compara todos os atributos
 @author :André Duarte Bueno
-@see    :operador==
+ operador==
 @param  :Uma refer�ncia para um objeto
 @return :bool
 */
@@ -99,7 +99,7 @@ Sobrecarga operador sa�da stream
 -------------------------------------------------------------------------
 @short  :Operador de iostream
 @author :André Duarte Bueno
-@see    :operador<<
+ operador<<
 @param  :uma ostream e uma refer�ncia para um objeto
 @return :ostream
 */
@@ -148,7 +148,7 @@ Sobrecarga operador entrada streams
 -----------------------------------------------------------------------
 @short  :Operador>> para istream
 @author :André Duarte Bueno
-@see    :operador>>
+ operador>>
 @param  :uma istream e um ponteiro para um objeto
 @return :ostream
 */

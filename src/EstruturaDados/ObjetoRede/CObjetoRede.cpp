@@ -34,14 +34,14 @@ using namespace std;
  * @brief Função que recebe um ponteiro para um CObjetoRede objA e o inclue na lista de conexões.
  * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
  * Note que oculta versão que recebe CObjetoGrafo.
- *    @author : André Duarte Bueno
- *    @param  : objeto a quem será conectado
- *    @return : void
+ * @author : André Duarte Bueno
+ * @param  : objeto a quem será conectado
+ * @return : void
 */
 inline void CObjetoRede::Conectar ( CObjetoRede* objA )
 {
-   this->conexao.push_back ( objA );
-   this->condutancia.push_back ( objA->propriedade );
+    this->conexao.push_back ( objA );
+    this->condutancia.push_back ( objA->propriedade );
 }
 
 // -------------------------------------------------------------------------
@@ -51,14 +51,14 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA )
 * @brief Função que recebe um ponteiro para um CObjetoRede objA e o inclue na lista de conexões.
 * Faz a conexão de this com o objeto recebido. Usada por objetos do tipo Sitio.
 * A condutância entre this e o objA é o segundo parâmetro (a _condutancia é calculada externamente).
- *    @author : André Duarte Bueno
- *    @param  : objeto objA a quem será conectado e condutancia entre this e objA.
- *    @return : void
+ * @author : André Duarte Bueno
+ * @param  : objeto objA a quem será conectado e condutancia entre this e objA.
+ * @return : void
 */
 inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia )
 {
-   this->conexao.push_back ( objA );
-   this->condutancia.push_back ( _condutancia );
+    this->conexao.push_back ( objA );
+    this->condutancia.push_back ( _condutancia );
 }
 
 // -------------------------------------------------------------------------
@@ -73,16 +73,16 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia 
 * propriedade do objeto ao qual estou conectado:
 * conexao[i] = objA;
 * condutancia[i] = objA.propriedade;
-*    @author : André Duarte Bueno
-*    @param  : objetos objA e objB a quem será conectado
-*    @return : void
+* @author : André Duarte Bueno
+* @param  : objetos objA e objB a quem será conectado
+* @return : void
 */
-/*inline */ void CObjetoRede::Conectar ( CObjetoRede* objA, CObjetoRede* objB ) 
+/*inline */ void CObjetoRede::Conectar ( CObjetoRede* objA, CObjetoRede* objB )
 {
-   this->conexao.push_back ( objA );
-   this->condutancia.push_back ( objA->propriedade );
-   this->conexao.push_back ( objB );
-   this->condutancia.push_back ( objB->propriedade );
+    this->conexao.push_back ( objA );
+    this->condutancia.push_back ( objA->propriedade );
+    this->conexao.push_back ( objB );
+    this->condutancia.push_back ( objB->propriedade );
 }
 
 // -------------------------------------------------------------------------
@@ -97,18 +97,18 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia 
 * propriedade do objeto ao qual estou conectado:
 * conexao[i] = objA;
 * condutancia[i] = _condutanciaA;
-*    @author : André Duarte Bueno
-*    @param  : objeto objA a quem será conectado e condutancia entre this e objA.
-*    @param  : objeto objB a quem será conectado e condutancia entre this e objB.
-*    @return : void
+* @author : André Duarte Bueno
+* @param  : objeto objA a quem será conectado e condutancia entre this e objA.
+* @param  : objeto objB a quem será conectado e condutancia entre this e objB.
+* @return : void
 */
 /*inline */ void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutanciaA ,
-                                   CObjetoRede* objB , long double _condutanciaB )
+        CObjetoRede* objB , long double _condutanciaB )
 {
-   this->conexao.push_back ( objA );
-   this->condutancia.push_back ( _condutanciaA );
-   this->conexao.push_back ( objB );
-   this->condutancia.push_back ( _condutanciaB );
+    this->conexao.push_back ( objA );
+    this->condutancia.push_back ( _condutanciaA );
+    this->conexao.push_back ( objB );
+    this->condutancia.push_back ( _condutanciaB );
 }
 
 // -------------------------------------------------------------------------
@@ -124,17 +124,17 @@ inline void CObjetoRede::Conectar ( CObjetoRede* objA, long double _condutancia 
 */
 void CObjetoRede::DeletarConexao ( unsigned int pos )
 {
-   // Deleta a conexão
-   this->conexao.erase ( conexao.begin() + pos );
+    // Deleta a conexão
+    this->conexao.erase ( conexao.begin() + pos );
 
-   // e, adicionalmente, deleta a condutancia associada ao objeto pos
-   this->condutancia.erase ( condutancia.begin () + pos );
+    // e, adicionalmente, deleta a condutancia associada ao objeto pos
+    this->condutancia.erase ( condutancia.begin () + pos );
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConexao
 // -------------------------------------------------------------------------
-/** 
+/**
   @short  : Recebe um vetor com o índice das conexões a serem deletadas.
   (Deleta várias conexões ao mesmo tempo).
   @author : André Duarte Bueno
@@ -143,103 +143,98 @@ void CObjetoRede::DeletarConexao ( unsigned int pos )
 */
 void CObjetoRede::DeletarConexao ( vector<unsigned int> di )
 {
-   unsigned int marcar_para_delecao = conexao.size();
-   for ( unsigned int i = 0; i < di.size (); i++ )
-	   // Se di[i] for um rótulo inválido para conexao ocorre estouro de pilha!
-	   conexao[ di[i] ]->rotulo =  marcar_para_delecao;
+    unsigned int marcar_para_delecao = conexao.size();
+    for ( unsigned int i = 0; i < di.size (); i++ )
+        // Se di[i] for um rótulo inválido para conexao ocorre estouro de pilha!
+        conexao[ di[i] ]->rotulo =  marcar_para_delecao;
 
-   // Chama  DeletarConexoesInvalidadas que deleta conexões marcadas para deleção.
-   this->DeletarConexoesInvalidadas ( marcar_para_delecao );
+    // Chama  DeletarConexoesInvalidadas que deleta conexões marcadas para deleção.
+    this->DeletarConexoesInvalidadas ( marcar_para_delecao );
 }
 
 /** Marca e deleta os links para objetos invalidados (marcados para deleção).
   @short  : Deleta a conexao de um ramo morto
   @author : André Duarte Bueno
-  @see    :
+
   @param  : unsigned int marcada_para_delecao
   @return : void
 */
 bool CObjetoRede::DeletarConexoesInvalidadas ( unsigned int marcado_para_delecao )
 {
-   unsigned int indice_rotulo_valido {0};
+    unsigned int indice_rotulo_valido {0};
 
-   // Percorre todas as conexões
-   for ( unsigned int i = 0; i < conexao.size (); i++ )
+    // Percorre todas as conexões
+    for ( unsigned int i = 0; i < conexao.size (); i++ )
 
-      // Se o objeto para quem aponta não foi marcado_para_delecao, armazena no vetor das conexões.
-      // Se foi marcado_para_delecao vai ser pulado.
-      if ( conexao[i]->rotulo != marcado_para_delecao ) {
+        // Se o objeto para quem aponta não foi marcado_para_delecao, armazena no vetor das conexões.
+        // Se foi marcado_para_delecao vai ser pulado.
+        if ( conexao[i]->rotulo != marcado_para_delecao ) {
             conexao[indice_rotulo_valido] = conexao[i];
             condutancia[indice_rotulo_valido] = condutancia[i];
             indice_rotulo_valido++;
-         }
+        }
 
-   // Redimensiona o vetor das conexões e deleta elementos não usados.
-   conexao.resize ( indice_rotulo_valido );
-   conexao.erase ( conexao.begin() + indice_rotulo_valido , conexao.end () );
+    // Redimensiona o vetor das conexões e deleta elementos não usados.
+    conexao.resize ( indice_rotulo_valido );
+    conexao.erase ( conexao.begin() + indice_rotulo_valido , conexao.end () );
 
-   // Redimensiona o vetor das condutâncias e deleta elementos não usados.
-   condutancia.resize ( indice_rotulo_valido );
-   condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
-   return 1;
+    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
+    condutancia.resize ( indice_rotulo_valido );
+    condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
+    return 1;
 }
 
 /**
   @short  : Deleta as conexões repetidas.
   @author : André Duarte Bueno
-  @see    :
+
   @param  :
   @return : bool
   @todo   : da forma como esta funciona, mas pode ser mais simples! testar!
 */
 unsigned int  CObjetoRede::DeletarConexoesRepetidas_e_SomarCondutanciasParalelo()
 {
-   // Número de links deletados
-   // acumula número de links no início
-   unsigned int numeroLinksDeletados = conexao.size ();
+    // Número de links deletados
+    // acumula número de links no início
+    unsigned int numeroLinksDeletados = conexao.size ();
 
-   // Cria uma cópia do vetor das conexões, ordena e elimina repeticoes
-   vector < CObjetoRede* > c ( conexao );
+    // Cria uma cópia do vetor das conexões, ordena e elimina repeticoes
+    vector < CObjetoRede* > c ( conexao );
 
-   // Funcao EliminaDuplicatas para containers (pg487 stroustrup)
-   {
-      sort ( c.begin (), c.end () );
-      // c sai de escopo e é deletado!
-//     vector < CObjetoRede * >::iterator p = unique (c.begin (), c.end ());
-//     c.erase (p, c.end ()); c vai ser deletado final da função!
-   }
+    // Funcao EliminaDuplicatas para containers (pg487 stroustrup)
+    sort ( c.begin (), c.end () );        // c sai de escopo e é deletado!
 
-   // Cria um map que associa o link com as condutâncias
-   std::map < CObjetoRede*, long double > m;
+    // Cria um map que associa o link com as condutâncias
+    std::map < CObjetoRede*, long double > m;
 
-   // Copia para o map os links (já ordenados e únicos de c) e inicializa os valores com 0.
-   for ( unsigned int i = 0; i < c.size (); i++ )
-      m[c[i]] = 0.0;
+    // Copia para o map os links (já ordenados e únicos de c) e inicializa os valores com 0.
+    for ( unsigned int i = 0; i < c.size (); i++ )
+        m[c[i]] = 0.0;
 
-   // Percorre as conexões e acumula as condutâncias no map
-   //    map.insert( container_map::value_type( chave, valor ) );
-   for ( unsigned int i = 0; i < conexao.size (); i++ )
-      m[conexao[i]] += condutancia[i];
+    // Percorre as conexões e acumula as condutâncias no map
+    //    map.insert( container_map::value_type( chave, valor ) );
+    for ( unsigned int i = 0; i < conexao.size (); i++ )
+        m[conexao[i]] += condutancia[i];
 
-   //   for ( iter = listatelefones.begin(); iter != listatelefones.end(); ++iter )
-   //   cout << setw(campo)<<iter->first << setw(20)<< iter->second ;
-   for ( unsigned int i = 0; i < c.size (); i++ ) {
-         conexao[i] = c[i];
-         condutancia[i] = m[c[i]];
-      }
+    //   for ( iter = listatelefones.begin(); iter != listatelefones.end(); ++iter )
+    //   cout << setw(campo)<<iter->first << setw(20)<< iter->second ;
+    for ( unsigned int i = 0; i < c.size (); i++ ) {
+        conexao[i] = c[i];
+        condutancia[i] = m[c[i]];
+    }
 
 // #ifdef OTIMIZAR_MEMORIA
-   // Redimensiona o vetor das conexões e deleta elementos não usados.
-   conexao.resize ( c.size () );
-   conexao.erase ( conexao.begin() + c.size () , conexao.end () );
+    // Redimensiona o vetor das conexões e deleta elementos não usados.
+    conexao.resize ( c.size () );
+    conexao.erase ( conexao.begin() + c.size () , conexao.end () );
 
-   // Redimensiona o vetor das condutâncias e deleta elementos não usados.
-   condutancia.resize ( c.size () );
-   condutancia.erase ( condutancia.begin() + c.size () , condutancia.end () );
+    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
+    condutancia.resize ( c.size () );
+    condutancia.erase ( condutancia.begin() + c.size () , condutancia.end () );
 // #endif
 
-   numeroLinksDeletados = numeroLinksDeletados - c.size ();
-   return numeroLinksDeletados;
+    numeroLinksDeletados = numeroLinksDeletados - c.size ();
+    return numeroLinksDeletados;
 }
 
 /**
@@ -282,68 +277,66 @@ x             // pressão
 NumeroConeccoes
 Lista_dos_rotulos_das_conexões
 @author : André Duarte Bueno
-@see    :
 @param  : Recebe uma referencia para uma ostream
 @return : void
 */
 ostream& CObjetoRede::Write ( ostream& out ) const
 {
-   out.setf ( ios::left );
+    out.setf ( ios::left );
 
-   // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+    // Tipo de contorno
+    out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 
-   // Rótulo de this
-   out << ' ' << setw ( 5 ) << rotulo;
+    // Rótulo de this
+    out << ' ' << setw ( 5 ) << rotulo;
 
-   // x de this (pressão)
-   out << ' ' << setw ( 10 ) << x;
+    // x de this (pressão)
+    out << ' ' << setw ( 10 ) << x;
 
-   // propriedade de this (condutancia)
-   out << ' ' << setw ( 10 ) << propriedade;
+    // propriedade de this (condutancia)
+    out << ' ' << setw ( 10 ) << propriedade;
 
-   // Numero de links do sítio
-   out << ' ' << setw ( 5 ) << conexao.size ();
+    // Numero de links do sítio
+    out << ' ' << setw ( 5 ) << conexao.size ();
 
-   // lista dos rótulos da conexao
-   for ( auto objeto_conectado : conexao )
-      out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
+    // lista dos rótulos da conexao
+    for ( auto objeto_conectado : conexao )
+        out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
 
-   // Lista das propriedades (condutâncias das ligações)
-   for ( auto condutancia_i : condutancia )
-      out << ' ' << setw ( 10 ) << condutancia_i;
+    // Lista das propriedades (condutâncias das ligações)
+    for ( auto condutancia_i : condutancia )
+        out << ' ' << setw ( 10 ) << condutancia_i;
 
-   //out << '\n';
+    //out << '\n';
 
-   return out;
+    return out;
 }
 
 // -------------------------------------------------------------------------
 // Função:       operator<<
 // -------------------------------------------------------------------------
 /** Escreve os atributos do objeto em disco.
-    @short  :		Escreve os atributos do objeto em disco.
-    Sobrecarga operador entrada streams (antiga CObjetoRedeEsqueleto).
-    @author :	André Duarte Bueno
-    @see    :
-    @param  : 	ostream& e CObjetoRede&
-    @return :		ostream&
+@short  :		Escreve os atributos do objeto em disco.
+Sobrecarga operador entrada streams (antiga CObjetoRedeEsqueleto).
+@author :	André Duarte Bueno
+@param  : 	ostream& e CObjetoRede&
+@return :		ostream&
 */
 ostream& operator<< ( ostream& out, CObjetoRede& s )
 {
-   s.Write ( out );
-   return out;
+    s.Write ( out );
+    return out;
 }
 
 // -------------------------------------------------------------------------
 // Função:    operator>>
 // -------------------------------------------------------------------------
 /** Sobrecarga operador entrada streams
-    @short  :	Sobrecarga operador entrada streams
-    @author :	André Duarte Bueno
-    @see    :
-    @param  : istream& is, CObjetoRede& s
-    @return : istream&
+@short  :	Sobrecarga operador entrada streams
+@author :	André Duarte Bueno
+
+@param  : istream& is, CObjetoRede& s
+@return : istream&
 */
 
 /*istream& operator>> (istream& is, CObjetoRede& s)
@@ -393,71 +386,70 @@ ostream& operator<< ( ostream& out, CObjetoRede& s )
 // -------------------------------------------------------------------------
 // Função:  Go
 // -------------------------------------------------------------------------
-/** A função Go calcula o novo valor de x, considerando o relacionamento
-    com os demais objetos a quem esta conectado.
-    Note que x(ex:a pressão do objeto) é desconsiderada, considera condutâncias
-    e x(ex:pressão dos vizinhos).
+/** 
+* A função Go calcula o novo valor de x, considerando o relacionamento
+com os demais objetos a quem esta conectado.
+Note que x(ex:a pressão do objeto) é desconsiderada, considera condutâncias
+e x(ex:pressão dos vizinhos).
 
-    @short  :
-    Observe que calcula o novo valor de this->x (a pressão) e o retorna,
-    mas não altera o valor de this->x.
+@short  :
+Observe que calcula o novo valor de this->x (a pressão) e o retorna,
+mas não altera o valor de this->x.
 
-    O novo valor de x, retornado por Go() pode ser usado externamente.
+O novo valor de x, retornado por Go() pode ser usado externamente.
 
-    Por exemplo,
-    um solver externo vai usar esta nova previsão de x para definir,
-    no momento adequado, o novo valor de this->x.
-    ex: objeto->x = objeto->Go();
+Por exemplo,
+um solver externo vai usar esta nova previsão de x para definir,
+no momento adequado, o novo valor de this->x.
+ex: objeto->x = objeto->Go();
 
-    Mudança de formato no acesso aos outros sítios:
-    -----------------------------------------------
-    A versão 1 de CGrafo usava o rótulo para identificar o objeto a ser acessado,
-    mas era necessário receber o grafo todo.
-    Agora o vetor conexão de cada sítio armazena direto o endereço dos sítios
-    a quem esta conectado.
-    Abaixo precisava do grafo para acessar os objetos
-    somatorio_da_condutancia_vezes_x +=
-        conexao[i]->propriedade * grafo->objeto[this->conexao[i]->rotulo]->x;
+Mudança de formato no acesso aos outros sítios:
+-----------------------------------------------
+A versão 1 de CGrafo usava o rótulo para identificar o objeto a ser acessado,
+mas era necessário receber o grafo todo.
+Agora o vetor conexão de cada sítio armazena direto o endereço dos sítios
+a quem esta conectado.
+Abaixo precisava do grafo para acessar os objetos
+somatorio_da_condutancia_vezes_x +=
+	conexao[i]->propriedade * grafo->objeto[this->conexao[i]->rotulo]->x;
 
-    Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
-    apenas para salvar o mesmo em disco.
-    somatorio_da_condutancia_vezes_x +=
-        conexao[i]->propriedade * grafo->objeto[i]->x;
+Agora acessa os objetos diretamente, o rótulo do objeto esta sendo utilizado
+apenas para salvar o mesmo em disco.
+somatorio_da_condutancia_vezes_x +=
+	conexao[i]->propriedade * grafo->objeto[i]->x;
 
-    @author : André Duarte Bueno
-    @see    :
-    @param  : long double
-    @return : long double
+@author : André Duarte Bueno
+@param  : long double
+@return : long double
 */
 long double CObjetoRede::Go ( long double /*d */ )
 {
-// std::cerr 	<< "\nPassei por CObjetoRede::Go. Tipo = "<<  static_cast<uint16_t> ( Tipo() ) ;// aqui aqui
-   // Ex:
-   // propriedade = condutancia
-   // x           = pressao
+    // Ex:
+    // propriedade = condutancia
+    // x           = pressao
 
-   // Cria variáveis auxiliares (uma única vez, pois são estáticas)
-   static long double somatorio_da_condutancia;
-   static long double somatorio_da_condutancia_vezes_x;
-   static long double condutancia;
+    // Cria variáveis auxiliares (uma única vez, pois são estáticas)
+    static long double somatorio_da_condutancia;
+    static long double somatorio_da_condutancia_vezes_x;
+    static long double condutancia;
 
-   // Se não tem nenhuma conexão, retorna x atual (a pressão atual)
-   // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
-   // if (conexao.size() == 0)
-   //     return x;
+    // Se não tem nenhuma conexão, retorna x atual (a pressão atual)
+    // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
+    // if (conexao.size() == 0)
+    //     return x;
 
-   // zera o somatório (a cada passagem por Go)
-   somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
+    // zera o somatório (a cada passagem por Go)
+    somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
 
-   for ( unsigned int i = 0; i < conexao.size (); i++ ) {
-         // condutância entre this e o objeto conectado vezes x(pressão) do objeto_conectado
-         somatorio_da_condutancia_vezes_x += this->condutancia[i] * conexao[i]->x;
-         // Acumula a condutancia total
-         somatorio_da_condutancia += this->condutancia[i];
-      }
-   // Somatorio (condutancia*pressao) / somatorio_da_condutancia
-   // retorna um novo valor de x (pressão) sem alterar x diretamente.
-   return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
+    for ( unsigned int i = 0; i < conexao.size (); i++ ) {
+        // condutância entre this e o objeto conectado vezes x(pressão) do objeto_conectado
+        somatorio_da_condutancia_vezes_x += this->condutancia[i] * conexao[i]->x;
+        // Acumula a condutancia total
+        somatorio_da_condutancia += this->condutancia[i];
+    }
+    // Somatorio (condutancia*pressao) / somatorio_da_condutancia
+    // retorna um novo valor de x (pressão) sem alterar x diretamente.
+    return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
 }
 
 // -------------------------------------------------------------------------
@@ -467,55 +459,18 @@ long double CObjetoRede::Go ( long double /*d */ )
    @short  : Determina o fluxo associado a este sítio.
    Fluxo = Condutancia média vezes a pressao deste sítio menos a pressao do objeto conexo
    @author : André Duarte Bueno
-   @see    :
    @param  : void
    @return : long double ( o fluxo associado a this)
 */
 long double CObjetoRede::Fluxo () const
 {
-   static long double fluxo ;
-   fluxo =  0.0 ; // zera a cada passagem
+    static long double fluxo ;
+    fluxo =  0.0 ; // zera a cada passagem
 
-   for ( unsigned long int i = 0; i < conexao.size (); i++ ) {
-         // Ex: se x é a  pressao; calcula condutancia * dP
-         fluxo += condutancia[i] * ( this->x - conexao[i]->x );
-      }
+    for ( unsigned long int i = 0; i < conexao.size (); i++ ) {
+        // Ex: se x é a  pressao; calcula condutancia * dP
+        fluxo += condutancia[i] * ( this->x - conexao[i]->x );
+    }
 
-   return fluxo;
+    return fluxo;
 }
-
-// /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
-//  * Funciona assim: percorre os objetos das conexões,
-//  * se o rótulo do objeto corresponde a um rótulo válido (não deletado), então a conexão é preservada.
-//  * Já os objetos que foram marcados para deleção são desconsiderados(deletados);
-//  *    @short  : Deleta a conexao de um ramo morto
-//  *    @author : André Duarte Bueno
-//  *    @see    :
-//  *    @param  : unsigned int indiceObjetosDeletados
-//  *    @return : void
-// */
-// bool CObjetoRede::DeletarConexoesInvalidadas_aux ( unsigned int deletado , vector<CObjetoRede*>& conexao )
-// {
-//    unsigned int indice_rotulo_valido {0};
-//
-//    // Percorre todas as conexões
-//    for ( unsigned int i = 0; i < conexao.size (); i++ )
-//
-//       // Se o objeto para quem aponta não foi deletado, armazena no vetor das conexões.
-//       // Se foi deletado vai ser pulado.
-//       if ( conexao[i]->rotulo != deletado ) {
-//             conexao[indice_rotulo_valido] = conexao[i];
-//             condutancia[indice_rotulo_valido] = condutancia[i];
-//             indice_rotulo_valido++;
-//          }
-//
-//    // Redimensiona o vetor das conexões e deleta elementos não usados.
-//    conexao.resize ( indice_rotulo_valido );
-//    conexao.erase ( conexao.begin() + indice_rotulo_valido , conexao.end () );
-//
-//    // Redimensiona o vetor das condutâncias e deleta elementos não usados.
-//    condutancia.resize ( indice_rotulo_valido );
-//    condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
-//    return 1;
-// }
-

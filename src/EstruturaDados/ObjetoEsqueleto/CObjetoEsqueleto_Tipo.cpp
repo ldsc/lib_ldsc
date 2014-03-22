@@ -3,7 +3,6 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
 Desenvolvido por:
             Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author:    André Duarte Bueno
@@ -41,38 +40,13 @@ using namespace std;
     Lista_dos_rotulos_das_conexões
 
     @author :		André Duarte Bueno
-    @see    :
+     
     @param  :   Recebe uma referencia para uma ostream
     @return :		ostream&
 */
 ostream& CObjetoEsqueleto_Tipo::Write ( ostream& out ) const
 {
     CObjetoEsqueleto_Tipo::Write(out);
-// 	out.setf ( ios::left );
-// 
-//     // Tipo de contorno
-//     out << setw ( 5 ) << static_cast<uint16_t> ( Tipo () ) << '\n';
-// 
-//     // Rótulo de this
-//     out << ' ' << setw ( 5 ) << rotulo;
-// 
-//     // x de this (pressão)
-//     out << ' ' << setw ( 10 ) << x;
-// 
-//     // propriedade de this (condutancia)
-//     out << ' ' << setw ( 10 ) << propriedade;
-// 
-//     // Numero de links do sítio
-//     out << ' ' << setw ( 5 ) << conexao.size ();
-// 
-//     // lista dos rótulos da conexao
-//     for ( auto objeto_conectado : conexao )
-//         out << ' ' << setw ( 5 ) << objeto_conectado->rotulo;
-// 
-//     // Lista das propriedades (condutâncias das ligações)
-//     for ( auto condutancia_i : condutancia )
-//         out << ' ' << setw ( 10 ) << condutancia_i;
-
     // coordenadas
     out << ' ' << cx << ' ' << cy << ' ' << cz ;//<< '\n';
 
@@ -85,7 +59,7 @@ ostream& CObjetoEsqueleto_Tipo::Write ( ostream& out ) const
 /** Escreve os atributos do objeto em disco.
     @short  :	Sobrecarga operador entrada streams (antiga CObjetoRede_SitioEsqueleto).
     @author :	André Duarte Bueno
-    @see    :
+     
     @param  :	ostream& e CObjetoRede_Sitio&
     @return :	ostream&
 */

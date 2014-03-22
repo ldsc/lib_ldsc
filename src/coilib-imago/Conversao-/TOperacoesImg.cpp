@@ -46,7 +46,7 @@ Fun��o:   SaveImg
           Abre uma stream para um arquivo de disco (fout), verifica se o mesmo
           abriu corretamente e salva os valores da imagem em disco.
 @author : André Duarte Bueno
-@see    :
+ 
 @param  : Recebe como parametros, uma imagem 3D binaria, e um nome de arquivo.
 @return : Retorna um true/false que indica se a operacao ocorreu corretamente.
 */
@@ -296,7 +296,7 @@ Fun��o:	OpenImg16bppFrom1bpp
 -------------------------------------------------------------------------
 @short  :
 @author : André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -375,7 +375,7 @@ Fun��o:  GetImg1bppFrom16bpp
 -------------------------------------------------------------------------
 @short  : Recebe uma imagem16bpp e um indice de corte, retorna uma imagem binaria (nova)
 @author : André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -415,7 +415,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -460,7 +460,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -500,7 +500,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -555,7 +555,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -588,7 +588,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -617,7 +617,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -645,7 +645,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -723,7 +723,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -763,7 +763,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -794,7 +794,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -828,7 +828,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -851,7 +851,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */
@@ -887,7 +887,7 @@ Fun��o:
 -------------------------------------------------------------------------
 @short  :
 @author :André Duarte Bueno
-@see    :
+ 
 @param  :
 @return :
 */

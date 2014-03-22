@@ -29,30 +29,28 @@ Função:
 -------------------------------------------------------------------------
 @short  : Adiciona os dois ponteiros recebidos objA e objB aos vetores de this.
 @author : André Duarte Bueno
-@see    :
 @param  : CObjetoGrafo * objA, CObjetoGrafo * objB
 @return : void
 */
 void CObjetoGrafo_2VetoresConexoes::Conectar ( CObjetoGrafo* objA, CObjetoGrafo* objB )
 {
-   this->conexaoA.push_back ( objA );
-   this->conexaoB.push_back ( objB );
+    this->conexaoA.push_back ( objA );
+    this->conexaoB.push_back ( objB );
 }
 
 // -------------------------------------------------------------------------
 // Função:       DeletarConexao
 // -------------------------------------------------------------------------
 /** Deleta a conexao de um ramo morto
-    @short  :		Deleta a conexao de um ramo morto
-    @author :		André Duarte Bueno
-    @see    :
-    @param  : 	unsigned int pos
-    @return :		void
+@short  :	Deleta a conexao de um ramo morto
+@author :	André Duarte Bueno
+@param  : 	unsigned int pos
+@return :	void
 */
 void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int pos )
 {
-   this->conexaoA.erase ( conexaoA.begin() + pos );
-   this->conexaoB.erase ( conexaoB.begin() + pos );
+    this->conexaoA.erase ( conexaoA.begin() + pos );
+    this->conexaoB.erase ( conexaoB.begin() + pos );
 }
 
 /** Marca e deleta as conexões para objetos invalidados (marcados para deleção).
@@ -63,14 +61,14 @@ void CObjetoGrafo_2VetoresConexoes::DeletarConexao ( unsigned int pos )
  * isto é, se a conexão foi deletada, aqui ela é desconsiderada (apagada).
     @short  : Deleta a conexao de um ramo morto
     @author : André Duarte Bueno
-    @see    :
+
     @param  : unsigned int deletado
     @return : void
 */
 bool CObjetoGrafo_2VetoresConexoes::DeletarConexoesInvalidadas ( unsigned int deletado )
 {
-   return DeletarConexoesInvalidadas_aux ( deletado , conexaoA ) &&
-          DeletarConexoesInvalidadas_aux ( deletado , conexaoB );
+    return DeletarConexoesInvalidadas_aux ( deletado , conexaoA ) &&
+           DeletarConexoesInvalidadas_aux ( deletado , conexaoB );
 }
 
 /**
@@ -79,32 +77,31 @@ Função:     Write
 -------------------------------------------------------------------------
 @short  : Escreve propriedades do objeto em out
 @author : André Duarte Bueno
-@see    :
 @param  : ofstream& out
 @return : ostream&
 */
 ostream& CObjetoGrafo_2VetoresConexoes::Write ( ostream& out ) const
 {
-   out.setf ( ios::left );
-   // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+    out.setf ( ios::left );
+    // Tipo de contorno
+    out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
 
-   // Rótulo de this
-   out << ' ' << setw ( 5 ) << rotulo;
+    // Rótulo de this
+    out << ' ' << setw ( 5 ) << rotulo;
 
-   // Número de conexões do sítio
-   out << ' ' << setw ( 5 ) << conexaoA.size ();
+    // Número de conexões do sítio
+    out << ' ' << setw ( 5 ) << conexaoA.size ();
 
-   // CONECCAO A: lista dos rótulos
-   for ( auto objeto : conexaoA )
-      out << ' ' << setw ( 5 ) << objeto->rotulo;
+    // CONECCAO A: lista dos rótulos
+    for ( auto objeto : conexaoA )
+        out << ' ' << setw ( 5 ) << objeto->rotulo;
 
-   // CONECCAO B: lista dos rótulos
-   for ( auto objeto : conexaoB )
-      out << ' ' << setw ( 5 ) << objeto->rotulo;
-   //out << '\n';
+    // CONECCAO B: lista dos rótulos
+    for ( auto objeto : conexaoB )
+        out << ' ' << setw ( 5 ) << objeto->rotulo;
+    //out << '\n';
 
-   return out;
+    return out;
 }
 
 /**
@@ -113,14 +110,13 @@ Função:  operator<<
 -------------------------------------------------------------------------
 @short  : Escreve propriedades do objeto em fout
 @author : André Duarte Bueno
-@see    :
 @param  : ostream& fout, CObjetoGrafo_2VetoresConexoes& s
 @return : ostream&
 */
 ostream& operator<< ( ostream& fout, CObjetoGrafo_2VetoresConexoes& s )
 {
-   s.Write ( fout );
-   return fout;
+    s.Write ( fout );
+    return fout;
 }
 
 /*
@@ -130,7 +126,6 @@ Função:    operator>>
 @short  : Lê as propriedades do objeto a partir de arquivo os
 					(normalmente de disco)
 @author :	André Duarte Bueno
-@see    :
 @param  :
 @return :
 */

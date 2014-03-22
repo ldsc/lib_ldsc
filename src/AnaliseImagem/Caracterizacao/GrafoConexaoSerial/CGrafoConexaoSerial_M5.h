@@ -47,7 +47,7 @@ class CGrafoConexaoSerial_M5 : public CGrafoConexaoSerial_M4 {
 // --------------------------------------------------------------Atributos
 protected:
      // Objeto para saída (deveria ser comentado!).
-     std::ofstream arqpixeisDeletados;
+     //std::ofstream arqpixeisDeletados;
 
      /// Ponteiro para imagem 3D. @todo: justificar!
      TCMatriz3D<int> *img3D;
@@ -57,18 +57,18 @@ public:
 /// Construtor
      CGrafoConexaoSerial_M5 ( std::string _nomeArquivo ) : CGrafoConexaoSerial_M4 ( _nomeArquivo )  {
           tipoGrafo  =  ETipoGrafo::GrafoConexaoSerial_M5;
-		  string arqDisco = std::string("PixeisDeletados_") + _nomeArquivo;
-          arqpixeisDeletados.open ( arqDisco.c_str() );
-          if ( arqpixeisDeletados.bad() )   {
-               std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
-               exit ( 0 );
-          }
+// 		  string arqDisco = std::string("PixeisDeletados_") + _nomeArquivo;
+//           arqpixeisDeletados.open ( arqDisco.c_str() );
+//           if ( arqpixeisDeletados.bad() )   {
+//                std::cerr << "\nNão conseguiu abrir arquivo de disco:" << arqDisco << std::endl;
+//                exit ( 0 );
+//           }
      }
 
 // --------------------------------------------------------------Destrutor
      /// Destrutor
      virtual ~ CGrafoConexaoSerial_M5 ()  {
-          arqpixeisDeletados.close ();
+//           arqpixeisDeletados.close ();
      }
 
 // ----------------------------------------------------------------Métodos

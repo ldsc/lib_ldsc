@@ -37,7 +37,7 @@ Função: PreparaImagem
 	 Armazena o ponteiro para a imagem e verifica se a imagem tem as mesmas dimensões
 	 caso contrário, realoza a imagem.
 @author :André Duarte Bueno
-@see    :rotulagem
+ rotulagem
 @param  :CMatriz3D
 @return :bool
 */

@@ -33,7 +33,7 @@ using namespace std;
 // -------------------------------------------------------------------------
 /** Salva atributos do objeto em disco.
 @author :	André Duarte Bueno
-@see    :
+ 
 @param  :	ostream& os, CSolverMatriz_ParametroSolver& obj
 @return : ostream& os
 */
@@ -49,7 +49,7 @@ ostream & operator<< (ostream & os, const CSolverMatriz_ParametroSolver & obj)
 /**
 @short  : Lê os atributos do objeto do arquivo de disco
 @author :	André Duarte Bueno
-@see    :
+ 
 @param  :	istream& is, CSolverMatriz_ParametroSolver& obj
 @return :	istream&
 */

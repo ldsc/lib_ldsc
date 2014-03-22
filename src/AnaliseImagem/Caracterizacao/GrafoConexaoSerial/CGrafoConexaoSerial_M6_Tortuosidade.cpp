@@ -58,7 +58,7 @@ using namespace std;
 /**
 @short  : Cria objeto herdeiro de CObjetoRede, de acordo com o tipo solicitado (CObjetoRede_CC_Sitio...).
 @author : André Duarte Bueno
-@see    : grafos
+  grafos
 @param  : CContorno::ETipoContorno tipoContorno
 @return : Retorna um ponteiro para um sítio novo
 */
@@ -110,7 +110,7 @@ CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( ETipoObjetoGrafo tipoObjeto  
 @short  :	Função que adiciona a lista de objetos do grafo, os objetos identificados em rotulador.
         Redefinida para inclusão das informações de cx,cy,cz
 @author :	André Duarte Bueno
-@see    :
+ 
 @param  : Recebe a imagem rotulada com os objetos a serem incluídos (ra ou rp),
     o número do ultimo rótulo utilizado e o
     tipo de contorno (identifica o objeto a ser criado:
@@ -155,8 +155,7 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
 
          // Código novo
          // Dentro de CRede, value_type_objeto esta setada para criar objeto do tipo CObjetoRede
-         // ou CObjetoRede_Tipo(tipo); depende da variável de pré-processamento
-         // OTIMIZAR_VELOCIDADE_PROCESSAMENTO;
+         // ou CObjetoRede_Tipo(tipo); depende da variável de pré-processamento OTIMIZAR_VELOCIDADE_PROCESSAMENTO;
          // mas aqui quero criar CObjetoEsqueleto_Sitio ou ObjetoEsqueleto_Final, então uso
          // #idef OTIMIZAR_VELOCIDADE_PROCESSAMENTO para setar corretamente o tipo de ponteiro.
          // Lembrando que ObjetoEsqueleto_Final é +rápida pois não tem polimorfismo.
@@ -165,14 +164,9 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
 //         data = dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
          using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
-// cerr << "debug1: using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;\n";
 #else
          using value_type_objeto_esqueleto = CObjetoEsqueleto;
-// cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
 #endif
-//          value_type_objeto_esqueleto * data = nullptr;
-// cerr<<"\nAntes dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );" << endl; 
-// 		 data = dynamic_cast< value_type_objeto_esqueleto * > ( CriarObjeto ( tipoObjeto ) );
  value_type_objeto_esqueleto * data = nullptr;
  data = static_cast<value_type_objeto_esqueleto *> ( CriarObjeto ( tipoObjeto ) );
 	   // Obtem um novo objeto
@@ -190,7 +184,6 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
          data->x = this->plano;
 
 		// Adiciona a posição do centro de massa, seta cx,cy,cz de cada sítio
-// cerr<<"\nAntes data->cx = rotulador->CMXObjeto ( rotulo );" << endl; 
          data->cx = rotulador->CMXObjeto ( rotulo );
          data->cy = rotulador->CMYObjeto ( rotulo );
          data->cz = plano;
@@ -204,10 +197,8 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
 // Função:   CalcularCondutancias
 // -------------------------------------------------------------------------
 /**
-@short  : Redefinida, em relação a CGrafo.
-        Adiciona o cálculo das condutâncias das ligações
+@short  : Redefinida, em relação a CGrafo; Adiciona o cálculo das condutâncias das ligações
 @author :	André Duarte Bueno
-@see    : Condutância
 @param  : nada
 @return : void
 */
@@ -239,10 +230,8 @@ void CGrafoConexaoSerial_M6_Tortuosidade::CalcularCondutancias ( long double _vi
          // Converte o ponteiro ObjetoGrafo para CObjetoEsqueleto, para ter acesso ao vetor condutancia[link] e cx,cy,cz
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
          using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
-cerr << "debug1: using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;\n";
 #else
          using value_type_objeto_esqueleto = CObjetoEsqueleto;
-cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
 #endif		
         value_type_objeto_esqueleto * sitio = nullptr;
 		sitio = dynamic_cast< value_type_objeto_esqueleto * > ( objeto[k] );
@@ -253,8 +242,6 @@ cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
          double cmySitio = sitio->cy;
 
          // Percorre todas as conexões do sitio atual
-//          CObjetoEsqueleto*  sitioConexo = nullptr;
-
          for ( unsigned int link = 0; link < sitio->conexao.size (); link++ ) {
 			   value_type_objeto_esqueleto * sitioConexo = nullptr;
 			   sitioConexo = dynamic_cast< value_type_objeto_esqueleto * > ( objeto[k] );
@@ -314,7 +301,7 @@ cerr << "debug2: using value_type_objeto_esqueleto = CObjetoEsqueleto;\n";
 /**
 @short  : Nova, adiciona CalcularTortuosidade sem necessidade calccular condutâncias.
 @author :	André Duarte Bueno
-@see    : Condutância
+  Condutância
 @param  : nada
 @return : void
 */

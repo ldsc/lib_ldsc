@@ -30,7 +30,7 @@ Função:  Go
 -------------------------------------------------------------------------
 @short  : Calcula o histograma de níveis de cinza
 @author : André Duarte Bueno
-@see    : Matrizes
+  Matrizes
 @param  : Recebe uma matriz 2D
 @return : Retorna this
 */
@@ -77,7 +77,7 @@ A percentagem é um valor de 0->100
 O nível de corte é uma valor entre 0->255
 
 @author :André Duarte Bueno
-@see    :Matrizes
+ Matrizes
 @param  :double percentagem
 @return :  short int
 */
@@ -114,7 +114,7 @@ Se NivelCorte = 10, retorna a soma do histograma entre
 0 e 10, ou seja, a soma de 0,1,2,3,4,5,6,7,8,9,10
 
 @author : André Duarte Bueno
-@see    :
+ 
 @param  :   short int NivelCorte
 @return : Percentagem acumulada do histograma
 */

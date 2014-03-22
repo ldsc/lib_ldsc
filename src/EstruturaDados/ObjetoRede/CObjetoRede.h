@@ -102,7 +102,7 @@ public:
    */
    virtual void Conectar ( CObjetoRede* objA, long double _condutancia );
 
-    /*
+    /**
 	 * @brief Função que recebe um ponteiro para um CObjetoRede objA e um ponteiro para um objeto B
 	 * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
     * Faz a conexão de this com os objetos recebidos.
@@ -114,7 +114,7 @@ public:
    */
    /*inline */virtual void Conectar ( CObjetoRede* objA, CObjetoRede* objB ) ;
 
-    /*
+    /**
 	 * @brief Função que recebe um ponteiro para um CObjetoRede objA e um ponteiro para um objeto B
 	 * e os inclue na lista de conexões. Usada por objetos do tipo Ligação.
     * Faz a conexão de this com os objetos recebidos.

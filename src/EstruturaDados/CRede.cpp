@@ -79,26 +79,6 @@ value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
    return data;
 }
 
-// // -------------------------------------------------------------------------
-// // Função:     DeletarObjeto
-// // -------------------------------------------------------------------------
-// /**
-// 	@short  : Recebe um vetor com o índice dos objtos a serem deletados.
-// 	(Deleta várias objetos ao mesmo tempo).
-// */
-// bool CRede::DeletarObjeto( std::vector<unsigned int> di ) override
-// {
-//       unsigned int marcar_para_delecao = objeto.size();
-// 
-//       for ( unsigned int i = 0; i < di.size (); i++ )
-//          // Se di[i] for um rótulo inválido para conexao ocorre estouro de pilha!
-//          objeto[ di[i] ]->rotulo =  marcar_para_delecao;
-// 
-//       // Chama  DeletarConexoesInvalidadas que deleta conexões marcadas para deleção.
-//       this->DeletarConexoesInvalidadas ( marcar_para_delecao );
-//    }
-// }
-
 // -------------------------------------------------------------------------
 // Função:     Write
 // -------------------------------------------------------------------------
@@ -113,7 +93,7 @@ value_type_objeto* CRede::CriarObjeto ( ETipoObjetoGrafo tipo )
     Lista_dos_rotulos_das_conexões
 
     @author : André Duarte Bueno
-    @see    : grafos
+      grafos
     @param  : Nome do arquivo de disco (string)
     @return : void
 */
@@ -130,9 +110,6 @@ void CRede::Write ( std::ostream& out ) const
    // Percorre os objetos e salva em disco as informações de cada objeto.
    for ( auto objeto_i :  objeto ) {
          objeto_i->Write ( out );
-         // out << (*objeto[i]) << '\n';
-         // objeto_i >> out;   <-> objeto_i << in;
-         // objeto_i >> arquivo;   <-> objeto_i << arquivo;
          out << '\n';
       }
 }
@@ -143,7 +120,7 @@ void CRede::Write ( std::ostream& out ) const
 /** @short  : Salva dados do objeto em os (disco).
     Salva o número de objetos que fazem parte de grafo e a seguir os dados de cada objeto.
     @author : André Duarte Bueno
-    @see    : grafos
+      grafos
     @param  : Objeto do tipo CRede.
     @return : ostream&
     @test   : Testar/verificar os diferentes tipos de arquivos de grafo gerados.

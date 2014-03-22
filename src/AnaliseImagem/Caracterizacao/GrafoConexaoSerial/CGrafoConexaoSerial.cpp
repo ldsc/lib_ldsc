@@ -104,8 +104,6 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
 
    for ( j = 0; j < ny; j++ )
       for ( i = 0; i < nx; i++ ) {
-//          fin >> valor;
-//          img2D->data2D[i][j] = valor;
             fin >> img2D->data2D[i][j] ;
          }
 
@@ -125,7 +123,7 @@ CRede* CGrafoConexaoSerial::Go ( string nomeArquivoImagem, unsigned long int /*n
    /// @todo: verificar retorno de ra->RotuloFinal() = último rótulo utilizado
    /// se for último rótulo utilizado precisa somar 1
    rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal (); // +1
-cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
+
    // ------------
    // PLANO i
    // ------------
@@ -153,7 +151,6 @@ cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 <
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
                rotuloPrimeiroObjetoPlanoN = maiorRotuloUtilizado + ra->RotuloFinal (); //+1
-               cerr << "\nCompare rotuloPrimeiroObjetoPlanoN =" << rotuloPrimeiroObjetoPlanoN << " com dados grafo;\n";
             }
 
          // Adiciona objetos do plano ij atual
@@ -193,7 +190,6 @@ cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 <
   DeterminarConexoesObjetos,
   EliminarRamosMortos.
 @author :	André Duarte Bueno
-@see    :	Grafos, rotulagem
 @param  :	Uma matriz 3D e um identificador
 @return :	this
 */
@@ -255,7 +251,6 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
 
    // Determina o primeiro objeto a ser usado pelo solver
    rotuloPrimeiroObjetoPlano1 = maiorRotuloUtilizado + ra->RotuloFinal ();	// +1!!!! aqui falta +1
-   cerr << "\nCompare rotuloPrimeiroObjetoPlano1 =" << rotuloPrimeiroObjetoPlano1 << " com dados grafo;\n";
 
    // ----------------------------------------------------------------------------
    // Percorre todos os demais planos
@@ -286,7 +281,6 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
          if ( k == ( nz - 1 ) ) {
                tipoObjeto = ETipoObjetoGrafo::ObjetoRede_Sitio_EST;
                rotuloPrimeiroObjetoPlanoN = maiorRotuloUtilizado + ra->RotuloFinal ();
-               cerr << "\nCompare rotuloPrimeiroObjetoPlanoN =" << rotuloPrimeiroObjetoPlanoN  << " com dados grafo;\n";
             }
 
          // Adiciona os sítios, a lista de sítios
@@ -320,9 +314,8 @@ CRede* CGrafoConexaoSerial::Go ( TCMatriz3D<int>* _img3D, unsigned long int /*na
 // -------------------------------------------------------------------------
 /** @short  :	Função que adiciona a lista de objetos do grafo, os objetos identificados em rotulador.
  * @author :	André Duarte Bueno
- * @see    :
- * @param  : Recebe a imagem rotulada com os objetos a serem incluídos,
- * o número do ultimo rótulo utilizado e o tipo de contorno.
+ * @param  : Recebe a imagem rotulada com os objetos a serem incluídos, o número do ultimo rótulo utilizado e 
+ * o tipo de contorno.
  * @return : void
 */
 void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
@@ -332,13 +325,6 @@ void CGrafoConexaoSerial::AdicionarObjetos ( CRotulador2DCm* rotulador,
    // Não deve considerar o objeto 0 que é o fundo;
    // inclue o rotulo final, o objeto final, ok
    for ( unsigned long int rotulo = 1; rotulo <= rotulador->RotuloFinal (); rotulo++ ) {
-         // Código antigo
-         //// Ponteiro para objeto a ser criado
-         //CObjetoRede* data = nullptr;
-         //// Obtem um sítio novo passando o tipo
-         //data = CriarObjeto ( tipoContornoObjeto );
-         //assert ( data );
-
          // Vai criar objeto do tipo CObjetoRede ou CObjetoRede_Tipo(passando o tipo (+rápida sem polimorfismo)).
          // depende do valor do flag de pré-proessamento OTIMIZAR_VELOCIDADE_PROCESSAMENTO
          value_type_objeto* data = nullptr;
@@ -452,7 +438,7 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v1 ()
    // O número de objetos no último plano é o número total de objetos
    // menos o rótulo do ultimo objeto do plano N-1.
    unsigned int numeroObjetosNoPlanoZn = objeto.size () - rotuloPrimeiroObjetoPlanoN;
-cerr << "\nnumeroObjetosNoPlanoZn =" << numeroObjetosNoPlanoZn << endl;
+
    // Passo 1: Vai varrer os planos e marcar objetos a serem deletados
    do {
          numeroObjetosDeletadosNestaPassagem = 0;
@@ -470,7 +456,6 @@ cerr << "\nnumeroObjetosNoPlanoZn =" << numeroObjetosNoPlanoZn << endl;
                // Se numeroLinksObjetoEmAnalise == 0 conexões
                if ( numeroLinksObjetoEmAnalise == 0 ) {
                      // Adiciona a lista de objetos eliminados o rotulo do objeto atual
-// vObjetosEliminados.push_back ( rotulo );
 
                      // Deleta o objeto
                      delete objeto[rotulo];
@@ -505,9 +490,7 @@ cerr << "\nnumeroObjetosNoPlanoZn =" << numeroObjetosNoPlanoZn << endl;
 
                      // FIM FUNCAO DELETAROBJETO (objetoEmAnalise)
                      // --------------------
-
                      // Agora deleta o objetoEmAnalise
-// vObjetosEliminados.push_back ( rotulo );
                      delete objeto[rotulo];    // deleta o objeto, e não o ponteiro
                      objeto[rotulo] = nullptr; // zera o ponteiro
                      numeroObjetosDeletadosNestaPassagem++;
@@ -584,19 +567,14 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
          // A função MarcarParaDelecaoObjeto percorre os objetos do grafo
          // e marca para deleção os que fazem parte de ramo morto.
          // Todo o ramo é marcado para deleção.
-//Abaixo aparentementepois apaga objetos dos planos z=0 e z=n-1! testar!
 		 for ( int i = 0; i < objeto.size (); i++ ) {
-//bug!          for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) {
 			MarcarParaDelecaoObjeto ( i );
             }
 
          // ------------------------------------------------
          // Percorrer todos os objetos e marcar para deleção cada link invalidado
          //  value_type_objeto* obj = nullptr;
-
-//Abaixo aparentemente apaga objetos dos planos z=0 e z=n-1! testar!
           for ( int i = 0; i < objeto.size (); i++ ) {
-//bug!         for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) {
                objeto[i]->DeletarConexoesInvalidadas ( deletado );
             }
 
@@ -605,9 +583,7 @@ void CGrafoConexaoSerial::EliminarRamosMortos_0_ou_1_conexao_v2 ()
          int indice_rotulo_valido = 0;
 
          // Percorre todos os objetos
-//Abaixo aparentementepois apaga objetos dos planos z=0 e z=n-1! testar!
           for ( int i = 0; i < objeto.size (); i++ )
-//bug!         for ( int i = rotuloPrimeiroObjetoPlano1; i < objeto.size ()-numeroObjetosNoPlanoZn; i++ ) 
             // Se o objeto para quem aponta não foi deletado, armazena no vetor dos objetos;
             // Se foi deletado vai ser pulado.
             if ( objeto[i]->rotulo != deletado ) {
@@ -663,8 +639,6 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
       and objeto[i]->rotulo != deletado 
       // e esta no centro, vai verificar
       and objeto[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
-//         CObjetoRede_Sitio* obj = dynamic_cast < CObjetoRede_Sitio* > ( objeto[i] );
-//          assert ( obj ); // exceção..
 
          // Obtêm o número de conexões
          int nlinks = objeto[i]->conexao.size ();
@@ -700,7 +674,6 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
 
                // Se a conexao[1] se refere a objeto já deletado então o número efetivo
                // de conexões é 1, e precisa marcar para deletação.
-
                /*else*/ if ( objeto[i]->conexao[1]->rotulo == deletado ) {
                      objeto[i]->rotulo = deletado;
                      // Solicita deleção da conexao 0.
@@ -713,105 +686,20 @@ CGrafoConexaoSerial::MarcarParaDelecaoObjeto ( int i )
 }
 
 // -------------------------------------------------------------------------
-// Função:  DeletarObjeto
-// -------------------------------------------------------------------------
-/*
-@short  : Deleta objeto do grafo que tem o rotulo passado,
- e depois deleta todas as referencias a este objeto.
- Ou seja, um objeto A pode ter uma ligação para um objeto B, sem que B
- tenha uma ligação com A. Ao deletar o objeto B, precisa eliminar  a ligação A->B.
-
- Outros objetos do grafo podem apontar para o objeto deletado.
- Preciso percorrer todos os objetos do grafo
- e as ligações de cada objeto para eliminar qualquer referencia ao objeto
- que vai ser deletado???
- se algum objeto aponta para o objeto a ser deletado
- isto significa que ele tem conexão e que não deveria ser deletado???
- (Para o CGrafo3Dby2D este caso não deveria ocorrer)
-
-        objeto[i]->conexao[link]  // retorna ponteiro para objeto
-        objeto[i]		 // retorna ponteiro para objeto
-
-        Versão 1:
- Na primeira versão a informação dos links era armazenada, guardando-se
- o rotulo dos objetos.
-        Ao eliminar um objeto do vector, o vector é todo reordenado
-        e os endereços todos trocados, de forma que o rótulo estaria apontando para
- o objeto errado. Veja abaixo.
-
-        Antes de deletar qualquer objeto
-        	vector<> objeto  = 0,1,2,3,4,5,6,7,8...
-
-        Depois de deletar o objeto 4
-         vector<> objeto  = 0,1,2,3,5->4,6->5,7->6,8->7...
-        Observe que o rotulo 5 apontava para o objeto 5 e agora aponta para o objeto 4.
-
-        Na versão 2:
- Os objetos apontam diretamente para os outros objetos.
- A lista das conexões não armazena mais o rótulo do objeto, e sim um ponteiro para o
- proprio objeto.
-        Usava algo como: objeto[objeto[i]->rotulo]
-        Agora os vetores conexao armazenam o endereço do objeto
-        e não o rótulo do objeto, de forma que a localização do objeto
-        é feita diretamente.
-
- Antes de deletar um objeto, devo verificar seu endereço e deletar
- todos os links a ele, somente depois de todas as ligações ao objeto
- terem sido eliminadas é que posso deletar o próprio objeto.
-
-@author :	André Duarte Bueno
-@see    : grafos
-@param  : Posição do objeto a ser deletado
-@return : true se ok
-*/
-/*bool CGrafoConexaoSerial::DeletarObjeto(int ri)
-{
-  CObjetoRede_Sitio* obj_i =	dynamic_cast<CObjetoRede_Sitio*>(sitio);
-  assert( obj_i );
-  return 1;
-}
- */
-
-/*
-bool CGrafoConexaoSerial::DeletarObjeto(unsigned long int rotulo) // ou rotulo
-{
- // Ponteiro para o objeto
-  CObjetoRede_Sitio* obj_i =	dynamic_cast<CObjetoRede_Sitio*>(objeto[rotulo]);
-  // bug pois não deve acessar objeto usando rotulo
-  assert( obj_i );
-
- // Percorre os links que devem ser 0 ou 1
-  for ( unsigned long int  link = 0; link < obj_i->conexao.size() ; link++ )
-   if(obj_i->conexao[link] == objeto[rotulo->bug])nao deve acessar objeto[rotulo]
-       {
-     vector<CObjetoRede*>::iterator  it_link = obj_i->conexao.begin();
-       obj_i->conexao.erase(it_link + link);
-       }
-   vector<CObjetoRede*>::iterator  it = objeto.begin();
-
-   objeto.erase(it + rotulo);
-return 1;
-}
-*/
-
-// -------------------------------------------------------------------------
 // Função:                    LerVetorPropriedades_x()
 // -------------------------------------------------------------------------
 /**
-    @short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
-    O sistema de proteçao contra quedas de energia salva, a cada conjunto de iterações,
-    os dados dos objetos do grafo em disco (salva o vetor das pressões do grafo).
-    Se o micro caiu (queda de luz), o programa pode solicitar a reinicialização da simulação,
-    criando o grafo, determinando o mesmo e então chamando a função LerVetorPropriedades_x(),
-    que vai ler somente as pressãos do arquivo de disco NomeGrafo()+ ".vectorX".
-    @author :	André Duarte Bueno
-    @see    : grafos
-    @param  :
-    @return :	bool // ostream&
-
-    @test: o nome do arquivo "grafo.vectorX" foi modificado para considerar o nome da imagem
-    pois pode processar mais de um arquivo no mesmo diretório ao mesmo tempo.
-    Como mudou precisa testar!
+@short  : Lê os dados da propriedade x dos objetos do grafo que foram salvos no disco.
+O sistema de proteçao contra quedas de energia salva, a cada conjunto de iterações,
+os dados dos objetos do grafo em disco (salva o vetor das pressões do grafo).
+Se o micro caiu (queda de luz), o programa pode solicitar a reinicialização da simulação,
+criando o grafo, determinando o mesmo e então chamando a função LerVetorPropriedades_x(),
+que vai ler somente as pressãos do arquivo de disco NomeGrafo()+ ".vectorX".
+@author :	André Duarte Bueno
+@return :	bool // ostream&
+@test: o nome do arquivo "grafo.vectorX" foi modificado para considerar o nome da imagem
+pois pode processar mais de um arquivo no mesmo diretório ao mesmo tempo.
+Como mudou precisa testar!
 */
 bool CGrafoConexaoSerial::LerVetorPropriedades_x ()
 {
@@ -874,7 +762,6 @@ bool CGrafoConexaoSerial::SalvarVetorPropriedades_x ()
  * se chamar antes, vai acumular o raio hidraulico)
  * Chama função de cada sítio, que elimina links repetidos.
  * @author : André Duarte Bueno
- * @see    : Condutância
  * @param  : nada
  * @return : void
 */
@@ -890,30 +777,28 @@ CGrafoConexaoSerial::EliminarConexoesParalelo_SomarCondutancias ()
             // Chama DeletarConexoesRepetidas_e_SomarCondutanciasParalelo, que retorna o número de links eliminados
             ConexoesParaleloObjeto_i = objeto_i->DeletarConexoesRepetidas_e_SomarCondutanciasParalelo ();
             totalConexoesParalelo += ConexoesParaleloObjeto_i ;
-cout << "\nNúmero total de ConexoesParaleloObjeto_i = " << ConexoesParaleloObjeto_i << '\n';
+		 cout << "\nNúmero total de ConexoesParaleloObjeto_i = " << ConexoesParaleloObjeto_i << '\n';
          }
-cout << "\nNumeroTotal de conexões em paralelo deletadas = " << totalConexoesParalelo << endl;
+	cout << "\nNúmero total de conexões em paralelo que foram deletadas = " << totalConexoesParalelo << endl;
 }
-
 
 // -------------------------------------------------------------------------
 // Função:               SetarMatrizAVetorB
 // -------------------------------------------------------------------------
 /** @short  : Recebe uma matriz A (vazia) e um vetor B (vazio)
-    e preenche os mesmos com os coeficientes necessários
-    para determinação do sistema de equações.
-    Pré-condições:
-    1- O grafo já deve ter sido determinado.
-    2- Os valores iniciais de pressão já devem ter sido definidos
-    (valores de contorno, normalmente Plano_0 = 1, Plano_n = 0).
-    3- Deve receber uma matriz e um vetor vazios.
-    @author : André Duarte Bueno
-    @see    : grafos
-    @param  :
-    @return : bool indicando sucesso da operação.
-    @todo: receber matriz de double !! eliminando multiplicador 1e17.
-    @todo: transformar em template que recebe tipo : float, double, long double.
-    @test: testar para ver se esta funcionando!
+e preenche os mesmos com os coeficientes necessários
+para determinação do sistema de equações.
+Pré-condições:
+1- O grafo já deve ter sido determinado.
+2- Os valores iniciais de pressão já devem ter sido definidos
+(valores de contorno, normalmente Plano_0 = 1, Plano_n = 0).
+3- Deve receber uma matriz e um vetor vazios.
+@author : André Duarte Bueno
+@param  :
+@return : bool indicando sucesso da operação.
+@todo: receber matriz de double !! eliminando multiplicador 1e17.
+@todo: transformar em template que recebe tipo : float, double, long double.
+@test: testar para ver se esta funcionando!
 */
 bool CGrafoConexaoSerial::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B ) const
 {
@@ -954,10 +839,6 @@ bool CGrafoConexaoSerial::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B
    unsigned int i;
 
    for ( unsigned long int j = 0; j < objeto.size (); j++ ) {
-// // Faz um cast para sítio derivado (em função do acesso a função Contorno e vetor conexao).
-// CObjetoRede_Sitio* objeto_j = dynamic_cast < CObjetoRede_Sitio* > ( objeto[j] );
-// assert ( objeto_j ); // se não der certo o cast, vai lançar exceção!
-
          switch ( objeto[j]->Contorno () ) {
                // Fronteira esquerda/WEST
             case CContorno::ETipoContorno::WEST:
@@ -969,7 +850,6 @@ bool CGrafoConexaoSerial::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B
                for ( i = 0; i < objeto[j]->conexao.size (); i++ ) {
                      /// Calcula Cij - @todo: explicar a equacao usada.
                      Cij = ( objeto[j]->conexao[i]->propriedade + objeto[j]->propriedade ) / 2.0;
-// para modelo3 M3 Cij = objeto_j->condutancia[i]
                      Cij = Cij * 1.0e17;	// LIXO, para gerar int
                      // cij esta sendo armazenado em int por isto multiplico por e17
 
@@ -997,7 +877,6 @@ bool CGrafoConexaoSerial::SetarMatrizAVetorB ( TCMatriz2D< int >*& A, CVetor*& B
                      if ( objeto[j]->conexao[i]->Contorno () == CContorno::ETipoContorno::CENTER ) {
                            // Calcula Cij
                            Cij = ( objeto[j]->propriedade + objeto[j]->conexao[i]->propriedade ) / 2.0;
-// para modelo3 M3 Cij = objeto[j]->condutancia[i]
                            Cij = Cij * 1.0e17;	// LIXO para gerar int
                            // cij esta sendo armazenado em int por isto multiplico por e17
 

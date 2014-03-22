@@ -309,16 +309,6 @@ protected:
    */
    virtual void ReorganizarCmxCmy()	{	}
 
-   /*
-     * @brief Função que calcula o centro de massa dos objetos.
-     * Vai ser redefinida nas herdeiras M4 e M5
-     * Não implementada, vai deletar os centros de massa ao deletar os objetos.
-   */
-   // virtual void  CalcularCentroMassa(){};
-
-   /* Função que deleta um objeto do grafo(não usada) */
-   // virtual bool DeletarObjeto(int ri) {return 0;};
-
    /**
      * @brief Função que marca um objeto do grafo para deleção é deletado
      * efetivamente por EliminarRamosMortos_0_ou_1_conexao_v2
@@ -356,11 +346,6 @@ public:
       return eliminaRamosMortos;
    }
 
-//    /// Elimina conexões repetidas
-//    int EliminaConexoesRepetidas() {
-//       return eliminaConexoesRepetidas;
-//    }
-
 	/// Retorna deletaConexoesParalelo, =0 default, não deleta conexões em paralelo (+ lento)
 	bool DeletaConexoesParalelo() { return deletaConexoesParalelo; };
 
@@ -370,10 +355,6 @@ public:
       eliminaRamosMortos = _e;
    }
 
-//    /// Seta conexões repetidas
-//    void EliminaConexoesRepetidas ( int _r ) {
-//       eliminaConexoesRepetidas = _r;
-//    }
 	/// @todo, testar ativação deste flag e resultados para modelo 1.
 	/// Seta deletaConexoesParalelo;  =1 indica para deletar conexões em paralelo (+ rápido)
 	void DeletaConexoesParalelo(bool b) { deletaConexoesParalelo = b; };

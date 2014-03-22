@@ -137,7 +137,6 @@ ostream& operator<< ( ostream& out, CObjetoRede_Final& s )
 */
 long double CObjetoRede_Final::Go ( long double /*d */ )
 {
-// cerr << "\nPassei por CObjetoRede_Final::Go.";// aqui aqui   
 // Se this esta num contorno, apenas retorna o valor de x.
    if ( Tipo()     == ETipoObjetoGrafo::ObjetoRede_Sitio_EST
          or Tipo() == ETipoObjetoGrafo::ObjetoRede_Sitio_WEST

@@ -61,12 +61,6 @@ CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo ( CMFluido*& _fluido,
 {
    cout.setf ( ios::left );
    cout.precision ( 18 );
-   
-   
-// for (int i=0; i< grafo->objeto.size(); i++) // aqui aqui
-//   cerr 	<< "\nCONSTRUTOR CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo -> grafo->objeto[" << i << "]->Go() = " 
-// 		<< grafo->objeto[i]->Go() << endl;
-   
 }
 
 /*

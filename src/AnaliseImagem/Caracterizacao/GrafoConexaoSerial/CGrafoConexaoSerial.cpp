@@ -3,7 +3,6 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
-
 Desenvolvido por:
 				  Laboratorio de Desenvolvimento de Software Cientifico  [LDSC].
 @author:          André Duarte Bueno
@@ -721,7 +720,7 @@ bool CGrafoConexaoSerial::LerVetorPropriedades_x ()
    for ( auto objeto_grafo : objeto ) {
          fin >> objeto_grafo->x ;
 
-///  @test: o código abaixo poderia ser comentado pois não deve ocorrer!
+		 /// o código abaixo poderia ser comentado pois não deve ocorrer!
          if ( fin.eof () )
             return 0;
       }

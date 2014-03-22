@@ -1,9 +1,6 @@
-# Create bin directory (if ther isn`t)
-#file(MAKE_DIRECTORY bin)
+add_executable( ConfiguracoesEquilibrio_2D confeq2D.cpp )
 
-#add_subdirectory(ConEqu2D ConEqu3D)
+target_link_libraries(ConfiguracoesEquilibrio_2D  ldsc)
 
-# add_executable(bin/Permeabilidade_GrafoConexaoSerial
-#    GrafoConexaoSerial/CGrafoConexaoSerial_Teste.cpp
-#    GrafoConexaoSerial/grafo_main.cpp)
-# target_link_libraries(bin/Permeabilidade_GrafoConexaoSerial ldsc)
+
+

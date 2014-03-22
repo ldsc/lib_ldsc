@@ -342,7 +342,7 @@ public:
    }
 
    /// Retorna o número que informa o método que irá eliminar os ramos mortos.
-   int EliminaRamosMortos() {
+   int VersaoEliminaRamosMortos() {
       return eliminaRamosMortos;
    }
 
@@ -351,7 +351,7 @@ public:
 
    // --------------------------------------------------------------------Set
    /// Seta elimina ramos mortos
-   void EliminaRamosMortos ( int _e ) {
+   void VersaoEliminaRamosMortos ( int _e ) {
       eliminaRamosMortos = _e;
    }
 

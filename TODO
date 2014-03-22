@@ -250,7 +250,7 @@ em toda lib_ldsc.
 [x] - │   └── Solver
 [x] - │       ├── Funcao
 [x] - │       └── SistemaEquacoes
-[ ] - ├── RedesNeurais
+[ ] - ├── InteligenciaArtificial
 [x] - └── Tempo
 
 [Nova estrutura diretórios 2 -> lib_ldsc(base) e lib_ldsc_engenharia]

@@ -29,8 +29,8 @@ using namespace std;
 // ----------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------
-#include <ConEqu/CConfiguracoesEquilibrio3D.h>
-#include <MetNum/Matriz/CMatriz3D.h>
+#include <AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 
 /**
  * Função main() inclui teste da biblioteca
@@ -56,13 +56,13 @@ int main(int argc, char *argv[])
           << "\n================================================================================" << endl;
 
 
-    CMatriz3D* img3D = NULL; // ponteiro para imagem
+    TCMatriz3D<int>* img3D {nullptr } ; // ponteiro para imagem
 
     if (argc==2)
     {
         // Cria imagem 3D
-        img3D = new CMatriz3D(argv[1]);
-        if (img3D == NULL)
+        img3D = new TCMatriz3D<int>(argv[1]);
+        if (img3D == nullptr )
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
             return 0;
@@ -74,29 +74,28 @@ int main(int argc, char *argv[])
         cout << "\nEntre com o nome da imagem 3D - binária (ex: P262_K70-2-45-50-lp-d6.pm3 ):";
         getline(cin,nomeArquivo);
         // Cria imagem 3D
-        img3D = new CMatriz3D(nomeArquivo);
+        img3D = new TCMatriz3D<int>(nomeArquivo);
         if (img3D == NULL)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
             return 0;
         }
     }
-// Cria arquivo de saída
+    
+    // Cria arquivo de saída
     ofstream fout("confeq3D.out");
     // Cria objeto para determinação das configurações de equilíbrio
-    CConfiguracoesEquilibrio3D *confeq = NULL;
+    CConfiguracoesEquilibrio3D *confeq { nullptr };
     confeq = new CConfiguracoesEquilibrio3D ( fout );
-    if (confeq == NULL)
+    if (confeq == nullptr)
     {
         cerr << "\nFalha criação confeq: saindo \n";
         return 0;
     }
 
-
-
     cout << "Deseja modificar atributos da simulação e dos fluidos (s)(n)? ";
     char resp;
-    bool disco = 0;
+    bool disco { false };
     cin >> resp;
     cin.get();
     if (resp == 's' || resp == 'S')
@@ -124,15 +123,15 @@ int main(int argc, char *argv[])
     }
 
     cout << "Propriedades: "  << endl;
-    cout << "confeq->fluidoA->Compressibilidade(): " << confeq->fluidoA->Compressibilidade() << endl;
-    cout << "confeq->fluidoB->Molhabilidade() : " << confeq->fluidoB->Molhabilidade() << endl;
-    cout << "confeq->SalvarResultadosParciaisDisco()=" << confeq->SalvarResultadosParciaisDisco(disco) << endl;
+    cout << "confeq->fluidoA->Compressibilidade(): " 	<< confeq->fluidoA->Compressibilidade() 		<< endl;
+    cout << "confeq->fluidoB->Molhabilidade() : " 		<< confeq->fluidoB->Molhabilidade() 			<< endl;
+    cout << "confeq->SalvarResultadosParciaisDisco()=" 	<< confeq->SalvarResultadosParciaisDisco() << endl;
 
+	// Executa determinação das configurações de equilíbrio
     cout << "\n================> Processando dados (pode demorar)." << endl;
-// Executa determinação das configurações de equilíbrio
     confeq->Go( img3D );
 
-// Destróe objetos criados
+	// Destroi objetos criados
     delete img3D;
     delete confeq;
     return EXIT_SUCCESS;

@@ -28,8 +28,8 @@ using namespace std;
 // ----------------------------------------------------------------------
 // Bibliotecas
 // ----------------------------------------------------------------------
-#include <ConEqu/CConfiguracoesEquilibrio2D.h>
-#include <MetNum/Matriz/CMatriz2D.h>
+#include <AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CConfiguracoesEquilibrio2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 /**
  * Função main() inclui teste da biblioteca
@@ -54,12 +54,12 @@ int main(int argc, char *argv[])
           << "\n./confeq2D"
           << "\n================================================================================" << endl;
 
-    CMatriz2D* img2D = NULL; // ponteiro para imagem
+    TCMatriz2D<int>* img2D { nullptr }; // ponteiro para imagem
 
     if (argc==2)
     {
         // Cria imagem 2D
-        img2D = new CMatriz2D(argv[1]);
+        img2D = new TCMatriz2D<int>(argv[1]);
         if (img2D == NULL)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
@@ -72,17 +72,18 @@ int main(int argc, char *argv[])
         cout << "\nEntre com o nome da imagem 2D (ex: imagem.pbm ):";
         getline(cin,nomeArquivo);
         // Cria imagem 2D
-        img2D = new CMatriz2D(nomeArquivo);
+        img2D = new TCMatriz2D<int>(nomeArquivo);
         if (img2D == NULL)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
             return 0;
         }
     }
-// Cria arquivo de saída
+    
+	// Cria arquivo de saída
     ofstream fout("confeq2D.out");
     // Cria objeto para determinação das configurações de equilíbrio
-    CConfiguracoesEquilibrio2D *confeq = NULL;
+    CConfiguracoesEquilibrio2D *confeq { nullptr };
     confeq = new CConfiguracoesEquilibrio2D ( fout );
     if (confeq == NULL)
     {
@@ -124,12 +125,11 @@ int main(int argc, char *argv[])
     cout << "confeq->fluidoB->Molhabilidade() : " << confeq->fluidoB->Molhabilidade() << endl;
     cout << "confeq->SalvarResultadosParciaisDisco()=" << confeq->SalvarResultadosParciaisDisco() << endl;
 
+    // Executa determinação das configurações de equilíbrio
     cout << "\n================> Processando dados (pode demorar)." << endl;
-
-// Executa determinação das configurações de equilíbrio
     confeq->Go( img2D );
 
-// Destróe objetos criados
+    // Destróe objetos criados
     delete img2D;
     delete confeq;
     return EXIT_SUCCESS;

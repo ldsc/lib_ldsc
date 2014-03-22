@@ -57,7 +57,7 @@ Fun��o:
 //#define __NAO_INCLUIR_MIN_MAX__
 //#Para tentar resolver o conflito com min e max inclui o flag        -D__BORLANDC__
 //CXXFLAGS+= -D__ANDRE_STL_ALGOBASE_H__
-#define  __ANDRE_STL_ALGOBASE_H__	//aqui aqui aqui
+#define  __ANDRE_STL_ALGOBASE_H__	
 #include <TGrafo/TGra3Dby2DSingle.h>
 #include <TGrafo/TGra3Dby2DAdvanced.h>
 #include <TGrafo/TGra3Dby2DAdv3.h>

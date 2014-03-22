@@ -69,7 +69,6 @@ public:
      * usada para calcular o valor de x retorna a pressão na fronteira direita
      */
      /*inline*/ virtual long double Go ( long double d = 0 ) override  {
-// std::cerr << "\nPassei por CObjetoRede_Sitio_WEST::Go.";// aqui aqui		 
           return x;
      }
 

@@ -26,8 +26,8 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 #endif
 */
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include <set>
 
 /**

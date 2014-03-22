@@ -92,7 +92,3 @@ if(WIN32) # True on windows systems, including win64
   set_target_properties(ldsc PROPERTIES LINK_FLAGS_DEBUG "-s -fopenmp -lgomp")
   #set_target_properties(ldsc PROPERTIES LINK_FLAGS "-O2 -fopenmp -lgomp")
 endif()
-
-# Create libldsc executable.
-#add_executable(libldsc src/libldsc.cpp)
-

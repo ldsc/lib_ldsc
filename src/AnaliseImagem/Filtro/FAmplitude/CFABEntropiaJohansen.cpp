@@ -26,8 +26,8 @@ Bibliotecas
 */
 #include <cmath>
 #include "AnaliseImagem/Filtro/FAmplitude/CFABEntropiaJohansen.h"
-#include "AnaliseImagem/Matriz/TCMatriz2D.h"
-#include "AnaliseImagem/Matriz/CHistograma.h"	// ponteiro para histograma
+#include "MetNum/Matriz/TCMatriz2D.h"
+#include "MetNum/Matriz/CHistograma.h"	// ponteiro para histograma
 
 /*
 ==================================================================================

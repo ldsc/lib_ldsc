@@ -13,7 +13,7 @@ Bibliotecas e Defines
 
 // inclue a biblioteca de filtros
 #ifndef TCMatriz2D_H
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 #endif
 
 /*

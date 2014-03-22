@@ -4,7 +4,7 @@
 #include "AnaliseImagem/Filtro/FEspacial/TCFEPassaAlta.h"
 #include "AnaliseImagem/Filtro/FEspacial/CFESobel.h"
 
-#include "AnaliseImagem/Matriz/TCMatriz2D.h"
+#include "MetNum/Matriz/TCMatriz2D.h"
 #include "../../gtest_configure.h"
 #include "../../fixtures.h"
 

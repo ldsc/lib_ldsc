@@ -9,8 +9,8 @@
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador2D.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/CVetor.h>
 
 using namespace std;
 

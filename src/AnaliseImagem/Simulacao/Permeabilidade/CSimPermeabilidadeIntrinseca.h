@@ -25,8 +25,8 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas lib_ldsc
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include <EstruturaDados/CGrafo.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>

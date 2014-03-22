@@ -2,7 +2,7 @@
 #define CCorrelacaoEspacial_h
 
 #include <AnaliseImagem/Caracterizacao/Correlacao/CCorrelacao.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 /**
  * @brief Recebe uma imagem bidimensional e determina através do método do deslocamento da imagem sobre ela mesma, a função autocorrelação.

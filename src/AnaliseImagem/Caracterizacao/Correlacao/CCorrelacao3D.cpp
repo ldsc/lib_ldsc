@@ -1,7 +1,7 @@
 #include <AnaliseImagem/Caracterizacao/Correlacao/CCorrelacao3D.h>
 #include <AnaliseImagem/Caracterizacao/Correlacao/CCorrelacaoEspacial.h>
 #include <AnaliseImagem/Caracterizacao/Correlacao/CCorrelacaoFFT.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include <fstream>
 
 // -----------------------------------------------------------------------

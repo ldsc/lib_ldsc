@@ -23,8 +23,8 @@ Bibliotecas
 */
 
 #include "AnaliseImagem/Filtro/FAmplitude/CFABIterativoThrussel.h"
-#include "AnaliseImagem/Matriz/CHistograma.h"
-#include "AnaliseImagem/Matriz/TCMatriz2D.h"
+#include "MetNum/Matriz/CHistograma.h"
+#include "MetNum/Matriz/TCMatriz2D.h"
 
 /*
 ==================================================================================

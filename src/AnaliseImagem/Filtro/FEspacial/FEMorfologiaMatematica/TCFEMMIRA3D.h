@@ -15,7 +15,7 @@ Nome da classe:      TCFEMMIRA3D
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica3D.h>
 #include <AnaliseImagem/Filtro/Mascara/CMascara3D.h>
 

@@ -25,16 +25,14 @@
 // - O programa gnuplot deve estar instalado (veja http://www.gnuplot.info/download.html)
 // - No Windows: setar a Path do Gnuplot (i.e. C:/program files/gnuplot/bin)
 //      ou setar a path usando: Gnuplot::set_GNUPlotPath(const std::string &path);
-//      antes de criar qualquer objeto da classe.
+//      antes ded criar qualquer objeto da classe.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
-
-// ------------------------- Inclusão de arquivos -------------------------------------
 #include <iostream>
 
 /// A classe CGnuplot  usa pipes no estilo POSIX para se comunicar com o gnuplot.
 // POSIX-Pipe-communikation.
-#include "Grafico/Gnuplot/CGnuplot.h"
+#include "CGnuplot.h"
 
 // Se estamos no windows
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
@@ -45,7 +43,7 @@ void sleep(int i) {
 }
 #endif
 
-// ------------------------- Variaveis globais ----------------------------------------
+// Variaveis globais
 const int SLEEP_LGTH = 2;  // Tempo de espera em segundos
 const int NPOINTS  = 50;   // Dimensao do array (vetor)
 //#define  SLEEP_LGTH  2
@@ -53,29 +51,18 @@ const int NPOINTS  = 50;   // Dimensao do array (vetor)
 
 using namespace std;       // Usando espaco de nomes da std
 
-// ------------------------- Funcoes globais ------------------------------------------
 /// @brief O programa para ate o pressionamento de uma tecla.
 void wait_for_key();
 
-// ------------------------- Funcao Principal -----------------------------------------
 /// @brief Funcao principal
 int main(int argc, char* argv[])
 {
-    cout  << "\n================================================================================"
-          << "\n====================== Programa de teste da LIB_LDSC ==========================="
-          << "\n================================================================================" << endl;
-
-    cout  << "\n================================================================================"
-          << "\nUSO:"
-          << "\n./cgnuplot.teste"
-          << "\n================================================================================" << endl;
-
     // Se a variavel do gnuplot nao esta setada, faca isto antes de
     // criar objetos da classe CGnuplot, usando o método publico e estatico:
     // Gnuplot::set_GNUPlotPath("C:/program files/gnuplot/bin/");
 
     // Seta o terminal padrao para visualizacao dos graficos  (normalmente nao necessario),
-    // Usuarios de Mac devem usar a opcao "aqua", e nao x11.
+    // Usuarios de Mac dedvem usar a opcao "aqua", e nao x11.
     // Gnuplot::set_terminal_std("x11");
     cout << "-------------------------------------------------------------\n"
          << "--> Plotando graficos do gnuplot usando a classe CGnuplot <--\n"
@@ -91,6 +78,7 @@ int main(int argc, char* argv[])
         // Terminal padrao do gnuplot no fedora 9
         // Se nao funcionar em seu sistema, comente a linha
         Gnuplot::Terminal("wxt");
+
 
         // ------------- Graficos 2D ----------------
         Gnuplot g2d = Gnuplot("lines"); // Construtor
@@ -108,37 +96,30 @@ int main(int argc, char* argv[])
         g2d.Style("Style( lines )").Replot();
         wait_for_key();
         g2d.Reset();                    // Reseta estado do grafico
-
         cout << "Style(\"points\")" << endl;
         g2d.Style("points").Title("Style( points )").PlotEquation( "x");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(\"linespoints\")" << endl;
         g2d.Style("linespoints").Title("Style( linespoints )").PlotEquation( "x*x");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(\"impulses\")" << endl;
         g2d.Style("impulses").Title("Style( impulses )").PlotEquation( "x*x+ 5");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(\"dots\")" << endl;
         g2d.Style("dots").Title("Style( dots )").PlotEquation( "x*x*x");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(steps)" << endl;
         g2d.Style("steps").Title("Style( steps )").PlotEquation( "x*x*x*x");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(\"fsteps\")" << endl;
         g2d.Style("fsteps").Title("Style( fsteps )").PlotEquation( "x*x*sin(x)");
         wait_for_key();
         g2d.Reset();
-
         cout << "Style(\"histeps\")" << endl;
         g2d.Style("histeps").Title("Style( histeps )").PlotEquation( "x*x*sin(x)");
         wait_for_key();
@@ -147,15 +128,12 @@ int main(int argc, char* argv[])
         cout << "Legend(\"inside left top nobox\")" << endl;
         g2d.Legend("inside left top nobox").Title("Legend( inside left top nobox )").Replot();
         wait_for_key();
-
         cout << "Legend(\"inside center center nobox\")" << endl;
         g2d.Legend("inside center center nobox").Title("Legend( inside center center nobox )").Replot();
         wait_for_key();
-
         cout << "Legend(\"inside right bottom box\")" << endl;
         g2d.Legend("inside right bottom box").Title("Legend( inside right bottom box )").Replot();
         wait_for_key();
-
         cout << "Legend(\"outside right top box\")" << endl;
         g2d.Legend("outside right top box").Title("Legend( outside right top box )").Replot();
         wait_for_key();
@@ -438,7 +416,7 @@ int main(int argc, char* argv[])
 
 void wait_for_key ()
 {
-// Todos as teclas serao considedadas, inclusive as setas
+    // Todos as teclas serao considedradas, inclusive as setas
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__TOS_WIN__)
     cout << endl << "Pressione qualquer tecla para continuar..." << endl;
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
@@ -451,4 +429,3 @@ void wait_for_key ()
 #endif
     return;
 }
-

@@ -13,8 +13,8 @@ Nome deste arquivo: CFReconstrucao.h
 Nome da classe:     CFReconstrucao
 ----------------------------------------------------------------------------
 */
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 /**
  * @brief A classe CFReconstrucao cria uma imagem 3D a partir da rotação dos planos de uma imagem 2D

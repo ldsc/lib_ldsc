@@ -35,12 +35,12 @@ Desenvolvido por:
 
 // Classe definição CVetor
 #ifndef CVetor_h
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/CVetor.h>
 #endif
 
 // Classe definição TCMatriz2D< int >
 #ifndef TCMatriz2D_H
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 #endif
 
 // Clase base

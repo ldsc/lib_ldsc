@@ -40,7 +40,7 @@ Arquivo de documentacao auxiliar:
 // ----------------------------------------------------------------------------
 // #define CMatrizAPP                                                            // define a matriz como aplicativo
 #ifndef CMatriz2D_h
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 
 #endif

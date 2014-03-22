@@ -4,7 +4,7 @@
 #include <ostream>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotuladorIRA3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include "../../../gtest_configure.h"
 #include "../../../fixtures.h"
 

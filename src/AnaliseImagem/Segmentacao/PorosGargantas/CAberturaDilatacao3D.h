@@ -2,10 +2,10 @@
 #define CAberturaDilatacao3D_H
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFd3453D.h>
-#include <AnaliseImagem/Matriz/CMatrizObjetoImagem.h>
+#include <MetNum/Matriz/CMatrizObjetoImagem.h>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>

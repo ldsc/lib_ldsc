@@ -20,7 +20,7 @@
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #ifndef CVetor_h
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/CVetor.h>
 #endif
 
 // ===============================================================================

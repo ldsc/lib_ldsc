@@ -3,8 +3,8 @@
 #define CAberturaDilatacaoOld_H
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>

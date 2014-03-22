@@ -14,7 +14,7 @@ Bibliotecas e Defines
 
 // inclue a biblioteca de filtros
 #ifndef CImagem_h
-#include <AnaliseImagem/Matriz/CImagem.h>
+#include <MetNum/Matriz/CImagem.h>
 #endif
 
 /*

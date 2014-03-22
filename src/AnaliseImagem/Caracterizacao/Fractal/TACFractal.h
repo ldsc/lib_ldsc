@@ -31,7 +31,7 @@ Arquivo de documentacao auxiliar:
 //----------------------------------------------------------------------------
 
 #include <TMatriz/TVetor.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 
 //----------------------------------------------------------------------------

@@ -19,7 +19,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 // ----------------------------------------------------------------------------
 // #define CMatrizAPP         // define a matriz como aplicativo
 #ifndef TCMatriz2D_H
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 #endif
 
 #ifndef TCFEMorfologiaMatematica_h

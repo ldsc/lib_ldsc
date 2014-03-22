@@ -4,8 +4,8 @@
 #include <AnaliseImagem/Filtro/FEspacial3D/FEMorfologiaMatematica3D/TCFEMMIDFd3453D.h>
 //#include <Segmentacao/CObjetoImagem.h> // novo, repreenta objeto da imagem
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/TCRotulador3D.h>
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-//#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+//#include <MetNum/Matriz/CVetor.h>
 #include <iostream>
 #include <fstream>
 //#include <sstream>

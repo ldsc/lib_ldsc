@@ -175,6 +175,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Matriz/CBaseMatriz.cpp
   AnaliseImagem/Matriz/CMatrizObjetoImagem.cpp
   AnaliseImagem/Matriz/CMatrizObjetoRede.cpp
+
   AnaliseImagem/Reconstrucao/CFReconstrucao.cpp
   AnaliseImagem/Reconstrucao/CReconstrucao.cpp
   AnaliseImagem/Reconstrucao/CReconstrucaoBueno.cpp
@@ -266,6 +267,16 @@ add_library (ldsc STATIC
   MetNum/Interpolacao/Interpolacao2D/CInterpolacao2D.cpp
   MetNum/Interpolacao/Interpolacao2D/CInt2DBilinear.cpp
   
+  MetNum/Matriz/CImg.cpp
+  MetNum/Matriz/TCImagem3D.h
+  MetNum/Matriz/CImagem.cpp
+  MetNum/Matriz/CHistograma.cpp
+  MetNum/Matriz/CVetor.cpp
+  MetNum/Matriz/TCMatriz2D.h
+  MetNum/Matriz/TCMatriz3D.h
+  MetNum/Matriz/CBaseMatriz.cpp
+  MetNum/Matriz/CMatrizObjetoImagem.cpp
+
   MetNum/Solver/Funcao/CSFBissecao.cpp
   MetNum/Solver/Funcao/CSFCordas.cpp
   MetNum/Solver/Funcao/CSFuncao.cpp

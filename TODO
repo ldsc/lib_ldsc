@@ -227,7 +227,6 @@ em toda lib_ldsc.
 [x] - │   │   └── Mascara
 [ ] - │   ├── Geometria (mover para dentro Caracterizacao)
 [x] - │   │   └── Bola
-[ ] - │   ├── Matriz (mover para MetNum)
 [x] - │   ├── Reconstrucao
 [x] - │   ├── Segmentacao
 [x] - │   │   └── PorosGargantas
@@ -247,6 +246,7 @@ em toda lib_ldsc.
 [x] - │   ├── Interpolacao
 [x] - │   │   ├── Interpolacao2D
 [x] - │   │   ├── IntMetNum
+[ ] - │   ├── Matriz
 [x] - │   └── Solver
 [x] - │       ├── Funcao
 [x] - │       └── SistemaEquacoes

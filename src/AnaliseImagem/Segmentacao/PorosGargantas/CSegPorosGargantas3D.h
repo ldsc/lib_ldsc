@@ -3,9 +3,9 @@
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIRA3D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotuladorIRA3D.h>
-#include <AnaliseImagem/Matriz/CMatrizObjetoImagem.h>
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/CMatrizObjetoImagem.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/CVetor.h>
 
 #include <iostream>
 #include <fstream>

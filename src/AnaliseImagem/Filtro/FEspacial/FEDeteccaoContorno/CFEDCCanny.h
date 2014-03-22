@@ -12,7 +12,7 @@ Bibliotecas e Defines
 
 // inclue biblioteca imagem tem a f2d temporariamente
 #ifndef CImagem_h
-#include <AnaliseImagem/Matriz/CImagem.h>
+#include <MetNum/Matriz/CImagem.h>
 #endif
 
 #define MAX_CANNY

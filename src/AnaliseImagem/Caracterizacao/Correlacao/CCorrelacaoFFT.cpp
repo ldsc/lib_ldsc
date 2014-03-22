@@ -7,7 +7,7 @@
 #include  <cassert>
 
 // Inclusao de arquivos da LIB_LDSC
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>					// Matriz normal da libldsc
+#include <MetNum/Matriz/TCMatriz2D.h>					// Matriz normal da libldsc
 #include <AnaliseImagem/Filtro/FFrequencial/FFT/CFFT.h>						// Objeto cálculo transformada fourier
 #include <MetNum/Interpolacao/Interpolacao2D/CInt2DBilinear.h> 	// Objeto de interpolacao
 

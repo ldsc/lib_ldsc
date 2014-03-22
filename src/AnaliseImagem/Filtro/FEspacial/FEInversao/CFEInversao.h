@@ -12,8 +12,8 @@ Nome da classe:     CFEInversao
 ----------------------------------------------------------------------------
 */
 
-#include <AnaliseImagem/Matriz/CImagem.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/CImagem.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 
 /**

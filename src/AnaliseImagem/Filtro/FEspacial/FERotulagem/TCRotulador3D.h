@@ -31,7 +31,7 @@
 #include <AnaliseImagem/Filtro/FEspacial/FERotulagem/CRotulador.h>
 #endif
 
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 
 /**
  * @brief	Representa uma imagem 3D rotulada. Herdeira das classes CRotulador e TCMatriz3D.

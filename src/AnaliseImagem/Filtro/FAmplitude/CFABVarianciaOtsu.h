@@ -5,7 +5,7 @@
 #ifndef CFABinario_h
 #include <AnaliseImagem/Filtro/FAmplitude/CFABinario.h>
 #endif
-#include <AnaliseImagem/Matriz/CHistograma.h>
+#include <MetNum/Matriz/CHistograma.h>
 
 /*
 ----------------------------------------------------------------------------

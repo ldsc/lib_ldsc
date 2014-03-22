@@ -31,7 +31,7 @@ using namespace std;
 // #include "TMascara\TMPassaBaixa.h"    // O filtro espacial atua sobre a mascara                                                                // do passa baixa todos os valores=1
 		       	// outros filtros usam outras mascaras.
 #ifndef CImagem_h
-#include "AnaliseImagem/Matriz/CImagem.h"	// inclue biblioteca imagem
+#include "MetNum/Matriz/CImagem.h"	// inclue biblioteca imagem
 #endif // tem a f2d temporariamente
 
 /*

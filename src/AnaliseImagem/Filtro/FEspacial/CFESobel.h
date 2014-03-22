@@ -2,7 +2,7 @@
 #ifndef CFESobel_h
 #define CFESobel_h
 
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 
 #ifndef TCFEspacial_h
 #include <AnaliseImagem/Filtro/FEspacial/TCFEspacial.h>

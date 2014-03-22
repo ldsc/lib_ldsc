@@ -17,7 +17,7 @@ Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 //                         BIBLIOTECAS
 //   ----------------------------------------------------------------------------
 #include <AnaliseImagem/Filtro/Mascara/CMGaussiano.h>
-//   #include <AnaliseImagem/Matriz/fatorial.cpp>
+//   #include <MetNum/Matriz/fatorial.cpp>
 
 /*
 

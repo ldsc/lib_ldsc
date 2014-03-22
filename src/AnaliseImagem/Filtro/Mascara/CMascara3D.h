@@ -18,7 +18,7 @@ Nome da classe:      CMascara3D
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
-#include  <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include  <MetNum/Matriz/TCMatriz3D.h>
 
 
 /**

@@ -23,7 +23,7 @@ Liang Zirong, Paulo C. Philippi,
 #endif
 
 #ifndef TCMatriz3D_h
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #endif
 
 

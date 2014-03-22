@@ -24,8 +24,8 @@ Bibliotecas
 */
 
 #include "AnaliseImagem/Filtro/FAmplitude/CFABPixelContorno.h"
-#include "AnaliseImagem/Matriz/CHistograma.h"	// objetos usados aqui
-#include "AnaliseImagem/Matriz/TCMatriz2D.h"
+#include "MetNum/Matriz/CHistograma.h"	// objetos usados aqui
+#include "MetNum/Matriz/TCMatriz2D.h"
 #include "AnaliseImagem/Filtro/FEspacial/CFELaplaciano.h"
 #include "AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.h"
 

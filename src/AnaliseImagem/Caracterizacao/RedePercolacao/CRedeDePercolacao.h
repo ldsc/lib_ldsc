@@ -4,7 +4,7 @@
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
 #include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/CMatrizObjetoImagem.h>
 #include <cstdlib>
 #include <ctime>
 

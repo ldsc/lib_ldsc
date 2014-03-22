@@ -7,7 +7,7 @@
 // Bibliotecas do lmpt
 // #include    <stdio.h>
 // #include    <fstream.h>
-// #include <AnaliseImagem/Matriz/TCMatriz3D.h>
+// #include <MetNum/Matriz/TCMatriz3D.h>
 #include <string>
 
 /**

@@ -15,7 +15,7 @@ Nome da classe:      TCFEMMIRA
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
 #include <AnaliseImagem/Filtro/Mascara/CMascara.h>
 

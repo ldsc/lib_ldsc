@@ -11,7 +11,7 @@ Bibliotecas e Defines
 #endif
 
 #ifndef TMatriz3D_h
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #endif
 
 #ifndef TFMMIDF3D_h

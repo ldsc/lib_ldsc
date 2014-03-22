@@ -11,7 +11,7 @@ Bibliotecas e Defines
 #endif
 
 #ifndef CImagem_h
-#include <AnaliseImagem/Matriz/CImagem.h>
+#include <MetNum/Matriz/CImagem.h>
 #endif
 
 #ifndef TCFEMMIDF_h

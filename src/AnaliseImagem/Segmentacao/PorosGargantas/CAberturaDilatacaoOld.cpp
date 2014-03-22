@@ -3,8 +3,8 @@
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CObjetoImagem.h> // novo, repreenta objeto da imagem
 
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMorfologiaMatematica.h>
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>
-#include <AnaliseImagem/Matriz/CVetor.h>
+#include <MetNum/Matriz/TCMatriz2D.h>
+#include <MetNum/Matriz/CVetor.h>
 
 #include <vector>
 #include <iomanip>

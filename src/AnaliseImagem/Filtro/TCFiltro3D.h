@@ -3,7 +3,7 @@
 #define TCFiltro3D_h
 
 // ponteiro para matriz
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 
 /*
 ----------------------------------------------------------------------------

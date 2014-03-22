@@ -12,8 +12,8 @@ Nome da classe:     CFEInversao3D
 ----------------------------------------------------------------------------
 */
 
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 
 
 /**

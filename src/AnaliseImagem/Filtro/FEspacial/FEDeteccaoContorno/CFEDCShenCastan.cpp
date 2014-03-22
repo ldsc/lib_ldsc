@@ -35,7 +35,7 @@ using namespace std;
 
 // #include "TMascara\TMPassaBaixa.h"
 #ifndef CImagem_h
-#include "AnaliseImagem/Matriz/CImagem.h"	// Por causa f2d
+#include "MetNum/Matriz/CImagem.h"	// Por causa f2d
 #endif // 
 
 /*

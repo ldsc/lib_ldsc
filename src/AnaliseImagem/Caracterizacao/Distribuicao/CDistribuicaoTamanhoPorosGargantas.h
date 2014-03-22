@@ -3,7 +3,7 @@
 
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao3D.h>
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CAberturaDilatacao3D.h>
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/TCImagem3D.h>
 
 /**
  * @brief Calcula a distribuição de tamanho de poros e gargantas de imagens binárias ou de imagens em

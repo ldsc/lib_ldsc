@@ -2,7 +2,7 @@
 #define CDistribuicaoIDF_h
 
 #ifndef CMatriz2D_h
-#include <AnaliseImagem/Matriz/CMatriz2D.h>
+#include <MetNum/Matriz/CMatriz2D.h>
 #endif
 
 #include <fstream>

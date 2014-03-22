@@ -12,7 +12,7 @@ Bibliotecas e Defines
 #endif
 
 #ifndef TCMatriz2D_H
-#include <AnaliseImagem/Matriz/TCMatriz2D.h>	// inclue a biblioteca de matrizes
+#include <MetNum/Matriz/TCMatriz2D.h>	// inclue a biblioteca de matrizes
 #endif // 
 
 // #define MAX                    // MAX é usada na lib

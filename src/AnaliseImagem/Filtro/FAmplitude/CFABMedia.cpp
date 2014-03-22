@@ -23,7 +23,7 @@ Bibliotecas
 */
 
 #include "AnaliseImagem/Filtro/FAmplitude/CFABMedia.h"
-#include "AnaliseImagem/Matriz/TCMatriz2D.h"
+#include "MetNum/Matriz/TCMatriz2D.h"
 
 /*
 ==================================================================================

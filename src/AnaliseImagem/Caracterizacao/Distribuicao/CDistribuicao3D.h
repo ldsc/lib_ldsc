@@ -11,7 +11,7 @@
 #ifndef CDistribuicao3D_h
 #define CDistribuicao3D_h
 
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 //#include <Distribuicao/CBaseDistribuicao.h>
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao.h>
 

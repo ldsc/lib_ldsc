@@ -1,0 +1,2 @@
+all:
+	g++ -std=c++11 -I /home/bueno/Documentos/03-Pesquisa/4-Desenvolvimento/1-Atual/libldsc/src /home/bueno/Documentos/03-Pesquisa/4-Desenvolvimento/1-Atual/libldsc/src/libldsc.a grafo.cpp CGrafoTeste.h CGrafoTeste.cpp 

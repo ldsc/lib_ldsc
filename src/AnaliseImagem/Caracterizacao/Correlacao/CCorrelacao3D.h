@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#include "AnaliseImagem/Matriz/TCMatriz3D.h"
+#include "MetNum/Matriz/TCMatriz3D.h"
 
 /**
  * @brief Classe utilizada para determinação da curva de auto-correlação de uma imagem 3D.

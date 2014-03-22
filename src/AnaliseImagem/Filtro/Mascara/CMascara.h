@@ -18,7 +18,7 @@ Nome da classe:         CMascara
 Arquivos de documentacao do projeto em: path\documentacao\*.doc, path\Help
 */
 
-#include  <AnaliseImagem/Matriz/TCMatriz2D.h>
+#include  <MetNum/Matriz/TCMatriz2D.h>
 
 /**
  * @brief Representa uma mascara, é herdeira da matriz 2D, ou seja

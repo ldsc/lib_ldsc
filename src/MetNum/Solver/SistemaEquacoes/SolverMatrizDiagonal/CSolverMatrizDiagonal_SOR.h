@@ -46,7 +46,7 @@
  * @ingroup HCSolver
  * @author 	André Duarte Bueno
 */
-class CSolverMatrizDiagonal_SOR:public CSolverMatrizDiagonal_GaussSeidel
+class CSolverMatrizDiagonal_SOR : public CSolverMatrizDiagonal_GaussSeidel
 {
     // --------------------------------------------------------------Atributos
 private:
@@ -76,18 +76,20 @@ protected:
     /// Função que atualiza os valores de X, a diferença é que considera o fator de relaxação.
     virtual void AtualizaX () override
     {
+// std::cerr 	<< "\nPassei por CSolverMatrizDiagonal_SOR::AtualizaX. k=" << k;
+// std::cerr 	<< "\nantes do ((*obj)[k])->Go () -> (*obj)[k]->x = " << (*obj)[k]->x ;
         // ((*obj)[k])->Go () calcula nova estimativa de x (pressão do sítio) e armazena em vx[iteracoes]
-        vx[iteracoes] = ((*obj)[iteracoes])->Go ();
-
+        vx[k] = ((*obj)[k])->Go ();
         // Considera o fator de relaxacao
-        vx[iteracoes] = fatorRelaxacao * vx[iteracoes] + fatorRelaxacaoC * ((*obj)[iteracoes]->x);
+        vx[k] = fatorRelaxacao * vx[k] + fatorRelaxacaoC * ((*obj)[k]->x);
 
         // Atualiza a variável no objeto
         // Neste ponto tenho dois valores para a variável x (ex: pressão)
         // em vx[k] esta armazenada a variável x no tempo atual
         // em (*obj)[k]->x  esta armazenada a variável x no tempo anterior
         // abaixo faz o valor de x no objeto igual ao valor no tempo atual.
-        (*obj)[iteracoes]->x = vx[iteracoes];
+        (*obj)[k]->x = vx[k];
+// std::cerr 	<< "\ndepois do ((*obj)[k])->Go (); -> (*obj)[k]->x = vx[k];=" << vx[k];
     }
 
     /// Faz obj[k]=X[k]; a diferença é que considera o fator de relaxação
@@ -122,6 +124,3 @@ std::ostream & operator<< (std::ostream & os, const CSolverMatrizDiagonal_SOR & 
 std::istream & operator>> (std::istream & is, CSolverMatrizDiagonal_SOR & obj);
 
 #endif
-
-
- 

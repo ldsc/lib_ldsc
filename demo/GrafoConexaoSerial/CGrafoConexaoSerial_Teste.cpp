@@ -70,7 +70,7 @@ Função:   Run()
 void
 CGrafoTest::Run ()
 {
-   int selecao;
+   int selecao {0};
 
    do {
          cout << "\nObjeto CGrafoTest"
@@ -85,17 +85,17 @@ CGrafoTest::Run ()
 
          switch ( selecao ) {
             case 1:
-               cout << "\n Chamando funcao Grafo()" << endl;
+               cout << "\n Chamando função Grafo()" << endl;
                Grafo ();
                break;
 
             case 2:
-               cout << "\n Chamando funcao Tortuosidade()" << endl;
+               cout << "\n Chamando função Tortuosidade()" << endl;
                Tortuosidade ();
                break;
 			   
             case 3:
-               cout << "\n Chamando funcao Permeabilidade()" << endl;
+               cout << "\n Chamando função Permeabilidade()" << endl;
                Permeabilidade ();
                break;
 
@@ -125,8 +125,8 @@ bool
 CGrafoTest::Grafo ()
 {
    string nomeArquivo = SolicitarNomeImagem ();
-   int modelo = SolicitarModeloGrafo ();
    TCMatriz3D<int>* pm3D = LerImagemDisco ( nomeArquivo );
+   int modelo = SolicitarModeloGrafo ();
    CGrafoConexaoSerial* grafo = CriarGrafo ( modelo, nomeArquivo );
    DeterminarGrafo ( grafo, pm3D, nomeArquivo );
    SalvarGrafo ( grafo );
@@ -161,32 +161,37 @@ Função: Permeabilidade
 @param  :
 @return : double (a permeabilidade)
 */
-double
-CGrafoTest::Permeabilidade ( int tipoSolver )
+double CGrafoTest::Permeabilidade ( int tipoSolver )
 {
-// cout << "\n\ntipo SOLVER = " << tipoSolver <<endl;
+// cerr << "\n=============================================================="; //aqui aqui
+// cerr << "\nPassei por: CGrafoTest::Permeabilidade().";
+// cerr << "\n==============================================================";
+
    // Determinação do grafo
    MostrarInstrucoesArquivosExternos ();
-   string nomeArquivo = SolicitarNomeImagem ();
-   int modelo = SolicitarModeloGrafo ();
 
+   string nomeArquivo = SolicitarNomeImagem ();
    int fatorAmplificacao = 2;
    double dimensaoPixel = 5.0e-6;
    SolicitarPropriedadesImagem ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
-   TCMatriz3D<int>* pm3D = LerImagemDisco ( nomeArquivo );
+   TCMatriz3D<int>* pm3D { nullptr };
+   pm3D = LerImagemDisco ( nomeArquivo );
 
-   CGrafoConexaoSerial* grafo = CriarGrafo ( modelo, nomeArquivo );
-
+   int modelo = SolicitarModeloGrafo ();
+   CGrafoConexaoSerial* grafo { nullptr } ;
+   grafo = CriarGrafo ( modelo, nomeArquivo );
    DeterminarGrafo ( grafo, pm3D, nomeArquivo );
-
    SalvarGrafo ( grafo );
 
    // Determinação da Permeabilidade
-   CMFluido* fluido = CriarFluido ();
+   CMFluido* fluido { nullptr };
+   fluido = CriarFluido ();
 
-   CSolverMatrizDiagonalDominante* solver = CriarSolver ( tipoSolver );
+   CSolverMatrizDiagonalDominante* solver { nullptr };
+   solver = CriarSolver ( tipoSolver );
 
-   CSimPermeabilidadeGrafo* permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel );
+   CSimPermeabilidadeGrafo* permeabilidade { nullptr };
+   permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pm3D, fatorAmplificacao, dimensaoPixel );
 
    double permeabilidade_calculada = DeterminarPermeabilidade ( permeabilidade );
 
@@ -241,6 +246,56 @@ CGrafoTest::SolicitarNomeImagem ()
 
 /*
 -------------------------------------------------------------------------
+Função: SolicitarPropriedadesImagem
+-------------------------------------------------------------------------
+*/
+void
+CGrafoTest::SolicitarPropriedadesImagem ( int& fatorAmplificacao,
+      double& dimensaoPixel, string nomeArquivo )
+{
+   string nomeArquivoDat ( nomeArquivo + ".dat" );
+   cout << "\n\nVai ler as propriedades fatorAmplificacao e dimensaoPixel do arquivo "
+        << nomeArquivoDat << endl;
+
+   ifstream finimg3D ( nomeArquivoDat.c_str () );
+   string msg;
+
+   if ( finimg3D /*.good() */ ) {
+         finimg3D >> fatorAmplificacao;
+         finimg3D >> dimensaoPixel;
+         finimg3D.close ();
+         msg = " ...done";
+      }
+   else {
+         msg = " ...não abriu o arquivo de disco, \nusando valores:";
+      }
+
+   cout << msg << endl
+        << "fa=" << setw ( 3 ) << fatorAmplificacao << " sp=" << setw ( 8 ) << dimensaoPixel << endl;
+}
+
+/*
+-------------------------------------------------------------------------
+Função: LerImagemDisco
+-------------------------------------------------------------------------
+*/
+TCMatriz3D<int>*
+CGrafoTest::LerImagemDisco ( string nomeArquivo )
+{
+   TCMatriz3D<int>* pm3D;
+   {
+      CTime ( "Tempo leitura imagem = ", &cout );
+      cout << "Lendo imagem (" << nomeArquivo << ") do disco..." << endl;
+      pm3D = new TCMatriz3D<int> ( nomeArquivo );
+ofstream debug("imagem_lida.pm3");
+debug << pm3D;
+      assert ( pm3D );
+   }
+   return pm3D;
+}
+
+/*
+-------------------------------------------------------------------------
 Função: SolicitarModeloGrafo()
 -------------------------------------------------------------------------
 */
@@ -272,160 +327,6 @@ CGrafoTest::SolicitarModeloGrafo ()
         <<  "\n\n----------------------------------------------------------"
         << endl;
    return modelo;
-}
-
-/*
--------------------------------------------------------------------------
-Função: LerImagemDisco
--------------------------------------------------------------------------
-*/
-TCMatriz3D<int>*
-CGrafoTest::LerImagemDisco ( string nomeArquivo )
-{
-   TCMatriz3D<int>* pm3D;
-   {
-      CTime ( "Tempo leitura imagem = ", &cout );
-      cout << "Lendo imagem (" << nomeArquivo << ") do disco..." << endl;
-      pm3D = new TCMatriz3D<int> ( nomeArquivo );
-ofstream debug("imagem_lida.pm3");
-debug << pm3D;
-      assert ( pm3D );
-   }
-   return pm3D;
-}
-
-/*
--------------------------------------------------------------------------
-Função: SolicitarPropriedadesImagem
--------------------------------------------------------------------------
-*/
-void
-CGrafoTest::SolicitarPropriedadesImagem ( int& fatorAmplificacao,
-      double& dimensaoPixel, string nomeArquivo )
-{
-   string nomeArquivoDat ( nomeArquivo + ".dat" );
-   cout << "\n\nVai ler as propriedades fatorAmplificacao e dimensaoPixel do arquivo "
-        << nomeArquivoDat << endl;
-
-   ifstream finimg3D ( nomeArquivoDat.c_str () );
-   string msg;
-
-   if ( finimg3D /*.good() */ ) {
-         finimg3D >> fatorAmplificacao;
-         finimg3D >> dimensaoPixel;
-         finimg3D.close ();
-         msg = " ...done";
-      }
-   else {
-         msg = " ...não abriu o arquivo de disco, \nusando valores:";
-      }
-
-   cout << msg << endl
-        << "fa=" << setw ( 3 ) << fatorAmplificacao << " sp=" << setw ( 8 ) << dimensaoPixel << endl;
-}
-
-/*
--------------------------------------------------------------------------
-Função: CriarFluido
--------------------------------------------------------------------------
-*/
-CMFluido* CGrafoTest::CriarFluido ()
-{
-   // Solicita propriedades do fluido
-   cout << "Vai ler a propriedade viscosidade do arquivo input_data/fluido.info...";
-   long double viscosidade = 0.001002;
-   ifstream finfluido ( "input_data/fluido.info" );
-   string msg = " ...não abriu o arquivo de disco, \nusando valores:";
-
-   if ( finfluido ) {
-         finfluido >> viscosidade;
-         finfluido.close ();
-         msg = " ...done";
-      }
-   cout << msg << endl;
-
-   // Cria objeto fluido
-   cout << "Criando objeto fluido...";
-   CMFluido* fluido = new CMFluido ( viscosidade );
-   assert ( fluido );
-   cout << " ...done" << endl;
-   cout << "fluido.Viscosidade()=" << fluido->Viscosidade () << endl;
-   return fluido;
-}
-
-/*
--------------------------------------------------------------------------
-Função: CriarSolver
--------------------------------------------------------------------------
-*/
-CSolverMatrizDiagonalDominante*
-CGrafoTest::CriarSolver ( int tipoSolver )
-{
-   // Solicita propriedades do solver
-   cout << "\n\nVai ler as propriedades fatorRelaxacao,limiteIteracoes,limiteErro nproc"
-        << "\ndo arquivo input_data/solver.info...";
-   long double fatorRelaxacao = 0.7;
-   unsigned long int limiteIteracoes = 100000;
-   long double limiteErro = 1.0e-6;
-   int nproc = 1;		// novo ->testar!
-   ifstream finsolver ( "input_data/solver.info" );
-   string msg = " ...não abriu o arquivo de disco, \nusando valores default";
-
-   if ( finsolver /*.good() */ ) {
-         finsolver >> fatorRelaxacao;
-         finsolver >> limiteIteracoes;
-         finsolver >> limiteErro;
-         finsolver >> tipoSolver;	// novo
-         finsolver >> nproc;	// novo
-         finsolver.close ();
-         msg = " ...done";
-      }
-
-   cout << msg << endl;
-
-   cout << "Criando objeto CSolverMatrizDiagonalDominante* solver= \n1=CSolverMatrizDiagonal_GaussSeidel,"
-        << "\n2=CSolverMatrizDiagonal_SOR,\n3=CSolverMatrizDiagonalDominante_Threads"
-        << "\nUsando opção:" << tipoSolver << endl;
-   CSolverMatrizDiagonalDominante* solver;
-
-   // Cria objeto solver
-   switch ( tipoSolver ) {
-      case 1:
-         solver =
-            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_GaussSeidel ( limiteIteracoes, limiteErro ) );
-         break;
-
-      case 2:
-         solver =
-            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
-         break;
-
-      case 3:
-      default:
-         /*2009      solver =
-         	static_cast < CSolverMatrizDiagonalDominante * >(new CSolverMatrizDiagonalDominante_Threads
-         					       (nproc, fatorRelaxacao, limiteIteracoes, limiteErro));
-               */
-         cerr << "\nNão implementado, usando modelo 2, CSolverMatrizDiagonal_SOR.\n" ;
-         solver =
-            static_cast < CSolverMatrizDiagonalDominante* > ( new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) );
-         break;
-         break;
-      }
-
-   // CSolverMatrizDiagonalDominante_ThreadsExec::nproc = nproc;
-   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacao = fatorRelaxacao;
-   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacaoC = 1 - fatorRelaxacao;
-   assert ( solver );
-   cout << "\n ...done"
-        // cout << "fatorRelaxacao=" <<  fatorRelaxacao
-        << "\nfatorRelaxacao="  << fatorRelaxacao
-        << "\nlimiteIteracoes=" << solver->LimiteIteracoes ()
-        << "\nlimiteErro="      << solver->LimiteErro ()
-        // cout << "nproc="      <<    CSolverMatrizDiagonalDominante_ThreadsExec::nproc
-        << "\ntipo solver = "   << tipoSolver
-        << "\nnproc="           << nproc << endl;
-   return solver;
 }
 
 /*
@@ -540,7 +441,112 @@ void
 CGrafoTest::SalvarGrafo ( CGrafoConexaoSerial* grafo )
 {
    grafo->Write ();
+
+// for (int i=0; i< grafo->objeto.size(); i++) // aqui aqui
+//  cerr << "\ngrafo->objeto[" << i << "]->Go() = " << grafo->objeto[i]->Go() << endl;
 }
+
+
+/*
+-------------------------------------------------------------------------
+Função: CriarFluido
+-------------------------------------------------------------------------
+*/
+CMFluido* CGrafoTest::CriarFluido ()
+{
+   // Solicita propriedades do fluido
+   cout << "Vai ler a propriedade viscosidade do arquivo input_data/fluido.info...";
+   long double viscosidade = 0.001002;
+   ifstream finfluido ( "input_data/fluido.info" );
+   string msg = " ...não abriu o arquivo de disco, \nusando valores:";
+
+   if ( finfluido ) {
+         finfluido >> viscosidade;
+         finfluido.close ();
+         msg = " ...done";
+      }
+   cout << msg << endl;
+
+   // Cria objeto fluido
+   cout << "Criando objeto fluido...";
+   CMFluido* fluido = new CMFluido ( viscosidade );
+   assert ( fluido );
+   cout << " ...done" << endl;
+   cout << "fluido.Viscosidade()=" << fluido->Viscosidade () << endl;
+   return fluido;
+}
+
+
+/*
+-------------------------------------------------------------------------
+Função: CriarSolver
+-------------------------------------------------------------------------
+*/
+CSolverMatrizDiagonalDominante*
+CGrafoTest::CriarSolver ( int tipoSolver )
+{
+   // Solicita propriedades do solver
+   cout << "\n\nVai ler as propriedades fatorRelaxacao,limiteIteracoes,limiteErro nproc"
+        << "\ndo arquivo input_data/solver.info...";
+   long double fatorRelaxacao = 0.7;
+   unsigned long int limiteIteracoes = 100000;
+   long double limiteErro = 1.0e-6;
+   int nproc = 1;		// novo ->testar!
+   ifstream finsolver ( "input_data/solver.info" );
+   string msg = " ...não abriu o arquivo de disco, \nusando valores default";
+
+   if ( finsolver /*.good() */ ) {
+         finsolver >> fatorRelaxacao;
+         finsolver >> limiteIteracoes;
+         finsolver >> limiteErro;
+         finsolver >> tipoSolver;
+         finsolver >> nproc;
+         finsolver.close ();
+         msg = " ...done";
+      }
+
+   cout << msg << endl;
+
+   cout << "Criando objeto CSolverMatrizDiagonalDominante* solver= \n1=CSolverMatrizDiagonal_GaussSeidel,"
+        << "\n2=CSolverMatrizDiagonal_SOR,\n3=CSolverMatrizDiagonalDominante_Threads"
+        << "\nUsando opção:" << tipoSolver << endl;
+   CSolverMatrizDiagonalDominante* solver;
+
+   // Cria objeto solver
+   switch ( tipoSolver ) {
+      case 1:
+         solver =  new CSolverMatrizDiagonal_GaussSeidel ( limiteIteracoes, limiteErro ) ;
+         break;
+
+      case 2:
+         solver =  new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) ;
+         break;
+
+      case 3:
+      default:
+         /*2009      solver =
+         	static_cast < CSolverMatrizDiagonalDominante * >(new CSolverMatrizDiagonalDominante_Threads
+         					       (nproc, fatorRelaxacao, limiteIteracoes, limiteErro));
+               */
+         solver =  new CSolverMatrizDiagonal_SOR ( limiteIteracoes, limiteErro, fatorRelaxacao ) ;
+         break;
+      }
+
+   // CSolverMatrizDiagonalDominante_ThreadsExec::nproc = nproc;
+   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacao = fatorRelaxacao;
+   // CSolverMatrizDiagonalDominante_ThreadsExec::fatorRelaxacaoC = 1 - fatorRelaxacao;
+   assert ( solver );
+   cout << "\n ...done"
+        // cout << "fatorRelaxacao=" <<  fatorRelaxacao
+        << "\nfatorRelaxacao="  << fatorRelaxacao
+        << "\nlimiteIteracoes=" << solver->LimiteIteracoes ()
+        << "\nlimiteErro="      << solver->LimiteErro ()
+        // cout << "nproc="      <<    CSolverMatrizDiagonalDominante_ThreadsExec::nproc
+        << "\ntipo solver = "   << tipoSolver
+        << "\nnproc="           << nproc << endl;
+   return solver;
+}
+
 
 /*
 -------------------------------------------------------------------------
@@ -552,16 +558,22 @@ CSimPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
       CGrafoConexaoSerial* grafo, TCMatriz3D<int>* pm3D, int fatorAmplificacao,
       double dimensaoPixel )
 {
-   CSimPermeabilidadeGrafo* permeabilidade_grafo;
+   CSimPermeabilidadeGrafo* permeabilidade_grafo { nullptr };
    {
       CTime ( "Tempo criação do CSimPermeabilidadeGrafo = ", &cout );
       cout << "Criando objeto CSimPermeabilidadeGrafo (fluido,solver,grafo,nx,ny,nz,fatorAmplificacao,sizePizel)...";
       // CSolverMatrizDiagonalDominante* solverold = static_cast<CSolverMatrizDiagonalDominante*>(solver);// novo
       permeabilidade_grafo = new CSimPermeabilidadeGrafo ( fluido, solver /*old */ , grafo,
-            pm3D->NX (), pm3D->NY (), pm3D->NZ (), fatorAmplificacao, dimensaoPixel );
-      assert ( permeabilidade_grafo );
+														   pm3D->NX (), pm3D->NY (), pm3D->NZ (),
+														   fatorAmplificacao, dimensaoPixel );
+      assert ( permeabilidade_grafo ); 
       cout << " ...done" << endl;
    }
+   
+// for (int i=0; i< permeabilidade_grafo->Grafo()->objeto.size(); i++) // aqui aqui
+//  cerr 	<< "\nCGrafoTest::CriarPermeabilidade  -> permeabilidade_grafo->Grafo()->objeto[" << i << "]->Go() = " 
+// 		<< permeabilidade_grafo->Grafo()->objeto[i]->Go() << endl;
+   
    return permeabilidade_grafo;
 }
 
@@ -572,7 +584,11 @@ Função: DeterminarPermeabilidade
 */
 double CGrafoTest::DeterminarPermeabilidade ( CSimPermeabilidadeGrafo* permeabilidade )
 {
-   {
+// for (int i=0; i< permeabilidade->Grafo()->objeto.size(); i++) // aqui aqui
+//  cerr 	<< "\nCGrafoTest::DeterminarPermeabilidade ANTES -> permeabilidade->Grafo()->objeto[" << i << "]->Go() = " 
+// 		<< permeabilidade->Grafo()->objeto[i]->Go() << endl;
+
+{
       CTime ( "Tempo permeabilidade->SolucaoSistema(); = ", &cout );
       cout << "Chamando permeabilidade->SolucaoSistema() "
            << "que realiza pré-processamento e primeira iteração do Solver..."
@@ -589,6 +605,9 @@ double CGrafoTest::DeterminarPermeabilidade ( CSimPermeabilidadeGrafo* permeabil
       cout << " permeabilidade->Go()... ...done" << endl;
       cout << "\a\a\nPermeabilidade (mD)= " << permeabilidade_calculada << endl;
    }
+// for (int i=0; i< permeabilidade->Grafo()->objeto.size(); i++) // aqui aqui
+//  cerr 	<< "\nCGrafoTest::DeterminarPermeabilidade DEPOIS -> permeabilidade->Grafo()->objeto[" << i << "]->Go() = " 
+// 		<< permeabilidade->Grafo()->objeto[i]->Go() << endl;
 
    // Resolvido o sistema salva em disco o grafo com as pressões finais
    // SalvarGrafo(grafo);
@@ -812,7 +831,7 @@ bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
                         // assert(pm3D);
                         // pm3D=NULL;
                         // cout <<"...done";
-                        // -->Agora a imagem e carregada na funcao DeterminarGrafo(grafo,nomeArquivo)
+                        // -->Agora a imagem e carregada na função DeterminarGrafo(grafo,nomeArquivo)
                         // que abre a imagem e le plano a plano
                      }
                }

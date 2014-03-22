@@ -71,6 +71,22 @@ public:
    virtual ~ CGrafoTest() = default;
 
 // ----------------------------------------------------------------Métodos
+public:
+   /// Função que solicita a rotina a ser executada ou grafo ou permeabilidade
+   void Run();
+
+   /// Determinação do grafo
+   bool Grafo();
+
+   /// Determinação da Tortuosidade
+   bool Tortuosidade ();
+
+   /// Determinação da permeabilidade
+   double Permeabilidade ( int tipoSolver = 2 );
+
+   /// Determinação da Permeabilidade de uma lista de imagens
+   bool ProcessarListaImagens ( unsigned int argc, char* argv[] );
+
 private:
    /// Informacoes iniciais
    void MostrarInstrucoesArquivosExternos();
@@ -128,21 +144,6 @@ private:
                                    TCMatriz3D<int>* pm3D, std::ofstream& fout,
                                    int tipoSolver = 2, bool reiniciar = false );
 
-public:
-   /// Função que solicita a rotina a ser executada ou grafo ou permeabilidade
-   void Run();
-
-   /// Determinação do grafo
-   bool Grafo();
-
-   /// Determinação da Tortuosidade
-   bool Tortuosidade ();
-
-   /// Determinação da permeabilidade
-   double Permeabilidade ( int tipoSolver = 2 );
-
-   /// Determinação da Permeabilidade de uma lista de imagens
-   bool ProcessarListaImagens ( unsigned int argc, char* argv[] );
 };
 
 #endif

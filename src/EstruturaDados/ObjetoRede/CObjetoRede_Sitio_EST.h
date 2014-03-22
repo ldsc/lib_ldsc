@@ -18,6 +18,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
+#include <iostream>
 
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
@@ -68,7 +69,8 @@ public:
       * calcular o valor de x retorna a pressão na fronteira direita
      */
      /*inline*/ virtual long double Go ( long double d = 0 )  override {
-          return x;
+// std::cerr << "\nPassei por CObjetoRede_Sitio_EST::Go.";// aqui aqui
+	return x;
      }
 
 // --------------------------------------------------------------------Get

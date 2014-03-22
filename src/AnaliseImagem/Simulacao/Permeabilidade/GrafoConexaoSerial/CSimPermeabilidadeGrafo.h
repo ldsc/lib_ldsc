@@ -128,6 +128,7 @@ protected:
 
      /// Objetos agregados.
      CMFluido *fluido{nullptr}; 				///< Objeto fluido.
+     
      CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
      CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
 

@@ -92,6 +92,8 @@ using namespace std;
  */
 double CSolverMatrizDiagonalDominante::Go( vector < CSolverMatriz_ParametroSolver * > * objeto )
 {
+// std::cerr 	<< "\nCSolverMatrizDiagonalDominante::Go( vector < CSolverMatriz_ParametroSolver * > * objeto )";
+	
     // Seta o atributo obj como sendo o vetor recebido. Necessário pois usa obj em AtualizaX.
     obj = objeto;
 
@@ -118,10 +120,10 @@ double CSolverMatrizDiagonalDominante::Go( vector < CSolverMatriz_ParametroSolve
             // Pega o valor da propriedade x do objeto [k] e armazena em xk0,
             // xk0 passa a ser o valor de x no instante anterior.
             vxk0 = (*obj)[k]->x; // ( *( ( *obj )[k] ) );
-            cerr << "\nvxk0 = (long double) (*((*obj)[" << k << "])) = " << vxk0;
+// cerr << "\nvxk0 = (*obj)[" << k << "]->x = " << vxk0;
             // AtualizaX chama obj[k]->Go() que gera nova estimativa para x.
             AtualizaX();
-            cerr << " depois de chamar AtualizaX -> vxk0 = " << vxk0 ;
+// cerr << " depois de chamar AtualizaX -> vxk0 = " << vxk0 ;
 
             // O erro é a diferença entre vx[k] e xk0 dividido por xk0 // (valor absoluto)
             if( ( vx[k] - vxk0 ) != 0.0 ) {	// os objetos da borda tem vxk0 == vx[k] logo o erro = 0/0

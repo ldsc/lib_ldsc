@@ -61,6 +61,12 @@ CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo ( CMFluido*& _fluido,
 {
    cout.setf ( ios::left );
    cout.precision ( 18 );
+   
+   
+// for (int i=0; i< grafo->objeto.size(); i++) // aqui aqui
+//   cerr 	<< "\nCONSTRUTOR CSimPermeabilidadeGrafo::CSimPermeabilidadeGrafo -> grafo->objeto[" << i << "]->Go() = " 
+// 		<< grafo->objeto[i]->Go() << endl;
+   
 }
 
 /*
@@ -464,11 +470,17 @@ CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 /// @todo: Não permite static_cast nem dynamic_cast pois tirei métodos virtuais
 /// da classe CSolverMatriz_ParametroSolver. Ver como resolver!
 	/// 1 - Recolocar CSolverMatriz_ParametroSolver como virtual.
-   vector < CSolverMatriz_ParametroSolver* >* ptr_obj = ( vector < CSolverMatriz_ParametroSolver* >* ) & ( grafo->objeto );
-//    vector<CSolverMatriz_ParametroSolver*>* ptr_obj = dynamic_cast<vector<CSolverMatriz_ParametroSolver*> *  > ( & ( grafo->objeto ) );
+	//aqui aqui aqui
+//    PROBLEMA NÃO RESOLVE NADA vector < CSolverMatriz_ParametroSolver* >* ptr_obj =    ( vector < CSolverMatriz_ParametroSolver* >* ) & ( grafo->objeto );
+   vector < CSolverMatriz_ParametroSolver* > obj ( grafo->objeto.size() );
+   for(int i = 0; i < grafo->objeto.size(); i++) 
+	   obj[i] = grafo->objeto[i];
+
+   //    vector<CSolverMatriz_ParametroSolver*>* ptr_obj = dynamic_cast<vector<CSolverMatriz_ParametroSolver*> *  > ( & ( grafo->objeto ) );
 
    // Resolve o sistema para as pressões.
-   long double erroSolver = solver->Go ( ptr_obj );
+//    long double erroSolver = solver->Go ( ptr_obj );
+   long double erroSolver = solver->Go ( &obj );
 
    // Usado para dar continuidade a simulação no caso de uma interrupção indesejada de energia.
    if ( salvarDadosParciaisPressaoDisco )

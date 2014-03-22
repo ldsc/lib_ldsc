@@ -15,7 +15,7 @@
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-// #include <fstream>
+#include <iostream>
 // #include <vector>
 #include <iomanip>
 #include <algorithm>
@@ -431,6 +431,7 @@ ostream& operator<< ( ostream& out, CObjetoRede& s )
 */
 long double CObjetoRede::Go ( long double /*d */ )
 {
+// std::cerr 	<< "\nPassei por CObjetoRede::Go. Tipo = "<<  static_cast<uint16_t> ( Tipo() ) ;// aqui aqui
    // Ex:
    // propriedade = condutancia
    // x           = pressao
@@ -454,7 +455,6 @@ long double CObjetoRede::Go ( long double /*d */ )
          // Acumula a condutancia total
          somatorio_da_condutancia += this->condutancia[i];
       }
-
    // Somatorio (condutancia*pressao) / somatorio_da_condutancia
    // retorna um novo valor de x (pressão) sem alterar x diretamente.
    return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
@@ -518,3 +518,4 @@ long double CObjetoRede::Fluxo () const
 //    condutancia.erase ( condutancia.begin() + indice_rotulo_valido , condutancia.end () );
 //    return 1;
 // }
+

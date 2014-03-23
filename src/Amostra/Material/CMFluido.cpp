@@ -3,14 +3,13 @@
 PROJETO:          Biblioteca LIB_LDSC
                   Ramo: TPadrao_ramo
 ===============================================================================
-
-Desenvolvido por:	Laboratorio de Desenvolvimento de Software Cientifico
-			[LDSC].
-@author:          André Duarte Bueno
-@file:             CMFluido.cpp
-@begin:            Sat Sep 16 2000
-@copyright:        (C) 2000 by André Duarte Bueno
-@email:            andreduartebueno@gmail.com
+Desenvolvido por:
+			Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+@author:    André Duarte Bueno
+@file:      CMFluido.cpp
+@begin:     Sat Sep 16 2000
+@copyright: (C) 2000 by André Duarte Bueno
+@email:     andreduartebueno@gmail.com
 */
 
 //-----------------------------------------------------------------------
@@ -37,14 +36,14 @@ Função: Construtor de cópia
 @param  :Uma referência para um objeto
 @return :sem retorno
 */
-
+/*
 CMFluido::CMFluido (const CMFluido & fluido)
 {
   viscosidade = fluido.viscosidade;
   densidade = fluido.densidade;
   compressibilidade = fluido.compressibilidade;
   molhabilidade = fluido.molhabilidade;
-}
+}*/
 
 /*
 -------------------------------------------------------------------------
@@ -55,7 +54,7 @@ Função: OPerador igualdade (atribuição)
  operador=
 @param  :Uma referência para um objeto
 @return :o próprio objeto (pode haver encadeamento)
-*/
+*//*
 
 CMFluido & CMFluido::operator= (const CMFluido & fluido)
 {
@@ -70,7 +69,7 @@ CMFluido & CMFluido::operator= (const CMFluido & fluido)
   molhabilidade = fluido.molhabilidade;
 
   return *this;
-}
+}*/
 
 /*
 -------------------------------------------------------------------------
@@ -82,15 +81,13 @@ OPerador comparação igualdade
 @param  :Uma referência para um objeto
 @return :bool
 */
-
-bool
-CMFluido::operator== (const CMFluido & fluido)  const
+bool CMFluido::operator== (const CMFluido & fluidoB)  const
 {
-  return
-    ((viscosidade == fluido.viscosidade) &&
-     (densidade == fluido.densidade) &&
-     (compressibilidade == fluido.compressibilidade) &&
-     (molhabilidade == fluido.molhabilidade));
+    return
+        ((this->compressibilidade 	== fluidoB.viscosidade) 		and
+         (this->densidade 			== fluidoB.densidade) 			and
+         (this->compressibilidade 	== fluidoB.compressibilidade)	and
+         (this->molhabilidade 		== fluidoB.molhabilidade));
 }
 
 /*
@@ -103,17 +100,14 @@ Sobrecarga operador saída stream
 @param  :uma ostream e uma referência para um objeto
 @return :ostream
 */
-
-
 ostream & operator<< (ostream & os, const CMFluido & f)
 {
-    os << f.viscosidade				<<	endl;
-  os << f.densidade					<<	endl;
-  os << f.compressibilidade	<<	endl;
-  os << f.molhabilidade			<<	endl;
-   return os;
+    os 	<< f.viscosidade		<<	'\n'
+        << f.densidade			<<	'\n'
+        << f.compressibilidade	<<	'\n'
+        << f.molhabilidade	;
+    return os;
 }
-
 
 /*
 -------------------------------------------------------------------------
@@ -152,14 +146,11 @@ Sobrecarga operador entrada streams
 @param  :uma istream e um ponteiro para um objeto
 @return :ostream
 */
- 
 istream & operator>> (istream & is, CMFluido & f)
 {
-  is >> f.viscosidade;
-  is >> f.densidade;
-  is >> f.compressibilidade;
-  is >> f.molhabilidade;
-
-  return is;
+    is >> f.viscosidade
+       >> f.densidade
+       >> f.compressibilidade
+       >> f.molhabilidade;
+    return is;
 }
- 

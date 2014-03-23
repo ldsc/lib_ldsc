@@ -58,7 +58,7 @@ PROJECT_LOGO           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-# OUTPUT_DIRECTORY       = docs
+# OUTPUT_DIRECTORY     = docs
 OUTPUT_DIRECTORY       = ../libldsc-docs
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 4096 sub-
@@ -84,7 +84,7 @@ CREATE_SUBDIRS         = NO
 # Ukrainian and Vietnamese.
 # The default value is: English.
 
-#OUTPUT_LANGUAGE        = English
+#OUTPUT_LANGUAGE       = English
 OUTPUT_LANGUAGE        = Brazilian
 
 # If the BRIEF_MEMBER_DESC tag is set to YES doxygen will include brief member
@@ -119,7 +119,7 @@ ABBREVIATE_BRIEF       =
 # description.
 # The default value is: NO.
 
-#ALWAYS_DETAILED_SEC    = NO
+#ALWAYS_DETAILED_SEC   = NO
 ALWAYS_DETAILED_SEC    = YES
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
@@ -129,7 +129,7 @@ ALWAYS_DETAILED_SEC    = YES
 # The default value is: NO.
 
 INLINE_INHERITED_MEMB  = NO
-#INLINE_INHERITED_MEMB  = YES
+#INLINE_INHERITED_MEMB = YES
 
 # If the FULL_PATH_NAMES tag is set to YES doxygen will prepend the full path
 # before files name in the file list and in the header files. If set to NO the

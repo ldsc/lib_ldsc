@@ -94,7 +94,7 @@ class Diferencas_Centrais:public Interpolacao
 public:
   Diferencas_Centrais ();	//Construtor
   virtual ~ Diferencas_Centrais ();	//Destrutor
-  virtual void f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  virtual void f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //Construtor
@@ -119,7 +119,7 @@ Diferencas_Centrais::~Diferencas_Centrais ()
 //pois para o Diferencas_Centrais alfa e beta sao constantes
 //e foram definidos no construtor
 void
-Diferencas_Centrais::f_cálculo_alfa_beta
+Diferencas_Centrais::f_calculo_alfa_beta
   (double &u, double &dxc, double &ro, double &dif)
 {
 }
@@ -140,7 +140,7 @@ public:
   virtual ~
   Upwind ();			//construtor
   virtual void
-    f_cálculo_alfa_beta		//destrutor
+    f_calculo_alfa_beta		//destrutor
   (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
@@ -165,7 +165,7 @@ Upwind::~Upwind ()
 //observe que aqui nao realiza nenhum c�lculo.
 //pois para o upwind alfa e beta sao constantes e foram definidos no construtor
 void
-Upwind::f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Upwind::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
 }
 
@@ -186,7 +186,7 @@ public:
   virtual ~
   Wuds ();
   virtual void
-  f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //construtor
@@ -209,7 +209,7 @@ Wuds::~Wuds ()
 //observe que � definida na classe base e aqui redefinida.
 //os parametros sao passados por referencia por ser mais r�pido
 void
-Wuds::f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Wuds::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
   peclet = u * dxc * ro / dif;
   pe2 = peclet * peclet;
@@ -229,7 +229,7 @@ class Exata:public Interpolacao
 public:
   Exata ();			//Construtor
   virtual ~ Exata ();		//Destrutor
-  virtual void f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
+  virtual void f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif);	//redefinida
 };
 //---------------------------------------------------------------------------
 //Construtor
@@ -255,7 +255,7 @@ Exata::~Exata ()
 //Pode-se futuramente incluir aqui um tratamento de excessao
 //para o estouro da pilha.
 void
-Exata::f_cálculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
+Exata::f_calculo_alfa_beta (double &u, double &dxc, double &ro, double &dif)
 {
   peclet = u * dxc * ro / dif;	//v=0 peclet=0
   c3 = pow (E, peclet) - 1.0;	//c1=e^peclet-1
@@ -325,10 +325,10 @@ main()
   clrscr();
 
   //calcula os valores de alfa e beta
-  dc->f_cálculo_alfa_beta(u,dxc,ro,dif);
-  up->f_cálculo_alfa_beta(u,dxc,ro,dif);
-  wu->f_cálculo_alfa_beta(u,dxc,ro,dif);
-  ex->f_cálculo_alfa_beta(u,dxc,ro,dif);
+  dc->f_calculo_alfa_beta(u,dxc,ro,dif);
+  up->f_calculo_alfa_beta(u,dxc,ro,dif);
+  wu->f_calculo_alfa_beta(u,dxc,ro,dif);
+  ex->f_calculo_alfa_beta(u,dxc,ro,dif);
 
   //mostra os valores de alfa e beta
   cout<<dc;

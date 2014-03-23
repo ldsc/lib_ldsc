@@ -448,11 +448,11 @@ CMaterialMeioPorosoAmostra::Difusividade_massica ()	// redefinida
 
 /*
 Esta funcao deveria chamar as funcoes:
-	f_cálculo_difusividade_dtl();
+	f_calculo_difusividade_dtl();
 
-	f_cálculo_difusividade_dtv();
-	f_cálculo_difusividade_doll();
-	f_cálculo_difusividade_dolv();
+	f_calculo_difusividade_dtv();
+	f_calculo_difusividade_doll();
+	f_calculo_difusividade_dolv();
 	f_fator_experimental(); 			// subst. por polinomio p_fe
 	f_derivada_h_teta_h_ol();
 	e calcular a difusividade massica por
@@ -464,7 +464,7 @@ Esta funcao deveria chamar as funcoes:
 // ---------------------------------------------------------------------------
 // Difusividade termica fase liquida
 double
-CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtl ()
+CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtl ()
 {
   // dtl=dtv;  // para baixos conteudos desprezo o DTL
   dtl = 1e-12;
@@ -474,7 +474,7 @@ CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtl ()
 // ---------------------------------------------------------------------------
 // Difusividade t�rmica fase vapor
 double
-CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtv ()
+CMaterialMeioPorosoAmostra::f_calculo_difusividade_dtv ()
 {				/*
 				   double h1;
 				   double dif_vapor_ar=1.0;
@@ -491,7 +491,7 @@ CMaterialMeioPorosoAmostra::f_cálculo_difusividade_dtv ()
 // ---------------------------------------------------------------------------
 // Difusividade massica fase liquida
 double
-CMaterialMeioPorosoAmostra::f_cálculo_difusividade_doll ()
+CMaterialMeioPorosoAmostra::f_calculo_difusividade_doll ()
 {
   doll = 1e-8;			// dolv;
   return (doll);
@@ -508,7 +508,7 @@ CMaterialMeioPorosoAmostra::Calculo_difusividade_dolv ()
 				   double densidade_vapor_saturado=1.0;
 				   double densidade_fluido=1.0;
 
-				   // dhol=f_cálculo_didufisidade_oll(ol);// ???
+				   // dhol=f_calculo_didufisidade_oll(ol);// ???
 				   dolv=dif_vapor_ar*fator_experimental*densidade_vapor_saturado
 				   *doll/densidade_fluido;// ?
 				   Dol2=64.868427*conteudo_ol*conteudo_ol-11.32096*conteudo_ol-9.075419;
@@ -580,10 +580,10 @@ CMaterialMeioPorosoAmostra::Calcula_propriedades_material (double *&v)
   // A funcao de cálculo da difusividade e' que deve chamar estas funcoes
   // na ordem correta
   // f_difusividade();????
-  // f_cálculo_difusividade_dtl();
-  // f_cálculo_difusividade_dtv();
-  // f_cálculo_difusividade_doll();
-  // f_cálculo_difusividade_dolv();
+  // f_calculo_difusividade_dtl();
+  // f_calculo_difusividade_dtv();
+  // f_calculo_difusividade_doll();
+  // f_calculo_difusividade_dolv();
 
   // metodos novos desta classe ainda nao calculados
   // fator_experimental=p_fe.f_calcular(conteudo_ol);

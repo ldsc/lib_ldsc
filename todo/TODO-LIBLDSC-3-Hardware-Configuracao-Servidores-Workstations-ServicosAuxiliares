@@ -1,0 +1,54 @@
+===============================================================================
+NDSC
+===============================================================================
+Nome deste arquivo: 	TODO-NDSC
+Conteudo:		Lista das tarefas a serem realizadas pelo grupo NDSC.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Organizacao NDSC -> LDSC
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+[Específico Repositório Documentação]
+=======================================
+Objetivo: Criar repositórios com informações compartilhadas.
+Objetivo: Montar servidores onde ficarão dados compartilhados.
+[ ] - Configurar servidor para núcleo rede científica (grupo ldsc).
+[ ] - Sites
+[ ] - Baixar wget -r http://gcc.gnu.org/onlinedocs/libstdc++
+[ ] - Baixar wget -r http://cppreference.com
+
+[ ] - Montra estrutura diretórios uniforme (site cnpq/livros)
+[x] - Montar resumo C++11
+[x] - Montar resumo Git
+[ ] - Cópia livro C++ Bueno
+[ ] - Cópia material baixado internet 
+
+
+[Específico Repositório Dados]
+=======================================
+Objetivo: Montar servidores com dados para simulações de teste.
+[]- Colocar dados a serem usados nas simulações de testes em um servidor compartilhado.
+
+[Específico Repositório Software -> git]
+=======================================
+[]- Colocar repositório git para funcionar.
+[]- Colocar códigos equipe Tulsa.
+[]- Colocar lib_ldsc.
+[]- Montar estrutura diretórios aplicação simulador poço.
+
+[Específico Sistema Operacional]
+=======================================
+[]- Reativar mirror do Fedora
+[]- Usar versão atualizada do sistema operacional Fedora (>versão 20)
+
+[Específico Softwares Apoio]
+=======================================
+Objetivo: manter atualizados os softwares de apoio, anote abaixo a versão mais atual em que o 
+sistema foi gerado corretamente:
+[1.8.3] - doxygen (versão do arquivo doxyfile).
+[20]    - fedora (versão do sistema operacional).
+[4.8.2] - g++ (versão do compilador da gnu).
+[5.1]   - qt (versão do QT).
+

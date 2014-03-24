@@ -1,0 +1,42 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                    TODO: Teste lib_ldsc 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[ ] - O diretório test deve ter a mesma estrutura de src,
+e cada subdiretório deve testar as classes correspondentes.
+[ ] - Montar os testes com documentacao e dados completos, de forma que sejam úteis para usuários.
+[ ] - O teste de Estatistica (Normal, student, ...) deve gerar os graficos usando o gnuplot.
+[ ] - Os programas que foram colocados dentro de test devem ser retirados.
+[ ] - Criar programa externo que acessa a lib. O programa deve ser bem documentado, de forma a 
+servir de base para aprendizado.
+[ ] - verificar IDF Euclidiana ; Esta utilizando valores maiores que 255, 
+e está dando problema ao salvar a imagem tons de cinza em formato binário. 
+(O formato binário utilizado pela libldsc é de 8 bits aceitando assim valores de 0 a 255). 
+
+
+

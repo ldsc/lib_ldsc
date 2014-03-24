@@ -1,0 +1,62 @@
+Procurar/Substituir: "feature S3DMP" -> "feature NOME_FEATURE"
+
+
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas para feature S3DMP.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+===============================================================================
+ TODO: Revisão geral, documentação e Conversão da feature S3DMP para C++11/14
+===============================================================================
+
+Objetivos: Revisão geral, documentação e pequenas atualizações para C++11 da feature S3DMP.
+
+Etapa_1 - Revisão e conversão inicial.
+[] - Criar arquivo modelo que lista as inovações a serem consideradas (ver resumo c++11)
+Para cada classe criar arquivo CNomeClasse.C++11.todo?
+[] - Antes de fazer as modificacoes gerar saidas padrões, que devem ser posteriormente conferidas.
+[] - Reescrever as classes básicas e depois os códigos específicos.
+[] - Atualizar a documentação da feature S3DMP (usando formato javadoc)
+	[] - Eliminar/apagar comentários antigos associados a debugagens;
+	[] - Criar módulos (@defgroup, @ingroup)
+[] - Corrigir a feature S3DMP considerando inovações de C++11/C++14 (conceitos simples).
+[] - Testar a feature S3DMP considerando resultados padrões
+[] - Adicionar exemplos da  feature S3DMP em demo.
+[] - Adicionar exemplos da  feature S3DMP em test.
+
+
+Etapa_2 - Conversão + agressiva.
+[] - Fazer correções conceituais e lógicas na feature S3DMP de forma a adotar um paradigma intermediário entre
+o uso de métodos polimórficos e algoritmos genéricos (templates).
+[] - Conversão agressiva para C++11/14 (uso de conceitos que mudam a forma de implementação e uso da lib).
+
+Etapa_3 - Paralelização
+Objetivo: Paralelizar os códigos visando maior desempenho.
+A técnica de paralelização mais adequada depende do problema a ser tratado.
+[] - Identificar códigos paralelizáveis na feature S3DMP
+[] - Implementar paralelização usando múltiplas threds.
+[] - Implementar paralelização usando CUDA.
+[] - Implementar paralelização usando múltiplos processos.
+
+

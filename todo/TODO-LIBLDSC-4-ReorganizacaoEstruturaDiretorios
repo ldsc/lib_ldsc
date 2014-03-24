@@ -1,0 +1,211 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+           TODO-> Organizacao diretórios lib_ldsc V1
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Colocar aqui a estrutura antiga da lib_ldsc]
+============================================
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+           TODO-> Organizacao diretórios lib_ldsc V2a
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Nova estrutura diretórios]
+=======================================
+[bueno@localhost src]$ tree -L 3 -d
+[x] - ├── Amostra
+[x] - │   ├── AmostraRocha
+[x] - │   └── Material
+[x] - ├── AnaliseImagem
+[x] - │   ├── Caracterizacao (geralmente uma informação geométrica)
+[x] - │   │   ├── Correlacao
+[x] - │   │   ├── Distribuicao
+[x] - │   │   ├── Fractal
+[x] - │   │   ├── GrafoConexaoSerial
+[x] - │   │   └── RedePercolacao
+[x] - │   ├── Filtro (criar namespace alias PreProcessamento)
+[x] - │   │   ├── FAmplitude
+[x] - │   │   ├── FEspacial
+[x] - │   │   ├── FFrequencial
+[x] - │   │   └── Mascara
+[ ] - │   ├── Geometria (mover para dentro Caracterizacao)
+[x] - │   │   └── Bola
+[x] - │   ├── Reconstrucao
+[x] - │   ├── Segmentacao
+[x] - │   │   └── PorosGargantas
+[x] - │   └── Simulacao (geralmente uma propriedade física)
+[x] - │       ├── ConfiguracaoEquilibrio
+[ ] - │       ├── Tortuosidade
+[ ] - │       ├── DanoFormacao
+[x] - │       └── Permeabilidade
+[x] - ├── Base
+[x] - ├── Estatistica
+[x] - ├── Grafico
+[x] - │   └── Gnuplot
+[x] - ├── MetNum
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[ ] - │   ├── Matriz
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+[ ] - ├── InteligenciaArtificial
+[x] - └── Tempo
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+           TODO-> Organizacao diretórios lib_ldsc V2b
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+[Nova estrutura diretórios 2 -> lib_ldsc(base) e lib_ldsc_app]
+======================================================================
+Objetivo é separar o que é conceito básico,  que deve estar na lib_ldsc, 
+de conceito derivado,  que deve estar numa biblioteca de aplicação.
+Por exemplo,  programa pode precisar das coisas da lib_ldsc,  mas não do GrafoConexaoSerial ou ConfiguracaoEquilibrio.
+-> lib_ldsc             (dividida em bibliotecas pequenas) 
+[x] - ├── Base           (coisas muito básicas usadas com frequência em todos os lugares)
+[x] - ├── EstruturaDados (dados em geral)
+[x] - ├── AnaliseImagem  (livros gonzales/parker/russ/morfmat)
+[x] - ├── Estatistica    (livros estatística e probabilidade)
+[x] - ├── Grafico        (livros gráficos; acesso programas gráficos como gnuplot);
+[ ] - ├── InteligenciaArtificial(livros redes neurais e inteligência artificial);
+[x] - ├── MetNum         (livros métodos numéricos)
+
+-> lib_ldsc_app  (dividida em bibliotecas pequenas (+específico a engenharia))
+[x] - ├── Materiais       (livros materiais)
+[x] - ├── AnaliseImagem   (analise de imagem aplicada a engenharia,  livros engenharia)
+-> Adicionar exemplos de provas
+-> Adicionar códigos bismarck/wagner/capico
+-> Adicionar códigos felipe schram
+...
+
+-> LVP                 Software
+[x] - ├── XXX           ( software que usa as duas libs )
+
+[bueno@localhost src]$ tree -L 3 -d
+=======================================================================================lib_ldsc
+-> lib_ldsc             (dividida em bibliotecas pequenas) 
+[ ] - ├── Base        (coisas muito básicas usadas com frequência em todos os lugares)
+[x] - │   ├── Tempo
+[x] - ├── EstruturaDados (estruturas de dados em geral)
+[x] - │   ├── Grafo     (conexões ) [CObjetoGrafo + CGrafo]
+[x] - │   ├── Rede      (conexões + propriedades) [CObjetoRede + CRede]
+[x] - │   ├── Esqueleto (conexões + propriedades + coordenada) [CObjetoEsqueleto + CEsqueleto]
+[x] - ├── AnaliseImagem (encontrado livros gonzales/parker/russ/morfmat)
+[ ] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem)
+[ ] - │   │   └── Geometria
+[ ] - │   │   │   └── Bola
+[ ] - │   │   └── Matriz (CVetor CMatriz2D CMatriz3D; em métodos numéricos usar array ou matriz de boost? )
+[x] - │   ├── Filtro (realiza um PreProcessamento na imagem)
+[x] - │   │   ├── FAmplitude 
+[x] - │   │   ├── FEspacial
+[x] - │   │   ├── FFrequencial
+[x] - │   │   └── Mascara
+[x] - ├── Estatistica (encontrado livros estatística e probabilidade)
+[x] - │   ├── XX
+[x] - │   │   └── XX
+[x] - │   │   │   └── XX - classes programa alunos georgiana
+[x] - ├── Grafico (encontrado livros gráficos; acesso programas gráficos como gnuplot);
+[x] - │   └── Gnuplot
+[ ] - ├── InteligenciaArtificial(encontrado livros redes neurais e inteligência artificial);
+[x] - │   └── RedesNeurais codigos que montei (falta finalizar)
+[x] - ├── MetNum       (encontrado livros métodos numéricos)
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+
+=======================================================================================lib_ldsc_app
+-> lib_ldsc_app  (dividida em bibliotecas pequenas (+específico a engenharia))
+[x] - ├── Material
+[x] - │   └── CFluido (criar hierarquia se for usar em nós de simulação)
+[x] - │   └── CFluidoColetado (inclui dados coleta? )
+[x] - │   └── Amostra
+[x] - │   │   ├── DadosColeta   (informações sobre coleta da amostra ? ? ? quem/quando/onde..)
+[x] - │   │   ├── AmostraRocha  (adiciona dados coleta)
+[x] - ├── AnaliseImagem
+[x] - │   ├── Base (coisas básicas usadas com frequência em analise de imagem de meios porosos)
+[x] - │   ├── Filtro ( específicos segmentacao imagens meios porosos ? ? )
+[x] - │   │   ├── FAmplitude 
+[x] - │   ├── Caracterizacao (geralmente uma informação geométrica do meio poroso)
+[x] - │   │   ├── Correlacao (função autocorrelação)
+[x] - │   │   ├── Distribuicao ( distribuição tamanho poros - usar morfmat)
+[x] - │   │   │   └── SitiosLigacoes (2D e 3D - Leandro)
+[x] - │   │   │   └── PorosGargantas ***?
+[x] - │   │   ├── GrafoConexaoSerial (tese Bueno)
+[x] - │   │   └── RedePercolacao ( tese Leandro);
+[x] - │   │   ├── Fractal (de meios porosos? )
+[x] - │   ├── Reconstrucao (de meios porosos)
+[x] - │   └── Simulacao (geralmente uma propriedade física)
+[x] - │       ├── ConfiguracaoEquilibrio ***
+[ ] - │       ├── Tortuosidade ***
+[ ] - │       ├── DanoFormacao ***
+[x] - │       └── Permeabilidade ***
+[x] - ├── Estatistica
+[x] - ├── Grafico
+[x] - │   └── Gnuplot
+[x] - ├── MetNum
+[x] - │   ├── Contorno
+[x] - │   ├── Funcao
+[x] - │   ├── Integral
+[x] - │   ├── Interpolacao
+[x] - │   │   ├── Interpolacao2D
+[x] - │   │   ├── IntMetNum
+[x] - │   └── Solver
+[x] - │       ├── Funcao
+[x] - │       └── SistemaEquacoes
+[ ] - ├── InteligenciaArtificial(encontrado livros redes neurais e inteligência artificial);
+[ ] - │   └── RedesNeurais 
+[x] - │       ├── AplicacaoX
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+      TODO-> Organizacao diretórios lib_ldsc V2c - features
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+Objetivo: revisar a organização da libldsc na medida em que os códigos de programas
+antigos forem sendo revisados/documentados/colocados para funcionar.
+
+Exemplo:
+- Simulador telha mestrado.
+- S3DMP simulador desenvolvido disciplina Maliska (inacabado).
+- Anaimp.
+- Imago.
+- Sail.
+- LVP
+
+
+
+
+
+

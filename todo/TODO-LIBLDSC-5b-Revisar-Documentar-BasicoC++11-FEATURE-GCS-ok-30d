@@ -1,0 +1,176 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+       TODO: Revisão geral, documentação e Conversão lib_ldsc para C++11
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+Objetivos: Revisão geral, documentação e pequenas atualizações para C++11.
+
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> feature grafoconexaoserial
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Específico feature->atualizacao_grafo_conexão_serial]
+======================================================
+===========
+Etapa_1
+===========
+
+PASSO_1.1: REORGANIZAR OBJETOS E GRAFO
+[X] - Reorganizar hierarquia de objetos do grafo:  
+CObjetosGrafo     (rotulo)
+CObjetosRede      (propriedade,  conexao,  condutancia)
+CObjetosEsqueleto ( cx, cy, cz)
+[X] - Renomear diversas variáveis e funções.
+[X] - Criar enumeração TipoGrafo e função Tipo,  que retorna o tipo de objeto.
+[X] - Criar CBaseGrafoRedeEsqueleto; 
+[X] - Criar CGrafo (Cria vetor CObjetoGrafo*) 
+[X] - Criar CRede  (Cria vetor CObjetoRede*)
+[X] - Renomear CGrafo_3dBy2D para CGrafoConexaoSerial as demais para CGrafoConexaoSerial_M1..
+Manter o nome grafo pois foi o usado na tese.
+[X] - Revisar os códigos e comentários do GrafoConexaoSerial;
+[X - Fazer funcionar ! ! ! não esta executando Go dos objetos do grafo,
+verificar se Solver esta chamando corretamente os objetos.
+Problema era conversão do vector de objetos
+[X]- Testar com calma EliminarRamosMortos(1) pois esta provocando falha de segmentação!
+ok, problema era no CRedeEsqueleto que estava criando somente objetos centro, todos eram deletados por EliminarRamosMortos!
+Note que a versão para Eneida, isto é, antes de reestruturas os códigos, estava funcionando!
+[X]- Testar com calma EliminaRamosMortos(2) pois esta apagando partes válidas da imagem! não deveria ler objetos dos planos z=0 e z=n-1!
+ok, problema era no CRedeEsqueleto que estava criando somente objetos centro, todos eram deletados por EliminarRamosMortos!
+Note que a versão para Eneida, isto é, antes de reestruturas os códigos, estava funcionando!
+[X] - Reorganizar estrutura diretorios
+/EstruturaDados
+/EstruturaDados/Grafo
+/EstruturaDados/Rede
+/EstruturaDados/Esqueleto
+
+Passo_1.2: OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+[X] - Criar classe CObjetoRede_Tipo e CObjetosEsqueleto_Tipo sem métodos virtuais (otimização).
+[X] - Criar #define OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+Use OTIMIZAR_VELOCIDADE_PROCESSAMENTO para criar CObjetoRede_Tipo que é + rápido.
+[] - Criar classe CObjetoRede_Final e CObjetosEsqueleto_Final com uso de final de C++11.
+[] - Comparar desempenho:
+Usando objetos virtuais    (é o processamento normal)
+Usando objeto Final (uso de final de C++11)
+Usando objeto Tipo (não virtual); uso de OTIMIZAR_VELOCIDADE_PROCESSAMENTO
+
+Passo_1.3: MUDAR SOLVER
+[ ] - Usar solver de boost
+
+Passo_1.4:
+[x]- No modelo M1 adicionar flag que ativa chamada eliminação das condutâncias em paralelo.
+[ ]- Tarefa: testar ativação deste flag e resultados para modelo 1.
+Jogar saidas na tela;
+[]- Tirar acesso public das propriedades rotulo,  condutância...
+[]- Fazer deletado = numeric_limits<unsigned int>::max(); evitando problema com objeto.size()!
+[] - Corrigir códigos como:
+         sitio = dynamic_cast < CObjetoEsqueleto* > ( objeto[k] );
+         assert ( sitio );
+lanca excecao antes do assert !
+[] - Criar novo diretório CGrafoOtimizado,  em que os objetos rede e esqueleto não terão 
+métodos virtuais (pode ter herança).
+[] - Em CObjetoRede::Go CObjetoRede_Final CObjetoRede_Tipo::Go 
+testar desempenho com e sem o static; como o compilador usa opções de
+	/// otimização é possível que sem estáticstatic fique mais rápido!
+[] - Em CObjetoRede::Go só considera sítios vizinhos no calculo do novo x;
+[] - Testar:
+   virtual bool CGrafo::DeletarObjeto ( CObjetoGrafo* objeto_i ) override {
+      delete objeto_i;
+      int posicao_i = objeto_i - *objeto.data();
+      objeto.erase ( objeto.begin() + posicao_i );
+   }
+[] - Controle acesso,  colocar protected: e friend para CGrafo CPermeabilidadeGrafo
+[] - @todo: trocar assert? usar static_assert de C++11! ou try..catch?
+[] - Transformar Vector em template.
+[] - Sobrecarregar operador << ??; 
+[] - Implementar versão que recebe uma ostream. 
+Ex: grafo->Write();    //  Usa nome arquivo para salvar grafo
+Ex: grafo->Write(fout);//  Salva grafo em fout
+Ex: fout << grafo;     // Sobrecarga
+[] - renomear Write -> Salvar; ex: grafo->Salvar();
+[] - renomear Read  -> Ler; ex: grafo->Ler();
+    @todo: transformar CVetor em template!
+[] trocar unsigned int por uint32_t
+[] -   @todo:    Criar classes 
+  CReta -> CReta(a,b); Calcula y = Go(x); Calcula y = Go(x,a,b);
+  CSegmentoReta (prova c++)
+  using CEstimativaValorBaseadaValorContorno = CSegmentoReta;
+  no grafo substituir CContornoCentro por CContorno, e
+  usar criar CEstimativaValorBaseadaValorContorno.
+??  
+long double EstimativaValorBaseadaValorContorno(long double a,long double b){}
+[] - Transformar
+bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
+bool CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int modelo, TCMatriz3D<int>* pm3D, ofstream& fout 
+num modelo para qualquer tipo processamento arquivos.
+
+
+=================================
+Etapa_2 - Conversão + agressiva.
+=================================
+[] - Fazer correções conceituais e lógicas
+[] - Conversão agressiva para C++11/14 (uso de conceitos que mudam a forma de implementação e uso da lib).
+
+Passo_2.4: USAR TEMPLATE
+[ ] - Modificar hierarquia objetos
+[ ] - Modificar hierarquia grafos
+[] - Comparar desempenho:
+
+=================================
+Etapa_3 - Paralelização
+=================================
+[] - Identificar códigos paralelizáve-s
+[] - Implementar paralelização usando múltiplas threds.
+[] - Implementar paralelização usando CUDA.
+[] - Implementar paralelização usando múltiplos processos.
+A técnica de paralelização mais adequada depende do problema a ser tratado.
+
+=====================================
+Etapa_4a - Novos modelos - M3b
+=====================================
+Passo_4.1 - Novos modelos de grafo
+[]- Desenvolver modelo M3b que considera píxeis vizinhos a area de interseccao.
+Plano
+---------------------------------------------------------
+---1111111111X3333X11111111-----1111111111111-----------
+---1111111111X3333X11111111-----1111111111111-----------
+---1111111111X3333X11111111-----1111111111111-----------
+---------------------------------------------------------
+Corte ->atual
+-----------11111111111111-----------ra
+--------------xxxxxx----------------rotint
+--------------222222----------------rp
+Corte ->novo
+-----------11111111111111-----------ra
+-------------AxxxxxxA---------------rotint adiciona 1/2 píxel A
+--------------222222----------------rp
+
+=====================================
+Etapa_4b - Novos modelos - M9
+=====================================
+[] - Desenvolver modelo M9, considera IDF 3D.
+
+

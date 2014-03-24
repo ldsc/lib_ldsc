@@ -1,0 +1,59 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+[Específico padrões de projeto]
+============================================
+[]- Ver livro que fala de padrões de projeto, classe padrão para criar objetos.
+[]- Criar classes baseadas nos padrões.
+
+[Específico uniformizacao código]
+============================================
+[ ] - Estudar a implementação de sobrecargas virtuais usando:
+obj >> os;
+obj << is;
+Como os é externo,  sempre tenho de implementar como função membro, 
+a ideia é inverter a ordem de chamada.
+No caso da biblioteca de Grafos cada classe tem método Write
+e a sobrecarga do operador chama Write que é virtual.
+
+
+
+[] - Criar padrão para arquivos com dados objetos.
+* @todo: como padrão de modelagem, seria interessante ter duas possibilidades; 
+ * i) Por padrão os dados de cada objeto são armazenados em arquivos de disco, isto é, 
+ * para cada objeto um arquivo de disco.
+ * ii) Possibilidade de ter todos os dados num único arquivo de disco com formato genérico:
+ * [objeto]
+ * 	Propriedade1 = valor
+ * 	Propriedade2 = valor
+ * uma função auxiliar verificaria a existência dos arquivos individuais e do arquivo genérico
+ * e, em função do padrão definido pelo usuário leria um ou outro arquivo.
+[] - Tipos de erro.
+ * @todo: Toda simulação tem erros, portanto, seria interessante adicionar aqui um objeto de erro;
+ * inicialmente pode ser uma variável long double para indicar o erro associado; depois, pensar em criar
+ * uma hierarquia de objetos do tipo CTipoErro e uma enumeção ETipoErro.
+ * Dar uma olhada em bibliotecas da gnu e boost, para ver como tratam este tipo de problema.
+
+

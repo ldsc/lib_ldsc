@@ -1,0 +1,67 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+                               TODO-> TESE ALUNOS
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[Específico tese Leandro]
+=======================================
+Objetivo: A ideia é resolver questões associadas diretamente a tese do 
+Leandro, usando códigos existentes.
+O Leandro fica com controle do branch master até terminar sua tese.
+
+[] - Gerar pacote da versao (1.5 que funcione redondinho com lvp) e arquivar em libs.
+Será a ultima versao com estrutura de diretórios antiga.
+Gerar a versão da lib no git.
+[] - Copiar libldsc-1.5 para Desenvolvimento-02-Bibliotecas-Releases/LIB_LDSC
+[] - Gerar pacote com libldsc-1.5 + lvp e no nome adicionar Leandro.
+Gerar a versão do lvp no git.
+[] - Copiar lvp para Desenvolvimento-03-Programas-Releases.
+
+[] - Criar hierarquia de classes/modelos para calcular distribuição de sítios e ligações a partir 
+de imagens 2D.
+[] - Criar hierarquia de classes/modelos para calcular distribuição de sítios e ligações a partir 
+de imagens 3D.
+[] - Criar hierarquia para montagem redes de percolação a partir distribuição de sítios e 
+ligações.
+[] - Criar estrutura para teste dos códigos desenvolvidos pelo Leandro. Deve adotar padrão uniforme 
+em toda lib_ldsc.
+
+[Específico mestrado Rafael]
+=======================================
+[] - Verificar códigos Rafael -2D e botar para funcionar (test/AberturaDilatacao).
+
+[Específico mestrado Eneida]
+=======================================
+[] - Verificar códigos Eneida e botar para funcionar (test/RedesNeurais).
+
+[Específico mestrado Tiago]
+=======================================
+[] - Verificar códigos DanoFormacao, mover para lib_ldsc.
+[] - Verificar códigos SAIL,  adicionar ao LVP? 
+
+
+

@@ -1,0 +1,99 @@
+===============================================================================
+libldsc
+===============================================================================
+Nome deste arquivo: 	TODO
+Conteudo:		Lista das tarefas a serem realizadas.
+Autor:			André Duarte Bueno, Leando Puerari.
+
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc 
+		(informaçoes para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificaçoes da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.
+
+===============================================================================
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+TODO-> Comparativo: cvs x svn x git 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[x]- Estudar cvs.
+[x]- Estudar svn.
+[x]- Estudar git.
+[x]- Baixar/ler/analizar comparativos.
+[x]- Montar capítulos sobre o assunto.
+[x]- Montar apresentação do git.
+[x]- Montar resumo e guia resumido do git.
+[x]- Melhorar resumo git, Acrescentar dicas de git.org.cz "Git Cheat Sheet".
+
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+TODO-> Comparativo IDEs: kdevelop x qtdesigner
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[p]- Estudar brevemente os dois e fazer um comparativo.
+[]- Ver comentários e comparativos da internet.
+[]- Preparar apresentação dos dois.
+[]- Indicar qual o melhor para uso no projeto.
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+TODO-> Comparativo MONTADORES: autotools x cmake x ninja x scons
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+
+  An important distinction must be made between who uses the tools. 
+  Cmake is a tool that must be used by the user when building the software. 
+  The autotools are used to generate a distribution tarball that can be used to build the 
+  software using only the standard tools available on any SuS compliant system. In other words, 
+  if you are installing software from a tarball that was built using the autotools, 
+  you are not using the autotools. On the other hand, if you are installing software that uses Cmake, 
+  then you are using Cmake and must have it installed to build the software.
+  
+  The great majority of users do not need to have the autotools installed on their box. 
+  Historically, much confusion has been caused because many developers distribute 
+  malformed tarballs that force the user to run autoconf to regenerate the configure script,
+  and this is a packaging error. More confusion has been caused by the fact that most 
+  major linux distributions install multiple versions of the autotools, when they should not
+  be installing any of them by default. Even more confusion is caused by developers attempting
+  to use a version control system (eg cvs, git, svn) to distribute their software rather than 
+  building tarballs./
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+TODO-> Comparativo COMPILADORES: gnu x intel
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[]- Fazer um comparativo entre os dois, desempenho, mas, principalmente suporte a C++11 e processamento paralelo;
+[]- Compilar os programas em ambos; buscar um terceiro compilador.
+[]- Fazer comparativo do Tempo compilação:
+
+Teste 1: sem cache, tudo zerado
+make -j 1
+make -j 4
+
+Teste 2: com cache
+time make 
+  real	0m13.669s
+  user	0m8.117s
+  sys	0m4.529s
+
+time make -j 4
+  real	0m5.118s
+  user	0m6.806s
+  sys	0m3.984s
+
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+TODO-> JAVADOC/Doxygen: 
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+[x]- Revisar manuais do javadoc/doxygen em busca de novidades.
+[x]- Definir um modelo padrão para o arquivo do doxygen.
+[x]- preparar material sobre javadoc/doxygen atualizado
+[]- dar aula sobre o assunto.
+[]- cobrar o uso efetivo da ferramenta.
+

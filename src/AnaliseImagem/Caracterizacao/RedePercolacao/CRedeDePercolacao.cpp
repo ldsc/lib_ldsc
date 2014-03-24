@@ -87,6 +87,7 @@ CRedeDePercolacao::CRedeDePercolacao(unsigned int nx, unsigned int ny, unsigned 
 	nz = ( nz > max ) ? max : nz;
 	// Cria matriz 3D que servirá para verificar sobreposições na rede.
 	pm = new TCMatriz3D<bool>(nx, ny, nz);
+	ptrMatObjsRede = new CMatrizObjetoRede();
 }
 
 // Destrutor

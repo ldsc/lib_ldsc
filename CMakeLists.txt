@@ -58,7 +58,7 @@ endif()
 #else()
 if(WIN32) # True on windows systems, including win64
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 -std=gnu++11 -fopenmp -lgomp")
-    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -p -std=gnu++11 -fopenmp -lgomp")
+    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -std=gnu++11 -fopenmp -lgomp")
     set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
     #set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
 endif()
@@ -83,7 +83,8 @@ add_subdirectory(demo)
 
 if(WIN32) # True on windows systems, including win64
   set_target_properties(ldsc PROPERTIES LINK_FLAGS_RELEASE "-O2 -fopenmp -lgomp")
-  set_target_properties(ldsc PROPERTIES LINK_FLAGS "-O2 -fopenmp -lgomp")
+  set_target_properties(ldsc PROPERTIES LINK_FLAGS_DEBUG "-s -fopenmp -lgomp")
+  #set_target_properties(ldsc PROPERTIES LINK_FLAGS "-O2 -fopenmp -lgomp")
 endif()
 
 # Create libldsc executable.

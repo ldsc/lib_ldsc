@@ -159,7 +159,7 @@ void CPermeabilidadeRede::DefinicaoValoresIniciais () {
 // Solucao do Sistema de Equações
 void CPermeabilidadeRede::SolucaoSistemaEquacoes ()
 { // Pega ponteiro para vetor do tipo CSMParametroSolver*
-	vector < CSMParametroSolver * > * ptr_obj;
+	vector< CSMParametroSolver * > * ptr_obj = new vector< CSMParametroSolver * >();
 	for ( auto e : rede->ptrMatObjsRede->matrizObjetos ){
 		ptr_obj->push_back( static_cast< CSMParametroSolver * > (&(e.second)) );
 	}

@@ -1,13 +1,13 @@
 #ifndef CMatrizObjetoRede_H
 #define CMatrizObjetoRede_H
 
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.h>
 #include <map>
 
 class CMatrizObjetoRede
 {		//atributos
 	public:
-		std::map<int, CObjetoRede> matrizObjetos;
+		std::map<int, CObjetoRedePercolacao> matrizObjetos;
 
 		// Construtores / Destrutor
 	public:

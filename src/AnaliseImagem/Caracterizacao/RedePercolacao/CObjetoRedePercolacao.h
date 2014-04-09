@@ -1,13 +1,13 @@
-#ifndef CObjetoRede_h
-#define CObjetoRede_h
+#ifndef CObjetoRedePercolacao_h
+#define CObjetoRedePercolacao_h
 
 /**
 =========================================================================
-PROJETO:    Biblioteca libldsc CObjetoRede
+PROJETO:    Biblioteca libldsc CObjetoRedePercolacao
 =========================================================================
 Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Leandro Puerari <puerari@gmail.com>
-@file 	    CObjetoRede.h
+@file 	    CObjetoRedePercolacao.h
 */
 
 // -----------------------------------------------------------------------
@@ -21,7 +21,7 @@ Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 #include <iomanip>
 #include <AnaliseImagem/Segmentacao/PorosGargantas/CObjetoImagem.h>
 #include <MetNum/Contorno/CContorno.h>
-#include <MetNum/Solver/SistemaEquacoes/CSMParametroSolver.h>
+#include <MetNum/Solver/SistemaEquacoes/CSolverMatriz_ParametroSolver.h>
 
 // -----------------------------------------------------------------------
 // Bibliotecas libldsc
@@ -30,7 +30,7 @@ Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 using namespace std;
 class CMatrizObjetoRede;
 
-class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
+class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_ParametroSolver
 {
 	protected:
 		//----------------------------------------------------Atributos
@@ -46,16 +46,16 @@ class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
 		/// Construtor
-		CObjetoRede() : CObjetoImagem()	{
+		CObjetoRedePercolacao() : CObjetoImagem()	{
 		}
 
 		/// Construtor sobrecarregado. Recebe ponteiro para metriz de objetos, tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		//CObjetoRede( CMatrizObjetoRede * ptrMatObjs, ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n), matrizObjetos(ptrMatObjs) {
-		CObjetoRede( ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n) {
+		//CObjetoRedePercolacao( CMatrizObjetoRede * ptrMatObjs, ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n), matrizObjetos(ptrMatObjs) {
+		CObjetoRedePercolacao( ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n) {
 		}
 
 		/// Destrutor
-		~CObjetoRede() {}
+		~CObjetoRedePercolacao() {}
 
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
@@ -66,7 +66,7 @@ class CObjetoRede : public CObjetoImagem, public CSMParametroSolver
 		 * Esta propriedade é calculada por esta função.
 		 * Pode ser fluxo de massa, de calor, de qualquer coisa, ...
 		*/
-		long double Fluxo (std::map<int, CObjetoRede> *moi );
+		long double Fluxo (std::map<int, CObjetoRedePercolacao> *moi );
 
 		/** @brief Função herdada da classe CParametroSolver, usada para calcular o valor de x (pressão).
 		 * Redefinição de funções herdadas.

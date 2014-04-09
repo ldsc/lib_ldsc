@@ -29,7 +29,7 @@ Desenvolvido por:
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <EstruturaDados/CRedeContorno.h>
-#include <Contorno/CContornoCentro.h>
+#include <MetNum/Contorno/CContornoCentro.h>
 
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 

@@ -1,20 +1,20 @@
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CObjetoRede
+PROJETO:    Biblioteca libldsc CObjetoRedePercolacao
 =========================================================================
 Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Leandro Puerari
 @email      <puerari@gmail.com>
 @begin      2014
-@file 	    CObjetoRede.h
+@file 	    CObjetoRedePercolacao.cpp
 */
 
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.h>
 
 // Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
-void CObjetoRede::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
+void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 	// fronteira sequencial propriedade?  Camada N.ObjsCon LstObjsCons LstPropriedade?
-	_fout << std::right << std::setw(4) << contorno; //CENTER = 0, WEST=1, EST=2
+	//_fout << std::right << std::setw(4) << Contorno(); //CENTER = 0, WEST=1, EST=2
 	_fout << std::right << std::setw(6) << seq;
 	_fout << std::right << std::setw(11) << propriedade; //condutância
 	_fout << std::right << std::setw(11) << pontoCentral.x; //camada de 0 a n
@@ -36,7 +36,7 @@ void CObjetoRede::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 }
 
 // Calcula o fluxo associado ao objeto.
-long double CObjetoRede::Fluxo (std::map<int, CObjetoRede> * moi) {
+long double CObjetoRedePercolacao::Fluxo (std::map<int, CObjetoRedePercolacao> * moi) {
 	long double fluxo = 0.0;
 	int i;
 	for ( auto & c : sConexao ) {
@@ -54,7 +54,7 @@ long double CObjetoRede::Fluxo (std::map<int, CObjetoRede> * moi) {
  * O novo valor de x, retornado por Go() pode ser usado externamente.
  * Por exemplo, um solver externo vai usar esta nova previsão de x para definir no momento adequado o novo valor de this->x.
 */
-long double CObjetoRede::Go (long double ) {
+long double CObjetoRedePercolacao::Go (long double ) {
 	// Cria variáveis auxiliares (uma única vez, pois são estáticas)
 	static long double somatorio_da_condutancia;
 	static long double somatorio_da_condutancia_vezes_x;

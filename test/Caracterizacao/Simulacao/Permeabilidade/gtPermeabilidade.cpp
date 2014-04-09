@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <omp.h>
 #include <string>
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinseca.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.h>
 #include "../../../gtest_configure.h"
 
@@ -12,7 +12,7 @@ TEST(TestPermeabilidade, IntrinsecaByGrafo) {
 	TCImagem3D<int>* pm = new TCImagem3D<int>(gtc.original3D);
 
 	//Cria objeto rede
-	CPermeabilidadeIntrinseca objPerIn = CPermeabilidadeIntrinseca();
+	CSimPermeabilidadeIntrinseca objPerIn = CSimPermeabilidadeIntrinseca();
 	objPerIn.limiteIteracoes = 100000;
 	objPerIn.limiteErro = 1.0e-06;
 	long double permeabilidade = objPerIn.Go ( pm );

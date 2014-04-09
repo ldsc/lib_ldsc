@@ -6,9 +6,9 @@
 
 // Bibliotecas LIB_LDSC
 //#include <Base/_LIB_LDSC_CLASS.h>
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.h>
-#include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidade.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Contorno/CContorno.h>
 
@@ -49,13 +49,13 @@
  * dadas as condições de contorno nas fronteiras esquerda e direita.
  * Determinadas as pressões nos sítios das fronteiras, pode-se determinar a permeabilidade intrinseca.
 */
-class CPermeabilidadeRede : public CPermeabilidade
+class CPermeabilidadeRede : public CSimPermeabilidade
 {
 		// --------------------------------------------------------------Atributos
 	protected:
 		CMFluido * fluido; ///< Objeto fluido
-		CSMDiagonalDominante *solver; ///< Objeto solver
-		CRedeContorno *rede; ///< Objeto grafo
+		CSolverMatrizDiagonalDominante *solver; ///< Objeto solver
+		CContornoRedePercolacao *rede; ///< Objeto grafo
 
 		unsigned int nx; ///< Dimensão nx da imagem
 		unsigned int ny; ///< Dimensão ny da imagem
@@ -78,8 +78,8 @@ class CPermeabilidadeRede : public CPermeabilidade
 		/// Construtor
 		CPermeabilidadeRede (
 				CMFluido * &_fluido,
-				CSMDiagonalDominante *& _solver,
-				CRedeContorno *& _rede,
+				CSolverMatrizDiagonalDominante *& _solver,
+				CContornoRedePercolacao *& _rede,
 				unsigned int _nx,
 				unsigned int _ny,
 				unsigned int _nz,
@@ -124,12 +124,12 @@ class CPermeabilidadeRede : public CPermeabilidade
 		}
 
 		/// Retorna ponteiro para objeto solver
-		CSMDiagonalDominante *Getsolver () const {
+		CSolverMatrizDiagonalDominante *Getsolver () const {
 			return solver;
 		}
 
 		/// Retorna ponteiro para objeto rede
-		CRedeContorno *GetRede () const {
+		CContornoRedePercolacao *GetRede () const {
 			return rede;
 		}
 
@@ -183,14 +183,14 @@ class CPermeabilidadeRede : public CPermeabilidade
 		}
 
 		/// Define o solver
-		void Setsolver (CSMDiagonalDominante * _p) {
+		void Setsolver (CSolverMatrizDiagonalDominante * _p) {
 			if (solver)
 				delete solver;
 			solver = _p;
 		}
 
 		/// Define o grafo
-		void SetRede (CRedeContorno * _p) {
+		void SetRede (CContornoRedePercolacao * _p) {
 			if (rede)
 				delete rede;
 			rede = _p;

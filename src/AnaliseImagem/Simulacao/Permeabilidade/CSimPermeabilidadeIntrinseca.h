@@ -31,8 +31,8 @@ Desenvolvido por:
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
-#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante.h>
-#include <Material/CMFluido.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
+#include <Amostra/Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
 
 /**

@@ -36,7 +36,7 @@ int CBaseMatriz::larguraCampo = 2;	// BUG
 // No arquivo header detalhes dos formatos de salvamento em disco.
 bool CBaseMatriz::Write(string nomeArquivo, int separado) const {
 	ofstream fout; //  Abre arquivo disco
-	string fullNomeArquivo = path + nomeArquivo;
+	string fullFileName = path + nomeArquivo;
 	//fout.open (fullNomeArquivo.c_str ()); // Abre arquivo de disco formato ASCII para salvar cabeçalho e cores
 	if ( formatoImagem == V4_X_BINARY ||
 			 formatoImagem == V5_X_GRAY_BINARY ||

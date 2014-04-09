@@ -2,18 +2,17 @@
 =========================================================================
 PROJETO:    Biblioteca libldsc CPermeabilidadeIntrinsecaByRede
 =========================================================================
-Desenvolvido por:	
-						LDSC - Laboratorio de Desenvolvimento de Software Científico
+Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Leandro Puerari
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
-@file 	  CPermeabilidadeIntrinsecaByRede.cpp
+@file				CPermeabilidadeIntrinsecaByRede.cpp
 @license    GNU General Public License - version 2
 						see  $LICENSEFILE$ for the full license text.
 */
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDGaussSeidel.h> //novo
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h> //novo
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.h> //novo
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h> //novo
 
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.h>
 
@@ -22,11 +21,11 @@ using namespace std;
 // Construtor
 CPermeabilidadeIntrinsecaByRede::CPermeabilidadeIntrinsecaByRede () {
 	rede	= nullptr;	// Ponteiro para CRedeDePercolacao;
-	solver	= nullptr;	// Ponteiro para CSMDiagonalDominante;
+	solver	= nullptr;	// Ponteiro para CSolverMatrizDiagonalDominante;
 	fluido	= nullptr;	// Ponteiro para CMFluido;
 	perm		= nullptr;	// Ponteiro para CPermeabilidadeRede;
 
-	// valores usados em CSMDiagonalDominante
+	// valores usados em CSolverMatrizDiagonalDominante
 	limiteIteracoes = 5000; // depois retirar
 	limiteErro = 0.000010;  // depois retirar
 }
@@ -46,7 +45,7 @@ void CPermeabilidadeIntrinsecaByRede::DestruirObjetos () {
 
 bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao) {
 	if ( CriarObjetos( nx, ny, nz, fatorRelaxacao ) ) {
-		perm = new CPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda() );
+		//perm = new CPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda() );
 		if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 			DestruirObjetos();
 			return false;
@@ -58,7 +57,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D
 
 bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao ) {
 	if ( CriarObjetos( nx, ny, nz, fatorRelaxacao ) ) {
-		perm = new CPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->SizePixel(), imagem3D->NumeroPixelsBorda() );
+		//perm = new CPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda() );
 		if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 			DestruirObjetos();
 			return false;
@@ -72,7 +71,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 	DestruirObjetos();					// Destrói os objtos que possam estar criados.
 
 	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
-	rede = new CRedeContorno(nx, ny, nz);		// Cria objeto rede
+	rede = new CContornoRedePercolacao(nx, ny, nz);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;
@@ -84,7 +83,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 		return false;
 	}
 	cout << "limiteErro em CPermeabilidadeIntrinsecaByRede::CriarObjetos: " << limiteErro << endl;
-	solver = static_cast < CSMDiagonalDominante * > (new  CSMDSOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
+	solver = static_cast < CSolverMatrizDiagonalDominante * > (new  CSolverMatrizDiagonal_SOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
 	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		return false;

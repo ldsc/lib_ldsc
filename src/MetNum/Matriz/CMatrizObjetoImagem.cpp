@@ -28,18 +28,3 @@ bool CMatrizObjetoImagem::SalvarListaObjetos(std::string nomeArquivo, int nx, in
 	}
 	return false;
 }
-
-// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
-bool CMatrizObjetoImagem::SalvarListaObjetosGrafo(std::string nomeArquivo){
-	ofstream fout; //  Abre arquivo disco
-	fout.open(nomeArquivo.c_str());
-	if (fout.good()){
-		fout << matrizObjetos.size() << endl;
-		for (std::map<int,CObjetoImagem>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
-			it->second.GravarObjetoGrafo(fout, it->first-1);
-		}
-		fout.close();
-		return true;
-	}
-	return false;
-}

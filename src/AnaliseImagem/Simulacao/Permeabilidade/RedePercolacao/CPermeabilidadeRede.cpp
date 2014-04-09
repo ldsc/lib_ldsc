@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iomanip>
 
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDSOR.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
 using namespace std;
@@ -13,8 +13,8 @@ using namespace std;
 // Construtor
 CPermeabilidadeRede::CPermeabilidadeRede (
 		CMFluido * &_fluido,
-		CSMDiagonalDominante *& _solver,
-		CRedeContorno *&_rede,
+		CSolverMatrizDiagonalDominante *& _solver,
+		CContornoRedePercolacao *&_rede,
 		unsigned int _nx,
 		unsigned int _ny,
 		unsigned int _nz,
@@ -125,10 +125,10 @@ void CPermeabilidadeRede::DefinicaoValoresIniciais () {
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
 	for (unsigned long int k = 0; k < numeroObjetos; ++k) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
-		if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno() == CContorno::CENTER)	// 1
-			rede->ptrMatObjsRede->matrizObjetos[k].x = rede->contorno[1]->Go(rede->ptrMatObjsRede->matrizObjetos[k].x);
+		if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno() == CContorno::ETipoContorno::CENTER)	// 1
+			rede->ptrMatObjsRede->matrizObjetos[k].x = rede->contorno[1]->Go(rede->ptrMatObjsRede->matrizObjetos[k].x,0.0);
 		// Se contorno=CContorno::WEST  objeto esta na esquerda	// 0
-		else if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno () == CContorno::WEST)
+		else if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno () == CContorno::ETipoContorno::WEST,0.0)
 			rede->ptrMatObjsRede->matrizObjetos[k].x = (*(rede->contorno[0]));
 		// Se contorno=CContorno::EST objeto esta na direita	// 2
 		else
@@ -158,10 +158,10 @@ void CPermeabilidadeRede::DefinicaoValoresIniciais () {
 
 // Solucao do Sistema de Equações
 void CPermeabilidadeRede::SolucaoSistemaEquacoes ()
-{ // Pega ponteiro para vetor do tipo CSMParametroSolver*
-	vector< CSMParametroSolver * > * ptr_obj = new vector< CSMParametroSolver * >();
+{ // Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
+	vector< CSolverMatriz_ParametroSolver * > * ptr_obj = new vector< CSolverMatriz_ParametroSolver * >();
 	for ( auto e : rede->ptrMatObjsRede->matrizObjetos ){
-		ptr_obj->push_back( static_cast< CSMParametroSolver * > (&(e.second)) );
+		ptr_obj->push_back( static_cast< CSolverMatriz_ParametroSolver * > (&(e.second)) );
 	}
 	long double erroSolver = solver->Go (ptr_obj);
 
@@ -196,8 +196,8 @@ long double CPermeabilidadeRede::Next () {
 		SolucaoSistemaEquacoes ();
 
 		// 2.2) Determina o fluxo na fronteira solicitada
-		long double fluxoe = FluxoFronteira (CContorno::WEST);
-		long double fluxod = FluxoFronteira (CContorno::EST);
+		long double fluxoe = FluxoFronteira (CContorno::ETipoContorno::WEST);
+		long double fluxod = FluxoFronteira (CContorno::ETipoContorno::EST);
 
 		// 2.3) Calcula a permeabilidade
 		permEsq = (fluxoe * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);

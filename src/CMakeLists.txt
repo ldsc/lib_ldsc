@@ -50,9 +50,9 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
-  
-  AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.cpp
-  AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRede.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.cpp
+
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABEntropiaJohansen.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABinario.cpp
@@ -165,15 +165,15 @@ add_library (ldsc STATIC
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCDiscreta3D.cpp
   AnaliseImagem/Geometria/Bola/BCDiscreta/CBCEuclidiana3D.cpp
   
-  AnaliseImagem/Matriz/CImg.cpp
-  AnaliseImagem/Matriz/TCImagem3D.h
-  AnaliseImagem/Matriz/CImagem.cpp
-  AnaliseImagem/Matriz/CHistograma.cpp
-  AnaliseImagem/Matriz/CVetor.cpp
-  AnaliseImagem/Matriz/TCMatriz2D.h
-  AnaliseImagem/Matriz/TCMatriz3D.h
-  AnaliseImagem/Matriz/CBaseMatriz.cpp
-  AnaliseImagem/Matriz/CMatrizObjetoImagem.cpp
+  #AnaliseImagem/Matriz/CImg.cpp
+  #AnaliseImagem/Matriz/TCImagem3D.h
+  #AnaliseImagem/Matriz/CImagem.cpp
+  #AnaliseImagem/Matriz/CHistograma.cpp
+  #AnaliseImagem/Matriz/CVetor.cpp
+  #AnaliseImagem/Matriz/TCMatriz2D.h
+  #AnaliseImagem/Matriz/TCMatriz3D.h
+  #AnaliseImagem/Matriz/CBaseMatriz.cpp
+  #AnaliseImagem/Matriz/CMatrizObjetoImagem.cpp
   AnaliseImagem/Matriz/CMatrizObjetoRede.cpp
 
   AnaliseImagem/Reconstrucao/CFReconstrucao.cpp
@@ -198,6 +198,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeRelativa.cpp
   AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.cpp
+  AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.cpp
   AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.cpp
   AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.cpp
 

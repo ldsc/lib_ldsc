@@ -25,7 +25,6 @@ copyright:      (C) 2000 by Andre Duarte Bueno
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
-#include <Grafo/CRedeContorno.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
 using namespace std;

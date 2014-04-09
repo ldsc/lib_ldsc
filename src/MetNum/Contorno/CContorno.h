@@ -79,7 +79,7 @@ class CContorno
     //CContorno ( )  = default;
 
     /// Construtor sobrecarregado.
-    CContorno (long double _vc = 0.0 ) : valorContorno(_vc){ 	};
+		CContorno (long double _vc = 0.0 ) : valorContorno(_vc){ 	}
 	
 // --------------------------------------------------------------Destrutor
     /// Destrutor.
@@ -108,7 +108,7 @@ class CContorno
     /// Converte para double (cast): double x = obj_contorno;
     /// @todo usar explicit ?
     /// @todo retornar referência ?
-    operator  long double ()    {
+		operator long double ()    {
         return valorContorno;
     }
    

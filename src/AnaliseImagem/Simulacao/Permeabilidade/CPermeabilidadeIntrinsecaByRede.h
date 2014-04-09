@@ -23,12 +23,12 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 // -----------------------------------------------------------------------
 // Bibliotecas lib_ldsc
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Matriz/TCImagem3D.h>
-#include <AnaliseImagem/Matriz/TCMatriz3D.h>
+#include <MetNum/Matriz/TCImagem3D.h>
+#include <MetNum/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeContorno.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.h>
-#include <MetNum/Solver/SistemaEquacoes/SMDiagonal/CSMDiagonalDominante.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
 
@@ -40,11 +40,11 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 class CPermeabilidadeIntrinsecaByRede {
 		// --------------------------------------------------------------Atributos
 	protected:
-		/// Ponteiro para CRedeDePercolacao;
-		CRedeContorno * rede;
+		/// Ponteiro para CContornoRedePercolacao;
+		CContornoRedePercolacao * rede;
 
-		/// Ponteiro para solver (CSMDiagonalDominante);
-		CSMDiagonalDominante * solver;
+		/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
+		CSolverMatrizDiagonalDominante * solver;
 
 		/// Ponteiro para CMFluido;
 		CMFluido * fluido;

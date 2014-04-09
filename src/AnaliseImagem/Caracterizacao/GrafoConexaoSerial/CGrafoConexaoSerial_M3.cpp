@@ -20,32 +20,15 @@
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-<<<<<<< HEAD:src/AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.cpp
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafo_3Dby2D_M3.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_WEST.h>
-#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_Sitio_EST.h>
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio.h>
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_WEST.h>
 // #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CObjetoRede_CC_Sitio_EST.h>
-=======
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
-
-#ifndef CObjetoRede_Sitio_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio.h>
-#endif
-
-#ifndef CObjetoRede_Sitio_WEST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.h>
-#endif
-
-#ifndef CObjetoRede_Sitio_EST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.h>
-#endif
-
-#ifndef CMath_h
->>>>>>> /bad-path/
 #include <Base/CMath.h>
+
 using namespace std;
 
 // -------------------------------------------------------------------------

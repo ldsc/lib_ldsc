@@ -4,10 +4,10 @@
 /**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+						Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+						Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CObjetoRede_Ligacao_EST.h
 @begin      Sat Sep 16 2000
@@ -42,40 +42,41 @@ Desenvolvido por:
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoRede_Ligacao_EST final : public CObjetoRede_Ligacao { 
-// --------------------------------------------------------------Atributos
-public: 
+		// --------------------------------------------------------------Atributos
+	public:
 
-// -------------------------------------------------------------Construtor
-/// Construtor
-     CObjetoRede_Ligacao_EST () = default;
+		// -------------------------------------------------------------Construtor
+		/// Construtor
+		CObjetoRede_Ligacao_EST () = default;
 
-// --------------------------------------------------------------Destrutor
-/// Destrutor
-     virtual ~ CObjetoRede_Ligacao_EST ()  = default;
+		// --------------------------------------------------------------Destrutor
+		/// Destrutor
+		virtual ~ CObjetoRede_Ligacao_EST ()  = default;
 
-// ----------------------------------------------------------------Métodos
-   /// Retorna o tipo de objeto do grafo.
-   virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST;   }
+		// ----------------------------------------------------------------Métodos
+		/// Retorna o tipo de objeto do grafo.
+		virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST;   }
 
-	// Redefinição de funções herdadas
-	/// Retorna o tipo de contorno
-	/*inline*/ virtual CContorno::ETipoContorno Contorno () const  override {
-		return CContorno::ETipoContorno::EST;
-	}
+		// Redefinição de funções herdadas
+		/// Retorna o tipo de contorno
+		/*inline*/ virtual CContorno::ETipoContorno Contorno () const  override {
+			return CContorno::ETipoContorno::EST;
+		}
 
-     /**
-      * @brief Função herdade da classe CParametroSolver usada para
-      * calcular o valor de x retorna a pressão na fronteira direita
-     */
-     /*inline */virtual long double Go ( long double d = 0 )  override {
-          return x;
-     }
+		/**
+			* @brief Função herdade da classe CParametroSolver usada para
+			* calcular o valor de x retorna a pressão na fronteira direita
+		 */
+		/*inline */virtual long double Go ( long double d = 0 )  override {
+			d = d;
+			return x;
+		}
 
-// --------------------------------------------------------------------Get
-// --------------------------------------------------------------------Set
-// -----------------------------------------------------------------Friend
-     // friend ostream& operator<< (ostream& os, CObjetoRede_Ligacao_EST& obj);
-     // friend istream& operator>> (istream& is, CObjetoRede_Ligacao_EST& obj);
+		// --------------------------------------------------------------------Get
+		// --------------------------------------------------------------------Set
+		// -----------------------------------------------------------------Friend
+		// friend ostream& operator<< (ostream& os, CObjetoRede_Ligacao_EST& obj);
+		// friend istream& operator>> (istream& is, CObjetoRede_Ligacao_EST& obj);
 };
 
 // -----------------------------------------------------------------Friend

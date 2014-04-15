@@ -121,16 +121,18 @@ protected:
    /// Deleta um objeto do grafo, considerando a posição no vetor.
    /// Note que pode ser lenta pois implica movimentação dados vetor.
    virtual bool DeletarObjeto ( int i ) override {
-      delete objeto[i];
+			delete objeto[i];
       objeto.erase ( objeto.begin() + i );
+			return true;
    }
 
    /// Deleta considerando o endereço do objeto (nova).
    /// @todo: testar
    virtual bool DeletarObjeto ( CObjetoGrafo* objeto_i )  {
-      delete objeto_i;
+			delete objeto_i;
       int posicao_i = objeto_i - *objeto.data();
       objeto.erase ( objeto.begin() + posicao_i );
+			return true;
    }
 
 public:

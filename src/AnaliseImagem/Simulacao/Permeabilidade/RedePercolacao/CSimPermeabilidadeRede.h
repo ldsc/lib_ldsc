@@ -1,5 +1,5 @@
-#ifndef CPermeabilidadeRede_h
-#define CPermeabilidadeRede_h
+#ifndef CSimPermeabilidadeRede_h
+#define CSimPermeabilidadeRede_h
 // Bibliotecas C/C++
 #include <iostream>
 #include <string>
@@ -13,7 +13,7 @@
 #include <MetNum/Contorno/CContorno.h>
 
 /**
- * @file		CPermeabilidadeRede.h
+ * @file		CSimPermeabilidadeRede.h
  * @author	Leandro Puerari <puerari@gmail.com>
  * @author	André Duarte Bueno <andreduartebueno@gmail.com>
  * @brief		Classe usada para determinar a permeabilidade de uma imagem tridimensional.
@@ -24,13 +24,13 @@
  * solver			- representa um solucionador de matrizes (resolve sistemas de equações)
  * fluido			- representa um fluido com viscosidade, compressibilidade, densidade
  *
- * 2-Cria-se um objeto de calculo da permeabilidade CPermeabilidadeRede,
+ * 2-Cria-se um objeto de calculo da permeabilidade CSimPermeabilidadeRede,
  * passando-se como parametros os objetos agregados.
  *
  * 3-O objeto rede tem objetos do tipo CObjetoImagem (ex: Sitios e Ligações) que
  * tem uma propriedade(condutância) e x (a pressão).
  *
- * 4-Criado o objeto CPermeabilidadeRede, pode-se chamar a função
+ * 4-Criado o objeto CSimPermeabilidadeRede, pode-se chamar a função
  * de solução do sistema de equações (SolucaoSistema());
  *
  * Resolve o sistema como um todo,
@@ -49,7 +49,7 @@
  * dadas as condições de contorno nas fronteiras esquerda e direita.
  * Determinadas as pressões nos sítios das fronteiras, pode-se determinar a permeabilidade intrinseca.
 */
-class CPermeabilidadeRede : public CSimPermeabilidade
+class CSimPermeabilidadeRede : public CSimPermeabilidade
 {
 		// --------------------------------------------------------------Atributos
 	protected:
@@ -76,7 +76,7 @@ class CPermeabilidadeRede : public CSimPermeabilidade
 	public:
 		// -------------------------------------------------------------Construtor
 		/// Construtor
-		CPermeabilidadeRede (
+		CSimPermeabilidadeRede (
 				CMFluido * &_fluido,
 				CSolverMatrizDiagonalDominante *& _solver,
 				CContornoRedePercolacao *& _rede,
@@ -90,7 +90,7 @@ class CPermeabilidadeRede : public CSimPermeabilidade
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
-		virtual ~ CPermeabilidadeRede ();
+		virtual ~ CSimPermeabilidadeRede ();
 
 		// ----------------------------------------------------------------Métodos
 	private:
@@ -227,13 +227,13 @@ class CPermeabilidadeRede : public CSimPermeabilidade
 		}
 
 		// -----------------------------------------------------------------Friend
-		friend std::ostream & operator<< (std::ostream & os, const CPermeabilidadeRede & obj);
-		// friend istream& operator>> (istream& is, CPermeabilidadeRede& obj);
+		friend std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRede & obj);
+		// friend istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, const CPermeabilidadeRede & obj);
-// istream& operator>> (istream& is, CPermeabilidadeRede& obj);
+std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRede & obj);
+// istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
 
 #endif

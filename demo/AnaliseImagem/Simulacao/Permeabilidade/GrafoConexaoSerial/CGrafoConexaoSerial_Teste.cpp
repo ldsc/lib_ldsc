@@ -200,6 +200,7 @@ double CGrafoTest::Permeabilidade ( int tipoSolver )
     string nome = permeabilidade->Grafo()->NomeGrafo()+ ".permeabilidade";
     ofstream fout ( nome );
     fout << *permeabilidade;
+		fout << "\n\nPermeabilidade = " << permeabilidade_calculada << endl;
     fout.close();
 
     delete pm3D;

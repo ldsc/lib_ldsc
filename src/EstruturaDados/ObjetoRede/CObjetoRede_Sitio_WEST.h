@@ -4,10 +4,10 @@
 /**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
+						Ramo: AnaliseImagem/Caracterizacao/GrafoConexaoSerial
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+						Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CObjetoRede_Sitio_WEST.h
 @begin      Sat Sep 16 2000
@@ -45,38 +45,39 @@ Desenvolvido por:
  * @ingroup  HCObjetoGrafo
 */
 class CObjetoRede_Sitio_WEST  final : public CObjetoRede_Sitio {
-// --------------------------------------------------------------Atributos
-public:
-// -------------------------------------------------------------Construtor
-/// Construtor.
-     CObjetoRede_Sitio_WEST () = default;
+		// --------------------------------------------------------------Atributos
+	public:
+		// -------------------------------------------------------------Construtor
+		/// Construtor.
+		CObjetoRede_Sitio_WEST () = default;
 
-// --------------------------------------------------------------Destrutor
-/// Destrutor.
-     virtual ~ CObjetoRede_Sitio_WEST () =  default;
+		// --------------------------------------------------------------Destrutor
+		/// Destrutor.
+		virtual ~ CObjetoRede_Sitio_WEST () =  default;
 
-// ----------------------------------------------------------------Métodos
-     /// Retorna o tipo de objeto do grafo.
-     virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;  }
+		// ----------------------------------------------------------------Métodos
+		/// Retorna o tipo de objeto do grafo.
+		virtual ETipoObjetoGrafo Tipo () const  override { return ETipoObjetoGrafo::ObjetoRede_Sitio_WEST;  }
 
-     /// Retorna o tipo de contorno a que pertence
-     /*inline*/ virtual CContorno::ETipoContorno Contorno () const override  {
-          return CContorno::ETipoContorno::WEST;
-     }
+		/// Retorna o tipo de contorno a que pertence
+		/*inline*/ virtual CContorno::ETipoContorno Contorno () const override  {
+			return CContorno::ETipoContorno::WEST;
+		}
 
-     /**
-     * @brief Função herdada da classe CParametroSolver,
-     * usada para calcular o valor de x retorna a pressão na fronteira direita
-     */
-     /*inline*/ virtual long double Go ( long double d = 0 ) override  {
-          return x;
-     }
+		/**
+		 * @brief Função herdada da classe CParametroSolver,
+		 * usada para calcular o valor de x retorna a pressão na fronteira direita
+		 */
+		/*inline*/ virtual long double Go ( long double d = 0 ) override  {
+			d = d;
+			return x;
+		}
 
-// --------------------------------------------------------------------Get
-// --------------------------------------------------------------------Set
-// -----------------------------------------------------------------Friend
-//       friend ostream& operator<< (ostream& os, CObjetoRede_Sitio_WEST& obj);
-//       friend istream& operator>> (istream& is, CObjetoRede_Sitio_WEST& obj);
+		// --------------------------------------------------------------------Get
+		// --------------------------------------------------------------------Set
+		// -----------------------------------------------------------------Friend
+		//       friend ostream& operator<< (ostream& os, CObjetoRede_Sitio_WEST& obj);
+		//       friend istream& operator>> (istream& is, CObjetoRede_Sitio_WEST& obj);
 };
 
 // -----------------------------------------------------------------Friend

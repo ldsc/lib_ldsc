@@ -72,7 +72,7 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
     /// Construtor com parametros
-    CMFluido (double _v = 1, double _d = 1, bool _c = 1, bool _m = 1):
+		CMFluido (double _v = 1.0, double _d = 1.0, bool _c = 1, bool _m = 1):
         viscosidade (_v), densidade (_d), compressibilidade (_c), molhabilidade ( _m) {
     }
 

@@ -1,4 +1,4 @@
-#include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CPermeabilidadeRede.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.h>
 
 #include <cassert>
 #include <cmath>
@@ -11,7 +11,7 @@
 using namespace std;
 
 // Construtor
-CPermeabilidadeRede::CPermeabilidadeRede (
+CSimPermeabilidadeRede::CSimPermeabilidadeRede (
 		CMFluido * &_fluido,
 		CSolverMatrizDiagonalDominante *& _solver,
 		CContornoRedePercolacao *&_rede,
@@ -38,7 +38,7 @@ CPermeabilidadeRede::CPermeabilidadeRede (
 }
 
 // Destrutor
-CPermeabilidadeRede::~CPermeabilidadeRede () {
+CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
 	/* Analizar se pode deletar, se não tem dois ponteiros para mesmo bloco, esta deletando
 	 * o objeto, setando o ponteiro local como null, mas o ponteiro externo continua diferente
 	 * de null, e vai deletar novamente o ponteiro externo.
@@ -52,7 +52,7 @@ CPermeabilidadeRede::~CPermeabilidadeRede () {
 }
 
 //	operator<<
-ostream & operator<< (ostream & os, const CPermeabilidadeRede & obj)
+ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj)
 {
 	os << *(obj.fluido);
 	os << *(obj.solver);
@@ -74,7 +74,7 @@ ostream & operator<< (ostream & os, const CPermeabilidadeRede & obj)
 		Logo: 1 atm = 101325 Pa
 */
 // Define as condicoes de contorno
-void CPermeabilidadeRede::DefinicaoCondicoesContorno () {
+void CSimPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	// Uma atmosfera
 	long double pressao_face_esquerda = 1.0;
 	long double pressao_face_direita = 0.0;
@@ -117,7 +117,7 @@ void CPermeabilidadeRede::DefinicaoCondicoesContorno () {
 }
 
 // Definicao de Valores Iniciais
-void CPermeabilidadeRede::DefinicaoValoresIniciais () {
+void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
 	// Para todos os objetos do rede associa valores iniciais de pressão
 	unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
 
@@ -157,7 +157,7 @@ void CPermeabilidadeRede::DefinicaoValoresIniciais () {
 }
 
 // Solucao do Sistema de Equações
-void CPermeabilidadeRede::SolucaoSistemaEquacoes ()
+void CSimPermeabilidadeRede::SolucaoSistemaEquacoes ()
 { // Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
 	vector< CSolverMatriz_ParametroSolver * > * ptr_obj = new vector< CSolverMatriz_ParametroSolver * >();
 	for ( auto e : rede->ptrMatObjsRede->matrizObjetos ){
@@ -186,7 +186,7 @@ void CPermeabilidadeRede::SolucaoSistemaEquacoes ()
 	Pag. 136 Dynamics of fluids do Bear
 	Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm] / area[cm] * dp [atm]
 */
-long double CPermeabilidadeRede::Next () {
+long double CSimPermeabilidadeRede::Next () {
 	// 0)Solucao do sistema como um todo
 	// 2-Processo iterativo,
 	// determina o erro em funcao dos fluxos esquerdo e direito
@@ -245,7 +245,7 @@ long double CPermeabilidadeRede::Next () {
 }
 
 // Go - Chama Next até que o sistema esteja resolvido ou iteracoes tenha ultrapassado o limite
-long double CPermeabilidadeRede::Go () {
+long double CSimPermeabilidadeRede::Go () {
 	// Solicita propriedades do solver relativo a permeabilidade
 	unsigned long int limiteIteracoes = 5000;
 	long double limiteErro = 5.0; //5%
@@ -290,7 +290,7 @@ long double CPermeabilidadeRede::Go () {
 // FluxoFronteira - Determina o fluxo nos sítios da fronteira
 // Pode e deve ser otimizada, pois não precisa varrer todo a rede.
 // Durante o calculo da rede, anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
-long double CPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
+long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
 	long double fluxos = 0.0;
 	// Para todos os objetos da rede
 	for ( auto & mo : rede->ptrMatObjsRede->matrizObjetos ) {

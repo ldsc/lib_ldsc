@@ -5,15 +5,13 @@
 =========================================================================
 PROJETO:    Biblioteca libldsc CSimPermeabilidadeIntrinseca
 =========================================================================
-Desenvolvido por:	
-            LDSC - Laboratorio de Desenvolvimento de Software Científico 
+Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Leandro Puerari
 @begin      2009
 @copyright  (C) 2009 by Leandro Puerari
 @email      puerari@gmail.com
 @file 	   CSimPermeabilidadeIntrinseca.h
-@license    GNU General Public License - version 2
-            see  $LICENSEFILE$ for the full license text.
+@license    GNU General Public License - version 2 - see  $LICENSEFILE$ for the full license text.
 */
 
 // -----------------------------------------------------------------------
@@ -29,7 +27,11 @@ Desenvolvido por:
 #include <MetNum/Matriz/TCMatriz3D.h>
 #include <EstruturaDados/CGrafo.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M1.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M2.h>
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M3.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M4.h>
+#include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
@@ -64,6 +66,8 @@ public:
 	// Valor do erro aceitável para o solver.
 	long double limiteErro;
 
+	//
+
 // -----------------------------------------------------------Construtores
 public:	
 	/// Construtor Default
@@ -81,22 +85,22 @@ protected:
 public:
 	/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. 
 	/// (Deve ser chamado antes de CalcularPermeabilidade())
-	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel,  unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7 );
+	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel,  unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
 	
 	/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 	long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-	long double Go( TCImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7);
+	long double Go( TCImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
-	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7);
+	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo TCImagem3D.
-	long double Go( string pathNomeArquivo, long double fatorRelaxacao = 0.7);
+	long double Go( string pathNomeArquivo, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
 	
 	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo CMatriz3D.
-	long double Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7);
+	long double Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
 	
 	/// Permite alterar as propriedades do fluido.
 	void SetarPropriedadesFluido( double viscosidade = 1.0, bool densidade = 1, bool compressibilidade = 1, bool molhabilidade = 1 );

@@ -47,24 +47,24 @@ class CSimPermeabilidadeIntrinseca
 // --------------------------------------------------------------Atributos
 protected:
 	/// Ponteiro para CGrafo;
-	CGrafoConexaoSerial * grafo;
+	CGrafoConexaoSerial * grafo{nullptr};
 
 	/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
-	CSolverMatrizDiagonalDominante * solver;
+	CSolverMatrizDiagonalDominante * solver{nullptr};
 
 	/// Ponteiro para CMFluido;
-	CMFluido * fluido;
+	CMFluido * fluido{nullptr};
 
 	/// Ponteiro para CSimPermeabilidadeGrafo responsável pelo cálculo da permeabilidade;
-	CSimPermeabilidadeGrafo * perm;
+	CSimPermeabilidadeGrafo * perm{nullptr};
 
 public:
 	// Depois os atributos abaixo devem ser retirados pois fazem parte do solver
 	// Número limite de iterações para o solver.
-	unsigned long int limiteIteracoes;
+	unsigned long int limiteIteracoes{5000};
 
 	// Valor do erro aceitável para o solver.
-	long double limiteErro;
+	long double limiteErro{0.000010};
 
 	//
 

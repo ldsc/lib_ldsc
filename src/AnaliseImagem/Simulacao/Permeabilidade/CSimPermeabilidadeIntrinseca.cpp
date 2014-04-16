@@ -20,21 +20,11 @@ Desenvolvido por:
 using namespace std;
 
 // Construtor
-CSimPermeabilidadeIntrinseca::CSimPermeabilidadeIntrinseca ()
-{
-	grafo	= nullptr;	// Ponteiro para CGrafo;
-	solver	= nullptr;	// Ponteiro para CSolverMatrizDiagonalDominante;
-	fluido	= nullptr;	// Ponteiro para CMFluido;
-	perm		= nullptr;	// Ponteiro para CSimPermeabilidadeGrafo;
-
-	// valores usados em CSolverMatrizDiagonalDominante
-	limiteIteracoes = 5000; // depois retirar
-	limiteErro = 0.000010;  // depois retirar
+CSimPermeabilidadeIntrinseca::CSimPermeabilidadeIntrinseca () {
 }
 
 //Destrutor
-CSimPermeabilidadeIntrinseca::~CSimPermeabilidadeIntrinseca ()
-{
+CSimPermeabilidadeIntrinseca::~CSimPermeabilidadeIntrinseca () {
 	DestruirObjetos();
 }
 

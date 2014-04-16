@@ -4,10 +4,10 @@
 /**
 ===============================================================================
 PROJETO:    Biblioteca LIB_LDSC
-            Assunto/Ramo: CSimPermeabilidade...
+						Assunto/Ramo: CSimPermeabilidade...
 ===============================================================================
 Desenvolvido por:
-            Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
+						Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
 @author     André Duarte Bueno
 @file       CSimPermeabilidade.h
 @begin      Sat Sep 16 2000
@@ -37,77 +37,77 @@ Desenvolvido por:
  * CSimPermeabilidade é herdeira de CSimulacao, e terá diversas classes filhas que simulam a permeabilidade
  * de diferentes maneiras.
  *
- * A primeira herdeira de CSimPermeabilidade foi a CSimPermeabilidadeGrafo que determina a permeabilidade intrinseca 
- * a partir do grafo de uma imagem tridimensional. 
+ * A primeira herdeira de CSimPermeabilidade foi a CSimPermeabilidadeGrafo que determina a permeabilidade intrinseca
+ * a partir do grafo de uma imagem tridimensional.
  * @see CSimPermeabilidadeGrafo para maiores detalhes.
  * @author 	André Duarte Bueno
 */
 class CSimPermeabilidade : public CSimulacao
 {
-// --------------------------------------------------------------Atributos
-protected:
-    ///< Permeabilidade do meio poroso (rocha reservatório)
-    long double permeabilidade {0.0};
+		// --------------------------------------------------------------Atributos
+	protected:
+		///< Permeabilidade do meio poroso (rocha reservatório)
+		long double permeabilidade {0.0};
 
-public:
-// -------------------------------------------------------------Construtor
-    /// Construtor Default
-    CSimPermeabilidade ()  = default;
+	public:
+		// -------------------------------------------------------------Construtor
+		/// Construtor Default
+		CSimPermeabilidade ()  = default;
 
-    /// Construtor com argumentos
-    CSimPermeabilidade (long double _p/*, long double _erro*/) {
-        permeabilidade = _p; // 		erro = _erro;
-    }
+		/// Construtor com argumentos
+		CSimPermeabilidade (long double _p/*, long double _erro*/) : CSimulacao() {
+			permeabilidade = _p; // 		erro = _erro;
+		}
 
-    /// Construtor de cópia
-    CSimPermeabilidade (const CSimPermeabilidade & aCSimPermeabilidade) {   
-		permeabilidade = aCSimPermeabilidade.permeabilidade;
-		erro = aCSimPermeabilidade.erro;
-	}
+		/// Construtor de cópia
+		CSimPermeabilidade (const CSimPermeabilidade & aCSimPermeabilidade) {
+			permeabilidade = aCSimPermeabilidade.permeabilidade;
+			erro = aCSimPermeabilidade.erro;
+		}
 
-// --------------------------------------------------------------Destrutor
-    /// Destrutor
-    virtual ~ CSimPermeabilidade ()  = default;
+		// --------------------------------------------------------------Destrutor
+		/// Destrutor
+		virtual ~ CSimPermeabilidade ()  = default;
 
-// ----------------------------------------------------------------Métodos
-public:
-    /// Abre e lê arquivo de disco com dados necessários
-    virtual void Read (std::string nomeArquivo);
+		// ----------------------------------------------------------------Métodos
+	public:
+		/// Abre e lê arquivo de disco com dados necessários
+		virtual void Read (std::string nomeArquivo);
 
-//     /// Função de cálculo da permeabilidade, será redefinida nas classes herdeiras.
-//     virtual long double Go ()    {
-//         return permeabilidade;
-//     }
+		//     /// Função de cálculo da permeabilidade, será redefinida nas classes herdeiras.
+		//     virtual long double Go ()    {
+		//         return permeabilidade;
+		//     }
 
-// -------------------------------------------------------------Sobrecarga
-    /// Operador atribuição
-    CSimPermeabilidade & operator= (const CSimPermeabilidade & aCSimPermeabilidade) = default;
+		// -------------------------------------------------------------Sobrecarga
+		/// Operador atribuição
+		CSimPermeabilidade & operator= (const CSimPermeabilidade & aCSimPermeabilidade) = default;
 
-    /// Comparação igualdade
-    bool operator== (const CSimPermeabilidade & aCSimPermeabilidade) const;
+		/// Comparação igualdade
+		bool operator== (const CSimPermeabilidade & aCSimPermeabilidade) const;
 
-    /// Comparação diferença
-    bool operator!= (const CSimPermeabilidade & aCSimPermeabilidade) const;
+		/// Comparação diferença
+		bool operator!= (const CSimPermeabilidade & aCSimPermeabilidade) const;
 
-// --------------------------------------------------------------------Get
-    /// Retorna a permeabilidade
-    long double Permeabilidade () const     {
-        return permeabilidade;
-    }
+		// --------------------------------------------------------------------Get
+		/// Retorna a permeabilidade
+		long double Permeabilidade () const     {
+			return permeabilidade;
+		}
 
-// --------------------------------------------------------------------Set
-    /// Seta a permeabilidade
-    void Permeabilidade (long double _p)    {
-        permeabilidade = _p;
-    }
+		// --------------------------------------------------------------------Set
+		/// Seta a permeabilidade
+		void Permeabilidade (long double _p)    {
+			permeabilidade = _p;
+		}
 
-// -----------------------------------------------------------------Friend
-    /// Sobrecarga operador<<
-    friend std::ostream & operator<< (std::ostream & os,
-                                      const CSimPermeabilidade & obj);
+		// -----------------------------------------------------------------Friend
+		/// Sobrecarga operador<<
+		friend std::ostream & operator<< (std::ostream & os,
+																			const CSimPermeabilidade & obj);
 
-    /// Sobrecarga operador>>
-    friend std::istream & operator>> (std::istream & is, CSimPermeabilidade & obj);
+		/// Sobrecarga operador>>
+		friend std::istream & operator>> (std::istream & is, CSimPermeabilidade & obj);
 };
 
 // -----------------------------------------------------------------Friend

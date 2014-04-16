@@ -13,25 +13,24 @@ using namespace std;
 // Construtor
 CSimPermeabilidadeRede::CSimPermeabilidadeRede (
 		CMFluido * &_fluido,
-		CSolverMatrizDiagonalDominante *& _solver,
-		CContornoRedePercolacao *&_rede,
+		CSolverMatrizDiagonalDominante * &_solver,
+		CContornoRedePercolacao * &_rede,
 		unsigned int _nx,
 		unsigned int _ny,
 		unsigned int _nz,
 		unsigned int _fatorAmplificacao,
-		long double _sizePixel,
-		unsigned int _numeroPixelsBorda
-	) :
-		fluido (_fluido),
-		solver (_solver),
-		rede (_rede),
-		nx (_nx),
-		ny (_ny),
-		nz (_nz),
-		fatorAmplificacao (_fatorAmplificacao),
-		sizePixel (_sizePixel),
-		numeroPixelsBorda (_numeroPixelsBorda),
-		fluxoFronteira (0)
+		long double _dimensaoPixel,
+		unsigned int _numeroPixeisBorda
+		) :
+	fluido (_fluido),
+	solver (_solver),
+	rede (_rede),
+	nx (_nx),
+	ny (_ny),
+	nz (_nz),
+	fatorAmplificacao (_fatorAmplificacao),
+	dimensaoPixel (_dimensaoPixel),
+	numeroPixeisBorda (_numeroPixeisBorda)
 {
 	cout.setf (ios::right);
 	cout.precision (18);
@@ -54,17 +53,28 @@ CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
 //	operator<<
 ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj)
 {
-	os << *(obj.fluido);
-	os << *(obj.solver);
-	os << *(obj.rede);
+	os << "\n=====Dados Fluido=====\n";
+	os << * ( obj.fluido );
+	os << "\n=====Dados Solver=====\n";
+	os << * ( obj.solver ); //aqui -> implementar!! solver não esta mostrando dados na tela!
+	os << "\n=====Dados Rede=====\n";
+	os << * ( obj.rede );
+	os << "\n=====Dados nx, ny, nz=====\n";
 	os << obj.nx << endl;
 	os << obj.ny << endl;
 	os << obj.nz << endl;
+	os << "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; fluxoFronteira=====\n";
 	os << obj.fatorAmplificacao << endl;
-	os << obj.sizePixel << endl;
-	os << obj.numeroPixelsBorda << endl;
+	os << obj.dimensaoPixel << endl;
+	os << obj.numeroPixeisBorda << endl;
 	os << obj.fluxoFronteira << endl;
 	return os;
+}
+
+// Cria objetos agregados, herdada da CSimulacao e obrigatoriamente definida  (é virtual na classe base).
+// Não esta fazendo nada, pois todos os objetos agregados foram recebidos no construtor da classe.
+void CSimPermeabilidadeRede::CriarObjetosAgregados () {
+	cout << "Entrou em CSimPermeabilidadeRede::CriarObjetosAgregados ()" << endl;
 }
 
 /* ------------------------ Usando o units:---------------------
@@ -74,16 +84,18 @@ ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj)
 		Logo: 1 atm = 101325 Pa
 */
 // Define as condicoes de contorno
-void CSimPermeabilidadeRede::DefinicaoCondicoesContorno () {
+void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
+	cout << "Entrou em CSimPermeabilidadeRede::DefinirCondicoesContorno ()" << endl;
 	// Uma atmosfera
-	long double pressao_face_esquerda = 1.0;
-	long double pressao_face_direita = 0.0;
+	long double pressao_face_esquerda {1.0};
+	long double pressao_face_direita = {0.0};
 
 	// Criando contorno esquerdo = 0;
-	CContorno *contorno_esquerdo = new CContorno ();
+	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
 	assert (contorno_esquerdo);
+	contorno_esquerdo->ValorContorno ( pressao_face_esquerda );
 	rede->contorno.push_back (contorno_esquerdo);
-	*contorno_esquerdo = pressao_face_esquerda;
+	//*contorno_esquerdo = pressao_face_esquerda;
 
 	// Calculando parâmetros para contorno de centro
 	// O objeto contorno de centro, tem uma funcao Go que estima os valores iniciais (de pressão)
@@ -92,32 +104,35 @@ void CSimPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	long double a = pressao_face_esquerda;
 
 	// Coeficiente b da reta y = a + b.x
-	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
-	// o ultimo objeto tem armazenado o valor de pmax em x
+	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pressaoMaxima,
+	// o ultimo objeto tem armazenado o valor de pressaoMaxima em x
 	// determina o umtimo objeto
 	unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.size() - 1;
 
-	// determina o valor de pmax
-	long double pmax = (rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x);
+	// determina o valor de pressaoMaxima
+	long double pressaoMaxima = (rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x);
 
 	// determina o valor de b
-	long double b = (pressao_face_direita - pressao_face_esquerda) / pmax;
+	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;
 
 	// Criando contorno de centro = 1
-	CContorno *contorno_centro = new CContornoCentro (a, b);
+	CContornoCentro *contorno_centro = new CContornoCentro (a, b);
 	assert (contorno_centro);
+	contorno_centro->ValorContorno ( pressao_face_esquerda );
 	rede->contorno.push_back (contorno_centro);
-	*contorno_centro = pressao_face_esquerda;	// vai ser calculado com a chamada a Go(k)
+	//*contorno_centro = pressao_face_esquerda;	// será calculado com a chamada de Go(k)
 
 	// Criando contorno direito = 2
-	CContorno *contorno_direito = new CContorno ();
+	CContornoCentro *contorno_direito = new CContornoCentro ();
 	assert (contorno_direito);
+	contorno_direito->ValorContorno ( pressao_face_direita );
 	rede->contorno.push_back (contorno_direito);
-	*contorno_direito = pressao_face_direita;
+	//*contorno_direito = pressao_face_direita;
 }
 
-// Definicao de Valores Iniciais
-void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
+// Para todos os objetos da rede associa valores iniciais de pressão
+void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
+	cout << "Entrou em CSimPermeabilidadeRede::DefinirCondicoesIniciais ()" << endl;
 	// Para todos os objetos do rede associa valores iniciais de pressão
 	unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
 
@@ -137,51 +152,53 @@ void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
 
 	// Transforma as propriedades raioHidraulico em condutancias
 	// o calculo das condutancias agora é realizado na propria rede
-	//rede->CalculoCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
-
-	// No rede ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
-	// os links duplicado, somando as suas condutâncias, o que é feito na funcao EliminarCondutanciasRepetidas
-	//rede->EliminarCondutanciasRepetidas ();
+	//rede->CalculoCondutancias (fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao);
 
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = (*(rede->contorno[0])) - (*(rede->contorno[2]));
-	dimensaoX = (nx - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoY = (ny - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoZ = (nz - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
+	//diferencaPressao = rede->contorno[0]->valorContorno() - rede->contorno[2]->ValorContorno();
+	dimensaoX = (nx - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoY = (ny - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoZ = (nz - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
 
-	// Como as pressões estão no meio de cada nó,
-	// O comprimento a ser considerado deve descontar 1 pixel
-	comprimento = (nz - 2 * numeroPixelsBorda - 1) * fatorAmplificacao * sizePixel;
+	// Como as pressões estão no meio de cada nó, o comprimento a ser considerado deve descontar 1 pixel
+	// 1/2 píxel da face esquerda e 1/2 píxel da face direita.
+	// também devo descontar os píxies das duas bordas
+	comprimento_z = (nz - 1 - (2 * numeroPixeisBorda)) * fatorAmplificacao * dimensaoPixel;
 	area = dimensaoY * dimensaoX;
-	iteracoes = 1;
+	iteracoes = 0;
 }
 
 // Solucao do Sistema de Equações
-void CSimPermeabilidadeRede::SolucaoSistemaEquacoes ()
-{ // Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
-	vector< CSolverMatriz_ParametroSolver * > * ptr_obj = new vector< CSolverMatriz_ParametroSolver * >();
+void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
+	cout << "Entrou em CSimPermeabilidadeRede::SolucaoSistemaEquacoes ()" << endl;
+	// Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
+	//vector< CSolverMatriz_ParametroSolver * > * obj = new vector< CSolverMatriz_ParametroSolver * >();
+	vector< CSolverMatriz_ParametroSolver * > obj;
 	for ( auto e : rede->ptrMatObjsRede->matrizObjetos ){
-		ptr_obj->push_back( static_cast< CSolverMatriz_ParametroSolver * > (&(e.second)) );
+		obj.push_back( static_cast< CSolverMatriz_ParametroSolver * > (&(e.second)) );
 	}
-	long double erroSolver = solver->Go (ptr_obj);
+	long double erroSolver = solver->Go ( &obj );
 
-	cout << "\nIts[" << setw (4) << solver->Iteracoes ()
-			 << "] LEs[" << setw (10) << solver->LimiteErro ()
-			 << "] Es[" << erroSolver
-			 << "] Erro[" << setw (10) << solver->Erro () << "]" << endl;
+	// Mostra estado atual do sistema de solução da permeabilidade.
+	cout << "SolucaoSistemaEquacoes() [Pressões]:\n"
+			 << "solver->Iteracoes[" 	<< setw ( 5 ) 	<< solver->Iteracoes ()
+			 << "] solver->LimiteErro[" 	<< setw ( 10 ) 	<< solver->LimiteErro ()
+			 << "] solver->Erro[" 		<< setw ( 10 ) 	<< solver->Erro ()
+			 << "] solver->Go[" 			<< erroSolver 	<< endl << "]" 		<< endl;
 }
 
 // Next - Calcula a permeabilidade da rede.
 /* Calculo:
-	fluxo = (permeabilidade * area * diferencaPressao) / (viscosidade * comprimento)
-	permeabilidade = (fluxo * viscosidade * comprimento) / (area * diferencaPressao)
+	fluxo = (permeabilidade * area * diferencaPressao) / (viscosidade * comprimento_z)
+	permeabilidade = (fluxo * viscosidade * comprimento_z) / (area * diferencaPressao)
 	LIANG:
-		fatorConversao* (fluxo*viscosidade*comprimento) / (area * diferencaPressao)
+		fatorConversao* (fluxo*viscosidade*comprimento_z) / (area * diferencaPressao)
 		Permeability= 1.013*1.0e+15*    (Q    *Viscosity) / (Length*(NX-4)*n  *1e5) ;
 		fatorConversaoParaMiliDarcy = 1.013*1e+15
-		comprimento = (nx - 4) * fatorAmplificacao*sizePixel
-		area        = (ny - 4) * fatorAmplificacao*sizePixel * (nz - 4) * fatorAmplificacao * sizePixel
-		permeabilidade = (fluxo * viscosidade * comprimento) / (area * diferencaPressao)
+		comprimento_z = (nx - 4) * fatorAmplificacao*dimensaoPixel
+		area        = (ny - 4) * fatorAmplificacao*dimensaoPixel * (nz - 4) * fatorAmplificacao * dimensaoPixel
+		permeabilidade = (fluxo * viscosidade * comprimento_z) / (area * diferencaPressao)
 
 	Pag. 136 Dynamics of fluids do Bear
 	Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm] / area[cm] * dp [atm]
@@ -190,8 +207,8 @@ long double CSimPermeabilidadeRede::Next () {
 	// 0)Solucao do sistema como um todo
 	// 2-Processo iterativo,
 	// determina o erro em funcao dos fluxos esquerdo e direito
-	long double permEsq = 0.0;
-	long double permDir = 0.0;
+	long double permEsq { 0.0 };
+	long double permDir { 0.0 };
 	{	// 2.1-Chamando funcao de solução do sistema de equacoes
 		SolucaoSistemaEquacoes ();
 
@@ -200,8 +217,8 @@ long double CSimPermeabilidadeRede::Next () {
 		long double fluxod = FluxoFronteira (CContorno::ETipoContorno::EST);
 
 		// 2.3) Calcula a permeabilidade
-		permEsq = (fluxoe * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
-		permDir = (fluxod * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
+		permEsq = (fluxoe * fluido->Viscosidade() * comprimento_z) / (area * diferencaPressao);
+		permDir = (fluxod * fluido->Viscosidade() * comprimento_z) / (area * diferencaPressao);
 
 		// permeabilidade media
 		permeabilidade = (permEsq - permDir) / 2.0;	// tem sinais contrarios
@@ -210,7 +227,7 @@ long double CSimPermeabilidadeRede::Next () {
 		// Calcula o erro percentual, que deve ser < 5 %
 		long double dp = permDir + permEsq;
 		dp = dp > 0 ? dp : -dp;
-		erroPermeabilidade = 100.0 * dp / permeabilidade;
+		erroRelativo = 100.0 * dp / permeabilidade;
 
 		/*
 			 2.4) Conversoes
@@ -233,57 +250,36 @@ long double CSimPermeabilidadeRede::Next () {
 
 		// SAIDA RESULTADOS TELA E DISCO
 		cout.precision (4);
-		cout << " QE=" << setw (5) << fluxoe << " QD=" << setw (5) << fluxod;
-		cout.precision (18);
-		cout << " p(mD)=" << setw (12) << permeabilidade << " Ep=" << setw (4)
-				 << erroPermeabilidade << "%  Itp=" << iteracoes << endl;
+		cout << "Next() [Vazões e permeabilidade]:\n"
+				 << "Qe[" 		<< setw ( 5 ) 	<< fluxoe
+				 << "] Qd[" 		<< setw ( 5 ) 	<< fluxod;
+		cout.precision ( 18 );
+		cout  << "] p(mD)[" 	<< setw ( 12 ) 	<< permeabilidade
+					<< "] erroRelPer[" << setw ( 5 ) 	<< erroRelativo << "% "
+					<< "] Itp[" 		<< setw ( 5 ) 	<< iteracoes << endl;
 	}
 	// 1-Incrementa o numero de iteracoes
-	iteracoes++;
+	++iteracoes;
 
 	return permeabilidade;
 }
 
 // Go - Chama Next até que o sistema esteja resolvido ou iteracoes tenha ultrapassado o limite
 long double CSimPermeabilidadeRede::Go () {
-	// Solicita propriedades do solver relativo a permeabilidade
-	unsigned long int limiteIteracoes = 5000;
-	long double limiteErro = 5.0; //5%
-
-	ifstream finsolver ("input_data/solver_permeabilidade.info");
-	string msg = " ...nÃo abriu o arquivo de disco, usando valores default";
-	if (finsolver.good ()) {
-		finsolver >> limiteIteracoes;
-		finsolver >> limiteErro;
-		finsolver.close ();
-		msg += " ...done";
+	// Se o sistema ainda não foi resolvido, chama SolucaoSistema(); que chama os métodos:
+	// CriarObjetosAgregados (); DefinirCondicoesContorno (); DefinirCondicoesIniciais (); SolucaoSistemaEquacoes ();
+	if ( sistemaResolvido == false ) {
+		SolucaoSistema();				// Resolve todo o sistema, incluindo as pressões, faz sistemaResolvido=true
 	}
-	cout << "\nInformacoes do SOLVER das permeabilidades" << endl;
-	cout << " limIt[" << setw (4) << limiteIteracoes
-			 << "] limErro[" << setw (10) << limiteErro << "]" << endl;
-
-	cout << "Informacoes do SOLVER das pressões" << endl;
-	cout << " limIt[" << setw (4) << solver->LimiteIteracoes()
-			 << "] limErro[" << setw (10) << solver->LimiteErro() << "]" << endl;
-
-	cout << "Chamando SolucaoSistema (solver->Go)..." << endl;
-
-	//int numeroDivergencias = 0;
-	long double ErroAnterior;
-	do {
-		ErroAnterior = erroPermeabilidade;
-		Next ();
-		//if (erroPermeabiliNextdade > ErroAnterior)
-		//	numeroDivergencias++;
-	} while (// verifica o erro 5%
-					 erroPermeabilidade > limiteErro &&
-					 // verifica limiteIteracoes
-					 iteracoes < limiteIteracoes
-					 // apos 100 passos divergindo, para
-					 /*&& numeroDivergencias < 100 */ );
-
-	erro = erroPermeabilidade; // novo, seta o erro final // vai ser usado no Imago
-
+	// Calcula vazões e permeabilidade.
+	Next ();
+	// Enquanto não convergir.
+	while ( erroRelativo > limiteErroRelativo &&  	// Verifica o erro relativo 1% cálculo permeabilidade.
+					iteracoes < limiteIteracoes   			// Verifica limiteIteracoes.
+					) {
+		SolucaoSistemaEquacoes ();					// Refina cálculo das pressões
+		Next ();										// Recalcula e verifica vazões e pressões.
+	}
 	return permeabilidade;
 }
 
@@ -291,13 +287,13 @@ long double CSimPermeabilidadeRede::Go () {
 // Pode e deve ser otimizada, pois não precisa varrer todo a rede.
 // Durante o calculo da rede, anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
 long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
-	long double fluxos = 0.0;
+	long double fluxo_fronteira { 0.0 };
 	// Para todos os objetos da rede
 	for ( auto & mo : rede->ptrMatObjsRede->matrizObjetos ) {
 		// verificar se é um objeto com a fronteira solicitada
 		if (mo.second.Contorno () == tipoFronteira) { // se afirmativo, calcula o fluxo na fronteira e acumula
-			fluxos += mo.second.Fluxo ( &(rede->ptrMatObjsRede->matrizObjetos) );
+			fluxo_fronteira += mo.second.Fluxo ( &(rede->ptrMatObjsRede->matrizObjetos) );
 		}
 	}
-	return fluxos;
+	return fluxo_fronteira;
 }

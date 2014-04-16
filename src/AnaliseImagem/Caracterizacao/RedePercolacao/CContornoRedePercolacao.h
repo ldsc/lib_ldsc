@@ -2,6 +2,7 @@
 #define CContornoRedePercolacao_h
 
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
+#include <MetNum/Contorno/CContornoCentro.h>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ class CContornoRedePercolacao : public CRedeDePercolacao
 		// --------------------------------------------------------------Atributos
 	public:
 		/// Usa-se contorno[i] para obter ponteiro para contorno i.
-		std::vector < CContorno * >contorno;
+		std::vector < CContornoCentro * >contorno;
 
 		// -------------------------------------------------------------Construtores
 		/// Cria os objetos de contorno e incluí no vetor contorno.
@@ -32,8 +33,6 @@ class CContornoRedePercolacao : public CRedeDePercolacao
 
 		// ----------------------------------------------------------------Métodos
 		// virtual void Write(std::string fileName);
-
-	public:
 
 		// --------------------------------------------------------------------Get
 		// --------------------------------------------------------------------Set

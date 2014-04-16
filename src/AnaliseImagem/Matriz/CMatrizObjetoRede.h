@@ -22,6 +22,9 @@ class CMatrizObjetoRede
 
 		/// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
 		bool SalvarListaObjetosGrafo(std::string fileName);
+
+		// Salva o grafo e seus objetos em disco.
+		//virtual void Write ( std::ostream& out ) const override;
 };
 
 #endif // CMatrizObjetoRede_H

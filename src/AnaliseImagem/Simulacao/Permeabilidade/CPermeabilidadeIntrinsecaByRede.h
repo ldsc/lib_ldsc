@@ -26,8 +26,8 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 #include <MetNum/Matriz/TCImagem3D.h>
 #include <MetNum/Matriz/TCMatriz3D.h>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
-//#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
-#include <EstruturaDados/CRedeContorno.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
+//#include <EstruturaDados/CRedeContorno.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
@@ -42,24 +42,24 @@ class CPermeabilidadeIntrinsecaByRede {
 		// --------------------------------------------------------------Atributos
 	protected:
 		/// Ponteiro para CContornoRedePercolacao;
-		CContornoRedePercolacao * rede;
+		CContornoRedePercolacao * rede{nullptr};
 
 		/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
-		CSolverMatrizDiagonalDominante * solver;
+		CSolverMatrizDiagonalDominante * solver{nullptr};
 
 		/// Ponteiro para CMFluido;
-		CMFluido * fluido;
+		CMFluido * fluido{nullptr};
 
 		/// Ponteiro para CSimPermeabilidadeRede responsável pelo cálculo da permeabilidade;
-		CSimPermeabilidadeRede * perm;
+		CSimPermeabilidadeRede * perm{nullptr};
 
 	public:
 		// Depois os atributos abaixo devem ser retirados pois fazem parte do solver
 		// Número limite de iterações para o solver.
-		unsigned long int limiteIteracoes;
+		unsigned long int limiteIteracoes{5000};
 
 		// Valor do erro aceitável para o solver.
-		long double limiteErro;
+		long double limiteErro{0.000010};
 
 		// -----------------------------------------------------------Construtores
 	public:

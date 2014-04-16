@@ -24,49 +24,17 @@ Desenvolvido por:
 // ----------------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // ----------------------------------------------------------------------------
-#ifndef _LIB_LDSC_CLASS_h
 #include <Base/_LIB_LDSC_CLASS.h>
-#endif
-
-#ifndef CBaseGrafoRedeEsqueleto_h
 #include <EstruturaDados/CBaseGrafoRedeEsqueleto.h>
-#endif
-
-#ifndef CObjetoRede_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede.h>
-#endif
-
-#ifndef CObjetoRede_Ligacao_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.h>
-#endif
-
-#ifndef CObjetoRede_Ligacao_EST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_EST.h>
-#endif
-
-#ifndef CObjetoRede_Ligacao_WEST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_WEST.h>
-#endif
-
-#ifndef CObjetoRede_Sitio_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio.h>
-#endif
-
-#ifndef CObjetoRede_Sitio_EST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.h>
-#endif
-
-#ifndef CObjetoRede_Sitio_WEST_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.h>
-#endif
-
-#ifndef CObjetoRede_Final_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Final.h>
-#endif
-
-#ifndef CObjetoRede_Tipo_h
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Tipo.h>
-#endif
 
 #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO // usar template!
 using value_type_objeto = CObjetoRede_Final;

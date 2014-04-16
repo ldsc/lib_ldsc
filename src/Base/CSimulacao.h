@@ -104,7 +104,7 @@ public:
    bool SistemaResolvido () { return sistemaResolvido ; }
 
    /** Retorna o erro na determinação da propriedade de interesse */
-   long double Erro() { return erro; };
+	 long double Erro() { return erro; }
 
    //--------------------------------------------------------------------Set
    /**Define se o sistema esta resolvido ou não*/

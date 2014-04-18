@@ -19,19 +19,18 @@ CSimPermeabilidadeRede::CSimPermeabilidadeRede (
 		unsigned int _ny,
 		unsigned int _nz,
 		unsigned int _fatorAmplificacao,
-		long double _sizePixel,
-		unsigned int _numeroPixelsBorda
-	) :
-		fluido (_fluido),
-		solver (_solver),
-		rede (_rede),
-		nx (_nx),
-		ny (_ny),
-		nz (_nz),
-		fatorAmplificacao (_fatorAmplificacao),
-		sizePixel (_sizePixel),
-		numeroPixelsBorda (_numeroPixelsBorda),
-		fluxoFronteira (0)
+		long double _dimensaoPixel,
+		unsigned int _numeroPixeisBorda
+		) :
+	fluido (_fluido),
+	solver (_solver),
+	rede (_rede),
+	nx (_nx),
+	ny (_ny),
+	nz (_nz),
+	fatorAmplificacao (_fatorAmplificacao),
+	dimensaoPixel (_dimensaoPixel),
+	numeroPixeisBorda (_numeroPixeisBorda)
 {
 	cout.setf (ios::right);
 	cout.precision (18);
@@ -52,19 +51,27 @@ CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
 }
 
 //	operator<<
-ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj)
-{
-	os << *(obj.fluido);
-	os << *(obj.solver);
-	os << *(obj.rede);
+ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj) {
+	os << "\n=====Dados Fluido=====\n";
+	os << * ( obj.fluido );
+	os << "\n=====Dados Solver=====\n";
+	os << * ( obj.solver ); //aqui -> implementar!! solver não esta mostrando dados na tela!
+	os << "\n=====Dados grafo=====\n";
+	os << * ( obj.rede );
+	os << "\n=====Dados nx, ny, nz=====\n";
 	os << obj.nx << endl;
 	os << obj.ny << endl;
 	os << obj.nz << endl;
+	os << "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; fluxoFronteira=====\n";
 	os << obj.fatorAmplificacao << endl;
-	os << obj.sizePixel << endl;
-	os << obj.numeroPixelsBorda << endl;
+	os << obj.dimensaoPixel << endl;
+	os << obj.numeroPixeisBorda << endl;
 	os << obj.fluxoFronteira << endl;
 	return os;
+}
+
+void CSimPermeabilidadeRede::CriarObjetosAgregados (){
+
 }
 
 /* ------------------------ Usando o units:---------------------
@@ -74,16 +81,16 @@ ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj)
 		Logo: 1 atm = 101325 Pa
 */
 // Define as condicoes de contorno
-void CSimPermeabilidadeRede::DefinicaoCondicoesContorno () {
+void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	// Uma atmosfera
-	long double pressao_face_esquerda = 1.0;
-	long double pressao_face_direita = 0.0;
+	long double pressao_face_esquerda { 1.0 };
+	long double pressao_face_direita { 0.0 };
 
 	// Criando contorno esquerdo = 0;
-	CContorno *contorno_esquerdo = new CContorno ();
+	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
 	assert (contorno_esquerdo);
-	rede->contorno.push_back (contorno_esquerdo);
-	*contorno_esquerdo = pressao_face_esquerda;
+	contorno_esquerdo->ValorContorno ( pressao_face_esquerda );
+	rede->contorno.push_back ( contorno_esquerdo );
 
 	// Calculando parâmetros para contorno de centro
 	// O objeto contorno de centro, tem uma funcao Go que estima os valores iniciais (de pressão)
@@ -104,20 +111,20 @@ void CSimPermeabilidadeRede::DefinicaoCondicoesContorno () {
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pmax;
 
 	// Criando contorno de centro = 1
-	CContorno *contorno_centro = new CContornoCentro (a, b);
+	CContornoCentro *contorno_centro = new CContornoCentro (a, b);
 	assert (contorno_centro);
 	rede->contorno.push_back (contorno_centro);
 	*contorno_centro = pressao_face_esquerda;	// vai ser calculado com a chamada a Go(k)
 
 	// Criando contorno direito = 2
-	CContorno *contorno_direito = new CContorno ();
+	CContornoCentro *contorno_direito = new CContornoCentro ();
 	assert (contorno_direito);
 	rede->contorno.push_back (contorno_direito);
 	*contorno_direito = pressao_face_direita;
 }
 
 // Definicao de Valores Iniciais
-void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
+void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 	// Para todos os objetos do rede associa valores iniciais de pressão
 	unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
 
@@ -137,7 +144,7 @@ void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
 
 	// Transforma as propriedades raioHidraulico em condutancias
 	// o calculo das condutancias agora é realizado na propria rede
-	//rede->CalculoCondutancias (fluido->Viscosidade (), sizePixel, fatorAmplificacao);
+	//rede->CalculoCondutancias (fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao);
 
 	// No rede ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
 	// os links duplicado, somando as suas condutâncias, o que é feito na funcao EliminarCondutanciasRepetidas
@@ -145,13 +152,13 @@ void CSimPermeabilidadeRede::DefinicaoValoresIniciais () {
 
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = (*(rede->contorno[0])) - (*(rede->contorno[2]));
-	dimensaoX = (nx - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoY = (ny - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
-	dimensaoZ = (nz - numeroPixelsBorda) * fatorAmplificacao * sizePixel;
+	dimensaoX = (nx - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoY = (ny - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoZ = (nz - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
 
 	// Como as pressões estão no meio de cada nó,
 	// O comprimento a ser considerado deve descontar 1 pixel
-	comprimento = (nz - 2 * numeroPixelsBorda - 1) * fatorAmplificacao * sizePixel;
+	comprimento_z = (nz - 2 * numeroPixeisBorda - 1) * fatorAmplificacao * dimensaoPixel;
 	area = dimensaoY * dimensaoX;
 	iteracoes = 1;
 }
@@ -179,8 +186,8 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes ()
 		fatorConversao* (fluxo*viscosidade*comprimento) / (area * diferencaPressao)
 		Permeability= 1.013*1.0e+15*    (Q    *Viscosity) / (Length*(NX-4)*n  *1e5) ;
 		fatorConversaoParaMiliDarcy = 1.013*1e+15
-		comprimento = (nx - 4) * fatorAmplificacao*sizePixel
-		area        = (ny - 4) * fatorAmplificacao*sizePixel * (nz - 4) * fatorAmplificacao * sizePixel
+		comprimento = (nx - 4) * fatorAmplificacao*dimensaoPixel
+		area        = (ny - 4) * fatorAmplificacao*dimensaoPixel * (nz - 4) * fatorAmplificacao * dimensaoPixel
 		permeabilidade = (fluxo * viscosidade * comprimento) / (area * diferencaPressao)
 
 	Pag. 136 Dynamics of fluids do Bear
@@ -200,8 +207,8 @@ long double CSimPermeabilidadeRede::Next () {
 		long double fluxod = FluxoFronteira (CContorno::ETipoContorno::EST);
 
 		// 2.3) Calcula a permeabilidade
-		permEsq = (fluxoe * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
-		permDir = (fluxod * fluido->Viscosidade() * comprimento) / (area * diferencaPressao);
+		permEsq = (fluxoe * fluido->Viscosidade() * comprimento_z) / (area * diferencaPressao);
+		permDir = (fluxod * fluido->Viscosidade() * comprimento_z) / (area * diferencaPressao);
 
 		// permeabilidade media
 		permeabilidade = (permEsq - permDir) / 2.0;	// tem sinais contrarios
@@ -210,7 +217,7 @@ long double CSimPermeabilidadeRede::Next () {
 		// Calcula o erro percentual, que deve ser < 5 %
 		long double dp = permDir + permEsq;
 		dp = dp > 0 ? dp : -dp;
-		erroPermeabilidade = 100.0 * dp / permeabilidade;
+		erroRelativo = 100.0 * dp / permeabilidade;
 
 		/*
 			 2.4) Conversoes
@@ -236,7 +243,7 @@ long double CSimPermeabilidadeRede::Next () {
 		cout << " QE=" << setw (5) << fluxoe << " QD=" << setw (5) << fluxod;
 		cout.precision (18);
 		cout << " p(mD)=" << setw (12) << permeabilidade << " Ep=" << setw (4)
-				 << erroPermeabilidade << "%  Itp=" << iteracoes << endl;
+				 << erroRelativo << "%  Itp=" << iteracoes << endl;
 	}
 	// 1-Incrementa o numero de iteracoes
 	iteracoes++;
@@ -271,18 +278,18 @@ long double CSimPermeabilidadeRede::Go () {
 	//int numeroDivergencias = 0;
 	long double ErroAnterior;
 	do {
-		ErroAnterior = erroPermeabilidade;
+		ErroAnterior = erroRelativo;
 		Next ();
 		//if (erroPermeabiliNextdade > ErroAnterior)
 		//	numeroDivergencias++;
 	} while (// verifica o erro 5%
-					 erroPermeabilidade > limiteErro &&
+					 erroRelativo > limiteErro &&
 					 // verifica limiteIteracoes
 					 iteracoes < limiteIteracoes
 					 // apos 100 passos divergindo, para
 					 /*&& numeroDivergencias < 100 */ );
 
-	erro = erroPermeabilidade; // novo, seta o erro final // vai ser usado no Imago
+	erro = erroRelativo; // novo, seta o erro final // vai ser usado no Imago
 
 	return permeabilidade;
 }

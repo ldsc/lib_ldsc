@@ -57,7 +57,7 @@ class CRedeDePercolacao
 		CRedeDePercolacao(unsigned int nx, unsigned int ny, unsigned int nz);
 
 		/// Destrutor
-		~CRedeDePercolacao();
+		virtual ~CRedeDePercolacao();
 
 		// Métodos
 	public:

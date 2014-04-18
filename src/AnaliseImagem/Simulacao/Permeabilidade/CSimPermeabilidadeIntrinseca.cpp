@@ -118,7 +118,7 @@ long double CSimPermeabilidadeIntrinseca::CalcularPermeabilidade( TCMatriz3D<int
 	
 	cout << "\n\nperm->FatorAmplificacao() = " << perm->FatorAmplificacao();
 	cout << "\nperm->DimensaoPixel() = " << perm->DimensaoPixel();
-	cout << "\nperm->NumeroPixelsBorda() = " << perm->NumeroPixelsBorda() << endl;
+	cout << "\nperm->NumeroPixeisBorda() = " << perm->NumeroPixeisBorda() << endl;
 	
 	
 	cout << "Calculando grafo->Go( matriz3D )...." << endl;

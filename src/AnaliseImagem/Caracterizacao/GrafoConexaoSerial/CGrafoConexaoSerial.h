@@ -138,8 +138,8 @@ class CGrafoConexaoSerial_M6;
 class CGrafoConexaoSerial : public CRedeContorno {
    // --------------------------------------------------------------Atributos
 private:
-   /// Indica versão da função que elimina os ramos mortos;
-   /// = 0;  não elimina ramos mortos; =1 usa versão 1 (lenta); =2 usa versão 2 que é mais rápida.
+	 /// Indica versão da função que elimina os ramos mortos;
+	 /// = 0;  não elimina ramos mortos; =1 usa versão 1 (lenta); =2 usa versão 2 que é mais rápida.
    int eliminaRamosMortos { 2 } ;
 //    int eliminaConexoesRepetidas { 1 } ;	///< Elimina conexões repetidas
 
@@ -228,7 +228,7 @@ public:
 
    /// Salva grafo em disco.
    virtual void Write ( std::ostream& out ) const override {
-      CRede:: Write ( out );
+			CRede::Write ( out );
    }
 
    /**
@@ -347,7 +347,7 @@ public:
    }
 
 	/// Retorna deletaConexoesParalelo, =0 default, não deleta conexões em paralelo (+ lento)
-	bool DeletaConexoesParalelo() { return deletaConexoesParalelo; };
+	bool DeletaConexoesParalelo() { return deletaConexoesParalelo; }
 
    // --------------------------------------------------------------------Set
    /// Seta elimina ramos mortos
@@ -357,7 +357,7 @@ public:
 
 	/// @todo, testar ativação deste flag e resultados para modelo 1.
 	/// Seta deletaConexoesParalelo;  =1 indica para deletar conexões em paralelo (+ rápido)
-	void DeletaConexoesParalelo(bool b) { deletaConexoesParalelo = b; };
+	void DeletaConexoesParalelo(bool b) { deletaConexoesParalelo = b; }
 
    // -----------------------------------------------------------------Friend
    //       friend ostream& operator<< (ostream& os, CGrafoConexaoSerial& obj);

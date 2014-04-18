@@ -53,176 +53,194 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 {
 		// --------------------------------------------------------------Atributos
 	protected:
-		CMFluido * fluido; ///< Objeto fluido
-		CSolverMatrizDiagonalDominante *solver; ///< Objeto solver
-		CContornoRedePercolacao *rede; ///< Objeto grafo
+		//Objetos
+		CMFluido * fluido{nullptr}; ///< Objeto fluido
+		CSolverMatrizDiagonalDominante *solver{nullptr}; ///< Objeto solver
+		CContornoRedePercolacao *rede{nullptr}; ///< Objeto grafo
 
-		unsigned int nx; ///< Dimensão nx da imagem
-		unsigned int ny; ///< Dimensão ny da imagem
-		unsigned int nz; ///< Dimensão nz da imagem
-		unsigned int fatorAmplificacao;	///< Fator de amplificação
-		unsigned int numeroPixelsBorda;	///< Número de píxeis a serem descontados da borda
-		unsigned int iteracoes; ///< número de iterações
-		long double sizePixel; ///< Dimensão do píxel
-		long double fluxoFronteira; ///< Valor do fluxo na fronteira
-		long double diferencaPressao; ///< Diferença de pressão entre as faces
-		long double dimensaoX; ///< Dimensão x
-		long double dimensaoY; ///< Dimensão y
-		long double dimensaoZ; ///< Dimensão z
-		long double comprimento; ///< comprimento
-		long double area; ///< area
-		long double erroPermeabilidade; ///< erro na determinação da permeabilidade
+		//Propriedades da imagem
+		unsigned int nx{0}; ///< Dimensão nx da imagem
+		unsigned int ny{0}; ///< Dimensão ny da imagem
+		unsigned int nz{0}; ///< Dimensão nz da imagem
+		unsigned int fatorAmplificacao{1};	///< Fator de amplificação usado na reconstrução da imagem.
+		unsigned int numeroPixeisBorda{0};	///< Dimensão do píxel (multiplique por nx e pelo fatorAmplificacao para obter dimensão real da imagem em metros - SI).
+		long double dimensaoPixel{1}; ///< Dimensão do píxel
+
+		// Solver interno, calcula fluxo nas fronteiras e determina necessidade de refinar cálculo das pressões
+		// em função do erroRelativo e do número iterações.
+		long double erroRelativo{100.0}; 			///< erro percentual na determinação da permeabilidade. iinicial = 100%.
+		long double limiteErroRelativo { 1.0 };  	///< limite erro relativo, default =1%
+		unsigned int iteracoes{0};	 	///< número de iterações realizadas no cálculo permeabilidade.
+		unsigned long int limiteIteracoes { 5000 };///< limite de iterações.
+
+		// Variáveis necessárias para cálculo permeabilidade (Lei Darcy).
+		long double fluxoFronteira{0.0}; ///< Valor do fluxo na fronteira
+		long double diferencaPressao{0.0}; ///< Diferença de pressão entre as faces
+		long double dimensaoX{0.0}; ///< Dimensão real da imagem na direção x (desconta as bordas).
+		long double dimensaoY{0.0}; ///< Dimensão real da imagem na direção y (desconta as bordas).
+		long double dimensaoZ{0.0}; ///< Dimensão real da imagem na direção z (desconta as bordas).
+		long double comprimento_z{0.0}; ///< comprimento
+		long double area{0.0}; ///< area
+
 
 	public:
 		// -------------------------------------------------------------Construtor
 		/// Construtor
-		CSimPermeabilidadeRede (
-				CMFluido * &_fluido,
+		CSimPermeabilidadeRede (CMFluido * &_fluido,
 				CSolverMatrizDiagonalDominante *& _solver,
 				CContornoRedePercolacao *& _rede,
 				unsigned int _nx,
 				unsigned int _ny,
 				unsigned int _nz,
 				unsigned int _fatorAmplificacao = 1,
-				long double _sizePixel = 1.0,
-				unsigned int _numeroPixelsBorda = 0
-		);
+				long double _dimensaoPixel = 1.0,
+				unsigned int _numeroPixeisBorda = 0 );
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
 		virtual ~ CSimPermeabilidadeRede ();
 
 		// ----------------------------------------------------------------Métodos
+	public:
+		/** Go() verifica se o sistema já foi resolvido, sistemaResolvido==true?, senão foi resolvido chama
+		*		SolucaoSistema() que resolve o sistema como um todo; depois Go() realiza o cálculo da permeabilidade em sí.
+		*/
+		virtual long double Go () override;
+
+		/** Executa um passo do solver interno para cálculo das permeabilidades.
+		*		Depois de iniciada a simulação (cálculo da primeira estimativa das pressões),
+		*		pode-se calcular o fluxo nas fronteiras, e estimar o erro da Permeabilidade.
+		*		Caso este erro seja maior do que o aceitável, pode-se chamar Next() para refinar a solução das pressões.
+		*		Next() chama a SolucaoSistemaEquacoes() melhorando a estimativa das pressões e a seguir calcula
+		*		os fluxos em cada fronteira. Next() inclui a Lei de Darcy.
+		*		Retorna estimativa permeabilidade.
+		*/
+		virtual long double Next ();
+
+	protected:
+		/// Cria objetos agregados
+		virtual void CriarObjetosAgregados () override;
+
+		/// Define as condições de contorno e adicionalmente chama funcao de calculo das condutancias
+		virtual void DefinirCondicoesContorno () override;
+
+		/// Define valores iniciais
+		virtual void DefinirCondicoesIniciais () override;
+
+		/// Resolve o sistema de equações
+		virtual void SolucaoSistemaEquacoes () override;
+
 	private:
 		/// Calcula o fluxo na fronteira. Recebe como parâmetro a identificação da fronteira
 		long double FluxoFronteira (CContorno::ETipoContorno fronteira);
 
-	protected:
-		/// Cria objetos agregados
-		virtual void CriacaoObjetosAgregados () {}
-
-		/// Define as condições de contorno e adicionalmente chama funcao de calculo das condutancias
-		virtual void DefinicaoCondicoesContorno ();
-
-		/// Define valores iniciais
-		virtual void DefinicaoValoresIniciais ();
-
-		/// Resolve o sistema de equações
-		virtual void SolucaoSistemaEquacoes ();
-
 	public:
-		/// Go executa a solução do sistema e depois o calculo da permeabilidade em sí
-		virtual long double Go ();
-
-		/// Executa um passo do solver interno para as permeabilidades
-		virtual long double Next ();
-
 		// --------------------------------------------------------------------Get
 		/// Retorna ponteiro para objeto fluido
-		CMFluido *Getfluido () const {
+		CMFluido *Fluido () const {
 			return fluido;
 		}
 
 		/// Retorna ponteiro para objeto solver
-		CSolverMatrizDiagonalDominante *Getsolver () const {
+		CSolverMatrizDiagonalDominante *Solver () const {
 			return solver;
 		}
 
 		/// Retorna ponteiro para objeto rede
-		CContornoRedePercolacao *GetRede () const {
+		CContornoRedePercolacao *Rede () const {
 			return rede;
 		}
 
 		/// Retorna numero pixeis da borda
-		unsigned int GetnumeroPixelsBorda () const {
-			return numeroPixelsBorda;
+		unsigned int NumeroPixeisBorda () const {
+			return numeroPixeisBorda;
 		}
 
 		/// Retorna nx
-		unsigned long int Getnx () const {
+		unsigned long int Nx () const {
 			return nx;
 		}
 
 		/// Retorna ny
-		unsigned long int Getny () const {
+		unsigned long int Ny () const {
 			return ny;
 		}
 
 		/// Retorna nz
-		unsigned long int Getnz () const {
+		unsigned long int Nz () const {
 			return nz;
 		}
 
 		/// Retorna dimensão do pixel
-		long double GetsizePixel () const {
-			return sizePixel;
+		long double DimensaoPixel () const {
+			return dimensaoPixel;
 		}
 
 		/// Retorna o fator de amplificacao
-		unsigned long int GetfatorAmplificacao () const {
+		unsigned long int FatorAmplificacao () const {
 			return fatorAmplificacao;
 		}
 
 		/// Retorna o erro permeabilidade
-		long double GeterroPermeabilidade () const {
-			return erroPermeabilidade;
+		long double ErroRelativo () const  {
+			return erroRelativo;
 		}
 
 		/// Retorna o numero de iteracoes
-		unsigned long int Getiteracoes () const {
+		unsigned long int Iteracoes () const {
 			return iteracoes;
 		}
 
 	public:
 		// --------------------------------------------------------------------Set
 		/// Define o fluido
-		void Setfluido (CMFluido * _p) {
+		void Fluido (CMFluido * _p) {
 			if (fluido)
 				delete fluido;
 			fluido = _p;
 		}
 
 		/// Define o solver
-		void Setsolver (CSolverMatrizDiagonalDominante * _p) {
+		void Solver (CSolverMatrizDiagonalDominante * _p) {
 			if (solver)
 				delete solver;
 			solver = _p;
 		}
 
 		/// Define o grafo
-		void SetRede (CContornoRedePercolacao * _p) {
+		void Rede (CContornoRedePercolacao * _p) {
 			if (rede)
 				delete rede;
 			rede = _p;
 		}
 
 		/// Define o numero de píxeis da borda
-		void SetnumeroPixelsBorda (unsigned int _npb) {
-			numeroPixelsBorda = _npb;
+		void NumeroPixeisBorda (unsigned int _npb) {
+			numeroPixeisBorda = _npb;
 		}
 
 		/// Define a dimensão nx
-		void Setnx (unsigned int _nx) {
+		void Nx (unsigned int _nx) {
 			nx = _nx;
 		}
 
 		/// Define a dimensão ny
-		void Setny (unsigned int _ny) {
+		void Ny (unsigned int _ny) {
 			ny = _ny;
 		}
 
 		/// Define a dimensão nz
-		void Setnz (unsigned int _nz) {
+		void Nz (unsigned int _nz) {
 			nz = _nz;
 		}
 
 		/// Define a dimensão do pixel
-		void SetsizePixel (long double _sizePixel) {
-			sizePixel = _sizePixel;
+		void DimensaoPixel (long double _dimensaoPixel) {
+			dimensaoPixel = _dimensaoPixel;
 		}
 
 		/// Define o fator amplificacao
-		void SetfatorAmplificacao (unsigned int _fatorAmplificacao) {
+		void FatorAmplificacao (unsigned int _fatorAmplificacao) {
 			fatorAmplificacao = _fatorAmplificacao;
 		}
 

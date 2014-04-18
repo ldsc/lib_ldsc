@@ -2,6 +2,7 @@
 #define CContornoRedePercolacao_h
 
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
+//#include <EstruturaDados/CRedeContorno.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace std;
  * @author 	Leandro Puerari <puerari@gmail.com>
  * @author 	André Duarte Bueno <andreduartebueno@gmail.com>
 */
-class CContornoRedePercolacao : public CRedeDePercolacao
+class CContornoRedePercolacao : public CRedeDePercolacao//, public CRedeContorno
 {
 		// --------------------------------------------------------------Atributos
 	public:
@@ -29,10 +30,11 @@ class CContornoRedePercolacao : public CRedeDePercolacao
 
 		// --------------------------------------------------------------Destrutor
 		/// Delete os objetos de contorno do vetor contorno.
-		~CContornoRedePercolacao ();
+		virtual ~CContornoRedePercolacao ();
 
 		// ----------------------------------------------------------------Métodos
 		// virtual void Write(std::string fileName);
+		virtual void Write ( std::ostream& out ) const;
 
 		// --------------------------------------------------------------------Get
 		// --------------------------------------------------------------------Set

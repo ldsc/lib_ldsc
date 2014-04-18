@@ -25,6 +25,7 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 // -----------------------------------------------------------------------
 #include <MetNum/Matriz/TCImagem3D.h>
 #include <MetNum/Matriz/TCMatriz3D.h>
+#include <EstruturaDados/CRede.h>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
 //#include <EstruturaDados/CRedeContorno.h>
@@ -32,12 +33,13 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
 #include <AnaliseImagem/Filtro/FEspacial/FEConectividade/TCFEConectividade3D.h>
+//#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
+//#include <EstruturaDados/CRedeContorno.h>
 
 /**
  * @brief Determina a permeabilidade intrinseca a partir de uma imagem 3D
  * que será representada através de uma rede de precolação.
 */
-
 class CPermeabilidadeIntrinsecaByRede {
 		// --------------------------------------------------------------Atributos
 	protected:
@@ -68,7 +70,7 @@ class CPermeabilidadeIntrinsecaByRede {
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
-		~ CPermeabilidadeIntrinsecaByRede();
+		virtual ~ CPermeabilidadeIntrinsecaByRede();
 
 		// ----------------------------------------------------------------Métodos
 	protected:

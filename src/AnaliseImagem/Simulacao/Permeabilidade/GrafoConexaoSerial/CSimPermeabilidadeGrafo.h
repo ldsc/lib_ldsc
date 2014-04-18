@@ -36,8 +36,7 @@ Desenvolvido por:
 // ===============================================================================
 // Documentacao Classe: CSimPermeabilidadeGrafo
 // ===============================================================================
-/**
- * @brief	Classe usada para determinar a permeabilidade de uma imagem tridimensional
+/**@brief	Classe usada para determinar a permeabilidade de uma imagem tridimensional
  * usando o GrafoConexaoSerial.
  * Herda de CSimulacao->CSimPermeabilidade, um conjunto de métodos virtuais que serão reescritos
  * para cálculo da Permeabilidade.
@@ -119,26 +118,22 @@ Desenvolvido por:
 class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		// --------------------------------------------------------------Atributos
 	protected:
-		CMFluido *fluido{nullptr}; 				///< Objeto fluido.
-		CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
-		CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
-
 		// Propriedades da imagem! (devem estar armazenadas na imagem...)
 		unsigned long int nx{0};					///< Número píxeis na direção x da imagem.
 		unsigned long int ny{0};					///< Número píxeis na direção y da imagem.
 		unsigned long int nz{0};					///< Número píxeis na direção z da imagem.
 		unsigned long int fatorAmplificacao{1};	///< Fator de amplificação usado na reconstrução da imagem.
+		long double dimensaoPixel{1};				///< Dimensão do píxel (multiplique por nx e pelo fatorAmplificacao para obter dimensão real da imagem em metros - SI).
 		unsigned long int numeroPixeisBorda{0};	///< Número de píxeis a serem descontados (dimensão da borda).
-		long double dimensaoPixel{1.0};				///< Dimensão do píxel (multiplique por nx e pelo fatorAmplificacao para obter dimensão real da imagem em metros - SI).
 
-		// Variáveis necessárias para cálculo permeabilidade (Lei Darcy).
-		long double fluxoFronteira{0.0};			///< Valor do fluxo na fronteira.
-		long double diferencaPressao{0.0};			///< Diferença de pressão entre as faces
-		long double dimensaoX{0.0}; 				///< Dimensão real da imagem na direção x (desconta as bordas).
-		long double dimensaoY{0.0}; 				///< Dimensão real da imagem na direção y (desconta as bordas).
-		long double dimensaoZ{0.0}; 				///< Dimensão real da imagem na direção z (desconta as bordas).
-		long double comprimento_z{0.0}; 			///< Comprimento.
-		long double area{0.0}; 					///< Área da seção considerada Lei Darcy.
+		// Objetos agregados.
+		CMFluido *fluido{nullptr}; 				///< Objeto fluido.
+
+		CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
+		CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
+
+		/// Propriedades da simulação (solver local cálculo permeabilidade).
+		bool salvarDadosParciaisPressaoDisco { false }; ///< Se true salva dados parciais de pressão em disco.
 
 		// Solver interno, calcula fluxo nas fronteiras e determina necessidade de refinar cálculo das pressões
 		// em função do ErroPermeabilidade e do número iterações.
@@ -148,8 +143,14 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		unsigned int iteracoes{0};	 	///< número de iterações realizadas no cálculo permeabilidade.
 		unsigned long int limiteIteracoes { 5000 };///< limite de iterações.
 
-		// Propriedades da simulação (solver local cálculo permeabilidade).
-		bool salvarDadosParciaisPressaoDisco { false }; ///< Se true salva dados parciais de pressão em disco.
+		/// Variáveis necessárias para cálculo permeabilidade (Lei Darcy).
+		long double fluxoFronteira{0.0};			///< Valor do fluxo na fronteira.
+		long double diferencaPressao{0.0};			///< Diferença de pressão entre as faces
+		long double dimensaoX{0.0}; 				///< Dimensão real da imagem na direção x (desconta as bordas).
+		long double dimensaoY{0.0}; 				///< Dimensão real da imagem na direção y (desconta as bordas).
+		long double dimensaoZ{0.0}; 				///< Dimensão real da imagem na direção z (desconta as bordas).
+		long double comprimento_z{0.0}; 			///< Comprimento.
+		long double area{0.0}; 					///< Área da seção considerada Lei Darcy.
 
 	public:
 		// -------------------------------------------------------------Construtor
@@ -162,8 +163,8 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 				unsigned long int _nx,
 				unsigned long int _ny,
 				unsigned long int _nz,
-				unsigned long int _fatorAmplificacao,
-				long double _dimensaoPixel,
+				unsigned long int _fatorAmplificacao = 1,
+				long double _dimensaoPixel = 1.0,
 				unsigned long int _numeroPixeisBorda = 0 );
 
 		// --------------------------------------------------------------Destrutor
@@ -173,17 +174,19 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		// ----------------------------------------------------------------Métodos
 	public:
 
-		/// Go() verifica se o sistema já foi resolvido, sistemaResolvido==true?, senão foi resolvido chama
-		/// SolucaoSistema() que resolve o sistema como um todo; depois Go() realiza o cálculo da permeabilidade em sí.
+		/** Go() verifica se o sistema já foi resolvido, sistemaResolvido==true?, senão foi resolvido chama
+		*		SolucaoSistema() que resolve o sistema como um todo; depois Go() realiza o cálculo da permeabilidade em sí.
+		*/
 		virtual long double Go () override;
 
-		/// Executa um passo do solver interno para cálculo das permeabilidades.
-		/// Depois de iniciada a simulação (cálculo da primeira estimativa das pressões),
-		/// pode-se calcular o fluxo nas fronteiras, e estimar o erro da Permeabilidade.
-		/// Caso este erro seja maior do que o aceitável, pode-se chamar Next() para refinar a solução das pressões.
-		/// Next() chama a SolucaoSistemaEquacoes() melhorando a estimativa das pressões e a seguir calcula
-		/// os fluxos em cada fronteira. Next() inclui a Lei de Darcy.
-		/// Retorna estimativa permeabilidade.
+		/** Executa um passo do solver interno para cálculo das permeabilidades.
+		*		Depois de iniciada a simulação (cálculo da primeira estimativa das pressões),
+		*		pode-se calcular o fluxo nas fronteiras, e estimar o erro da Permeabilidade.
+		*		Caso este erro seja maior do que o aceitável, pode-se chamar Next() para refinar a solução das pressões.
+		*		Next() chama a SolucaoSistemaEquacoes() melhorando a estimativa das pressões e a seguir calcula
+		*		os fluxos em cada fronteira. Next() inclui a Lei de Darcy.
+		*		Retorna estimativa permeabilidade.
+		*/
 		virtual long double Next () /*override*/;
 
 	protected:
@@ -226,7 +229,7 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		}
 
 		/// Retorna número píxeis da borda
-		unsigned long int NumeroPixelsBorda () const {
+		unsigned long int NumeroPixeisBorda () const {
 			return numeroPixeisBorda;
 		}
 
@@ -318,14 +321,12 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		}
 
 		// -----------------------------------------------------------------Friend
-		friend std::ostream &operator<< ( std::ostream &os,
-																			const CSimPermeabilidadeGrafo &obj );
+		friend std::ostream &operator<< ( std::ostream &os, const CSimPermeabilidadeGrafo &obj );
 		// friend istream& operator>> (istream& is, CSimPermeabilidadeGrafo& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream &operator<< ( std::ostream &os,
-													 const CSimPermeabilidadeGrafo &obj );
+std::ostream &operator<< ( std::ostream &os, const CSimPermeabilidadeGrafo &obj );
 // istream& operator>> (istream& is, CSimPermeabilidadeGrafo& obj);
 #endif

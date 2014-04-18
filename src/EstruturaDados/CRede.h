@@ -92,8 +92,8 @@ class  CRede : public CBaseGrafoRedeEsqueleto {
 		* @brief  Função usada para criar os objetos (aqui sempre cria objetos herdeiros de CObjetoRede).
 		* @param  Recebe um ETipoObjetoGrafo, que informa o tipo de objeto a ser criado.
 		* @return Retorna um objeto herdeiro de CObjetoGrafo, de acordo com o ETipoGrafo.
-	* Note que a criação e destruição dos objetos da rede é de responsabilidade da rede;
-	* Os objetos tem funções para deletar as conexões, nunca deletam os objetos.
+		* Note que a criação e destruição dos objetos da rede é de responsabilidade da rede;
+		* Os objetos tem funções para deletar as conexões, nunca deletam os objetos.
 	 */
 		value_type_objeto* CriarObjeto ( ETipoObjetoGrafo tipo ) ;
 
@@ -120,13 +120,13 @@ class  CRede : public CBaseGrafoRedeEsqueleto {
 		//    virtual bool DeletarObjeto( std::vector<unsigned int> i ) override ;
 
 	public:
-		/**
+		/*
 		* @brief Função que monta o grafo, genérica.
-	* Deve ser reescrita nas classes herdeiras.
+		* Deve ser reescrita nas classes herdeiras.
 	 */
-		virtual CRede * Go( long double, long double ) {
+		/*virtual CRede * Go( long double, long double ) {
 			return nullptr;
-		}
+		}*/
 
 		/**
 		* @brief Fun que salva o grafo e seus objetos em disco, recebe a ofstream.

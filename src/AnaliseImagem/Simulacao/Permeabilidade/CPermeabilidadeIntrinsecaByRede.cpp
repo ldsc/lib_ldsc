@@ -35,6 +35,31 @@ void CPermeabilidadeIntrinsecaByRede::DestruirObjetos () {
 	if ( perm   ) { delete perm;		perm   = nullptr; }
 }
 
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao ) {
+	DestruirObjetos();					// Destrói os objtos que possam estar criados.
+
+	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
+	rede = new CContornoRedePercolacao(nx, ny, nz);		// Cria objeto rede
+	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
+		DestruirObjetos();
+		cerr << "Não pode criar rede em CPermeabilidadeIntrinsecaByRede::CriarObjetos()!" << endl;
+		return false;
+	}
+
+	fluido = new CMFluido();//0.001002); 			// Cria fluido setando viscosidade
+	if ( ! fluido ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
+		DestruirObjetos();
+		cerr << "Não pode criar fluido em CPermeabilidadeIntrinsecaByRede::CriarObjetos()!" << endl;
+		return false;
+	}
+	solver = static_cast < CSolverMatrizDiagonalDominante * > (new  CSolverMatrizDiagonal_SOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
+	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
+		DestruirObjetos();
+		cerr << "Não pode criar solver em CPermeabilidadeIntrinsecaByRede::CriarObjetos()!" << endl;
+		return false;
+	}
+}
+
 bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao) {
 	if ( CriarObjetos( nx, ny, nz, fatorRelaxacao ) ) {
 		perm = new CSimPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda() );
@@ -59,29 +84,6 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * &imagem3
 	return false;
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao ) {
-	DestruirObjetos();					// Destrói os objtos que possam estar criados.
-
-	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
-	rede = new CContornoRedePercolacao(nx, ny, nz);		// Cria objeto rede
-	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
-		DestruirObjetos();
-		return false;
-	}
-
-	fluido = new CMFluido();//0.001002); 			// Cria fluido setando viscosidade
-	if ( ! fluido ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
-		DestruirObjetos();
-		return false;
-	}
-	cout << "limiteErro em CPermeabilidadeIntrinsecaByRede::CriarObjetos: " << limiteErro << endl;
-	solver = static_cast < CSolverMatrizDiagonalDominante * > (new  CSolverMatrizDiagonal_SOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
-	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
-		DestruirObjetos();
-		return false;
-	}
-}
-
 long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, long double fatorRelaxacao, CDistribuicao3D::Metrica3D metrica ) {
 	if ( CriarObjetos( imagem3D, nx, ny, nz, fatorRelaxacao ) ) {
 		/*// cria objetos para verificar se existe conectividade em Y, na matriz3D recebida.
@@ -100,9 +102,9 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, un
 		cout << "\nfluido->Molhabilidade() = " << fluido->Molhabilidade();
 		cout << "\n\nsolver->LimiteIteracoes() = " << solver->LimiteIteracoes();
 		cout << "\nsolver->LimiteErro() = " << solver->LimiteErro();
-		cout << "\n\nperm->GetfatorAmplificacao() = " << perm->GetFatorAmplificacao();
-		cout << "\nperm->GetsizePixel() = " << perm->GetDimensaoPixel();
-		cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetNumeroPixeisBorda() << endl;
+		cout << "\n\nperm->FatorAmplificacao() = " << perm->FatorAmplificacao();
+		cout << "\nperm->DimensaoPixel() = " << perm->DimensaoPixel();
+		cout << "\nperm->NumeroPixeisBorda() = " << perm->NumeroPixeisBorda() << endl;
 
 		cout << "Calculando rede->Go( )...." << endl;
 		rede->Go( imagem3D, metrica );
@@ -116,6 +118,7 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, un
 		cout << "perm->SolucaoSistema()...ok Permeabilidade = " << p << endl;
 		return p;
 	}
+	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go(TCImagem3D<int> *)! Retornando 0.0 ..." << endl;
 	return 0.0;
 }
 
@@ -137,9 +140,9 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, u
 		cout << "\nfluido->Molhabilidade() = " << fluido->Molhabilidade();
 		cout << "\n\nsolver->LimiteIteracoes() = " << solver->LimiteIteracoes();
 		cout << "\nsolver->LimiteErro() = " << solver->LimiteErro();
-		cout << "\n\nperm->GetfatorAmplificacao() = " << perm->GetFatorAmplificacao();
-		cout << "\nperm->GetsizePixel() = " << perm->GetDimensaoPixel();
-		cout << "\nperm->GetnumeroPixelsBorda() = " << perm->GetNumeroPixeisBorda() << endl;
+		cout << "\n\nperm->FatorAmplificacao() = " << perm->FatorAmplificacao();
+		cout << "\nperm->DimensaoPixel() = " << perm->DimensaoPixel();
+		cout << "\nperm->NumeroPixeisBorda() = " << perm->NumeroPixeisBorda() << endl;
 
 		cout << "Calculando rede->Go( )...." << endl;
 		rede->Go( imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, metrica );
@@ -153,6 +156,7 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, u
 		cout << "perm->SolucaoSistema()...ok Permeabilidade = " << p << endl;
 		return p;
 	}
+	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go(TCImagem3D<bool> *)! Retornando 0.0 ..." << endl;
 	return 0.0;
 }
 

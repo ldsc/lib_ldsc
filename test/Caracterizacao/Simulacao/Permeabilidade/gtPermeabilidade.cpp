@@ -13,8 +13,6 @@ TEST(TestPermeabilidade, IntrinsecaByGrafo) {
 
 	//Cria objeto rede
 	CSimPermeabilidadeIntrinseca objPerIn = CSimPermeabilidadeIntrinseca();
-	objPerIn.limiteIteracoes = 100000;
-	objPerIn.limiteErro = 1.0e-06;
 	long double permeabilidade = objPerIn.Go ( pm );
 
 	//cerr << "permeabilidade: " << permeabilidade << endl;
@@ -35,8 +33,6 @@ TEST(TestPermeabilidade, IntrinsecaByRede) {
 
 	//Cria objeto rede
 	CPermeabilidadeIntrinsecaByRede objPerIn = CPermeabilidadeIntrinsecaByRede();
-	objPerIn.limiteIteracoes = 100000;
-	objPerIn.limiteErro = 1.0e-06;
 	long double permeabilidade = objPerIn.Go ( pm,100,100,100,23,2,1,1,EModelo::ONZE,1,0 );
 
 	cerr << "permeabilidade: " << permeabilidade << endl;

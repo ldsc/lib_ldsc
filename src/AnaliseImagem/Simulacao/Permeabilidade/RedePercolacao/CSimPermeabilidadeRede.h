@@ -86,7 +86,8 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 	public:
 		// -------------------------------------------------------------Construtor
 		/// Construtor
-		CSimPermeabilidadeRede (CMFluido * &_fluido,
+		CSimPermeabilidadeRede (
+				CMFluido * &_fluido,
 				CSolverMatrizDiagonalDominante *& _solver,
 				CContornoRedePercolacao *& _rede,
 				unsigned int _nx,
@@ -131,7 +132,7 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 		virtual void SolucaoSistemaEquacoes () override;
 
 	private:
-		/// Calcula o fluxo na fronteira. Recebe como parâmetro a identificação da fronteira
+		/// Calcula o fluxo na fronteira. Recebe como parâmetro a identificação da fronteira (esquerda ou direita).
 		long double FluxoFronteira (CContorno::ETipoContorno fronteira);
 
 	public:
@@ -191,7 +192,6 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 			return iteracoes;
 		}
 
-	public:
 		// --------------------------------------------------------------------Set
 		/// Define o fluido
 		void Fluido (CMFluido * _p) {

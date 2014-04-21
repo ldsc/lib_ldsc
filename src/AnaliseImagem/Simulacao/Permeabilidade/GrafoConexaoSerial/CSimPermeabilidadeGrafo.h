@@ -118,27 +118,23 @@ Desenvolvido por:
 class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		// --------------------------------------------------------------Atributos
 	protected:
+		// Objetos agregados.
+		CMFluido *fluido{nullptr}; 				///< Objeto fluido.
+		CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
+		CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
+
 		// Propriedades da imagem! (devem estar armazenadas na imagem...)
 		unsigned long int nx{0};					///< Número píxeis na direção x da imagem.
 		unsigned long int ny{0};					///< Número píxeis na direção y da imagem.
 		unsigned long int nz{0};					///< Número píxeis na direção z da imagem.
 		unsigned long int fatorAmplificacao{1};	///< Fator de amplificação usado na reconstrução da imagem.
-		long double dimensaoPixel{1};				///< Dimensão do píxel (multiplique por nx e pelo fatorAmplificacao para obter dimensão real da imagem em metros - SI).
 		unsigned long int numeroPixeisBorda{0};	///< Número de píxeis a serem descontados (dimensão da borda).
-
-		// Objetos agregados.
-		CMFluido *fluido{nullptr}; 				///< Objeto fluido.
-
-		CSolverMatrizDiagonalDominante *solver{nullptr};		///< Objeto solver.
-		CGrafoConexaoSerial *grafo{nullptr}; 		///< Objeto grafo de conexão serial.
-
-		/// Propriedades da simulação (solver local cálculo permeabilidade).
-		bool salvarDadosParciaisPressaoDisco { false }; ///< Se true salva dados parciais de pressão em disco.
+		long double dimensaoPixel{1};				///< Dimensão do píxel (multiplique por nx e pelo fatorAmplificacao para obter dimensão real da imagem em metros - SI).
 
 		// Solver interno, calcula fluxo nas fronteiras e determina necessidade de refinar cálculo das pressões
 		// em função do ErroPermeabilidade e do número iterações.
-		long double erroRelativo{100.0}; 			///< erro percentual na determinação da permeabilidade. iinicial = 100%.
 		//long double & erroAbsolutoPermeabilidade = erro; // da classe base?
+		long double erroRelativo{100.0}; 			///< erro percentual na determinação da permeabilidade. iinicial = 100%.
 		long double limiteErroRelativo { 1.0 };  	///< limite erro relativo, default =1%
 		unsigned int iteracoes{0};	 	///< número de iterações realizadas no cálculo permeabilidade.
 		unsigned long int limiteIteracoes { 5000 };///< limite de iterações.
@@ -203,8 +199,10 @@ class CSimPermeabilidadeGrafo : public CSimPermeabilidade {
 		/// Resolver o sistema de equações (neste caso a solução das pressões)
 		virtual void SolucaoSistemaEquacoes () override;
 
-	private:
+		/// Propriedades da simulação (solver local cálculo permeabilidade).
+		bool salvarDadosParciaisPressaoDisco { false }; ///< Se true salva dados parciais de pressão em disco.
 
+	private:
 		// Funções internas, auxiliares, próprias da classe  CSimPermeabilidadeGrafo.
 		/// Calcula o fluxo na fronteira; recebe como parâmetro a identificação da fronteira (esquerda ou direita).
 		long double FluxoFronteira ( CContorno::ETipoContorno fronteira );

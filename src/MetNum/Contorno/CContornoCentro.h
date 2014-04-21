@@ -71,7 +71,7 @@ class CContornoCentro : public CContorno {
 
 		/// Calcula, atualiza valor da propriedade no contorno.
 		// x=k, e y=numeroObjetos
-		/*virtual */long double Go ( long double x = 0, long double y = 0 )  {
+		/*virtual */long double Go ( long double x = 0.0, long double y = 0.0 )  {
 			y = y;
 			return ( a + b * x );
 		}

@@ -44,73 +44,69 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 
 class CSimPermeabilidadeIntrinseca
 {
-// --------------------------------------------------------------Atributos
-protected:
-	/// Ponteiro para CGrafo;
-	CGrafoConexaoSerial * grafo{nullptr};
+		// --------------------------------------------------------------Atributos
+	protected:
+		/// Ponteiro para CGrafo;
+		CGrafoConexaoSerial * grafo {nullptr};
 
-	/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
-	CSolverMatrizDiagonalDominante * solver{nullptr};
+		/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
+		CSolverMatrizDiagonalDominante * solver {nullptr};
 
-	/// Ponteiro para CMFluido;
-	CMFluido * fluido{nullptr};
+		/// Ponteiro para CMFluido;
+		CMFluido * fluido {nullptr};
 
-	/// Ponteiro para CSimPermeabilidadeGrafo responsável pelo cálculo da permeabilidade;
-	CSimPermeabilidadeGrafo * perm{nullptr};
+		/// Ponteiro para CSimPermeabilidadeGrafo responsável pelo cálculo da permeabilidade;
+		CSimPermeabilidadeGrafo * perm {nullptr};
 
-public:
-	// Depois os atributos abaixo devem ser retirados pois fazem parte do solver
-	// Número limite de iterações para o solver.
-	unsigned long int limiteIteracoes{5000};
+		// -----------------------------------------------------------Construtores
+	public:
+		/// Construtor Default
+		CSimPermeabilidadeIntrinseca();
 
-	// Valor do erro aceitável para o solver.
-	long double limiteErro{0.000010};
+		// --------------------------------------------------------------Destrutor
+		/// Destrutor
+		virtual ~ CSimPermeabilidadeIntrinseca();
 
-	//
+		// ----------------------------------------------------------------Métodos
+	public:
+		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. Para alterar as propriedades do fluido ou do solver, primeiro chamar este método e depois chamar os métodos correspondentes para setar as propriedades.
+		bool CriarObjetos ( );
 
-// -----------------------------------------------------------Construtores
-public:	
-	/// Construtor Default
-	CSimPermeabilidadeIntrinseca();
+		/// Permite alterar as propriedades do fluido.
+		bool SetarPropriedadesFluido( double viscosidade = 0.001002, bool densidade = true, bool compressibilidade = true, bool molhabilidade = true );
 
-// --------------------------------------------------------------Destrutor
-	/// Destrutor
-	virtual ~ CSimPermeabilidadeIntrinseca();
+		/// Permite alterar os parâmetros do solver.
+		bool SetarPropriedadesSolver( long double limiteErro = 1.0e-06, unsigned long int limiteIteracoes = 100000/*, long double fatorRelaxacao = 0.7*/);
 
-// ----------------------------------------------------------------Métodos
-protected:
-	/// Destrói os objetos que possam ter sido criados.
-	void DestruirObjetos();
+		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
+		long double Go( TCImagem3D<int> * imagem3D, unsigned short int modelo = 3);
 
-public:
-	/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. 
-	/// (Deve ser chamado antes de CalcularPermeabilidade())
-	bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel,  unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
-	
-	/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
-	long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
-	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-	long double Go( TCImagem3D<int> * imagem3D, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
-	
-	/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
-	long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
-	
-	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo TCImagem3D.
-	long double Go( string pathNomeArquivo, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
-	
-	/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo CMatriz3D.
-	long double Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, long double fatorRelaxacao = 0.7, unsigned short int modelo = 3);
-	
-	/// Permite alterar as propriedades do fluido.
-	void SetarPropriedadesFluido( double viscosidade = 1.0, bool densidade = 1, bool compressibilidade = 1, bool molhabilidade = 1 );
+		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CMatriz3D.
+		long double Go( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, unsigned short int modelo = 3);
 
-	/// Permite alterar os parâmetros do solver.
-	void SetarPropriedadesSolver( long double limiteErro = 1e-05, unsigned long int limiteIteracoes = 5000 );//, long double fatorRelaxacao = 0.7);
+		/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo TCImagem3D.
+		long double Go( string pathNomeArquivo, unsigned short int modelo = 3);
 
-// --------------------------------------------------------------------Get
-// --------------------------------------------------------------------Set
-// -------------------------------------------------------------Sobrecarga
-// -----------------------------------------------------------------Friend
+		/// Determina a permeabilidade e retorna o resultado. Recebe path do arquivo CMatriz3D.
+		long double Go( string pathNomeArquivo, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda = 0, unsigned short int modelo = 3);
+
+	protected:
+		/// Destrói os objetos que possam ter sido criados.
+		void DestruirObjetos();
+
+	private:
+		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca (Deve ser chamado antes de CalcularPermeabilidade()).
+		bool CriarObjetos( TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel,  unsigned int numeroPixeisBorda = 0, unsigned short int modelo = 3);
+
+		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca (Deve ser chamado antes de CalcularPermeabilidade()).
+		bool CriarObjetos( TCImagem3D<int> * matriz3D, unsigned short int modelo = 3);
+
+		/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
+		long double CalcularPermeabilidade(TCMatriz3D<int> * matriz3D);
+
+		// --------------------------------------------------------------------Get
+		// --------------------------------------------------------------------Set
+		// -------------------------------------------------------------Sobrecarga
+		// -----------------------------------------------------------------Friend
 };
 #endif

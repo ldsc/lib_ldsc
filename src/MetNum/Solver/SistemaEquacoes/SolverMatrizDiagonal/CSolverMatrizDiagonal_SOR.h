@@ -60,8 +60,8 @@ public:
 
     // -------------------------------------------------------------Construtor
     /// Construtor, recebe como parâmetro os limites de iterações, de erro e o fator de relaxação.
-    CSolverMatrizDiagonal_SOR (unsigned long int _limiteIteracoes, long double _limiteErro,
-             long double _fatorRelaxacao/*, unsigned long int _size = 0*/)
+		CSolverMatrizDiagonal_SOR (unsigned long int _limiteIteracoes=100000, long double _limiteErro=1.0e-06,
+						 long double _fatorRelaxacao=0.7/*, unsigned long int _size = 0*/)
         : CSolverMatrizDiagonal_GaussSeidel (_limiteIteracoes, _limiteErro/*, _size*/),
           fatorRelaxacao (_fatorRelaxacao), fatorRelaxacaoC (1.0 - _fatorRelaxacao) {
     }

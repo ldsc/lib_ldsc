@@ -112,10 +112,10 @@ bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) {
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
 // g = (r^3) / (3*viscosidade) ->
-double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double sizePixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
-	double raio = (double)objetoImagem.Raio() * sizePixel * fatorAmplificacao;
+	double raio = (double)objetoImagem.Raio() * dimensaoPixel * fatorAmplificacao;
 	double condutancia = (raio*raio*raio) / (3.0 * viscosidade);
 	objetoImagem.Propriedade( condutancia );
 	//std::cerr << "Condutancia: " << condutancia << " raio: " << raio << " viscosidade: " << viscosidade << std::endl;
@@ -124,12 +124,12 @@ double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem,
 
 // Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
 // condutancia = pi*dH^4/(128*viscosidade*comprimento)
-double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedePercolacao &objetoImagem, double &_comprimento, double sizePixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedePercolacao &objetoImagem, double &_comprimento, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
-	double comprimento = _comprimento * sizePixel * fatorAmplificacao;
+	double comprimento = _comprimento * dimensaoPixel * fatorAmplificacao;
 	// Calcula o raio hidraulico do objeto já convertido para metros
-	double raioHidraulico = RaioHidraulicoCirculo(objetoImagem.Raio()) * sizePixel * fatorAmplificacao;
+	double raioHidraulico = RaioHidraulicoCirculo(objetoImagem.Raio()) * dimensaoPixel * fatorAmplificacao;
 	double diametroHidraulico = 4.0 * raioHidraulico;
 	double auxiliar = M_PI / (128.0 * viscosidade * comprimento);
 	double condutancia = auxiliar * (diametroHidraulico*diametroHidraulico*diametroHidraulico*diametroHidraulico);
@@ -139,10 +139,10 @@ double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedePercolacao &objetoImage
 }
 
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double sizePixel, double fatorAmplificacao) {
-	double gSitio = CondutanciaSitio(objImgSitio, sizePixel, fatorAmplificacao);
+double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel, double fatorAmplificacao) {
+	double gSitio = CondutanciaSitio(objImgSitio, dimensaoPixel, fatorAmplificacao);
 	double meioL = comprimento/2;
-	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,sizePixel,fatorAmplificacao);
+	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,dimensaoPixel,fatorAmplificacao);
 		return 1.0/(1.0/gSitio + 1.0/gLigacao);
 }
 

@@ -35,13 +35,13 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 	protected:
 		//----------------------------------------------------Atributos
 		/// Identifica em qual posição o objeto se encontra (Leste, Oeste, Centro...).
-		CContorno::ETipoContorno contorno = CContorno::ETipoContorno::CENTER;
+		CContorno::ETipoContorno contorno {CContorno::ETipoContorno::CENTER};
 
 		/// Armazena propriedade do objeto (condutância)
-		double propriedade = 0.0;
+		double propriedade {0.0};
 
 		/// Ponteiro para matriz de objetos que poderão estar conectados ao objeto this
-		CMatrizObjetoRede * matrizObjetos = nullptr;
+		CMatrizObjetoRede * matrizObjetos {nullptr};
 
 	public:
 		// ---------------------------------------------------Construtor-Destrutor

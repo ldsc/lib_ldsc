@@ -23,7 +23,6 @@ copyright:      (C) 2000 by Andre Duarte Bueno
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
-
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 

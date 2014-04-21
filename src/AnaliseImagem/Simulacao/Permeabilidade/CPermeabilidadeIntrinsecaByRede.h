@@ -27,8 +27,6 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 #include <MetNum/Matriz/TCMatriz3D.h>
 #include <EstruturaDados/CRede.h>
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.h>
-//#include <EstruturaDados/CRedeContorno.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
@@ -44,24 +42,16 @@ class CPermeabilidadeIntrinsecaByRede {
 		// --------------------------------------------------------------Atributos
 	protected:
 		/// Ponteiro para CContornoRedePercolacao;
-		CContornoRedePercolacao * rede{nullptr};
+		CContornoRedePercolacao * rede {nullptr};
 
 		/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
-		CSolverMatrizDiagonalDominante * solver{nullptr};
+		CSolverMatrizDiagonalDominante * solver {nullptr};
 
 		/// Ponteiro para CMFluido;
-		CMFluido * fluido{nullptr};
+		CMFluido * fluido {nullptr};
 
 		/// Ponteiro para CSimPermeabilidadeRede responsável pelo cálculo da permeabilidade;
-		CSimPermeabilidadeRede * perm{nullptr};
-
-	public:
-		// Depois os atributos abaixo devem ser retirados pois fazem parte do solver
-		// Número limite de iterações para o solver.
-		unsigned long int limiteIteracoes{5000};
-
-		// Valor do erro aceitável para o solver.
-		long double limiteErro{0.000010};
+		CSimPermeabilidadeRede * perm {nullptr};
 
 		// -----------------------------------------------------------Construtores
 	public:
@@ -73,32 +63,35 @@ class CPermeabilidadeIntrinsecaByRede {
 		virtual ~ CPermeabilidadeIntrinsecaByRede();
 
 		// ----------------------------------------------------------------Métodos
+	public:
+		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. Para alterar as propriedades do fluido ou do solver, primeiro chamar este método e depois chamar os métodos correspondentes para setar as propriedades.
+		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz );
+
+		/// Permite alterar as propriedades do fluido.
+		bool SetarPropriedadesFluido( double viscosidade = 0.001002, bool densidade = true, bool compressibilidade = true, bool molhabilidade = true );
+
+		/// Permite alterar os parâmetros do solver.
+		bool SetarPropriedadesSolver( long double limiteErro = 1.0e-06, unsigned long int limiteIteracoes = 10000/*, long double fatorRelaxacao = 0.7*/);
+
+		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
+		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345);
+
+		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
+		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345 );
+
 	protected:
 		/// Destrói os objetos que possam ter sido criados.
 		void DestruirObjetos();
 
-	public:
-		/// Permite alterar as propriedades do fluido.
-		void SetarPropriedadesFluido( double viscosidade = 1.0, bool densidade = 1, bool compressibilidade = 1, bool molhabilidade = 1 );
-
-		/// Permite alterar os parâmetros do solver.
-		void SetarPropriedadesSolver( long double limiteErro = 1e-05, unsigned long int limiteIteracoes = 5000 );//, long double fatorRelaxacao = 0.7);
-
-		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, long double fatorRelaxacao = 0.7, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345);
-
-		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, long double fatorRelaxacao = 0.7, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345 );
-
 	private:
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
-		bool CriarObjetos( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao );
+		bool CriarObjetos( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz );
 
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
-		bool CriarObjetos( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao );
+		bool CriarObjetos( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz );
 
-		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. Será chamada por um dos outros métodos CriarObjetos.
-		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz, long double &fatorRelaxacao );
+		/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
+		long double CalcularPermeabilidade( );
 };
 
 #endif

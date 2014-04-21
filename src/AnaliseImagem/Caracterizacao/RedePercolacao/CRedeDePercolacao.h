@@ -3,8 +3,9 @@
 
 #include <AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.h>
 #include <AnaliseImagem/Geometria/Bola/BCDiscreta/CBCd3453D.h>
+//#include <EstruturaDados/CRede.h>
 #include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
-//#include <MetNum/Matriz/CMatrizObjetoImagem.h>
+#include <MetNum/Matriz/CMatrizObjetoImagem.h>
 #include <cstdlib>
 #include <ctime>
 
@@ -30,13 +31,13 @@ class CRedeDePercolacao
 {		// Atributos
 	public:
 		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
-		TCMatriz3D<bool> *pm = nullptr;
+		TCMatriz3D<bool> *pm {nullptr};
 
 		/// Flag que seta se os pixeis que compõem um esfera ou um cilindro devem ser calculados ou obtidos do vetor (default=false).
-		bool calcPixeis = false;
+		bool calcPixeis {false};
 
 		/// Ponteiro para matriz de objetos que compoem a rede de percolação.
-		CMatrizObjetoRede * ptrMatObjsRede = nullptr;
+		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
 
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
@@ -117,13 +118,13 @@ class CRedeDePercolacao
 		}
 
 		/// Calcula a condutância de objetos do tipo sítio
-		double CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
 
 		/// Calcula a condutância de objetos do tipo ligação
-		double CondutanciaLigacao (CObjetoRedePercolacao &objetoImagem, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaLigacao (CObjetoRedePercolacao &objetoImagem, double &comprimento, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-		double CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double sizePixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
 };
 
 #endif // CRedeDePercolacao_H

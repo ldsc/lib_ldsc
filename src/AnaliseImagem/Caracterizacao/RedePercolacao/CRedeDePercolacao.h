@@ -125,6 +125,15 @@ class CRedeDePercolacao
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
 		double CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
+
+		// -----------------------------------------------------------------Friend
+		friend ostream& operator<< (ostream& os, CRedeDePercolacao& obj);
+		//friend istream& operator>> (istream& is, CRedeDePercolacao& obj);
+
 };
 
+// -----------------------------------------------------------------Friend
+// Declaração de Funções Friend
+ostream& operator<< (ostream& os, CRedeDePercolacao& obj);
+// istream& operator>> (istream& is, CRedeDePercolacao& obj);
 #endif // CRedeDePercolacao_H

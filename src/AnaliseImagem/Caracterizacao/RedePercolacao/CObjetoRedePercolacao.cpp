@@ -35,6 +35,24 @@ void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 
 }
 
+std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj){
+	//_fout << std::right << std::setw(4) << Contorno(); //CENTER = 0, WEST=1, EST=2
+	os << std::right << std::setw(11) << obj.propriedade; //condutância
+	os << std::right << std::setw(11) << obj.pontoCentral.x; //camada de 0 a n
+	os << std::right << std::setw(5) << obj.sConexao.size();
+	if ( obj.sConexao.size() > 0 ) {
+		std::map<int,double>::const_iterator itr;
+		for (itr=obj.sConexao.begin(); itr!=obj.sConexao.end(); ++itr) {
+			os << std::right << std::setw(6) << itr->first;
+		}
+		for (itr=obj.sConexao.begin(); itr!=obj.sConexao.end(); ++itr) {
+			os << " " << itr->second;
+		}
+
+	}
+	os << endl;
+}
+
 // Calcula o fluxo associado ao objeto.
 long double CObjetoRedePercolacao::Fluxo (std::map<int, CObjetoRedePercolacao> * moi) {
 	long double fluxo = 0.0;

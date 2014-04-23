@@ -55,26 +55,6 @@ CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
 	*/
 }
 
-//	operator<<
-ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj) {
-	os << "\n=====Dados Fluido=====\n";
-	os << * ( obj.fluido );
-	os << "\n=====Dados Solver=====\n";
-	os << * ( obj.solver ); //aqui -> implementar!! solver não esta mostrando dados na tela!
-	os << "\n=====Dados grafo=====\n";
-	os << * ( obj.rede );
-	os << "\n=====Dados nx, ny, nz=====\n";
-	os << obj.nx << endl;
-	os << obj.ny << endl;
-	os << obj.nz << endl;
-	os << "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; fluxoFronteira=====\n";
-	os << obj.fatorAmplificacao << endl;
-	os << obj.dimensaoPixel << endl;
-	os << obj.numeroPixeisBorda << endl;
-	os << obj.fluxoFronteira << endl;
-	return os;
-}
-
 void CSimPermeabilidadeRede::CriarObjetosAgregados (){
 
 }
@@ -294,4 +274,24 @@ long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tip
 	}
 
 	return fluxo_fronteira;
+}
+
+//	operator<<
+ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj) {
+	os << "\n=====Dados Fluido=====\n";
+	os << * ( obj.fluido );
+	os << "\n=====Dados Solver=====\n";
+	os << * ( obj.solver ); //aqui -> implementar!! solver não esta mostrando dados na tela!
+	os << "\n=====Dados Rede=====\n";
+	os << * ( obj.rede );
+	os << "\n=====Dados nx, ny, nz=====\n";
+	os << obj.nx << endl;
+	os << obj.ny << endl;
+	os << obj.nz << endl;
+	os << "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; fluxoFronteira=====\n";
+	os << obj.fatorAmplificacao << endl;
+	os << obj.dimensaoPixel << endl;
+	os << obj.numeroPixeisBorda << endl;
+	os << obj.fluxoFronteira << endl;
+	return os;
 }

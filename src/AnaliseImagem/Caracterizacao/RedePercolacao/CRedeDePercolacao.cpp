@@ -517,3 +517,12 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	//xToObj.clear();
 	return true;
 }
+
+ostream& operator<< (ostream& os, CRedeDePercolacao& obj){
+	os << "# " << obj.ptrMatObjsRede->matrizObjetos.size() << endl;
+	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
+	for (std::map<int,CObjetoRedePercolacao>::iterator it = obj.ptrMatObjsRede->matrizObjetos.begin(); it != obj.ptrMatObjsRede->matrizObjetos.end(); ++it) {
+		os << std::left << std::setw(6) << it->first;
+		os << it->second;
+	}
+}

@@ -13,6 +13,7 @@ Desenvolvido por:	LDSC - Laboratorio de Desenvolvimento de Software Científico
 */
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.h> //novo
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h> //novo
+#include <Tempo/CTime.h>
 
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.h>
 
@@ -125,10 +126,17 @@ long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( ) {
 
 long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica ) {
 	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
-		cout << "Calculando rede->Go( )...." << endl;
+		cout << "Calculando rede->Go( )..." << endl;
 		rede->Go( imagem3D, metrica );
-		cout << "rede->Go( )...ok!" << endl;
-
+		cout << "rede->Go( )...ok!" << endl << endl;
+		if (salvarRede != "") {
+			cout << "Salvando a rede..." << endl;
+			if (rede->SalvarListaObjetos(salvarRede)) {
+				cout << "Rede salva no arquivo: " << salvarRede << endl << endl;
+			} else {
+				cerr << "Não foi possível salvar a rede no arquivo: " << salvarRede << endl << endl;
+			}
+		}
 		return CalcularPermeabilidade( );
 	}
 	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go(TCImagem3D<int> *)! Retornando 0.0 ..." << endl;
@@ -136,11 +144,19 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, un
 }
 
 long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos, CDistribuicao3D::Metrica3D metrica ) {
+	CTime ( "Tempo CPermeabilidadeIntrinsecaByRede::Go() = ", &cout );
 	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
 		cerr << "Calculando rede->Go( )...." << endl;
 		rede->Go( imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, metrica );
 		cerr << "rede->Go( )...ok!" << endl << endl;
-
+		if (salvarRede != "") {
+			cout << "Salvando a rede..." << endl;
+			if (rede->SalvarListaObjetos(salvarRede)) {
+				cout << "Rede salva no arquivo" << salvarRede << endl << endl;
+			} else {
+				cerr << "Não foi possível salvar a rede no arquivo" << salvarRede << endl << endl;
+			}
+		}
 		return CalcularPermeabilidade( );
 	}
 	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go(TCImagem3D<bool> *)! Retornando 0.0 ..." << endl;
@@ -166,4 +182,11 @@ bool CPermeabilidadeIntrinsecaByRede::SetarPropriedadesSolver( long double limit
 		return true;
 	}
 	return false;
+}
+
+//	operator<<
+ostream & operator<< (ostream & os, const CPermeabilidadeIntrinsecaByRede & obj) {
+	os << "\n=====Permeabilidade Intrinseca by Rede=====\n";
+	os << *(obj.rede);
+	return os;
 }

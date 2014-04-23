@@ -53,6 +53,10 @@ class CPermeabilidadeIntrinsecaByRede {
 		/// Ponteiro para CSimPermeabilidadeRede responsável pelo cálculo da permeabilidade;
 		CSimPermeabilidadeRede * perm {nullptr};
 
+	public:
+		///Assinala se a rede de percolação deve ser salva em disco. Se um nome de arquivo válido estiver setado, a rede será salva.
+		std::string salvarRede = "";
+
 		// -----------------------------------------------------------Construtores
 	public:
 		/// Construtor Default
@@ -79,6 +83,14 @@ class CPermeabilidadeIntrinsecaByRede {
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
 		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345 );
 
+		inline std::string SalvarRede() {
+			return salvarRede;
+		}
+
+		inline void SalvarRede(std::string arquivo) {
+			salvarRede = arquivo;
+		}
+
 	protected:
 		/// Destrói os objetos que possam ter sido criados.
 		void DestruirObjetos();
@@ -92,6 +104,15 @@ class CPermeabilidadeIntrinsecaByRede {
 
 		/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 		long double CalcularPermeabilidade( );
+
+		// -----------------------------------------------------------------Friend
+		friend std::ostream & operator<< (std::ostream & os, const CPermeabilidadeIntrinsecaByRede & obj);
+		// friend istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
 };
+
+// -----------------------------------------------------------------Friend
+// Declaração de Funções Friend
+std::ostream & operator<< (std::ostream & os, const CPermeabilidadeIntrinsecaByRede & obj);
+// istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
 
 #endif

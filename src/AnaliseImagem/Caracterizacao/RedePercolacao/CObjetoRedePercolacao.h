@@ -93,7 +93,14 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 
 		/// Seta ponteiro para matriz de objetos
 		inline void MatrizObjetos (CMatrizObjetoRede * ptr) { matrizObjetos = ptr; }
-
+		// -----------------------------------------------------------------Friend
+		friend std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj);
+		// friend istream& operator>> (istream& is, CObjetoRedePercolacao& obj);
 };
+
+// -----------------------------------------------------------------Friend
+// Declaração de Funções Friend
+std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj);
+// istream& operator>> (istream& is, CObjetoRedePercolacao& obj);
 
 #endif

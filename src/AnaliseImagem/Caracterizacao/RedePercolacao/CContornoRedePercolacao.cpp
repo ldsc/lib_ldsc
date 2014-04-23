@@ -26,28 +26,10 @@ CContornoRedePercolacao::~CContornoRedePercolacao () {
 			delete contorno_i;
 }
 
-// -------------------------------------------------------------------------
-// Função:     Write
-// -------------------------------------------------------------------------
-// Salva Rede em disco
-void CContornoRedePercolacao::Write ( std::ostream& out ) const {
-	out.setf ( ios::left );
-	// Tipo de rede
-	//out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
-	// Numero de objetos
-	out << ' '<< setw ( 5 ) << ptrMatObjsRede->matrizObjetos.size()  << '\n';
-	// Percorre os objetos e salva em disco as informações de cada objeto.
-	/*for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {
-		objeto_i->second.Write ( out );
-		out << '\n';
-	}*/
-}
-
-
 // operator<<
 // Salva dados do objeto em "os" (disco);
 // Salva o número de objetos que fazem parte de grafo e a seguir os dados de cada objeto.
 ostream & operator<< (ostream & os, const CContornoRedePercolacao & rede) {
-	rede.Write (os);
+	rede.Write(os);
 	return os;
 }

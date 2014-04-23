@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: Base
+									Ramo: Base
 ===============================================================================
 
 Desenvolvido por: 
@@ -34,14 +34,13 @@ using namespace std;
 * @param const CSolver & s
 * @return std::ostream & os
 */
-ostream & operator<< (ostream & os, const CSolver & s)
-{
-  os << s.limiteIteracoes << '\n'
-     << s.iteracoes << '\n'
-	 << s.limiteErro << '\n'
-	 << s.erro << '\n'
-	 << s.erroMedio ;
-  return os;
+ostream & operator<< (ostream & os, const CSolver & s) {
+	os << "Limite iterações: "			<< s.limiteIteracoes
+		 << "\nIterações realizadas: "	<< s.iteracoes
+		 << "\nLimite erro: "						<< s.limiteErro
+		 << "\nErro: "									<< s.erro
+		 << "\nErro médio: "						<< s.erroMedio;
+	return os;
 }
 
 // ----------------------------------------------------------------------------
@@ -55,12 +54,12 @@ ostream & operator<< (ostream & os, const CSolver & s)
 */
 istream & operator>> (istream & is, CSolver & s)
 {
-  is >> s.limiteIteracoes
-     >> s.iteracoes 
-     >> s.limiteErro
-	  >> s.erro
-	  >> s.erroMedio ;
-  return is;
+	is	>> s.limiteIteracoes
+			>> s.iteracoes
+			>> s.limiteErro
+			>> s.erro
+			>> s.erroMedio ;
+	return is;
 }
 
 // ----------------------------------------------------------------------------
@@ -73,26 +72,26 @@ istream & operator>> (istream & is, CSolver & s)
 void
 CSolver::Read (string nomeArquivo)
 {
-  ifstream fin (nomeArquivo.c_str ());
-  if (fin.good ())
-    {
-      fin >> (*this);
-      fin.close ();
-    }
-  else
-    {
-      // Se falhou, solicita os dados do objeto
-      cout << "\nEntre com o  limiteIteracoes: ";
-      cin >> limiteIteracoes;
-      cin.get ();
-      cout << "\nEntre com os atributos do objeto - Class CSolver";
-      cout << "\nEntre com o  limiteIteracoes: ";
-      cin >> limiteIteracoes;
-      cin.get ();
-      cout << "\nEntre com o limiteErro: ";
-      cin >> limiteErro;
-      // cout << "\nEntre com o fatorRelaxacao: ";   	// resolver
-      // cin >> fatorRelaxacao;
-      // cin.get();
-    }
+	ifstream fin (nomeArquivo.c_str ());
+	if (fin.good ())
+	{
+		fin >> (*this);
+		fin.close ();
+	}
+	else
+	{
+		// Se falhou, solicita os dados do objeto
+		cout << "\nEntre com o  limiteIteracoes: ";
+		cin >> limiteIteracoes;
+		cin.get ();
+		cout << "\nEntre com os atributos do objeto - Class CSolver";
+		cout << "\nEntre com o  limiteIteracoes: ";
+		cin >> limiteIteracoes;
+		cin.get ();
+		cout << "\nEntre com o limiteErro: ";
+		cin >> limiteErro;
+		// cout << "\nEntre com o fatorRelaxacao: ";   	// resolver
+		// cin >> fatorRelaxacao;
+		// cin.get();
+	}
 }

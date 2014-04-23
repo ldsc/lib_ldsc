@@ -69,10 +69,13 @@ class CRedeDePercolacao
 		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
-		bool SalvarListaObjetos(std::string nomeArquivo);
+		bool SalvarListaObjetos(std::string nomeArquivo) const;
 
 		/// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
-		bool SalvarListaObjetosGrafo(std::string nomeArquivo);
+		bool SalvarListaObjetosGrafo(std::string nomeArquivo) const;
+
+		/// Salva Rede em disco
+		void Write ( std::ostream& out ) const;
 
 	private:
 		/// Método chamado bor Go para criar a rede de percolação.

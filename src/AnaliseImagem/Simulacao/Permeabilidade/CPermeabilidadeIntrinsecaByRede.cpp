@@ -186,7 +186,7 @@ bool CPermeabilidadeIntrinsecaByRede::SetarPropriedadesSolver( long double limit
 
 //	operator<<
 ostream & operator<< (ostream & os, const CPermeabilidadeIntrinsecaByRede & obj) {
-	os << "\n=====Permeabilidade Intrinseca by Rede=====\n";
-	os << *(obj.rede);
+	os << "=====Permeabilidade Intrinseca by Rede=====";
+	os << *(obj.perm);
 	return os;
 }

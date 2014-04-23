@@ -57,6 +57,7 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 		/// Destrutor
 		~CObjetoRedePercolacao() {}
 
+		// ---------------------------------------------------Métodos
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
 
@@ -93,6 +94,7 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 
 		/// Seta ponteiro para matriz de objetos
 		inline void MatrizObjetos (CMatrizObjetoRede * ptr) { matrizObjetos = ptr; }
+
 		// -----------------------------------------------------------------Friend
 		friend std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj);
 		// friend istream& operator>> (istream& is, CObjetoRedePercolacao& obj);

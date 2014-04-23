@@ -36,21 +36,32 @@ void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 }
 
 std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj){
-	//_fout << std::right << std::setw(4) << Contorno(); //CENTER = 0, WEST=1, EST=2
-	os << std::right << std::setw(11) << obj.propriedade; //condutância
-	os << std::right << std::setw(11) << obj.pontoCentral.x; //camada de 0 a n
-	os << std::right << std::setw(5) << obj.sConexao.size();
+	// X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon
+	os << std::left << std::setw(5) << obj.pontoCentral.x;
+	os << std::left << std::setw(5) << obj.pontoCentral.y;
+	os << std::left << std::setw(5) << obj.pontoCentral.z;
+	{//não aceitou chamar obj.Raio(), tive que calcular!
+		int dft =  obj.pontoCentral.df;
+		while ( (dft % 3) != 0 )
+			++dft;
+		int raio = (dft/3);
+		os << std::left << std::setw(5) << raio;
+	}
+	os << std::left << std::setw(5)		<< obj.tipo;
+	os << std::left << std::setw(9)		<< obj.numObjs;
+	os << std::left << std::setw(12)	<< obj.propriedade;
+	os << std::left << std::setw(9)		<< obj.sConexao.size();
 	if ( obj.sConexao.size() > 0 ) {
 		std::map<int,double>::const_iterator itr;
 		for (itr=obj.sConexao.begin(); itr!=obj.sConexao.end(); ++itr) {
-			os << std::right << std::setw(6) << itr->first;
+			os << std::left << std::setw(6) << itr->first;
 		}
 		for (itr=obj.sConexao.begin(); itr!=obj.sConexao.end(); ++itr) {
 			os << " " << itr->second;
 		}
-
 	}
 	os << endl;
+	return os;
 }
 
 // Calcula o fluxo associado ao objeto.

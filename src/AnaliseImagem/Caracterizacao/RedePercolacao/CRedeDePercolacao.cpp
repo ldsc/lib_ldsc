@@ -100,16 +100,6 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 		delete pm;
 }
 
-// Grava em disco, com o nome informado, os objetos identificados.
-bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) {
-	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, pm->NX(), pm->NY(), pm->NZ());
-}
-
-// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
-bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) {
-	return ptrMatObjsRede->SalvarListaObjetosGrafo(nomeArquivo);
-}
-
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
 // g = (r^3) / (3*viscosidade) ->
 double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double dimensaoPixel, double fatorAmplificacao) {
@@ -518,11 +508,32 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	return true;
 }
 
-ostream& operator<< (ostream& os, CRedeDePercolacao& obj){
-	os << "# " << obj.ptrMatObjsRede->matrizObjetos.size() << endl;
-	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
-	for (std::map<int,CObjetoRedePercolacao>::iterator it = obj.ptrMatObjsRede->matrizObjetos.begin(); it != obj.ptrMatObjsRede->matrizObjetos.end(); ++it) {
-		os << std::left << std::setw(6) << it->first;
-		os << it->second;
+// Grava em disco, com o nome informado, os objetos identificados.
+bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) const {
+	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, pm->NX(), pm->NY(), pm->NZ());
+}
+
+// Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
+bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) const {
+	return ptrMatObjsRede->SalvarListaObjetosGrafo(nomeArquivo);
+}
+
+// Write: Salva Rede em disco
+void CRedeDePercolacao::Write ( std::ostream& os ) const {
+	os.setf ( ios::left );
+	//out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+	os << "# " << ptrMatObjsRede->matrizObjetos.size()-1  << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
+	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon" << endl;
+
+	for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {
+		if (objeto_i.first > 0) {
+			os << std::left << std::setw(6) << objeto_i.first;
+			os << objeto_i.second;
+		}
 	}
+}
+
+ostream& operator<< (ostream& os, CRedeDePercolacao& obj){
+	obj.Write(os);
+	return os;
 }

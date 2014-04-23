@@ -1,7 +1,7 @@
 /*
 ===============================================================================
 PROJETO:          Biblioteca LIB_LDSC
-                  Ramo: TPadrao_ramo
+									Ramo: TPadrao_ramo
 ===============================================================================
 Desenvolvido por:	
 				Laboratorio de Desenvolvimento de Software Cientifico [LDSC].
@@ -78,14 +78,14 @@ using namespace std;
 // Escreve os atributos do objeto na ostream (saida para disco)
 ostream & operator<< (ostream & os, const CSolverMatrizDiagonal_SOR  & s)
 {
-  os << s.limiteIteracoes 	<< '\n'
-     << s.iteracoes 		<< '\n'
-	 << s.limiteErro 		<< '\n'
-	 << s.erro 				<< '\n'
-	 << s.erroMedio 		<< '\n'
-     << s.fatorRelaxacao  	<< '\n'
-     << s.fatorRelaxacaoC;
-  return os;
+	os << s.limiteIteracoes 	<< '\n'
+		 << s.iteracoes 		<< '\n'
+		 << s.limiteErro 		<< '\n'
+		 << s.erro 				<< '\n'
+		 << s.erroMedio 		<< '\n'
+		 << s.fatorRelaxacao  	<< '\n'
+		 << s.fatorRelaxacaoC;
+	return os;
 }
 
 // ----------------------------------------------------------------------------
@@ -94,12 +94,12 @@ ostream & operator<< (ostream & os, const CSolverMatrizDiagonal_SOR  & s)
 // Lê os dados do objeto da istream
 istream & operator>> (istream & is, CSolverMatrizDiagonal_SOR  & s)
 {
-  is >> s.limiteIteracoes
-     >> s.iteracoes
-     >> s.limiteErro
-	 >> s.erro
-	 >> s.erroMedio 
-     >> s.fatorRelaxacao
-     >> s.fatorRelaxacaoC;
-  return is;
+	is >> s.limiteIteracoes
+			>> s.iteracoes
+			>> s.limiteErro
+			>> s.erro
+			>> s.erroMedio
+			>> s.fatorRelaxacao
+			>> s.fatorRelaxacaoC;
+	return is;
 }

@@ -282,16 +282,22 @@ ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj) {
 	os << * ( obj.fluido );
 	os << "\n=====Dados Solver=====\n";
 	os << * ( obj.solver ); //aqui -> implementar!! solver não esta mostrando dados na tela!
+	os << "\n=====Dados Cálculo Permeabilidade (Lei Darcy)=====\n";
+	os << "Fluxo fronteira: " << obj.fluxoFronteira << endl;
+	os << "Diferença pressão: " << obj.diferencaPressao << endl;
+	os << "DimensaoX: " << obj.dimensaoX << endl;
+	os << "DimensaoY: " << obj.dimensaoY << endl;
+	os << "DimensaoZ: " << obj.dimensaoZ << endl;
+	os << "Comprimento_z: " << obj.comprimento_z << endl;
+	os << "Area: " << obj.area << endl;
+	os << "\n=====Dados Imagem=====\n";
+	os << "nx: " << obj.nx << endl;
+	os << "ny: " << obj.ny << endl;
+	os << "nz: " << obj.nz << endl;
+	os << "Fator amplificação: " << obj.fatorAmplificacao << endl;
+	os << "Dimensão pixel: " << obj.dimensaoPixel << endl;
+	os << "Num. pixeis borda: " << obj.numeroPixeisBorda << endl;
 	os << "\n=====Dados Rede=====\n";
 	os << * ( obj.rede );
-	os << "\n=====Dados nx, ny, nz=====\n";
-	os << obj.nx << endl;
-	os << obj.ny << endl;
-	os << obj.nz << endl;
-	os << "\n=====Dados fatorAmplificacao; dimensaoPixel; numeroDePixeisDaBorda; fluxoFronteira=====\n";
-	os << obj.fatorAmplificacao << endl;
-	os << obj.dimensaoPixel << endl;
-	os << obj.numeroPixeisBorda << endl;
-	os << obj.fluxoFronteira << endl;
 	return os;
 }

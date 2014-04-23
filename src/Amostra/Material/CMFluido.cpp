@@ -102,10 +102,10 @@ Sobrecarga operador saída stream
 */
 ostream & operator<< (ostream & os, const CMFluido & f)
 {
-    os 	<< f.viscosidade		<<	'\n'
-        << f.densidade			<<	'\n'
-        << f.compressibilidade	<<	'\n'
-        << f.molhabilidade	;
+		os << "Viscosidade: "					<< f.viscosidade
+			 << "\nDensidade: "					<< f.densidade
+			 << "\nCompressibilidade: " << f.compressibilidade
+			 << "\nMolhabilidade: "			<< f.molhabilidade;
     return os;
 }
 

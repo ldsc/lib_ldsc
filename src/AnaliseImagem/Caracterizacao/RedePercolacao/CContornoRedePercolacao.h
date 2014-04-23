@@ -33,9 +33,6 @@ class CContornoRedePercolacao : public CRedeDePercolacao//, public CRedeContorno
 		virtual ~CContornoRedePercolacao ();
 
 		// ----------------------------------------------------------------Métodos
-		// virtual void Write(std::string fileName);
-		virtual void Write ( std::ostream& out ) const;
-
 		// --------------------------------------------------------------------Get
 		// --------------------------------------------------------------------Set
 		// -----------------------------------------------------------------Friend

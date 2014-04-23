@@ -66,7 +66,7 @@ public:
    /// Erro pontual calculado nesta iteração (de todos os pontos analizados o que apresenta o maior erro).
    long double erro {0.0};
 
-   // Erro médio (de todos os pontos)
+	 /// Erro médio (de todos os pontos)
    long double erroMedio {0.0};
 
 public:

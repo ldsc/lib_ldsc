@@ -1,4 +1,4 @@
-#include "CRedeDePercolacao.h"
+﻿#include "CRedeDePercolacao.h"
 #include <map>
 
 // Analizar se é melhor calcular a porosidade assim ou se devo calcular a área da esfera e do cilindro.
@@ -508,6 +508,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			obj = 1;
 		}
 	}
+	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
 	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << cont-tamMatObjs << std::endl;
 	//xToObj.clear();
 	return true;
@@ -526,15 +527,13 @@ bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) const {
 // Write: Salva Rede em disco
 void CRedeDePercolacao::Write ( std::ostream& os ) const {
 	os.setf ( ios::left );
+	//ptrMatObjsRede->matrizObjetos.erase(0);
 	//out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
-	os << "# " << ptrMatObjsRede->matrizObjetos.size()-1  << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
+	os << "# " << ptrMatObjsRede->matrizObjetos.size()  << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
 	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon" << endl;
-
 	for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {
-		if (objeto_i.first > 0) {
-			os << std::left << std::setw(6) << objeto_i.first;
-			os << objeto_i.second;
-		}
+		os << std::left << std::setw(6) << objeto_i.first;
+		os << objeto_i.second;
 	}
 }
 

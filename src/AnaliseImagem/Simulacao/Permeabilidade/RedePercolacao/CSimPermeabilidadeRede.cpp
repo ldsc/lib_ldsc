@@ -88,9 +88,10 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
 	// o ultimo objeto tem armazenado o valor de pmax em x
 	// determina o umtimo objeto
-	unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.size() - 1;
+	//unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.size() - 1;
+	unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
 
-	// determina o valor de pmax
+	// determina o valor de pressaoMaxima
 	long double pressaoMaxima = (rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x);
 	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
 
@@ -112,11 +113,19 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 // Definicao de Valores Iniciais
 void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
-	// Para todos os objetos do rede associa valores iniciais de pressão
-	unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
-
-	// Percorre todos os objetos do rede, de define valores iniciais de x (pressão)
+	// Percorre todos os objetos do rede, e define valores iniciais de x (pressão)
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
+	for (auto objeto : rede->ptrMatObjsRede->matrizObjetos) {
+		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
+		if (objeto.second.Contorno() == CContorno::ETipoContorno::CENTER)	// 1
+			objeto.second.x = rede->contorno[1]->Go(objeto.second.x);
+		else if (objeto.second.Contorno () == CContorno::ETipoContorno::WEST)// 0 - Se contorno=CContorno::WEST  objeto esta na esquerda
+			objeto.second.x = (*(rede->contorno[0]));
+		else 	// 2 - Se contorno=CContorno::EST objeto esta na direita
+			objeto.second.x = (*(rede->contorno[2]));
+	}
+
+	/*unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
 	for (unsigned long int k = 0; k < numeroObjetos; ++k) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno() == CContorno::ETipoContorno::CENTER)	// 1
@@ -127,7 +136,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 		// Se contorno=CContorno::EST objeto esta na direita	// 2
 		else
 			rede->ptrMatObjsRede->matrizObjetos[k].x = (*(rede->contorno[2]));
-	}
+	}*/
 
 	// Transforma as propriedades raioHidraulico em condutancias
 	// o calculo das condutancias agora é realizado na propria rede
@@ -156,9 +165,14 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	//vector< CSolverMatriz_ParametroSolver * > * ptr_obj = new vector< CSolverMatriz_ParametroSolver * >();
 	vector< CSolverMatriz_ParametroSolver * > obj ( rede->ptrMatObjsRede->matrizObjetos.size());
 	for ( int i = 0; i < rede->ptrMatObjsRede->matrizObjetos.size(); ++i ){
-		obj[i] = &(rede->ptrMatObjsRede->matrizObjetos[i]);
+		obj[i] = &(rede->ptrMatObjsRede->matrizObjetos[i+1]);
 	}
-
+	/*unsigned int i = 0;
+	for ( auto objeto : rede->ptrMatObjsRede->matrizObjetos ){
+		obj[i] = &(objeto.second);
+		++i;
+	}
+	*/
 	long double erroSolver = solver->Go(&obj);
 
 	// Mostra estado atual do sistema de solução da permeabilidade.
@@ -185,9 +199,10 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm] / area[cm] * dp [atm]
 */
 long double CSimPermeabilidadeRede::Next () {
-	// 0)Solucao do sistema como um todo
-	// 2-Processo iterativo,
-	// determina o erro em funcao dos fluxos esquerdo e direito
+	// 0-Solucao do sistema como um todo
+	// 1-Incrementa o numero de iteracoes
+	++iteracoes;
+	// 2-Processo iterativo, determina o erro em funcao dos fluxos esquerdo e direito
 	long double permEsq {0.0};
 	long double permDir {0.0};
 	{	// 2.1-Chamando funcao de solução do sistema de equacoes
@@ -236,12 +251,9 @@ long double CSimPermeabilidadeRede::Next () {
 				 << "] Qd["						<< setw (  5 ) << fluxod;
 		cout.precision ( 18 );
 		cout  << "] p(mD)["				<< setw ( 12 ) << permeabilidade
-					<< "] erroRelPer["	<< setw (  5 ) << erroRelativo << "% "
-					<< "] Itp["					<< setw (  5 ) << iteracoes << endl;
+					<< "] erroRelativoPer["	<< setw (  5 ) << erroRelativo << "% "
+					<< "] Iteracoes["					<< setw (  5 ) << iteracoes << "]" << endl;
 	}
-	// 1-Incrementa o numero de iteracoes
-	iteracoes++;
-
 	return permeabilidade;
 }
 

@@ -354,6 +354,7 @@ CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 
 	// determina o valor de pressaoMaxima a partir do valor do ultimo objeto do grafo. ?
 	long double pressaoMaxima = ( grafo->objeto[ultimoObjeto]->x );
+	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
 
 	// determina o valor de b
 	long double b = ( pressao_face_direita - pressao_face_esquerda ) / pressaoMaxima;

@@ -166,9 +166,10 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	int ny = pm->NY();
 	int nz = pm->NZ();
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
-	double phiDist = 0.0;	//porosidade da matriz de poros(sitios)
-	double phiRede = 0.0;	//porosidade da matriz de sítios
-	double phiObjeto = 0.0;	//porosidade da esfera (poro/sitio)
+	long double phiDist = 0.0;	//porosidade da matriz de poros(sitios)
+	long double phiRede = 0.0;	//porosidade da matriz de sítios
+	long double phiObjeto = 0.0;	//porosidade da esfera (poro/sitio)
+	long double xSolver = 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
 	CBCd3453D * esfera;
 	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
@@ -308,6 +309,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		matrizObjetosTemp[cont].pontoCentral.x = x;
 		matrizObjetosTemp[cont].pontoCentral.y = y;
 		matrizObjetosTemp[cont].pontoCentral.z = z;
+		xSolver = (long double)x;
+		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 
 		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 		//xToObj.insert(pair<int, int>(x,cont));
@@ -480,6 +483,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
 			itMatObj->second.pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
 			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
+			xSolver = (long double)itMatObj->second.pontoCentral.x;
+			itMatObj->second.X(xSolver);
 			//Cálculo de condutâncias / Conexões
 			CondutanciaLigacao(itMatObj->second, distancia);
 

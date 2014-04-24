@@ -70,6 +70,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	// Uma atmosfera
 	long double pressao_face_esquerda { 1.0 };
 	long double pressao_face_direita { 0.0 };
+	rede->contorno.clear();
 
 	// Criando contorno esquerdo = 0;
 	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
@@ -91,6 +92,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 	// determina o valor de pmax
 	long double pressaoMaxima = (rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x);
+	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;

@@ -81,6 +81,8 @@ protected:
         // ((*obj)[k])->Go () calcula nova estimativa de x (pressão do sítio) e armazena em vx[iteracoes]
         vx[k] = ((*obj)[k])->Go ();
         // Considera o fator de relaxacao
+		// novo valor vx[k] é ponderação FatorRelaxacao
+		//                    futuro                            passado
         vx[k] = fatorRelaxacao * vx[k] + fatorRelaxacaoC * ((*obj)[k]->x);
 
         // Atualiza a variável no objeto

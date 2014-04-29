@@ -343,8 +343,10 @@ CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 	// Calculando parâmetros para contorno de centro.
 	// O objeto contorno_centro tem uma funcao Go() que estima os valores iniciais (de pressão)
 	// para os objetos do grafo que estão localizados no centro.
-	// Ou seja, o valor inicial de pressão em grafo->objeto[i]->x é estimado usando uma reta;
-	// Aqui eu defino os valores dos coeficientes a e b desta reta (y = a + b.x).
+	// porque os do contorno são 0 e 1.
+	// Ou seja, o valor inicial de pressão em grafo->objeto[i]->x é estimado usando uma reta; Note que para o grafo x não é pressão, x representa a coordenada do eixo x.
+	// Aqui eu defino os valores dos coeficientes a e b desta reta 
+	// (Pressao = a + b*coordenada_x).
 	long double a = pressao_face_esquerda;
 
 	// Coeficiente b da reta y = a + b.x
@@ -353,11 +355,11 @@ CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 	unsigned long int ultimoObjeto = grafo->objeto.size () - 1;
 
 	// determina o valor de pressaoMaxima a partir do valor do ultimo objeto do grafo. ?
-	long double pressaoMaxima = ( grafo->objeto[ultimoObjeto]->x );
-	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
+	long double coordenada_x = ( grafo->objeto[ultimoObjeto]->x );
+	cerr << "\npressaoMaxima em DefinirCondicoesContorno()===cordenada z: " << coordenada_x << endl;
 
 	// determina o valor de b
-	long double b = ( pressao_face_direita - pressao_face_esquerda ) / pressaoMaxima;
+	long double b = ( pressao_face_direita - pressao_face_esquerda ) / coordenada_x;
 
 	// Criando contorno de centro  (contorno[1] é o centro)
 	CContornoCentro* contorno_centro = new CContornoCentro ( a, b );
@@ -400,6 +402,7 @@ CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
 			grafo->objeto[k]->x = grafo->contorno[1]->Go ( grafo->objeto[k]->x );
 
 		// Se contorno=CContorno::WEST  objeto esta na face esquerda, valor inicial igual da face esquerda
+		
 		else if ( grafo->objeto[k]->Contorno () == CContorno::ETipoContorno::WEST )
 			grafo->objeto[k]->x = ( * ( grafo->contorno[0] ) );
 
@@ -408,7 +411,9 @@ CSimPermeabilidadeGrafo::DefinirCondicoesIniciais ()
 			grafo->objeto[k]->x = ( * ( grafo->contorno[2] ) );
 	}
 
+	// ====================
 	// Pré-processamento
+	// ====================
 	// Transforma as propriedades raioHidraulico em condutâncias
 	// o cálculo das condutâncias agora é realizado no proprio grafo
 	grafo->CalcularCondutancias ( fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao );
@@ -461,16 +466,9 @@ void
 CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 {
 	// Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
-	/// @todo: Não permite static_cast nem dynamic_cast pois tirei métodos virtuais
-	/// da classe CSolverMatriz_ParametroSolver. Ver como resolver!
-	/// 1 - Recolocar CSolverMatriz_ParametroSolver como virtual.
-	//aqui aqui aqui
-	//    PROBLEMA NÃO RESOLVE NADA vector < CSolverMatriz_ParametroSolver* >* ptr_obj =    ( vector < CSolverMatriz_ParametroSolver* >* ) & ( grafo->objeto );
 	vector < CSolverMatriz_ParametroSolver* > obj ( grafo->objeto.size() );
 	for(int i = 0; i < grafo->objeto.size(); i++)
 		obj[i] = grafo->objeto[i];
-
-	//    vector<CSolverMatriz_ParametroSolver*>* ptr_obj = dynamic_cast<vector<CSolverMatriz_ParametroSolver*> *  > ( & ( grafo->objeto ) );
 
 	// Resolve o sistema para as pressões.
 	//    long double erroSolver = solver->Go ( ptr_obj );

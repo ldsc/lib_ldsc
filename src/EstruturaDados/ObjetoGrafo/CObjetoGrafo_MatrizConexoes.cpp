@@ -91,7 +91,7 @@ bool CObjetoGrafo_MatrizConexoes::DeletarConexoesInvalidadas ( unsigned int dele
 ostream& CObjetoGrafo_MatrizConexoes::Write ( ostream& out ) const
 {
    // Tipo de contorno
-   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) ;
 
    // Rótulo de this
    out << ' ' << setw ( 5 ) << rotulo;

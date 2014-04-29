@@ -285,7 +285,7 @@ ostream& CObjetoRede::Write ( ostream& out ) const
     out.setf ( ios::left );
 
     // Tipo de contorno
-    out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+    out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) ;
 
     // Rótulo de this
     out << ' ' << setw ( 5 ) << rotulo;

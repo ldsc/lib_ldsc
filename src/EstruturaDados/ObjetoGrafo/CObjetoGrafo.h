@@ -35,7 +35,7 @@ Desenvolvido por:
 #endif
 
 /** Grupo de classes da hierarguia de objetos de grafo.
- * @defgroup HCObjetoGrafo Hierarquia para diferentes objetos do grafo
+ * @defgroup HCObjetoGrafo HCObjetoGrafo = Hierarquia para diferentes objetos do grafo
  */
 
 /// Enumeração para os diferentes tipos de grafo.

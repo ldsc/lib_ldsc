@@ -65,7 +65,7 @@ using namespace std;
 CObjetoRede*
 CGrafoConexaoSerial_M6_Tortuosidade::CriarObjeto ( ETipoObjetoGrafo tipoObjeto  )
 {
-// cerr<<"\nCriar Objeto->Tipo objeto=" << static_cast<uint16_t> (tipoObjeto) << endl;
+// cerr<<"\nCriar Objeto->Tipo objeto=" << static_cast<uint8_t> (tipoObjeto) << endl;
 // #ifdef OTIMIZAR_VELOCIDADE_PROCESSAMENTO
 //          using value_type_objeto_esqueleto = CObjetoEsqueleto_Final;
 // #else
@@ -137,7 +137,7 @@ CGrafoConexaoSerial_M6_Tortuosidade::AdicionarObjetos
    else if ( tipoObjeto == ETipoObjetoGrafo::ObjetoRede_Tipo )
       tipoObjeto = ETipoObjetoGrafo::ObjetoEsqueleto_Tipo;
 
-// cerr<<"\nAdicionar Objeto->Tipo objeto=" << static_cast<uint16_t> (tipoObjeto) << endl;
+// cerr<<"\nAdicionar Objeto->Tipo objeto=" << static_cast<uint8_t> (tipoObjeto) << endl;
 
    // Calcula o centro de massa dos objetos da imagem rotulada (NOVO)
    rotulador->CentroMassaObjetos ();

@@ -69,7 +69,7 @@ if(WIN32) # True on windows systems, including win64
 endif()
 
 set(CMAKE_VERBOSE_MAKEFILE on)
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 #set(CMAKE_BUILD_TYPE Debug)
 
 #set(PATH_LIB_LDSC "/home/puerari/desenv/libldsc/src/")

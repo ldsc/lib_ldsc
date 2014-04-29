@@ -1,4 +1,4 @@
-﻿#include "CRedeDePercolacao.h"
+#include "CRedeDePercolacao.h"
 #include <map>
 
 // Analizar se é melhor calcular a porosidade assim ou se devo calcular a área da esfera e do cilindro.
@@ -523,7 +523,7 @@ bool CRedeDePercolacao::SalvarListaObjetosGrafo(std::string nomeArquivo) const {
 void CRedeDePercolacao::Write ( std::ostream& os ) const {
 	os.setf ( ios::left );
 	//ptrMatObjsRede->matrizObjetos.erase(0);
-	//out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+	//out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) ;
 	os << "# " << ptrMatObjsRede->matrizObjetos.size()  << " " << nx << " " << ny << " " << nz << endl;
 	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon" << endl;
 	for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {

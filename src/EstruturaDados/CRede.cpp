@@ -102,7 +102,7 @@ void CRede::Write ( std::ostream& out ) const
    out.setf ( ios::left );
 
    // Tipo de grafo
-   out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
+   out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) ;
 
    // Numero de objetos
    out << ' '<< setw ( 5 ) << objeto.size()  << '\n';

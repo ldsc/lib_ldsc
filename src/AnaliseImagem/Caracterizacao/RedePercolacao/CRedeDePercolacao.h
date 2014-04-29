@@ -30,14 +30,20 @@
 class CRedeDePercolacao
 {		// Atributos
 	public:
-		///Ponteiro para matriz 3D utilizada para desenhar os objetos e evitar sobreposições
-		TCMatriz3D<bool> *pm {nullptr};
-
 		/// Flag que seta se os pixeis que compõem um esfera ou um cilindro devem ser calculados ou obtidos do vetor (default=false).
 		bool calcPixeis {false};
 
 		/// Ponteiro para matriz de objetos que compoem a rede de percolação.
 		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
+
+		///Dimensão x da rede
+		unsigned short int nx;
+
+		///Dimensão y da rede
+		unsigned short int ny;
+
+		///Dimensão z da rede
+		unsigned short int nz;
 
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
@@ -55,7 +61,7 @@ class CRedeDePercolacao
 		// Construtores / Destrutor
 	public:
 		/// Construtor (recebe dimensões da rede que será criada)
-		CRedeDePercolacao(unsigned int nx, unsigned int ny, unsigned int nz);
+		CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz );
 
 		/// Destrutor
 		virtual ~CRedeDePercolacao();

@@ -74,19 +74,18 @@ std::vector<unsigned short int> CRedeDePercolacao::perimetroCirculo
 //#define NumElements(x) (sizeof(x) / sizeof(x[0]))
 
 // Construtor matriz binária
-CRedeDePercolacao::CRedeDePercolacao(unsigned int nx, unsigned int ny, unsigned int nz ) {
+CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz ) {
 	srand (time(NULL)); //inicia seed randômica;
 
-	unsigned int min = 100;
-	unsigned int max = 1000;
-	nx = ( nx < min ) ? min : nx;
-	ny = ( ny < min ) ? min : ny;
-	nz = ( nz < min ) ? min : nz;
-	nx = ( nx > max ) ? max : nx;
-	ny = ( ny > max ) ? max : ny;
-	nz = ( nz > max ) ? max : nz;
+	unsigned short int min = 100;
+	unsigned short int max = 1000;
+	nx = ( _nx < min ) ? min : _nx;
+	ny = ( _ny < min ) ? min : _ny;
+	nz = ( _nz < min ) ? min : _nz;
+	nx = ( _nx > max ) ? max : _nx;
+	ny = ( _ny > max ) ? max : _ny;
+	nz = ( _nz > max ) ? max : _nz;
 	// Cria matriz 3D que servirá para verificar sobreposições na rede.
-	pm = new TCMatriz3D<bool>(nx, ny, nz);
 	ptrMatObjsRede = new CMatrizObjetoRede();
 }
 
@@ -96,8 +95,6 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 		delete dtpg.first;
 	if (dtpg.second)
 		delete dtpg.second;
-	if (pm)
-		delete pm;
 }
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
@@ -162,9 +159,7 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 
 // Executa o cálculo das distribuições e cria a rede de percolação.
 bool CRedeDePercolacao::ExecutadaPorGo( ) {
-	int nx = pm->NX();
-	int ny = pm->NY();
-	int nz = pm->NZ();
+	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiDist = 0.0;	//porosidade da matriz de poros(sitios)
 	long double phiRede = 0.0;	//porosidade da matriz de sítios
@@ -279,7 +274,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 					jm = j+y_raio;
 					for (int k=0; k<diametro && cabe; ++k) {
 						km = k+z_raio;
-						if ( esfera->data3D[i][j][k]!=0 && pm->data3D[im][jm][km]!=0 ) {
+						if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
 							cabe = false;
 						}
 					}
@@ -294,7 +289,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 						for (int k=0; k<diametro; ++k) {
 							km = k+z_raio;
 							if ( esfera->data3D[i][j][k]!=0 ) {
-								pm->data3D[im][jm][km]=1;
+								pm.data3D[im][jm][km]=1;
 							}
 						}
 					}
@@ -516,7 +511,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) const {
-	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, pm->NX(), pm->NY(), pm->NZ());
+	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, nx, ny, nz);
 }
 
 // Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
@@ -529,7 +524,7 @@ void CRedeDePercolacao::Write ( std::ostream& os ) const {
 	os.setf ( ios::left );
 	//ptrMatObjsRede->matrizObjetos.erase(0);
 	//out << setw ( 5 ) << static_cast<uint16_t> ( Tipo() ) ;
-	os << "# " << ptrMatObjsRede->matrizObjetos.size()  << " " << pm->NX() << " " << pm->NY() << " " << pm->NZ() << endl;
+	os << "# " << ptrMatObjsRede->matrizObjetos.size()  << " " << nx << " " << ny << " " << nz << endl;
 	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon" << endl;
 	for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {
 		os << std::left << std::setw(6) << objeto_i.first;

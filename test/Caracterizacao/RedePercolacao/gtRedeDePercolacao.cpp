@@ -5,6 +5,7 @@
 #include "../../gtest_configure.h"
 GtestConfigure cfg5 = GtestConfigure();
 
+/*
 TEST(TestCaracterizacao, RedeDePercolacao) {
 	string result_image = "../../data/images/result_CaracterizacaoRedeDePercolacao.dbm";
 
@@ -65,3 +66,4 @@ TEST(TestCaracterizacao, RedeDePercolacaoPhiCalc) {
 	delete pm;
 	delete pm2;
 }
+*/

@@ -52,7 +52,7 @@
 class CSimPermeabilidadeRede : public CSimPermeabilidade
 {
 		// --------------------------------------------------------------Atributos
-	protected:
+	private:
 		//Objetos
 		CMFluido * fluido{nullptr}; ///< Objeto fluido
 		CSolverMatrizDiagonalDominante *solver{nullptr}; ///< Objeto solver
@@ -72,6 +72,9 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 		long double limiteErroRelativo { 1.0 };  	///< limite erro relativo, default =1%
 		unsigned int iteracoes{0};	 	///< número de iterações realizadas no cálculo permeabilidade.
 		unsigned long int limiteIteracoes { 5000 };///< limite de iterações.
+		std::vector< CSolverMatriz_ParametroSolver * > objs; ///< vetor para ponteiro dos objetos que serão passados para o solver
+		bool setouVetorObjetos{false};
+
 
 		// Variáveis necessárias para cálculo permeabilidade (Lei Darcy).
 		long double fluxoFronteira{0.0}; ///< Valor do fluxo na fronteira

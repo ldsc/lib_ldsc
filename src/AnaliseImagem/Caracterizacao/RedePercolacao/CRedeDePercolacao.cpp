@@ -233,7 +233,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		//std::cerr << "raio: " << raio << " | phiObjeto depois: " << phiObjeto << std::endl;
 		phiRede += phiObjeto; //acumula a porosidade
 	}
-	std::cerr << "Sitios criados!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Sitios: " << raios.size() << std::endl;
+	numSitios = raios.size();
+	std::cerr << "Sitios criados!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Sitios: " << numSitios << std::endl;
 	// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
 	std::sort(raios.begin(), raios.end());
 	std::reverse(raios.begin(), raios.end());
@@ -394,7 +395,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	int nCoord, Z;
 	int raioit;
 	int raioitt;
-	double gSitioLigacao; //Condutância entre sítio e ligação
+	long double gSitioLigacao; //Condutância entre sítio e ligação
 	int tamMatObjs = ptrMatObjsRede->matrizObjetos.size();
 	cont = ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
 	std::map<int, CObjetoRedePercolacao>::iterator itt;
@@ -507,7 +508,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		}
 	}
 	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
-	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << cont-tamMatObjs << std::endl;
+	numLigacoes = cont-tamMatObjs;
+	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << numLigacoes << std::endl;
 	//xToObj.clear();
 	return true;
 }

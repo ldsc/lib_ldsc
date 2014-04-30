@@ -37,13 +37,13 @@ class CRedeDePercolacao
 		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
 
 		///Dimensão x da rede
-		unsigned short int nx;
+		unsigned short int nx{0};
 
 		///Dimensão y da rede
-		unsigned short int ny;
+		unsigned short int ny{0};
 
 		///Dimensão z da rede
-		unsigned short int nz;
+		unsigned short int nz{0};
 
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
@@ -57,6 +57,12 @@ class CRedeDePercolacao
 
 		///Vetor estático onde cada elemento corresponde ao perímetro de um circulo com raio correspondente ao valor da chave.
 		static std::vector<unsigned short int> perimetroCirculo;
+
+		///Número de sítios representados na rede
+		unsigned int numSitios{0};
+
+		///Número de ligações representadas na rede
+		unsigned int numLigacoes{0};
 
 		// Construtores / Destrutor
 	public:
@@ -82,6 +88,16 @@ class CRedeDePercolacao
 
 		/// Salva Rede em disco
 		void Write ( std::ostream& out ) const;
+
+		/// Retorna o número de sítios representados na rede
+		inline unsigned int NumSitios(){
+			return numSitios;
+		}
+
+		/// Retorna o número de ligações representadas na rede
+		inline unsigned int NumLigacoes(){
+			return numLigacoes;
+		}
 
 	private:
 		/// Método chamado bor Go para criar a rede de percolação.

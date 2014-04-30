@@ -87,9 +87,14 @@ class CObjetoImagem
 		~CObjetoImagem() {}
 
 		/// O método Conectar conecta o objeto atual a um outro objeto, recebe o rotulo do outro objeto e opcionalmente uma propriedade (condutância).
-		bool Conectar( int _rotulo, double _propriedade=0.0 ) {
+		inline bool Conectar( int _rotulo, long double _propriedade=0.0 ) {
 			//return (sConexao.insert( _rotulo )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
 			return (sConexao.insert( make_pair(_rotulo, _propriedade) )).second; // insert retorna um pair<iterator,bool> onde first é o iterator e second o bool
+		}
+
+		/// O método Desconectar desconecta o objeto atual do objeto passado como parâmetro.
+		inline bool Desconectar( int _rotulo ) {
+			return (sConexao.erase( _rotulo)); // erase retorna o número de objetos deletados
 		}
 
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).

@@ -86,13 +86,12 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 	// Coeficiente b da reta y = a + b.x
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
-	// o ultimo objeto tem armazenado o valor de pmax em x
-	// determina o umtimo objeto
-	//unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.size() - 1;
-	unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
+	// o ultimo objeto (sítio) tem armazenado o valor de pmax em x
+	//unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
 
 	// determina o valor de pressaoMaxima
-	long double pressaoMaxima = (rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x);
+	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x;
+	long double pressaoMaxima = rede->nx;
 	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
 
 	// determina o valor de b
@@ -138,14 +137,6 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 			rede->ptrMatObjsRede->matrizObjetos[k].x = (*(rede->contorno[2]));
 	}*/
 
-	// Transforma as propriedades raioHidraulico em condutancias
-	// o calculo das condutancias agora é realizado na propria rede
-	//rede->CalculoCondutancias (fluido->Viscosidade (), dimensaoPixel, fatorAmplificacao);
-
-	// No rede ocorrem conjunto de sítios com mais de uma ligação entre sí, posso eliminar
-	// os links duplicado, somando as suas condutâncias, o que é feito na funcao EliminarCondutanciasRepetidas
-	//rede->EliminarCondutanciasRepetidas ();
-
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = rede->contorno[0]->ValorContorno() -  rede->contorno[2]->ValorContorno();
 	dimensaoX = rede->nx * fatorAmplificacao * dimensaoPixel;
@@ -160,19 +151,28 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 
 // Solucao do Sistema de Equações
 void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
-	// Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
-	//vector< CSolverMatriz_ParametroSolver * > * ptr_obj = new vector< CSolverMatriz_ParametroSolver * >();
-	vector< CSolverMatriz_ParametroSolver * > obj ( rede->ptrMatObjsRede->matrizObjetos.size());
-	for ( int i = 0; i < rede->ptrMatObjsRede->matrizObjetos.size(); ++i ){
-		obj[i] = &(rede->ptrMatObjsRede->matrizObjetos[i+1]);
+	if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
+		set< CSolverMatriz_ParametroSolver * > setObjs; //inicialmente passa os objetos para o set, de forma que ao buscar as conexões não haja repetição
+		objs.clear();
+		objs.resize( rede->ptrMatObjsRede->matrizObjetos.size() );
+		for ( int i = 1; i <= rede->NumSitios(); ++i ) { //percorre os sítios da rede os quais estão armazenados nos primeiros objetos da matriz (as ligações estão armazenadas depois).
+			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
+			for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) { //para cada sítio, percorre as ligações de forma a obter os objetos
+				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
+			}
+		}
+		set < CSolverMatriz_ParametroSolver * >::iterator it;
+		int i=0;
+		cerr << "Objetos enviados para o solver:" << endl;
+		for ( it=setObjs.begin(); it != setObjs.end(); ++it ) {
+			objs[i] = *it;
+			cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;
+			++i;
+		}
+		setouVetorObjetos = true;
 	}
-	/*unsigned int i = 0;
-	for ( auto objeto : rede->ptrMatObjsRede->matrizObjetos ){
-		obj[i] = &(objeto.second);
-		++i;
-	}
-	*/
-	long double erroSolver = solver->Go(&obj);
+	cerr << "Executando solver->Go()..." << endl;
+	long double erroSolver = solver->Go(&objs);
 
 	// Mostra estado atual do sistema de solução da permeabilidade.
 	cout << "SolucaoSistemaEquacoes() [Pressões]:\n"

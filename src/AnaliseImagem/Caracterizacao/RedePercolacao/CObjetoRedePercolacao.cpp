@@ -10,6 +10,7 @@ Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 */
 
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.h>
+#include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
 
 // Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
@@ -88,23 +89,18 @@ long double CObjetoRedePercolacao::Go (long double ) {
 	static long double somatorio_da_condutancia;
 	static long double somatorio_da_condutancia_vezes_x;
 
-	// zera o somatorio (a cada passagem por Go)
-	somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0;
-
-	// Se não tem nenhum link, retorna x atual (a pressão atual)
-	if (sConexao.size() == 0)
+	if (contorno == CContorno::ETipoContorno::CENTER) {
+		// zera o somatorio (a cada passagem por Go)
+		somatorio_da_condutancia_vezes_x = somatorio_da_condutancia = 0.0;
+		for (auto &c : sConexao) { // Percorre as conecções
+			// condutância entre this e o objeto conectado vezes x(pressão) do objeto_conectado
+			somatorio_da_condutancia_vezes_x += c.second * ptrMatObjsRede->matrizObjetos[c.first].x;
+			// Acumula a condutancia total
+			somatorio_da_condutancia += c.second;
+		}
+		// Somatorio (condutancia*pressao) / somatorio_da_condutancia
+		return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
+	} else { // CContorno::ETipoContorno::EST ou CContorno::ETipoContorno::WEST
 		return x;
-
-	// Percorre as conecções
-	for (auto &c : sConexao) {
-
-		//somatorio_da_condutancia_vezes_x += c.second * this->coneccao[i]->x;
-
-		// Acumula a condutancia total
-		somatorio_da_condutancia += c.second;
 	}
-
-	// Somatorio (condutancia*pressao) / somatorio_da_condutancia
-	// retorna um novo valor de x (pressão) sem alterar x diretamente.
-	return somatorio_da_condutancia_vezes_x / somatorio_da_condutancia;
 }

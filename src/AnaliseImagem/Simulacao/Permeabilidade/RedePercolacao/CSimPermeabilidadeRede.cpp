@@ -148,14 +148,13 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = rede->contorno[0]->ValorContorno() -  rede->contorno[2]->ValorContorno();
-	dimensaoX = (nx - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
-	dimensaoY = (ny - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
-	dimensaoZ = (nz - numeroPixeisBorda) * fatorAmplificacao * dimensaoPixel;
+	dimensaoX = rede->nx * fatorAmplificacao * dimensaoPixel;
+	dimensaoY = rede->ny * fatorAmplificacao * dimensaoPixel;
+	dimensaoZ = rede->nz * fatorAmplificacao * dimensaoPixel;
 
-	// Como as pressões estão no meio de cada nó,
-	// O comprimento a ser considerado deve descontar 1 pixel
-	comprimento_z = (nz - 1 - (2 * numeroPixeisBorda)) * fatorAmplificacao * dimensaoPixel;
-	area = dimensaoY * dimensaoX;
+	//comprimento_z = (nz - 1 - (2 * numeroPixeisBorda)) * fatorAmplificacao * dimensaoPixel;
+	comprimento_z = dimensaoZ;
+	area = dimensaoX * dimensaoY;
 	iteracoes = 0;
 }
 

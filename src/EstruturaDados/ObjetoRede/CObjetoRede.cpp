@@ -431,7 +431,6 @@ long double CObjetoRede::Go ( long double /*d */ )
     // Cria variáveis auxiliares (uma única vez, pois são estáticas)
     static long double somatorio_da_condutancia;
     static long double somatorio_da_condutancia_vezes_x;
-    static long double condutancia;
 
     // Se não tem nenhuma conexão, retorna x atual (a pressão atual)
     // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!

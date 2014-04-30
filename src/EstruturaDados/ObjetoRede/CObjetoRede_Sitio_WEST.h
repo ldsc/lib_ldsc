@@ -69,7 +69,6 @@ class CObjetoRede_Sitio_WEST  final : public CObjetoRede_Sitio {
 		 * usada para calcular o valor de x retorna a pressão na fronteira direita
 		 */
 		/*inline*/ virtual long double Go ( long double d = 0 ) override  {
-			d = d;
 			return x;
 		}
 

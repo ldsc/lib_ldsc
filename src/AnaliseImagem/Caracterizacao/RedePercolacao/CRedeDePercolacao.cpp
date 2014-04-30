@@ -299,7 +299,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		// Posso criar os objetos diretamente, em ordem decrescente de tamanho.
 		// Outra opção seria, após este loop, rotular os objetos e percorrer a matriz setando cada objeto na matrizObjetos.
 		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
-		matrizObjetosTemp[cont] = CObjetoRedePercolacao(SITIO, NumPixeisEsfera(raio));
+		//matrizObjetosTemp[cont] = CObjetoRedePercolacao(SITIO, NumPixeisEsfera(raio));
+		matrizObjetosTemp[cont] = CObjetoRedePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 		matrizObjetosTemp[cont].pontoCentral.x = x;
 		matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -370,7 +371,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
 	}
 	*/
-	// Percorre lista de obejos petencentes a camada superior atualizando suas camadas
+	// Percorre lista de obejos petencentes a camada esquerda e direita atualizando suas camadas
 	for (int obj : objsCamadaOeste ) {
 		ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::WEST);
 	}
@@ -472,7 +473,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			phiRede += phiObjeto; //acumula a porosidade
 			++cont;
 			// Conecta os objetos
-			ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
+			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
+			ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedePercolacao(ptrMatObjsRede,LIGACAO,NumPixeisCilindro(raio, distancia));
 			itMatObj = ptrMatObjsRede->matrizObjetos.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
@@ -480,13 +482,14 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
 			xSolver = (long double)itMatObj->second.pontoCentral.x;
 			itMatObj->second.X(xSolver);
-			//Cálculo de condutâncias / Conexões
-			CondutanciaLigacao(itMatObj->second, distancia);
 
+			//Cálculo de condutâncias e realiza conexões
+			CondutanciaLigacao(itMatObj->second, distancia);
+			//primeiro sítio
 			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia );
 			itMatObj->second.Conectar(itt->first, gSitioLigacao);
 			itt->second.Conectar(cont, gSitioLigacao);
-
+			//segundo sítio
 			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia );
 			itMatObj->second.Conectar(it->first, gSitioLigacao);
 			it->second.Conectar(cont, gSitioLigacao);

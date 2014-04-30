@@ -41,7 +41,7 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 		double propriedade {0.0};
 
 		/// Ponteiro para matriz de objetos que poderão estar conectados ao objeto this
-		CMatrizObjetoRede * matrizObjetos {nullptr};
+		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
 
 	public:
 		// ---------------------------------------------------Construtor-Destrutor
@@ -50,8 +50,8 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 		}
 
 		/// Construtor sobrecarregado. Recebe ponteiro para metriz de objetos, tipo do objeto, rótulo e opcionalmente o número de objetos representados
-		//CObjetoRedePercolacao( CMatrizObjetoRede * ptrMatObjs, ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n), matrizObjetos(ptrMatObjs) {
-		CObjetoRedePercolacao( ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n) {
+		CObjetoRedePercolacao( CMatrizObjetoRede * &ptrMatObjs, ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n), ptrMatObjsRede(ptrMatObjs) {
+		//CObjetoRedePercolacao( ETipoObjetoImagem _t, int _n=0) : CObjetoImagem(_t, _n) {
 		}
 
 		/// Destrutor
@@ -93,7 +93,7 @@ class CObjetoRedePercolacao : public CObjetoImagem, public CSolverMatriz_Paramet
 		inline void Propriedade( double p ) { propriedade = p; }
 
 		/// Seta ponteiro para matriz de objetos
-		inline void MatrizObjetos (CMatrizObjetoRede * ptr) { matrizObjetos = ptr; }
+		inline void MatrizObjetos (CMatrizObjetoRede * ptr) { ptrMatObjsRede = ptr; }
 
 		// -----------------------------------------------------------------Friend
 		friend std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj);

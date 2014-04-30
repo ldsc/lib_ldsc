@@ -100,7 +100,7 @@ class CRedeDePercolacao
 		}
 
 	private:
-		/// Método chamado bor Go para criar a rede de percolação.
+		/// Método chamado por Go para criar a rede de percolação.
 		bool ExecutadaPorGo( );
 
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).

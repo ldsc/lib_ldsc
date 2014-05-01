@@ -1,19 +1,19 @@
-#ifndef CSimPermeabilidadeRede_h
-#define CSimPermeabilidadeRede_h
+#ifndef CSimPermeabilidadeRedePercolacao_h
+#define CSimPermeabilidadeRedePercolacao_h
 // Bibliotecas C/C++
 #include <iostream>
 #include <string>
 
 // Bibliotecas LIB_LDSC
 //#include <Base/_LIB_LDSC_CLASS.h>
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedeDePercolacao.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedePercolacao.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Contorno/CContorno.h>
 
 /**
- * @file		CSimPermeabilidadeRede.h
+ * @file		CSimPermeabilidadeRedePercolacao.h
  * @author	Leandro Puerari <puerari@gmail.com>
  * @author	André Duarte Bueno <andreduartebueno@gmail.com>
  * @brief		Classe usada para determinar a permeabilidade de uma imagem tridimensional.
@@ -24,13 +24,13 @@
  * solver			- representa um solucionador de matrizes (resolve sistemas de equações)
  * fluido			- representa um fluido com viscosidade, compressibilidade, densidade
  *
- * 2-Cria-se um objeto de calculo da permeabilidade CSimPermeabilidadeRede,
+ * 2-Cria-se um objeto de calculo da permeabilidade CSimPermeabilidadeRedePercolacao,
  * passando-se como parametros os objetos agregados.
  *
  * 3-O objeto rede tem objetos do tipo CObjetoImagem (ex: Sitios e Ligações) que
  * tem uma propriedade(condutância) e x (a pressão).
  *
- * 4-Criado o objeto CSimPermeabilidadeRede, pode-se chamar a função
+ * 4-Criado o objeto CSimPermeabilidadeRedePercolacao, pode-se chamar a função
  * de solução do sistema de equações (SolucaoSistema());
  *
  * Resolve o sistema como um todo,
@@ -49,14 +49,14 @@
  * dadas as condições de contorno nas fronteiras esquerda e direita.
  * Determinadas as pressões nos sítios das fronteiras, pode-se determinar a permeabilidade intrinseca.
 */
-class CSimPermeabilidadeRede : public CSimPermeabilidade
+class CSimPermeabilidadeRedePercolacao : public CSimPermeabilidade
 {
 		// --------------------------------------------------------------Atributos
 	private:
 		//Objetos
 		CMFluido * fluido{nullptr}; ///< Objeto fluido
 		CSolverMatrizDiagonalDominante *solver{nullptr}; ///< Objeto solver
-		CContornoRedeDePercolacao *rede{nullptr}; ///< Objeto grafo
+		CRedePercolacao *rede{nullptr}; ///< Objeto grafo
 
 		//Propriedades da imagem
 		unsigned int nx{0}; ///< Dimensão nx da imagem
@@ -89,10 +89,10 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 	public:
 		// -------------------------------------------------------------Construtor
 		/// Construtor
-		CSimPermeabilidadeRede (
+		CSimPermeabilidadeRedePercolacao (
 				CMFluido * &_fluido,
 				CSolverMatrizDiagonalDominante *& _solver,
-				CContornoRedeDePercolacao *& _rede,
+				CRedePercolacao *& _rede,
 				unsigned int _nx,
 				unsigned int _ny,
 				unsigned int _nz,
@@ -102,7 +102,7 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 
 		// --------------------------------------------------------------Destrutor
 		/// Destrutor
-		virtual ~ CSimPermeabilidadeRede ();
+		virtual ~ CSimPermeabilidadeRedePercolacao ();
 
 		// ----------------------------------------------------------------Métodos
 	public:
@@ -151,7 +151,7 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 		}
 
 		/// Retorna ponteiro para objeto rede
-		CContornoRedeDePercolacao *Rede () const {
+		CRedePercolacao *Rede () const {
 			return rede;
 		}
 
@@ -211,7 +211,7 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 		}
 
 		/// Define o grafo
-		void Rede (CContornoRedeDePercolacao * _p) {
+		void Rede (CRedePercolacao * _p) {
 			if (rede)
 				delete rede;
 			rede = _p;
@@ -248,13 +248,13 @@ class CSimPermeabilidadeRede : public CSimPermeabilidade
 		}
 
 		// -----------------------------------------------------------------Friend
-		friend std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRede & obj);
-		// friend istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
+		friend std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRedePercolacao & obj);
+		// friend istream& operator>> (istream& is, CSimPermeabilidadeRedePercolacao& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRede & obj);
-// istream& operator>> (istream& is, CSimPermeabilidadeRede& obj);
+std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeRedePercolacao & obj);
+// istream& operator>> (istream& is, CSimPermeabilidadeRedePercolacao& obj);
 
 #endif

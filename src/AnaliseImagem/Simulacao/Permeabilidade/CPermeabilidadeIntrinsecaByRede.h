@@ -42,7 +42,7 @@ class CPermeabilidadeIntrinsecaByRede {
 		// --------------------------------------------------------------Atributos
 	protected:
 		/// Ponteiro para CContornoRedePercolacao;
-		CContornoRedePercolacao * rede {nullptr};
+		CContornoRedeDePercolacao * rede {nullptr};
 
 		/// Ponteiro para solver (CSolverMatrizDiagonalDominante);
 		CSolverMatrizDiagonalDominante * solver {nullptr};

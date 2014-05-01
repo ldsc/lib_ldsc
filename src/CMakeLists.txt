@@ -12,36 +12,6 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicao3D.cpp
   AnaliseImagem/Caracterizacao/Distribuicao/CDistribuicaoTamanhoPorosGargantas.cpp
 
-  EstruturaDados/ObjetoGrafo/CObjetoGrafo.cpp
-  EstruturaDados/ObjetoGrafo/CObjetoGrafo_1VetorConexoes.cpp
-  EstruturaDados/ObjetoGrafo/CObjetoGrafo_2VetoresConexoes.cpp
-  EstruturaDados/ObjetoGrafo/CObjetoGrafo_MatrizConexoes.cpp
-
-  EstruturaDados/ObjetoRede/CObjetoRede.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_EST.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_WEST.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Sitio.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Final.cpp
-  EstruturaDados/ObjetoRede/CObjetoRede_Tipo.cpp
-
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_EST.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_WEST.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_WEST.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.cpp
-  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.cpp
-
-  EstruturaDados/CBaseGrafoRedeEsqueleto.cpp
-  EstruturaDados/CGrafo.cpp
-  EstruturaDados/CRede.cpp
-  EstruturaDados/CRedeContorno.cpp
-
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M1.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M2.cpp
@@ -49,8 +19,11 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M4.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M5.cpp
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.cpp
+
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
-  AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.cpp
+  #AnaliseImagem/Caracterizacao/RedePercolacao/CRedePercolacao.cpp
+  #AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedeDePercolacao.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedeDePercolacao.cpp
 
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
@@ -193,12 +166,17 @@ add_library (ldsc STATIC
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara2D.cpp
   AnaliseImagem/Simulacao/ConfiguracaoEquilibrio/CCamara3D.cpp
+
   AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeIntrinseca.cpp
   AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidadeRelativa.cpp
+
   AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.cpp
+
   AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.cpp
+  #AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRedePercolacao.cpp
+
   AnaliseImagem/Simulacao/Tortuosidade/CTortuosidade.cpp
 
   Base/CSolver.cpp
@@ -218,7 +196,45 @@ add_library (ldsc STATIC
   Estatistica/CEFSnedecor.cpp
   Estatistica/CEIntervalosConfianca.cpp
   Estatistica/CETesteMediaDuasAmostras.cpp
-  
+
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_1VetorConexoes.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_2VetoresConexoes.cpp
+  EstruturaDados/ObjetoGrafo/CObjetoGrafo_MatrizConexoes.cpp
+
+  EstruturaDados/ObjetoRede/CObjetoRede.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_EST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Ligacao_WEST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Final.cpp
+  EstruturaDados/ObjetoRede/CObjetoRede_Tipo.cpp
+
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Ligacao.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Sitio.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Sitio_EST.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Sitio_WEST.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Final.cpp
+  EstruturaDados/ObjetoRedePercolacao/CObjetoRedePercolacao_Tipo.cpp
+
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_EST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Ligacao_WEST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_EST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Sitio_WEST.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Final.cpp
+  EstruturaDados/ObjetoEsqueleto/CObjetoEsqueleto_Tipo.cpp
+
+  EstruturaDados/CBaseGrafoRedeEsqueleto.cpp
+  EstruturaDados/CGrafo.cpp
+  EstruturaDados/CRede.cpp
+  EstruturaDados/CRedeContorno.cpp
+
   Grafico/Gnuplot/CGnuplot.cpp
   
   MetNum/Contorno/CContornoCentro.cpp

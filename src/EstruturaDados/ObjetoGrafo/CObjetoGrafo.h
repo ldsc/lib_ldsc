@@ -73,6 +73,17 @@ enum class ETipoObjetoGrafo : uint8_t {
 	ObjetoEsqueleto_Sitio_CENTER = 71,
 	ObjetoEsqueleto_Sitio_EST = 72,
 	ObjetoEsqueleto_Sitio_WEST = 73,
+
+	ObjetoRedePercolacao = 80,                   	// Objetos da hierarquia de objetos da rede
+	ObjetoRedePercolacao_Final = 81, 				// Inclui o tipo como atributo (final)
+	ObjetoRedePercolacao_Tipo = 85, 				// Inclui o tipo como atributo (sem herança)
+	ObjetoRedePercolacao_Ligacao = 90,
+	ObjetoRedePercolacao_Ligacao_CENTER = 91,
+	ObjetoRedePercolacao_Sitio = 100,
+	ObjetoRedePercolacao_Sitio_CENTER = 101,
+	ObjetoRedePercolacao_Sitio_EST = 102,
+	ObjetoRedePercolacao_Sitio_WEST = 103,
+
 };
 #endif
 

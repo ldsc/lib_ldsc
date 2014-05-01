@@ -1,5 +1,5 @@
-#ifndef CContornoRedePercolacao_h
-#define CContornoRedePercolacao_h
+#ifndef CContornoRedeDePercolacao_h
+#define CContornoRedeDePercolacao_h
 
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.h>
 //#include <EstruturaDados/CRedeContorno.h>
@@ -8,8 +8,8 @@
 using namespace std;
 
 /**
- * @short: A \class CContornoRedePercolacao representa uma rede de percolação sujeita a condições de contornos;
- * Herdeira da classe CRedeDePercolacao, a classe CContornoRedePercolacao acrescenta a idéia
+ * @short: A \class CContornoRedeDePercolacao representa uma rede de percolação sujeita a condições de contornos;
+ * Herdeira da classe CRedeDePercolacao, a classe CContornoRedeDePercolacao acrescenta a idéia
  * de que uma rede pode estar submetida a determinadas condições de contorno.
  * Na prática acrescenta um vetor que armazena os objetos de contorno.
  * Note que existe uma hierarquia para objetos de contorno, este
@@ -17,7 +17,7 @@ using namespace std;
  * @author 	Leandro Puerari <puerari@gmail.com>
  * @author 	André Duarte Bueno <andreduartebueno@gmail.com>
 */
-class CContornoRedePercolacao : public CRedeDePercolacao//, public CRedeContorno
+class CContornoRedeDePercolacao : public CRedeDePercolacao//, public CRedeContorno
 {
 		// --------------------------------------------------------------Atributos
 	public:
@@ -26,23 +26,23 @@ class CContornoRedePercolacao : public CRedeDePercolacao//, public CRedeContorno
 
 		// -------------------------------------------------------------Construtores
 		/// Cria os objetos de contorno e incluí no vetor contorno.
-		CContornoRedePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, unsigned long int _numero_contornos=0);
+		CContornoRedeDePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, unsigned long int _numero_contornos=0);
 
 		// --------------------------------------------------------------Destrutor
 		/// Delete os objetos de contorno do vetor contorno.
-		virtual ~CContornoRedePercolacao ();
+		virtual ~CContornoRedeDePercolacao ();
 
 		// ----------------------------------------------------------------Métodos
 		// --------------------------------------------------------------------Get
 		// --------------------------------------------------------------------Set
 		// -----------------------------------------------------------------Friend
-		friend std::ostream & operator<< (std::ostream & os, const CContornoRedePercolacao & obj);
-		//friend istream& operator>> (istream& is, CContornoRedePercolacao& obj);
+		friend std::ostream & operator<< (std::ostream & os, const CContornoRedeDePercolacao & obj);
+		//friend istream& operator>> (istream& is, CContornoRedeDePercolacao& obj);
 };
 
 // -----------------------------------------------------------------Friend
 // Declaração de Funções Friend
-std::ostream & operator<< (std::ostream & os, const CContornoRedePercolacao & obj);
-// istream& operator>> (istream& is, CContornoRedePercolacao& obj);
+std::ostream & operator<< (std::ostream & os, const CContornoRedeDePercolacao & obj);
+// istream& operator>> (istream& is, CContornoRedeDePercolacao& obj);
 
 #endif

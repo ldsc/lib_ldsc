@@ -9,17 +9,17 @@
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRede.h>
+#include <AnaliseImagem/Simulacao/Permeabilidade/RedePercolacao/CSimPermeabilidadeRedePercolacao.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <MetNum/Contorno/CContornoCentro.h>
 
 using namespace std;
 
 // Construtor
-CSimPermeabilidadeRede::CSimPermeabilidadeRede (
+CSimPermeabilidadeRedePercolacao::CSimPermeabilidadeRedePercolacao (
 		CMFluido * &_fluido,
 		CSolverMatrizDiagonalDominante *& _solver,
-		CContornoRedeDePercolacao *&_rede,
+		CRedePercolacao *&_rede,
 		unsigned int _nx,
 		unsigned int _ny,
 		unsigned int _nz,
@@ -42,7 +42,7 @@ CSimPermeabilidadeRede::CSimPermeabilidadeRede (
 }
 
 // Destrutor
-CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
+CSimPermeabilidadeRedePercolacao::~CSimPermeabilidadeRedePercolacao () {
 	/* Analizar se pode deletar, se não tem dois ponteiros para mesmo bloco, esta deletando
 	 * o objeto, setando o ponteiro local como null, mas o ponteiro externo continua diferente
 	 * de null, e vai deletar novamente o ponteiro externo.
@@ -55,7 +55,7 @@ CSimPermeabilidadeRede::~CSimPermeabilidadeRede () {
 	*/
 }
 
-void CSimPermeabilidadeRede::CriarObjetosAgregados (){
+void CSimPermeabilidadeRedePercolacao::CriarObjetosAgregados (){
 
 }
 
@@ -66,7 +66,7 @@ void CSimPermeabilidadeRede::CriarObjetosAgregados (){
 		Logo: 1 atm = 101325 Pa
 */
 // Define as condicoes de contorno
-void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
+void CSimPermeabilidadeRedePercolacao::DefinirCondicoesContorno () {
 	// Uma atmosfera
 	long double pressao_face_esquerda { 1.0 };
 	long double pressao_face_direita { 0.0 };
@@ -111,10 +111,10 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 }
 
 // Definicao de Valores Iniciais
-void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
+void CSimPermeabilidadeRedePercolacao::DefinirCondicoesIniciais () {
 	// Percorre todos os objetos do rede, e define valores iniciais de x (pressão)
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
-	for (auto objeto : rede->ptrMatObjsRede->matrizObjetos) {
+/**	for (auto objeto : rede->ptrMatObjsRede->matrizObjetos) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (objeto.second.Contorno() == CContorno::ETipoContorno::CENTER)	// 1
 			objeto.second.x = rede->contorno[1]->Go(objeto.second.x);
@@ -123,7 +123,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 		else 	// 2 - Se contorno=CContorno::EST objeto esta na direita
 			objeto.second.x = (*(rede->contorno[2]));
 	}
-
+*/
 	/*unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
 	for (unsigned long int k = 0; k < numeroObjetos; ++k) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
@@ -150,7 +150,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 }
 
 // Solucao do Sistema de Equações
-void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
+void CSimPermeabilidadeRedePercolacao::SolucaoSistemaEquacoes () {
 	if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
 		set< CSolverMatriz_ParametroSolver * > setObjs; //inicialmente passa os objetos para o set, de forma que ao buscar as conexões não haja repetição
 		objs.clear();
@@ -197,7 +197,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	Pag. 136 Dynamics of fluids do Bear
 	Permeabilidade[darcy] = fluxo[cm/seg]*viscosidade[centipoise]*dx[cm] / area[cm] * dp [atm]
 */
-long double CSimPermeabilidadeRede::Next () {
+long double CSimPermeabilidadeRedePercolacao::Next () {
 	// 0-Solucao do sistema como um todo
 	// 1-Incrementa o numero de iteracoes
 	++iteracoes;
@@ -257,7 +257,7 @@ long double CSimPermeabilidadeRede::Next () {
 }
 
 // Go - Chama Next até que o sistema esteja resolvido ou iteracoes tenha ultrapassado o limite
-long double CSimPermeabilidadeRede::Go () {
+long double CSimPermeabilidadeRedePercolacao::Go () {
 	// Se o sistema ainda não foi resolvido, chama SolucaoSistema(); que chama os métodos:
 	// CriarObjetosAgregados (); DefinirCondicoesContorno (); DefinirCondicoesIniciais (); SolucaoSistemaEquacoes ();
 	if ( sistemaResolvido == false )
@@ -276,7 +276,7 @@ long double CSimPermeabilidadeRede::Go () {
 // FluxoFronteira - Determina o fluxo nos sítios da fronteira
 // Pode e deve ser otimizada, pois não precisa varrer todo a rede.
 // Durante o calculo da rede, anotar os nós de cada face, e criar funcao que retorna lista dos nós de cada face.
-long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
+long double CSimPermeabilidadeRedePercolacao::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
 	long double fluxo_fronteira {0.0};
 	// Para todos os objetos da rede
 	for ( auto objeto_i : rede->ptrMatObjsRede->matrizObjetos ) {
@@ -290,7 +290,7 @@ long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tip
 }
 
 //	operator<<
-ostream & operator<< (ostream & os, const CSimPermeabilidadeRede & obj) {
+ostream & operator<< (ostream & os, const CSimPermeabilidadeRedePercolacao & obj) {
 	os << "\n=====Dados Fluido=====\n";
 	os << * ( obj.fluido );
 	os << "\n=====Dados Solver=====\n";

@@ -44,7 +44,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 	DestruirObjetos();
 
 	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
-	rede = new CContornoRedePercolacao(nx, ny, nz);		// Cria objeto rede
+	rede = new CContornoRedeDePercolacao(nx, ny, nz);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
 		cerr << "Não pode criar rede em CPermeabilidadeIntrinsecaByRede::CriarObjetos()!" << endl;

@@ -1,19 +1,19 @@
 /*
 =========================================================================
-PROJETO:    Biblioteca libldsc CObjetoRedePercolacao
+PROJETO:    Biblioteca libldsc CObjetoRedeDePercolacao
 =========================================================================
 Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 @author     Leandro Puerari
 @email      <puerari@gmail.com>
 @begin      2014
-@file 	    CObjetoRedePercolacao.cpp
+@file 	    CObjetoRedeDePercolacao.cpp
 */
 
-#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.h>
+#include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedeDePercolacao.h>
 #include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
 
 // Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
-void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
+void CObjetoRedeDePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 	// fronteira sequencial propriedade?  Camada N.ObjsCon LstObjsCons LstPropriedade?
 	//_fout << std::right << std::setw(4) << Contorno(); //CENTER = 0, WEST=1, EST=2
 	_fout << std::right << std::setw(6) << seq;
@@ -36,7 +36,7 @@ void CObjetoRedePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 
 }
 
-std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj){
+std::ostream & operator<< (std::ostream & os, const CObjetoRedeDePercolacao & obj){
 	// X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon
 	os << std::left << std::setw(5) << obj.pontoCentral.x;
 	os << std::left << std::setw(5) << obj.pontoCentral.y;
@@ -66,7 +66,7 @@ std::ostream & operator<< (std::ostream & os, const CObjetoRedePercolacao & obj)
 }
 
 // Calcula o fluxo associado ao objeto.
-long double CObjetoRedePercolacao::Fluxo (std::map<int, CObjetoRedePercolacao> * moi) {
+long double CObjetoRedeDePercolacao::Fluxo (std::map<int, CObjetoRedeDePercolacao> * moi) {
 	long double fluxo = 0.0;
 	int i;
 	for ( auto & c : sConexao ) {
@@ -84,7 +84,7 @@ long double CObjetoRedePercolacao::Fluxo (std::map<int, CObjetoRedePercolacao> *
  * O novo valor de x, retornado por Go() pode ser usado externamente.
  * Por exemplo, um solver externo vai usar esta nova previsão de x para definir no momento adequado o novo valor de this->x.
 */
-long double CObjetoRedePercolacao::Go (long double ) {
+long double CObjetoRedeDePercolacao::Go (long double ) {
 	// Cria variáveis auxiliares (uma única vez, pois são estáticas)
 	static long double somatorio_da_condutancia;
 	static long double somatorio_da_condutancia_vezes_x;

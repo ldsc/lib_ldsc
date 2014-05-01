@@ -99,7 +99,7 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
 // g = (r^3) / (3*viscosidade) ->
-double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem, double dimensaoPixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
 	double raio = (double)objetoImagem.Raio() * dimensaoPixel * fatorAmplificacao;
@@ -111,7 +111,7 @@ double CRedeDePercolacao::CondutanciaSitio (CObjetoRedePercolacao &objetoImagem,
 
 // Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
 // condutancia = pi*dH^4/(128*viscosidade*comprimento)
-double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedePercolacao &objetoImagem, double &_comprimento, double dimensaoPixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &_comprimento, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
 	double viscosidade = 1.0;
 	double comprimento = _comprimento * dimensaoPixel * fatorAmplificacao;
@@ -126,7 +126,7 @@ double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedePercolacao &objetoImage
 }
 
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedePercolacao &objImgSitio, CObjetoRedePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel, double fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objImgSitio, CObjetoRedeDePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel, double fatorAmplificacao) {
 	double gSitio = CondutanciaSitio(objImgSitio, dimensaoPixel, fatorAmplificacao);
 	double meioL = comprimento/2;
 	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,dimensaoPixel,fatorAmplificacao);
@@ -184,7 +184,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	double random;
 	int raio;
 	int diametro;
-	std::map<int, CObjetoRedePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
+	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	phiDist  = dtpg.first->AreaObjetos();
 	phiRede = 0.0;
@@ -300,8 +300,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		// Posso criar os objetos diretamente, em ordem decrescente de tamanho.
 		// Outra opção seria, após este loop, rotular os objetos e percorrer a matriz setando cada objeto na matrizObjetos.
 		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
-		//matrizObjetosTemp[cont] = CObjetoRedePercolacao(SITIO, NumPixeisEsfera(raio));
-		matrizObjetosTemp[cont] = CObjetoRedePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
+		//matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(SITIO, NumPixeisEsfera(raio));
+		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 		matrizObjetosTemp[cont].pontoCentral.x = x;
 		matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -324,8 +324,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	raios.clear(); // limpa vetor de raios (não será mais utilizado)
 	// 0rdena os objetos (sitios) por proximidade.
 	std::cerr << "Ordenando os sítios por proximidade..." << std::endl;
-	std::map<int, CObjetoRedePercolacao>::iterator it;
-	std::map<int, CObjetoRedePercolacao>::iterator itMatObj;
+	std::map<int, CObjetoRedeDePercolacao>::iterator it;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itMatObj;
 	cont = 1;
 	// O primeiro objeto foi encontrado no loop anterior
 	ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosTemp[objeto];
@@ -398,7 +398,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	long double gSitioLigacao; //Condutância entre sítio e ligação
 	int tamMatObjs = ptrMatObjsRede->matrizObjetos.size();
 	cont = ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
-	std::map<int, CObjetoRedePercolacao>::iterator itt;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itt;
 
 	std::cerr << "Criando ligacoes..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
@@ -474,8 +474,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			phiRede += phiObjeto; //acumula a porosidade
 			++cont;
 			// Conecta os objetos
-			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
-			ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedePercolacao(ptrMatObjsRede,LIGACAO,NumPixeisCilindro(raio, distancia));
+			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
+			ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede,LIGACAO,NumPixeisCilindro(raio, distancia));
 			itMatObj = ptrMatObjsRede->matrizObjetos.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);

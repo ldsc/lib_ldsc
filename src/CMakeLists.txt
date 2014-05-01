@@ -51,7 +51,7 @@ add_library (ldsc STATIC
   AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial_M6_Tortuosidade.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CRedeDePercolacao.cpp
   AnaliseImagem/Caracterizacao/RedePercolacao/CContornoRedePercolacao.cpp
-  AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedePercolacao.cpp
+  AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedeDePercolacao.cpp
 
   AnaliseImagem/Filtro/FAmplitude/CFABDoisPicos.cpp
   AnaliseImagem/Filtro/FAmplitude/CFABEntropiaJohansen.cpp

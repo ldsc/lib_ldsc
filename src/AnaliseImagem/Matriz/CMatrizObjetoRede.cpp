@@ -19,7 +19,7 @@ bool CMatrizObjetoRede::SalvarListaObjetos(std::string fileName, int nx, int ny,
 	if (fout.good()){
 		fout << "# " << matrizObjetos.size() << " " << nx << " " << ny << " " << nz << endl;
 		fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
-		for (std::map<int,CObjetoRedePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
+		for (std::map<int,CObjetoRedeDePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
 			fout << std::left << std::setw(6) << it->first;
 			it->second.GravarObjeto(fout);
 		}
@@ -35,7 +35,7 @@ bool CMatrizObjetoRede::SalvarListaObjetosGrafo(std::string fileName){
 	fout.open(fileName.c_str());
 	if (fout.good()){
 		fout << matrizObjetos.size() << endl;
-		for (std::map<int,CObjetoRedePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
+		for (std::map<int,CObjetoRedeDePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
 			it->second.GravarObjetoGrafo(fout, it->first-1);
 		}
 		fout.close();

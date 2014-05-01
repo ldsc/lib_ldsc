@@ -22,3 +22,7 @@
 // #include <path/nome>
 //#include <MetNum/Contorno/CContornoCentro.h>
 #include <MetNum/Contorno/CContornoCentro.h>
+
+long double CContornoCentro::Go ( long double x , long double /*y*/ )  {
+	return ( a + b * x );
+}

@@ -22,3 +22,7 @@ Desenvolvido por:
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_EST.h>
+
+long double CObjetoRede_Sitio_EST::Go ( long double /*d = 0*/ ) {
+	return x;
+}

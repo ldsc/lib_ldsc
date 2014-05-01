@@ -23,3 +23,7 @@ Desenvolvido por:
 // -----------------------------------------------------------------------
 //#include <Base/_LIB_LDSC_CLASS.h>
 #include <EstruturaDados/ObjetoRede/CObjetoRede_Sitio_WEST.h>
+
+long double CObjetoRede_Sitio_WEST::Go ( long double /*d = 0*/ ) {
+	return x;
+}

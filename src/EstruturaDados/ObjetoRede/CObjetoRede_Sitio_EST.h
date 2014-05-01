@@ -68,9 +68,8 @@ class CObjetoRede_Sitio_EST  final : public CObjetoRede_Sitio {
 			* @brief Função herdade da classe CParametroSolver usada para
 			* calcular o valor de x retorna a pressão na fronteira direita
 		 */
-		/*inline*/ virtual long double Go ( long double d = 0 )  override {
-			return x;
-		}
+		/*inline*/
+		virtual long double Go ( long double d = 0 ) override;
 
 		// --------------------------------------------------------------------Get
 		// --------------------------------------------------------------------Set

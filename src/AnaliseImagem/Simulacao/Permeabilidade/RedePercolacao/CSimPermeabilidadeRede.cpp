@@ -160,7 +160,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 			for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) { //para cada sítio, percorre as ligações de forma a obter os objetos
 				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
 			}
-		}
+		}/*
 		set < CSolverMatriz_ParametroSolver * >::iterator it;
 		int i=0;
 		cerr << "Objetos enviados para o solver:" << endl;
@@ -168,7 +168,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 			objs[i] = *it;
 			cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;
 			++i;
-		}
+		}*/
 		setouVetorObjetos = true;
 	}
 	cerr << "Executando solver->Go()..." << endl;

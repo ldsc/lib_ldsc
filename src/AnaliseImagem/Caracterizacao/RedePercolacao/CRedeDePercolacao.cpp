@@ -133,8 +133,8 @@ double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objI
 		return 1.0/(1.0/gSitio + 1.0/gLigacao);
 }
 
-// Executa o cálculo das distribuições e cria a rede de percolação.
-bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica ){
+// Executa o cálculo das distribuições e cria a rede de percolação de acordo com o modelo informado.
+bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ){
 	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo );
 	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = cdtpg.Go(_metrica);
@@ -142,11 +142,17 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
-	return ExecutadaPorGo();
+	switch (_modeloRede) {
+		case 1: return ModeloUm();
+			break;
+		case 2: return ModeloDois();
+			break;
+		default: return ModeloUm();
+	}
 }
 
-// Executa o cálculo das distribuições e cria a rede de percolação.
-bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica ) {
+// Executa o cálculo das distribuições e cria a rede de percolação de acordo com o modelo informado.
+bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ) {
 	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm );
 	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = cdtpg.Go(_metrica);
@@ -154,11 +160,17 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
-	return ExecutadaPorGo();
+	switch (_modeloRede) {
+		case EModeloRede::um: return ModeloUm();
+			break;
+		case EModeloRede::dois: return ModeloDois();
+			break;
+		default: return ModeloUm();
+	}
 }
 
-// Executa o cálculo das distribuições e cria a rede de percolação.
-bool CRedeDePercolacao::ExecutadaPorGo( ) {
+// Cria a rede de percolação.
+bool CRedeDePercolacao::ModeloUm( ) {
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiDist = 0.0;	//porosidade da matriz de poros(sitios)
@@ -168,7 +180,7 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	int x, y, z; //posição na matriz
 	CBCd3453D * esfera;
 	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
-	//std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
+	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
 
 	//============================================== SITIOS =================================================
 	std::cerr << "Calculando distribuicao acumulada (poros)." << std::endl;
@@ -185,7 +197,6 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	int raio;
 	int diametro;
 	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
-	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	phiDist  = dtpg.first->AreaObjetos();
 	phiRede = 0.0;
 	std::cerr << "Criando sitios..." << std::endl;
@@ -309,9 +320,6 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 
-		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-		//xToObj.insert(pair<int, int>(x,cont));
-
 		// Guarda o objeto com menor distancia do ponto 0,0,0.
 		distTemp = DistanciaEntrePontos(x1,y1,z1,x,y,z);
 		if ( distTemp <= distancia ) {
@@ -327,13 +335,17 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	std::map<int, CObjetoRedeDePercolacao>::iterator it;
 	std::map<int, CObjetoRedeDePercolacao>::iterator itMatObj;
 	cont = 1;
+	std::map<int, CObjetoRedeDePercolacao> matrizObjetosSL; // Matriz de objetos sítios e ligações temporária;
 	// O primeiro objeto foi encontrado no loop anterior
-	ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosTemp[objeto];
+	matrizObjetosSL[cont] = matrizObjetosTemp[objeto];
 	matrizObjetosTemp.erase(objeto);
+	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
+
 
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;
-		it = ptrMatObjsRede->matrizObjetos.find(cont);
+		it = matrizObjetosSL.find(cont);
 		//for (it = matrizObjetosTemp.begin(); it!=matrizObjetosTemp.end(); ++it) {
 		for ( auto & mot : matrizObjetosTemp ) {
 			distTemp = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, mot.second.pontoCentral.x, mot.second.pontoCentral.y, mot.second.pontoCentral.z );
@@ -344,12 +356,15 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		}
 		++cont;
 		//std::cerr << "Objeto: " << objeto << " | Distancia: " << distancia << std::endl;
-		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosTemp[objeto];
+		matrizObjetosSL[cont] = matrizObjetosTemp[objeto];
 		matrizObjetosTemp.erase(objeto);
 
 		// Pega o sítio e calcula a condutância
-		it = ptrMatObjsRede->matrizObjetos.find(cont);
+		it = matrizObjetosSL.find(cont);
 		CondutanciaSitio(it->second);
+
+		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+		xToObj.insert(pair<int, int>(it->second.pontoCentral.x,cont));
 
 		// Guarda listas de objetos que se encontram na camada leste e oeste (necessário para montar grafo)
 		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
@@ -366,18 +381,13 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
 		}
 	}
-	/*
-	std::cerr << "Elementos em xToObj: " << std::endl;
-	for (multimap<int, int>::iterator it = xToObj.begin(); it != xToObj.end(); ++it) {
-		std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
-	}
-	*/
+
 	// Percorre lista de obejos petencentes a camada esquerda e direita atualizando suas camadas
 	for (int obj : objsCamadaOeste ) {
-		ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::WEST);
+		matrizObjetosSL[obj].Contorno(CContorno::ETipoContorno::WEST);
 	}
 	for (int obj : objsCamadaLeste ) {
-		ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::EST);
+		matrizObjetosSL[obj].Contorno(CContorno::ETipoContorno::EST);
 	}
 
 	//============================================== LIGAÇÕES =================================================
@@ -396,8 +406,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	int raioit;
 	int raioitt;
 	long double gSitioLigacao; //Condutância entre sítio e ligação
-	int tamMatObjs = ptrMatObjsRede->matrizObjetos.size();
-	cont = ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
+	int tamMatObjs = matrizObjetosSL.size();
+	cont = matrizObjetosSL.rbegin()->first; //índice do último elemento da matriz
 	std::map<int, CObjetoRedeDePercolacao>::iterator itt;
 
 	std::cerr << "Criando ligacoes..." << std::endl;
@@ -410,8 +420,8 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		} else {
 			nCoord = 2;
 		}
-		it = ptrMatObjsRede->matrizObjetos.find(obj);
-		if (it == ptrMatObjsRede->matrizObjetos.end()) {
+		it = matrizObjetosSL.find(obj);
+		if (it == matrizObjetosSL.end()) {
 			continue;
 		}
 		itt = it;
@@ -419,11 +429,11 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
-				if (itt == ptrMatObjsRede->matrizObjetos.end() || itt->first > tamMatObjs) {
+				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
 					break;
 				}
 			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
-			if (itt == ptrMatObjsRede->matrizObjetos.end() || itt->first > tamMatObjs)
+			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
 				break;
 			raioitt = itt->second.Raio();
 			// Calcula distância entre os sítios
@@ -475,14 +485,17 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 			++cont;
 			// Conecta os objetos
 			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
-			ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede,LIGACAO,NumPixeisCilindro(raio, distancia));
-			itMatObj = ptrMatObjsRede->matrizObjetos.find(cont);
+			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
+			itMatObj = matrizObjetosSL.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
 			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
 			itMatObj->second.pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
 			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
 			xSolver = (long double)itMatObj->second.pontoCentral.x;
 			itMatObj->second.X(xSolver);
+
+			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+			xToObj.insert(pair<int, int>(xSolver,cont));
 
 			//Cálculo de condutâncias e realiza conexões
 			CondutanciaLigacao(itMatObj->second, distancia);
@@ -510,8 +523,43 @@ bool CRedeDePercolacao::ExecutadaPorGo( ) {
 	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
 	numLigacoes = cont-tamMatObjs;
 	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << numLigacoes << std::endl;
-	//xToObj.clear();
+	std::cerr << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
+
+	/*
+	std::cerr << "Elementos em xToObj: " << std::endl;
+	for (multimap<int, int>::iterator it = xToObj.begin(); it != xToObj.end(); ++it) {
+		std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
+	}
+	*/
+	std::map<int,int> objAntToObjAtual;
+	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
+	cont = 0;
+	std::cerr << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
+	for (multimap<int, int>::iterator it = xToObj.begin(); it != xToObj.end(); ++it) {
+		++cont;
+		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[(*it).second];
+		objAntToObjAtual[(*it).second] = cont;
+		//std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
+	}
+
+
+	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
+	/*
+	double condutancia;
+	for ( auto objs : ptrMatObjsRede->matrizObjetos ) {
+		for ( auto obj : objs.second.SConexao() ) {
+			condutancia = obj.second;
+			obj.first = objAntToObjAtual[obj.first];
+		}
+	}
+	*/
+	matrizObjetosSL.clear();
+	xToObj.clear();
 	return true;
+}
+
+// Executa o cálculo das distribuições e cria a rede de percolação.
+bool CRedeDePercolacao::ModeloDois( ) {
 }
 
 // Grava em disco, com o nome informado, os objetos identificados.

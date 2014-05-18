@@ -27,6 +27,11 @@
  * @author Leandro Puerari <puerari@gmail.com>
  * @author André Duarte Bueno <andreduartebueno@gmail.com>
 */
+enum EModeloRede{
+	um = 1,
+	dois = 2
+};
+
 class CRedeDePercolacao
 {		// Atributos
 	public:
@@ -75,10 +80,10 @@ class CRedeDePercolacao
 		// Métodos
 	public:
 		/// Sementa a imagem, executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
+		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::um );
 
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345 );
+		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::um );
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
 		bool SalvarListaObjetos(std::string nomeArquivo) const;
@@ -101,7 +106,10 @@ class CRedeDePercolacao
 
 	private:
 		/// Método chamado por Go para criar a rede de percolação.
-		bool ExecutadaPorGo( );
+		bool ModeloUm( );
+
+		/// Método chamado por Go para criar a rede de percolação.
+		bool ModeloDois( );
 
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }

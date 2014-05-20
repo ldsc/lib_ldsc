@@ -1,5 +1,6 @@
 #include "CRedeDePercolacao.h"
 #include <map>
+#include <cmath>
 
 // Analizar se é melhor calcular a porosidade assim ou se devo calcular a área da esfera e do cilindro.
 //int CRedeDePercolacao::numPixeisBola[] = {
@@ -191,6 +192,7 @@ bool CRedeDePercolacao::ModeloUm( ) {
 		distAcumulada[i] = distAcumulada[i-1] + dtpg.first->distribuicao[i];
 	}
 
+	std::cerr << "Criando sitios..." << std::endl;
 	// Sortear valores aleatórios entre 0 e 1. Obter o raio na distAcumulada
 	std::vector<int> raios;
 	double random;
@@ -199,7 +201,6 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
 	phiDist  = dtpg.first->AreaObjetos();
 	phiRede = 0.0;
-	std::cerr << "Criando sitios..." << std::endl;
 	// Sorteando valores aleatórios entre 0 e 1 e obtendo raios na curva de distribuição acumulada.
 	while (phiRede < phiDist) {
 		//std::cerr << "phiRede: " << phiRede << " | phiDist: " << phiDist << std::endl;
@@ -246,6 +247,8 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	}
 	numSitios = raios.size();
 	std::cerr << "Sitios criados!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Sitios: " << numSitios << std::endl;
+
+	std::cerr << "Representando os sítios na matriz sem sobrepor..." << std::endl;
 	// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
 	std::sort(raios.begin(), raios.end());
 	std::reverse(raios.begin(), raios.end());
@@ -262,7 +265,6 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	std::vector<int> objsCamadaLeste;
 	int camadaOeste = 1000000;
 	int camadaLeste = 0;
-	std::cerr << "Representando os sítios na matriz..." << std::endl;
 	//percorre o vetor de raios
 	for (std::vector<int>::iterator it=raios.begin(); it!=raios.end(); ++it) {
 		++cont;
@@ -328,9 +330,8 @@ bool CRedeDePercolacao::ModeloUm( ) {
 		}
 		delete esfera;
 	}
-
 	raios.clear(); // limpa vetor de raios (não será mais utilizado)
-	// 0rdena os objetos (sitios) por proximidade.
+
 	std::cerr << "Ordenando os sítios por proximidade..." << std::endl;
 	std::map<int, CObjetoRedeDePercolacao>::iterator it;
 	std::map<int, CObjetoRedeDePercolacao>::iterator itMatObj;
@@ -341,12 +342,10 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	matrizObjetosTemp.erase(objeto);
 	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
-
-
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;
 		it = matrizObjetosSL.find(cont);
-		//for (it = matrizObjetosTemp.begin(); it!=matrizObjetosTemp.end(); ++it) {
+		//percorre todos objetos em busca do objeto mais próximo ao objeto atual.
 		for ( auto & mot : matrizObjetosTemp ) {
 			distTemp = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, mot.second.pontoCentral.x, mot.second.pontoCentral.y, mot.second.pontoCentral.z );
 			if ( distTemp <= distancia ){
@@ -382,7 +381,7 @@ bool CRedeDePercolacao::ModeloUm( ) {
 		}
 	}
 
-	// Percorre lista de obejos petencentes a camada esquerda e direita atualizando suas camadas
+	// Percorre lista de obejos petencentes as camadas leste e oeste, atualizando seus contornos.
 	for (int obj : objsCamadaOeste ) {
 		matrizObjetosSL[obj].Contorno(CContorno::ETipoContorno::WEST);
 	}
@@ -399,7 +398,7 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	for (int i=1; i<tamVetDist; ++i) {
 		distAcumulada[i] = distAcumulada[i-1] + dtpg.second->distribuicao[i];
 	}
-	phiDist  = dtpg.second->AreaObjetos();
+	phiDist = dtpg.second->AreaObjetos();
 	phiRede = 0.0;
 	cabe = false;
 	int nCoord, Z;
@@ -488,14 +487,14 @@ bool CRedeDePercolacao::ModeloUm( ) {
 			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
 			itMatObj = matrizObjetosSL.find(cont);
 			itMatObj->second.pontoCentral.df = 3*raio;
-			itMatObj->second.pontoCentral.x = (int)((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			itMatObj->second.pontoCentral.y = (int)((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			itMatObj->second.pontoCentral.z = (int)((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
+			itMatObj->second.pontoCentral.x = (int) round((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
+			itMatObj->second.pontoCentral.y = (int) round((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
+			itMatObj->second.pontoCentral.z = (int) round((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
 			xSolver = (long double)itMatObj->second.pontoCentral.x;
 			itMatObj->second.X(xSolver);
 
 			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-			xToObj.insert(pair<int, int>(xSolver,cont));
+			xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
 
 			//Cálculo de condutâncias e realiza conexões
 			CondutanciaLigacao(itMatObj->second, distancia);
@@ -523,14 +522,12 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
 	numLigacoes = cont-tamMatObjs;
 	std::cerr << "Ligacoes criadas!\nphiRede: " << phiRede << " | phiDist: " << phiDist << " | Num. Ligacoes: " << numLigacoes << std::endl;
-	std::cerr << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
-
 	/*
-	std::cerr << "Elementos em xToObj: " << std::endl;
-	for (multimap<int, int>::iterator it = xToObj.begin(); it != xToObj.end(); ++it) {
-		std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
-	}
-	*/
+	for (auto o : matrizObjetosSL){
+		ptrMatObjsRede->matrizObjetos[o.first] = o.second;
+	}*/
+
+	std::cerr << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
 	std::map<int,int> objAntToObjAtual;
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
@@ -539,21 +536,30 @@ bool CRedeDePercolacao::ModeloUm( ) {
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[(*it).second];
 		objAntToObjAtual[(*it).second] = cont;
-		//std::cerr << "  [x=" << (*it).first << ", Obj=" << (*it).second << "]" << std::endl;
+		std::cerr << "[x=" << (*it).first << ",\t\tObjAnt=" << (*it).second<< ",\t\tObjAtu=" << cont << "]" << std::endl;
 	}
-
+	matrizObjetosSL.clear();
 
 	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
-	/*
-	double condutancia;
+	std::map<int, double> conexoesAtu;
+	std::map<int, double> conexoesAnt;
 	for ( auto objs : ptrMatObjsRede->matrizObjetos ) {
-		for ( auto obj : objs.second.SConexao() ) {
-			condutancia = obj.second;
-			obj.first = objAntToObjAtual[obj.first];
+		//copia as conexões para o map temporário
+		conexoesAtu.clear();
+		conexoesAnt = objs.second.SConexao();
+		for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+			conexoesAtu.insert(make_pair(objAntToObjAtual[obj.first], obj.second));
+		}
+		//limpa o vetor de conexoes do objeto
+		conexoesAnt.clear();
+
+		//copia para os objetos as novas conexões salvas no map temporário
+		for ( auto obj : conexoesAtu ) {
+			conexoesAnt.insert(make_pair(obj.first, obj.second));
 		}
 	}
-	*/
-	matrizObjetosSL.clear();
+
+//	objAntToObjAtual.clear();
 	xToObj.clear();
 	return true;
 }

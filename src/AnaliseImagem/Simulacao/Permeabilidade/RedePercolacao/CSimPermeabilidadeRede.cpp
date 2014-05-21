@@ -91,6 +91,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 	// determina o valor de pressaoMaxima
 	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x;
+	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.pontoCentral.x;
 	long double pressaoMaxima = rede->nx;
 	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
 
@@ -153,14 +154,25 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
 		set< CSolverMatriz_ParametroSolver * > setObjs; //inicialmente passa os objetos para o set, de forma que ao buscar as conexões não haja repetição
+		unsigned int sizeOfMatObjs = rede->ptrMatObjsRede->matrizObjetos.size();
 		objs.clear();
-		objs.resize( rede->ptrMatObjsRede->matrizObjetos.size() );
-		for ( int i = 1; i <= rede->NumSitios(); ++i ) { //percorre os sítios da rede os quais estão armazenados nos primeiros objetos da matriz (as ligações estão armazenadas depois).
+		objs.resize( sizeOfMatObjs );
+		/*for ( int i = 1; i <= rede->NumSitios(); ++i ) { //percorre os sítios da rede os quais estão armazenados nos primeiros objetos da matriz (as ligações estão armazenadas depois).
 			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
 			for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) { //para cada sítio, percorre as ligações de forma a obter os objetos
 				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
 			}
-		}/*
+		}*/
+		for ( int i = 1; i <= sizeOfMatObjs; ++i ) { //percorre os sítios da rede e posteriormente suas ligações
+			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
+			/*if ( rede->ptrMatObjsRede->matrizObjetos[i].Tipo() == ETipoObjetoImagem::SITIO ) {
+				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
+				//para cada sítio, percorre as ligações de forma a obter os objetos
+				for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) {
+					setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
+				}
+			}*/
+		}
 		set < CSolverMatriz_ParametroSolver * >::iterator it;
 		int i=0;
 		cerr << "Objetos enviados para o solver:" << endl;
@@ -168,7 +180,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 			objs[i] = *it;
 			cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;
 			++i;
-		}*/
+		}
 		setouVetorObjetos = true;
 	}
 	cerr << "Executando solver->Go()..." << endl;

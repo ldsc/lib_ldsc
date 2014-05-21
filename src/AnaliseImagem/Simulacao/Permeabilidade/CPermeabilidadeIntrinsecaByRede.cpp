@@ -124,10 +124,10 @@ long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( ) {
 	return p;
 }
 
-long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica ) {
+long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede ) {
 	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
 		cout << "Calculando rede->Go( )..." << endl;
-		rede->Go( imagem3D, metrica );
+		rede->Go( imagem3D, metrica, _modeloRede );
 		cout << "rede->Go( )...ok!" << endl << endl;
 		if (salvarRede != "") {
 			cout << "Salvando a rede..." << endl;
@@ -143,11 +143,11 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, un
 	return 0.0;
 }
 
-long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos, CDistribuicao3D::Metrica3D metrica ) {
+long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede ) {
 	CTime ( "Tempo CPermeabilidadeIntrinsecaByRede::Go() = ", &cout );
 	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
 		cerr << "Calculando rede->Go( )...." << endl;
-		rede->Go( imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, metrica );
+		rede->Go( imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, metrica, _modeloRede );
 		cerr << "rede->Go( )...ok!" << endl << endl;
 		if (salvarRede != "") {
 			cout << "Salvando a rede..." << endl;

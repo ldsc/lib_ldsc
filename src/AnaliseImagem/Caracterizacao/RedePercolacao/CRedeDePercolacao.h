@@ -106,10 +106,10 @@ class CRedeDePercolacao
 
 	private:
 		/// Método chamado por Go para criar a rede de percolação.
-		bool ModeloUm( );
+		bool ModeloUm( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Método chamado por Go para criar a rede de percolação.
-		bool ModeloDois( );
+		bool ModeloDois( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }
@@ -127,6 +127,11 @@ class CRedeDePercolacao
 			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisCirculo[_raio];
 		}
 
+		/// Retorna o número de pixeis em um disco. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
+		inline int NumPixeisDisco( const int & _raio) {
+			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio) : numPixeisCirculo[_raio];
+		}
+
 		/// Retorna a porosidade da esfera (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
 		inline double PhiEsfera( const int & _raio, const int & _area) {
 			return ((double)NumPixeisEsfera(_raio)/(double)_area)*100.0;
@@ -135,6 +140,11 @@ class CRedeDePercolacao
 		/// Retorna a porosidade do cilindro (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
 		inline double PhiCilindro( const int & _raio, const int & _comprimento, const int & _area) {
 			return ((double)NumPixeisCilindro(_raio, _comprimento)/(double)_area)*100.0;
+		}
+
+		/// Retorna a porosidade do disco (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
+		inline double PhiDisco( const int & _raio, const int & _area) {
+			return ((double)NumPixeisDisco(_raio)/(double)_area)*100.0;
 		}
 
 		/// Calcula distância entre dois pontos no espaço 3D.

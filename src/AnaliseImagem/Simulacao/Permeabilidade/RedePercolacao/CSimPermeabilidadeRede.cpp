@@ -176,7 +176,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 		}
 		set < CSolverMatriz_ParametroSolver * >::iterator it;
 		int i=0;
-		cerr << "Objetos enviados para o solver:" << endl;
+		//cerr << "Objetos enviados para o solver:" << endl;
 		for ( it=setObjs.begin(); it != setObjs.end(); ++it ) {
 			objs[i] = *it;
 			//cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;

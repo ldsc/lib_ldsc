@@ -91,9 +91,9 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 	// determina o valor de pressaoMaxima
 	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x;
-	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.pontoCentral.x;
-	long double pressaoMaxima = rede->nx;
-	cerr << "\npressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << endl;
+	long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.pontoCentral.x;
+	//long double pressaoMaxima = rede->nx;
+	std::cerr << std::endl << "pressaoMaxima em DefinirCondicoesContorno(): " << pressaoMaxima << std::endl;
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;
@@ -163,7 +163,8 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
 			}
 		}*/
-		for ( int i = 1; i <= sizeOfMatObjs; ++i ) { //percorre os sítios da rede e posteriormente suas ligações
+		//copia o endereço dos objetos da rede para passá-los com para o solver
+		for ( int i = 1; i <= sizeOfMatObjs; ++i ) {
 			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
 			/*if ( rede->ptrMatObjsRede->matrizObjetos[i].Tipo() == ETipoObjetoImagem::SITIO ) {
 				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
@@ -178,7 +179,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 		cerr << "Objetos enviados para o solver:" << endl;
 		for ( it=setObjs.begin(); it != setObjs.end(); ++it ) {
 			objs[i] = *it;
-			cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;
+			//cerr << "Obj: " << i << " x = " << (*it)->X()  << endl;
 			++i;
 		}
 		setouVetorObjetos = true;

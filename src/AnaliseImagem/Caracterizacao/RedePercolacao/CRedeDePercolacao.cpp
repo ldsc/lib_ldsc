@@ -529,32 +529,38 @@ bool CRedeDePercolacao::ModeloUm( ) {
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
 	std::cerr << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
-	for (auto xto : xToObj ) {
+/*
+	for (auto xto : matrizObjetosSL ) {
+		ptrMatObjsRede->matrizObjetos[xto.first] = xto.second;
+	}
+*/
+	for (auto &xto : xToObj ) {
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
 		objAntToObjAtual[xto.second] = cont;
-		std::cerr << "[x=" << xto.first << ",\tObjAnt=" << xto.second<< ",\tObjAtu=" << cont << "]" << std::endl;
+		//std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
 	matrizObjetosSL.clear();
 
 	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
 	std::map<int, double> conexoesAtu;
-	std::map<int, double> conexoesAnt;
-	for ( auto objs : ptrMatObjsRede->matrizObjetos ) {
+	//std::map<int, double> conexoesAnt;
+	for ( auto &objs : ptrMatObjsRede->matrizObjetos ) {
 		//copia as conexões para o map temporário
 		conexoesAtu.clear();
-		conexoesAnt = objs.second.SConexao();
-		for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+		//conexoesAnt = objs.second.SConexao();
+		//for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+		for ( auto &obj : objs.second.SConexao() ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
 			conexoesAtu.insert(make_pair(objAntToObjAtual[obj.first], obj.second));
 		}
 		//limpa o vetor de conexoes do objeto
-		conexoesAnt.clear();
-		//objs.second.SConexao().clear();
+		//conexoesAnt.clear();
+		objs.second.SConexao().clear();
 
 		//copia para os objetos as novas conexões salvas no map temporário
-		for ( auto obj : conexoesAtu ) {
-			conexoesAnt.insert(make_pair(obj.first, obj.second));
-			//objs.second.Conectar(obj.first, obj.second);
+		for ( auto &obj : conexoesAtu ) {
+			//conexoesAnt.insert(make_pair(obj.first, obj.second));
+			objs.second.Conectar(obj.first, obj.second);
 		}
 	}
 
@@ -926,32 +932,38 @@ bool CRedeDePercolacao::ModeloDois( ) {
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
 	std::cerr << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
-	for (auto xto : xToObj ) {
+/*
+	for (auto xto : matrizObjetosSL ) {
+		ptrMatObjsRede->matrizObjetos[xto.first] = xto.second;
+	}
+*/
+	for (auto &xto : xToObj ) {
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
 		objAntToObjAtual[xto.second] = cont;
-		std::cerr << "[x=" << xto.first << ",\tObjAnt=" << xto.second<< ",\tObjAtu=" << cont << "]" << std::endl;
+		std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
 	matrizObjetosSL.clear();
 
 	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
 	std::map<int, double> conexoesAtu;
-	std::map<int, double> conexoesAnt;
-	for ( auto objs : ptrMatObjsRede->matrizObjetos ) {
+	//std::map<int, double> conexoesAnt;
+	for ( auto &objs : ptrMatObjsRede->matrizObjetos ) {
 		//copia as conexões para o map temporário
 		conexoesAtu.clear();
-		conexoesAnt = objs.second.SConexao();
-		for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+		//conexoesAnt = objs.second.SConexao();
+		//for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+		for ( auto &obj : objs.second.SConexao() ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
 			conexoesAtu.insert(make_pair(objAntToObjAtual[obj.first], obj.second));
 		}
 		//limpa o vetor de conexoes do objeto
-		conexoesAnt.clear();
-		//objs.second.SConexao().clear();
+		//conexoesAnt.clear();
+		objs.second.SConexao().clear();
 
 		//copia para os objetos as novas conexões salvas no map temporário
-		for ( auto obj : conexoesAtu ) {
-			conexoesAnt.insert(make_pair(obj.first, obj.second));
-			//objs.second.Conectar(obj.first, obj.second);
+		for ( auto &obj : conexoesAtu ) {
+			//conexoesAnt.insert(make_pair(obj.first, obj.second));
+			objs.second.Conectar(obj.first, obj.second);
 		}
 	}
 

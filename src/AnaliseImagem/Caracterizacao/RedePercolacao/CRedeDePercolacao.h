@@ -29,7 +29,8 @@
 */
 enum EModeloRede{
 	um = 1,
-	dois = 2
+	dois = 2,
+	tres = 3
 };
 
 class CRedeDePercolacao
@@ -105,11 +106,29 @@ class CRedeDePercolacao
 		}
 
 	private:
-		/// Método chamado por Go para criar a rede de percolação.
+		/** Método chamado por Go para criar a rede de percolação.
+		*		Este modelo cria uma rede com sítios de tamanhos aleatórios,
+		*		alocados em posições aleatórias e com variação no número de ligações.
+		*		Não se preocupa com quantos sítios estarão nas fronteiras.
+		*/
 		bool ModeloUm( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
-		/// Método chamado por Go para criar a rede de percolação.
+		/** Método chamado por Go para criar a rede de percolação.
+		 *	Este modelo cria uma rede com sítios de tamanhos aleatórios,
+		 *	alocados em posições aleatórias e com variação no número de ligações.
+		 *	Difere do ModeloUm pois primeiro aloca os sítios das fronteiras garantindo
+		 *	que o fluxo nas fronteiras melhor reflita a realidade do meio físico.
+		 */
 		bool ModeloDois( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
+		/** Método chamado por Go para criar a rede de percolação.
+		 *	Este modelo cria sítios alinhados, de tamanhos variados e com ligações
+		 *	aos vizinhos mais próximos. As ligações também possuem raios variados.
+		 */
+		bool ModeloTres( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
+		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
+		std::vector<int> * CriarVetorDeRaiosDosSitios();
 
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }

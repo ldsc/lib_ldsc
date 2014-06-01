@@ -144,9 +144,11 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 		return false;
 	}
 	switch (_modeloRede) {
-		case 1: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::um: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case 2: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::dois: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+			break;
+		case EModeloRede::tres: return ModeloTres(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
 		default: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 	}
@@ -165,6 +167,8 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 		case EModeloRede::um: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
 		case EModeloRede::dois: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+			break;
+		case EModeloRede::tres: return ModeloTres(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
 		default: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 	}
@@ -1043,11 +1047,8 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	long double xSolver				= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
 	int raio;
-	int im, jm, km;
-	int x_raio, y_raio, z_raio;
 	int cont;
 	double distancia = 1000000.0; //guarda a menor distancia encontrada  entre o ponto 0,0,0 e o centro dos sítios.
-	double distTemp;
 	int diametro;
 
 	bool cabe; //flag
@@ -1110,34 +1111,14 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 		CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao);
+		// Alimenta matriz que referencía os objetos de forma que estes fiquem ordenados em x
+		xToObj.insert(pair<int, int>(matrizObjetosTemp[cont].pontoCentral.x,cont));
 	}
 	raios->clear(); // limpa vetor de raios (não será mais utilizado)
 	delete raios;
 
-
-	// Analizar se será necessário
-	/*
-	std::cerr << "Ordenando os sítios em x..." << std::endl;
-	std::map<int, CObjetoRedeDePercolacao> matrizObjetosSL; // Matriz de objetos sítios e ligações temporária;
-	cont = 0;
-	int pos;
-	for (int i=0; i<nCol; ++i) {
-		for (int j=0; j<nCol; ++j) {
-			for (int k=0; k<nCol; ++k) {
-				pos = pm.data3D[i][j][k];
-				if ( pos != 0 ) {
-					++cont;
-					matrizObjetosSL[cont]=matrizObjetosTemp[pos];
-					// Alimenta matriz que referencía os objetos de forma que estes fiquem ordenados em x
-					xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
-				}
-			}
-		}
-	}
-*/
-
 	//============================================== LIGAÇÕES =================================================
-/*	std::cerr << "Calculando distribuicao acumulada (gargantas)." << std::endl;
+	std::cerr << "Calculando distribuicao acumulada (gargantas)." << std::endl;
 	double random;
 	int tamVetDist = dtpg.second->distribuicao.size();
 	std::vector<double> distGargantasAcumulada(tamVetDist+1);
@@ -1145,366 +1126,372 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	for (int i=1; i<tamVetDist; ++i) {
 		distGargantasAcumulada[i] = distGargantasAcumulada[i-1] + dtpg.second->distribuicao[i];
 	}
-
+	bool continua = true;
+	bool percorreuTodos = false;
+	bool testouTodos = false;
 	int nCoord, Z;
-	int raioit;
-	int raioitt;
+	int raioSitio;
+	int raioVizinho;
 	int vizinho;
+	int sitio;
+	int sitioVizinho;
 	long double gSitioLigacao; //Condutância entre sítio e ligação
 	int tamMatObjs = matrizObjetosTemp.size();
-	cont = matrizObjetosSL.rbegin()->first; //índice do último elemento da matriz
-	std::map<int, CObjetoRedeDePercolacao>::iterator it;
+	cont = matrizObjetosTemp.rbegin()->first; //índice do último elemento da matriz
+	std::vector<bool> testou(26);
+	std::map<int, CObjetoRedeDePercolacao>::iterator itSitio;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itVizinho;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itMatObj;
 	std::cerr << "Criando ligacoes..." << std::endl;
-	for (int i=0; i<nCol && cabe; ++i) {
-		for (int j=0; j<nCol && cabe; ++j) {
-			for (int k=0; k<nCol && cabe; ++k) {
-				pos = pm.data3D[i][j][k];
-				if ( pos != 0 ) {
+	for (int i=0; i<nCol && continua; ++i) {
+		for (int j=0; j<nCol && continua; ++j) {
+			for (int k=0; k<nCol && continua; ++k) {
+				sitio = pm.data3D[i][j][k];
+				if ( sitio != 0 ) {
 					// pega o objeto
-					it = matrizObjetosTemp.find(pos);
-					do {
-						cabe = false;
-						// sorteia vizinho a ser conectado
-						vizinho = Random(1,26);
-						switch (vizinho) {
-							case 1:
-								if ( i>0 && j>0 && k>0 ) {
-									x = i-1;
-									y = j-1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 2:
-								if ( j>0 && k>0 ) {
-									x = i;
-									y = j-1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 3:
-								if ( i<nCol && j>0 && k>0 ) {
-									x = i+1;
-									y = j-1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 4:
-								if ( i>0 && k>0 ) {
-									x = i-1;
-									y = j;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 5:
-								if ( k>0 ) {
-									x = i;
-									y = j;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 6:
-								if ( i<nCol && k>0 ) {
-									x = i+1;
-									y = j;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 7:
-								if ( i>0 && j<nCol && k>0 ) {
-									x = i-1;
-									y = j+1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 8:
-								if ( j<nCol && k>0 ) {
-									x = i;
-									y = j+1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 9:
-								if ( i<nCol && j<nCol && k>0 ) {
-									x = i+1;
-									y = j+1;
-									z = k-1;
-									cabe = true;
-								}
-								break;
-							case 10:
-								if ( i>0 && j>0 ) {
-									x = i-1;
-									y = j-1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 11:
-								if ( j>0 ) {
-									x = i;
-									y = j-1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 12:
-								if ( i<nCol && j>0 ) {
-									x = i+1;
-									y = j-1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 13:
-								if ( i>0 ) {
-									x = i-1;
-									y = j;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 14:
-								if ( i<nCol ) {
-									x = i+1;
-									y = j;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 15:
-								if ( i>0 && j<nCol ) {
-									x = i-1;
-									y = j+1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 16:
-								if ( j<nCol ) {
-									x = i;
-									y = j+1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 17:
-								if ( i<nCol && j<nCol ) {
-									x = i+1;
-									y = j+1;
-									z = k;
-									cabe = true;
-								}
-								break;
-							case 18:
-								if ( i>0 && j>0 && k<nCol ) {
-									x = i-1;
-									y = j-1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 19:
-								if ( j>0 && k<nCol ) {
-									x = i;
-									y = j-1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 20:
-								if ( i<nCol && j>0 && k<nCol ) {
-									x = i+1;
-									y = j-1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 21:
-								if ( i>0 && k<nCol ) {
-									x = i-1;
-									y = j;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 22:
-								if ( k<nCol ) {
-									x = i;
-									y = j;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 23:
-								if ( i<nCol && k<nCol ) {
-									x = i+1;
-									y = j;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 24:
-								if ( i>0 && j<nCol && k<nCol ) {
-									x = i-1;
-									y = j+1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 25:
-								if ( j<nCol && k<nCol ) {
-									x = i;
-									y = j+1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-							case 26:
-								if ( i<nCol && j<nCol && k<nCol ) {
-									x = i+1;
-									y = j+1;
-									z = k+1;
-									cabe = true;
-								}
-								break;
-						}
-						// verifica se já existe conexao entre [i][j][k] e [x][y][z]
-
-
-						//PAREI AQUI
-
-
-
-					} while (!cabe);
-
-					++cont;
-
-				}
-			}
-		}
-	}
-
-
-
-
-	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
-	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
-		// Inicialmente cada sítio terá número de coordenação 2.
-		if (cabe) {
-			nCoord = Random(3,5); // Sorteira números randomicos entre 2 e 4 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
-			obj = Random(1,tamMatObjs-1);
-		} else {
-			nCoord = 2;
-		}
-		it = matrizObjetosSL.find(obj);
-		if (it == matrizObjetosSL.end()) {
-			continue;
-		}
-		itt = it;
-		raioit = it->second.Raio();
-		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
-				++itt; //iterator para o próximo objeto.
-				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
-					break;
-				}
-			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
-			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
-				break;
-			raioitt = itt->second.Raio();
-			// Calcula distância entre os sítios
-			distancia = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, itt->second.pontoCentral.x, itt->second.pontoCentral.y, itt->second.pontoCentral.z );
-			distancia = distancia - it->second.Raio() - itt->second.Raio();
-			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
-				distancia = 1;
-			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
-			raio = 1;
-			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
-			//percorre vetor de distribuição acumulada para obter raio correspondente
-			for (int i=0; i<tamVetDist; ++i) {
-				if ( random <= distGargantasAcumulada[i] ) {
-					if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
-						// Verifica a diferença entre o número randômico e os elementas i e i-1.
-						// Seta o raio com o indice do valor mais próximo a random.
-						if ( (random - distGargantasAcumulada[i-1]) < (distGargantasAcumulada[i] - random) ) {
-							raio = i;
-						} else {
-							raio = i+1;
-						}
-						break;
-					} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
-						break; //sai do loop com raio == 1
+					itSitio = matrizObjetosTemp.find(sitio);
+					// após percorrer todos os sítios, precisa sortear sítios aleatórios até atingir a porosidade
+					if (percorreuTodos) {
+						nCoord = Random(3,5); // Sorteira números randomicos entre 3 e 5 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
+						i = Random(0,nCol);
+						j = Random(0,nCol);
+						k = Random(0,nCol-1); // para evitar que saia do loop sem atingir a porosidade.
+					} else {
+						nCoord = 2;
 					}
+					// se o sítio ainda não atingiu o número de coordenação
+					if ( itSitio->second.SConexao().size() < nCoord ) {
+						//zera o vetor de testes
+						for (int e=0; e<26; ++e) {
+							testou[e] = false;
+						}
+						do {
+							cabe = false;
+							// sorteia vizinho a ser conectado. considera os 26 possíveis vizinhos de um objeto no meio 3D
+							vizinho = Random(1,26);
+							switch (vizinho) {
+								case 1: testou[0] = true;
+									if ( i>0 && j>0 && k>0 ) {
+										x = i-1;
+										y = j-1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 2: testou[1] = true;
+									if ( j>0 && k>0 ) {
+										x = i;
+										y = j-1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 3: testou[2] = true;
+									if ( i<nCol && j>0 && k>0 ) {
+										x = i+1;
+										y = j-1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 4: testou[3] = true;
+									if ( i>0 && k>0 ) {
+										x = i-1;
+										y = j;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 5: testou[4] = true;
+									if ( k>0 ) {
+										x = i;
+										y = j;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 6: testou[5] = true;
+									if ( i<nCol && k>0 ) {
+										x = i+1;
+										y = j;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 7: testou[6] = true;
+									if ( i>0 && j<nCol && k>0 ) {
+										x = i-1;
+										y = j+1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 8: testou[7] = true;
+									if ( j<nCol && k>0 ) {
+										x = i;
+										y = j+1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 9: testou[8] = true;
+									if ( i<nCol && j<nCol && k>0 ) {
+										x = i+1;
+										y = j+1;
+										z = k-1;
+										cabe = true;
+									}
+									break;
+								case 10: testou[9] = true;
+									if ( i>0 && j>0 ) {
+										x = i-1;
+										y = j-1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 11: testou[10] = true;
+									if ( j>0 ) {
+										x = i;
+										y = j-1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 12: testou[11] = true;
+									if ( i<nCol && j>0 ) {
+										x = i+1;
+										y = j-1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 13: testou[12] = true;
+									if ( i>0 ) {
+										x = i-1;
+										y = j;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 14: testou[13] = true;
+									if ( i<nCol ) {
+										x = i+1;
+										y = j;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 15: testou[14] = true;
+									if ( i>0 && j<nCol ) {
+										x = i-1;
+										y = j+1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 16: testou[15] = true;
+									if ( j<nCol ) {
+										x = i;
+										y = j+1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 17: testou[16] = true;
+									if ( i<nCol && j<nCol ) {
+										x = i+1;
+										y = j+1;
+										z = k;
+										cabe = true;
+									}
+									break;
+								case 18: testou[17] = true;
+									if ( i>0 && j>0 && k<nCol ) {
+										x = i-1;
+										y = j-1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 19: testou[18] = true;
+									if ( j>0 && k<nCol ) {
+										x = i;
+										y = j-1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 20: testou[19] = true;
+									if ( i<nCol && j>0 && k<nCol ) {
+										x = i+1;
+										y = j-1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 21: testou[20] = true;
+									if ( i>0 && k<nCol ) {
+										x = i-1;
+										y = j;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 22: testou[21] = true;
+									if ( k<nCol ) {
+										x = i;
+										y = j;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 23: testou[22] = true;
+									if ( i<nCol && k<nCol ) {
+										x = i+1;
+										y = j;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 24: testou[23] = true;
+									if ( i>0 && j<nCol && k<nCol ) {
+										x = i-1;
+										y = j+1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 25: testou[24] = true;
+									if ( j<nCol && k<nCol ) {
+										x = i;
+										y = j+1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+								case 26: testou[25] = true;
+									if ( i<nCol && j<nCol && k<nCol ) {
+										x = i+1;
+										y = j+1;
+										z = k+1;
+										cabe = true;
+									}
+									break;
+							}
+							if (cabe) { // verifica se já existe conexao entre [i][j][k] e [x][y][z]
+								sitioVizinho = pm.data3D[x][y][z];
+								for (auto &obj : itSitio->second.SConexao()) {
+									if (obj.first == sitioVizinho) {
+										cabe = false;
+										break;
+									}
+								}
+								if (cabe) { // se ainda cabe, verifica se o vizinho não atingiu o número de coordenação
+									itVizinho = matrizObjetosTemp.find(sitioVizinho);
+									if ( itVizinho->second.SConexao().size() >= nCoord ) {
+										cabe = false;
+									}
+								}
+							}
+							if (!cabe) { //verifica se testou todos os vizinhos
+								testouTodos = true;
+								for (int e=0; e<26; ++e) {
+									if (testou[e] == false) {
+										testouTodos = false;
+										break;
+									}
+								}
+							}
+						} while ( !cabe && !testouTodos );
+						// se saiu do loop e !cabe é porque o sítio já possui todas as possíveis conexões, ou seja, testouTodos == true
+						if (cabe) {// faz a ligação entre o sitio e o sitioVizinho
+							raioSitio = itSitio->second.Raio();
+							raioVizinho = itVizinho->second.Raio();
+							// Calcula distância entre os sítios
+							distancia = DistanciaEntrePontos(itSitio->second.pontoCentral.x, itSitio->second.pontoCentral.y, itSitio->second.pontoCentral.z, itVizinho->second.pontoCentral.x, itVizinho->second.pontoCentral.y, itVizinho->second.pontoCentral.z );
+							distancia = distancia - raioSitio - raioVizinho;
+							if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
+								distancia = 1;
+							// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
+							raio = 1;
+							random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
+							//percorre vetor de distribuição acumulada para obter raio correspondente
+							for (int n=0; n<tamVetDist; ++n) {
+								if ( random <= distGargantasAcumulada[n] ) {
+									if (n > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
+										// Verifica a diferença entre o número randômico e os elementas i e i-1.
+										// Seta o raio com o indice do valor mais próximo a random.
+										if ( (random - distGargantasAcumulada[n-1]) < (distGargantasAcumulada[n] - random) ) {
+											raio = n;
+										} else {
+											raio = n+1;
+										}
+										break;
+									} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
+										break; //sai do loop com raio == 1
+									}
+								}
+							}
+							// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
+							while ( (raio >= raioSitio || raio >= raioVizinho) && raio > 1 ) {
+								--raio;
+							}
+
+							//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
+							//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
+							//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
+							phiObjeto = PhiCilindro(raio, distancia, area);
+							//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
+							//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
+							//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
+							if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+								while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+									--raio;
+									phiObjeto = PhiCilindro(raio, distancia, area);
+								}
+								++raio;
+								phiObjeto = PhiCilindro(raio, distancia, area);
+							}
+							phiLigacoes += phiObjeto; //acumula a porosidade
+							// Conecta os objetos
+							++cont;
+							matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
+							itMatObj = matrizObjetosTemp.find(cont);
+							itMatObj->second.pontoCentral.df = 3*raio;
+							itMatObj->second.pontoCentral.x = (int) round((itSitio->second.pontoCentral.x + itVizinho->second.pontoCentral.x)/2);
+							itMatObj->second.pontoCentral.y = (int) round((itSitio->second.pontoCentral.y + itVizinho->second.pontoCentral.y)/2);
+							itMatObj->second.pontoCentral.z = (int) round((itSitio->second.pontoCentral.z + itVizinho->second.pontoCentral.z)/2);
+							xSolver = (long double)itMatObj->second.pontoCentral.x;
+							itMatObj->second.X(xSolver);
+
+							// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+							xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
+
+							//Cálculo de condutâncias e realiza conexões
+							CondutanciaLigacao(itMatObj->second, distancia);
+							//primeiro sítio
+							gSitioLigacao = CondutanciaSitioLigacao(itVizinho->second, itMatObj->second, distancia );
+							itMatObj->second.Conectar(itVizinho->first, gSitioLigacao);
+							itVizinho->second.Conectar(cont, gSitioLigacao);
+							//segundo sítio
+							gSitioLigacao = CondutanciaSitioLigacao(itSitio->second, itMatObj->second, distancia );
+							itMatObj->second.Conectar(itSitio->first, gSitioLigacao);
+							itSitio->second.Conectar(cont, gSitioLigacao);
+
+							// se já atingiu a porosidade, força a saída do loop.
+							if (phiLigacoes >= phiGargantas) {
+								continua = false;
+							}
+						} // if (cabe) {
+					} // if ( itSitio->second.SConexao().size() < nCoord ) {
+				} // if ( sitio != 0 ) {
+				if (i==nCol && j==nCol && k==nCol) {
+					percorreuTodos = true;
 				}
-			}
-			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
-			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
-				--raio;
-			}
-
-			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
-			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
-			//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
-			phiObjeto = PhiCilindro(raio, distancia, area);
-			//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
-			//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
-			//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
-			if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-				while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-					--raio;
-					phiObjeto = PhiCilindro(raio, distancia, area);
-				}
-				++raio;
-				phiObjeto = PhiCilindro(raio, distancia, area);
-			}
-			phiLigacoes += phiObjeto; //acumula a porosidade
-			++cont;
-			// Conecta os objetos
-			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
-			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
-			itMatObj = matrizObjetosSL.find(cont);
-			itMatObj->second.pontoCentral.df = 3*raio;
-			itMatObj->second.pontoCentral.x = (int) round((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			itMatObj->second.pontoCentral.y = (int) round((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			itMatObj->second.pontoCentral.z = (int) round((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			xSolver = (long double)itMatObj->second.pontoCentral.x;
-			itMatObj->second.X(xSolver);
-
-			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-			xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
-
-			//Cálculo de condutâncias e realiza conexões
-			CondutanciaLigacao(itMatObj->second, distancia);
-			//primeiro sítio
-			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia );
-			itMatObj->second.Conectar(itt->first, gSitioLigacao);
-			itt->second.Conectar(cont, gSitioLigacao);
-			//segundo sítio
-			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia );
-			itMatObj->second.Conectar(it->first, gSitioLigacao);
-			it->second.Conectar(cont, gSitioLigacao);
-
-			if (phiLigacoes >= phiGargantas)
-				break;
-		}
-		//std::cerr << "Aqui4!" << std::endl;
-		if (phiLigacoes >= phiGargantas)
-			break;
-		if ( obj==tamMatObjs && phiLigacoes < phiGargantas ) {
-			//exit;
-			cabe = true;
-			obj = 1;
-		}
-	}
-	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
+			} // for k
+		} // for j
+	} // for i
 	numLigacoes = cont-tamMatObjs;
 	std::cerr << "Ligacoes criadas!\nphiLigacoes: " << phiLigacoes << " | phiGargantas: " << phiGargantas << " | Num. Ligacoes: " << numLigacoes << std::endl;
 	std::cerr << cont << " objetos criados!" << std::endl;
@@ -1514,18 +1501,13 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
 	std::cerr << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
-
-	//for (auto xto : matrizObjetosSL ) {
-	//	ptrMatObjsRede->matrizObjetos[xto.first] = xto.second;
-	//}
-
 	for (auto &xto : xToObj ) {
 		++cont;
-		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
+		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosTemp[xto.second];
 		objAntToObjAtual[xto.second] = cont;
 		std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
-	matrizObjetosSL.clear();
+	matrizObjetosTemp.clear();
 
 	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
 	std::map<int, double> conexoesAtu;
@@ -1551,7 +1533,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 
 	objAntToObjAtual.clear();
 	xToObj.clear();
-	*/
+
 	return true;
 }
 

@@ -883,7 +883,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
 		// Inicialmente cada sítio terá número de coordenação 2.
 		if (cabe) {
-			nCoord = Random(3,5); // Sorteira números randomicos entre 2 e 4 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
+			nCoord = Random(3,5); // Sorteira números randomicos entre 3 e 5 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
 			obj = Random(1,tamMatObjs-1);
 		} else {
 			nCoord = 2;

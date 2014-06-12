@@ -2129,7 +2129,6 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
-		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
 		for ( i = 0; i < nx; ++i) {
 			for ( j = 0; j < ny; ++j) {
@@ -2165,8 +2164,8 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 			}
 		}
 
-		//verificar na matrizObjetos quais vizinhos da matrizAbertura são sitios e precisam ter seu
-		//rótulo atualizado
+		//verificar na matrizObjetos quais vizinhos da matrizAbertura são sitios e precisam ter seu rótulo
+		//atualizado para ficarem com o mesmo rótulo dos objetos identificados na matrizAbertura
 		for ( i = 1; i < nx-1; ++i) {
 			for ( j = 1; j < ny-1; ++j) {
 				for ( k = 1; k < nz-1; ++k) {
@@ -2344,7 +2343,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 			}
 		}
 
-		// Agora vamos percorrer os objetos anotados como RAMOs_MORTOs e identificar sitios, ligações e ramos mortos
+		// Agora vamos percorrer os objetos e identificar sitios, ligações e ramos mortos
 		// Em seguida, aproveita o loop para restaurar a matrizAbertura.
 		cout << "-->Identificando sitios, ligações e ramos mortos..." << endl ;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)

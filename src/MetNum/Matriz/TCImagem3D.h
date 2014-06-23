@@ -123,6 +123,9 @@ class TCImagem3D : public TCMatriz3D<T> //, public CImg //comentei para poder fa
 		/// Salva dados do cabecalho
 		virtual void SalvaCabecalho (std::ofstream & fout) const;
 
+		/// Cria e retorna uma nova matriz 3D que será um recorte da matriz (this).
+		TCImagem3D<T>* Crop (int startX, int endX, int startY, int endY, int startZ, int endZ);
+
 
 		// --------------------------------------------------------------------Get
 		/// Retorna o valor de x0

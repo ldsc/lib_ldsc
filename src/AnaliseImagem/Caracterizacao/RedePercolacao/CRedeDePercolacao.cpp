@@ -881,10 +881,10 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 	std::cerr << "Criando ligacoes..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
 	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
-		// Inicialmente cada sítio terá número de coordenação 2.
+		// Inicialmente cabe==false, então, cada sítio terá número de coordenação 2.
 		if (cabe) {
 			nCoord = Random(3,5); // Sorteira números randomicos entre 3 e 5 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
-			obj = Random(1,tamMatObjs-1);
+			obj = Random(1,tamMatObjs-1); //pega sítios aleatórios.
 		} else {
 			nCoord = 2;
 		}

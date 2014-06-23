@@ -81,10 +81,10 @@ class CRedeDePercolacao
 		// Métodos
 	public:
 		/// Sementa a imagem, executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::um );
+		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
 
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::um );
+		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
 		bool SalvarListaObjetos(std::string nomeArquivo) const;

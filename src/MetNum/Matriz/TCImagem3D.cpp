@@ -103,3 +103,41 @@ void TCImagem3D<T>::SalvaCabecalho (ofstream & fout) const {
 	SalvaInformacoesRecontrucao(fout);
 }
 
+// Cria e retorna uma nova matriz 3D que será um recorte da matriz (this).
+template< typename T >
+TCImagem3D<T>* TCImagem3D<T>::Crop (int startX, int endX, int startY, int endY, int startZ, int endZ) {
+	if (startX >= endX || startY >= endY || startZ >= endZ) {
+		cerr << "O valor inicial deve ser menor que o falor final" << endl;
+		return NULL;
+	}
+
+	if (endX > this->nx || endY > this->ny || endZ > this->nz){
+		cerr << "O valor final deve ser menor que o tamanho da matriz original (this)" << endl;
+		return NULL;
+	}
+
+	int _nx = endX-startX;
+	int _ny = endY-startY;
+	int _nz = endZ-startZ;
+
+	TCImagem3D<T> * pmtmp = NULL;
+	pmtmp = new TCImagem3D<T>( _nx, _ny, _nz );
+	if( ! pmtmp )
+		return NULL;
+	pmtmp->SetFormato(this->GetFormato());
+	pmtmp->NumCores(this->NumCores());
+	pmtmp->dimensaoPixel = this->DimensaoPixel();
+	pmtmp->fatorAmplificacao = this->FatorAmplificacao();
+	pmtmp->numeroPixeisBorda = 0;
+	int i,j,k;
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+	for (i = 0; i < _nx; i++) {
+		for (j = 0; j < _ny; j++) {
+			for (k = 0; k < _nz; k++) {
+				pmtmp->data3D[i][j][k] = this->data3D[i+startX][j+startY][k+startZ];
+			}
+		}
+	}
+	return pmtmp;
+}
+

@@ -116,9 +116,9 @@ TCImagem3D<T>* TCImagem3D<T>::Crop (int startX, int endX, int startY, int endY, 
 		return NULL;
 	}
 
-	int _nx = endX-startX;
-	int _ny = endY-startY;
-	int _nz = endZ-startZ;
+	int _nx = endX-startX+1;
+	int _ny = endY-startY+1;
+	int _nz = endZ-startZ+1;
 
 	TCImagem3D<T> * pmtmp = NULL;
 	pmtmp = new TCImagem3D<T>( _nx, _ny, _nz );

@@ -390,8 +390,15 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 
 
 /* ========================= Modelo 7 =========================
-*	 Executa abertura para segmentar poros e gargantas e no final realiza dilatação na matriz de poros.
-*  Após dilatar a matriz de poros rotula e verifica novamente a conexão entre os objetos fazendo com que ramos mortos virem sítio
+* Executa abertura a cada passo;
+* Rotula e identifica os objetos;
+* Pega o complemento da abertura;
+* Rotula e identifica os objetos da abertura complementar;
+* Realiza conexões entre os objetos;
+* Identifica os sítios e ligações;
+* Após o loop:
+* - realiza dilatação na matriz de poros.
+* - Após dilatar, rotula e verifica novamente a conexão entre os objetos atualizando a matriz de objetos.
 */
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 	// Variáveis auxiliares
@@ -776,7 +783,15 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 }
 
 /* ========================= Modelo 8 =========================
-*	 Executa abertura para segmentar poros e gargantas e no final realiza dilatação na matriz de poros.
+*	Executa abertura a cada passo;
+* Rotula e identifica os objetos;
+* Pega o complemento da abertura;
+* Rotula e identifica os objetos da abertura complementar;
+* Realiza conexões entre os objetos;
+* Identifica os sítios e ligações;
+* Após o loop:
+* - Realiza dilatação na matriz de poros.
+* - Após dilatar, corrige as matrizes predominando os sítios.
 */
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_8() {
 	// Variáveis auxiliares
@@ -1088,7 +1103,12 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_8() {
 }
 
 /* ========================= Modelo 9 =========================
-*	Realiza abertura e dilatação a cada passo, porém só dilata enquanto o raioEE < raioEEDilatacao.
+*	Executa abertura e dilatação a cada passo, porém só dilata enquanto o raioEE < raioEEDilatacao.
+* Rotula e identifica os objetos;
+* Pega o complemento da abertura;
+* Rotula e identifica os objetos da abertura complementar;
+* Realiza conexões entre os objetos;
+* Identifica os sítios e ligações;
 */
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 	// Variáveis auxiliares
@@ -1211,9 +1231,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 					// Identificando complemento da abertura:
 					// Se o pixel analizado for INDICE em pm, inverte os valores da matrizAbertura assinalando como matriz complementar
 					if ( pm->data3D[i][j][k] ==	INDICE ) {
-						if ( matrizAbertura->data3D[i][j][k] == FUNDO and
-								 matrizLigacoes->data3D[i][j][k] == FUNDO )
-						{
+						if ( matrizAbertura->data3D[i][j][k] == FUNDO and matrizLigacoes->data3D[i][j][k] == FUNDO ) {
 							matrizAbertura->data3D[i][j][k] = INDICE;
 						} else {
 							matrizAbertura->data3D[i][j][k] = FUNDO;
@@ -1362,12 +1380,16 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_9() {
 }
 
 /* ========================= Modelo 10 =========================
-* Executa abertura a cada passo.
-* Considera matriz ramos mortos.
+* Executa abertura a cada passo e corrige pixeis que eventualmente tenham sido ativos indevidamente pela operação de abertura.
+* A cada passo, mantem as matrizes de sítios, ligações e ramos mortos atualizadas.
+* Verificar na matrizObjetos quais vizinhos da matrizAbertura são sítios e precisam ter seu rótulo atualizado.
+* De acordo com o número de conexões de cada objeto, assinala como sítio, ligação ou ramo morto, mantendo as devidas matrizes atualizadas.
 * Após o loop:
 * - dilata matrizes de sítios e ligações.
-* - corrige matrizes.
-* - converte ramos mortos em sítos e ligações
+* - corrige matrizes dando prioridade para sítios e para a imagem original.
+* - converte ramos mortos em sítios ou ligações.
+* - atualiza a matriz de objetos.
+* - ligações conectadas a um único sítio são convertidas para sítios.
 */
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 	// Variáveis auxiliares
@@ -1463,11 +1485,10 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
-		// A seguir, inverte a região porosa na matrizAbertura de forma que esta passa a ser o complemento da abertura
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
-		for ( i = 0; i < nx; ++i) {
-			for ( j = 0; j < ny; ++j) {
-				for ( k = 0; k < nz; ++k) {
+		for ( i = 0; i < nx; ++i ) {
+			for ( j = 0; j < ny; ++j ) {
+				for ( k = 0; k < nz; ++k ) {
 					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
@@ -1793,12 +1814,11 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 	cout << "tempo: " << omp_get_wtime()-timing << " s." << endl;
 
 	cout << "-->Corrigindo matrizes..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {
 				if ( pm->data3D[i][j][k] == INDICE ) {
-					rotuloijk = matrizRotulada->data3D[i][j][k];
 					if ( matrizSitios->data3D[i][j][k] == INDICE ) {
 						matrizLigacoes->data3D[i][j][k] = FUNDO;
 						matrizRamosMortos->data3D[i][j][k] = FUNDO;
@@ -2029,12 +2049,17 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_10() {
 }
 
 /*========================== Modelo 11 =========================
-* Executa abertura a cada passo.
-* Considera matriz ramos mortos.
+* Alimenta a matriz de sítios;
+* Executa abertura a cada passo e corrige pixeis que eventualmente tenham sido ativos indevidamente pela operação de abertura.
+* A cada passo, mantem as matrizes de sítios, ligações e ramos mortos atualizadas.
+* Verificar na matrizObjetos quais vizinhos da matrizAbertura são sítios e precisam ter seu rótulo atualizado.
+* De acordo com o número de conexões de cada objeto, assinala como sítio, ligação ou ramo morto, mantendo as devidas matrizes atualizadas.
 * Após o loop:
-* - dilata matrizes de sítios e ligações.
-* - corrige matrizes.
-* - converte ramos mortos em sítos e ligações
+* - dilata matrizes de sítios e ligações (as ligações são dilatadas com EE de raio 1, já os sítios são dilatados com o raio informado).
+* - corrige matrizes dando prioridade para sítios e para a imagem original.
+* - converte ramos mortos em sítios ou ligações.
+* - atualiza a matriz de objetos.
+* - ligações conectadas a um único sítio são convertidas para sítios.
 * ==============================================================*/
 void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 	// Variáveis auxiliares
@@ -2130,9 +2155,9 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 		// Copia a matriz abertura rotulada (matrizRotulo) para a matrizRotulada,
 		// assim, a matrizRotulada terá também a informação dos rótulos dos sítios identificados.
 		//#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk,it) //schedule(dynamic,10)
-		for ( i = 0; i < nx; ++i) {
-			for ( j = 0; j < ny; ++j) {
-				for ( k = 0; k < nz; ++k) {
+		for ( i = 0; i < nx; ++i ) {
+			for ( j = 0; j < ny; ++j ) {
+				for ( k = 0; k < nz; ++k ) {
 					// Se o pixel analizado é INDICE na matrizAbertura, copia o rótulo acrescidos do número de objetos antes da abertura para a matrizRotulada
 					if ( matrizAbertura->data3D[i][j][k] == INDICE ) {
 						//Primeiro decrementa o número de objetos representados na matrizObjetos e verifica se o objeto continuará existindo.
@@ -2418,7 +2443,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_11() {
 //	pfmf->Dilatacao( matrizRamosMortos, raioEEDilatacao );
 
 	cout << "-->Corrigindo matrizes..." << endl ;
-#pragma omp parallel for collapse(3) default(shared) private(i,j,k,rotuloijk) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for ( i = 0; i < nx; ++i) {
 		for ( j = 0; j < ny; ++j) {
 			for ( k = 0; k < nz; ++k) {

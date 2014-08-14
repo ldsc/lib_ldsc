@@ -78,10 +78,10 @@ class CPermeabilidadeIntrinsecaByRede {
 		bool SetarPropriedadesSolver( long double limiteErro = 1.0e-06, unsigned long int limiteIteracoes = 10000/*, long double fatorRelaxacao = 0.7*/);
 
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::um);
+		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois);
 
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::um );
+		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
 
 		inline std::string SalvarRede() {
 			return salvarRede;

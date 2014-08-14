@@ -888,19 +888,29 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		} else {
 			nCoord = 2;
 		}
+		std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
 		it = matrizObjetosSL.find(obj);
 		if (it == matrizObjetosSL.end()) {
 			continue;
 		}
 		itt = it;
 		raioit = it->second.Raio();
+		// Se todos os sítios já foram interligados, é preciso garantir que irá entrar no proximo loop!
+		// Se cabe==true, é porque todos os sítios já foram interligados, então,
+		// Se o valor de Z a ser setado for maior que nCoord, incrementa nCoord até que se torne igual a Z.
+		Z=it->second.NumConexoes()+1;
+		while ( cabe && (Z > nCoord) ) {
+			++nCoord;
+		}
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
+			std::cerr << "Procurando proximo objeto ainda não conectado..." << std::endl;
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
 				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
 					break;
 				}
 			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
+			std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
 			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
 				break;
 			raioitt = itt->second.Raio();
@@ -909,6 +919,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			distancia = distancia - it->second.Raio() - itt->second.Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 				distancia = 1;
+			std::cerr << "Tamanho da ligação: " << distancia << std::endl;
 			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
 			raio = 1;
 			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
@@ -933,6 +944,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
 				--raio;
 			}
+			std::cerr << "Raio da ligação: " << raio << std::endl;
 
 			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
 			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
@@ -982,6 +994,8 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		//std::cerr << "Aqui4!" << std::endl;
 		if (phiLigacoes >= phiGargantas)
 			break;
+		// Se conectou o último sítio e ainda precisa criar mais ligações, volta para o primeiro sítio e seta cabe=true;
+		// Assim serão criadas ligações aleatórias...
 		if ( obj==tamMatObjs && phiLigacoes < phiGargantas ) {
 			//exit;
 			cabe = true;

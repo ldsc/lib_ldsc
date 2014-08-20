@@ -442,7 +442,7 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 		itt = it;
 		raioit = it->second.Raio();
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
+			do { // Vai para o próximo objeto ainda nao conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
 				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
 					break;
@@ -883,12 +883,8 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
 		// Inicialmente cabe==false, então, cada sítio terá número de coordenação 2.
 		if (cabe) {
-			nCoord = Random(3,5); // Sorteira números randomicos entre 3 e 5 (corresponderá ao número de coordenação  do sítiios, ou seja, quantas ligações partem dele).
 			obj = Random(1,tamMatObjs-1); //pega sítios aleatórios.
-		} else {
-			nCoord = 2;
 		}
-		std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
 		it = matrizObjetosSL.find(obj);
 		if (it == matrizObjetosSL.end()) {
 			continue;
@@ -896,14 +892,19 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		itt = it;
 		raioit = it->second.Raio();
 		// Se todos os sítios já foram interligados, é preciso garantir que irá entrar no proximo loop!
-		// Se cabe==true, é porque todos os sítios já foram interligados, então,
-		// Se o valor de Z a ser setado for maior que nCoord, incrementa nCoord até que se torne igual a Z.
-		Z=it->second.NumConexoes()+1;
-		while ( cabe && (Z > nCoord) ) {
-			++nCoord;
+		// Se cabe==true, é porque todos os sítios já foram interligados, ou,
+		// se Z>2 é porque o objeto já possui pelo menos duas conexões, mas poderá ser conectado a objeto mais a frente.
+		// Então, o valor de nCoord a ser setado será igual ao numero de conexões existentes no objeto + 1.
+		// Senão, o valor de nCoord será 2.
+		Z = it->second.NumConexoes()+1;
+		if (cabe || Z > 2) {
+			nCoord = Z;
+		} else {
+			nCoord = 2;
 		}
+		std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			std::cerr << "Procurando proximo objeto ainda não conectado..." << std::endl;
+			std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
 				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
@@ -919,7 +920,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			distancia = distancia - it->second.Raio() - itt->second.Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 				distancia = 1;
-			std::cerr << "Tamanho da ligação: " << distancia << std::endl;
+			std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
 			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
 			raio = 1;
 			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
@@ -944,7 +945,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
 				--raio;
 			}
-			std::cerr << "Raio da ligação: " << raio << std::endl;
+			std::cerr << "Raio da ligacao: " << raio << std::endl;
 
 			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
 			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;

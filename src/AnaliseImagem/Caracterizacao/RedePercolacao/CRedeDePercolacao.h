@@ -30,7 +30,8 @@
 enum EModeloRede{
 	um = 1,
 	dois = 2,
-	tres = 3
+	tres = 3,
+	quatro = 4
 };
 
 class CRedeDePercolacao
@@ -122,10 +123,17 @@ class CRedeDePercolacao
 		bool ModeloDois( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
+		 *	Este modelo cria uma rede com sítios de tamanhos aleatórios,
+		 *	alocados em posições aleatórias e com variação no número de ligações.
+		 *	Difere do ModeloDois pois salva os sítios e ligações ordenados pelo eixo X.
+		 */
+		bool ModeloTres( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
+		/** Método chamado por Go para criar a rede de percolação.
 		 *	Este modelo cria sítios alinhados, de tamanhos variados e com ligações
 		 *	aos vizinhos mais próximos. As ligações também possuem raios variados.
 		 */
-		bool ModeloTres( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool ModeloQuatro( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();

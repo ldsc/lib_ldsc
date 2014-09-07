@@ -1058,8 +1058,12 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 }
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
-// Este modelo primeiro aloca uma porcentagem dos sítios nas fronteiras para depois alocar o restante dos sítios
-// Difere do ModeloDois pois salva os sítios e ligações ordenados pelo eixo X.
+// Por enquanto está identico ao ModeloDois! Pretendo modificalo para que fique:
+
+// Semelhante ao ModeloDois, porém, difere na ordenação final dos objetos.
+// Neste modelo, os sítios são inicialmente odernados em X. Partindo do primeiro sítio,
+// a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
+// e para as ligações conectadas a ele.
 bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificacao ) {
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
@@ -1309,7 +1313,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	cont = 1;
 	matrizObjetosSL[cont] = matrizObjetosTemp[1];
 	matrizObjetosTemp.erase(1);
-	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+	// Alimenta matriz que referencia os objetos de forma que estes fiquem ordenados em x
 	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;

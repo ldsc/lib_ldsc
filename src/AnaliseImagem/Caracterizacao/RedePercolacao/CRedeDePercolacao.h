@@ -119,14 +119,18 @@ class CRedeDePercolacao
 		 *	alocados em posições aleatórias e com variação no número de ligações.
 		 *	Difere do ModeloUm pois primeiro aloca os sítios das fronteiras garantindo
 		 *	que o fluxo nas fronteiras melhor reflita a realidade do meio físico.
-		 *  Primeiro ordena os sítios e depois as ligações, pelo centro de massa no eixo X.
+		 *  Ordena os sítios e ligações pela posição no eixo X, do centro de massa de cada objeto.
 		 */
 		bool ModeloDois( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
-		 *	Este modelo cria uma rede com sítios de tamanhos aleatórios,
-		 *	alocados em posições aleatórias e com variação no número de ligações.
-		 *	Difere do ModeloDois pois ordena sítios e ligações misturados.
+		 *  Por enquanto está identico ao ModeloDois! Pretendo modificalo para que fique:
+		 *
+		 *
+		 *	Semelhante ao ModeloDois, porém, difere na ordenação final dos objetos.
+		 *  Neste modelo, os sítios são inicialmente odernados em X. Partindo do primeiro sítio,
+		 *  a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
+		 *  e para as ligações conectadas a ele.
 		 */
 		bool ModeloTres( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 

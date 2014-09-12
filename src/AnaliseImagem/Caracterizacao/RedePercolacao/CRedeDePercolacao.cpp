@@ -102,7 +102,7 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 // g = (r^3) / (3*viscosidade) ->
 double CRedeDePercolacao::CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
-	double viscosidade = 1.0;
+	double viscosidade = 0.001002;
 	double raio = (double)objetoImagem.Raio() * dimensaoPixel * fatorAmplificacao;
 	double condutancia = (raio*raio*raio) / (3.0 * viscosidade);
 	objetoImagem.Propriedade( condutancia );
@@ -114,7 +114,7 @@ double CRedeDePercolacao::CondutanciaSitio (CObjetoRedeDePercolacao &objetoImage
 // condutancia = pi*dH^4/(128*viscosidade*comprimento)
 double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &_comprimento, double dimensaoPixel, double fatorAmplificacao) {
 	// Variáveis auxiliares
-	double viscosidade = 1.0;
+	double viscosidade = 0.001002;
 	double comprimento = _comprimento * dimensaoPixel * fatorAmplificacao;
 	// Calcula o raio hidraulico do objeto já convertido para metros
 	double raioHidraulico = RaioHidraulicoCirculo(objetoImagem.Raio()) * dimensaoPixel * fatorAmplificacao;

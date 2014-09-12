@@ -25,7 +25,7 @@ CDistribuicaoTamanhoPorosGargantas::CDistribuicaoTamanhoPorosGargantas(TCImagem3
 			int i,j,k;
 			pms = new TCMatriz3D<bool>(nx,ny,nz);
 			pml = new TCMatriz3D<bool>(nx,ny,nz);
-			#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
+#pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 			for ( i=0; i<nx; ++i ) {
 				for ( j=0; j<ny; ++j ) {
 					for ( k=0; k<nz; ++k ) {
@@ -71,8 +71,14 @@ std::pair< CDistribuicao3D*, CDistribuicao3D* > CDistribuicaoTamanhoPorosGargant
 		distG = new CDistribuicao3D ( pml );
 	}
 	if (distP != nullptr && distG != nullptr) {
-		okP = distP->Go( CBaseDistribuicao::dtp, _metrica, indice, fundo );
-		okG = distG->Go( CBaseDistribuicao::dtg, _metrica, indice, fundo );
+#pragma omp parallel
+#pragma omp sections
+		{
+#pragma omp section
+			okP = distP->Go( CBaseDistribuicao::dtp, _metrica, indice, fundo );
+#pragma omp section
+			okG = distG->Go( CBaseDistribuicao::dtg, _metrica, indice, fundo );
+		}
 	}
 	if (okP && okG) {
 		return std::make_pair(distP, distG);

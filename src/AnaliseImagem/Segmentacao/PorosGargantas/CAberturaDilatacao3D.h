@@ -32,6 +32,9 @@ class CAberturaDilatacao3D : public CMatrizObjetoImagem
 		/// Matriz original (ponteiro para matriz original)
 		TCMatriz3D<bool>* pm;
 
+		/// Imagem original (ponteiro para imagem original)
+		TCImagem3D<bool>* pi3d;
+
 		/// Matriz que armazena os sítios identificados
 		TCMatriz3D<bool>* matrizSitios;
 

@@ -12,6 +12,30 @@ Desenvolvido por: LDSC - Laboratorio de Desenvolvimento de Software Científico
 #include <AnaliseImagem/Caracterizacao/RedePercolacao/CObjetoRedeDePercolacao.h>
 #include <AnaliseImagem/Matriz/CMatrizObjetoRede.h>
 
+// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações).
+void CObjetoRedeDePercolacao::GravarObjetoRede(ofstream &_fout) {
+	//Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons Condutancia.Obj-Cons Condutancia.Obj
+	_fout << std::left << std::setw(5) << pontoCentral.x;
+	_fout << std::left << std::setw(5) << pontoCentral.y;
+	_fout << std::left << std::setw(5) << pontoCentral.z;
+	_fout << std::left << std::setw(5) << Raio();
+	_fout << std::left << std::setw(5) << Tipo();
+	_fout << std::left << std::setw(9) << numObjs;
+	_fout << std::left << std::setw(9) << sConexao.size();
+	//std::set<int>::iterator itr;
+	std::map<int,double>::iterator itr;
+	for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
+		//_fout << " " << *itr;
+		_fout << " " << itr->first;
+	}
+	for (itr=sConexao.begin(); itr!=sConexao.end(); ++itr) {
+		//_fout << " " << *itr;
+		_fout << " " << itr->second;
+	}
+	_fout << " " << propriedade;
+	_fout << endl;
+}
+
 // Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 void CObjetoRedeDePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq) {
 	// fronteira sequencial propriedade?  Camada N.ObjsCon LstObjsCons LstPropriedade?
@@ -33,7 +57,6 @@ void CObjetoRedeDePercolacao::GravarObjetoGrafo(ofstream &_fout, const int &seq)
 
 	}
 	_fout << endl;
-
 }
 
 std::ostream & operator<< (std::ostream & os, const CObjetoRedeDePercolacao & obj){

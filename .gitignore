@@ -40,4 +40,10 @@ bin/
 organizacaoDiretoriosAntes
 organizacaoDiretoriosDepois
 comandos_git
+ConfiguracoesEquilibrio_2D
+ConfiguracoesEquilibrio_3D
+*.permeabilidadeByRede.txt
+matriz3D
+Permeabilidade_GrafoConexaoSerial
+
 

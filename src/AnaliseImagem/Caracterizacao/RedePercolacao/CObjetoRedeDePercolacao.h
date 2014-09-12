@@ -58,6 +58,9 @@ class CObjetoRedeDePercolacao : public CObjetoImagem, public CSolverMatriz_Param
 		~CObjetoRedeDePercolacao() {}
 
 		// ---------------------------------------------------Métodos
+		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Rede de Percolação de Sítios e Ligações com propriedades).
+		void GravarObjetoRede(ofstream &_fout);
+
 		/// Grava as informações do objeto no arquivo recebido como parâmetro (formato Grafo de Conexão Serial).
 		void GravarObjetoGrafo(ofstream &_fout, const int & seq);
 

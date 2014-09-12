@@ -18,10 +18,10 @@ bool CMatrizObjetoRede::SalvarListaObjetos(std::string fileName, int nx, int ny,
 	fout.open(fileName.c_str());
 	if (fout.good()){
 		fout << "# " << matrizObjetos.size() << " " << nx << " " << ny << " " << nz << endl;
-		fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons" << endl;
+		fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons Cond.Obj-Cons Cond.Obj" << endl;
 		for (std::map<int,CObjetoRedeDePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
 			fout << std::left << std::setw(6) << it->first;
-			it->second.GravarObjeto(fout);
+			it->second.GravarObjetoRede(fout);
 		}
 		fout.close();
 		return true;

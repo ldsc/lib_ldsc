@@ -6,7 +6,7 @@
 using namespace std;
 
 CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indice, int _fundo)
-	: CMatrizObjetoImagem(), pm(matriz), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
+	: CMatrizObjetoImagem(), pm(matriz), pi3d(nullptr), // pm é ponteiro para imagem externa (se mudar externamente teremos problemas).
 		fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao( 1 ), modelo(0), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
@@ -20,7 +20,7 @@ CSegPorosGargantas3D::CSegPorosGargantas3D(TCMatriz3D<bool>* &matriz , int _indi
 }
 
 CSegPorosGargantas3D::CSegPorosGargantas3D(TCImagem3D<bool>* &matriz , int _indice, int _fundo)
-	: CMatrizObjetoImagem(), fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
+	: CMatrizObjetoImagem(), pi3d(matriz), fatorReducaoRaioElemEst (1), raioMaximoElementoEstruturante ( 500 ), // usar limits
 		incrementoRaioElementoEstruturante ( 1 ), raioEEDilatacao(1), modelo(0), INDICE(_indice), FUNDO(_fundo),
 		salvarResultadosParciais(false), gerarDetalhesObjetos(false)
 {
@@ -59,6 +59,7 @@ double CSegPorosGargantas3D::Porosidade( TCMatriz3D<int>* &_pm, int _ra ) {
 //	Se a possição dos índices coincidirem, o indice da última matriz informada como parâmetro será considerado.
 //	Método criado para que se possa salvar em disco duas matrizes bool ao invés de utilizar uma matriz int para representar sólidos, sitios e ligações (consome menos memória).
 bool CSegPorosGargantas3D::Write(string nomeArquivo ) {
+	/*
 	ofstream fout; //  Abre arquivo disco
 	fout.open(nomeArquivo.c_str(), ios::binary);
 	int nx, ny, nz;
@@ -70,7 +71,11 @@ bool CSegPorosGargantas3D::Write(string nomeArquivo ) {
 
 		//cabeçalho
 		fout << setw (0) << "D5" << '\n' << nx << ' ' << ny << ' ' << nz << '\n' << 3 << '\n';
-
+		if (pi3d != nullptr) {
+			fout << "#fatorAmplificacao: " << pi3d->FatorAmplificacao() << '\n';
+			fout << "#dimensaoPixel: " << pi3d->DimensaoPixel() << '\n';
+			fout << "#numeroPixeisBorda: " << pi3d->NumeroPixelsBorda() << '\n';
+		}
 		//percorre matrizes e mescla resultados salvando em disco.
 		for (int k = 0; k < nz; ++k) {
 			for (int j = 0; j < ny; ++j) {
@@ -88,6 +93,33 @@ bool CSegPorosGargantas3D::Write(string nomeArquivo ) {
 	} else {
 		return false;
 	}
+	*/
+	//Assim é mais lento e consome mais memória, porém, qualquer alteração na estrutura da imagem é refletida aqui.
+	int nx = pm->NX();
+	int ny = pm->NY();
+	int nz = pm->NZ();
+	TCImagem3D<short int> i3d(nx, ny, nz);
+	i3d.SetFormato(EImageType::D5_X_Y_Z_GRAY_BINARY);
+	i3d.NumCores(3);
+	if (pi3d != nullptr) {
+		i3d.FatorAmplificacao(pi3d->FatorAmplificacao());
+		i3d.DimensaoPixel(pi3d->DimensaoPixel());
+		i3d.NumeroPixelsBorda(pi3d->NumeroPixelsBorda());
+	}
+	//percorre matrizes e mescla resultados salvando na imagem 3D.
+	for (int k = 0; k < nz; ++k) {
+		for (int j = 0; j < ny; ++j) {
+			for (int i = 0; i < nx; ++i) {
+				if( matrizSitios->data3D[i][j][k] == INDICE ) // se o voxel for índice em matrizSitios
+					i3d.data3D[i][j][k] = 1; //SÍTIO
+				else if( matrizLigacoes->data3D[i][j][k] == INDICE ) // senão, se o voxel for índice em matrizLigacoes
+					i3d.data3D[i][j][k] = 2; //LIGACAO
+				else // senão, só pode ser fundo
+					i3d.data3D[i][j][k] = 0; //FUNDO
+			}
+		}
+	}
+	return i3d.Write(nomeArquivo);
 }
 
 // Grava em disco, com o nome informado, os objetos identificados.

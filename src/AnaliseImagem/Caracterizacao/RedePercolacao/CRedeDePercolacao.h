@@ -52,6 +52,9 @@ class CRedeDePercolacao
 		///Dimensão z da rede
 		unsigned short int nz{0};
 
+		///Viscosidade do fuido (usado no cálculo da condutância)
+		double viscosidade{0.001002}; // atributo do fluido, logo, não deveria estar aqui! Como, ao montar a rede estamos calculando a condutância, o atributo se fez necessário.
+
 	private:
 		///Par de ponteiros para a classe CDistribuicao, representado respectivamente a distribuição de tamanho de portos e a distribuição de tamanho de gargantas.
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > dtpg;
@@ -195,13 +198,13 @@ class CRedeDePercolacao
 		}
 
 		/// Calcula a condutância de objetos do tipo sítio
-		double CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double &dimensaoPixel, double &fatorAmplificacao);
 
 		/// Calcula a condutância de objetos do tipo ligação
-		double CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &comprimento, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-		double CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objImgSitio, CObjetoRedeDePercolacao &objImgLigacao, double &comprimento, double dimensaoPixel=1.0, double fatorAmplificacao=1.0);
+		double CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objImgSitio, CObjetoRedeDePercolacao &objImgLigacao, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
 
 		// -----------------------------------------------------------------Friend
 		friend ostream& operator<< (ostream& os, CRedeDePercolacao& obj);

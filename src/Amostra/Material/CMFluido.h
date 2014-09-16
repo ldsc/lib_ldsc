@@ -57,7 +57,7 @@ class CMFluido
 protected:
 
     /// Viscodidade do fluído
-    double viscosidade {1.0}; //0.001002
+		double viscosidade {0.001002}; //1.0
 
     /// Densidade do fluido
     double densidade {1.0};
@@ -72,7 +72,7 @@ protected:
 public:
 // -------------------------------------------------------------Construtor
     /// Construtor com parametros
-		CMFluido (double _v = 1.0, double _d = 1.0, bool _c = 1, bool _m = 1):
+		CMFluido (double _v = 0.001002, double _d = 1.0, bool _c = 1, bool _m = 1):
         viscosidade (_v), densidade (_d), compressibilidade (_c), molhabilidade ( _m) {
     }
 

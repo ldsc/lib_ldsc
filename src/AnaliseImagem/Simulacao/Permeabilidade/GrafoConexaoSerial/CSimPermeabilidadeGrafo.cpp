@@ -348,6 +348,7 @@ CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 	// Aqui eu defino os valores dos coeficientes a e b desta reta 
 	// (Pressao = a + b*coordenada_x).
 	long double a = pressao_face_esquerda;
+	std::cout << "--->Definindo coeficientes a da reta y = a + b.x \n--->a = " << a << std::endl;
 
 	// Coeficiente b da reta y = a + b.x
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pressaoMaxima,
@@ -356,10 +357,14 @@ CSimPermeabilidadeGrafo::DefinirCondicoesContorno ()
 
 	// determina o valor de pressaoMaxima a partir do valor do ultimo objeto do grafo. ?
 	long double coordenada_x = ( grafo->objeto[ultimoObjeto]->x );
-	cerr << "\npressaoMaxima em DefinirCondicoesContorno()===cordenada z: " << coordenada_x << endl;
 
 	// determina o valor de b
 	long double b = ( pressao_face_direita - pressao_face_esquerda ) / coordenada_x;
+	std::cout << "--->b = " << b << std::endl;
+
+	std::cout << "\n--->PressaoMaxima = " << coordenada_x;
+	std::cout << "\n--->PressaoFaceEsquerda = " << pressao_face_esquerda;
+	std::cout << "\n--->PressaoFaceDireita = " << pressao_face_direita << std::endl;
 
 	// Criando contorno de centro  (contorno[1] é o centro)
 	CContornoCentro* contorno_centro = new CContornoCentro ( a, b );

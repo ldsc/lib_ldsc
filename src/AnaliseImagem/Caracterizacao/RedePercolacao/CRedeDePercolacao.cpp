@@ -253,6 +253,7 @@ std::vector<int> * CRedeDePercolacao::CriarVetorDeRaiosDosSitios() {
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo Um..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	long double xSolver = 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
@@ -593,6 +594,7 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 // Este modelo primeiro aloca uma porcentagem dos sítios nas fronteiras para depois alocar o restante dos sítios
 bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo Dois..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -907,16 +909,16 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		} else {
 			nCoord = 2;
 		}
-		std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
+		//std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
+			//std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
 				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
 					break;
 				}
 			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
-			std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
+			//std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
 			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
 				break;
 			raioitt = itt->second.Raio();
@@ -925,7 +927,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			distancia = distancia - it->second.Raio() - itt->second.Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 				distancia = 1;
-			std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
+			//std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
 			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
 			raio = 1;
 			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
@@ -950,7 +952,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
 				--raio;
 			}
-			std::cerr << "Raio da ligacao: " << raio << std::endl;
+			//std::cerr << "Raio da ligacao: " << raio << std::endl;
 
 			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
 			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
@@ -1027,7 +1029,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
 		objAntToObjAtual[xto.second] = cont;
-		std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
+		//std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
 	matrizObjetosSL.clear();
 
@@ -1066,6 +1068,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 // a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
 // e para as ligações conectadas a ele.
 bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo Tres..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -1500,7 +1503,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
 		objAntToObjAtual[xto.second] = cont;
-		std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
+		//std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
 	matrizObjetosSL.clear();
 
@@ -1533,6 +1536,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 
 // Cria rede de percolação com sítios alinhados, porém de tamanhos aleatórios com variação do número de ligações.
 bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo Quatro..." << std::endl;
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
 	long double phiLigacoes		= 0.0; //porosidade da rede (licações)

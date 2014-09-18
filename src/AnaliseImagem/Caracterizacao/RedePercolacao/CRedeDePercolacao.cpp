@@ -383,18 +383,18 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 		xToObj.insert(pair<int, int>(it->second.pontoCentral.x,cont));
 
 		// Guarda listas de objetos que se encontram na camada leste e oeste (necessário para montar grafo)
-		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada y do objeto é menor que a atual camanda superior
-			camadaOeste = it->second.pontoCentral.x;							// Atualiza a atual camada superior
-			objsCamadaOeste.clear();															// Limpa a lista de objetos pertencentes a camada superior
-			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
-		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada y do objeto é igual a atual camada superior
-			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada superior
-		} else if (it->second.pontoCentral.x > camadaLeste) {	// Verifica se a camada y do objeto é maior que a atual camanda inferior
-			camadaLeste = it->second.pontoCentral.x;							// Atualiza a atual camada inferior
-			objsCamadaLeste.clear();															// Limpa a lista de objetos pertencentes a camada inferior
-			objsCamadaLeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
-		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada y do objeto é igual a atual camada inferior
-			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada inferior
+		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada x do objeto é menor que a atual camanda esquerda
+			camadaOeste = it->second.pontoCentral.x;							// Atualiza a atual camada esquerda
+			objsCamadaOeste.clear();															// Limpa a lista de objetos pertencentes a camada esquerda
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
+		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada esquerda
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
+		} else if (it->second.pontoCentral.x > camadaLeste) {	// Verifica se a camada x do objeto é maior que a atual camanda direita
+			camadaLeste = it->second.pontoCentral.x;							// Atualiza a atual camada direita
+			objsCamadaLeste.clear();															// Limpa a lista de objetos pertencentes a camada direita
+			objsCamadaLeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada diretia
+		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada direita
+			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada direita
 		}
 	}
 
@@ -690,7 +690,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			// aloca na matriz de objetos o sítio criado
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
 			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 			matrizObjetosTemp[cont].pontoCentral.x = x;
 			matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -765,7 +765,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			// aloca na matriz de objetos o sítio criado
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
 			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 			matrizObjetosTemp[cont].pontoCentral.x = x;
 			matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -1164,7 +1164,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 			// aloca na matriz de objetos o sítio criado
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
 			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 			matrizObjetosTemp[cont].pontoCentral.x = x;
 			matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -1239,7 +1239,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 			// aloca na matriz de objetos o sítio criado
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
 			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
 			matrizObjetosTemp[cont].pontoCentral.x = x;
 			matrizObjetosTemp[cont].pontoCentral.y = y;
@@ -1599,9 +1599,9 @@ bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplific
 		matrizObjetosTemp[cont].pontoCentral.y = y;
 		matrizObjetosTemp[cont].pontoCentral.z = z;
 		if ( x == raioMaxPP ) {
-			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
-		} else if ( x == xMax) {
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
+		} else if ( x == xMax) {
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
 		} else {
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::CENTER);
 		}

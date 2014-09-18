@@ -68,41 +68,37 @@ void CSimPermeabilidadeRede::CriarObjetosAgregados (){
 // Define as condicoes de contorno
 void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	std::cout << "\n==>Definindo condições de contorno..." << std::endl;
+	rede->contorno.clear();
 	// Uma atmosfera
 	long double pressao_face_esquerda { 1.0 };
 	long double pressao_face_direita { 0.0 };
-	rede->contorno.clear();
 
-	// Criando contorno esquerdo = 0;
-	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
-	assert (contorno_esquerdo);
-	contorno_esquerdo->ValorContorno ( pressao_face_esquerda );
-	rede->contorno.push_back ( contorno_esquerdo );
-
+	std::cout << "--->Definindo coeficientes da reta y = (a + b) * x" << std::endl;
 	// Calculando parâmetros para contorno de centro
 	// O objeto contorno de centro, tem uma funcao Go que estima os valores iniciais (de pressão)
 	// de rede->objeto[i]->x usando uma reta, agora passo os coeficientes desta reta.
 	// Coeficiente a da reta y = a + b.x
 	long double a = pressao_face_esquerda;
-	std::cout << "--->Definindo coeficientes a da reta y = a + b.x \n--->a = " << a << std::endl;
 
 	// Coeficiente b da reta y = a + b.x
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
 	// o ultimo objeto (sítio) tem armazenado o valor de pmax em x
-	//unsigned long int ultimoObjeto = rede->ptrMatObjsRede->matrizObjetos.rbegin()->first; //índice do último elemento da matriz
-
-	// determina o valor de pressaoMaxima
-	//long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos[ultimoObjeto].x;
 	long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.pontoCentral.x;
-	//long double pressaoMaxima = rede->nx;
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;
-	std::cout << "--->b = " << b << std::endl;
 
+	std::cout << "\n--->a = " << a;
+	std::cout << "\n--->b = " << b;
 	std::cout << "\n--->PressaoMaxima = " << pressaoMaxima;
 	std::cout << "\n--->PressaoFaceEsquerda = " << pressao_face_esquerda;
 	std::cout << "\n--->PressaoFaceDireita = " << pressao_face_direita << std::endl;
+
+	// Criando contorno esquerdo (contorno[0])
+	CContornoCentro *contorno_esquerdo = new CContornoCentro ();
+	assert (contorno_esquerdo);
+	contorno_esquerdo->ValorContorno ( pressao_face_esquerda );
+	rede->contorno.push_back ( contorno_esquerdo );
 
 	// Criando contorno de centro  (contorno[1] é o centro)
 	CContornoCentro *contorno_centro = new CContornoCentro (a, b);
@@ -110,7 +106,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	contorno_centro->ValorContorno ( pressao_face_esquerda );
 	rede->contorno.push_back (contorno_centro);
 
-	// Criando contorno direito = 2
+	// Criando contorno direito (contorno[2])
 	CContornoCentro *contorno_direito = new CContornoCentro ();
 	assert (contorno_direito);
 	contorno_direito->ValorContorno ( pressao_face_direita );
@@ -122,30 +118,24 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 	std::cout << "\\n==>Definindo condicoes iniciais..." << std::endl;
 	std::cout << "--->Percorre todos os objetos do rede, e define valores iniciais de x (pressao)" << std::endl;
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
-	for (auto objeto : rede->ptrMatObjsRede->matrizObjetos) {
+	for (auto &objeto : rede->ptrMatObjsRede->matrizObjetos) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (objeto.second.Contorno() == CContorno::ETipoContorno::CENTER)	// 1
-			objeto.second.x = rede->contorno[1]->Go(objeto.second.x);
+			objeto.second.x = rede->contorno[1]->Go(objeto.second.pontoCentral.x);
 		else if (objeto.second.Contorno () == CContorno::ETipoContorno::WEST)// 0 - Se contorno=CContorno::WEST  objeto esta na esquerda
-			objeto.second.x = (*(rede->contorno[0]));
+			objeto.second.x = rede->contorno[0]->ValorContorno();
 		else 	// 2 - Se contorno=CContorno::EST objeto esta na direita
-			objeto.second.x = (*(rede->contorno[2]));
-		std::cout << objeto.second.x << " ";
-	}
-	 std::cout << std::endl;
-
-	/*unsigned long int numeroObjetos = rede->ptrMatObjsRede->matrizObjetos.size();
-	for (unsigned long int k = 0; k < numeroObjetos; ++k) {
-		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
-		if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno() == CContorno::ETipoContorno::CENTER)	// 1
-			rede->ptrMatObjsRede->matrizObjetos[k].x = rede->contorno[1]->Go(rede->ptrMatObjsRede->matrizObjetos[k].x);
-		// Se contorno=CContorno::WEST  objeto esta na esquerda	// 0
-		else if (rede->ptrMatObjsRede->matrizObjetos[k].Contorno () == CContorno::ETipoContorno::WEST)
-			rede->ptrMatObjsRede->matrizObjetos[k].x = (*(rede->contorno[0]));
-		// Se contorno=CContorno::EST objeto esta na direita	// 2
-		else
-			rede->ptrMatObjsRede->matrizObjetos[k].x = (*(rede->contorno[2]));
-	}*/
+			objeto.second.x = rede->contorno[2]->ValorContorno();
+		/*
+		std::cout << "Obj: " << objeto.first;
+		std::cout << " x: " << objeto.second.pontoCentral.x;
+		std::cout << " y: " << objeto.second.pontoCentral.y;
+		std::cout << " z: " << objeto.second.pontoCentral.z;
+		std::cout << " t: " << objeto.second.Tipo();
+		std::cout << " p: " << objeto.second.x << "\n";
+		*/
+	} //CObjetoRedeDePercolacao::Tipo()
+	std::cout << std::endl;
 
 	// Determina parâmetros necessários ao calculo da permeabilidade
 	diferencaPressao = rede->contorno[0]->ValorContorno() -  rede->contorno[2]->ValorContorno();
@@ -195,7 +185,7 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 		std::cout << "--->Objetos enviados para o solver:" << endl;
 		for ( it=setObjs.begin(); it != setObjs.end(); ++it ) {
 			objs[i] = *it;
-			std::cout << "---->Obj: " << i << " x = " << (*it)->X()  << endl;
+			std::cout << "---->Obj: " << i << " x = " << objs[i]->X() << endl;
 			++i;
 		}
 		setouVetorObjetos = true;
@@ -205,8 +195,8 @@ void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 
 	// Mostra estado atual do sistema de solução da permeabilidade.
 	std::cout << "SolucaoSistemaEquacoes() [Pressões]:\n"
-						<< "solver->Iteracoes["		<< setw (  5 ) 	<< solver->Iteracoes ()
-						<< "] solver->LimiteErro[" << setw ( 10 ) 	<< solver->LimiteErro ()
+						<< "solver->Iteracoes["			<< setw (  5 ) 	<< solver->Iteracoes ()
+						<< "] solver->LimiteErro["	<< setw ( 10 ) 	<< solver->LimiteErro ()
 						<< "] solver->Erro["				<< setw ( 10 ) 	<< solver->Erro ()
 						<< "] solver->Go["					<< erroSolver 	<< "]" << endl;
 }

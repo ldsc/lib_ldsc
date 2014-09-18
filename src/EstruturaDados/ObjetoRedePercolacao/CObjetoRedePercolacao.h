@@ -47,8 +47,8 @@ class CObjetoRedePercolacao : public CObjetoRede {
 // --------------------------------------------------------------Atributos
 public:
    float cx {0.0}; ///< Posição x do objeto na imagem tridimensional
-   float cz {0.0}; ///< Posição y do objeto na imagem tridimensional
-   float cy {0.0}; ///< Posição z do objeto na imagem tridimensional
+	 float cy {0.0}; ///< Posição y do objeto na imagem tridimensional
+	 float cz {0.0}; ///< Posição z do objeto na imagem tridimensional
 
 // -------------------------------------------------------------/**Construtor*/
    /// Construtor

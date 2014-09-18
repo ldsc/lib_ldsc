@@ -27,7 +27,7 @@ Desenvolvido por:
 #include <Base/_LIB_LDSC_CLASS.h>
 #endif
 
-/// @defroup HCMateriais Hierarquia para classes que representam materiais (sólido, fluido, meioPoroso, rocha,..)
+/// @defgroup HCMateriais Hierarquia para classes que representam materiais (sólido, fluido, meioPoroso, rocha,..)
 
 /**
 * @brief	Representa um objeto fluido.

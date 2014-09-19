@@ -108,5 +108,11 @@ class CSimPermeabilidadeIntrinseca
 		// --------------------------------------------------------------------Set
 		// -------------------------------------------------------------Sobrecarga
 		// -----------------------------------------------------------------Friend
+		friend std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeIntrinseca & obj);
 };
+
+// -----------------------------------------------------------------Friend
+// Declaração de Funções Friend
+std::ostream & operator<< (std::ostream & os, const CSimPermeabilidadeIntrinseca & obj);
+
 #endif

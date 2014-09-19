@@ -91,6 +91,10 @@ class CPermeabilidadeIntrinsecaByRede {
 			salvarRede = arquivo;
 		}
 
+		inline CContornoRedeDePercolacao * Rede( ){
+			return rede;
+		}
+
 	protected:
 		/// Destrói os objetos que possam ter sido criados.
 		void DestruirObjetos();

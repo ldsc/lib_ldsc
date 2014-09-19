@@ -220,3 +220,10 @@ bool CSimPermeabilidadeIntrinseca::SetarPropriedadesSolver( long double limiteEr
 	}
 	return false;
 }
+
+//	operator<<
+ostream & operator<< (ostream & os, const CSimPermeabilidadeIntrinseca & obj) {
+	os << "=====Permeabilidade Intrinseca by Rede=====";
+	os << *(obj.perm);
+	return os;
+}

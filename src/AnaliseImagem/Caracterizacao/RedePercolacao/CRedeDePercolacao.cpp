@@ -78,7 +78,7 @@ std::vector<unsigned short int> CRedeDePercolacao::perimetroCirculo
 CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz ) {
 	srand (time(NULL)); //inicia seed randômica;
 
-	unsigned short int min = 100;
+	unsigned short int min = 50;
 	unsigned short int max = 1000;
 	nx = ( _nx < min ) ? min : _nx;
 	ny = ( _ny < min ) ? min : _ny;
@@ -86,8 +86,101 @@ CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int 
 	nx = ( _nx > max ) ? max : _nx;
 	ny = ( _ny > max ) ? max : _ny;
 	nz = ( _nz > max ) ? max : _nz;
-	// Cria matriz 3D que servirá para verificar sobreposições na rede.
+	// Ponteiro para matriz de objetos que compoem a rede de percolação.
 	ptrMatObjsRede = new CMatrizObjetoRede();
+}
+
+// Construtor (recebe arquivo no formato padrão da rede)
+CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
+	std::cout << "Lendo arquivo da rede e iniciando importação..." << std::endl;
+	std::ifstream file(filePath);
+	if (file.good()){
+		ptrMatObjsRede = new CMatrizObjetoRede();
+		numSitios = 0;
+		numLigacoes = 0;
+		std::vector<int> lstObjsCon;
+		std::vector<int> objsCamadaOeste;
+		std::vector<int> objsCamadaLeste;
+		int camadaOeste = 1000000;
+		int camadaLeste = 0;
+		int i, k, x, y, z, raio, tipo, nVoxels, nObjsCon;
+		double daux;
+		long double xSolver;
+		{
+			std::string saux;
+			file >> skipws >> saux; //pega o primeiro caracter ignorando espaços em branco;
+		}
+		file >> skipws >> i; //número de objetos
+		std::cout << "Rede com " << i << " objetos!" << std::endl;
+		file >> skipws >> nx;
+		file >> skipws >> ny;
+		file >> skipws >> nz;
+		{
+			char linha[1024];
+			file.getline(linha, 1024);
+		}
+		while ( !file.eof () ) {
+			file >> skipws >> i; //número do objeto (sítio ou ligação)
+			std::cout << "Importando objeto: " << i << std::endl;
+			file >> skipws >> x; //posição no eixo x;
+			file >> skipws >> y; //posição no eixo y;
+			file >> skipws >> z; //posição no eixo z;
+			file >> skipws >> raio; //raio;
+			file >> skipws >> tipo; //tipo do objeto (sítio ou ligação)
+			file >> skipws >> nVoxels; //número de voxeis que compõem o objeto
+			file >> skipws >> nObjsCon; //número de objetos conectados ao objeto
+
+			if (tipo == 2) { // somente sítios pertencem às fronteiras
+				// Guarda listas de objetos que se encontram na camada leste e oeste para posteriormente atualizar o tipo de contorno.
+				if (x < camadaOeste) {					// Verifica se a camada x do objeto é menor que a atual camanda esquerda
+					camadaOeste = x;							// Atualiza a atual camada esquerda
+					objsCamadaOeste.clear();			// Limpa a lista de objetos pertencentes a camada esquerda
+					objsCamadaOeste.push_back(i);	// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
+				} else if (x == camadaOeste) {  // Verifica se a camada x do objeto é igual a atual camada esquerda
+					objsCamadaOeste.push_back(i);	// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
+				} else if (x > camadaLeste) {		// Verifica se a camada x do objeto é maior que a atual camanda direita
+					camadaLeste = x;							// Atualiza a atual camada direita
+					objsCamadaLeste.clear();			// Limpa a lista de objetos pertencentes a camada direita
+					objsCamadaLeste.push_back(i);	// Inclui o objeto atual na lista de objetos pentencentes a camada diretia
+				} else if (x == camadaOeste) {  // Verifica se a camada x do objeto é igual a atual camada direita
+					objsCamadaOeste.push_back(i);	// Inclui o objeto atual na lista de objetos pentencentes a camada direita
+				}
+				ptrMatObjsRede->matrizObjetos[i] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, nVoxels);
+				++numSitios;
+			} else { //ligações
+				ptrMatObjsRede->matrizObjetos[i] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, nVoxels);
+				++numLigacoes;
+			}
+			ptrMatObjsRede->matrizObjetos[i].Contorno(CContorno::ETipoContorno::CENTER);
+			ptrMatObjsRede->matrizObjetos[i].pontoCentral.x = x;
+			ptrMatObjsRede->matrizObjetos[i].pontoCentral.y = y;
+			ptrMatObjsRede->matrizObjetos[i].pontoCentral.z = z;
+			ptrMatObjsRede->matrizObjetos[i].pontoCentral.df = 3*raio;
+			xSolver = (long double)x;
+			ptrMatObjsRede->matrizObjetos[i].X(xSolver); //seta o x do solver que será utilizado na simulação;
+			lstObjsCon.clear();
+			lstObjsCon.resize(nObjsCon);
+			for (k=0; k<nObjsCon; ++k) {
+				file >> skipws >> lstObjsCon[k];
+			}
+			for (k=0; k<nObjsCon; ++k) {
+				file >> skipws >> daux;
+				ptrMatObjsRede->matrizObjetos[i].Conectar(lstObjsCon[k], daux);
+			}
+			file >> skipws >> daux;
+			ptrMatObjsRede->matrizObjetos[i].Propriedade( daux );
+		}
+		// Percorre lista de obejos petencentes as camadas leste e oeste, atualizando seus contornos.
+		for (int &obj : objsCamadaOeste ) {
+			ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::WEST);
+		}
+		for (int &obj : objsCamadaLeste ) {
+			ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::EST);
+		}
+		std::cout << "A Rede foi importada!" << std::endl;
+	} else {
+		std::cerr << "Não foi possível abrir o arquivo " << filePath << std::endl;
+	}
 }
 
 // Destrutor
@@ -96,6 +189,86 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 		delete dtpg.first;
 	if (dtpg.second)
 		delete dtpg.second;
+}
+
+/// Após a rede ser criada ou importada, este método permite calcular as distribuição de tamanho de poros e gargantas da rede.
+std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistribuicaoRede() {
+	std::cout << "Calculando as distribuicoes..." << std::endl;
+	if (dtpg.first) //poros
+		delete dtpg.first;
+	if (dtpg.second) //gargantas
+		delete dtpg.second;
+	dtpg.first = new CDistribuicao3D();
+	dtpg.second = new CDistribuicao3D();
+	dtpg.first->Tipo(CBaseDistribuicao::dtp);
+	dtpg.first->Tipo(CBaseDistribuicao::dtg);
+	std::map<int,double>::iterator it;
+	std::map<int,double>::iterator itt;
+	std::vector<int> phiSitios;
+	std::vector<int> phiLigacoes;
+	int phiTotalSitios = 0;
+	int phiTotalLigacoes = 0;
+	int raio;
+	double distancia;
+	for (auto &obj: ptrMatObjsRede->matrizObjetos) {
+		if ( obj.second.Tipo() == SITIO) {
+			raio = obj.second.Raio();
+			if (raio+1 > phiSitios.size())
+				phiSitios.resize(raio+1 , 0);
+			phiSitios[raio] += numPixeisBola[raio];
+			phiTotalSitios  += numPixeisBola[raio];
+		} else { //Ligação
+			raio = obj.second.Raio();
+			if (raio+1 > phiLigacoes.size())
+				phiLigacoes.resize(raio+1 , 0);
+			//distância entre os sitios
+			it = itt = obj.second.SConexao().begin(); //primeiro objeto conectado
+			++itt; //segundo e último objeto conectado
+			distancia = DistanciaEntrePontos (
+										ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.x,
+					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.y,
+					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.z,
+					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.x,
+					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.y,
+					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.z
+					);
+			distancia = distancia - ptrMatObjsRede->matrizObjetos[it->first].Raio() - ptrMatObjsRede->matrizObjetos[itt->first].Raio();
+			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
+				distancia = 1.0;
+			phiLigacoes[raio] += NumPixeisCilindro(raio, distancia);
+			phiTotalLigacoes  += NumPixeisCilindro(raio, distancia);
+		}
+	} //CObjetoRedeDePercolacao::SConexao()
+	//define a área total dos sítios e das ligações
+	double area = nx * ny * nz;
+	/*#pragma omp paralel
+#pragma omp sections
+	{
+#pragma omp section
+		{
+*/
+	std::cout << "Calculando distribuições de Sitios..." << std::endl;
+	dtpg.first->AreaObjetos(((double)phiTotalSitios/area)*100.0);
+	//define a área para cada raio de sítio e de ligacao
+	for (raio = 1; raio < phiSitios.size(); ++raio) {
+		dtpg.first->distribuicao[raio] = ((double)phiSitios[raio]/area)*100.0;
+	}
+	std::cout << "Distribuicoes de Sítios calculadas!" << std::endl;
+	/*		}
+#pragma omp section
+		{
+*/
+	std::cout << "Calculando distribuições de Ligacoes..." << std::endl;
+	dtpg.second->AreaObjetos(((double)phiTotalLigacoes/area)*100.0);
+	for (raio = 1; raio < phiLigacoes.size(); ++raio) {
+		dtpg.second->distribuicao[raio] = ((double)phiLigacoes[raio]/area)*100.0;
+	}
+	std::cout << "Distribuicoes de Ligações calculadas!" << std::endl;
+	/*		}
+	}
+*/
+	std::cout << "Finalizado calculo das distribuicoes!" << std::endl;
+	return dtpg;
 }
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
@@ -139,6 +312,10 @@ double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objI
 bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ){
 	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo );
 	// Calcula as distribuições de tamanho de poros e gargantas
+	if (dtpg.first)
+		delete dtpg.first;
+	if (dtpg.second)
+		delete dtpg.second;
 	dtpg = cdtpg.Go(_metrica);
 	if (dtpg.first == nullptr || dtpg.second == nullptr) {
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
@@ -161,6 +338,10 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ) {
 	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm );
 	// Calcula as distribuições de tamanho de poros e gargantas
+	if (dtpg.first)
+		delete dtpg.first;
+	if (dtpg.second)
+		delete dtpg.second;
 	dtpg = cdtpg.Go(_metrica);
 	if (dtpg.first == nullptr || dtpg.second == nullptr) {
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;

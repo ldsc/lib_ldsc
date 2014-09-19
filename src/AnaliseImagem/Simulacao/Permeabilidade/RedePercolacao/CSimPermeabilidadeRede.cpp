@@ -158,46 +158,26 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 // Solucao do Sistema de Equações
 void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	std::cout << "\n==>Solucionando sistema de equacoes..." << std::endl;
-	if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
-		set< CSolverMatriz_ParametroSolver * > setObjs; //inicialmente passa os objetos para o set, de forma que ao buscar as conexões não haja repetição
-		unsigned int sizeOfMatObjs = rede->ptrMatObjsRede->matrizObjetos.size();
+	//if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
+		int sizeOfMatObjs = rede->ptrMatObjsRede->matrizObjetos.size();
 		objs.clear();
 		objs.resize( sizeOfMatObjs );
-		/*for ( int i = 1; i <= rede->NumSitios(); ++i ) { //percorre os sítios da rede os quais estão armazenados nos primeiros objetos da matriz (as ligações estão armazenadas depois).
-			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
-			for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) { //para cada sítio, percorre as ligações de forma a obter os objetos
-				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
-			}
-		}*/
-		//copia o endereço dos objetos da rede para passá-los com para o solver
-		for ( int i = 1; i <= sizeOfMatObjs; ++i ) {
-			setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
-			/*if ( rede->ptrMatObjsRede->matrizObjetos[i].Tipo() == ETipoObjetoImagem::SITIO ) {
-				setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[i]) );
-				//para cada sítio, percorre as ligações de forma a obter os objetos
-				for (auto con_i : rede->ptrMatObjsRede->matrizObjetos[i].SConexao()) {
-					setObjs.insert( &(rede->ptrMatObjsRede->matrizObjetos[con_i.first]) );
-				}
-			}*/
+		std::cout << "--->Objetos enviados para o solver:" << std::endl;
+		for ( int i = 0; i < sizeOfMatObjs; ++i ) {
+			objs[i] = &(rede->ptrMatObjsRede->matrizObjetos[i+1]);
+			std::cout << "\n---->Obj: " << i << " x = " << objs[i]->X();
 		}
-		set < CSolverMatriz_ParametroSolver * >::iterator it;
-		int i=0;
-		std::cout << "--->Objetos enviados para o solver:" << endl;
-		for ( it=setObjs.begin(); it != setObjs.end(); ++it ) {
-			objs[i] = *it;
-			std::cout << "---->Obj: " << i << " x = " << objs[i]->X() << endl;
-			++i;
-		}
+		std::cout << std::endl;
 		setouVetorObjetos = true;
-	}
-	std::cout << "--->Executando solver->Go()..." << endl;
+	//}
+	std::cout << "--->Executando solver->Go()..." << std::endl;
 	long double erroSolver = solver->Go(&objs);
 
 	// Mostra estado atual do sistema de solução da permeabilidade.
 	std::cout << "SolucaoSistemaEquacoes() [Pressões]:\n"
-						<< "solver->Iteracoes["			<< setw (  5 ) 	<< solver->Iteracoes ()
-						<< "] solver->LimiteErro["	<< setw ( 10 ) 	<< solver->LimiteErro ()
-						<< "] solver->Erro["				<< setw ( 10 ) 	<< solver->Erro ()
+						<< "solver->Iteracoes["			<< std::setw (  5 ) 	<< solver->Iteracoes ()
+						<< "] solver->LimiteErro["	<< std::setw ( 10 ) 	<< solver->LimiteErro ()
+						<< "] solver->Erro["				<< std::setw ( 10 ) 	<< solver->Erro ()
 						<< "] solver->Go["					<< erroSolver 	<< "]" << endl;
 }
 

@@ -55,6 +55,12 @@ class CBaseDistribuicao
 			areaObjetos = 0.0;
 		}
 
+		/// Construtor que recebe o tipo de distribuição a ser calculada.
+		CBaseDistribuicao ( Tipos _tipo ) : path("./"), tipo(_tipo) {
+			distribuicao.clear();
+			areaObjetos = 0.0;
+		}
+
 		/// Destrutor
 		~ CBaseDistribuicao () {}
 
@@ -68,6 +74,15 @@ class CBaseDistribuicao
 
 		/// Retorna valor correspondente a área (porosidade) dos objetos identificados (poros ou sólidos).
 		inline double AreaObjetos () { return areaObjetos; }
+
+		/// Retorna o tipo de distribuição.
+		inline double Tipo () { return tipo; }
+
+		/// Seta valor correspondente a área (porosidade) dos objetos identificados (poros ou sólidos).
+		inline void AreaObjetos (double _a) { areaObjetos = _a; }
+
+		/// Seta o tipo de distribuição.
+		inline void Tipo ( Tipos _t) { tipo = _t; }
 
 	protected:
 		/// Salva em disco os dados de distribuição de tamanho de poros (.dtp)

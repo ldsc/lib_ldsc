@@ -472,8 +472,12 @@ CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 {
 	// Pega ponteiro para vetor do tipo CSolverMatriz_ParametroSolver*
 	vector < CSolverMatriz_ParametroSolver* > obj ( grafo->objeto.size() );
-	for(int i = 0; i < grafo->objeto.size(); i++)
+	std::cout << "--->Objetos enviados para o solver:" << std::endl;
+	for(int i = 0; i < grafo->objeto.size(); i++) {
 		obj[i] = grafo->objeto[i];
+		std::cout << "\n---->Obj: " << i << " x = " << obj[i]->X();
+	}
+	std::cout << std::endl;
 
 	// Resolve o sistema para as pressões.
 	//    long double erroSolver = solver->Go ( ptr_obj );

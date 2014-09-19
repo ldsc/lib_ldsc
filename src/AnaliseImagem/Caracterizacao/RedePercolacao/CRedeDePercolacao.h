@@ -79,6 +79,9 @@ class CRedeDePercolacao
 		/// Construtor (recebe dimensões da rede que será criada)
 		CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz );
 
+		/// Construtor (recebe arquivo no formato padrão da rede)
+		CRedeDePercolacao( std::string filePath );
+
 		/// Destrutor
 		virtual ~CRedeDePercolacao();
 
@@ -89,6 +92,9 @@ class CRedeDePercolacao
 
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
 		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
+
+		/// Após a rede ser criada ou importada, este método permite calcular as distribuição de tamanho de poros e gargantas da rede.
+		std::pair< CDistribuicao3D *, CDistribuicao3D * > CalcularDistribuicaoRede();
 
 		/// Grava em disco, com o nome informado, os objetos identificados.
 		bool SalvarListaObjetos(std::string nomeArquivo) const;

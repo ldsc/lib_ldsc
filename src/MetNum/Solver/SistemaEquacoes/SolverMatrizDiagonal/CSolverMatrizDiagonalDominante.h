@@ -96,10 +96,12 @@ public:
   virtual double Go (std::vector < CSolverMatriz_ParametroSolver * >* objeto);
 
 protected:
-  /// O método Go(), atualiza o valor de x.
-  /// Os objetos armazenados em std::vector < CSolverMatriz_ParametroSolver * >*, do tipo CSolverMatriz_ParametroSolver,
-  /// tem uma função Go() que é usada para gerar uma nova estimativa de x.
-  /// O método AtualizaX () chama Go() do objeto.
+	/** O método Go(), atualiza o valor de x.
+	 *  Os objetos armazenados em std::vector < CSolverMatriz_ParametroSolver * >*,
+	 *  do tipo CSolverMatriz_ParametroSolver,
+	 *  tem uma função Go() que é usada para gerar uma nova estimativa de x.
+	 *  O método AtualizaX () chama Go() do objeto.
+	 */
   virtual void AtualizaX ()  {  }
 
   /// Atualiza a propriedade x no objeto.

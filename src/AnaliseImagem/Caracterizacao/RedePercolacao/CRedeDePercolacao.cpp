@@ -201,7 +201,7 @@ std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistr
 	dtpg.first = new CDistribuicao3D();
 	dtpg.second = new CDistribuicao3D();
 	dtpg.first->Tipo(CBaseDistribuicao::dtp);
-	dtpg.first->Tipo(CBaseDistribuicao::dtg);
+	dtpg.second->Tipo(CBaseDistribuicao::dtg);
 	std::map<int,double>::iterator it;
 	std::map<int,double>::iterator itt;
 	std::vector<int> phiSitios;
@@ -210,22 +210,25 @@ std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistr
 	int phiTotalLigacoes = 0;
 	int raio;
 	double distancia;
+	double area = nx * ny * nz;
 	for (auto &obj: ptrMatObjsRede->matrizObjetos) {
 		if ( obj.second.Tipo() == SITIO) {
 			raio = obj.second.Raio();
+			std::cout << "Encontrado sítio de raio: " << raio << std::endl;
 			if (raio+1 > phiSitios.size())
 				phiSitios.resize(raio+1 , 0);
 			phiSitios[raio] += numPixeisBola[raio];
 			phiTotalSitios  += numPixeisBola[raio];
+			std::cout << "phiSitios[" << raio <<  "]: " << phiSitios[raio] << " - phiTotalSitios: " << phiTotalSitios << std::endl;
 		} else { //Ligação
 			raio = obj.second.Raio();
+			//std::cout << "Encontrada ligação de raio: " << raio << std::endl;
 			if (raio+1 > phiLigacoes.size())
 				phiLigacoes.resize(raio+1 , 0);
 			//distância entre os sitios
 			it = itt = obj.second.SConexao().begin(); //primeiro objeto conectado
 			++itt; //segundo e último objeto conectado
-			distancia = DistanciaEntrePontos (
-										ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.x,
+			distancia = DistanciaEntrePontos ( ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.x,
 					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.y,
 					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.z,
 					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.x,
@@ -237,36 +240,39 @@ std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistr
 				distancia = 1.0;
 			phiLigacoes[raio] += NumPixeisCilindro(raio, distancia);
 			phiTotalLigacoes  += NumPixeisCilindro(raio, distancia);
+			//std::cout << "phiLigacoes[" << raio <<  "]: " << phiLigacoes[raio] << " - phiTotalLigacoes: " << phiTotalSitios << std::endl;
 		}
 	} //CObjetoRedeDePercolacao::SConexao()
-	//define a área total dos sítios e das ligações
-	double area = nx * ny * nz;
-	/*#pragma omp paralel
+	std::cout << "phiTotalSitios: " << phiTotalSitios <<  "\nphiTotalLigacoes: " << phiTotalLigacoes << std::endl;
+#pragma omp paralel default(shared) private(raio)
 #pragma omp sections
 	{
 #pragma omp section
 		{
-*/
-	std::cout << "Calculando distribuições de Sitios..." << std::endl;
-	dtpg.first->AreaObjetos(((double)phiTotalSitios/area)*100.0);
-	//define a área para cada raio de sítio e de ligacao
-	for (raio = 1; raio < phiSitios.size(); ++raio) {
-		dtpg.first->distribuicao[raio] = ((double)phiSitios[raio]/area)*100.0;
-	}
-	std::cout << "Distribuicoes de Sítios calculadas!" << std::endl;
-	/*		}
+			std::cout << "Calculando distribuições de Sitios..." << std::endl;
+			dtpg.first->AreaObjetos(((double)phiTotalSitios/area)*100.0);
+			dtpg.first->distribuicao.clear();
+			dtpg.first->distribuicao.resize(phiSitios.size()-1);
+			//define a área para cada raio de sítio e de ligacao
+			for (raio = 1; raio < phiSitios.size(); ++raio) {
+				dtpg.first->distribuicao[raio-1] = (double)phiSitios[raio]/(double)phiTotalSitios;
+				std::cout << "Raio sitio: " << raio << " phi: " << dtpg.first->distribuicao[raio-1] << std::endl;
+			}
+			std::cout << "Distribuicoes de Sítios calculadas!" << std::endl;
+		}
 #pragma omp section
 		{
-*/
-	std::cout << "Calculando distribuições de Ligacoes..." << std::endl;
-	dtpg.second->AreaObjetos(((double)phiTotalLigacoes/area)*100.0);
-	for (raio = 1; raio < phiLigacoes.size(); ++raio) {
-		dtpg.second->distribuicao[raio] = ((double)phiLigacoes[raio]/area)*100.0;
+			std::cout << "Calculando distribuições de Ligacoes..." << std::endl;
+			dtpg.second->AreaObjetos(((double)phiTotalLigacoes/area)*100.0);
+			dtpg.second->distribuicao.clear();
+			dtpg.second->distribuicao.resize(phiLigacoes.size()-1);
+			for (raio = 1; raio < phiLigacoes.size(); ++raio) {
+				dtpg.second->distribuicao[raio-1] = (double)phiLigacoes[raio]/(double)phiTotalLigacoes;
+				std::cout << "Raio ligacao: " << raio << " phi: " << dtpg.second->distribuicao[raio-1] << std::endl;
+			}
+			std::cout << "Distribuicoes de Ligações calculadas!" << std::endl;
+		}
 	}
-	std::cout << "Distribuicoes de Ligações calculadas!" << std::endl;
-	/*		}
-	}
-*/
 	std::cout << "Finalizado calculo das distribuicoes!" << std::endl;
 	return dtpg;
 }

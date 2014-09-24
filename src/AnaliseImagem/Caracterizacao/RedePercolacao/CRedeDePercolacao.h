@@ -121,7 +121,7 @@ class CRedeDePercolacao
 		*		alocados em posições aleatórias e com variação no número de ligações.
 		*		Não se preocupa com quantos sítios estarão nas fronteiras.
 		*/
-		bool ModeloUm( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo1( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *	Este modelo cria uma rede com sítios de tamanhos aleatórios,
@@ -130,7 +130,7 @@ class CRedeDePercolacao
 		 *	que o fluxo nas fronteiras melhor reflita a realidade do meio físico.
 		 *  Ordena os sítios e ligações pela posição no eixo X, do centro de massa de cada objeto.
 		 */
-		bool ModeloDois( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo2( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *  Por enquanto está identico ao ModeloDois! Pretendo modificalo para que fique:
@@ -141,7 +141,7 @@ class CRedeDePercolacao
 		 *  a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
 		 *  e para as ligações conectadas a ele.
 		 */
-		bool ModeloTres( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo3( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *	Este modelo cria sítios alinhados, de tamanhos variados e com ligações
@@ -149,7 +149,7 @@ class CRedeDePercolacao
 		 *  Dependendo da porosidade da amostra, este método não é funcional.
 		 *  Logo, seu uso não é recomentado!
 		 */
-		bool ModeloQuatro( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo4( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();

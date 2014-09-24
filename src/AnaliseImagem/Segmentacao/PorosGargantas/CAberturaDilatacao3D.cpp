@@ -372,7 +372,7 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 							matrizObjetos[rotulo] = CObjetoImagem( SITIO, 1 );
 						}
-						it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+						it->second.PontoCentralByDF( i, j, k, pfmf->data3D[i][j][k] );
 					}
 				}
 			}
@@ -402,7 +402,7 @@ void CAberturaDilatacao3D::GerarDetalhesMatrizObjetos() {
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 							matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
 						}
-						it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+						it->second.PontoCentralByDF( i, j, k, pfmf->data3D[i][j][k] );
 					}
 				}
 			}
@@ -725,7 +725,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 						matrizObjetos[rotuloijk] = CObjetoImagem( SITIO, 1 );
 					}
-					//it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+					//it->second.PontoCentralByDF( i, j, k, pfmf->data3D[i][j][k] );
 				}
 			}
 		}
@@ -752,7 +752,7 @@ void CAberturaDilatacao3D::DistSitiosLigacoes_Modelo_7() {
 					}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 						matrizObjetos[rotuloijk] = CObjetoImagem( LIGACAO, 1);
 					}
-					//it->second.PontoCentral( i, j, k, pfmf->data3D[i][j][k] );
+					//it->second.PontoCentralByDF( i, j, k, pfmf->data3D[i][j][k] );
 				}
 			}
 		}

@@ -83,7 +83,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	// Coeficiente b da reta y = a + b.x
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
 	// o ultimo objeto (sítio) tem armazenado o valor de pmax em x
-	long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.pontoCentral.x;
+	long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.PontoCentral_X();
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;
@@ -121,7 +121,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 	for (auto &objeto : rede->ptrMatObjsRede->matrizObjetos) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (objeto.second.Contorno() == CContorno::ETipoContorno::CENTER)	// 1
-			objeto.second.x = rede->contorno[1]->Go(objeto.second.pontoCentral.x);
+			objeto.second.x = rede->contorno[1]->Go(objeto.second.PontoCentral_X());
 		else if (objeto.second.Contorno () == CContorno::ETipoContorno::WEST)// 0 - Se contorno=CContorno::WEST  objeto esta na esquerda
 			objeto.second.x = rede->contorno[0]->ValorContorno();
 		else 	// 2 - Se contorno=CContorno::EST objeto esta na direita

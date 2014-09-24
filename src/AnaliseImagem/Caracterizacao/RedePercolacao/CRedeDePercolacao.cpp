@@ -152,10 +152,8 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 				++numLigacoes;
 			}
 			ptrMatObjsRede->matrizObjetos[i].Contorno(CContorno::ETipoContorno::CENTER);
-			ptrMatObjsRede->matrizObjetos[i].pontoCentral.x = x;
-			ptrMatObjsRede->matrizObjetos[i].pontoCentral.y = y;
-			ptrMatObjsRede->matrizObjetos[i].pontoCentral.z = z;
-			ptrMatObjsRede->matrizObjetos[i].pontoCentral.df = 3*raio;
+			ptrMatObjsRede->matrizObjetos[i].PontoCentral( x, y, z, 3*raio );
+			ptrMatObjsRede->matrizObjetos[i].Raio( raio );
 			xSolver = (long double)x;
 			ptrMatObjsRede->matrizObjetos[i].X(xSolver); //seta o x do solver que será utilizado na simulação;
 			lstObjsCon.clear();
@@ -228,12 +226,12 @@ std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistr
 			//distância entre os sitios
 			it = itt = obj.second.SConexao().begin(); //primeiro objeto conectado
 			++itt; //segundo e último objeto conectado
-			distancia = DistanciaEntrePontos ( ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.x,
-					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.y,
-					ptrMatObjsRede->matrizObjetos[it->first].pontoCentral.z,
-					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.x,
-					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.y,
-					ptrMatObjsRede->matrizObjetos[itt->first].pontoCentral.z
+			distancia = DistanciaEntrePontos ( ptrMatObjsRede->matrizObjetos[it->first].PontoCentral_X(),
+					ptrMatObjsRede->matrizObjetos[it->first].PontoCentral_Y(),
+					ptrMatObjsRede->matrizObjetos[it->first].PontoCentral_Z(),
+					ptrMatObjsRede->matrizObjetos[itt->first].PontoCentral_X(),
+					ptrMatObjsRede->matrizObjetos[itt->first].PontoCentral_Y(),
+					ptrMatObjsRede->matrizObjetos[itt->first].PontoCentral_Z()
 					);
 			distancia = distancia - ptrMatObjsRede->matrizObjetos[it->first].Raio() - ptrMatObjsRede->matrizObjetos[itt->first].Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
@@ -328,15 +326,15 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 		return false;
 	}
 	switch (_modeloRede) {
-		case EModeloRede::um: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::um: return Modelo1(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::dois: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::dois: return Modelo2(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::tres: return ModeloTres(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::tres: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::quatro: return ModeloQuatro(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		default: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		default: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 	}
 }
 
@@ -354,15 +352,15 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 		return false;
 	}
 	switch (_modeloRede) {
-		case EModeloRede::um: return ModeloUm(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::um: return Modelo1(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::dois: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::dois: return Modelo2(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::tres: return ModeloTres(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::tres: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		case EModeloRede::quatro: return ModeloQuatro(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		default: return ModeloDois(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		default: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 	}
 }
 
@@ -439,8 +437,8 @@ std::vector<int> * CRedeDePercolacao::CriarVetorDeRaiosDosSitios() {
 }
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
-bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao ) {
-	std::cout << "Criando rede atraves do Modelo Um..." << std::endl;
+bool CRedeDePercolacao::Modelo1( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo 1..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	long double xSolver = 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
@@ -518,10 +516,9 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 		// Assim teria os objetos rotulados de cima para baixo e da esquerda para a direita.
 		//matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(SITIO, NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-		matrizObjetosTemp[cont].pontoCentral.x = x;
-		matrizObjetosTemp[cont].pontoCentral.y = y;
-		matrizObjetosTemp[cont].pontoCentral.z = z;
+		matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+		matrizObjetosTemp[cont].Raio( raio );
+
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 
@@ -545,13 +542,13 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 	matrizObjetosSL[cont] = matrizObjetosTemp[objeto];
 	matrizObjetosTemp.erase(objeto);
 	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
+	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].PontoCentral_X(),cont));
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;
 		it = matrizObjetosSL.find(cont);
 		//percorre todos objetos em busca do objeto mais próximo ao objeto atual.
 		for ( auto & mot : matrizObjetosTemp ) {
-			distTemp = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, mot.second.pontoCentral.x, mot.second.pontoCentral.y, mot.second.pontoCentral.z );
+			distTemp = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), mot.second.PontoCentral_X(), mot.second.PontoCentral_Y(), mot.second.PontoCentral_Z() );
 			if ( distTemp <= distancia ){
 				distancia = distTemp;
 				objeto = mot.first;
@@ -567,20 +564,20 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 		it->second.Propriedade( CondutanciaSitio(it->second,dimensaoPixel,fatorAmplificacao) );
 
 		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-		xToObj.insert(pair<int, int>(it->second.pontoCentral.x,cont));
+		xToObj.insert(pair<int, int>(it->second.PontoCentral_X(),cont));
 
 		// Guarda listas de objetos que se encontram na camada leste e oeste (necessário para montar grafo)
-		if (it->second.pontoCentral.x < camadaOeste) {					// Verifica se a camada x do objeto é menor que a atual camanda esquerda
-			camadaOeste = it->second.pontoCentral.x;							// Atualiza a atual camada esquerda
+		if (it->second.PontoCentral_X() < camadaOeste) {					// Verifica se a camada x do objeto é menor que a atual camanda esquerda
+			camadaOeste = it->second.PontoCentral_X();							// Atualiza a atual camada esquerda
 			objsCamadaOeste.clear();															// Limpa a lista de objetos pertencentes a camada esquerda
 			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
-		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada esquerda
+		} else if (it->second.PontoCentral_X() == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada esquerda
 			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada esquerda
-		} else if (it->second.pontoCentral.x > camadaLeste) {	// Verifica se a camada x do objeto é maior que a atual camanda direita
-			camadaLeste = it->second.pontoCentral.x;							// Atualiza a atual camada direita
+		} else if (it->second.PontoCentral_X() > camadaLeste) {	// Verifica se a camada x do objeto é maior que a atual camanda direita
+			camadaLeste = it->second.PontoCentral_X();							// Atualiza a atual camada direita
 			objsCamadaLeste.clear();															// Limpa a lista de objetos pertencentes a camada direita
 			objsCamadaLeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada diretia
-		} else if (it->second.pontoCentral.x == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada direita
+		} else if (it->second.PontoCentral_X() == camadaOeste) { // Verifica se a camada x do objeto é igual a atual camada direita
 			objsCamadaOeste.push_back(cont);											// Inclui o objeto atual na lista de objetos pentencentes a camada direita
 		}
 	}
@@ -645,7 +642,7 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 				break;
 			raioitt = itt->second.Raio();
 			// Calcula distância entre os sítios
-			distancia = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, itt->second.pontoCentral.x, itt->second.pontoCentral.y, itt->second.pontoCentral.z );
+			distancia = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), itt->second.PontoCentral_X(), itt->second.PontoCentral_Y(), itt->second.PontoCentral_Z() );
 			distancia = distancia - it->second.Raio() - itt->second.Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 				distancia = 1;
@@ -695,15 +692,18 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
 			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
 			itMatObj = matrizObjetosSL.find(cont);
-			itMatObj->second.pontoCentral.df = 3*raio;
-			itMatObj->second.pontoCentral.x = (int) round((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			itMatObj->second.pontoCentral.y = (int) round((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			itMatObj->second.pontoCentral.z = (int) round((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			xSolver = (long double)itMatObj->second.pontoCentral.x;
+			itMatObj->second.PontoCentral (
+						(int)round((it->second.PontoCentral_X()+itt->second.PontoCentral_X())/2),
+						(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
+						(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
+						3*raio
+						);
+			itMatObj->second.Raio( raio );
+			xSolver = (long double)itMatObj->second.PontoCentral_X();
 			itMatObj->second.X(xSolver);
 
 			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-			xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
+			xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 			//Cálculo de condutâncias e realiza conexões
 			itMatObj->second.Propriedade( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
@@ -780,8 +780,8 @@ bool CRedeDePercolacao::ModeloUm( double dimensaoPixel, double fatorAmplificacao
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 // Este modelo primeiro aloca uma porcentagem dos sítios nas fronteiras para depois alocar o restante dos sítios
-bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificacao ) {
-	std::cout << "Criando rede atraves do Modelo Dois..." << std::endl;
+bool CRedeDePercolacao::Modelo2( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo 2..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -878,10 +878,8 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
-			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-			matrizObjetosTemp[cont].pontoCentral.x = x;
-			matrizObjetosTemp[cont].pontoCentral.y = y;
-			matrizObjetosTemp[cont].pontoCentral.z = z;
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -953,10 +951,8 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
-			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-			matrizObjetosTemp[cont].pontoCentral.x = x;
-			matrizObjetosTemp[cont].pontoCentral.y = y;
-			matrizObjetosTemp[cont].pontoCentral.z = z;
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -1011,10 +1007,8 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		++cont;
 		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::CENTER);
-		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-		matrizObjetosTemp[cont].pontoCentral.x = x;
-		matrizObjetosTemp[cont].pontoCentral.y = y;
-		matrizObjetosTemp[cont].pontoCentral.z = z;
+		matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+		matrizObjetosTemp[cont].Raio ( raio );
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -1031,13 +1025,13 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 	matrizObjetosSL[cont] = matrizObjetosTemp[1];
 	matrizObjetosTemp.erase(1);
 	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
+	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].PontoCentral_X(),cont));
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;
 		it = matrizObjetosSL.find(cont);
 		//percorre todos objetos em busca do objeto mais próximo ao objeto atual.
 		for ( auto & mot : matrizObjetosTemp ) {
-			distTemp = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, mot.second.pontoCentral.x, mot.second.pontoCentral.y, mot.second.pontoCentral.z );
+			distTemp = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), mot.second.PontoCentral_X(), mot.second.PontoCentral_Y(), mot.second.PontoCentral_Z() );
 			if ( distTemp <= distancia ){
 				distancia = distTemp;
 				objeto = mot.first;
@@ -1051,7 +1045,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		// Pega o sítio
 		it = matrizObjetosSL.find(cont);
 		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-		xToObj.insert(pair<int, int>(it->second.pontoCentral.x,cont));
+		xToObj.insert(pair<int, int>(it->second.PontoCentral_X(),cont));
 	}
 
 	//============================================== LIGAÇÕES =================================================
@@ -1063,6 +1057,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		distGargantasAcumulada[i] = distGargantasAcumulada[i-1] + dtpg.second->distribuicao[i];
 	}
 	cabe = false;
+	bool interligados = false;
 	int nCoord, Z;
 	int raioit;
 	int raioitt;
@@ -1071,6 +1066,7 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 	int tamMatObjs = matrizObjetosSL.size();
 	cont = matrizObjetosSL.rbegin()->first; //índice do último elemento da matriz
 	std::map<int, CObjetoRedeDePercolacao>::iterator itt;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itc;
 
 	std::cerr << "Criando ligacoes..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
@@ -1098,23 +1094,44 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 		}
 		//std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
 		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			//std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
+			std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
+			/*
 			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
 				++itt; //iterator para o próximo objeto.
 				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
 					break;
 				}
 			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
-			//std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
-			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
+			*/
+			interligados = false;
+			while (true) { // Vai para o próximo objeto ainda não conectado ao objeto atual.
+				++itt; //iterator para o próximo objeto.
+				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
+					break;
+				}
+				for (auto &c: it->second.SConexao()) { //para cada ligação já conectada ao primeiro sítio
+					itc = matrizObjetosSL.find(c.first); //pega o iterator para a ligação
+					for (auto &o: itc->second.SConexao()) { //percorre a lista de objetos conectados a ligação
+						if ( o.first == itt->first ) { //verifica se a ligação já está conectada ao segundo sítio
+							interligados = true;
+							break;
+						}
+					}
+				}
+				if (!interligados) {
+					break;
+				}
+			}
+			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs || ! interligados)
 				break;
+			std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
 			raioitt = itt->second.Raio();
 			// Calcula distância entre os sítios
-			distancia = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, itt->second.pontoCentral.x, itt->second.pontoCentral.y, itt->second.pontoCentral.z );
+			distancia = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), itt->second.PontoCentral_X(), itt->second.PontoCentral_Y(), itt->second.PontoCentral_Z() );
 			distancia = distancia - it->second.Raio() - itt->second.Raio();
 			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 				distancia = 1;
-			//std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
+			std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
 			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
 			raio = 1;
 			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
@@ -1136,9 +1153,11 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 				}
 			}
 			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
+			// Aqui: Este procedimento está alterando muito a distribuição de ligações!
 			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
 				--raio;
 			}
+
 			//std::cerr << "Raio da ligacao: " << raio << std::endl;
 
 			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
@@ -1162,15 +1181,18 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
 			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
 			itMatObj = matrizObjetosSL.find(cont);
-			itMatObj->second.pontoCentral.df = 3*raio;
-			itMatObj->second.pontoCentral.x = (int) round((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			itMatObj->second.pontoCentral.y = (int) round((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			itMatObj->second.pontoCentral.z = (int) round((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			xSolver = (long double)itMatObj->second.pontoCentral.x;
+			itMatObj->second.PontoCentral(
+						(int)round((it->second.PontoCentral_X()+itt->second.PontoCentral_X())/2),
+						(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
+						(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
+						3*raio
+						);
+			itMatObj->second.Raio( raio );
+			xSolver = (long double)itMatObj->second.PontoCentral_X();
 			itMatObj->second.X(xSolver);
 
 			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-			xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
+			xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 			//Cálculo de condutâncias e realiza conexões
 			itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
@@ -1248,14 +1270,10 @@ bool CRedeDePercolacao::ModeloDois( double dimensaoPixel, double fatorAmplificac
 }
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
-// Por enquanto está identico ao ModeloDois! Pretendo modificalo para que fique:
-
-// Semelhante ao ModeloDois, porém, difere na ordenação final dos objetos.
-// Neste modelo, os sítios são inicialmente odernados em X. Partindo do primeiro sítio,
-// a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
-// e para as ligações conectadas a ele.
-bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificacao ) {
-	std::cout << "Criando rede atraves do Modelo Tres..." << std::endl;
+// Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
+// de forma que não altere a distribuição de ligações.
+bool CRedeDePercolacao::Modelo3( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo 3..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -1352,10 +1370,8 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
-			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-			matrizObjetosTemp[cont].pontoCentral.x = x;
-			matrizObjetosTemp[cont].pontoCentral.y = y;
-			matrizObjetosTemp[cont].pontoCentral.z = z;
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -1427,10 +1443,8 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 			++cont;
 			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
-			matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-			matrizObjetosTemp[cont].pontoCentral.x = x;
-			matrizObjetosTemp[cont].pontoCentral.y = y;
-			matrizObjetosTemp[cont].pontoCentral.z = z;
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -1485,10 +1499,8 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		++cont;
 		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
 		matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::CENTER);
-		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-		matrizObjetosTemp[cont].pontoCentral.x = x;
-		matrizObjetosTemp[cont].pontoCentral.y = y;
-		matrizObjetosTemp[cont].pontoCentral.z = z;
+		matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+		matrizObjetosTemp[cont].Raio ( raio );
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
@@ -1504,14 +1516,14 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	cont = 1;
 	matrizObjetosSL[cont] = matrizObjetosTemp[1];
 	matrizObjetosTemp.erase(1);
-	// Alimenta matriz que referencia os objetos de forma que estes fiquem ordenados em x
-	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].pontoCentral.x,cont));
+	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].PontoCentral_X(),cont));
 	while ( matrizObjetosTemp.size() > 0 ) {
 		distancia = 1000000.0;
 		it = matrizObjetosSL.find(cont);
 		//percorre todos objetos em busca do objeto mais próximo ao objeto atual.
 		for ( auto & mot : matrizObjetosTemp ) {
-			distTemp = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, mot.second.pontoCentral.x, mot.second.pontoCentral.y, mot.second.pontoCentral.z );
+			distTemp = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), mot.second.PontoCentral_X(), mot.second.PontoCentral_Y(), mot.second.PontoCentral_Z() );
 			if ( distTemp <= distancia ){
 				distancia = distTemp;
 				objeto = mot.first;
@@ -1525,7 +1537,7 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		// Pega o sítio
 		it = matrizObjetosSL.find(cont);
 		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-		xToObj.insert(pair<int, int>(it->second.pontoCentral.x,cont));
+		xToObj.insert(pair<int, int>(it->second.PontoCentral_X(),cont));
 	}
 
 	//============================================== LIGAÇÕES =================================================
@@ -1536,156 +1548,191 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 	for (int i=1; i<tamVetDist; ++i) {
 		distGargantasAcumulada[i] = distGargantasAcumulada[i-1] + dtpg.second->distribuicao[i];
 	}
+	//Variáveis auxiliares
 	cabe = false;
-	int nCoord, Z;
+	std::vector<int> vCoord(dtpg.first->distribuicao.size()+1, 2); //vetor com o número de coordenação máximo para cada raio de sítio
 	int raioit;
 	int raioitt;
+	int num = 0;
+	int tamMatObjs = matrizObjetosSL.size();
 	long double gSitioLigacao; //Condutância entre sítio e ligação
 	double random;
-	int tamMatObjs = matrizObjetosSL.size();
 	cont = matrizObjetosSL.rbegin()->first; //índice do último elemento da matriz
-	std::map<int, CObjetoRedeDePercolacao>::iterator itt;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itt; //iterator para o segundo sítio
+	std::map<int, CObjetoRedeDePercolacao>::iterator itc; //iterator para a conexão
+	bool encontrouRaio = false;
+	bool encontrouCoord = false;
+	bool interligados = false;
+	int objit = 0;
+	int objitt = 0;
+	int obj;
 
+
+	//aqui
 	std::cerr << "Criando ligacoes..." << std::endl;
-	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
-	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
-		// Inicialmente cabe==false, então, cada sítio terá número de coordenação 2.
-		if (cabe) {
-			obj = Random(1,tamMatObjs-1); //pega sítios aleatórios.
-		}
-		it = matrizObjetosSL.find(obj);
-		if (it == matrizObjetosSL.end()) {
-			continue;
-		}
-		itt = it;
-		raioit = it->second.Raio();
-		// Se todos os sítios já foram interligados, é preciso garantir que irá entrar no proximo loop!
-		// Se cabe==true, é porque todos os sítios já foram interligados, ou,
-		// se Z>2 é porque o objeto já possui pelo menos duas conexões, mas poderá ser conectado a objeto mais a frente.
-		// Então, o valor de nCoord a ser setado será igual ao numero de conexões existentes no objeto + 1.
-		// Senão, o valor de nCoord será 2.
-		Z = it->second.NumConexoes()+1;
-		if (cabe || Z > 2) {
-			nCoord = Z;
-		} else {
-			nCoord = 2;
-		}
-		std::cerr << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
-		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
-			std::cerr << "Procurando proximo objeto ainda nao conectado..." << std::endl;
-			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
-				++itt; //iterator para o próximo objeto.
-				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
+	while ( phiLigacoes < phiGargantas ) {
+		num = 0;
+		// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
+		raio = 1;
+		random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
+		//percorre vetor de distribuição acumulada para obter raio correspondente
+		for (int i=0; i<tamVetDist; ++i) {
+			if ( random <= distGargantasAcumulada[i] ) {
+				if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
+					// Verifica a diferença entre o número randômico e os elementas i e i-1.
+					// Seta o raio com o indice do valor mais próximo a random.
+					if ( (random - distGargantasAcumulada[i-1]) < (distGargantasAcumulada[i] - random) ) {
+						raio = i;
+					} else {
+						raio = i+1;
+					}
 					break;
+				} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
+					break; //sai do loop com raio == 1
 				}
-			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
-			std::cerr << "Objeto " << itt->first << " encontrado!" << std::endl;
-			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs)
-				break;
-			raioitt = itt->second.Raio();
-			// Calcula distância entre os sítios
-			distancia = DistanciaEntrePontos(it->second.pontoCentral.x, it->second.pontoCentral.y, it->second.pontoCentral.z, itt->second.pontoCentral.x, itt->second.pontoCentral.y, itt->second.pontoCentral.z );
-			distancia = distancia - it->second.Raio() - itt->second.Raio();
-			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
-				distancia = 1;
-			std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
-			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
-			raio = 1;
-			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
-			//percorre vetor de distribuição acumulada para obter raio correspondente
-			for (int i=0; i<tamVetDist; ++i) {
-				if ( random <= distGargantasAcumulada[i] ) {
-					if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
-						// Verifica a diferença entre o número randômico e os elementas i e i-1.
-						// Seta o raio com o indice do valor mais próximo a random.
-						if ( (random - distGargantasAcumulada[i-1]) < (distGargantasAcumulada[i] - random) ) {
-							raio = i;
-						} else {
-							raio = i+1;
+			}
+		}
+		//std::cerr << "Raio da ligacao: " << raio << std::endl;
+
+		//Procura dois sítios, ainda não interconectados, e com raio maior ou igual ao raio da ligação a ser criada.
+		encontrouRaio = false;
+		encontrouCoord = false;
+		while ( ! encontrouRaio || ! encontrouCoord ) { //loop até encontrar os dois sítios ou até percorrer todos os sítios
+			for ( obj=1; obj<=tamMatObjs; ++obj ) { //busca o primeiro sítio
+				it = matrizObjetosSL.find(obj);
+				if ( it != matrizObjetosSL.end() ) {
+					if ( it->second.Raio() >= raio ) {
+						encontrouRaio = true;
+						raioit = it->second.Raio();
+						objit = obj;
+						if ( it->second.NumConexoes() < vCoord[raioit] ) {
+							encontrouCoord = true;
+							break;
 						}
-						break;
-					} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
-						break; //sai do loop com raio == 1
 					}
 				}
 			}
-			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
-			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
-				--raio;
+			if ( ! encontrouRaio ) { //se não encontrou, sai do loop e tenta outro raio de ligação
+				continue;
+			} else if ( ! encontrouCoord ){
+				vCoord[raioit] = vCoord[raioit]+1;
+				it = matrizObjetosSL.find(objit);
 			}
-			std::cerr << "Raio da ligacao: " << raio << std::endl;
-
-			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
-			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
-			//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
-			phiObjeto = PhiCilindro(raio, distancia, area);
-			//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
-			//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
-			//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
-			if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-				while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-					--raio;
-					phiObjeto = PhiCilindro(raio, distancia, area);
+			if ( it != matrizObjetosSL.end() ) {
+				// Encontrou o primeiro sítio. Busca o segundo...
+				encontrouRaio = false;
+				encontrouCoord = false;
+				// Percorre os próximos objetos
+				for ( obj=it->first+1; obj<=tamMatObjs; ++obj ) {
+					itt = matrizObjetosSL.find(obj);
+					if ( itt != matrizObjetosSL.end() ) {
+						if ( itt->second.Raio() >= raio ) {
+							encontrouRaio = true;
+							raioitt = it->second.Raio();
+							objitt = obj;
+							if ( itt->second.NumConexoes() < vCoord[raioitt] ) {
+								encontrouCoord = true;
+								break;
+							}
+						}
+					}
 				}
-				++raio;
+				if ( ! encontrouRaio && ! encontrouCoord ) {
+					for ( obj=it->first-1; obj > 0; --obj ) {
+						itt = matrizObjetosSL.find(obj);
+						if ( itt != matrizObjetosSL.end() ) {
+							if ( itt->second.Raio() >= raio ) {
+								encontrouRaio = true;
+								raioitt = it->second.Raio();
+								objitt = obj;
+								if ( itt->second.NumConexoes() < vCoord[raioitt] ) {
+									encontrouCoord = true;
+									break;
+								}
+							}
+						}
+					}
+				}
+				if ( ! encontrouRaio ) { //se não encontrou, sai do loop e tenta outro raio de ligação
+					continue;
+				} else if ( ! encontrouCoord ){
+					vCoord[raioitt] = vCoord[raioitt]+1;
+					itt = matrizObjetosSL.find(objitt);
+				} else { //verifica se os sítios já estão interligados
+					interligados = false;
+					for (auto &c: it->second.SConexao()) { //para cada ligação já conectada ao primeiro sítio
+						itc = matrizObjetosSL.find(c.first); //pega o iterator para a ligação
+						for (auto &o: itc->second.SConexao()) { //percorre a lista de objetos conectados a ligação
+							if ( o.first == itt->first ) { //verifica se a ligação já está conectada ao segundo sítio
+								interligados = true;
+								break;
+							}
+						}
+					}
+					if ( interligados ) {
+						encontrouRaio = false;
+						encontrouCoord = false;
+					}
+				}
+			}
+		}
+		// Aqui it e itt apontam para dois sítios distintos cujos raios são maiores ou iguais ao raio da ligação
+		// Calcula distância entre os sítios
+		distancia = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), itt->second.PontoCentral_X(), itt->second.PontoCentral_Y(), itt->second.PontoCentral_Z() );
+		distancia = distancia - it->second.Raio() - itt->second.Raio();
+		if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
+			distancia = 1;
+		//std::cerr << "Tamanho da ligacao: " << distancia << std::endl;
+		//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
+		phiObjeto = PhiCilindro(raio, distancia, area);
+		//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
+		//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
+		//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
+		if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+			while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+				--raio;
 				phiObjeto = PhiCilindro(raio, distancia, area);
 			}
-			phiLigacoes += phiObjeto; //acumula a porosidade
-			++cont;
-			// Conecta os objetos
-			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
-			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
-			itMatObj = matrizObjetosSL.find(cont);
-			itMatObj->second.pontoCentral.df = 3*raio;
-			itMatObj->second.pontoCentral.x = (int) round((it->second.pontoCentral.x+itt->second.pontoCentral.x)/2);
-			itMatObj->second.pontoCentral.y = (int) round((it->second.pontoCentral.y+itt->second.pontoCentral.y)/2);
-			itMatObj->second.pontoCentral.z = (int) round((it->second.pontoCentral.z+itt->second.pontoCentral.z)/2);
-			xSolver = (long double)itMatObj->second.pontoCentral.x;
-			itMatObj->second.X(xSolver);
-
-			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-			xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
-
-			//Cálculo de condutâncias e realiza conexões
-			itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
-			//primeiro sítio
-			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
-			itMatObj->second.Conectar(itt->first, gSitioLigacao);
-			itt->second.Conectar(cont, gSitioLigacao);
-			//segundo sítio
-			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
-			itMatObj->second.Conectar(it->first, gSitioLigacao);
-			it->second.Conectar(cont, gSitioLigacao);
-
-			if (phiLigacoes >= phiGargantas)
-				break;
+			++raio;
+			phiObjeto = PhiCilindro(raio, distancia, area);
 		}
-		//std::cerr << "Aqui4!" << std::endl;
-		if (phiLigacoes >= phiGargantas)
-			break;
-		// Se conectou o último sítio e ainda precisa criar mais ligações, volta para o primeiro sítio e seta cabe=true;
-		// Assim serão criadas ligações aleatórias...
-		if ( obj==tamMatObjs && phiLigacoes < phiGargantas ) {
-			//exit;
-			cabe = true;
-			obj = 1;
-		}
+		phiLigacoes += phiObjeto; //acumula a porosidade
+		++cont;
+		// Conecta os objetos
+		matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
+		itMatObj = matrizObjetosSL.find(cont);
+		itMatObj->second.PontoCentral(
+					(int)round((it->second.PontoCentral_X()+itt->second.PontoCentral_X())/2),
+					(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
+					(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
+					3*raio
+					);
+		itMatObj->second.Raio( raio );
+		xSolver = (long double)itMatObj->second.PontoCentral_X();
+		itMatObj->second.X(xSolver);
+
+		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+		xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
+
+		//Cálculo de condutâncias e realiza conexões
+		itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+		//primeiro sítio
+		gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+		itMatObj->second.Conectar(it->first, gSitioLigacao);
+		it->second.Conectar(cont, gSitioLigacao);
+		//segundo sítio
+		gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+		itMatObj->second.Conectar(itt->first, gSitioLigacao);
+		itt->second.Conectar(cont, gSitioLigacao);
 	}
-	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
 	numLigacoes = cont-tamMatObjs;
 	std::cerr << "Ligacoes criadas!\nphiLigacoes: " << phiLigacoes << " | phiGargantas: " << phiGargantas << " | Num. Ligacoes: " << numLigacoes << std::endl;
 	std::cerr << cont << " objetos criados!" << std::endl;
-
 	std::cerr << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
 	std::map<int,int> objAntToObjAtual;
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
 	std::cerr << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
-	/*
-	for (auto xto : matrizObjetosSL ) {
-		ptrMatObjsRede->matrizObjetos[xto.first] = xto.second;
-	}
-*/
 	for (auto &xto : xToObj ) {
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
@@ -1693,7 +1740,6 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		//std::cerr << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
 	}
 	matrizObjetosSL.clear();
-
 	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
 	std::map<int, double> conexoesAtu;
 	//std::map<int, double> conexoesAnt;
@@ -1708,22 +1754,20 @@ bool CRedeDePercolacao::ModeloTres( double dimensaoPixel, double fatorAmplificac
 		//limpa o vetor de conexoes do objeto
 		//conexoesAnt.clear();
 		objs.second.SConexao().clear();
-
 		//copia para os objetos as novas conexões salvas no map temporário
 		for ( auto &obj : conexoesAtu ) {
 			//conexoesAnt.insert(make_pair(obj.first, obj.second));
 			objs.second.Conectar(obj.first, obj.second);
 		}
 	}
-
 	objAntToObjAtual.clear();
 	xToObj.clear();
 	return true;
 }
 
 // Cria rede de percolação com sítios alinhados, porém de tamanhos aleatórios com variação do número de ligações.
-bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplificacao ) {
-	std::cout << "Criando rede atraves do Modelo Quatro..." << std::endl;
+bool CRedeDePercolacao::Modelo4( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo 4..." << std::endl;
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
 	long double phiLigacoes		= 0.0; //porosidade da rede (licações)
@@ -1781,10 +1825,9 @@ bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplific
 		// aloca na matriz de objetos o sítio criado
 
 		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
-		matrizObjetosTemp[cont].pontoCentral.df = 3*raio;
-		matrizObjetosTemp[cont].pontoCentral.x = x;
-		matrizObjetosTemp[cont].pontoCentral.y = y;
-		matrizObjetosTemp[cont].pontoCentral.z = z;
+		matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+		matrizObjetosTemp[cont].Raio( raio );
+
 		if ( x == raioMaxPP ) {
 			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
 		} else if ( x == xMax) {
@@ -1796,7 +1839,7 @@ bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplific
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
 		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
 		// Alimenta matriz que referencía os objetos de forma que estes fiquem ordenados em x
-		xToObj.insert(pair<int, int>(matrizObjetosTemp[cont].pontoCentral.x,cont));
+		xToObj.insert(pair<int, int>(matrizObjetosTemp[cont].PontoCentral_X(),cont));
 	}
 	raios->clear(); // limpa vetor de raios (não será mais utilizado)
 	delete raios;
@@ -2093,7 +2136,7 @@ bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplific
 							raioSitio = itSitio->second.Raio();
 							raioVizinho = itVizinho->second.Raio();
 							// Calcula distância entre os sítios
-							distancia = DistanciaEntrePontos(itSitio->second.pontoCentral.x, itSitio->second.pontoCentral.y, itSitio->second.pontoCentral.z, itVizinho->second.pontoCentral.x, itVizinho->second.pontoCentral.y, itVizinho->second.pontoCentral.z );
+							distancia = DistanciaEntrePontos(itSitio->second.PontoCentral_X(), itSitio->second.PontoCentral_Y(), itSitio->second.PontoCentral_Z(), itVizinho->second.PontoCentral_X(), itVizinho->second.PontoCentral_Y(), itVizinho->second.PontoCentral_Z() );
 							distancia = distancia - raioSitio - raioVizinho;
 							if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
 								distancia = 1;
@@ -2142,15 +2185,18 @@ bool CRedeDePercolacao::ModeloQuatro( double dimensaoPixel, double fatorAmplific
 							++cont;
 							matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
 							itMatObj = matrizObjetosTemp.find(cont);
-							itMatObj->second.pontoCentral.df = 3*raio;
-							itMatObj->second.pontoCentral.x = (int) round((itSitio->second.pontoCentral.x + itVizinho->second.pontoCentral.x)/2);
-							itMatObj->second.pontoCentral.y = (int) round((itSitio->second.pontoCentral.y + itVizinho->second.pontoCentral.y)/2);
-							itMatObj->second.pontoCentral.z = (int) round((itSitio->second.pontoCentral.z + itVizinho->second.pontoCentral.z)/2);
-							xSolver = (long double)itMatObj->second.pontoCentral.x;
+							itMatObj->second.PontoCentral(
+										(int)round((itSitio->second.PontoCentral_X() + itVizinho->second.PontoCentral_X())/2),
+										(int)round((itSitio->second.PontoCentral_Y() + itVizinho->second.PontoCentral_Y())/2),
+										(int)round((itSitio->second.PontoCentral_Z() + itVizinho->second.PontoCentral_Z())/2),
+										3*raio
+										);
+							itMatObj->second.Raio( raio );
+							xSolver = (long double)itMatObj->second.PontoCentral_X();
 							itMatObj->second.X(xSolver);
 
 							// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-							xToObj.insert(pair<int, int>(itMatObj->second.pontoCentral.x,cont));
+							xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 							//Cálculo de condutâncias e realiza conexões
 							itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );

@@ -208,7 +208,7 @@ void CSegPorosGargantas3D::GerarDetalhesMatrizObjetos() {
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 							matrizObjetos[rotulo] = CObjetoImagem( SITIO, 1 );
 						}
-						it->second.PontoCentral( i, j, k, pfmf.data3D[i][j][k] );
+						it->second.PontoCentralByDF( i, j, k, pfmf.data3D[i][j][k] );
 					}
 					// matrizRotulada acumula os rótulos identificados (inicialmente é cópia de matrizRotulo).
 					matrizRotulada->data3D[i][j][k] = rotulo;
@@ -237,7 +237,7 @@ void CSegPorosGargantas3D::GerarDetalhesMatrizObjetos() {
 						}else{													// o elemento ainda não existe, então iremos crialo representando 1 objeto.
 							matrizObjetos[rotulo] = CObjetoImagem( LIGACAO, 1);
 						}
-						it->second.PontoCentral( i, j, k, pfmf.data3D[i][j][k] );
+						it->second.PontoCentralByDF( i, j, k, pfmf.data3D[i][j][k] );
 					}
 				}
 			}

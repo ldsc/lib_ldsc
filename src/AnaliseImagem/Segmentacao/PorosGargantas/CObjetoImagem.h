@@ -63,13 +63,16 @@ class CObjetoImagem
 		/// Acumula a quantidade de objetos representados pela classe.
 		int numObjs = 0;
 
+		/// Raio do objeto
+		unsigned int raio = 0;
+
 		// Set das conecções
 		//std::set<int> sConexao;
 
 		/// Matriz que armazena conexões e propriedade de cada conexão
 		std::map<int, double> sConexao;
 
-	public:
+//	public:
 		/// Identifica o voxel central do objeto
 		SPontoCentral pontoCentral;
 
@@ -104,16 +107,31 @@ class CObjetoImagem
 		/// Retorna tipo de objeto
 		inline ETipoObjetoImagem Tipo() { return tipo; }
 
-		/// Calcula e retorna o raio de acordo com a distância ao fundo do centro de massa do objeto
+		// // Calcula e retorna o raio de acordo com a distância ao fundo do centro de massa do objeto
+		///Retorna o raio do objeto.
 		inline int Raio() { // RA = 1, se (3); RA = 2, se (4  <= df <=  6); RA = 3, se (7  <= df <=  9); RA = 4, se (10 <= df <= 12); ...
-			int dft = pontoCentral.df;
+			/*int dft = pontoCentral.df;
 			while ( (dft % 3) != 0 )
 				++dft;
 			return (dft/3);
+			*/
+			return raio;
 		}
 
 		/// Retorna o número de obejtos representados
 		inline int NumObjs() { return numObjs; }
+
+		/// Retorna a posição x do ponto central
+		inline unsigned int PontoCentral_X() { return pontoCentral.x; }
+
+		/// Retorna a posição y do ponto central
+		inline unsigned int PontoCentral_Y() { return pontoCentral.y; }
+
+		/// Retorna a posição z do ponto central
+		inline unsigned int PontoCentral_Z() { return pontoCentral.z; }
+
+		/// Retorna distância ao fundo do ponto central
+		inline unsigned int PontoCentral_DF() { return pontoCentral.df; }
 
 		/// Retorna tipo de objeto como uma string
 		inline std::string StrTipo();
@@ -146,7 +164,7 @@ class CObjetoImagem
 		inline void NumObjs(int _n) { numObjs = _n; }
 
 		/// Seta o ponto central se o valor de df informado for maior que o atual.
-		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {
+		inline void PontoCentralByDF ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {
 			if ( _df >= pontoCentral.df ) {
 				pontoCentral.x = _x;
 				pontoCentral.y = _y;
@@ -154,6 +172,17 @@ class CObjetoImagem
 				pontoCentral.df = _df;
 			}
 		}
+
+		/// Seta o ponto central.
+		inline void PontoCentral ( const int &_x, const int &_y, const int &_z, const unsigned int &_df ) {
+			pontoCentral.x = _x;
+			pontoCentral.y = _y;
+			pontoCentral.z = _z;
+			pontoCentral.df = _df;
+		}
+
+		/// Seta o raio do objeto;
+		inline void Raio ( unsigned int _r ) { raio = _r; }
 
 		/// Operador que incrementa o número de objetos representados
 		inline CObjetoImagem &operator++() { ++numObjs; return *this;}

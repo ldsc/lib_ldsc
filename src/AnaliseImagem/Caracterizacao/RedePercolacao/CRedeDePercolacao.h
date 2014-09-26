@@ -116,6 +116,15 @@ class CRedeDePercolacao
 		}
 
 	private:
+
+		/** Método chamado por Go para criar a rede de percolação.
+		 *	Este modelo cria sítios alinhados, de tamanhos variados e com ligações
+		 *	aos vizinhos mais próximos. As ligações também possuem raios variados.
+		 *  Dependendo da porosidade da amostra, este método não é funcional.
+		 *  Logo, seu uso não é recomentado!
+		 */
+		bool Modelo0( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
 		/** Método chamado por Go para criar a rede de percolação.
 		*		Este modelo cria uma rede com sítios de tamanhos aleatórios,
 		*		alocados em posições aleatórias e com variação no número de ligações.
@@ -133,26 +142,24 @@ class CRedeDePercolacao
 		bool Modelo2( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
-		 *  Por enquanto está identico ao ModeloDois! Pretendo modificalo para que fique:
-		 *
-		 *
-		 *	Semelhante ao ModeloDois, porém, difere na ordenação final dos objetos.
-		 *  Neste modelo, os sítios são inicialmente odernados em X. Partindo do primeiro sítio,
-		 *  a ordenação é seguida palas ligações que o conectam. Depois vai para o próximo sítio
-		 *  e para as ligações conectadas a ele.
+		 *	Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
+		 *	Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
+		 *	de forma que não altere a distribuição de ligações.
 		 */
 		bool Modelo3( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
-		 *	Este modelo cria sítios alinhados, de tamanhos variados e com ligações
-		 *	aos vizinhos mais próximos. As ligações também possuem raios variados.
-		 *  Dependendo da porosidade da amostra, este método não é funcional.
-		 *  Logo, seu uso não é recomentado!
+		 *	Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
+		 *	Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
+		 *	de forma que não altere a distribuição de ligações.
 		 */
 		bool Modelo4( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();
+
+		/// Cria e retorna ponteiro para o vetor de raios. Considera a distribuição de tamanho de poros e a porosidade.
+		std::vector<int> * CriarVetorDeRaiosDosSitiosByDTP();
 
 		/// Returna inteiro randômico entre min e max [inclusive] (srand é setado no contrutor da classe).
 		inline int Random(const int &min, const int &max) { return rand()%(max-min+1)+min; }

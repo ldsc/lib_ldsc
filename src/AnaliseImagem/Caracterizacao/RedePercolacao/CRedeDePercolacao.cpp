@@ -338,7 +338,9 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 			break;
 		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		default: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::cinco: return Modelo5(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+			break;
+		default: return false;
 	}
 }
 
@@ -364,7 +366,9 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 			break;
 		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
 			break;
-		default: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::cinco: return Modelo5(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+			break;
+		default: return false;
 	}
 }
 
@@ -1330,7 +1334,8 @@ bool CRedeDePercolacao::Modelo2( double dimensaoPixel, double fatorAmplificacao 
 	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
 
 	//============================================== SITIOS =================================================
-	std::vector<int> * raios = CriarVetorDeRaiosDosSitiosByDTP();
+	//std::vector<int> * raios = CriarVetorDeRaiosDosSitiosByDTP();
+	std::vector<int> * raios = CriarVetorDeRaiosDosSitios();
 	std::cout << "Representando os sítios na matriz sem sobrepor..." << std::endl;
 	int im, jm, km;
 	int x_raio, y_raio, z_raio;
@@ -2617,9 +2622,9 @@ bool CRedeDePercolacao::Modelo4( double dimensaoPixel, double fatorAmplificacao 
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
-	double areaTotalLigacoes = (area*phiGargantas)/100.0;
+	double areaTotalLigacoes	= (area*phiGargantas)/100.0;
 	long double phiLigacoes		= 0.0; //porosidade da rede (licações)
-	long double phiObjeto			= 0.0; //porosidade do objeto que esta sendo criado (esfera/sítio, cilindro/ligação)
+	//long double phiObjeto		= 0.0; //porosidade do objeto que esta sendo criado (esfera/sítio, cilindro/ligação)
 	long double xSolver				= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
 	CBCd3453D * esfera;
@@ -3070,6 +3075,534 @@ bool CRedeDePercolacao::Modelo4( double dimensaoPixel, double fatorAmplificacao 
 			objs.second.Conectar(obj.first, obj.second);
 		}
 	}
+	objAntToObjAtual.clear();
+	xToObj.clear();
+	return true;
+}
+
+// Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
+// As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
+// Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
+bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao ) {
+	std::cout << "Criando rede atraves do Modelo 5..." << std::endl;
+	TCMatriz3D<bool> pm(nx, ny, nz);
+	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
+	int tamVetDistPor = dtpg.first->distribuicao.size();
+	int tamVetDistGar = dtpg.second->distribuicao.size();
+	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
+	double areaTotalLigacoes	= (area*phiGargantas)/100.0;
+	long double phiLigacoes		= 0.0; //porosidade da rede (licações)
+	long double phiObjeto			= 0.0; //porosidade do objeto que esta sendo criado (esfera/sítio, cilindro/ligação)
+	long double xSolver				= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
+	int x, y, z; //posição na matriz
+	CBCd3453D * esfera;
+	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
+	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
+
+	//============================================== SITIOS =================================================
+	std::vector<int> * raios = CriarVetorDeRaiosDosSitiosByDTP();
+	//acumula o número de sítios a serem criados, para cada tamanho de raio.
+	std::vector<int> numSitiosByRaio(tamVetDistPor+1,0);
+	for (auto &r: *raios) {
+		numSitiosByRaio[r] = numSitiosByRaio[r]+1;
+	}
+	std::cout << "Representando os sítios na matriz sem sobrepor..." << std::endl;
+	int im, jm, km;
+	int x_raio, y_raio, z_raio;
+	int cont = 0;
+	int objeto; //indice do objeto com menor distância entre o ponto 0,0,0 e o centro do objeto (sitio).
+	double distancia = 1000000.0; //guarda a menor distancia encontrada  entre o ponto 0,0,0 e o centro dos sítios.
+	double distTemp;
+	int maiorRaioEsquerda = 0;
+	int maiorRaioDireita = 0;
+	int raio;
+	int diametro;
+	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
+
+	{	//============================================== FRONTEIRAS =================================================
+		double phiTotal = dtpg.first->AreaObjetos() + phiGargantas;
+		double phiFronteiraEsquerda = 0.0;
+		double phiFronteiraDireita = 0.0;
+		int areaFronteira = ny*nz;
+		int pos = 0;
+		//============================================== ESQUERDA =================================================
+		// sorteando sítios da fronteira esquerda
+		std::vector<int> raiosFronteiraEsquerda;
+		while ( phiFronteiraEsquerda < phiTotal ) {
+			pos = Random(0,raios->size()-1); // Sorteira uma posição no vetor de raios
+			raio = raios->at(pos); //pega o raio do elemento sorteado
+			raiosFronteiraEsquerda.push_back(raio); //Armazena o raio no vetor
+			phiFronteiraEsquerda += PhiDisco(raio, areaFronteira); //Acumula a porosidade
+			raios->erase(raios->begin()+pos); //Apaga do vetor de raios o raio já utilizado
+			if (raio > maiorRaioEsquerda) { //Guarda o maior raio sorteado
+				maiorRaioEsquerda = raio;
+			}
+		}
+		std::cout << "PhiFronteiraEsquerda= " << phiFronteiraEsquerda << " PhiTotal= " << phiTotal << std::endl;
+		// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
+		std::sort(raiosFronteiraEsquerda.begin(), raiosFronteiraEsquerda.end());
+		std::reverse(raiosFronteiraEsquerda.begin(), raiosFronteiraEsquerda.end());
+
+		// aloca os sítios da fronteira esquerda
+		x = maiorRaioEsquerda;
+		for (auto &raio : raiosFronteiraEsquerda) {
+			diametro = ((2*raio)+1);
+			//cria esfera de raio correspondente.
+			esfera = new CBCd3453D(diametro);
+			// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+			do {
+				y = Random(raio, ny-raio-1);
+				z = Random(raio, nz-raio-1);
+				x_raio = x-raio;
+				y_raio = y-raio;
+				z_raio = z-raio;
+				cabe = true;
+				for (int i=0; i<diametro && cabe; ++i) {
+					im = i+x_raio;
+					for (int j=0; j<diametro && cabe; ++j) {
+						jm = j+y_raio;
+						for (int k=0; k<diametro && cabe; ++k) {
+							km = k+z_raio;
+							if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
+								cabe = false;
+							}
+						}
+					}
+				}
+				if (cabe) { //desenha a esfera
+					//std::cout << "Desenhando sítio " << cont << " de " << raios.size() << endl;
+					for (int i=0; i<diametro; ++i) {
+						im = i+x_raio;
+						for (int j=0; j<diametro; ++j) {
+							jm = j+y_raio;
+							for (int k=0; k<diametro; ++k) {
+								km = k+z_raio;
+								if ( esfera->data3D[i][j][k]!=0 ) {
+									pm.data3D[im][jm][km]=1;
+								}
+							}
+						}
+					}
+				}
+			} while (!cabe);
+			// aloca na matriz de objetos o sítio criado
+			++cont;
+			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::WEST);
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
+			xSolver = (long double)x;
+			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			delete esfera;
+		}
+		//raiosFronteiraEsquerda.clear();
+
+		//============================================== DIREITA =================================================
+		// sorteando sítios da fronteira direita
+		std::vector<int> raiosFronteiraDireita;
+		while ( phiFronteiraDireita < phiTotal ) {
+			pos = Random(0,raios->size()-1); // Sorteira uma posição no vetor de raios
+			raio = raios->at(pos); //pega o raio do elemento sorteado
+			raiosFronteiraDireita.push_back(raio); //Armazena o raio no vetor
+			phiFronteiraDireita += PhiDisco(raio, areaFronteira); //Acumula a porosidade
+			raios->erase(raios->begin()+pos); //Apaga do vetor de raios o raio já utilizado
+			if (raio > maiorRaioDireita) { //Guarda o maior raio sorteado
+				maiorRaioDireita = raio;
+			}
+		}
+		std::cout << "PhiFronteiraDireita= " << phiFronteiraDireita << " PhiTotal= " << phiTotal << std::endl;
+		// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
+		std::sort(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
+		std::reverse(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
+
+		// aloca os sítios da fronteira direira
+		x = nx-maiorRaioDireita-1;
+		for (auto &raio : raiosFronteiraDireita) {
+			diametro = ((2*raio)+1);
+			//cria esfera de raio correspondente.
+			esfera = new CBCd3453D(diametro);
+			// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+			do {
+				y = Random(raio, ny-raio-1);
+				z = Random(raio, nz-raio-1);
+				x_raio = x-raio;
+				y_raio = y-raio;
+				z_raio = z-raio;
+				cabe = true;
+				for (int i=0; i<diametro && cabe; ++i) {
+					im = i+x_raio;
+					for (int j=0; j<diametro && cabe; ++j) {
+						jm = j+y_raio;
+						for (int k=0; k<diametro && cabe; ++k) {
+							km = k+z_raio;
+							if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
+								cabe = false;
+							}
+						}
+					}
+				}
+				if (cabe) { //desenha a esfera
+					//std::cout << "Desenhando sítio " << cont << " de " << raios.size() << endl;
+					for (int i=0; i<diametro; ++i) {
+						im = i+x_raio;
+						for (int j=0; j<diametro; ++j) {
+							jm = j+y_raio;
+							for (int k=0; k<diametro; ++k) {
+								km = k+z_raio;
+								if ( esfera->data3D[i][j][k]!=0 ) {
+									pm.data3D[im][jm][km]=1;
+								}
+							}
+						}
+					}
+				}
+			} while (!cabe);
+			// aloca na matriz de objetos o sítio criado
+			++cont;
+			matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
+			matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::EST);
+			matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+			matrizObjetosTemp[cont].Raio( raio );
+			xSolver = (long double)x;
+			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			delete esfera;
+		}
+		//raiosFronteiraDireita.clear();
+	}
+	//========================================= SÍTIOS E LIGAÇÕES ===========================================
+	//Variáveis auxiliares
+
+	cabe = false;
+	long double gSitioLigacao; //Condutância entre sítio e ligação
+	//double areaLigacao;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itt; //iterator para o segundo sítio
+	std::map<int, CObjetoRedeDePercolacao>::iterator itc; //iterator para a conexão
+	bool interligados = false;
+	int obj;
+	std::vector<double> areaLigacoesAcumuladas(tamVetDistGar+1, 0.0);
+	std::vector<double> areaLigacoes(tamVetDistGar+1, 0.0);
+	for ( int r=1; r<=tamVetDistGar; ++r ) {
+		areaLigacoes[r] = dtpg.second->distribuicao[r]*areaTotalLigacoes;
+	}
+
+	// Percorre os maiores sítios para já alocar as ligações e atender a distribuição.
+	int menoresPor = ceil(tamVetDistPor/2);
+	int menoresGar = ceil(tamVetDistGar/2);
+	for (int r=tamVetDistGar-1; r >= tamVetDistGar-menoresGar; --r) {
+
+	}
+
+
+
+
+
+	// Agora aloca os demais sitos que restaram no vetor de raios
+	for ( auto &raio : *raios ) {
+		diametro = ((2*raio)+1);
+		//cria esfera de raio correspondente.
+		esfera = new CBCd3453D(diametro);
+		// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+		do {
+			x = Random(maiorRaioEsquerda+1, nx-maiorRaioDireita-2);
+			y = Random(raio, ny-raio-1);
+			z = Random(raio, nz-raio-1);
+			x_raio = x-raio;
+			y_raio = y-raio;
+			z_raio = z-raio;
+			cabe = true;
+			for (int i=0; i<diametro && cabe; ++i) {
+				im = i+x_raio;
+				for (int j=0; j<diametro && cabe; ++j) {
+					jm = j+y_raio;
+					for (int k=0; k<diametro && cabe; ++k) {
+						km = k+z_raio;
+						if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
+							cabe = false;
+						}
+					}
+				}
+			}
+			if (cabe) { //desenha a esfera
+				//std::cout << "Desenhando sítio " << cont << " de " << raios.size() << endl;
+				for (int i=0; i<diametro; ++i) {
+					im = i+x_raio;
+					for (int j=0; j<diametro; ++j) {
+						jm = j+y_raio;
+						for (int k=0; k<diametro; ++k) {
+							km = k+z_raio;
+							if ( esfera->data3D[i][j][k]!=0 ) {
+								pm.data3D[im][jm][km]=1;
+							}
+						}
+					}
+				}
+			}
+		} while (!cabe);
+		// aloca na matriz de objetos o sítio criado
+		++cont;
+		matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(raio));
+		matrizObjetosTemp[cont].Contorno(CContorno::ETipoContorno::CENTER);
+		matrizObjetosTemp[cont].PontoCentral( x, y, z, 3*raio );
+		matrizObjetosTemp[cont].Raio ( raio );
+		xSolver = (long double)x;
+		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
+		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+		delete esfera;
+	}
+	raios->clear(); // limpa vetor de raios (não será mais utilizado)
+	delete raios;
+
+	std::cout << "Ordenando os sítios por proximidade..." << std::endl;
+	std::map<int, CObjetoRedeDePercolacao>::iterator it;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itMatObj;
+	std::map<int, CObjetoRedeDePercolacao> matrizObjetosSL; // Matriz de objetos sítios e ligações temporária;
+	cont = 1;
+	matrizObjetosSL[cont] = matrizObjetosTemp[1];
+	matrizObjetosTemp.erase(1);
+
+	// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+	xToObj.insert(pair<int, int>(matrizObjetosSL[cont].PontoCentral_X(),cont));
+	while ( matrizObjetosTemp.size() > 0 ) {
+		distancia = 1000000.0;
+		it = matrizObjetosSL.find(cont);
+		//percorre todos objetos em busca do objeto mais próximo ao objeto atual.
+		for ( auto & mot : matrizObjetosTemp ) {
+			distTemp = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), mot.second.PontoCentral_X(), mot.second.PontoCentral_Y(), mot.second.PontoCentral_Z() );
+			if ( distTemp <= distancia ){
+				distancia = distTemp;
+				objeto = mot.first;
+			}
+		}
+		++cont;
+		//std::cout << "Objeto: " << objeto << " | Distancia: " << distancia << std::endl;
+		matrizObjetosSL[cont] = matrizObjetosTemp[objeto];
+		matrizObjetosTemp.erase(objeto);
+
+		// Pega o sítio
+		it = matrizObjetosSL.find(cont);
+		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+		xToObj.insert(pair<int, int>(it->second.PontoCentral_X(),cont));
+	}
+
+	//============================================== LIGAÇÕES =================================================
+	std::cout << "Calculando distribuicao acumulada (gargantas)." << std::endl;
+	int tamVetDist = dtpg.second->distribuicao.size();
+	std::vector<double> distGargantasAcumulada(tamVetDist+1);
+	distGargantasAcumulada[0] = dtpg.second->distribuicao[0];
+	for (int i=1; i<tamVetDist; ++i) {
+		distGargantasAcumulada[i] = distGargantasAcumulada[i-1] + dtpg.second->distribuicao[i];
+	}
+	cabe = false;
+
+	int nCoord, Z;
+	int raioit;
+	int raioitt;
+
+	double random;
+	int tamMatObjs = matrizObjetosSL.size();
+	cont = matrizObjetosSL.rbegin()->first; //índice do último elemento da matriz
+
+	std::cout << "Criando ligacoes..." << std::endl;
+	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
+	for ( int obj=1; obj<=tamMatObjs; ++obj ) {
+		// Inicialmente cabe==false, então, cada sítio terá número de coordenação 2.
+		if (cabe) {
+			obj = Random(1,tamMatObjs-1); //pega sítios aleatórios.
+		}
+		it = matrizObjetosSL.find(obj);
+		if (it == matrizObjetosSL.end()) {
+			continue;
+		}
+		itt = it;
+		raioit = it->second.Raio();
+		// Se todos os sítios já foram interligados, é preciso garantir que irá entrar no proximo loop!
+		// Se cabe==true, é porque todos os sítios já foram interligados, ou,
+		// se Z>2 é porque o objeto já possui pelo menos duas conexões, mas poderá ser conectado a objeto mais a frente.
+		// Então, o valor de nCoord a ser setado será igual ao numero de conexões existentes no objeto + 1.
+		// Senão, o valor de nCoord será 2.
+		Z = it->second.NumConexoes()+1;
+		if (cabe || Z > 2) {
+			nCoord = Z;
+		} else {
+			nCoord = 2;
+		}
+		std::cout << "Trabalhando com o sitio " << obj << ".\t\t\tSerao criadas " << nCoord << " ligacoes!" << std::endl;
+		for (Z=it->second.NumConexoes()+1; Z<=nCoord; ++Z) {
+			std::cout << "Procurando proximo objeto ainda nao conectado..." << std::endl;
+			/*
+			do { // Vai para o próximo objeto ainda não conectado ao objeto atual.
+				++itt; //iterator para o próximo objeto.
+				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
+					break;
+				}
+			} while ( it->second.SConexao().find(itt->first) != it->second.SConexao().end() );
+			*/
+			while (true) { // Vai para o próximo objeto ainda não conectado ao objeto atual.
+				interligados = false;
+				++itt; //iterator para o próximo objeto.
+				if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs) {
+					break;
+				}
+				for (auto &c: it->second.SConexao()) { //para cada ligação já conectada ao primeiro sítio
+					itc = matrizObjetosSL.find(c.first); //pega o iterator para a ligação
+					for (auto &o: itc->second.SConexao()) { //percorre a lista de objetos conectados a ligação
+						if ( o.first == itt->first ) { //verifica se o primerio sítio está conectado ao segundo através da ligação
+							interligados = true;
+							break; //se estiverem interligado, não precisa mais procurar.
+						}
+					}
+					if(interligados) {//se estiverem interligado, não precisa mais procurar.
+						break; //sai do loop de conexões
+					}
+				}
+				if ( ! interligados) {
+					break; //sai do loop geral quando encontrar o segundo sítio ainda não interligado ao primeiro
+				}
+			}
+			if (itt == matrizObjetosSL.end() || itt->first > tamMatObjs || interligados)
+				break;
+
+			raioitt = itt->second.Raio();
+			// Calcula distância entre os sítios
+			distancia = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), itt->second.PontoCentral_X(), itt->second.PontoCentral_Y(), itt->second.PontoCentral_Z() );
+			distancia = distancia - it->second.Raio() - itt->second.Raio();
+			if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
+				distancia = 1;
+			std::cout << "Tamanho da ligacao: " << distancia << std::endl;
+			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
+			raio = 1;
+			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
+			//percorre vetor de distribuição acumulada para obter raio correspondente
+			for (int i=0; i<tamVetDist; ++i) {
+				if ( random <= distGargantasAcumulada[i] ) {
+					if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
+						// Verifica a diferença entre o número randômico e os elementas i e i-1.
+						// Seta o raio com o indice do valor mais próximo a random.
+						if ( (random - distGargantasAcumulada[i-1]) < (distGargantasAcumulada[i] - random) ) {
+							raio = i;
+						} else {
+							raio = i+1;
+						}
+						break;
+					} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
+						break; //sai do loop com raio == 1
+					}
+				}
+			}
+			// Certifica que o raio da ligação será menor que o raio dos sítios a serem interligados ou igual a 1
+			// Aqui: Este procedimento está alterando muito a distribuição de ligações!
+			while ( (raio >= raioit || raio >= raioitt) && raio > 1 ) {
+				--raio;
+			}
+
+			//std::cout << "Raio da ligacao: " << raio << std::endl;
+
+			//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
+			//phiObjeto = ((M_PI * (double)raio * (double)raio * distancia)/(double)area)*100.0;
+			//phiObjeto = ((double)numPixeisDisco[raio]*(double)distancia/(double)area)*100.0;
+			phiObjeto = PhiCilindro(raio, distancia, area);
+			//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
+			//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
+			//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
+			if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+				while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
+					--raio;
+					phiObjeto = PhiCilindro(raio, distancia, area);
+				}
+				++raio;
+				phiObjeto = PhiCilindro(raio, distancia, area);
+			}
+			phiLigacoes += phiObjeto; //acumula a porosidade
+			++cont;
+			// Conecta os objetos
+			//ptrMatObjsRede->matrizObjetos[cont] = CObjetoRedeDePercolacao(LIGACAO,NumPixeisCilindro(raio, distancia));
+			matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
+			itMatObj = matrizObjetosSL.find(cont);
+			itMatObj->second.PontoCentral(
+						(int)round((it->second.PontoCentral_X()+itt->second.PontoCentral_X())/2),
+						(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
+						(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
+						3*raio
+						);
+			itMatObj->second.Raio( raio );
+			xSolver = (long double)itMatObj->second.PontoCentral_X();
+			itMatObj->second.X(xSolver);
+
+			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
+			xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
+
+			//Cálculo de condutâncias e realiza conexões
+			itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+			//primeiro sítio
+			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			itMatObj->second.Conectar(itt->first, gSitioLigacao);
+			itt->second.Conectar(cont, gSitioLigacao);
+			//segundo sítio
+			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			itMatObj->second.Conectar(it->first, gSitioLigacao);
+			it->second.Conectar(cont, gSitioLigacao);
+
+			if (phiLigacoes >= phiGargantas)
+				break;
+		}
+		//std::cout << "Aqui4!" << std::endl;
+		if (phiLigacoes >= phiGargantas)
+			break;
+		// Se conectou o último sítio e ainda precisa criar mais ligações, volta para o primeiro sítio e seta cabe=true;
+		// Assim serão criadas ligações aleatórias...
+		if ( obj==tamMatObjs && phiLigacoes < phiGargantas ) {
+			//exit;
+			cabe = true;
+			obj = 1;
+		}
+	}
+	//ptrMatObjsRede->matrizObjetos.erase(0);//apaga o objeto
+	numLigacoes = cont-tamMatObjs;
+	std::cout << "Ligacoes criadas!\nphiLigacoes: " << phiLigacoes << " | phiGargantas: " << phiGargantas << " | Num. Ligacoes: " << numLigacoes << std::endl;
+	std::cout << cont << " objetos criados!" << std::endl;
+
+	std::cout << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
+	std::map<int,int> objAntToObjAtual;
+	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
+	cont = 0;
+	std::cout << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
+	/*
+	for (auto xto : matrizObjetosSL ) {
+		ptrMatObjsRede->matrizObjetos[xto.first] = xto.second;
+	}
+*/
+	for (auto &xto : xToObj ) {
+		++cont;
+		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosSL[xto.second];
+		objAntToObjAtual[xto.second] = cont;
+		//std::cout << "[x=" << xto.first << ",\t\t\tObjAnt=" << xto.second<< ",\t\t\tObjAtu=" << cont << "]" << std::endl;
+	}
+	matrizObjetosSL.clear();
+
+	//percorre a matriz de objetos e atualiza os rótulos dos objetos conectados
+	std::map<int, double> conexoesAtu;
+	//std::map<int, double> conexoesAnt;
+	for ( auto &objs : ptrMatObjsRede->matrizObjetos ) {
+		//copia as conexões para o map temporário
+		conexoesAtu.clear();
+		//conexoesAnt = objs.second.SConexao();
+		//for ( auto obj : conexoesAnt ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+		for ( auto &obj : objs.second.SConexao() ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+			conexoesAtu.insert(make_pair(objAntToObjAtual[obj.first], obj.second));
+		}
+		//limpa o vetor de conexoes do objeto
+		//conexoesAnt.clear();
+		objs.second.SConexao().clear();
+
+		//copia para os objetos as novas conexões salvas no map temporário
+		for ( auto &obj : conexoesAtu ) {
+			//conexoesAnt.insert(make_pair(obj.first, obj.second));
+			objs.second.Conectar(obj.first, obj.second);
+		}
+	}
+
 	objAntToObjAtual.clear();
 	xToObj.clear();
 	return true;

@@ -31,7 +31,8 @@ enum EModeloRede{
 	um = 1,
 	dois = 2,
 	tres = 3,
-	quatro = 4
+	quatro = 4,
+	cinco = 5
 };
 
 class CRedeDePercolacao
@@ -154,6 +155,10 @@ class CRedeDePercolacao
 		 *	de forma que não altere a distribuição de ligações.
 		 */
 		bool Modelo4( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
+		/** Método chamado por Go para criar a rede de percolação.
+		 */
+		bool Modelo5( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();

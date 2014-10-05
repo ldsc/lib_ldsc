@@ -56,12 +56,9 @@ bool CSimPermeabilidadeIntrinseca::CriarObjetos ( ) {
 }
 
 bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCImagem3D<int> * matriz3D, unsigned short int modelo) {
-	if (grafo && fluido && solver && perm)
+	if (grafo && fluido && solver && perm) {
 		return true;
-
-	DestruirObjetos();
-
-	if ( CriarObjetos() == false ) {
+	} else if ( CriarObjetos() == false ) {
 		DestruirObjetos();
 		return false;
 	}
@@ -94,16 +91,12 @@ bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCImagem3D<int> * matriz3D, uns
 }
 
 bool CSimPermeabilidadeIntrinseca::CriarObjetos (TCMatriz3D<int> * matriz3D, unsigned int fatorAmplificacao, double dimensaoPixel, unsigned int numeroPixeisBorda, unsigned short int modelo) {
-	if (grafo && fluido && solver && perm)
+	if (grafo && fluido && solver && perm) {
 		return true;
-
-	DestruirObjetos();
-
-	if ( CriarObjetos() == false ) {
+	} else if ( CriarObjetos() == false ) {
 		DestruirObjetos();
 		return false;
 	}
-
 	switch ( modelo ) {
 		case 1: grafo = new CGrafoConexaoSerial_M1 ( "imagem.grafo" );
 			break;

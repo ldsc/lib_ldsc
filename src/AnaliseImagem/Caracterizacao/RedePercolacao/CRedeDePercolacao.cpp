@@ -3089,15 +3089,23 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	int tamVetDistPor = dtpg.first->distribuicao.size();
 	int tamVetDistGar = dtpg.second->distribuicao.size();
+	//se por algum motivo (problema) a distribuição de gargantas for maior que a distribuição de poros.
+	//Inverte as distribuições.
+	if (tamVetDistPor < tamVetDistGar) {
+		std::swap(dtpg.first, dtpg.second);
+		std::swap(tamVetDistPor, tamVetDistGar);
+	}
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
 	double areaTotalLigacoes	= (area*phiGargantas)/100.0;
 	long double phiLigacoes		= 0.0; //porosidade da rede (licações)
 	long double phiObjeto			= 0.0; //porosidade do objeto que esta sendo criado (esfera/sítio, cilindro/ligação)
 	long double xSolver				= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	int x, y, z; //posição na matriz
+	int x0, y0, z0; //posição do objeto anterior na matriz
 	CBCd3453D * esfera;
 	bool cabe; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
 	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
+
 
 	//============================================== SITIOS =================================================
 	std::vector<int> * raios = CriarVetorDeRaiosDosSitiosByDTP();
@@ -3106,6 +3114,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	for (auto &r: *raios) {
 		numSitiosByRaio[r] = numSitiosByRaio[r]+1;
 	}
+
 	std::cout << "Representando os sítios na matriz sem sobrepor..." << std::endl;
 	int im, jm, km;
 	int x_raio, y_raio, z_raio;
@@ -3119,7 +3128,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	int diametro;
 	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
 
-	{	//============================================== FRONTEIRAS =================================================
+		//============================================== FRONTEIRAS =================================================
 		double phiTotal = dtpg.first->AreaObjetos() + phiGargantas;
 		double phiFronteiraEsquerda = 0.0;
 		double phiFronteiraDireita = 0.0;
@@ -3143,6 +3152,118 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 		std::sort(raiosFronteiraEsquerda.begin(), raiosFronteiraEsquerda.end());
 		std::reverse(raiosFronteiraEsquerda.begin(), raiosFronteiraEsquerda.end());
 
+		//============================================== DIREITA =================================================
+		// sorteando sítios da fronteira direita
+		std::vector<int> raiosFronteiraDireita;
+		while ( phiFronteiraDireita < phiTotal ) {
+			pos = Random(0,raios->size()-1); // Sorteira uma posição no vetor de raios
+			raio = raios->at(pos); //pega o raio do elemento sorteado
+			raiosFronteiraDireita.push_back(raio); //Armazena o raio no vetor
+			phiFronteiraDireita += PhiDisco(raio, areaFronteira); //Acumula a porosidade
+			raios->erase(raios->begin()+pos); //Apaga do vetor de raios o raio já utilizado
+			if (raio > maiorRaioDireita) { //Guarda o maior raio sorteado
+				maiorRaioDireita = raio;
+			}
+		}
+		std::cout << "PhiFronteiraDireita= " << phiFronteiraDireita << " PhiTotal= " << phiTotal << std::endl;
+		// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
+		std::sort(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
+		std::reverse(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
+
+	//========================================= SÍTIOS E LIGAÇÕES ===========================================
+	//Variáveis auxiliares
+
+	cabe = false;
+	long double gSitioLigacao; //Condutância entre sítio e ligação
+	//double areaLigacao;
+	std::map<int, CObjetoRedeDePercolacao>::iterator itt; //iterator para o segundo sítio
+	std::map<int, CObjetoRedeDePercolacao>::iterator itc; //iterator para a conexão
+	bool interligados = false;
+	int obj;
+	std::vector<double> areaLigacoesAcumuladas(tamVetDistGar+1, 0.0);
+	std::vector<double> areaLigacoes(tamVetDistGar+1, 0.0);
+	for ( int r=1; r<=tamVetDistGar; ++r ) {
+		areaLigacoes[r] = dtpg.second->distribuicao[r-1]*areaTotalLigacoes;
+	}
+
+	// Percorre os maiores sítios para já alocar as ligações e atender a distribuição.
+	int menoresPor = ceil(tamVetDistPor/2);
+	int menoresGar = ceil(tamVetDistGar/2);
+	int tamMaxGar; //tamanho máximo da garganta a ser criada.
+	int numSCRMIRG; //numero de sítios com raio maior ou igual ao raio da ligação
+	x = maiorRaioEsquerda;
+	//Percorre os reios de ligações a serem criadas
+	for (int r=tamVetDistGar-1; r > 0; --r ) {
+		//verifica qual o tamanho da máximo da ligação
+		tamMaxGar = 0;
+		do {
+			++tamMaxGar;
+		} while (areaLigacoes[r] > tamMaxGar*numPixeisCirculo[r]);
+		//verifica quantos sítios disponíveis possuem raio maior ou igual ao raio da ligação
+		numSCRMIRG = 0;
+		for (int rs=r; rs < numSitiosByRaio.size(); ++rs) {
+			numSCRMIRG += numSitiosByRaio[rs];
+		}
+		//conclui o cálculo do tamanho máximo, dividindo pelo número de sítios disponíveis
+		tamMaxGar = (int)round((float)tamMaxGar/(float)numSCRMIRG);
+		if (tamMaxGar < 1)
+			tamMaxGar = 1;
+		//inicio da alocação de sítios e ligações
+		//x = maiorRaioEsquerda;
+		//entra no loop até alocar todas as gargantas de raio r
+		while (areaLigacoes[r] < areaLigacoesAcumuladas[r]) {
+			raio = 0;
+			if ( x <= maiorRaioEsquerda ) { // estamos na fronteira esquerda
+				x = maiorRaioEsquerda;
+				//Dos sítios selecionados para fazerem parte da fronteira esquerda, verifica se existe algum maior ou igual ao raio da ligação
+				for (std::vector<int>::iterator itr = raiosFronteiraEsquerda.begin(); itr!=raiosFronteiraEsquerda.end(); ++itr){
+					if (*itr >= r) {
+						raio = *itr;
+						raiosFronteiraEsquerda.erase(itr);
+						break;
+					}
+				}
+			} else if ( x >= nx-maiorRaioDireita-1 ) { // estamos na fronteira direita
+				x = nx-maiorRaioDireita-1;
+				//Dos sítios selecionados para fazerem parte da fronteira direita, verifica se existe algum maior ou igual ao raio da ligação
+				for (std::vector<int>::iterator itr = raiosFronteiraDireita.begin(); itr!=raiosFronteiraDireita.end(); ++itr){
+					if (*itr >= r) {
+						raio = *itr;
+						raiosFronteiraDireita.erase(itr);
+						break;
+					}
+				}
+			} else { //estamos dentro das fronteiras
+				if (x <= maiorRaioEsquerda) {
+					x = maiorRaioEsquerda+r+tamMaxGar;
+				} else if (x >= nx-maiorRaioDireita-1) {
+
+				} else {
+
+				}
+				//Percorre o vetor de raios em busca de algum que seja maior ou igual ao raio da ligação
+				for (std::vector<int>::iterator itr = raios->begin(); itr!=raios->end(); ++itr){
+					if (*itr >= r) {
+						raio = *itr;
+						raios->erase(itr);
+						break;
+					}
+				}
+				if (raio > 0) {
+
+				}
+			}
+			if (raio == 0) { //Não estamos na fronteira ou não existe sitio maior ou igual a r para ser alocado
+				//procura no vetor de raios
+
+			}
+		}
+
+
+
+
+
+		//========================================= DAQUI PARA BAIXO PRECISA CORRIGIR ===========================================
 		// aloca os sítios da fronteira esquerda
 		x = maiorRaioEsquerda;
 		for (auto &raio : raiosFronteiraEsquerda) {
@@ -3197,25 +3318,6 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 			delete esfera;
 		}
 		//raiosFronteiraEsquerda.clear();
-
-		//============================================== DIREITA =================================================
-		// sorteando sítios da fronteira direita
-		std::vector<int> raiosFronteiraDireita;
-		while ( phiFronteiraDireita < phiTotal ) {
-			pos = Random(0,raios->size()-1); // Sorteira uma posição no vetor de raios
-			raio = raios->at(pos); //pega o raio do elemento sorteado
-			raiosFronteiraDireita.push_back(raio); //Armazena o raio no vetor
-			phiFronteiraDireita += PhiDisco(raio, areaFronteira); //Acumula a porosidade
-			raios->erase(raios->begin()+pos); //Apaga do vetor de raios o raio já utilizado
-			if (raio > maiorRaioDireita) { //Guarda o maior raio sorteado
-				maiorRaioDireita = raio;
-			}
-		}
-		std::cout << "PhiFronteiraDireita= " << phiFronteiraDireita << " PhiTotal= " << phiTotal << std::endl;
-		// Ordenar os raios do maior para o menor de forma que as esferas maiores serão criadas primeiro.
-		std::sort(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
-		std::reverse(raiosFronteiraDireita.begin(), raiosFronteiraDireita.end());
-
 		// aloca os sítios da fronteira direira
 		x = nx-maiorRaioDireita-1;
 		for (auto &raio : raiosFronteiraDireita) {
@@ -3270,32 +3372,13 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 			delete esfera;
 		}
 		//raiosFronteiraDireita.clear();
-	}
-	//========================================= SÍTIOS E LIGAÇÕES ===========================================
-	//Variáveis auxiliares
 
-	cabe = false;
-	long double gSitioLigacao; //Condutância entre sítio e ligação
-	//double areaLigacao;
-	std::map<int, CObjetoRedeDePercolacao>::iterator itt; //iterator para o segundo sítio
-	std::map<int, CObjetoRedeDePercolacao>::iterator itc; //iterator para a conexão
-	bool interligados = false;
-	int obj;
-	std::vector<double> areaLigacoesAcumuladas(tamVetDistGar+1, 0.0);
-	std::vector<double> areaLigacoes(tamVetDistGar+1, 0.0);
-	for ( int r=1; r<=tamVetDistGar; ++r ) {
-		areaLigacoes[r] = dtpg.second->distribuicao[r]*areaTotalLigacoes;
-	}
 
-	// Percorre os maiores sítios para já alocar as ligações e atender a distribuição.
-	int menoresPor = ceil(tamVetDistPor/2);
-	int menoresGar = ceil(tamVetDistGar/2);
-	for (int r=tamVetDistGar-1; r >= tamVetDistGar-menoresGar; --r) {
+
+
+
 
 	}
-
-
-
 
 
 	// Agora aloca os demais sitos que restaram no vetor de raios

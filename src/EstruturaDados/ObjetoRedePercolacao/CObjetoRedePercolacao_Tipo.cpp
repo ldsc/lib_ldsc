@@ -262,11 +262,11 @@ long double CObjetoRedePercolacao_Tipo::Go( long double /*d */ )
    // Se this esta num contorno, apenas retorna o valor de x.
    if( Tipo() ==  ETipoObjetoGrafo::ObjetoRede_Sitio_EST
          or Tipo() == ETipoObjetoGrafo::ObjetoRede_Sitio_WEST
-         or Tipo() ==  ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
+				 or Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_EST
          or Tipo() == ETipoObjetoGrafo::ObjetoRede_Ligacao_WEST
-         or Tipo() ==  ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST
+				 or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_EST
          or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Sitio_WEST
-         or Tipo() ==  ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
+				 or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_EST
          or Tipo() == ETipoObjetoGrafo::ObjetoEsqueleto_Ligacao_WEST )
       return x;
 
@@ -276,7 +276,6 @@ long double CObjetoRedePercolacao_Tipo::Go( long double /*d */ )
    // Cria variáveis auxiliares (uma única vez, pois são estáticas)
    static long double somatorio_da_condutancia;
    static long double somatorio_da_condutancia_vezes_x;
-   static long double condutancia;
 
    // Se não tem nenhum link, retorna x atual (a pressão atual)
    // tecnicamente nunca ocorre pois objetos sem conexão foram deletados!
@@ -307,7 +306,6 @@ long double CObjetoRedePercolacao_Tipo::Go( long double /*d */ )
    @short  : Determina o fluxo associado a este sítio.
    Fluxo = Condutancia média vezes a pressao deste sítio menos  a pressao do objeto conexo
    @author : André Duarte Bueno
-    
    @param  : void
    @return : long double ( o fluxo associado a this)
 */

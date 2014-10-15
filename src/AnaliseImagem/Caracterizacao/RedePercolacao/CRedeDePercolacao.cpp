@@ -3096,9 +3096,11 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	int cont = 0;
 	int rs = 0; //raio sítio
 	int rl = 0; //raio ligação
+	int pos;
 	int diametro;
 	int tamVetDistPor;
 	int tamVetDistGar;
+	int tamLigacaoX2;
 	int tamLigacao; //tamanho da ligação a ser criada.
 	int tamMaxLig; //tamanho máximo da garganta a ser criada.
 	int numSCRMIRG; //numero de sítios com raio maior ou igual ao raio da ligação
@@ -3108,12 +3110,16 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	long double gSitioLigacao; //Condutância entre sítio e ligação
 	long double xSolver				= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
 	bool cabe = false; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
+	bool cabeEmAlgumaPosicao;
 	CBCd3453D * esfera;
 	std::map<int, CObjetoRedeDePercolacao> matrizObjetosTemp; // Matriz de objetos temporária;
 	std::map<int, CObjetoRedeDePercolacao>::iterator is1; //iterator para o primeiro sítio
 	std::map<int, CObjetoRedeDePercolacao>::iterator is2; //iterator para o segundo sítio
 	std::map<int, CObjetoRedeDePercolacao>::iterator itl; //iterator para a conexão
 	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
+	std::vector<std::pair<int,int>> posicoes;
+	std::vector<bool> cabeNaPosicao;
+
 
 	//========================================= SÍTIOS E LIGAÇÕES ===========================================
 	//Tratando as distribuições
@@ -3123,6 +3129,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	if (tamVetDistPor < tamVetDistGar) {
 		std::swap(dtpg.first, dtpg.second);
 		std::swap(tamVetDistPor, tamVetDistGar);
+		cout << "Realizou swap nas distribuições" << endl;
 	}
 
 	//Cria vetor de raio dos sítios
@@ -3146,7 +3153,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	bool fronteiraDireita = false;
 	bool aindaExistemSitios = false;
 	//Percorre, do maior para o menor, os raios de ligações a serem criadas
-	for (rl=tamVetDistGar-1; rl > 0; --rl ) {
+	for (rl=tamVetDistGar; rl > 0; --rl ) {
 		//calcula o tamanho máximo da ligação
 		/*tamMaxLig = 0;
 		do {
@@ -3159,9 +3166,10 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 		for (int r=rl; r < numSitiosByRaio.size(); ++r) {
 			numSCRMIRG += numSitiosByRaio[r];
 		}
+		cout << "numSCRMIRG=" << numSCRMIRG <<  endl;
 		//se não existir mais de um sítio maior que a ligação, vai para o próximo riao de ligação.
 		if (numSCRMIRG <= 1) {
-			std::cerr << "Não encontrou sítio com raio maior ou igual a " << rl << std::endl;
+			std::cout << "===========>Nao encontrou sitio com raio maior ou igual a " << rl << std::endl;
 			continue;
 		}
 		//conclui o cálculo do tamanho máximo, dividindo pelo número de sítios disponíveis, menos um (fronteira)
@@ -3177,6 +3185,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 			//Percorre o vetor de raios em busca de algum que seja maior ou igual ao raio da ligação
 			for (std::vector<int>::iterator itr = raiosSitios->begin(); itr!=raiosSitios->end(); ++itr){
 				if (*itr >= rl) {
+					//cout << "rl=" << rl << " |*itr=" <<  *itr << endl;
 					rs = *itr;
 					raiosSitios->erase(itr);
 					--numSCRMIRG;
@@ -3184,7 +3193,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 				}
 			}
 			if (rs == 0) { //Não encontrou sítio. Sai do loop indo para o próximo raio de ligação.
-				std::cerr << "Não encontrou sítio com raio maior ou igual ao raio da ligação: " << rl << std::endl;
+				std::cout << "Nao encontrou sitio com raio maior ou igual ao raio da ligacao: " << rl << std::endl;
 				break;
 			}
 			// Verifica em que possição do eixo x o sítio será alocado
@@ -3198,75 +3207,107 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 					x = Random(x0+r0+1+rs, x0+r0+tamLigacao+rs);
 				}
 			}
+			//calcula o diametro da esfera
+			diametro = ((2*rs)+1);
+			//cria esfera de raio correspondente.
+			esfera = new CBCd3453D(diametro);
 			if (fronteiraEsquerda) { //se estiver na fronteira esquerda, considera todo o plano y,z para alocar o sítio
 				yMin = rs;
 				yMax = ny-rs-1;
 				zMin = rs;
 				zMax = nz-rs-1;
-			} else { //no centro ou na fronteira direita, considera somente uma pequena área do plano y,z, suficiente para atingir o raio da ligação
-				yMin = (y0-tamLigacao+2 < rs) ? rs : y0-tamLigacao+2;
-				yMax = (y0+tamLigacao-2 > ny-rs-1) ? ny-rs-1 : y0+tamLigacao-2;
-				zMin = (z0-tamLigacao+2 < rs) ? rs : z0-tamLigacao+2;
-				zMax = (z0+tamLigacao-2 > nz-rs-1) ? nz-rs-1 : z0+tamLigacao-2;
-			}
-
-			//calcula o diametro da esfera
-			diametro = ((2*rs)+1);
-			//cria esfera de raio correspondente.
-			esfera = new CBCd3453D(diametro);
-			// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
-			do {
-				if ( fronteiraEsquerda ) {
+				// Sortear posições testando se a esfera cabe sem sobrepor outras esferas ou ultrapassar a borda.
+				do {
 					y = Random(yMin, yMax);
 					z = Random(zMin, zMax);
-				} else {
-					y = y0;
-					z = z0;
-					distancia = round( DistanciaEntrePontos(x0,y0,z0,x,y,z) - (double)r0 - (double)rs );
-					std::cout << "Procurando posicoes y e z...\nTamanho da Ligacao: " << tamLigacao << std::endl;
-					while ( tamLigacao != (int)distancia ) {
-						distancia = round( DistanciaEntrePontos(x0,y0,z0,x,y,z) - (double)r0 - (double)rs );
-						y = Random(yMin, yMax);
-						z = Random(zMin, zMax);
-						std::cout << "TamLigacao: " << tamLigacao << " | Distancia: " << (int)distancia << " | yMin: " << yMin << " | yMax: " << yMax << " | zMin: " << zMin << " | zMax: " << zMax << std::endl;
-						std::cout << "x0 = " << x0 << " | y0 = " << y0 << " | z0 = " << z0 << " | r0 = " << r0 << std::endl;
-						std::cout << "x = " << x << " | y = " << y << " | z = " << z  << " | rs = " << rs << std::endl;
-					}
-				}
-				x_rs = x-rs;
-				y_rs = y-rs;
-				z_rs = z-rs;
-				cabe = true;
-				for (int i=0; i<diametro && cabe; ++i) {
-					im = i+x_rs;
-					for (int j=0; j<diametro && cabe; ++j) {
-						jm = j+y_rs;
-						for (int k=0; k<diametro && cabe; ++k) {
-							km = k+z_rs;
-							if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
-								cabe = false;
-							}
-						}
-					}
-				}
-				if (cabe) { //desenha a esfera
-					//std::cout << "Desenhando sítio " << cont << " de " << raiosSitios.size() << endl;
-					for (int i=0; i<diametro; ++i) {
+					x_rs = x-rs;
+					y_rs = y-rs;
+					z_rs = z-rs;
+					cabe = true;
+					for (int i=0; i<diametro && cabe; ++i) {
 						im = i+x_rs;
-						for (int j=0; j<diametro; ++j) {
+						for (int j=0; j<diametro && cabe; ++j) {
 							jm = j+y_rs;
-							for (int k=0; k<diametro; ++k) {
+							for (int k=0; k<diametro && cabe; ++k) {
 								km = k+z_rs;
-								if ( esfera->data3D[i][j][k]!=0 ) {
-									pm.data3D[im][jm][km]=1;
+								if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
+									cabe = false;
 								}
 							}
 						}
 					}
-				} else {
-					std::cout << "A esfera não cabe nesta posição! Procurando outra..." << std::endl;
+					if (cabe) { //desenha a esfera
+						//std::cout << "Desenhando sítio " << cont << " de " << raiosSitios.size() << endl;
+						for (int i=0; i<diametro; ++i) {
+							im = i+x_rs;
+							for (int j=0; j<diametro; ++j) {
+								jm = j+y_rs;
+								for (int k=0; k<diametro; ++k) {
+									km = k+z_rs;
+									if ( esfera->data3D[i][j][k]!=0 ) {
+										pm.data3D[im][jm][km]=1;
+									}
+								}
+							}
+						}
+					} else {
+						std::cout << "A esfera não cabe nesta posição! Procurando outra..." << std::endl;
+					}
+				} while (!cabe);
+			} else { //no centro ou na fronteira direita, considera somente uma pequena área do plano y,z, suficiente para atingir o raio da ligação
+				tamLigacaoX2 = 2*tamLigacao;
+				yMin = (y0-tamLigacaoX2 < rs) ? rs : y0-tamLigacaoX2;
+				yMax = (y0+tamLigacaoX2 > ny-rs-1) ? ny-rs-1 : y0+tamLigacaoX2;
+				zMin = (z0-tamLigacaoX2 < rs) ? rs : z0-tamLigacaoX2+2;
+				zMax = (z0+tamLigacaoX2 > nz-rs-1) ? nz-rs-1 : z0+tamLigacaoX2;
+				posicoes.clear();
+				cabeNaPosicao.clear();
+				cabeEmAlgumaPosicao = false;
+				x_rs = x-rs;
+				for ( y=yMin; y<=yMax; ++y ) {
+					for ( z=zMin; z<=zMax; ++z ) {
+						distancia = round( DistanciaEntrePontos(x0,y0,z0,x,y,z) - (double)r0 - (double)rs );
+						if (tamLigacao == distancia ) {
+							y_rs = y-rs;
+							z_rs = z-rs;
+							cabe = true;
+							for (int i=0; i<diametro && cabe; ++i) {
+								im = i+x_rs;
+								for (int j=0; j<diametro && cabe; ++j) {
+									jm = j+y_rs;
+									for (int k=0; k<diametro && cabe; ++k) {
+										km = k+z_rs;
+										if ( esfera->data3D[i][j][k]!=0 && pm.data3D[im][jm][km]!=0 ) {
+											cabe = false;
+										}
+									}
+								}
+							}
+							if (cabe)
+								cabeEmAlgumaPosicao = true;
+							cabeNaPosicao.push_back(cabe);
+							posicoes.push_back(make_pair(y,z));
+							//std::cout << "TamLigacao: " << tamLigacao << " | Distancia: " << (int)distancia << " | yMin: " << yMin << " | yMax: " << yMax << " | zMin: " << zMin << " | zMax: " << zMax << std::endl;
+							//std::cout << "x0 = " << x0 << " | y0 = " << y0 << " | z0 = " << z0 << " | r0 = " << r0 << std::endl;
+							//std::cout << "x = " << x << " | y = " << y << " | z = " << z  << " | rs = " << rs << std::endl;
+						}
+					}
 				}
-			} while (!cabe);
+				if (cabeEmAlgumaPosicao){ //sorteia a posição; pega y e z; desenha a esfera.
+					do {
+						pos = Random(0,posicoes.size()-1);
+					} while ( ! cabeNaPosicao[pos] );
+					y = posicoes[pos].first;
+					z = posicoes[pos].second;
+				} else if ( posicoes.size() > 0 ) { //não cabe em nenhuma posição; Pega qualquer posição e sobrepõe.
+					pos = Random(0,posicoes.size()-1);
+					y = posicoes[pos].first;
+					z = posicoes[pos].second;
+				} else { //o tamanho da ligação não corresponde em nenhuma das posições. Desenha uma ligação reta paralela a x. Dificilmente este caso acontecerá e se acontecer irá subestimar a área de ligações
+					y = y0;
+					z = z0;
+				}
+			}
 			delete esfera;
 			//Definida a posição do sítio. Alocar e interligar
 			++cont;
@@ -3345,13 +3386,11 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 		}
 	}
 	delete raiosSitios;
-	//========================================= DAQUI PARA BAIXO PRECISA VERIFICAR ===========================================
-
 	std::cout << "Ordenado os objetos (sítios e ligações) pelo eixo x ..." << std::endl;
 	std::map<int,int> objAntToObjAtual;
 	ptrMatObjsRede->matrizObjetos.clear(); // Matriz de objetos final
 	cont = 0;
-	std::cout << "Copia os objetos, já ordenados em x, da matriz temporária para a metriz definitiva..." << std::endl;
+	std::cout << "Copia os objetos, ja ordenados em x, da matriz temporaria para a metriz definitiva..." << std::endl;
 	for (auto &xto : xToObj ) {
 		++cont;
 		ptrMatObjsRede->matrizObjetos[cont] = matrizObjetosTemp[xto.second];

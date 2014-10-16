@@ -3100,7 +3100,6 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	int diametro;
 	int tamVetDistPor;
 	int tamVetDistGar;
-	int tamLigacaoX2;
 	int tamLigacao; //tamanho da ligação a ser criada.
 	int tamMaxLig; //tamanho máximo da garganta a ser criada.
 	int numSCRMIRG; //numero de sítios com raio maior ou igual ao raio da ligação
@@ -3132,6 +3131,8 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 		cout << "Realizou swap nas distribuições" << endl;
 	}
 
+	int x_fronteiraDireita = nx-tamVetDistPor-1;
+
 	//Cria vetor de raio dos sítios
 	std::vector<int> * raiosSitios = CriarVetorDeRaiosDosSitiosByDTP();
 	std::vector<int> numSitiosByRaio(tamVetDistPor+1,0);
@@ -3152,14 +3153,10 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 	bool fronteiraEsquerda = true;
 	bool fronteiraDireita = false;
 	bool aindaExistemSitios = false;
+	bool fronteira = false;
 	//Percorre, do maior para o menor, os raios de ligações a serem criadas
 	for (rl=tamVetDistGar; rl > 0; --rl ) {
 		//calcula o tamanho máximo da ligação
-		/*tamMaxLig = 0;
-		do {
-			++tamMaxLig;
-		} while ( tamMaxLig*numPixeisCirculo[rl] < areaLigacoes[rl] );
-		*/
 		tamMaxLig = (int)round((double)areaLigacoes[rl]/(double)numPixeisCirculo[rl]);
 		//verifica quantos sítios disponíveis possuem raio maior ou igual ao raio da ligação
 		numSCRMIRG = 0;
@@ -3185,7 +3182,6 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 			//Percorre o vetor de raios em busca de algum que seja maior ou igual ao raio da ligação
 			for (std::vector<int>::iterator itr = raiosSitios->begin(); itr!=raiosSitios->end(); ++itr){
 				if (*itr >= rl) {
-					//cout << "rl=" << rl << " |*itr=" <<  *itr << endl;
 					rs = *itr;
 					raiosSitios->erase(itr);
 					--numSCRMIRG;
@@ -3196,15 +3192,34 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 				std::cout << "Nao encontrou sitio com raio maior ou igual ao raio da ligacao: " << rl << std::endl;
 				break;
 			}
+			//toda vez que estiver na fronteira esquerda inverte o valor da flag fronteira de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
+			if (fronteiraEsquerda) {
+				fronteira = !fronteira;
+			}
 			// Verifica em que possição do eixo x o sítio será alocado
-			if ( fronteiraEsquerda ) { // estamos na fronteira esquerda, precisamos respeitar o maior raio de sítio
-				x = tamVetDistPor;
+			if ( fronteiraEsquerda && fronteira ) { // estamos na fronteira esquerda e o ramo partirá de um novo sítio.
+				x = tamVetDistPor; //precisamos respeitar o maior raio de sítio
 			} else {
-				if ( x0+r0+tamLigacao+rs >= nx-tamVetDistPor-1) { // estamos na fronteira direita, também é preciso respeitar o maior raio de sítio
+				if ( fronteiraEsquerda && ! fronteira ) { // estamos na fronteira esquerda mas o ramo partirá de um sítio sorteado
+					fronteiraEsquerda = false;
+					++numSCRMIRG; //como irá partir de um sítio existente, precisa recalcular o tamanho da ligação levando em consideração um sítio a mais.
+					tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
+					if (tamLigacao < rl) // o comprimento da ligação, a princípio, não será menor que seu raio.
+						tamLigacao = rl;
+					do { //sorteia o sítio (não pode ser da fronteira direita!)
+						pos = Random(1,matrizObjetosTemp.size());
+						is1 = matrizObjetosTemp.find(pos);
+					} while ( ( is1->second.Tipo() == LIGACAO ) || (is1->second.PontoCentral_X() >= x_fronteiraDireita) || (is1->second.Raio() < rl ) );
+					x0 = is1->second.PontoCentral_X();
+					y0 = is1->second.PontoCentral_Y();
+					z0 = is1->second.PontoCentral_Z();
+					r0 = is1->second.Raio();
+				}
+				if ( x0+r0+tamLigacao+rs >= x_fronteiraDireita) { // estamos na fronteira direita, também é preciso respeitar o maior raio de sítio
 					fronteiraDireita = true;
-					x = nx-tamVetDistPor-1;
+					x = x_fronteiraDireita;
 				} else { //estamos entre as fronteiras. sorte valor para x.
-					x = Random(x0+r0+1+rs, x0+r0+tamLigacao+rs);
+					x = Random(x0, x0+r0+tamLigacao+rs);
 				}
 			}
 			//calcula o diametro da esfera
@@ -3237,7 +3252,6 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 						}
 					}
 					if (cabe) { //desenha a esfera
-						//std::cout << "Desenhando sítio " << cont << " de " << raiosSitios.size() << endl;
 						for (int i=0; i<diametro; ++i) {
 							im = i+x_rs;
 							for (int j=0; j<diametro; ++j) {
@@ -3255,11 +3269,10 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 					}
 				} while (!cabe);
 			} else { //no centro ou na fronteira direita, considera somente uma pequena área do plano y,z, suficiente para atingir o raio da ligação
-				tamLigacaoX2 = 2*tamLigacao;
-				yMin = (y0-tamLigacaoX2 < rs) ? rs : y0-tamLigacaoX2;
-				yMax = (y0+tamLigacaoX2 > ny-rs-1) ? ny-rs-1 : y0+tamLigacaoX2;
-				zMin = (z0-tamLigacaoX2 < rs) ? rs : z0-tamLigacaoX2+2;
-				zMax = (z0+tamLigacaoX2 > nz-rs-1) ? nz-rs-1 : z0+tamLigacaoX2;
+				yMin = (y0-r0-rs-tamLigacao-1 < rs) ? rs : y0-r0-rs-tamLigacao-1;
+				zMin = (z0-r0-rs-tamLigacao-1 < rs) ? rs : z0-r0-rs-tamLigacao-1;
+				yMax = (y0+r0+rs+tamLigacao+1 > ny-rs-1) ? ny-rs-1 : y0+r0+rs+tamLigacao+1;
+				zMax = (z0+r0+rs+tamLigacao+1 > nz-rs-1) ? nz-rs-1 : z0+r0+rs+tamLigacao+1;
 				posicoes.clear();
 				cabeNaPosicao.clear();
 				cabeEmAlgumaPosicao = false;

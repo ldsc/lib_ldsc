@@ -32,7 +32,8 @@ enum EModeloRede{
 	dois = 2,
 	tres = 3,
 	quatro = 4,
-	cinco = 5
+	cinco = 5,
+	seis = 6
 };
 
 class CRedeDePercolacao
@@ -157,8 +158,19 @@ class CRedeDePercolacao
 		bool Modelo4( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/** Método chamado por Go para criar a rede de percolação.
+		 *  Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
+		 *  As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
+		 *  Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
 		 */
 		bool Modelo5( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+
+		/** Método chamado por Go para criar a rede de percolação.
+		 *  Semelhante ao Modelo5, porém, se estiver tentando alocar um sítio fora da fronteira esquerda, verifica se existe
+		 *  algum sítio já alocado e ainda não conectado ao sítio alocado anteriormente, cuja distância entre eles seja
+		 *  igual ao tamanho da ligação a ser alocada. Se encontrar algum sítio nestas condições, cria ligação entre os sítios
+		 *  encerrando o ramo e voltando para a fronteira esquerda.
+		 */
+		bool Modelo6( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();

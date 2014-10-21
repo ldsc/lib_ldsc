@@ -76,6 +76,12 @@ class CRedeDePercolacao
 		///Número de ligações representadas na rede
 		unsigned int numLigacoes{0};
 
+		///Atributo da imagem que será salvo na rede para que possa ser utilizado no cálculo da permeabilidade sem precisar informarmar a imagem de origem.
+		double dimensaoPixel{1.0};
+
+		///Atributo da imagem que será salvo na rede para que possa ser utilizado no cálculo da permeabilidade sem precisar informarmar a imagem de origem.
+		double fatorAmplificacao{1.0};
+
 		// Construtores / Destrutor
 	public:
 		/// Construtor (recebe dimensões da rede que será criada)
@@ -125,14 +131,14 @@ class CRedeDePercolacao
 		 *  Dependendo da porosidade da amostra, este método não é funcional.
 		 *  Logo, seu uso não é recomentado!
 		 */
-		bool Modelo0( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo0( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		*		Este modelo cria uma rede com sítios de tamanhos aleatórios,
 		*		alocados em posições aleatórias e com variação no número de ligações.
 		*		Não se preocupa com quantos sítios estarão nas fronteiras.
 		*/
-		bool Modelo1( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo1( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *	Este modelo cria uma rede com sítios de tamanhos aleatórios,
@@ -141,28 +147,28 @@ class CRedeDePercolacao
 		 *	que o fluxo nas fronteiras melhor reflita a realidade do meio físico.
 		 *  Ordena os sítios e ligações pela posição no eixo X, do centro de massa de cada objeto.
 		 */
-		bool Modelo2( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo2( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *	Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 		 *	Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
 		 *	de forma que não altere a distribuição de ligações.
 		 */
-		bool Modelo3( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo3( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *	Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 		 *	Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
 		 *	de forma que não altere a distribuição de ligações.
 		 */
-		bool Modelo4( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo4( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *  Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
 		 *  As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
 		 *  Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
 		 */
-		bool Modelo5( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo5( );
 
 		/** Método chamado por Go para criar a rede de percolação.
 		 *  Semelhante ao Modelo5, porém, se estiver tentando alocar um sítio fora da fronteira esquerda, verifica se existe
@@ -170,7 +176,7 @@ class CRedeDePercolacao
 		 *  igual ao tamanho da ligação a ser alocada. Se encontrar algum sítio nestas condições, cria ligação entre os sítios
 		 *  encerrando o ramo e voltando para a fronteira esquerda.
 		 */
-		bool Modelo6( double dimensaoPixel=1.0, double fatorAmplificacao=1.0 );
+		bool Modelo6( );
 
 		/// Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
 		std::vector<int> * CriarVetorDeRaiosDosSitios();

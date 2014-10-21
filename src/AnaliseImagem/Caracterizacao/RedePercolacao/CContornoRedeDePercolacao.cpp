@@ -19,6 +19,17 @@ CContornoRedeDePercolacao::CContornoRedeDePercolacao (unsigned int nx, unsigned 
 	}
 }
 
+// Construtor (recebe arquivo no formato padrão da rede)
+CContornoRedeDePercolacao::CContornoRedeDePercolacao( std::string filePath, unsigned long int _numero_contornos )
+	: CRedeDePercolacao(filePath)
+{
+	for (unsigned long int i = 0; i < _numero_contornos; ++i) {
+		CContornoCentro *obj_cont = new CContornoCentro ();
+		assert (obj_cont);
+		contorno.push_back (obj_cont);
+	}
+}
+
 // Destrutor - Deleta 0s objetos contorno criados por esta classe.
 CContornoRedeDePercolacao::~CContornoRedeDePercolacao () {
 	for ( auto contorno_i : contorno )

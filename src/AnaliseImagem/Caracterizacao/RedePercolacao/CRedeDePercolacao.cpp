@@ -106,16 +106,23 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 		int i, numObjs, k, x, y, z, raio, tipo, nVoxels, nObjsCon;
 		double daux;
 		long double xSolver;
-		{
-			std::string saux;
-			file >> skipws >> saux; //pega o primeiro caracter ignorando espaços em branco;
-			std::cout << "saux: " << saux  << std::endl;
-		}
+		std::string saux;
+		file >> skipws >> saux; //pega o primeiro caracter ignorando espaços em branco;
+		std::cout << "saux: " << saux  << std::endl;
 		file >> skipws >> numObjs; //número de objetos
 		//std::cout << "Rede com " << numObjs << " objetos!" << std::endl;
 		file >> skipws >> nx;
 		file >> skipws >> ny;
 		file >> skipws >> nz;
+		/*file >> skipws >> saux; //pega o caracter #
+		file >> skipws >> saux; //pega a string fatorAmplificacao:
+		file >> skipws >> fatorAmplificacao;
+		std::cout << "fatorAmplificacao: " << fatorAmplificacao << std::endl;
+		file >> skipws >> saux; //pega o caracter #
+		file >> skipws >> saux; //pega a string dimensaoPixel:
+		file >> skipws >> dimensaoPixel;
+		std::cout << "dimensaoPixel: " << dimensaoPixel << std::endl;
+		*/
 		{
 			char linha[128];
 			file.getline(linha, 128);
@@ -124,7 +131,7 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 		i = 0;
 		while ( i < numObjs ) {
 			file >> skipws >> i; //número do objeto (sítio ou ligação)
-			//std::cout << "Importando objeto: " << i << std::endl;
+			std::cout << "Importando objeto: " << i << std::endl;
 			file >> skipws >> x; //posição no eixo x;
 			file >> skipws >> y; //posição no eixo y;
 			file >> skipws >> z; //posição no eixo z;
@@ -329,18 +336,20 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
+	dimensaoPixel = _pm->DimensaoPixel();
+	fatorAmplificacao = _pm->FatorAmplificacao();
 	switch (_modeloRede) {
-		case EModeloRede::um: return Modelo1(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::um: return Modelo1( );
 			break;
-		case EModeloRede::dois: return Modelo2(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::dois: return Modelo2( );
 			break;
-		case EModeloRede::tres: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::tres: return Modelo3( );
 			break;
-		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::quatro: return Modelo4( );
 			break;
-		case EModeloRede::cinco: return Modelo5(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::cinco: return Modelo5( );
 			break;
-		case EModeloRede::seis: return Modelo6(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::seis: return Modelo6( );
 			break;
 		default: return false;
 	}
@@ -359,18 +368,20 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
 		return false;
 	}
+	dimensaoPixel = _pm->DimensaoPixel();
+	fatorAmplificacao = _pm->FatorAmplificacao();
 	switch (_modeloRede) {
-		case EModeloRede::um: return Modelo1(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::um: return Modelo1( );
 			break;
-		case EModeloRede::dois: return Modelo2(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::dois: return Modelo2( );
 			break;
-		case EModeloRede::tres: return Modelo3(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::tres: return Modelo3( );
 			break;
-		case EModeloRede::quatro: return Modelo4(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::quatro: return Modelo4( );
 			break;
-		case EModeloRede::cinco: return Modelo5(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::cinco: return Modelo5( );
 			break;
-		case EModeloRede::seis: return Modelo6(_pm->DimensaoPixel(), _pm->FatorAmplificacao());
+		case EModeloRede::seis: return Modelo6( );
 			break;
 		default: return false;
 	}
@@ -479,7 +490,7 @@ std::vector<int> * CRedeDePercolacao::CriarVetorDeRaiosDosSitiosByDTP() {
 }
 
 // Cria rede de percolação com sítios alinhados, porém de tamanhos aleatórios com variação do número de ligações.
-bool CRedeDePercolacao::Modelo0( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo0() {
 	std::cout << "Criando rede atraves do Modelo 0..." << std::endl;
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -981,7 +992,7 @@ bool CRedeDePercolacao::Modelo0( double dimensaoPixel, double fatorAmplificacao 
 }
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
-bool CRedeDePercolacao::Modelo1( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo1() {
 	std::cout << "Criando rede atraves do Modelo 1..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	long double xSolver = 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
@@ -1324,7 +1335,7 @@ bool CRedeDePercolacao::Modelo1( double dimensaoPixel, double fatorAmplificacao 
 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 // Este modelo primeiro aloca uma porcentagem dos sítios nas fronteiras para depois alocar o restante dos sítios
-bool CRedeDePercolacao::Modelo2( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo2() {
 	std::cout << "Criando rede atraves do Modelo 2..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
@@ -1820,7 +1831,7 @@ bool CRedeDePercolacao::Modelo2( double dimensaoPixel, double fatorAmplificacao 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 // Semelhante ao ModeloDois, porém, difere na escolha dos sítios que serão interligados,
 // de forma que não altere a distribuição de ligações.
-bool CRedeDePercolacao::Modelo3( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo3() {
 	std::cout << "Criando rede atraves do Modelo 3..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
@@ -2621,7 +2632,7 @@ bool CRedeDePercolacao::Modelo3( double dimensaoPixel, double fatorAmplificacao 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios com variação do número de ligações.
 // Semelhante ao ModeloDois, porém, após conectar todos os sítios, deixa de reduzir os raios das ligações
 // de forma que não altere a distribuição de ligações.
-bool CRedeDePercolacao::Modelo4( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo4() {
 	std::cout << "Criando rede atraves do Modelo 4..." << std::endl;
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
@@ -3087,7 +3098,7 @@ bool CRedeDePercolacao::Modelo4( double dimensaoPixel, double fatorAmplificacao 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
 // As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
 // Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
-bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo5() {
 	std::cout << "Criando rede atraves do Modelo 5..." << std::endl;
 	//Variáveis auxiliares
 	TCMatriz3D<bool> pm(nx, ny, nz);
@@ -3436,7 +3447,7 @@ bool CRedeDePercolacao::Modelo5( double dimensaoPixel, double fatorAmplificacao 
 // Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
 // As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
 // Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
-bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao ) {
+bool CRedeDePercolacao::Modelo6() {
 	std::cout << "Criando rede atraves do Modelo 6..." << std::endl;
 	//Variáveis auxiliares
 	TCMatriz3D<bool> pm(nx, ny, nz);
@@ -3447,11 +3458,12 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 	int x_rs, y_rs, z_rs;
 	int yMin, yMax, zMin,zMax; //delimitam a região de alocação do sítio no plano y,z
 	int cont = 0;
+	int contS = 0;
 	int rs = 0; //raio sítio
 	int pos;
 	int diametro;
 	int tamLigacao; //tamanho da ligação a ser criada.
-	int tamMaxLig; //tamanho máximo da garganta a ser criada.
+	int tamMaxLig; //tamanho total das ligações a serem criadas.
 	int numSCRMIRG; //numero de sítios com raio maior ou igual ao raio da ligação
 	double distancia;
 	long double gSitioLigacao; //Condutância entre sítio e ligação
@@ -3487,6 +3499,7 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 	for (auto &r: *raiosSitios) {//acumula o número de sítios a serem criados, para cada tamanho de raio.
 		numSitiosByRaio[r] = numSitiosByRaio[r]+1;
 	}
+	int totalSitios = raiosSitios->size();
 
 	//Ligações
 	long double phiGargantas	= dtpg.second->AreaObjetos(); //porosidade da imagem (garganta)
@@ -3504,10 +3517,9 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 	bool fronteira = false;
 	bool interligados = false;
 	bool finalizarRamo = false;
+	bool testarFinalizaca = false;
 	//Percorre, do maior para o menor, os raios de ligações a serem criadas
 	for (int rl=tamVetDistGar; rl > 0; --rl ) {
-		//calcula o tamanho máximo da ligação
-		tamMaxLig = (int)round((double)areaLigacoes[rl]/(double)numPixeisCirculo[rl]);
 		//verifica quantos sítios disponíveis possuem raio maior ou igual ao raio da ligação
 		numSCRMIRG = 0;
 		for (int r=rl; r < numSitiosByRaio.size(); ++r) {
@@ -3519,8 +3531,8 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 			std::cout << "===========>Nao encontrou sitio com raio maior ou igual a " << rl << std::endl;
 			continue;
 		}
-		//conclui o cálculo do tamanho máximo, dividindo pelo número de sítios disponíveis, menos um (fronteira)
-		//ou seja, uma ligação para cada sítio. Porém as fronteiras não contam!
+		//calcula o tamanho total das ligações e o tamanho de cada ligação
+		tamMaxLig = (int)round((double)areaLigacoes[rl]/(double)numPixeisCirculo[rl]);
 		tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
 		if (tamLigacao < rl) // o comprimento da garganta, a princípio, não será menor que seu raio.
 			tamLigacao = rl;
@@ -3529,7 +3541,8 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 		//Após alocar todas as garganas, para todos os raios, se ainda existirem sítios  a serem alocados, continua no loop
 		while ( (areaLigacoesAcumuladas[rl] < areaLigacoes[rl]) || aindaExistemSitios ) {
 			finalizarRamo = false;
-			if ( ! fronteiraEsquerda) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
+			testarFinalizaca = (bool)Random(0,1); //aleatóriamente testa se um ramo pode ser finalizado antes de chegar na fronteira
+			if ( ! fronteiraEsquerda && testarFinalizaca) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
 				//verifica se existe sítio na redondeza, com raio maior ou igual ao raio da ligação e cuja distância do sítio anterior seja igual ao tamanho da ligação.
 				for ( auto &is: matrizObjetosTemp ) {
 					if ( is.second.Tipo() == SITIO && is.second.Raio() >= rl) {
@@ -3566,6 +3579,7 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 				cout << "======================FINALIZOU O RAMO=======================" << endl;
 				//Ligação. Conecta os	objetos...
 				++cont;
+				tamMaxLig -= tamLigacao;
 				areaLigacoesAcumuladas[rl] += NumPixeisCilindro(rl, tamLigacao);
 				matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(rl, tamLigacao));
 				itl = matrizObjetosTemp.find(cont);
@@ -3610,9 +3624,10 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 					std::cout << "Nao encontrou sitio com raio maior ou igual ao raio da ligacao: " << rl << std::endl;
 					break;
 				}
-				//toda vez que estiver na fronteira esquerda inverte o valor da flag fronteira de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
+
 				if (fronteiraEsquerda) {
-					fronteira = !fronteira;
+					//fronteira = !fronteira;//toda vez que estiver na fronteira esquerda inverte o valor da flag fronteira de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
+					fronteira = (bool)Random(0,1); //toda vez que estiver na fronteira esquerda, seta a flag aleatoriamente de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
 				}
 				// Verifica em que possição do eixo x o sítio será alocado
 				if ( fronteiraEsquerda && fronteira ) { // estamos na fronteira esquerda e o ramo partirá de um novo sítio.
@@ -3636,7 +3651,7 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 					if ( x0+r0+tamLigacao+rs >= x_fronteiraDireita) { // estamos na fronteira direita, também é preciso respeitar o maior raio de sítio
 						fronteiraDireita = true;
 						x = x_fronteiraDireita;
-					} else { //estamos entre as fronteiras. sorte valor para x.
+					} else { //estamos entre as fronteiras. sorteia valor para x.
 						x = Random(x0, x0+r0+tamLigacao+rs);
 					}
 				}
@@ -3741,6 +3756,7 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 				}
 				delete esfera;
 				//Definida a posição do sítio. Alocar e interligar
+				std::cout << "Alocando sítio " << ++contS << " de " << totalSitios << std::endl;
 				++cont;
 				matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, SITIO, NumPixeisEsfera(rs));
 				is2 = matrizObjetosTemp.find(cont);
@@ -3756,27 +3772,16 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 				if ( fronteiraEsquerda ) {
 					is2->second.Contorno(CContorno::ETipoContorno::WEST); //esquerda
 				} else { // centro ou fronteira direita
-					if ( fronteiraDireita ) {
-						is2->second.Contorno(CContorno::ETipoContorno::EST); //direita
-						//ao alocar um sítio na fronteira direita, precisa recalcular o tamanho da garganta, pois a princípio
-						//este sítio só terá uma garganta conectada a ele.
-						tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
-						if (tamLigacao < rl) // o comprimento da garganta, a princípio, não será menor que seu raio.
-							tamLigacao = rl;
-					} else {
-						is2->second.Contorno(CContorno::ETipoContorno::CENTER); //centro
-					}
 					//Ligação. Conecta os	objetos...
 					++cont;
 					areaLigacoesAcumuladas[rl] += NumPixeisCilindro(rl, tamLigacao);
-
+					tamMaxLig -= tamLigacao;
 					matrizObjetosTemp[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(rl, tamLigacao));
 					itl = matrizObjetosTemp.find(cont);
 					itl->second.PontoCentral( (int)round((x0+x)/2),(int)round((y0+y)/2),(int)round((z0+z)/2),3*rl );
 					itl->second.Raio( rl );
 					xSolver = (long double)itl->second.PontoCentral_X();
 					itl->second.X(xSolver);
-
 					// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 					xToObj.insert(pair<int, int>(itl->second.PontoCentral_X(),cont));
 
@@ -3791,6 +3796,16 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 					gSitioLigacao = CondutanciaSitioLigacao(is2->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
 					itl->second.Conectar(is2->first, gSitioLigacao);
 					is2->second.Conectar(cont, gSitioLigacao);
+					if ( fronteiraDireita ) {
+						is2->second.Contorno(CContorno::ETipoContorno::EST); //direita
+						//ao alocar um sítio na fronteira direita, precisa recalcular o tamanho da garganta, pois a princípio
+						//este sítio só terá uma garganta conectada a ele.
+						tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
+						if (tamLigacao < rl) // o comprimento da garganta, a princípio, não será menor que seu raio.
+							tamLigacao = rl;
+					} else {
+						is2->second.Contorno(CContorno::ETipoContorno::CENTER); //centro
+					}
 				}
 				//atualiza informações do último objeto
 				x0 = x;
@@ -3855,7 +3870,7 @@ bool CRedeDePercolacao::Modelo6( double dimensaoPixel, double fatorAmplificacao 
 
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) const {
-	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, nx, ny, nz);
+	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, nx, ny, nz/*, fatorAmplificacao, dimensaoPixel*/);
 }
 
 // Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.
@@ -3869,6 +3884,8 @@ void CRedeDePercolacao::Write ( std::ostream& os ) const {
 	//ptrMatObjsRede->matrizObjetos.erase(0);
 	//out << setw ( 5 ) << static_cast<uint8_t> ( Tipo() ) ;
 	os << "# " << ptrMatObjsRede->matrizObjetos.size()  << " " << nx << " " << ny << " " << nz << endl;
+	//os << "# fatorAmplificacao: " << fatorAmplificacao << endl;
+	//os << "# dimensaoPixel: " << dimensaoPixel << endl;
 	os << "Obj.  X    Y    Z    Raio Tipo N.Voxeis Condutância N.ObjsCon LstObjsCon LstCondObjsCon" << endl;
 	for ( auto objeto_i :  ptrMatObjsRede->matrizObjetos ) {
 		os << std::left << std::setw(6) << objeto_i.first;

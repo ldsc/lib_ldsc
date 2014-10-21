@@ -41,16 +41,25 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 	if (rede && fluido && solver)
 		return true;
 
-	DestruirObjetos();
+	if (rede)
+		delete rede;
 
 	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
 	rede = new CContornoRedeDePercolacao(nx, ny, nz);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
-		DestruirObjetos();
-		cerr << "Não pode criar rede em CPermeabilidadeIntrinsecaByRede::CriarObjetos()!" << endl;
+		cerr << "Não pode criar rede em CPermeabilidadeIntrinsecaByRede::CriarObjetos(unsigned int &nx, unsigned int &ny, unsigned int &nz)!" << endl;
 		return false;
 	}
 
+	return CriarObjetos();
+}
+
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( ) {
+	if (fluido && solver)
+		return true;
+
+	if (fluido)
+		delete fluido;
 	fluido = new CMFluido(0.001002);//0.001002); 			// Cria fluido setando viscosidade
 	if ( ! fluido ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		DestruirObjetos();
@@ -59,6 +68,8 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 	}
 	//SetarPropriedadesFluido(0.001002,1,1,1);
 
+	if (solver)
+		delete solver;
 	//solver = static_cast < CSolverMatrizDiagonalDominante * > (new  CSolverMatrizDiagonal_SOR( limiteIteracoes, limiteErro, fatorRelaxacao/*, size */));
 	solver = new  CSolverMatrizDiagonal_SOR(/* limiteIteracoes, limiteErro, fatorRelaxacao */);
 	if ( ! solver ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
@@ -122,6 +133,16 @@ long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( ) {
 	cerr << "perm->Go()...ok" << endl;
 	cerr << "Permeabilidade = " << p << endl;
 	return p;
+}
+
+long double CPermeabilidadeIntrinsecaByRede::Go(CContornoRedeDePercolacao *&_rede ) {
+	if ( CriarObjetos( ) ) {
+		//rede =  static_cast<CContornoRedeDePercolacao *>(_rede);
+		rede = _rede;
+		return CalcularPermeabilidade( );
+	}
+	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go( CRedeDePercolacao * )! Retornando 0.0 ..." << endl;
+	return 0.0;
 }
 
 long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede ) {

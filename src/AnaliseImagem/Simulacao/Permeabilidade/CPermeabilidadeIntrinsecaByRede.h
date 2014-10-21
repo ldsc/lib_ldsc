@@ -69,13 +69,16 @@ class CPermeabilidadeIntrinsecaByRede {
 		// ----------------------------------------------------------------Métodos
 	public:
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca. Para alterar as propriedades do fluido ou do solver, primeiro chamar este método e depois chamar os métodos correspondentes para setar as propriedades.
-		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz );
+		bool CriarObjetos ( );
 
 		/// Permite alterar as propriedades do fluido.
 		bool SetarPropriedadesFluido( double viscosidade = 0.001002, bool densidade = true, bool compressibilidade = true, bool molhabilidade = true );
 
 		/// Permite alterar os parâmetros do solver.
 		bool SetarPropriedadesSolver( long double limiteErro = 1.0e-06, unsigned long int limiteIteracoes = 10000/*, long double fatorRelaxacao = 0.7*/);
+
+		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para CRedeDePercolacao.
+		long double Go( CContornoRedeDePercolacao * &_rede );
 
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
 		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois);
@@ -105,6 +108,9 @@ class CPermeabilidadeIntrinsecaByRede {
 
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
 		bool CriarObjetos( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz );
+
+		/// Cria objetos rede, fluido e solver. Necessários para cálculo da permeabilidade intrínseca.
+		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz );
 
 		/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 		long double CalcularPermeabilidade( );

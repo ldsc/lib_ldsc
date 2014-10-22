@@ -51,10 +51,10 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 		return false;
 	}
 
-	return CriarObjetos();
+	return CriarObjetosFluidoSolver();
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( ) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetosFluidoSolver ( ) {
 	if (fluido && solver)
 		return true;
 
@@ -104,6 +104,19 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * &imagem3
 	return false;
 }
 
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( CContornoRedeDePercolacao *&_rede ) {
+	rede = _rede;
+	if ( CriarObjetosFluidoSolver()) {
+		perm = new CSimPermeabilidadeRede ( fluido, solver, rede, rede->nx, rede->ny, rede->nz, rede->FatorAmplificacao(), rede->DimensaoPixel(), 0 );
+		if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
+			DestruirObjetos();
+			return false;
+		}
+		return true;
+	}
+	return false;
+}
+
 long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( ) {
 	/*// cria objetos para verificar se existe conectividade em Y, na matriz3D recebida.
 	TCFEConectividade3D<int> * objCon = new TCFEConectividade3D<int>( imagem3D, 1, 0 );
@@ -135,10 +148,8 @@ long double CPermeabilidadeIntrinsecaByRede::CalcularPermeabilidade( ) {
 	return p;
 }
 
-long double CPermeabilidadeIntrinsecaByRede::Go(CContornoRedeDePercolacao *&_rede ) {
-	if ( CriarObjetos( ) ) {
-		//rede =  static_cast<CContornoRedeDePercolacao *>(_rede);
-		rede = _rede;
+long double CPermeabilidadeIntrinsecaByRede::Go( CContornoRedeDePercolacao *&_rede ) {
+	if ( CriarObjetos( _rede ) ) {
 		return CalcularPermeabilidade( );
 	}
 	cerr << "Não criou objetos em CPermeabilidadeIntrinsecaByRede::Go( CRedeDePercolacao * )! Retornando 0.0 ..." << endl;

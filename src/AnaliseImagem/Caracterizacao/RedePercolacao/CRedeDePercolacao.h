@@ -123,6 +123,16 @@ class CRedeDePercolacao
 			return numLigacoes;
 		}
 
+		///Retorna o valor do fator de amplificação
+		inline double FatorAmplificacao() {
+			return fatorAmplificacao;
+		}
+
+		///Retorna o valor da dimensão do pixel
+		inline double DimensaoPixel() {
+			return dimensaoPixel;
+		}
+
 	private:
 
 		/** Método chamado por Go para criar a rede de percolação.

@@ -114,7 +114,7 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 		file >> skipws >> nx;
 		file >> skipws >> ny;
 		file >> skipws >> nz;
-		/*file >> skipws >> saux; //pega o caracter #
+		file >> skipws >> saux; //pega o caracter #
 		file >> skipws >> saux; //pega a string fatorAmplificacao:
 		file >> skipws >> fatorAmplificacao;
 		std::cout << "fatorAmplificacao: " << fatorAmplificacao << std::endl;
@@ -122,7 +122,6 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 		file >> skipws >> saux; //pega a string dimensaoPixel:
 		file >> skipws >> dimensaoPixel;
 		std::cout << "dimensaoPixel: " << dimensaoPixel << std::endl;
-		*/
 		{
 			char linha[128];
 			file.getline(linha, 128);
@@ -3540,6 +3539,7 @@ bool CRedeDePercolacao::Modelo6() {
 		//Inicio da alocação de sítios e ligações. Entra no loop até alocar todas as gargantas de raio rl
 		//Após alocar todas as garganas, para todos os raios, se ainda existirem sítios  a serem alocados, continua no loop
 		while ( (areaLigacoesAcumuladas[rl] < areaLigacoes[rl]) || aindaExistemSitios ) {
+			cout << "while..." << endl;
 			finalizarRamo = false;
 			testarFinalizaca = (bool)Random(0,1); //aleatóriamente testa se um ramo pode ser finalizado antes de chegar na fronteira
 			if ( ! fronteiraEsquerda && testarFinalizaca) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
@@ -3870,7 +3870,7 @@ bool CRedeDePercolacao::Modelo6() {
 
 // Grava em disco, com o nome informado, os objetos identificados.
 bool CRedeDePercolacao::SalvarListaObjetos(std::string nomeArquivo) const {
-	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, nx, ny, nz/*, fatorAmplificacao, dimensaoPixel*/);
+	return ptrMatObjsRede->SalvarListaObjetos(nomeArquivo, nx, ny, nz, fatorAmplificacao, dimensaoPixel);
 }
 
 // Grava em disco, no formato do Grafo, com o nome informado, os objetos identificados.

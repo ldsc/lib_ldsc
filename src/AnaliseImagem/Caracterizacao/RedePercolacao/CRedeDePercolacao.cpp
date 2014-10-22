@@ -3455,6 +3455,7 @@ bool CRedeDePercolacao::Modelo6() {
 	int x0, y0, z0, r0; //posição na matriz, raio e objeto trabalhando no instatne anterior
 	int im, jm, km;
 	int x_rs, y_rs, z_rs;
+	int xFinalizacao;
 	int yMin, yMax, zMin,zMax; //delimitam a região de alocação do sítio no plano y,z
 	int cont = 0;
 	int contS = 0;
@@ -3511,6 +3512,7 @@ bool CRedeDePercolacao::Modelo6() {
 
 	x = 0;
 	bool fronteiraEsquerda = true;
+	bool primeiroSitio = true;
 	bool fronteiraDireita = false;
 	bool aindaExistemSitios = false;
 	bool fronteira = false;
@@ -3524,7 +3526,6 @@ bool CRedeDePercolacao::Modelo6() {
 		for (int r=rl; r < numSitiosByRaio.size(); ++r) {
 			numSCRMIRG += numSitiosByRaio[r];
 		}
-		cout << "numSCRMIRG=" << numSCRMIRG <<  endl;
 		//se não existir mais de um sítio maior que a ligação, vai para o próximo riao de ligação.
 		if (numSCRMIRG <= 1) {
 			std::cout << "===========>Nao encontrou sitio com raio maior ou igual a " << rl << std::endl;
@@ -3539,37 +3540,40 @@ bool CRedeDePercolacao::Modelo6() {
 		//Inicio da alocação de sítios e ligações. Entra no loop até alocar todas as gargantas de raio rl
 		//Após alocar todas as garganas, para todos os raios, se ainda existirem sítios  a serem alocados, continua no loop
 		while ( (areaLigacoesAcumuladas[rl] < areaLigacoes[rl]) || aindaExistemSitios ) {
-			cout << "while..." << endl;
 			finalizarRamo = false;
 			testarFinalizaca = (bool)Random(0,1); //aleatóriamente testa se um ramo pode ser finalizado antes de chegar na fronteira
 			if ( ! fronteiraEsquerda && testarFinalizaca) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
-				//verifica se existe sítio na redondeza, com raio maior ou igual ao raio da ligação e cuja distância do sítio anterior seja igual ao tamanho da ligação.
-				for ( auto &is: matrizObjetosTemp ) {
-					if ( is.second.Tipo() == SITIO && is.second.Raio() >= rl) {
-						x = is.second.PontoCentral_X();
-						y = is.second.PontoCentral_Y();
-						z = is.second.PontoCentral_Z();
-						rs = is.second.Raio();
-						distancia = round( DistanciaEntrePontos(x0,y0,z0,x,y,z) - (double)r0 - (double)rs );
-						if (tamLigacao == distancia ) { //atendeu a distâcia. Verifica se não estão interligados...
-							interligados = false;
-							for (auto &c: is.second.SConexao()) { //para cada ligação já conectada ao sítio
-								itl = matrizObjetosTemp.find(c.first); //pega o iterator para a ligação
-								for (auto &o: itl->second.SConexao()) { //percorre a lista de objetos conectados a ligação
-									if ( o.first == is1->first ) { //verifica se o primerio sítio está conectado ao segundo através da ligação
-										interligados = true;
-										std::cout << "Ja estao interligados! Procurando outro sitio..." << std::endl;
-										break; //se estiverem interligado, não precisa mais procurar.
+				//Sorteia a partir de qual posição do eixo x irá tentar a finalização do ramo.
+				// Este procedimento evita que a maioria dos ramos sejam finalizado próximos a fronteira esquerda.
+				if ( x0 >= Random(nx/4, nx-(2*tamVetDistPor)) ) {
+					//verifica se existe sítio na redondeza, com raio maior ou igual ao raio da ligação e cuja distância do sítio anterior seja igual ao tamanho da ligação.
+					for ( auto &is: matrizObjetosTemp ) {
+						if ( is.second.Tipo() == SITIO && is.second.Raio() >= rl) {
+							x = is.second.PontoCentral_X();
+							y = is.second.PontoCentral_Y();
+							z = is.second.PontoCentral_Z();
+							rs = is.second.Raio();
+							distancia = round( DistanciaEntrePontos(x0,y0,z0,x,y,z) - (double)r0 - (double)rs );
+							if (tamLigacao == distancia ) { //atendeu a distâcia. Verifica se não estão interligados...
+								interligados = false;
+								for (auto &c: is.second.SConexao()) { //para cada ligação já conectada ao sítio
+									itl = matrizObjetosTemp.find(c.first); //pega o iterator para a ligação
+									for (auto &o: itl->second.SConexao()) { //percorre a lista de objetos conectados a ligação
+										if ( o.first == is1->first ) { //verifica se o primerio sítio está conectado ao segundo através da ligação
+											interligados = true;
+											std::cout << "Ja estao interligados! Procurando outro sitio..." << std::endl;
+											break; //se estiverem interligado, não precisa mais procurar.
+										}
+									}
+									if( interligados ) {//se estiverem interligado, não precisa mais procurar.
+										break; //sai do loop de conexões
 									}
 								}
-								if( interligados ) {//se estiverem interligado, não precisa mais procurar.
-									break; //sai do loop de conexões
+								if (!interligados) {
+									finalizarRamo = true;
+									is2 = matrizObjetosTemp.find(is.first);
+									break;
 								}
-							}
-							if (!interligados) {
-								finalizarRamo = true;
-								is2 = matrizObjetosTemp.find(is.first);
-								break;
 							}
 						}
 					}
@@ -3624,10 +3628,13 @@ bool CRedeDePercolacao::Modelo6() {
 					std::cout << "Nao encontrou sitio com raio maior ou igual ao raio da ligacao: " << rl << std::endl;
 					break;
 				}
-
 				if (fronteiraEsquerda) {
-					//fronteira = !fronteira;//toda vez que estiver na fronteira esquerda inverte o valor da flag fronteira de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
-					fronteira = (bool)Random(0,1); //toda vez que estiver na fronteira esquerda, seta a flag aleatoriamente de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
+					if (!primeiroSitio) {
+						fronteira = (bool)Random(0,1); //toda vez que estiver na fronteira esquerda, seta a flag aleatoriamente de forma que, ora o ramo irá iniciar na fronteira e hora o ramo irá iniciar de um sítio sorteado.
+					} else { //se estivermos na fronteira esquerda e for o primeiro sítio/ramo a ser alocado força que inicie na fronteira, senão irá buscar sítio aleatório na matriz de objetos e dará falha de segmentação
+						primeiroSitio = false;
+						fronteira = true;
+					}
 				}
 				// Verifica em que possição do eixo x o sítio será alocado
 				if ( fronteiraEsquerda && fronteira ) { // estamos na fronteira esquerda e o ramo partirá de um novo sítio.

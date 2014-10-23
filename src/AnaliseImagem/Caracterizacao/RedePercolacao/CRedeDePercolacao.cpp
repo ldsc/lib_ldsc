@@ -3455,7 +3455,6 @@ bool CRedeDePercolacao::Modelo6() {
 	int x0, y0, z0, r0; //posição na matriz, raio e objeto trabalhando no instatne anterior
 	int im, jm, km;
 	int x_rs, y_rs, z_rs;
-	int xFinalizacao;
 	int yMin, yMax, zMin,zMax; //delimitam a região de alocação do sítio no plano y,z
 	int cont = 0;
 	int contS = 0;
@@ -3545,7 +3544,7 @@ bool CRedeDePercolacao::Modelo6() {
 			if ( ! fronteiraEsquerda && testarFinalizaca) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
 				//Sorteia a partir de qual posição do eixo x irá tentar a finalização do ramo.
 				// Este procedimento evita que a maioria dos ramos sejam finalizado próximos a fronteira esquerda.
-				if ( x0 >= Random(nx/4, nx-(2*tamVetDistPor)) ) {
+				if ( x0 >= Random(nx/3, nx-(2*tamVetDistPor)) ) {
 					//verifica se existe sítio na redondeza, com raio maior ou igual ao raio da ligação e cuja distância do sítio anterior seja igual ao tamanho da ligação.
 					for ( auto &is: matrizObjetosTemp ) {
 						if ( is.second.Tipo() == SITIO && is.second.Raio() >= rl) {

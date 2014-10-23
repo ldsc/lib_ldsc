@@ -35,9 +35,6 @@ class CBaseDistribuicao
 		/// Enumera os tipos de distribuição que podem ser calculadas.
 		enum Tipos { dtp, dts, dtg };
 
-		/// Caminho onde o arquivo distribuição será salvo.
-		string path;
-
 		/// Vetor distribuição
 		vector<double> distribuicao;
 
@@ -50,13 +47,13 @@ class CBaseDistribuicao
 		// Construtores / Destrutor
 	public:
 		/// Construtor default
-		CBaseDistribuicao () : path("./") {
+		CBaseDistribuicao () {
 			distribuicao.clear();
 			areaObjetos = 0.0;
 		}
 
 		/// Construtor que recebe o tipo de distribuição a ser calculada.
-		CBaseDistribuicao ( Tipos _tipo ) : path("./"), tipo(_tipo) {
+		CBaseDistribuicao ( Tipos _tipo ) : tipo(_tipo) {
 			distribuicao.clear();
 			areaObjetos = 0.0;
 		}

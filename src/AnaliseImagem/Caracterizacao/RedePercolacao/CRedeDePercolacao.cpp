@@ -476,6 +476,8 @@ std::vector<int> * CRedeDePercolacao::CriarVetorDeRaiosDosSitiosByDTP() {
 		raio = i+1;
 		areaPoroI = dtpg.first->distribuicao[i]*areaPoros;
 		nBolas = (int)( areaPoroI/numPixeisBola[raio] );
+		if (nBolas < 2)
+			nBolas = 2;
 		phiRede += nBolas * numPixeisBola[raio];
 		while ( nBolas > 0 ) {
 			--nBolas;
@@ -3451,6 +3453,7 @@ bool CRedeDePercolacao::Modelo6() {
 	//Variáveis auxiliares
 	TCMatriz3D<bool> pm(nx, ny, nz);
 	int area = nx*ny*nz; //área da matriz 3D (em pixeis)
+	int areaFronteira = ny*nz;
 	int x, y, z; //posição na matriz
 	int x0, y0, z0, r0; //posição na matriz, raio e objeto trabalhando no instatne anterior
 	int im, jm, km;
@@ -3467,6 +3470,8 @@ bool CRedeDePercolacao::Modelo6() {
 	double distancia;
 	long double gSitioLigacao; //Condutância entre sítio e ligação
 	long double xSolver	= 0.0; //variável utilizada para setar o valor x do parametro de solver do objeto. Utilizado na simulação.
+	long double phiPoros; //espaço poroso ocupado pela matriz de poros
+	long double phiSFE = 0.0; //espaço poroso ocupado pelos sítios da fronteira esquerda
 	bool cabe = false; //flag que indicará se a esfera cabe na região sem sobrepor outras esferas.
 	bool cabeEmAlgumaPosicao;
 	CBCd3453D * esfera;
@@ -3483,6 +3488,7 @@ bool CRedeDePercolacao::Modelo6() {
 	//Tratando as distribuições
 	int tamVetDistPor = dtpg.first->distribuicao.size();
 	int tamVetDistGar = dtpg.second->distribuicao.size();
+
 	//se por algum motivo (problema) a distribuição de gargantas for maior que a distribuição de poros, inverte as distribuições.
 	if (tamVetDistPor < tamVetDistGar) {
 		std::swap(dtpg.first, dtpg.second);
@@ -3490,7 +3496,11 @@ bool CRedeDePercolacao::Modelo6() {
 		cout << "Realizou swap nas distribuições" << endl;
 	}
 
+	cout << "tamVetDistPor = " << tamVetDistPor << endl;
+	cout << "tamVetDistGar = " << tamVetDistGar << endl;
+
 	int x_fronteiraDireita = nx-tamVetDistPor-1;
+	phiPoros = dtpg.first->AreaObjetos(); //porosidade da imagem (poros)
 
 	//Cria vetor de raio dos sítios
 	std::vector<int> * raiosSitios = CriarVetorDeRaiosDosSitiosByDTP();
@@ -3517,9 +3527,10 @@ bool CRedeDePercolacao::Modelo6() {
 	bool fronteira = false;
 	bool interligados = false;
 	bool finalizarRamo = false;
-	bool testarFinalizaca = false;
+	bool testarFinalizacao = false;
 	//Percorre, do maior para o menor, os raios de ligações a serem criadas
 	for (int rl=tamVetDistGar; rl > 0; --rl ) {
+		cout << "Criando ligações de raio=" << rl << endl;
 		//verifica quantos sítios disponíveis possuem raio maior ou igual ao raio da ligação
 		numSCRMIRG = 0;
 		for (int r=rl; r < numSitiosByRaio.size(); ++r) {
@@ -3533,15 +3544,17 @@ bool CRedeDePercolacao::Modelo6() {
 		//calcula o tamanho total das ligações e o tamanho de cada ligação
 		tamMaxLig = (int)round((double)areaLigacoes[rl]/(double)numPixeisCirculo[rl]);
 		tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
-		if (tamLigacao < rl) // o comprimento da garganta, a princípio, não será menor que seu raio.
-			tamLigacao = rl;
+		if (tamLigacao < 1) // o comprimento da garganta, a princípio, não será menor que seu raio.
+			tamLigacao = 1;
+
+		cout << "Tamanho das ligações para o raio " << rl << ": " << tamLigacao << endl;
 
 		//Inicio da alocação de sítios e ligações. Entra no loop até alocar todas as gargantas de raio rl
 		//Após alocar todas as garganas, para todos os raios, se ainda existirem sítios  a serem alocados, continua no loop
 		while ( (areaLigacoesAcumuladas[rl] < areaLigacoes[rl]) || aindaExistemSitios ) {
 			finalizarRamo = false;
-			testarFinalizaca = (bool)Random(0,1); //aleatóriamente testa se um ramo pode ser finalizado antes de chegar na fronteira
-			if ( ! fronteiraEsquerda && testarFinalizaca) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
+			testarFinalizacao = (bool)Random(0,1); //aleatóriamente testa se um ramo pode ser finalizado antes de chegar na fronteira
+			if ( ! fronteiraEsquerda && testarFinalizacao) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
 				//Sorteia a partir de qual posição do eixo x irá tentar a finalização do ramo.
 				// Este procedimento evita que a maioria dos ramos sejam finalizado próximos a fronteira esquerda.
 				if ( x0 >= Random(nx/3, nx-(2*tamVetDistPor)) ) {
@@ -3636,15 +3649,15 @@ bool CRedeDePercolacao::Modelo6() {
 					}
 				}
 				// Verifica em que possição do eixo x o sítio será alocado
-				if ( fronteiraEsquerda && fronteira ) { // estamos na fronteira esquerda e o ramo partirá de um novo sítio.
+				if ( fronteiraEsquerda && fronteira /*&& phiSFE < phiPoros*/ ) { // estamos na fronteira esquerda e o ramo partirá de um novo sítio.
 					x = tamVetDistPor; //precisamos respeitar o maior raio de sítio
 				} else {
-					if ( fronteiraEsquerda && ! fronteira ) { // estamos na fronteira esquerda mas o ramo partirá de um sítio sorteado
+					if ( fronteiraEsquerda /*&& ! fronteira*/ ) { // estamos na fronteira esquerda mas o ramo partirá de um sítio sorteado
 						fronteiraEsquerda = false;
 						++numSCRMIRG; //como irá partir de um sítio existente, precisa recalcular o tamanho da ligação levando em consideração um sítio a mais.
 						tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
-						if (tamLigacao < rl) // o comprimento da ligação, a princípio, não será menor que seu raio.
-							tamLigacao = rl;
+						if (tamLigacao < 1) // o comprimento da ligação, a princípio, não será menor que seu raio.
+							tamLigacao = 1;
 						do { //sorteia o sítio (não pode ser da fronteira direita!)
 							pos = Random(1,matrizObjetosTemp.size());
 							is1 = matrizObjetosTemp.find(pos);
@@ -3777,6 +3790,7 @@ bool CRedeDePercolacao::Modelo6() {
 
 				if ( fronteiraEsquerda ) {
 					is2->second.Contorno(CContorno::ETipoContorno::WEST); //esquerda
+					phiSFE += PhiDisco(rs, areaFronteira);
 				} else { // centro ou fronteira direita
 					//Ligação. Conecta os	objetos...
 					++cont;
@@ -3807,8 +3821,8 @@ bool CRedeDePercolacao::Modelo6() {
 						//ao alocar um sítio na fronteira direita, precisa recalcular o tamanho da garganta, pois a princípio
 						//este sítio só terá uma garganta conectada a ele.
 						tamLigacao = (int)round((float)tamMaxLig/((float)numSCRMIRG - 1.0));
-						if (tamLigacao < rl) // o comprimento da garganta, a princípio, não será menor que seu raio.
-							tamLigacao = rl;
+						if (tamLigacao < 1) // o comprimento da garganta, a princípio, não será menor que seu raio.
+							tamLigacao = 1;
 					} else {
 						is2->second.Contorno(CContorno::ETipoContorno::CENTER); //centro
 					}

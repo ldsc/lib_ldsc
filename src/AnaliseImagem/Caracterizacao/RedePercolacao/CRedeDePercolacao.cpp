@@ -287,9 +287,9 @@ std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistr
 
 // Calcula a condutância de objetos do tipo sítio usando a equação 5.17 da tese Liang (by Koplik 1983)
 // g = (r^3) / (3*viscosidade) ->
-double CRedeDePercolacao::CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double &dimensaoPixel, double &fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaSitio (int _raio, double &dimensaoPixel, double &fatorAmplificacao) {
 	// Variáveis auxiliares
-	double raio = (double)objetoImagem.Raio() * dimensaoPixel * fatorAmplificacao;
+	double raio = (double)_raio * dimensaoPixel * fatorAmplificacao;
 	double condutancia = (raio*raio*raio) / (3.0 * viscosidade);
 	//std::cout << "Condutancia: " << condutancia << " raio: " << raio << " viscosidade: " << viscosidade << std::endl;
 	return condutancia;
@@ -297,11 +297,11 @@ double CRedeDePercolacao::CondutanciaSitio (CObjetoRedeDePercolacao &objetoImage
 
 // Calcula a condutância de objetos do tipo ligação usando a equação 5.16 da tese Liang
 // condutancia = pi*dH^4/(128*viscosidade*comprimento)
-double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &_comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
+double CRedeDePercolacao::CondutanciaLigacao (int _raio, double &_comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
 	// Variáveis auxiliares
 	double comprimento = _comprimento * dimensaoPixel * fatorAmplificacao;
 	// Calcula o raio hidraulico do objeto já convertido para metros
-	double raioHidraulico = RaioHidraulicoCirculo(objetoImagem.Raio()) * dimensaoPixel * fatorAmplificacao;
+	double raioHidraulico = RaioHidraulicoCirculo(_raio) * dimensaoPixel * fatorAmplificacao;
 	double diametroHidraulico = 4.0 * raioHidraulico;
 	double auxiliar = M_PI / (128.0 * viscosidade * comprimento);
 	double condutancia = auxiliar * (diametroHidraulico*diametroHidraulico*diametroHidraulico*diametroHidraulico);
@@ -310,15 +310,15 @@ double CRedeDePercolacao::CondutanciaLigacao (CObjetoRedeDePercolacao &objetoIma
 }
 
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-double CRedeDePercolacao::CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objImgSitio, CObjetoRedeDePercolacao &objImgLigacao, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
-	double gSitio = CondutanciaSitio(objImgSitio, dimensaoPixel, fatorAmplificacao);
+double CRedeDePercolacao::CondutanciaSitioLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
+	double gSitio = CondutanciaSitio(_raio, dimensaoPixel, fatorAmplificacao);
 	// Pelo que entendi, na tese do Liang o gSitio é calculado utilizando o raio da ligação.
 	// Eu estou utilizando o raio do sítio! Confirmar qual raio deve ser utilizado.
 	// Liang não calcula as pressões nas ligações!
 	// Pelo que entendi, as ligações são utilizadas somente no cálculo da condutância entre os sítios.
 	// Confirmar com o Bueno se é isso mesmo!
 	double meioL = comprimento/2;
-	double gLigacao = CondutanciaLigacao(objImgLigacao,meioL,dimensaoPixel,fatorAmplificacao);
+	double gLigacao = CondutanciaLigacao(_raio,meioL,dimensaoPixel,fatorAmplificacao);
 	return 1.0/( (1.0/gSitio) + (1.0/gLigacao) ); //inverso da resistência
 }
 
@@ -562,7 +562,7 @@ bool CRedeDePercolacao::Modelo0() {
 		}
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 		// Alimenta matriz que referencía os objetos de forma que estes fiquem ordenados em x
 		xToObj.insert(pair<int, int>(matrizObjetosTemp[cont].PontoCentral_X(),cont));
 	}
@@ -924,13 +924,13 @@ bool CRedeDePercolacao::Modelo0() {
 							xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 							//Cálculo de condutâncias e realiza conexões
-							itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+							itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 							//primeiro sítio
-							gSitioLigacao = CondutanciaSitioLigacao(itVizinho->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+							gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 							itMatObj->second.Conectar(itVizinho->first, gSitioLigacao);
 							itVizinho->second.Conectar(cont, gSitioLigacao);
 							//segundo sítio
-							gSitioLigacao = CondutanciaSitioLigacao(itSitio->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+							gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 							itMatObj->second.Conectar(itSitio->first, gSitioLigacao);
 							itSitio->second.Conectar(cont, gSitioLigacao);
 
@@ -1117,7 +1117,7 @@ bool CRedeDePercolacao::Modelo1() {
 
 		// Pega o sítio e calcula a condutância
 		it = matrizObjetosSL.find(cont);
-		it->second.Propriedade( CondutanciaSitio(it->second,dimensaoPixel,fatorAmplificacao) );
+		it->second.Propriedade( CondutanciaSitio(it->second.Raio(),dimensaoPixel,fatorAmplificacao) );
 
 		// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 		xToObj.insert(pair<int, int>(it->second.PontoCentral_X(),cont));
@@ -1262,13 +1262,13 @@ bool CRedeDePercolacao::Modelo1() {
 			xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 			//Cálculo de condutâncias e realiza conexões
-			itMatObj->second.Propriedade( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+			itMatObj->second.Propriedade( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 			//primeiro sítio
-			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 			itMatObj->second.Conectar(itt->first, gSitioLigacao);
 			itt->second.Conectar(cont, gSitioLigacao);
 			//segundo sítio
-			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 			itMatObj->second.Conectar(it->first, gSitioLigacao);
 			it->second.Conectar(cont, gSitioLigacao);
 
@@ -1439,7 +1439,7 @@ bool CRedeDePercolacao::Modelo2() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraEsquerda.clear();
@@ -1512,7 +1512,7 @@ bool CRedeDePercolacao::Modelo2() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraDireita.clear();
@@ -1568,7 +1568,7 @@ bool CRedeDePercolacao::Modelo2() {
 		matrizObjetosTemp[cont].Raio ( raio );
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 		delete esfera;
 	}
 	raios->clear(); // limpa vetor de raios (não será mais utilizado)
@@ -1755,13 +1755,13 @@ bool CRedeDePercolacao::Modelo2() {
 			xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 			//Cálculo de condutâncias e realiza conexões
-			itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+			itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 			//primeiro sítio
-			gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 			itMatObj->second.Conectar(itt->first, gSitioLigacao);
 			itt->second.Conectar(cont, gSitioLigacao);
 			//segundo sítio
-			gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+			gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 			itMatObj->second.Conectar(it->first, gSitioLigacao);
 			it->second.Conectar(cont, gSitioLigacao);
 
@@ -1934,7 +1934,7 @@ bool CRedeDePercolacao::Modelo3() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraEsquerda.clear();
@@ -2007,7 +2007,7 @@ bool CRedeDePercolacao::Modelo3() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraDireita.clear();
@@ -2063,7 +2063,7 @@ bool CRedeDePercolacao::Modelo3() {
 		matrizObjetosTemp[cont].Raio ( raio );
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 		delete esfera;
 	}
 	raios->clear(); // limpa vetor de raios (não será mais utilizado)
@@ -2245,13 +2245,13 @@ bool CRedeDePercolacao::Modelo3() {
 				xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 				//Cálculo de condutâncias e realiza conexões
-				itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+				itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 				//primeiro sítio
-				gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itMatObj->second.Conectar(it->first, gSitioLigacao);
 				it->second.Conectar(cont, gSitioLigacao);
 				//segundo sítio
-				gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itMatObj->second.Conectar(itt->first, gSitioLigacao);
 				itt->second.Conectar(cont, gSitioLigacao);
 			}
@@ -2387,13 +2387,13 @@ bool CRedeDePercolacao::Modelo3() {
 							xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 							//Cálculo de condutâncias e realiza conexões
-							itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+							itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 							//primeiro sítio
-							gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+							gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 							itMatObj->second.Conectar(it->first, gSitioLigacao);
 							it->second.Conectar(cont, gSitioLigacao);
 							//segundo sítio
-							gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+							gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 							itMatObj->second.Conectar(itt->first, gSitioLigacao);
 							itt->second.Conectar(cont, gSitioLigacao);
 							// Aqui encontrouRaio será true, logo, sairá do loop.
@@ -2736,7 +2736,7 @@ bool CRedeDePercolacao::Modelo4() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraEsquerda.clear();
@@ -2809,7 +2809,7 @@ bool CRedeDePercolacao::Modelo4() {
 			matrizObjetosTemp[cont].Raio( raio );
 			xSolver = (long double)x;
 			matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+			matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 			delete esfera;
 		}
 		raiosFronteiraDireita.clear();
@@ -2865,7 +2865,7 @@ bool CRedeDePercolacao::Modelo4() {
 		matrizObjetosTemp[cont].Raio ( raio );
 		xSolver = (long double)x;
 		matrizObjetosTemp[cont].X(xSolver); //seta o x do solver que será utilizado na simulação;
-		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont], dimensaoPixel, fatorAmplificacao) );
+		matrizObjetosTemp[cont].Propriedade( CondutanciaSitio(matrizObjetosTemp[cont].Raio(), dimensaoPixel, fatorAmplificacao) );
 		delete esfera;
 	}
 	raios->clear(); // limpa vetor de raios (não será mais utilizado)
@@ -3010,13 +3010,13 @@ bool CRedeDePercolacao::Modelo4() {
 				xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
 
 				//Cálculo de condutâncias e realiza conexões
-				itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
+				itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 				//primeiro sítio
-				gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itMatObj->second.Conectar(it->first, gSitioLigacao);
 				it->second.Conectar(cont, gSitioLigacao);
 				//segundo sítio
-				gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itMatObj->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itMatObj->second.Conectar(itt->first, gSitioLigacao);
 				itt->second.Conectar(cont, gSitioLigacao);
 
@@ -3341,7 +3341,7 @@ bool CRedeDePercolacao::Modelo5() {
 			is2->second.Raio( rs );
 			xSolver = (long double)x;
 			is2->second.X(xSolver); //seta o x do solver que será utilizado na simulação;
-			is2->second.Propriedade( CondutanciaSitio(is2->second, dimensaoPixel, fatorAmplificacao) );
+			is2->second.Propriedade( CondutanciaSitio(is2->second.Raio(), dimensaoPixel, fatorAmplificacao) );
 
 			// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 			xToObj.insert(pair<int, int>(is2->second.PontoCentral_X(),cont));
@@ -3375,13 +3375,13 @@ bool CRedeDePercolacao::Modelo5() {
 
 				//Cálculo de condutâncias e realiza conexões
 				distancia = (double)tamLigacao;
-				itl->second.Propriedade ( CondutanciaLigacao(itl->second, distancia, dimensaoPixel, fatorAmplificacao) );
+				itl->second.Propriedade ( CondutanciaLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 				//primeiro sítio
-				gSitioLigacao = CondutanciaSitioLigacao(is1->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itl->second.Conectar(is1->first, gSitioLigacao);
 				is1->second.Conectar(cont, gSitioLigacao);
 				//segundo sítio
-				gSitioLigacao = CondutanciaSitioLigacao(is2->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itl->second.Conectar(is2->first, gSitioLigacao);
 				is2->second.Conectar(cont, gSitioLigacao);
 			}
@@ -3557,7 +3557,7 @@ bool CRedeDePercolacao::Modelo6() {
 			if ( ! fronteiraEsquerda && testarFinalizacao) { //Não estamos na fronteira esquerda. Estuda a possibilidade de integrar ramo atual a outro ramo já existente
 				//Sorteia a partir de qual posição do eixo x irá tentar a finalização do ramo.
 				// Este procedimento evita que a maioria dos ramos sejam finalizado próximos a fronteira esquerda.
-				if ( x0 >= Random(nx/3, nx-(2*tamVetDistPor)) ) {
+				if ( x0 >= Random(nx/3, nx-tamVetDistPor-3) ) {
 					//verifica se existe sítio na redondeza, com raio maior ou igual ao raio da ligação e cuja distância do sítio anterior seja igual ao tamanho da ligação.
 					for ( auto &is: matrizObjetosTemp ) {
 						if ( is.second.Tipo() == SITIO && is.second.Raio() >= rl) {
@@ -3609,13 +3609,13 @@ bool CRedeDePercolacao::Modelo6() {
 
 				//Cálculo de condutâncias e realiza conexões
 				distancia = (double)tamLigacao;
-				itl->second.Propriedade ( CondutanciaLigacao(itl->second, distancia, dimensaoPixel, fatorAmplificacao) );
+				itl->second.Propriedade ( CondutanciaLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 				//primeiro sítio
-				gSitioLigacao = CondutanciaSitioLigacao(is1->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itl->second.Conectar(is1->first, gSitioLigacao);
 				is1->second.Conectar(cont, gSitioLigacao);
 				//segundo sítio
-				gSitioLigacao = CondutanciaSitioLigacao(is2->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+				gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 				itl->second.Conectar(is2->first, gSitioLigacao);
 				is2->second.Conectar(cont, gSitioLigacao);
 				//atualiza informações do último objeto
@@ -3783,7 +3783,7 @@ bool CRedeDePercolacao::Modelo6() {
 				is2->second.Raio( rs );
 				xSolver = (long double)x;
 				is2->second.X(xSolver); //seta o x do solver que será utilizado na simulação;
-				is2->second.Propriedade( CondutanciaSitio(is2->second, dimensaoPixel, fatorAmplificacao) );
+				is2->second.Propriedade( CondutanciaSitio(is2->second.Raio(), dimensaoPixel, fatorAmplificacao) );
 
 				// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
 				xToObj.insert(pair<int, int>(is2->second.PontoCentral_X(),cont));
@@ -3807,13 +3807,13 @@ bool CRedeDePercolacao::Modelo6() {
 
 					//Cálculo de condutâncias e realiza conexões
 					distancia = (double)tamLigacao;
-					itl->second.Propriedade ( CondutanciaLigacao(itl->second, distancia, dimensaoPixel, fatorAmplificacao) );
+					itl->second.Propriedade ( CondutanciaLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao) );
 					//primeiro sítio
-					gSitioLigacao = CondutanciaSitioLigacao(is1->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+					gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 					itl->second.Conectar(is1->first, gSitioLigacao);
 					is1->second.Conectar(cont, gSitioLigacao);
 					//segundo sítio
-					gSitioLigacao = CondutanciaSitioLigacao(is2->second, itl->second, distancia, dimensaoPixel, fatorAmplificacao );
+					gSitioLigacao = CondutanciaSitioLigacao(itl->second.Raio(), distancia, dimensaoPixel, fatorAmplificacao );
 					itl->second.Conectar(is2->first, gSitioLigacao);
 					is2->second.Conectar(cont, gSitioLigacao);
 					if ( fronteiraDireita ) {

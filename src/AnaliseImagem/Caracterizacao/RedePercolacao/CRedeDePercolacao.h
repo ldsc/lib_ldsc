@@ -244,13 +244,13 @@ class CRedeDePercolacao
 		}
 
 		/// Calcula a condutância de objetos do tipo sítio
-		double CondutanciaSitio (CObjetoRedeDePercolacao &objetoImagem, double &dimensaoPixel, double &fatorAmplificacao);
+		double CondutanciaSitio (int _raio, double &dimensaoPixel, double &fatorAmplificacao);
 
 		/// Calcula a condutância de objetos do tipo ligação
-		double CondutanciaLigacao (CObjetoRedeDePercolacao &objetoImagem, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
+		double CondutanciaLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
-		double CondutanciaSitioLigacao (CObjetoRedeDePercolacao &objImgSitio, CObjetoRedeDePercolacao &objImgLigacao, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
+		double CondutanciaSitioLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
 
 		// -----------------------------------------------------------------Friend
 		friend ostream& operator<< (ostream& os, CRedeDePercolacao& obj);

@@ -42,6 +42,12 @@ class CRedeDePercolacao
 		/// Flag que seta se os pixeis que compõem um esfera ou um cilindro devem ser calculados ou obtidos do vetor (default=false).
 		bool calcPixeis {false};
 
+		/** Flag que seta se, no caso de uma simulação, somente os sítios devem ser enviados para o solver.
+		 * Isso afeta a forma que a que a condutância será calculada.
+		 * Default = false, ou seja, os sítios e ligações serão enviados.
+		 */
+		bool somenteSitios {false};
+
 		/// Ponteiro para matriz de objetos que compoem a rede de percolação.
 		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
 

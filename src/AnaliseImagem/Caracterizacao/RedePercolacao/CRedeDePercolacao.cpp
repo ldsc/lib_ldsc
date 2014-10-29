@@ -312,14 +312,14 @@ double CRedeDePercolacao::CondutanciaLigacao (int _raio, double &_comprimento, d
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
 double CRedeDePercolacao::CondutanciaSitioLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
 	double gSitio = CondutanciaSitio(_raio, dimensaoPixel, fatorAmplificacao);
-	// Pelo que entendi, na tese do Liang o gSitio é calculado utilizando o raio da ligação.
-	// Eu estou utilizando o raio do sítio! Confirmar qual raio deve ser utilizado.
-	// Liang não calcula as pressões nas ligações!
-	// Pelo que entendi, as ligações são utilizadas somente no cálculo da condutância entre os sítios.
-	// Confirmar com o Bueno se é isso mesmo!
-	double meioL = comprimento/2;
-	double gLigacao = CondutanciaLigacao(_raio,meioL,dimensaoPixel,fatorAmplificacao);
-	return 1.0/( (1.0/gSitio) + (1.0/gLigacao) ); //inverso da resistência
+	if (somenteSitios) {
+		double gLigacao = CondutanciaLigacao(_raio,comprimento,dimensaoPixel,fatorAmplificacao);
+		return 1.0/( (1.0/gSitio) + (1.0/gLigacao) + (1.0/gSitio) ); //inverso da resistência
+	} else {
+		double meioL = comprimento/2;
+		double gLigacao = CondutanciaLigacao(_raio,meioL,dimensaoPixel,fatorAmplificacao);
+		return 1.0/( (1.0/gSitio) + (1.0/gLigacao) ); //inverso da resistência
+	}
 }
 
 // Executa o cálculo das distribuições e cria a rede de percolação de acordo com o modelo informado.

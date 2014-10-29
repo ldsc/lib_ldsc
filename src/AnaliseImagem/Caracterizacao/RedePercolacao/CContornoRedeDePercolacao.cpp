@@ -9,8 +9,8 @@
 //#include <AnaliseImagem/Caracterizacao/RedePercolacao/COGSitioDireita.h>
 
 // Cria os objetos de contorno e incluí no vetor contorno (recebe imagem binária que será segmentada).
-CContornoRedeDePercolacao::CContornoRedeDePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, unsigned long int _numero_contornos)
-	: CRedeDePercolacao(nx, ny, nz)//, CRedeContorno("nomeArquivoIndefinido", _numero_contornos)
+CContornoRedeDePercolacao::CContornoRedeDePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, bool _somenteSitios, unsigned long int _numero_contornos )
+	: CRedeDePercolacao(nx, ny, nz, _somenteSitios)//, CRedeContorno("nomeArquivoIndefinido", _numero_contornos)
 {
 	for (unsigned long int i = 0; i < _numero_contornos; ++i) {
 		CContornoCentro *obj_cont = new CContornoCentro ();
@@ -20,8 +20,8 @@ CContornoRedeDePercolacao::CContornoRedeDePercolacao (unsigned int nx, unsigned 
 }
 
 // Construtor (recebe arquivo no formato padrão da rede)
-CContornoRedeDePercolacao::CContornoRedeDePercolacao( std::string filePath, unsigned long int _numero_contornos )
-	: CRedeDePercolacao(filePath)
+CContornoRedeDePercolacao::CContornoRedeDePercolacao( std::string filePath, bool _somenteSitios, unsigned long int _numero_contornos )
+	: CRedeDePercolacao(filePath, _somenteSitios)
 {
 	for (unsigned long int i = 0; i < _numero_contornos; ++i) {
 		CContornoCentro *obj_cont = new CContornoCentro ();

@@ -12,6 +12,53 @@
 #include <AnaliseImagem/Filtro/FEspacial/FEMorfologiaMatematica/TCFEMMIDFEuclidiana3D.h>
 #endif
 
+#include <cstring>
+
+/// Construtor (recebe arquivo de distribuição)
+CDistribuicao3D::CDistribuicao3D( std::string filename ){
+	ifstream is;
+	is.open(filename);
+	char line[64];
+	std::string auxs;
+	int auxi;
+	double auxd;
+	if ( is.is_open() ) {
+		cout << "Importing distribution file..." << endl;
+		is.getline(line, 64);
+		if ( strcmp(line,"# Distribution of Pores Size") != 0 ) {
+			tipo = dtp;
+		} else if ( strcmp(line,"# Distribution of Throats Size") != 0 ) {
+			tipo = dtg;
+		} else if ( strcmp(line, "# Distribution of Solids Size") != 0 ) {
+			tipo = dts;
+		} else {
+			std::cerr << "Arquivo de distribuição inválido!" << std::endl;
+		}
+		is >> auxs; //#
+		is >> auxs; //Size:
+		is >> auxi;
+		cout << "Size: " << auxi << endl;
+		distribuicao.resize(auxi);
+		is >> auxs; //#
+		is >> auxs; //Porosity: ou # Solids:
+		is >> auxd;
+		cout << "Porosity: " << auxd << endl;
+		areaObjetos = auxd;
+		is >> auxs; //#
+		is >> auxs; //Radius
+		is >> auxs; //Value
+		for (int i = 0; i < distribuicao.size(); ++i) {
+			is >> auxi; //1, 2, 3 ...
+			is >> auxd;
+			cout << auxi << "\t" << auxd << endl;
+			distribuicao[i] = auxd;
+		}
+		cout << "Distribution file imported!" << endl;
+	} else {
+		std::cerr << "Não foi possível abrir os arquivos de distribuição de tamanho de poros e gargantas!" << std::endl;
+	}
+}
+
 bool CDistribuicao3D::Go( TCMatriz3D<bool> * _pm3D, Tipos _tipo, Metrica3D _metrica, int indice, int fundo ) {
 	pm3D = _pm3D;
 	return Go ( _tipo, _metrica, indice, fundo );

@@ -51,6 +51,9 @@ class CRedeDePercolacao
 		/// Ponteiro para matriz de objetos que compoem a rede de percolação.
 		CMatrizObjetoRede * ptrMatObjsRede {nullptr};
 
+		/// Ponteiro para matriz que irão para o solver caso a flag somenteSitios esteja setada.
+		CMatrizObjetoRede * ptrMatObjsSolver {nullptr};
+
 		///Dimensão x da rede
 		unsigned short int nx{0};
 
@@ -91,10 +94,10 @@ class CRedeDePercolacao
 		// Construtores / Destrutor
 	public:
 		/// Construtor (recebe dimensões da rede que será criada)
-		CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz );
+		CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz, bool _somenteSitios=false );
 
 		/// Construtor (recebe arquivo no formato padrão da rede)
-		CRedeDePercolacao( std::string filePath );
+		CRedeDePercolacao( std::string filePath, bool _somenteSitios=false  );
 
 		/// Destrutor
 		virtual ~CRedeDePercolacao();
@@ -102,10 +105,13 @@ class CRedeDePercolacao
 		// Métodos
 	public:
 		/// Sementa a imagem, executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
+		bool Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::seis );
 
 		/// Executa o cálculo das distribuições e cria a rede de percolação.
-		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
+		bool Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica = CDistribuicao3D::d345, EModeloRede _modeloRede = EModeloRede::seis );
+
+		/// Executa o cálculo das distribuições e cria a rede de percolação.
+		bool Go( std::string dtpFile, std::string dtgFile,  double _dimensaoPixel, double _fatorAmplificacao, EModeloRede _modeloRede = EModeloRede::seis );
 
 		/// Após a rede ser criada ou importada, este método permite calcular as distribuição de tamanho de poros e gargantas da rede.
 		std::pair< CDistribuicao3D *, CDistribuicao3D * > CalcularDistribuicaoRede();
@@ -257,6 +263,12 @@ class CRedeDePercolacao
 
 		/// Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
 		double CondutanciaSitioLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
+
+		/// Calcula a condutância entre um sítio, uma ligação e o outro sítio conectado a ligação
+		double CondutanciaSitioLigacaoSitio (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao);
+
+		/// Cria a matriz de objetos que serão enviados para o solver de acordo com o critério da flag somenteSitios.
+		void CriarMatObjsSolver ();
 
 		// -----------------------------------------------------------------Friend
 		friend ostream& operator<< (ostream& os, CRedeDePercolacao& obj);

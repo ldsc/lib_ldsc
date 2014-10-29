@@ -81,10 +81,10 @@ class CPermeabilidadeIntrinsecaByRede {
 		long double Go( CContornoRedeDePercolacao * &_rede );
 
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois);
+		long double Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois, bool _somenteSitios=false );
 
 		/// Determina a permeabilidade e retorna o resultado. Recebe um ponteiro para TCImagem3D.
-		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois );
+		long double Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice=1, int _fundo=0, unsigned long int _numero_contornos = 0, CDistribuicao3D::Metrica3D metrica = CDistribuicao3D::Metrica3D::d345, EModeloRede _modeloRede = EModeloRede::dois, bool _somenteSitios=false );
 
 		inline std::string SalvarRede() {
 			return salvarRede;
@@ -104,16 +104,16 @@ class CPermeabilidadeIntrinsecaByRede {
 
 	private:
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
-		bool CriarObjetos( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz );
+		bool CriarObjetos( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios );
 
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
-		bool CriarObjetos( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz );
+		bool CriarObjetos( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios );
 
 		/// Cria os objetos necessários para cálculo da permeabilidade intrínseca.
 		bool CriarObjetos ( CContornoRedeDePercolacao *&_rede );
 
 		/// Cria objetos rede, fluido e solver. Necessários para cálculo da permeabilidade intrínseca.
-		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz );
+		bool CriarObjetos ( unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios );
 
 		/// Cálcula a permeabilidade intrínseca. (Deve ser chamado depois de CriarObjetos())
 		long double CalcularPermeabilidade( );

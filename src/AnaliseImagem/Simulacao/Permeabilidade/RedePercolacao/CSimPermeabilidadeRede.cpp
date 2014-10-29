@@ -83,7 +83,7 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 	// Coeficiente b da reta y = a + b.x
 	// Para calcular b preciso das pressoes a esquerda e a direita e do valor do maior plano pmax,
 	// o ultimo objeto (sítio) tem armazenado o valor de pmax em x
-	long double pressaoMaxima = rede->ptrMatObjsRede->matrizObjetos.rbegin()->second.PontoCentral_X();
+	long double pressaoMaxima = rede->ptrMatObjsSolver->matrizObjetos.rbegin()->second.PontoCentral_X();
 
 	// determina o valor de b
 	long double b = (pressao_face_direita - pressao_face_esquerda) / pressaoMaxima;
@@ -115,10 +115,10 @@ void CSimPermeabilidadeRede::DefinirCondicoesContorno () {
 
 // Definicao de Valores Iniciais
 void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
-	std::cout << "\\n==>Definindo condicoes iniciais..." << std::endl;
+	std::cout << "\n==>Definindo condicoes iniciais..." << std::endl;
 	std::cout << "--->Percorre todos os objetos do rede, e define valores iniciais de x (pressao)" << std::endl;
 	// CContorno::WEST     CContorno::CENTER;      CContorno::EST;
-	for (auto &objeto : rede->ptrMatObjsRede->matrizObjetos) {
+	for (auto &objeto : rede->ptrMatObjsSolver->matrizObjetos) {
 		// Para os objetos do centro chama Go, que usa uma reta para estimar valor inicial de x (pressão).
 		if (objeto.second.Contorno() == CContorno::ETipoContorno::CENTER)	// 1
 			objeto.second.x = rede->contorno[1]->Go(objeto.second.PontoCentral_X());
@@ -158,18 +158,18 @@ void CSimPermeabilidadeRede::DefinirCondicoesIniciais () {
 // Solucao do Sistema de Equações
 void CSimPermeabilidadeRede::SolucaoSistemaEquacoes () {
 	std::cout << "\n==>Solucionando sistema de equacoes..." << std::endl;
-	//if (setouVetorObjetos == false) { // se ainda não setou o vetor de objetos que será passado para o solver
-		int sizeOfMatObjs = rede->ptrMatObjsRede->matrizObjetos.size();
+	if ( ! setouVetorObjetos) { // se ainda não setou o vetor de objetos que será passado para o solver
+		int sizeOfMatObjs = rede->ptrMatObjsSolver->matrizObjetos.size();
 		objs.clear();
 		objs.resize( sizeOfMatObjs );
 		std::cout << "--->Objetos enviados para o solver:" << std::endl;
 		for ( int i = 0; i < sizeOfMatObjs; ++i ) {
-			objs[i] = &(rede->ptrMatObjsRede->matrizObjetos[i+1]);
+			objs[i] = &(rede->ptrMatObjsSolver->matrizObjetos[i+1]);
 			std::cout << "\n---->Obj: " << i << " x = " << objs[i]->X();
 		}
 		std::cout << std::endl;
 		setouVetorObjetos = true;
-	//}
+	}
 	std::cout << "--->Executando solver->Go()..." << std::endl;
 	long double erroSolver = solver->Go(&objs);
 
@@ -262,11 +262,11 @@ long double CSimPermeabilidadeRede::Go () {
 	if ( sistemaResolvido == false )
 		SolucaoSistema();						// Resolve todo o sistema, incluindo as pressões, faz sistemaResolvido=true
 
-	Next ();											// Calcula vazões e permeabilidade.
+	CSimPermeabilidadeRede::Next ();											// Calcula vazões e permeabilidade.
 
 	while ( erroRelativo > limiteErroRelativo && iteracoes < limiteIteracoes ) { // Se ainda não convergiu.
 		SolucaoSistemaEquacoes ();	// Refina cálculo das pressões
-		Next ();										// Recalcula e verifica vazões e pressões.
+		CSimPermeabilidadeRede::Next ();										// Recalcula e verifica vazões e pressões.
 	}
 
 	return permeabilidade;
@@ -278,11 +278,11 @@ long double CSimPermeabilidadeRede::Go () {
 long double CSimPermeabilidadeRede::FluxoFronteira (CContorno::ETipoContorno tipoFronteira) {
 	long double fluxo_fronteira {0.0};
 	// Para todos os objetos da rede
-	for ( auto objeto_i : rede->ptrMatObjsRede->matrizObjetos ) {
+	for ( auto objeto_i : rede->ptrMatObjsSolver->matrizObjetos ) {
 		// verificar se é um objeto com a fronteira solicitada
 		if ( objeto_i.second.Contorno () == tipoFronteira )
 			// se afirmativo, calcula o fluxo na fronteira e acumula
-			fluxo_fronteira += objeto_i.second.Fluxo (&(rede->ptrMatObjsRede->matrizObjetos));
+			fluxo_fronteira += objeto_i.second.Fluxo (&(rede->ptrMatObjsSolver->matrizObjetos));
 	}
 
 	return fluxo_fronteira;

@@ -50,6 +50,9 @@ class CDistribuicao3D : public CDistribuicao //public CBaseDistribuicao
 		CDistribuicao3D ( TCMatriz3D<bool> * _pm3D ) : CDistribuicao( ), pm3D(_pm3D) {
 		}
 
+		/// Construtor (recebe arquivo de distribuição)
+		CDistribuicao3D( std::string filename );
+
 		/// Destrutor
 		~ CDistribuicao3D () {}
 

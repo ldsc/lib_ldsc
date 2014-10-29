@@ -37,7 +37,7 @@ void CPermeabilidadeIntrinsecaByRede::DestruirObjetos () {
 	if ( perm   ) { delete perm;		perm   = nullptr; }
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned int &ny, unsigned int &nz ) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios ) {
 	if (rede && fluido && solver)
 		return true;
 
@@ -45,7 +45,7 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos (unsigned int &nx, unsigned i
 		delete rede;
 
 	//rede = new CRedeContorno(imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, _numero_contornos);		// Cria objeto rede
-	rede = new CContornoRedeDePercolacao(nx, ny, nz);		// Cria objeto rede
+	rede = new CContornoRedeDePercolacao(nx, ny, nz,_somenteSitios);		// Cria objeto rede
 	if ( ! rede  ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 		cerr << "Não pode criar rede em CPermeabilidadeIntrinsecaByRede::CriarObjetos(unsigned int &nx, unsigned int &ny, unsigned int &nz)!" << endl;
 		return false;
@@ -80,8 +80,8 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetosFluidoSolver ( ) {
 	return true;
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz) {
-	if ( CriarObjetos( nx, ny, nz ) ) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios) {
+	if ( CriarObjetos( nx, ny, nz,_somenteSitios ) ) {
 		perm = new CSimPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda() );
 		if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 			DestruirObjetos();
@@ -92,8 +92,8 @@ bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<int> * &imagem3D
 	return false;
 }
 
-bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz ) {
-	if ( CriarObjetos( nx, ny, nz ) ) {
+bool CPermeabilidadeIntrinsecaByRede::CriarObjetos ( TCImagem3D<bool> * &imagem3D, unsigned int &nx, unsigned int &ny, unsigned int &nz, bool &_somenteSitios ) {
+	if ( CriarObjetos( nx, ny, nz, _somenteSitios ) ) {
 		perm = new CSimPermeabilidadeRede ( fluido, solver, rede, imagem3D->NX(), imagem3D->NY(), imagem3D->NZ(), imagem3D->FatorAmplificacao(), imagem3D->DimensaoPixel(), imagem3D->NumeroPixelsBorda() );
 		if ( ! perm   ) { // se não criou o objeto, destroi os objetos já criados e retorna false.
 			DestruirObjetos();
@@ -156,8 +156,8 @@ long double CPermeabilidadeIntrinsecaByRede::Go( CContornoRedeDePercolacao *&_re
 	return 0.0;
 }
 
-long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede ) {
-	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
+long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede, bool _somenteSitios ) {
+	if ( CriarObjetos( imagem3D, nx, ny, nz, _somenteSitios ) ) {
 		cout << "Calculando rede->Go( )..." << endl;
 		rede->Go( imagem3D, metrica, _modeloRede );
 		cout << "rede->Go( )...ok!" << endl << endl;
@@ -175,9 +175,9 @@ long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<int> * &imagem3D, un
 	return 0.0;
 }
 
-long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede ) {
+long double CPermeabilidadeIntrinsecaByRede::Go( TCImagem3D<bool> * &imagem3D, unsigned int nx, unsigned int ny, unsigned int nz, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, unsigned long int _numero_contornos, CDistribuicao3D::Metrica3D metrica, EModeloRede _modeloRede, bool _somenteSitios ) {
 	CTime ( "Tempo CPermeabilidadeIntrinsecaByRede::Go() = ", &cout );
-	if ( CriarObjetos( imagem3D, nx, ny, nz ) ) {
+	if ( CriarObjetos( imagem3D, nx, ny, nz, _somenteSitios ) ) {
 		cerr << "Calculando rede->Go( )...." << endl;
 		rede->Go( imagem3D, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo, metrica, _modeloRede );
 		cerr << "rede->Go( )...ok!" << endl << endl;

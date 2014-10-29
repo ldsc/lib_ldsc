@@ -75,7 +75,7 @@ std::vector<unsigned short int> CRedeDePercolacao::perimetroCirculo
 //#define NumElements(x) (sizeof(x) / sizeof(x[0]))
 
 // Construtor matriz binária
-CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz ) {
+CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int _ny, unsigned short int _nz, bool _somenteSitios ) {
 	srand (time(NULL)); //inicia seed randômica;
 
 	unsigned short int min = 50;
@@ -86,12 +86,14 @@ CRedeDePercolacao::CRedeDePercolacao(unsigned short int _nx, unsigned short int 
 	nx = ( _nx > max ) ? max : _nx;
 	ny = ( _ny > max ) ? max : _ny;
 	nz = ( _nz > max ) ? max : _nz;
+	somenteSitios = _somenteSitios;
 	// Ponteiro para matriz de objetos que compoem a rede de percolação.
 	ptrMatObjsRede = new CMatrizObjetoRede();
 }
 
 // Construtor (recebe arquivo no formato padrão da rede)
-CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
+CRedeDePercolacao::CRedeDePercolacao(std::string filePath, bool _somenteSitios) {
+	somenteSitios = _somenteSitios;
 	std::cout << "Lendo arquivo da rede e iniciando importação..." << std::endl;
 	std::ifstream file(filePath);
 	if (file.good()){
@@ -185,6 +187,7 @@ CRedeDePercolacao::CRedeDePercolacao( std::string filePath ) {
 		for (int &obj : objsCamadaLeste ) {
 			ptrMatObjsRede->matrizObjetos[obj].Contorno(CContorno::ETipoContorno::EST);
 		}
+		CriarMatObjsSolver ();
 		std::cout << "A Rede foi importada!" << std::endl;
 	} else {
 		std::cerr << "Não foi possível abrir o arquivo " << filePath << std::endl;
@@ -199,7 +202,75 @@ CRedeDePercolacao::~CRedeDePercolacao(){
 		delete dtpg.second;
 }
 
-/// Após a rede ser criada ou importada, este método permite calcular as distribuição de tamanho de poros e gargantas da rede.
+// Cria a matriz de objetos que serão enviados para o solver de acordo com o critério da flag somenteSitios.
+void CRedeDePercolacao::CriarMatObjsSolver (){
+	if (somenteSitios) {
+		std::map<int,int> objAntToObjAtual;
+		std::map<int, double> conexoes;
+		ptrMatObjsSolver = new CMatrizObjetoRede();
+		std::map<int, CObjetoRedeDePercolacao>::iterator is1; //iterator para o primeiro sítio
+		std::map<int, CObjetoRedeDePercolacao>::iterator is2; //iterator para o segundo sítio
+		double gSLS;
+		double tamLigacao;
+		int cont = 0;
+		for ( auto &pmor: ptrMatObjsRede->matrizObjetos ) { //percorre a matriz de objetos (sitios e ligações)
+			if ( pmor.second.Tipo()==SITIO ) { //se o objeto atual for um sítio
+				++cont;
+				objAntToObjAtual[pmor.first] = cont;
+				ptrMatObjsSolver->matrizObjetos[cont] = CObjetoRedeDePercolacao(ptrMatObjsSolver, SITIO, pmor.second.NumObjs());
+				is1 = ptrMatObjsSolver->matrizObjetos.find(cont);
+				is1->second.PontoCentral( pmor.second.PontoCentral_X(), pmor.second.PontoCentral_Y(), pmor.second.PontoCentral_Z(), pmor.second.PontoCentral_DF() );
+				is1->second.Raio( pmor.second.Raio() );
+				is1->second.X(pmor.second.x); //seta o x do solver que será utilizado na simulação;
+				is1->second.Propriedade( pmor.second.Propriedade() );
+				is1->second.Contorno( pmor.second.Contorno() );
+				//Percorre as conexões e para cada ligação conectada ao sítio pega o sítio que está na outra ponta da ligação
+				for ( auto &lig : pmor.second.SConexao() ) { //percorre as ligações conectadas ao sítio
+					for ( auto &con : ptrMatObjsRede->matrizObjetos[lig.first].SConexao() ) {//percorre os sítios conectados a ligação
+						if ( con.first != pmor.first ) { //se o sítio for diferente do sítio atual
+							is2 = ptrMatObjsRede->matrizObjetos.find(con.first);
+							tamLigacao = DistanciaEntrePontos ( is1->second.PontoCentral_X(),
+																									is1->second.PontoCentral_Y(),
+																									is1->second.PontoCentral_Z(),
+																									is2->second.PontoCentral_X(),
+																									is2->second.PontoCentral_Y(),
+																									is2->second.PontoCentral_Z()
+																								) - is1->second.Raio() - is2->second.Raio();
+							gSLS = CondutanciaSitioLigacaoSitio(ptrMatObjsRede->matrizObjetos[lig.first].Raio(), tamLigacao, dimensaoPixel, fatorAmplificacao );
+							is1->second.Conectar(is2->first, gSLS);
+							break;
+						}
+					}
+				}
+			}
+		}
+		//percorre a matriz de objetos a serem enviados para o solver e atualiza os rótulos dos objetos conectados
+		for ( auto &pmos : ptrMatObjsSolver->matrizObjetos ) {
+			//copia as conexões para o map temporário
+			conexoes.clear();
+			for ( auto &obj : pmos.second.SConexao() ) { //a condutância premanece a mesma, só mudou o rótulo do objeto
+				conexoes.insert(make_pair(objAntToObjAtual[obj.first], obj.second));
+			}
+			//limpa o vetor de conexoes do objeto
+			pmos.second.SConexao().clear();
+
+			cout << "Sitio " << pmos.first << " conectado ao(s) sitio(s): ";
+
+			//copia para os objetos as novas conexões salvas no map temporário
+			for ( auto &obj : conexoes ) {
+				cout << obj.first << " | ";
+				pmos.second.Conectar(obj.first, obj.second);
+			}
+			cout << endl;
+		}
+		conexoes.clear();
+		objAntToObjAtual.clear();
+	} else {
+		ptrMatObjsSolver = ptrMatObjsRede;
+	}
+}
+
+// Após a rede ser criada ou importada, este método permite calcular as distribuição de tamanho de poros e gargantas da rede.
 std::pair<CDistribuicao3D *, CDistribuicao3D *> CRedeDePercolacao::CalcularDistribuicaoRede() {
 	std::cout << "Calculando as distribuicoes..." << std::endl;
 	if (dtpg.first) //poros
@@ -312,24 +383,26 @@ double CRedeDePercolacao::CondutanciaLigacao (int _raio, double &_comprimento, d
 // Calcula a condutância entre um sítio e uma ligação (considera apenas metade da ligação, pois a outra metade será considerada na ligação com outro sítio)
 double CRedeDePercolacao::CondutanciaSitioLigacao (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
 	double gSitio = CondutanciaSitio(_raio, dimensaoPixel, fatorAmplificacao);
-	if (somenteSitios) {
-		double gLigacao = CondutanciaLigacao(_raio,comprimento,dimensaoPixel,fatorAmplificacao);
-		return 1.0/( (1.0/gSitio) + (1.0/gLigacao) + (1.0/gSitio) ); //inverso da resistência
-	} else {
-		double meioL = comprimento/2;
-		double gLigacao = CondutanciaLigacao(_raio,meioL,dimensaoPixel,fatorAmplificacao);
-		return 1.0/( (1.0/gSitio) + (1.0/gLigacao) ); //inverso da resistência
-	}
+	double meioL = comprimento/2;
+	double gLigacao = CondutanciaLigacao(_raio,meioL,dimensaoPixel,fatorAmplificacao);
+	return 1.0/( (1.0/gSitio) + (1.0/gLigacao) ); //inverso da resistência
+}
+
+// Calcula a condutância entre um sítio, uma ligação e o outro sítio conectado a ligação
+double CRedeDePercolacao::CondutanciaSitioLigacaoSitio (int _raio, double &comprimento, double &dimensaoPixel, double &fatorAmplificacao) {
+	double gSitio = CondutanciaSitio(_raio, dimensaoPixel, fatorAmplificacao);
+	double gLigacao = CondutanciaLigacao(_raio,comprimento,dimensaoPixel,fatorAmplificacao);
+	return 1.0/( (1.0/gSitio) + (1.0/gLigacao) + (1.0/gSitio) ); //inverso da resistência
 }
 
 // Executa o cálculo das distribuições e cria a rede de percolação de acordo com o modelo informado.
 bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDilatacao, int _fatorReducao, int _incrementoRaio, EModelo _modelo, int _indice, int _fundo, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ){
-	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo );
-	// Calcula as distribuições de tamanho de poros e gargantas
 	if (dtpg.first)
 		delete dtpg.first;
 	if (dtpg.second)
 		delete dtpg.second;
+	CDistribuicaoTamanhoPorosGargantas cdtpg = CDistribuicaoTamanhoPorosGargantas( _pm, _raioMaximo, _raioDilatacao, _fatorReducao, _incrementoRaio, _modelo, _indice, _fundo );
+	// Calcula as distribuições de tamanho de poros e gargantas
 	dtpg = cdtpg.Go(_metrica);
 	if (dtpg.first == nullptr || dtpg.second == nullptr) {
 		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
@@ -337,22 +410,58 @@ bool CRedeDePercolacao::Go( TCImagem3D<bool> *&_pm, int _raioMaximo, int _raioDi
 	}
 	dimensaoPixel = _pm->DimensaoPixel();
 	fatorAmplificacao = _pm->FatorAmplificacao();
+	bool retorno = false;
 	switch (_modeloRede) {
-		case EModeloRede::um: return Modelo1( );
+		case EModeloRede::um: retorno = Modelo1( );
 			break;
-		case EModeloRede::dois: return Modelo2( );
+		case EModeloRede::dois: retorno = Modelo2( );
 			break;
-		case EModeloRede::tres: return Modelo3( );
+		case EModeloRede::tres: retorno = Modelo3( );
 			break;
-		case EModeloRede::quatro: return Modelo4( );
+		case EModeloRede::quatro: retorno = Modelo4( );
 			break;
-		case EModeloRede::cinco: return Modelo5( );
+		case EModeloRede::cinco: retorno = Modelo5( );
 			break;
-		case EModeloRede::seis: return Modelo6( );
+		case EModeloRede::seis: retorno = Modelo6( );
 			break;
-		default: return false;
 	}
+	CriarMatObjsSolver ();
+	return retorno;
 }
+
+/// Executa o cálculo das distribuições e cria a rede de percolação.
+bool CRedeDePercolacao::Go( std::string dtpFile, std::string dtgFile, double _dimensaoPixel, double _fatorAmplificacao, EModeloRede _modeloRede ) {
+	if (dtpg.first)
+		delete dtpg.first;
+	if (dtpg.second)
+		delete dtpg.second;
+	dtpg.first = new CDistribuicao3D(dtpFile);
+	dtpg.second = new CDistribuicao3D(dtgFile);
+	if (dtpg.first == nullptr || dtpg.second == nullptr || dtpg.first->distribuicao.size() == 0 || dtpg.second->distribuicao.size() == 0) {
+		std::cerr << "Não foi calcular as distribuições de tamanho de poros e gargantas em CRedeDePercolacao::Go" << std::endl;
+		return false;
+	}
+	dimensaoPixel = _dimensaoPixel;
+	fatorAmplificacao = _fatorAmplificacao;
+	bool retorno = false;
+	switch (_modeloRede) {
+		case EModeloRede::um: retorno = Modelo1( );
+			break;
+		case EModeloRede::dois: retorno = Modelo2( );
+			break;
+		case EModeloRede::tres: retorno = Modelo3( );
+			break;
+		case EModeloRede::quatro: retorno = Modelo4( );
+			break;
+		case EModeloRede::cinco: retorno = Modelo5( );
+			break;
+		case EModeloRede::seis: retorno = Modelo6( );
+			break;
+	}
+	CriarMatObjsSolver ();
+	return retorno;
+}
+
 
 // Executa o cálculo das distribuições e cria a rede de percolação de acordo com o modelo informado.
 bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _metrica, EModeloRede _modeloRede ) {
@@ -369,21 +478,23 @@ bool CRedeDePercolacao::Go( TCImagem3D<int> *&_pm, CDistribuicao3D::Metrica3D _m
 	}
 	dimensaoPixel = _pm->DimensaoPixel();
 	fatorAmplificacao = _pm->FatorAmplificacao();
+	bool retorno;
 	switch (_modeloRede) {
-		case EModeloRede::um: return Modelo1( );
+		case EModeloRede::um: retorno = Modelo1( );
 			break;
-		case EModeloRede::dois: return Modelo2( );
+		case EModeloRede::dois: retorno = Modelo2( );
 			break;
-		case EModeloRede::tres: return Modelo3( );
+		case EModeloRede::tres: retorno = Modelo3( );
 			break;
-		case EModeloRede::quatro: return Modelo4( );
+		case EModeloRede::quatro: retorno = Modelo4( );
 			break;
-		case EModeloRede::cinco: return Modelo5( );
+		case EModeloRede::cinco: retorno = Modelo5( );
 			break;
-		case EModeloRede::seis: return Modelo6( );
+		case EModeloRede::seis: retorno = Modelo6( );
 			break;
-		default: return false;
 	}
+	CriarMatObjsSolver ();
+	return retorno;
 }
 
 // Cálcula a distribuição de poros acumulada, cria e retorna ponteiro para o vetor de raios
@@ -3001,7 +3112,7 @@ bool CRedeDePercolacao::Modelo4() {
 							(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
 							(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
 							3*raio
-						);
+							);
 				itMatObj->second.Raio( raio );
 				xSolver = (long double)itMatObj->second.PontoCentral_X();
 				itMatObj->second.X(xSolver);

@@ -26,10 +26,10 @@ class CContornoRedeDePercolacao : public CRedeDePercolacao//, public CRedeContor
 
 		// -------------------------------------------------------------Construtores
 		/// Cria os objetos de contorno e incluí no vetor contorno.
-		CContornoRedeDePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, unsigned long int _numero_contornos=0);
+		CContornoRedeDePercolacao (unsigned int nx, unsigned int ny, unsigned int nz, bool _somenteSitios=false, unsigned long int _numero_contornos=0 );
 
 		/// Construtor (recebe arquivo no formato padrão da rede)
-		CContornoRedeDePercolacao( std::string filePath, unsigned long int _numero_contornos=0 );
+		CContornoRedeDePercolacao( std::string filePath, bool _somenteSitios=false, unsigned long int _numero_contornos=0 );
 
 		// --------------------------------------------------------------Destrutor
 		/// Delete os objetos de contorno do vetor contorno.

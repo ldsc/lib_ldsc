@@ -20,9 +20,9 @@ bool CMatrizObjetoRede::SalvarListaObjetos(std::string fileName, int nx, int ny,
 		fout << "# " << matrizObjetos.size() << " " << nx << " " << ny << " " << nz << endl;
 		fout << "# fatorAmplificacao: " << fatorAmplificacao << endl;
 		fout << "# dimensaoPixel: " << dimensaoPixel << endl;
-		fout << "Obj.  X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons Cond.Obj-Cons Cond.Obj" << endl;
+		fout << "Obj.    X    Y    Z    Raio Tipo N.Voxeis N.ObjsCon LstObjsCons Cond.Obj-Cons Cond.Obj" << endl;
 		for (std::map<int,CObjetoRedeDePercolacao>::iterator it = matrizObjetos.begin(); it != matrizObjetos.end(); ++it) {
-			fout << std::left << std::setw(6) << it->first;
+			fout << std::left << std::setw(8) << it->first;
 			it->second.GravarObjetoRede(fout);
 		}
 		fout.close();

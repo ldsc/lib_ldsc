@@ -80,7 +80,20 @@ std::pair< CDistribuicao3D*, CDistribuicao3D* > CDistribuicaoTamanhoPorosGargant
 			okG = distG->Go( CBaseDistribuicao::dtg, _metrica, indice, fundo );
 		}
 	}
+
 	if (okP && okG) {
+		//se a distribuição de tamanho de poros for menor que a distribuição de tamanho de gargantas,
+		//reduz o tamanho da distribuição de gargantas até ficar igual a distribuição de poros.
+		//este procedimento não é o ideal pois está alterando a distribuição medida na amostra.
+		//porém ele só será executado se o algoritmo de segmentação não retornar resultados coerentes.
+		//apesar de não ser o idal, o procedimento foi implementado para evitar problema em algoritmos que utilizam as distribuições.
+		int sizeOfDistP = distP->distribuicao.size();
+		int sizeOfDistG = distG->distribuicao.size();
+		while ( sizeOfDistP < sizeOfDistG && sizeOfDistG > 1 ) {
+			distG->distribuicao[sizeOfDistG-2] += distG->distribuicao.back(); //pega a distribuição da última posição e acumula na penúltima
+			distG->distribuicao.pop_back();
+			--sizeOfDistG;
+		}
 		return std::make_pair(distP, distG);
 	} else {
 		if (distP)

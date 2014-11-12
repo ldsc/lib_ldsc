@@ -2233,9 +2233,8 @@ bool CRedeDePercolacao::Modelo3() {
 	int objitt = 0;
 	int obj;
 
-	// Aqui
 	// Primeiro interliga todos os sitios por proximidade e com número de coordenação 2.
-	// Isso irá causar subestimar a distribuição de ligações, então, após todos os sítios estarem interligados,
+	// Isso irá subestimar a distribuição de ligações, então, após todos os sítios estarem interligados,
 	// executa uma segunda etapa com ligações aleatórias e sem reduzir o raio da ligação.
 	std::cout << "Criando ligacoes! Primeira etapa..." << std::endl;
 	// Durante o loop o tamanho da matrizObjetos será alterado, então, preciso percorrer somente os objetos atuais.
@@ -2522,184 +2521,6 @@ bool CRedeDePercolacao::Modelo3() {
 			obj = 1;
 		}
 	}
-	/*
-		while ( phiLigacoes < phiGargantas ) {
-			// Sortear valores aleatórios entre 0 e 1. Obter o raio na distGargantasAcumulada
-			raio = 1;
-			random = DRandom(); //obtem valor double randômico entre 0.0 e 1.0;
-			//percorre vetor de distribuição acumulada para obter raio correspondente
-			for (int i=0; i<tamVetDist; ++i) {
-				if ( random <= distGargantasAcumulada[i] ) {
-					if (i > 0) { //aqui o valor sorteado é menor ou igual e não estamos no primeiro elemento do vetor
-						// Verifica a diferença entre o número randômico e os elementas i e i-1.
-						// Seta o raio com o indice do valor mais próximo a random.
-						if ( (random - distGargantasAcumulada[i-1]) < (distGargantasAcumulada[i] - random) ) {
-							raio = i;
-						} else {
-							raio = i+1;
-						}
-						break;
-					} else { //aqui o valor sorteado é menor e estamos no primeiro elemento do vetor
-						break; //sai do loop com raio == 1
-					}
-				}
-			}
-			std::cout << "Raio da ligacao: " << raio << std::endl;
-
-			//Procura dois sítios, ainda não interconectados, e com raio maior ou igual ao raio da ligação a ser criada.
-			encontrouRaio = false;
-			encontrouCoord = false;
-			obj = 0;
-			while ( ! encontrouRaio || ! encontrouCoord ) { //loop até encontrar os dois sítios ou até percorrer todos os sítios
-				encontrouRaio = false;
-				encontrouCoord = false;
-				for ( obj=1; obj<=tamMatObjs; ++obj ) { //busca o primeiro sítio
-					it = matrizObjetosSL.find(obj);
-					if ( it != matrizObjetosSL.end() ) {
-						if ( it->second.Raio() >= raio ) {
-							encontrouRaio = true;
-							raioit = it->second.Raio();
-							objit = obj;
-							if ( it->second.NumConexoes() < vCoord[raioit] ) {
-								encontrouCoord = true;
-								break;
-							}
-						}
-					}
-				}
-				if ( ! encontrouRaio ) { //se não encontrou, sai do loop e tenta outro raio de ligação
-					continue;
-				} else if ( ! encontrouCoord ){
-					vCoord[raioit] = vCoord[raioit]+1;
-					it = matrizObjetosSL.find(objit);
-				}
-				if ( it != matrizObjetosSL.end() ) {
-					std::cout << "Encontrou o primeiro sitio [" << objit << "]. Buscando o segundo..." << std::endl;
-					encontrouRaio = false;
-					encontrouCoord = false;
-					// Percorre os sítios posteriores ao primeiro sítio
-					for ( obj=it->first+1; obj<=tamMatObjs; ++obj ) {
-						itt = matrizObjetosSL.find(obj);
-						if ( itt != matrizObjetosSL.end() ) {
-							if ( itt->second.Raio() >= raio ) { //encontrou outro sítio com raio maior ou igual ao raio da ligação
-								encontrouRaio = true;
-								raioitt = it->second.Raio();
-								objitt = obj;
-								if ( itt->second.NumConexoes() < vCoord[raioitt] ) { //verifica se o número de coordenação para sitios com raio igual ao raio do segundo sítio é menor que o número de objetos atualmente conectados ao sítio
-									encontrouCoord = true;
-									break;
-								}
-							}
-						}
-					}
-					if ( ! encontrouCoord ) {
-						encontrouRaio = false;
-						//Percorre os sítio anteriores ao primeiro sítio
-						for ( obj=it->first-1; obj > 0; --obj ) {
-							itt = matrizObjetosSL.find(obj);
-							if ( itt != matrizObjetosSL.end() ) {
-								if ( itt->second.Raio() >= raio ) { //encontrou outro sítio com raio maior ou igual ao raio da ligação
-									encontrouRaio = true;
-									raioitt = it->second.Raio();
-									objitt = obj;
-									if ( itt->second.NumConexoes() < vCoord[raioitt] ) { //verifica se o número de coordenação para sitios com raio igual ao raio do segundo sítio é menor que o número de objetos atualmente conectados ao sítio
-										encontrouCoord = true;
-										break;
-									}
-								}
-							}
-						}
-					}
-					if ( ! encontrouRaio ) { //se não encontrou, sai do loop e tenta outro raio de ligação
-						std::cout << "Não encontrou o segundo sitio..." << std::endl;
-						break;
-					} else if ( ! encontrouCoord ){ //se encontrou raio mas não encontrou coord, incrementa o vetor coordenação para o raio encontrado de forma que será possível criar mais ligações em sítios com este raio.
-						std::cout << "Encontrou o segundo sítio mas ultrapassou o numero de coordenacao. Incrementando coordenacao..." << std::endl;
-						vCoord[raioitt] = vCoord[raioitt]+1;
-						//itt = matrizObjetosSL.find(objitt);
-						//tenta outro raio de ligação
-						break;
-					} else { //Encontrou raio e encontrou coordenação.
-						std::cout << "Encontrou o segundo sítio [" << objitt << "]. Verificando se estão interligados..." << std::endl;
-						// Verifica se os sítios já estão interligados
-						interligados = false;
-						for (auto &c: it->second.SConexao()) { //para cada ligação já conectada ao primeiro sítio
-							itc = matrizObjetosSL.find(c.first); //pega o iterator para a ligação
-							for (auto &o: itc->second.SConexao()) { //percorre a lista de objetos conectados a ligação
-								if ( o.first == itt->first ) { //verifica se o primerio sítio está conectado ao segundo através da ligação
-									interligados = true;
-									//std::cout << "Ja estao interligados: o.first=" << o.first << "; itt->first=" << itt->first << ". Saindo do loop." << std::endl;
-									break; //se estiverem interligado, não precisa mais procurar.
-								}
-							}
-							if(interligados) {//se estiverem interligado, não precisa mais procurar.
-								//std::cout << "Saindo do segundo loop" << std::endl;
-								break; //sai do loop de conexões
-							}
-						}
-						if ( interligados ) { //os sítios já estão interligados. tenta outro sítio
-							std::cout << "Ja estao interligados! Procurando outro sitio..." << std::endl;
-							encontrouRaio = false;
-							encontrouCoord = false;
-							break;
-						} //senão, encontrouRaio e encontrouCoord serão true e sairá do loop.
-					}
-				}
-			}
-			if ( encontrouRaio && encontrouCoord ) {
-				std::cout << "Encontrou os sítios! Interligando..." << std::endl;
-				// Aqui it e itt apontam para dois sítios distintos cujos raios são maiores ou iguais ao raio da ligação
-				// Calcula distância entre os sítios
-				distancia = DistanciaEntrePontos(it->second.PontoCentral_X(), it->second.PontoCentral_Y(), it->second.PontoCentral_Z(), itt->second.PontoCentral_X(), itt->second.PontoCentral_Y(), itt->second.PontoCentral_Z() );
-				distancia = distancia - it->second.Raio() - itt->second.Raio();
-				if ( distancia < 1 ) // Caso os sítios se toquem, a distância dará 0, então força que seja pelo menos 1
-					distancia = 1;
-				//std::cout << "Tamanho da ligacao: " << distancia << std::endl;
-				//calcular a porosidade correspondente a ligação (cilindro) que será criada com o raio sorteado.
-				phiObjeto = PhiCilindro(raio, distancia, area);
-				//Se a soma das porosidades for maior que a porosidade da matriz de gargantas e o raio for maior que 1,
-				//decrementa o raio até que a soma das porosidades seja menor que a porosidade da matriz de gargantas, ou ate que o raio seja 1.
-				//Ao sair do loop, incrementa o raio e recalcula a area do cilindro, de modo que phiLigacoes fique o mais próximo possível de phiGargantas.
-				if ( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-					while( phiLigacoes+phiObjeto > phiGargantas && raio > 1) {
-						--raio;
-						phiObjeto = PhiCilindro(raio, distancia, area);
-					}
-					++raio;
-					phiObjeto = PhiCilindro(raio, distancia, area);
-				}
-				phiLigacoes += phiObjeto; //acumula a porosidade
-				++cont;
-				// Conecta os objetos
-				matrizObjetosSL[cont] = CObjetoRedeDePercolacao(ptrMatObjsRede, LIGACAO, NumPixeisCilindro(raio, distancia));
-				itMatObj = matrizObjetosSL.find(cont);
-				itMatObj->second.PontoCentral(
-							(int)round((it->second.PontoCentral_X()+itt->second.PontoCentral_X())/2),
-							(int)round((it->second.PontoCentral_Y()+itt->second.PontoCentral_Y())/2),
-							(int)round((it->second.PontoCentral_Z()+itt->second.PontoCentral_Z())/2),
-							3*raio
-							);
-				itMatObj->second.Raio( raio );
-				xSolver = (long double)itMatObj->second.PontoCentral_X();
-				itMatObj->second.X(xSolver);
-
-				// Alimenta matriz que referencia aos objetos de forma que estes fiquem ordenados em x
-				xToObj.insert(pair<int, int>(itMatObj->second.PontoCentral_X(),cont));
-
-				//Cálculo de condutâncias e realiza conexões
-				itMatObj->second.Propriedade ( CondutanciaLigacao(itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao) );
-				//primeiro sítio
-				gSitioLigacao = CondutanciaSitioLigacao(it->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
-				itMatObj->second.Conectar(it->first, gSitioLigacao);
-				it->second.Conectar(cont, gSitioLigacao);
-				//segundo sítio
-				gSitioLigacao = CondutanciaSitioLigacao(itt->second, itMatObj->second, distancia, dimensaoPixel, fatorAmplificacao );
-				itMatObj->second.Conectar(itt->first, gSitioLigacao);
-				itt->second.Conectar(cont, gSitioLigacao);
-			}
-		}
-		*/
-
 	// Interligou todos os objetos até atender a porosidade
 	numLigacoes = cont-tamMatObjs;
 	std::cout << "Ligacoes criadas!\nphiLigacoes: " << phiLigacoes << " | phiGargantas: " << phiGargantas << " | Num. Ligacoes: " << numLigacoes << std::endl;
@@ -3207,7 +3028,7 @@ bool CRedeDePercolacao::Modelo4() {
 	return true;
 }
 
-// Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamnho de poros
+// Cria rede de percolação com sítios em posições e tamanhos aleatórios conforme a distribuição de tamanho de poros
 // As ligações entre os sítios atendem a distribuição do tamanho de gargantas.
 // Este modelo aloca um porcentagem de sítios nas fronteiras para que hajam fronteiras bem definidas.
 bool CRedeDePercolacao::Modelo5() {
@@ -3240,7 +3061,6 @@ bool CRedeDePercolacao::Modelo5() {
 	std::multimap<int, int> xToObj; // xToObj será uma referência para ordenar os objetos do menor para o maior valor de x.
 	std::vector<std::pair<int,int>> posicoes;
 	std::vector<bool> cabeNaPosicao;
-
 
 	//========================================= SÍTIOS E LIGAÇÕES ===========================================
 	//Tratando as distribuições

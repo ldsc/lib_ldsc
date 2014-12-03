@@ -21,6 +21,7 @@ copyright:        (C) 2000 by Andre Duarte Bueno
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+#include <limits>
 using namespace std;
 
 // -----------------------------------------------------------------------
@@ -549,7 +550,7 @@ Funcao:   MenorValorNzero
 @author :Leandro Puerari
 */
 int CVetor::MenorValorNzero () const {
-	int menor = 9999999;
+	int menor = std::numeric_limits<int>::max();//9999999
 	for (int i = 0; i < nx; i++)
 		if (data1D[i] < menor && data1D[i] != 0)
 			menor = data1D[i];
@@ -564,8 +565,8 @@ Funcao:   MaiorMenorValorNzero
 */
 pair<int,int> CVetor::MaiorMenorValorNzero() const {
 	pair<int,int> maiorMenor;
-	maiorMenor.first = data1D[0];
-	maiorMenor.second = 999999999;
+	maiorMenor.first = data1D[0];//std::numeric_limits::<int>min();
+	maiorMenor.second = std::numeric_limits<int>::max();//9999999
 	for (int i = 0; i < nx; i++){
 		if (data1D[i] < maiorMenor.second && data1D[i] != 0)
 			maiorMenor.second = data1D[i];

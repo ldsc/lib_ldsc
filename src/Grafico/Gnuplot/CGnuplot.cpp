@@ -272,8 +272,12 @@ Gnuplot::~Gnuplot()
 #elif defined(unix) || defined(__unix) || defined(__unix__) || defined(__APPLE__)
     if (pclose(this->gnucmd) == -1)
 #endif
-        throw GnuplotException("Problem closing communication to gnuplot");
+// Linha abaixo retirada, C++11 não permite Destructor chamar throw
+//throw GnuplotException("Problem closing communication to gnuplot");
+std::cerr << "Problem closing communication to gnuplot\n";
+    
 }
+
 
 //----------------------------------------------------------------------------------
 // Resets a gnuplot session (next plot will erase previous ones)

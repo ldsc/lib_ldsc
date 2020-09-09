@@ -54,7 +54,8 @@ public:
 // ----------------------------------------------------------------Métodos
 /** @short  : Calcula a Tortuosidade.
 */
-    virtual long double CalcularTortuosidade () {};
+//     virtual long double CalcularTortuosidade () { return tortuosidade};
+    virtual long double CalcularTortuosidade () = 0 ;
 	
 // --------------------------------------------------------------------Get
 public:

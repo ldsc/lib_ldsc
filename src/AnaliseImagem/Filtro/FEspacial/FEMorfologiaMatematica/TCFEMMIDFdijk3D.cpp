@@ -75,12 +75,12 @@ TCMatriz3D<T> * TCFEMMIDFdijk3D<T>::Go (TCMatriz3D<T> * &matriz, unsigned int /*
 	//Após ExecutadaPorGo a imagem this já vem prenchido com 0 (fundo) e mi (sólido)
 
 	int x, y, z;			// Indices para percorrer a matriz
-	register int xm1;		// x+1
-	register int x_1;		// x-1
-	register int ym1;		// y+1
-	register int y_1;		// y-1
-	register int zm1;		// z+1
-	register int z_1;		// z-1
+	int xm1;		// x+1
+	int x_1;		// x-1
+	int ym1;		// y+1
+	int y_1;		// y-1
+	int zm1;		// z+1
+	int z_1;		// z-1
 
 	// MinimoIda
 	for (z = 1; z < this->nz-1; z++) {	// inicio do 1 pois já considerou planos 0 acima

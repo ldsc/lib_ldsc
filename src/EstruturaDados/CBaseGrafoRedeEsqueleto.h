@@ -148,6 +148,7 @@ public:
          case ETipoGrafo::GrafoConexaoSerial_M6 :
             return {"GrafoConexaoSerial_M6"};
          }
+   return {"Grafo"}; // eliminar warning
    }
 
    // --------------------------------------------------------------------Set

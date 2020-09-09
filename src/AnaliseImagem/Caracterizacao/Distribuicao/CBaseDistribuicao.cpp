@@ -7,7 +7,8 @@
 bool CBaseDistribuicao::Media (set<string> filesName, Tipos _tipo){
 	tipo = _tipo;
 	areaObjetos = 0.0;
-	distribuicao.empty();
+// 	distribuicao.empty(); //Código Leandro
+	distribuicao.clear(); //BUG. provavelmente queria chamar clear!
 	ifstream fdist;
 	set<string>::iterator it;
 	string aux;

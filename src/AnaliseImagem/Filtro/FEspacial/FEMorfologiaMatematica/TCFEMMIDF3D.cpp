@@ -92,7 +92,7 @@ void TCFEMMIDF3D<T>::ExecutadaPorGo (TCMatriz3D<T> *&matriz) {	// ,unsigned int 
 	}
 	// Agora tenho de armazenar valores de pm na idf
 	// substituir por this=matriz;
-	register int mi = Mi ();
+	int mi = Mi ();
 	int i,j,k;
 #pragma omp parallel for collapse(3) default(shared) private(i,j,k) //schedule(dynamic,10)
 	for (i = 0; i < nx; i++) {

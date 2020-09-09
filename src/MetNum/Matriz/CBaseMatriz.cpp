@@ -75,6 +75,7 @@ bool CBaseMatriz::SalvaCores (ofstream & fout) const {
 		if ( formatoImagem > 1 && formatoImagem != 4 && formatoImagem != 7 && formatoImagem != 10 && formatoImagem != 13 && formatoImagem != 16 && formatoImagem < 19 )
 			fout << "\n" << numCores;
 	}
+	return true; // Erro: estava sem retorno
 }
 
 // Le os comentários do arquivo para anvançar o ponteiro de leitura

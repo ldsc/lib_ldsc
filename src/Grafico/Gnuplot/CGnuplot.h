@@ -114,7 +114,7 @@ private:
   static bool  get_program_path ();	
 
   /// @brief Retorna verdadeiro se a path esta presente.
-  static bool  Path() { get_program_path(); }
+  static bool  Path() { return get_program_path(); }
 
   /// @brief Checa se o arquivo existe.
   static bool  file_exists (const std::string & filename, int mode = 0); 

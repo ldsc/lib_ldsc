@@ -14,7 +14,7 @@
 
 bool CDistribuicao::Go( TCMatriz2D<bool> * _pm, Tipos _tipo, Metrica _metrica, int indice, int fundo ) {
 	pm = _pm;
-	Go ( _tipo, _metrica, indice, fundo );
+	return Go ( _tipo, _metrica, indice, fundo );
 }
 
 bool CDistribuicao::Go( Tipos _tipo, Metrica _metrica, int indice, int fundo ) {

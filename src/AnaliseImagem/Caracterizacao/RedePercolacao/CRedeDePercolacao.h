@@ -8,6 +8,7 @@
 #include <MetNum/Matriz/CMatrizObjetoImagem.h>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 /**
  * @brief A classe CRedeDePercolacao representa meios porosos tridimensionais
@@ -214,17 +215,17 @@ class CRedeDePercolacao
 
 		/// Retorna o número de pixeis em uma esfera. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
 		inline int NumPixeisEsfera( const int & _raio) {
-			return (calcPixeis) ? (int)round((4.0*M_PI*(float)_raio*(float)_raio*(float)_raio)/3.0) : numPixeisBola[_raio];
+			return (calcPixeis) ? (int)std::round((4.0*M_PI*(float)_raio*(float)_raio*(float)_raio)/3.0) : numPixeisBola[_raio];
 		}
 
 		/// Retorna o número de pixeis em um cilindro. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
 		inline int NumPixeisCilindro( const int & _raio, const int & _comprimento) {
-			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisCirculo[_raio];
+			return (calcPixeis) ? (int)std::round(M_PI*(float)_raio*(float)_raio*(float)_comprimento) : _comprimento*numPixeisCirculo[_raio];
 		}
 
 		/// Retorna o número de pixeis em um disco. Se calcPixeis for verdadeiro, o valor será calculado, senão será obtido do vetor
 		inline int NumPixeisDisco( const int & _raio) {
-			return (calcPixeis) ? (int)round(M_PI*(float)_raio*(float)_raio) : numPixeisCirculo[_raio];
+			return (calcPixeis) ? (int)std::round(M_PI*(float)_raio*(float)_raio) : numPixeisCirculo[_raio];
 		}
 
 		/// Retorna a porosidade da esfera (em %). Se calcPixeis for verdadeiro, o número de pixeis será calculado, senão, será obtido do vetor.
@@ -247,7 +248,7 @@ class CRedeDePercolacao
 			int vx = x2-x1;
 			int vy = y2-y1;
 			int vz = z2-z1;
-			return sqrt( vx*vx + vy*vy + vz*vz );
+			return std::sqrt( vx*vx + vy*vy + vz*vz );
 		}
 
 		/// Calcula e retorna o raio hidráulico do circulo de raio informado

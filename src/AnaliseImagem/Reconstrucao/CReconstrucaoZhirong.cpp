@@ -89,7 +89,7 @@ void CReconstrucaoZhirong::LeituraArquivoCz () {
    // Le do disco a porosidade. Qdo u=0, correlacao(u=0)=porosidade
    ifstream fin (nomeArquivoCz.c_str());	// abre arquivo do disco
    // fin.open(nomeArquivoCz);    // abre arquivo do disco
-   if (fin == nullptr) {		// abre arquivo disco
+   if (fin .fail()) {		// abre arquivo disco
       /*cout<<"\nNao abriu arquivo disco "<<nomeArquivoCz<<", verifique nome do arquivo.\n"; */
       exit (1);
    }
@@ -138,7 +138,7 @@ void CReconstrucaoZhirong::Calculo_Ry1D () {
    nomeArquivoRy=  "saidaRzRy.rzy";	// Abre arquivo disco para armazenar resultados
    // cout<<"\nVai tentar abrir o arquivo fout (escrita) com nome ="<<nomeArquivoRy;
    ofstream fout (nomeArquivoRy.c_str());	// fout.open(nomeArquivoRy);
-   if (fout == nullptr) {
+   if (fout .fail()) {
       // cout<<"\nNao abriu arquivo disco "<<nomeArquivoRy<<", verifique o nome do arquivo\n";
       exit (1);
    }
@@ -334,7 +334,7 @@ bool CReconstrucaoZhirong::SalvarImagemEmDisco (string arqimg) {
       arqimg = nomeArquivo;
 	}
 	ofstream fimg (arqimg.c_str());	// abre arquivo disco
-  	if (fimg == nullptr) {
+  	if (fimg .fail()) {
       cerr << "\nNao conseguiu abrir arquivo de disco: " << arqimg <<endl;
       return false;
    }
@@ -401,7 +401,7 @@ void CReconstrucaoZhirong::Covariograma () {
    // Função de salvamento em disco dos valores de correlação...
    string arquivoCovariograma = "correlacao.cor";
    ofstream fout (arquivoCovariograma.c_str());
-   if (fout == nullptr) {
+   if (fout .fail()) {
       // cout<<"\nNao posso criar arquivo"<<arquivoCovariograma<<",na funcao CReconstrucaoZhirong::Covariograma().\n";
       exit (1);
    }

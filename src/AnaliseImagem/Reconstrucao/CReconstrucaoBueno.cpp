@@ -54,7 +54,7 @@ void CReconstrucaoBueno::Calculo_Ry1D () {
 
    // cout<<"\nVai tentar abrir o arquivo fout (escrita) com nome ="<<nomeArquivoRy;
    ofstream fout (nomeArquivoRy.c_str());
-   if (fout == nullptr) {
+   if (fout.fail()) {
       // cout<<"\nNao abriu arquivo disco "<<nomeArquivoRy<<", verifique o nome do arquivo\n";
       exit (1);
    }

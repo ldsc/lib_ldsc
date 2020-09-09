@@ -101,7 +101,7 @@ void TCFEMMIDF<T>::ExecutadaPorGo ( TCMatriz2D<T> * &matriz ) {	// ,unsigned int
 	}
 	// Agora tenho de armazenar valores de pm na idf
 	// substituir por this=matriz;
-	register int mi = Mi();
+	int mi = Mi();
 	int i,j;
 #pragma omp parallel for collapse(2) default(shared) private(i,j) //schedule(dynamic,10)
 	for ( j = 0; j < this->ny; j++ ) {
@@ -274,10 +274,10 @@ TCMatriz2D<T> * TCFEMMIDF<T>::Abertura ( TCMatriz2D<T> * &matriz, unsigned int _
 
 	// variáveis auxiliares para otimizacao
 	// Otimizacao Mascara
-	register int raio = maskd->RaioX ();
+	int raio = maskd->RaioX ();
 	int raioBolaTangente = maskd->RaioBolaTangente ();
 	int raioBolaInclusa = maskd->RaioBolaInclusa ();
-	register int rmx;		// raio mais x, raio+x
+	int rmx;		// raio mais x, raio+x
 
 	// Variáveis para SIMETRIA Bola   // otimizacao
 	unsigned int posxe, posxd;	// x esquerda e x direita

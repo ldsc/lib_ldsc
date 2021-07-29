@@ -354,7 +354,8 @@ void TCMatriz3D<T>::SalvaDados (ofstream & fout) const {
 		case D2_X_Y_Z_GRAY_ASCII:
 		case D3_X_Y_Z_COLOR_ASCII:
 			if ( salvarAlinhado ) {
-				T maxVal = MaiorValor();
+				//T maxVal = MaiorValor(); //Leandro
+				int maxVal = MaiorValor(); //André, quando compila lvp acusa uso de bool e maior valor retorna int
 				int espacos = 2;
 				if (maxVal < 10) espacos = 2;
 				else if (maxVal < 100) espacos = 3;

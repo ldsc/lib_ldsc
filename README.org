@@ -18,6 +18,9 @@
 * O que é a libldsc?
 - A libldsc tem um conjunto de objetos relacionados a análise de imagens de meios porosos, a solução de problemas de transferência de calor e umidade, a solução de problemas matemáticos, estatísticos e numéricos básicos.
 - O [[https://github.com/ldsc/lvp][Software LVP]] faz uso extensivo da lib_ldsc.
+- Manual técnico: [[https://github.com/ldsc/lib_ldsc/blob/master/doc/ManualTecnico/Doutorado-AndreDuarteBueno.pdf][Tese doutorado Prof. André Duarte Bueno]]
+- Apresentação:  [[https://github.com/ldsc/lib_ldsc/blob/master/doc/ManualTecnico/ApresentacaoLinhaPesquisaAnaliseDeImagens-ProcParalelo-Bueno-2023-reduzida.pdf][Apresentação linhas de pesquisa que usam a lib_ldsc]]
+   
 
 ** A libldsc é uma biblioteca de objetos para solução de problemas físicos da área de:
 - Processamento de imagens.

@@ -1,20 +1,20 @@
 
 # Table of Contents
 
-1.  [Título: Biblioteca lib<sub>ldsc</sub>](#orgbf4c625)
-2.  [Versão:](#orgbe6e291)
-3.  [Data:](#orgb969b18)
-4.  [Autor de Contato:](#orgfac16a5)
-5.  [O que é a libldsc?](#orgde68ddb)
-    1.  [A libldsc é uma biblioteca de objetos para solução de problemas físicos da área de:](#org06154d7)
-    2.  [A libldsc é totalmente desenvolvida em ANSI C++](#org3ece855)
-6.  [O que você vai encontrar? (diretórios da biblioteca)](#org1b69061)
-7.  [Vantagens:](#orge30ea58)
-8.  [Desvantagens:](#orgcde8f74)
-9.  [Outros arquivos de ajuda (disponibilizados no repositório)](#org9bba0a9)
+1.  [Título: Biblioteca lib<sub>ldsc</sub>](#orga203df2)
+2.  [Versão:](#orgbc15af6)
+3.  [Data:](#org08aafc1)
+4.  [Autor de Contato:](#org9981ecc)
+5.  [O que é a libldsc?](#org580e23d)
+    1.  [A libldsc é uma biblioteca de objetos para solução de problemas físicos da área de:](#org471839c)
+    2.  [A libldsc é totalmente desenvolvida em ANSI C++](#org3b15c77)
+6.  [O que você vai encontrar? (diretórios da biblioteca)](#org09be4b9)
+7.  [Vantagens:](#orgf809062)
+8.  [Desvantagens:](#org83a6c94)
+9.  [Outros arquivos de ajuda (disponibilizados no repositório)](#org8843896)
 
 
-<a id="orgbf4c625"></a>
+<a id="orga203df2"></a>
 
 # Título: Biblioteca lib<sub>ldsc</sub>
 
@@ -22,7 +22,7 @@
     -   <https://github.com/ldsc/lib_ldsc>
 
 
-<a id="orgbe6e291"></a>
+<a id="orgbc15af6"></a>
 
 # Versão:
 
@@ -30,14 +30,14 @@
 -   2.0 Leandro Puerari.
 
 
-<a id="orgb969b18"></a>
+<a id="org08aafc1"></a>
 
 # Data:
 
 -   ~2013.
 
 
-<a id="orgfac16a5"></a>
+<a id="org9981ecc"></a>
 
 # Autor de Contato:
 
@@ -47,15 +47,17 @@
 -   Colaboração: Leandro Puerari.
 
 
-<a id="orgde68ddb"></a>
+<a id="org580e23d"></a>
 
 # O que é a libldsc?
 
 -   A libldsc tem um conjunto de objetos relacionados a análise de imagens de meios porosos, a solução de problemas de transferência de calor e umidade, a solução de problemas matemáticos, estatísticos e numéricos básicos.
 -   O [Software LVP](https://github.com/ldsc/lvp) faz uso extensivo da lib<sub>ldsc</sub>.
+-   Manual técnico: [Tese doutorado Prof. André Duarte Bueno](https://github.com/ldsc/lib_ldsc/blob/master/doc/ManualTecnico/Doutorado-AndreDuarteBueno.pdf)
+-   Apresentação:  [Apresentação linhas de pesquisa que usam a lib<sub>ldsc</sub>](https://github.com/ldsc/lib_ldsc/blob/master/doc/ManualTecnico/ApresentacaoLinhaPesquisaAnaliseDeImagens-ProcParalelo-Bueno-2023-reduzida.pdf)
 
 
-<a id="org06154d7"></a>
+<a id="org471839c"></a>
 
 ## A libldsc é uma biblioteca de objetos para solução de problemas físicos da área de:
 
@@ -65,7 +67,7 @@
 -   Grafos, redes de percolação e redes neurais.
 
 
-<a id="org3ece855"></a>
+<a id="org3b15c77"></a>
 
 ## A libldsc é totalmente desenvolvida em ANSI C++
 
@@ -74,7 +76,7 @@
 -   Nota:	Partes da biblioteca usam conceitos antigos, a biblioteca esta sendo atualizada aos poucos.
 
 
-<a id="org1b69061"></a>
+<a id="org09be4b9"></a>
 
 # O que você vai encontrar? (diretórios da biblioteca)
 
@@ -126,7 +128,7 @@
     -   Configurações de equilíbrio.
 
 
-<a id="orge30ea58"></a>
+<a id="orgf809062"></a>
 
 # Vantagens:
 
@@ -136,14 +138,14 @@
 -   Caso o programador esteja usando uma destas bibliotecas gráficas, basta adicionar a libldsc  (e os arquivos de cabeçalho \*.h) e utilizar diretamente os objetos da libldsc. Podendo, adicionalmente, criar quadros de diálogo para fácil manipulação dos objetos da libldsc.
 
 
-<a id="orgcde8f74"></a>
+<a id="org83a6c94"></a>
 
 # Desvantagens:
 
 -   Caso o programador queira utilizar em um ambiente grafico, devera criar mecanismos (quadros de diálogo, box de entrada de dados, entre outros) para manipulação dos objetos da libldsc.
 
 
-<a id="org9bba0a9"></a>
+<a id="org8843896"></a>
 
 # Outros arquivos de ajuda (disponibilizados no repositório)
 

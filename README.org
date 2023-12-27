@@ -1,0 +1,110 @@
+* Título: Biblioteca lib_ldsc
+- Link no github:
+  - https://github.com/ldsc/lib_ldsc
+
+* Versão:
+- 1.0 André Duarte Bueno.
+- 2.0 Leandro Puerari.
+
+* Data:
+- ~2013.
+
+* Autor de Contato:
+- André Duarte Bueno
+- [[mailto:andreduartebueno@gmail.com][andreduartebueno@gmail.com]]
+- [[mailto:bueno@lenep.uenf.br][bueno@lenep.uenf.br]]
+- Colaboração: Leandro Puerari.
+
+* O que é a libldsc?
+- A libldsc tem um conjunto de objetos relacionados a análise de imagens de meios porosos, a solução de problemas de transferência de calor e umidade, a solução de problemas matemáticos, estatísticos e numéricos básicos.
+- O [[https://github.com/ldsc/lvp][Software LVP]] faz uso extensivo da lib_ldsc.
+
+** A libldsc é uma biblioteca de objetos para solução de problemas físicos da área de:
+- Processamento de imagens.
+- Meios porosos (rochas reservatório).
+- Métodos numéricos.
+- Grafos, redes de percolação e redes neurais.
+
+** A libldsc é totalmente desenvolvida em ANSI C++
+- O que significa que pode ser utilizada em qualquer ambiente operacional (DOS, Windows, MAC, UNIX,LINUX, ..) que suporte a linguagem de programação  ANSI C++.
+- A libldsc usa os mais modernos conceitos de programação orientada a objeto  (como polimorfismo, templates e STL).
+- Nota:	Partes da biblioteca usam conceitos antigos, a biblioteca esta sendo atualizada aos poucos.
+
+* O que você vai encontrar? (diretórios da biblioteca)
+- Base
+  - Algumas classes base.
+- Tempo
+  - Tempo de processamento.
+- Material
+  - Materiais como fluido, sólido, meio poroso.
+- Matriz
+  - Vetores e matrizes.
+- Rotulador
+  - Rotulagem 2D e 3D (Hoshen e Kopelman).
+- Mascara
+  - Máscaras de chanfro para processamento de imagens.
+- Filtro
+  - Filtros para processamento de imagens.
+- Filtro/FAmplitude
+  - Filtros de amplitude.
+- Filtro/FEspacial
+  - Filtros espaciais (DeteccaoContorno, MorfologiaMatematica, Esqueleto).
+- Contorno
+  - Identificam o tipo de contorno (condições de contorno).
+- Funcao
+  - Funções matemáticas usuais, e funções necessárias para os métodos utilizados/desenvolvidos.
+- Estatistica
+  - Métodos estatísticos básicos.
+- Integral
+  - Métodos de integração.
+- SFuncao
+  - Solver para funções (zeros).
+- Geometria
+  - Objetos geométricos (bolas discretas).
+- Interpolacao
+  - Métodos de interpolação.
+- FFT
+  - Transformada de FOURIER.
+- Correlacao
+  - Correlação, autocorrelação.
+- SMatriz
+  - Solver para matrizes.
+- Permeabilidade
+  - Cálculo da permeabilidade.
+- Grafo
+  - Grafo de conecção tridimensional.
+- Reconstrucao
+  - Reconstrução 3D.
+- ConEqu
+  - Configurações de equilíbrio.
+
+* Vantagens:
+- Ao adotar um padrão ANSI C++, garante-se a portabilidade da libldsc  nas mais diversas
+- Sendo ANSI C++, novos programadores ou antigos programadores de C++ poderão utilizar rapidamente os objetos da libldsc sem nenhum estudo adicional sobre a interface gráfica.
+- Adicionalmente, seu uso fica independente de bibliotecas de interface gráfica (como a COI-LIB, a OWL, VCL, MFC, QT...).
+- Caso o programador esteja usando uma destas bibliotecas gráficas, basta adicionar a libldsc  (e os arquivos de cabeçalho *.h) e utilizar diretamente os objetos da libldsc. Podendo, adicionalmente, criar quadros de diálogo para fácil manipulação dos objetos da libldsc.
+
+* Desvantagens:
+- Caso o programador queira utilizar em um ambiente grafico, devera criar mecanismos (quadros de diálogo, box de entrada de dados, entre outros) para manipulação dos objetos da libldsc.
+
+* Outros arquivos de ajuda (disponibilizados no repositório)
+- README
+  - Descreve o que é a libldsc e os arquivos de ajuda.
+- INSTALL
+  - Descreve como instalar a libldsc.
+- HOWTO
+  - Descreve como utilizar a libldsc.
+- NEWS
+  - Descreve as novidades das últimas versões.
+- ORGANIZATION
+  - Descreve como modificar a libldsc (informações para desenvolvedores - programadores).
+- TODO
+  - Lista das tarefas a serem realizadas.
+- BUGS
+  - Lista de bugs relatados ou identificados.
+- ChangeLog
+  - Lista de modificações da biblioteca.
+- COPYING
+  - Descreve as condições para cópia e instalação da libldsc e a licença pública da GNU (Versão 2).
+- AUTHORS
+  - Lista dos autores da libldsc.

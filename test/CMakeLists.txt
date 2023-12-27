@@ -7,7 +7,8 @@ link_directories(${LIBLDSC_SOURCE_DIR}/../gtest/)
 file(MAKE_DIRECTORY bin)
 
 # Create executable
-add_executable(bin/runGtest
+#add_executable(bin/runGtest
+add_executable(runGtest
    Caracterizacao/RedePercolacao/gtRedeDePercolacao.cpp
    Caracterizacao/Simulacao/Permeabilidade/gtPermeabilidade.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd3453D.cpp
@@ -26,4 +27,5 @@ add_executable(bin/runGtest
 )
 
 # Link executable
-target_link_libraries(bin/runGtest gtest ldsc)
+#target_link_libraries(bin/runGtest gtest ldsc)
+target_link_libraries(runGtest gtest ldsc)

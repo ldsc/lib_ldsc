@@ -58,6 +58,16 @@ XX-XX-20XX GMT Dados do autor do comentário
 	[TESTAR][TESTADO]
 	[BUG][BUG-RESOLVIDO]
 
+29-07-2021 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
+- A biblioteca LIB_LDSC que estava no notebook compilava, rodava alguns demos, mas o test/runTest dava pau;
+- O LVP compilava, mas quando rodava dava pau;
+- Baixei de novo a lib_ldsc do site github e recompilei; 
+- testar demos [FUNCIONAM]
+- testar runTest (NÃO FUNCIONA! debugar!)
+- recompilar lvp e testar
+
+...
+
 07-02-2010 GMT GMT Andre Bueno (bueno@lenep.uenf.br)
 	- Atualizado ChangeLog (datas aproximadas).
 	- Classes de src/Correlacao totalmente reescritas (precisa testar).

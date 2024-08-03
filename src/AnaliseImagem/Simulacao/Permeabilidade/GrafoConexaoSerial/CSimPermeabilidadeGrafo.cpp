@@ -475,7 +475,8 @@ CSimPermeabilidadeGrafo::SolucaoSistemaEquacoes ()
 	std::cout << "--->Objetos enviados para o solver:" << std::endl;
 	for(int i = 0; i < grafo->objeto.size(); i++) {
 		obj[i] = grafo->objeto[i];
-		std::cout << "\n---->Obj: " << i << " x = " << obj[i]->X();
+        //if(DEBUG)
+        //  std::cout << "\n---->Obj: " << i << " x = " << obj[i]->X();
 	}
 	std::cout << std::endl;
 
@@ -583,14 +584,14 @@ CSimPermeabilidadeGrafo::Next ()
 		permeabilidade = fatorConversao * permeabilidade;
 
 		// SAIDA RESULTADOS TELA E DISCO
-		cout.precision ( 4 );
-		cout << "Next() [Vazões e permeabilidade]:\n"
-				 << "Qe[" 		<< setw ( 5 ) 	<< fluxoe
-				 << "] Qd[" 		<< setw ( 5 ) 	<< fluxod;
-		cout.precision ( 18 );
-		cout  << "] p(mD)[" 	<< setw ( 12 ) 	<< permeabilidade
-					<< "] erroRelPer[" << setw ( 5 ) 	<< erroRelativo << "% "
-					<< "] Itp[" 		<< setw ( 5 ) 	<< iteracoes << endl;
+		// cout.precision ( 4 );
+		// cout << "Next() [Vazões e permeabilidade]:\n"
+		// 		 << "Qe[" 		<< setw ( 5 ) 	<< fluxoe
+		// 		 << "] Qd[" 		<< setw ( 5 ) 	<< fluxod;
+		// cout.precision ( 18 );
+		// cout  << "] p(mD)[" 	<< setw ( 12 ) 	<< permeabilidade
+		// 			<< "] erroRelPer[" << setw ( 5 ) 	<< erroRelativo << "% "
+		// 			<< "] Itp[" 		<< setw ( 5 ) 	<< iteracoes << endl;
 	}
 	// 1-Incrementa o numero de iteracoes
 	iteracoes++;

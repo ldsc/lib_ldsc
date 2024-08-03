@@ -19,7 +19,7 @@ Desenvolvido por:
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
 #include <iostream>
-
+#include  <cstdint>
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
@@ -41,7 +41,7 @@ Desenvolvido por:
  * -Se o sistema for isolado, significa que não existe interferência do meio (contorno).
  * Desta forma, um sistema isolado forma um universo independente.
  *
- * -Se, entretanto, o meio externo interferir de alguma forma na solução do problema, 
+ * -Se, entretanto, o meio externo interferir de alguma forma na solução do problema,
  * diz-se que o sistema não é isolado, e portanto é mais complexo.
  *
  * É de praxe pesquisar este contorno a procura de elementos que possam interferir na solução do problema.
@@ -55,7 +55,6 @@ class CContorno
 {
 		// --------------------------------------------------------------Atributos
 	public:
-  
   /// Enumeração para o tipo de contorno
   ///  Esboço:
   ///                         3
@@ -66,8 +65,9 @@ class CContorno
   ///                         SUL
   /// @bug : como os valores abaixo foram alterados verificar se não implica em bug!
   ///        ou seja, no código não usar conversão para unsigned char.
-  enum class ETipoContorno : uint8_t 
-    { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
+//enum class ETipoContorno : uint8_t    { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
+enum class ETipoContorno: uint8_t    { CENTER = 1, WEST=0, EST=2, SOUTH=4, NORTH=3, FRONT=5, BACK=6 };
+
 
    /// Valor da propriedade no contorno, valor inicial = default, = 0.0.
    /// @return: retorna cópia do valorContorno.
@@ -80,7 +80,7 @@ class CContorno
 
     /// Construtor sobrecarregado.
 		CContorno (long double _vc = 0.0 ) : valorContorno(_vc){ 	}
-	
+
 // --------------------------------------------------------------Destrutor
     /// Destrutor.
     /*virtual */~ CContorno ()  = default;
@@ -111,7 +111,7 @@ class CContorno
 		operator long double ()    {
         return valorContorno;
     }
-   
+
 // --------------------------------------------------------------------Get
    /// Retorna o valor de contorno.
    long double ValorContorno() const { return valorContorno ; }

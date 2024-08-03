@@ -15,7 +15,7 @@ email:      andre@lmpt.ufsc.br
 // -----------------------------------------------------------------------
 // Bibliotecas C/C++
 // -----------------------------------------------------------------------
-#include <cstdlib>
+#include <cstdlib> // int system( const char* command );
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -50,9 +50,13 @@ email:      andre@lmpt.ufsc.br
 #include <Amostra/Material/CMFluido.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonalDominante.h>
 #include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_GaussSeidel.h>
-#include <MetNum/Solver/SistemaEquacoes//SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
+#include <MetNum/Solver/SistemaEquacoes/SolverMatrizDiagonal/CSolverMatrizDiagonal_SOR.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
 #include <AnaliseImagem/Simulacao/Permeabilidade/CSimPermeabilidade.h>
+
+// -----------------------------------------------Encrustracao
+#include <Encrustracao/CEncrustracao.h>
+
 //  novo
 //#include <SMatriz/SMDiagonal/CSolverMatrizDiagonalDominante_Threads.h>
 using namespace std;
@@ -63,7 +67,7 @@ Função:   Run()
 -------------------------------------------------------------------------
 @short  :	Função de teste das funções da classe CGrafo
 @author :	André Duarte Bueno
- 
+
 @param  :	void
 @return :	void
 */
@@ -74,33 +78,45 @@ CGrafoTest::Run ()
 
     do {
         cout << "\nObjeto CGrafoTest"
-             << "\nRealiza o teste das classes CGrafoConexaoSerial e CSimPermeabilidade"
+             << "\nRealiza o teste das classes CGrafoConexaoSerial, CSimPermeabilidade e CEncrustracao"
              << "\nSelecione a opção que deseja testar"
-             << "\nGrafo.........................1"
-             << "\nTortuosidade..................2"
-             << "\nPermeabilidade................3:"
-             << "\nQuit..........................9:";
+             << "\nGrafo................................1"
+             << "\nGrafo->Tortuosidade..................2"
+             << "\nGrafo->Permeabilidade................3:"
+             << "\nEncrustração/Scale...................4:"
+             << "\nEncrustração->Grafo->Permeabilidade..5:"
+             << "\nQuit.................................9:";
         cin >> selecao;
         cin.get ();		// pega retorno de carro
 
         switch ( selecao ) {
         case 1:
-            cout << "\n Chamando função Grafo()" << endl;
+            cout << "\n-> Função Grafo()\n";
             Grafo ();
             break;
 
         case 2:
-            cout << "\n Chamando função Tortuosidade()" << endl;
+            cout << "\n-> Função Tortuosidade()\n";
             Tortuosidade ();
             break;
 
         case 3:
-            cout << "\n Chamando função Permeabilidade()" << endl;
+            cout << "\n-> Função Permeabilidade()\n";
             Permeabilidade ();
             break;
 
+        case 4:
+            cout << "\n-> Função Encrustracao()\n";
+            Encrustracao();
+            break;
+
+        case 5:
+            cout << "\n-> Função EncrustracaoPermeabilidade()\n";
+            EncrustracaoPermeabilidade ();
+            break;
+
         default:
-            cout << "\n Saindo da função TCGrafo->Run" << endl;
+            cout << "\n Saindo da função TCGrafo->Run\n";
             break;
         }
     }
@@ -174,7 +190,7 @@ double CGrafoTest::Permeabilidade ( int tipoSolver )
     string nomeArquivo = SolicitarNomeImagem ();
     int fatorAmplificacao = 2;
     double dimensaoPixel = 5.0e-6;
-    SolicitarPropriedadesImagem ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
+    LerPropriedadesImagemDoDisco ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
     TCMatriz3D<int>* pm3D { nullptr };
     pm3D = LerImagemDisco ( nomeArquivo );
 
@@ -208,6 +224,38 @@ double CGrafoTest::Permeabilidade ( int tipoSolver )
     return permeabilidade_calculada;
 }
 
+double CGrafoTest::PermeabilidadeImagem ( TCImagem3D<int>* pimg3D, int modeloGrafo, string nomeArquivoGrafo, bool salvarGrafo , int tipoSolver)
+{
+    // Determinação do grafo
+    //MostrarInstrucoesArquivosExternos ();
+    CGrafoConexaoSerial* grafo { nullptr } ;
+    grafo = CriarGrafo ( modeloGrafo, nomeArquivoGrafo );
+    DeterminarGrafo ( grafo, pimg3D, nomeArquivoGrafo ); //
+    if(salvarGrafo)
+      SalvarGrafo ( grafo );
+
+    // Determinação da Permeabilidade
+    CMFluido* fluido { nullptr };
+    fluido = CriarFluido ();
+
+    CSolverMatrizDiagonalDominante* solver { nullptr };
+    solver = CriarSolver ( tipoSolver );
+
+    CSimPermeabilidadeGrafo* permeabilidade { nullptr };
+    permeabilidade = CriarPermeabilidade ( fluido, solver, grafo, pimg3D, pimg3D->FatorAmplificacao(), pimg3D->DimensaoPixel() );
+
+    double permeabilidade_calculada = DeterminarPermeabilidade ( permeabilidade );
+
+    // Resolvido o sistema salva tudo em disco
+    string nome = permeabilidade->Grafo()->NomeGrafo()+ ".permeabilidade";
+    ofstream fout ( nome );
+    fout << *permeabilidade;
+    fout << "\n\nPermeabilidade = " << permeabilidade_calculada << endl;
+    fout.close();
+
+    delete permeabilidade;
+    return permeabilidade_calculada;
+}
 /*
 -------------------------------------------------------------------------
 Função: MostrarInstrucoesArquivosExternos()
@@ -243,22 +291,24 @@ Função: SolicitarNomeImagem()
 string
 CGrafoTest::SolicitarNomeImagem ()
 {
-    cout << "\nEntre com o nome da imagem"
+    cout << "\nEntre com o nome da imagem:"
          << "\nExemplo:\n";
 		int r = system ("dir *.txt *.pm3");
-		r = r; //evita warming
+		r = r; //evita warning
     string nomeArquivo;
+    cout << "\n: ";
     getline ( cin, nomeArquivo );
     return nomeArquivo;
 }
 
 /*
 -------------------------------------------------------------------------
-Função: SolicitarPropriedadesImagem
+Função: LerPropriedadesImagemDoDisco
 -------------------------------------------------------------------------
 */
+//Antes void CGrafoTest::SolicitarPropriedadesImagem ( int& fatorAmplificacao,double& dimensaoPixel, string nomeArquivo )
 void
-CGrafoTest::SolicitarPropriedadesImagem ( int& fatorAmplificacao,
+CGrafoTest::LerPropriedadesImagemDoDisco ( int& fatorAmplificacao,
         double& dimensaoPixel, string nomeArquivo )
 {
     string nomeArquivoDat ( nomeArquivo + ".dat" );
@@ -293,7 +343,7 @@ CGrafoTest::LerImagemDisco ( string nomeArquivo )
     TCMatriz3D<int>* pm3D;
     {
         CTime ( "Tempo leitura imagem = ", &cout );
-        cout << "Lendo imagem (" << nomeArquivo << ") do disco..." << endl;
+        cout << "Lendo imagem (" << nomeArquivo << ") do disco...\n";
         pm3D = new TCMatriz3D<int> ( nomeArquivo );
     }
     return pm3D;
@@ -387,7 +437,7 @@ CGrafoTest::CriarGrafo ( int modelo, string nomeArquivo )
 
         assert ( grafo );
 
-        cout << " ...done" << endl;
+        cout << " ...done\n";
     }
     return grafo;
 }
@@ -401,9 +451,9 @@ void
 CGrafoTest::DeterminarGrafo ( CGrafoConexaoSerial* grafo, TCMatriz3D<int>* pm3D, string nomeArquivo )
 {
     CTime ( "Tempo Determinação do grafo (imagem previamente carregada)= ", &cout );
-    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
+    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()\n";
     grafo->Go ( pm3D );
-    cout << "\nDimensão do grafo = " << grafo->objeto.size () << endl << " ...done" << endl;
+    cout << "\nDimensão do grafo = " << grafo->objeto.size () <<  "\n ...done\n";
 }
 
 /*
@@ -415,10 +465,10 @@ void
 CGrafoTest::DeterminarGrafo ( CGrafoConexaoSerial* grafo, string nomeArquivo )
 {
     CTime* t = new CTime ( "Tempo abertura imagem e determinação do grafo = ", &cout );
-    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()" << endl;
+    cout << "Determinando o grafo da imagem(" << nomeArquivo << ")..." << "\nChamando o grafo->Go()\n";
     grafo->Go ( nomeArquivo );
     delete t;				// deleta objeto
-    cout << "\nDimensão do grafo = " << grafo->objeto.size () << endl  << " ...done" << endl;
+    cout << "\nDimensão do grafo = " << grafo->objeto.size () << endl  << " ...done\n";
 }
 
 // Gera vetor e matriz para solver externo
@@ -466,7 +516,7 @@ CMFluido* CGrafoTest::CriarFluido ()
     cout << "Criando objeto fluido...";
     CMFluido* fluido = new CMFluido ( viscosidade );
     assert ( fluido );
-    cout << " ...done" << endl;
+    cout << " ...done\n";
     cout << "fluido.Viscosidade()=" << fluido->Viscosidade () << endl;
     return fluido;
 }
@@ -561,7 +611,7 @@ CSimPermeabilidadeGrafo* CGrafoTest::CriarPermeabilidade ( CMFluido* fluido,
                 pm3D->NX (), pm3D->NY (), pm3D->NZ (),
                 fatorAmplificacao, dimensaoPixel );
         assert ( permeabilidade_grafo );
-        cout << " ...done" << endl;
+        cout << " ...done\n";
     }
 
     return permeabilidade_grafo;
@@ -580,15 +630,15 @@ double CGrafoTest::DeterminarPermeabilidade ( CSimPermeabilidadeGrafo* permeabil
              << "que realiza pré-processamento e primeira iteração do Solver..."
              << endl;
         permeabilidade->SolucaoSistema ();
-        cout << " permeabilidade->SolucaoSistema()...done" << endl;
+        cout << " permeabilidade->SolucaoSistema()...done\n";
     }
     // Determinação da permeabilidade---------------------------------------
     double permeabilidade_calculada;
     {
         CTime ( "Tempo permeabilidade->Go() = ", &cout );
-        cout << "Chamando permeabilidade->Go()..." << endl;
+        cout << "Chamando permeabilidade->Go()...\n";
         permeabilidade_calculada = permeabilidade->Go ();
-        cout << " permeabilidade->Go()... ...done" << endl;
+        cout << " permeabilidade->Go()... ...done\n";
         cout << "\a\a\nPermeabilidade (mD)= " << permeabilidade_calculada << endl;
     }
 
@@ -789,20 +839,20 @@ bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
             CTime ( msg, &cout );
             TCMatriz3D<int>* pm3D = NULL;
             cout << "=============================================================\n"
-                 << "Lendo Imagem (" << nomeArquivo << ") do disco" << endl;
+                 << "Lendo Imagem (" << nomeArquivo << ") do disco\n";
             fout << "=============================================================\n"
-                 << "Lendo Imagem (" << nomeArquivo << ") do disco" << endl;
+                 << "Lendo Imagem (" << nomeArquivo << ") do disco\n";
             {
                 ifstream teste ( nomeArquivo.c_str () );
 
                 if ( teste.fail () ) {
-                    cout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?).\a" << endl;
-                    fout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?)." << endl;
+                    cout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?).\a\n";
+                    fout << "\n A Imagem " << nomeArquivo << " é inválida (Nome errado?).\n";
                     teste.close ();	// ?
                     continue;	// Passa para proximo passo do laço while ? confirmar->ok
                 }
                 else {
-                    cout << "\n A Imagem " << nomeArquivo << " é válida.\a" << endl;
+                    cout << "\n A Imagem " << nomeArquivo << " é válida.\a\n";
                     teste.close ();
 
                     // -->Originalmente carregava a imagem do disco aqui
@@ -822,7 +872,7 @@ bool CGrafoTest::ProcessarListaImagens ( unsigned int argc, char* argv[] )
             cout << "\a";
             Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 2 , pm3D , fout ); // modelo 2
             cout << "\a";
-            Permeabilidade_By_ModelX_Decisao ( nomeArquivo, 3, pm3D, fout );	// modelo 3 
+            Permeabilidade_By_ModelX_Decisao ( nomeArquivo, 3, pm3D, fout );	// modelo 3
             cout << "\a";
             Permeabilidade_By_ModelX_Decisao ( nomeArquivo , 4 , pm3D , fout ); // modelo 4
             cout << "\a";
@@ -867,7 +917,7 @@ bool CGrafoTest::Permeabilidade_By_ModelX_Decisao ( string nomeArquivo, int mode
     if ( in ) {
         cout << "\n--->Imagem ("
              << nomeComModelo
-             << ") já foi simulada, pulando para práxima" << endl;
+             << ") já foi simulada, pulando para práxima\n";
         return 1;
     }
 
@@ -926,7 +976,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
     // Solicita propriedades da Imagem3D------------------------------------
     int fatorAmplificacao = 1;
     double dimensaoPixel = 5e-6;
-    SolicitarPropriedadesImagem ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
+    LerPropriedadesImagemDoDisco ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
     CMFluido* fluido = CriarFluido ();
 
     CSolverMatrizDiagonalDominante* solver = CriarSolver ();	// vai usar default=3
@@ -943,7 +993,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
         CTime ( "Tempo leitura do vetor de dados do grafo = ", &cout );
         cout << "\n\aLendo vetor com dados da simulação inacabada do disco " <<
              endl;
-        cout << "(reiniciando simulação anterior)" << endl;
+        cout << "(reiniciando simulação anterior)\n";
         // Lê   do arquivo grafo.vectorX (o vetor solução X)
         grafo->LerVetorPropriedades_x ();
     }
@@ -966,7 +1016,7 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
         cout << "Chamando permeabilidade->SolucaoSistema() que realiza \n";
         cout << "pré-processamento e primeira iteração do Solver...";
         permeabilidade->SolucaoSistema ();
-        cout << " permeabilidade->SolucaoSistema()...done" << endl;
+        cout << " permeabilidade->SolucaoSistema()...done\n";
     }
     // Determinação da permeabilidade-------------------------------------------
     double permeabilidade_calculada;
@@ -989,10 +1039,10 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
     	// A->Write("R_A_1.txt");
     	CVetor* B    = new CVetor(1);
     	// B->Write("R_B_1.txt");
-    	// cout << "\nVai executar a função 	grafo->SetarMatrizAVetorB(A,B);" << endl ;
+    	// cout << "\nVai executar a função 	grafo->SetarMatrizAVetorB(A,B);\n" ;
     	// cin.get();
     	grafo->SetarMatrizAVetorB(A,B);
-    	// cout << "\nExecutou a função 	grafo->SetarMatrizAVetorB(A,B);" << endl ;
+    	// cout << "\nExecutou a função 	grafo->SetarMatrizAVetorB(A,B);\n" ;
     	}
     */
 // // // // // // // // // // // // // // // // // // // //
@@ -1013,3 +1063,250 @@ CGrafoTest::Permeabilidade_By_ModelX ( string nomeArquivo,
     delete permeabilidade;	// Destróe objeto permeabilidade (que destróe o grafo)
     return 1;
 }
+
+
+/**
+-------------------------------------------------------------------------
+Função: Encrustracao()
+-------------------------------------------------------------------------
+@short  : Função de teste dos modelos de encrustração do Thiago,
+pode receber o modelo a partir da qual o processo de incrustração ocorre.
+@author :	André Duarte Bueno baseado no código do Thiago
+@return :	bool
+// tese: dd=5um ed=25um fvd=0.8 fva=0.99 FIBaSo4=0.3
+//Scale the 3D matrix reducing the porosity by percentPorosityScale.
+//percentPorosityScale must be a value between 1 (0.01%) and 10000 (100%)
+//5% = 500 10% =1000
+// bool scalePercent(int percentPorosityScale);
+
+//Scale the 3D matrix filling a number of voxels.
+//normalScaleVoxels number of voxels which may be generated next to any non-porous voxel.
+//agglomeratedScaleVoxels number of voxels which may be generated next to an already scaled voxel
+// bool scaleAgglomerate(long long normalScaleVoxels, long long agglomerateScaleVoxels);
+// bool scalePorousAgglomerate(long long normalScaleVoxels, long long agglomerateScaleVoxels, float microPorosity);
+// bool scaleAgglomerate(long long normalScaleVoxels, long long agglomerateScaleVoxels);
+// bool scaleAgglomeratePercentage(int percentPorosityScale, int agglomerateShare, int microPorosity);
+// bool scaleDentriticPercentage(int percentPorosityScale, int dentriticShare);
+// bool scaleDentritic(long long normalScaleVoxels, long long dentriticScaleVoxels);
+**/
+bool CGrafoTest::Encrustracao(int modelo) {
+  // Solicita o nome do arquivo com a imagem
+  string nomeArquivoImagem = SolicitarNomeImagem ();
+  // Cria a imagem 3D.
+  // Os dados de FA-fator amplicacao DP=dimensao pixel estão no início arquivo dentro #
+  TCImagem3D<int>* pimagem3D = new TCImagem3D<int>(nomeArquivoImagem);
+
+  modelo = SolicitarModeloEncrustracao ();
+  CEncrustracao encrustracao ( pimagem3D );
+  int percentual = 500; //=5%
+  cout << "\nQual o percentual de incrustração:";
+  cin >> percentual; cin.get();
+  percentual = percentual * 100;
+  // modelo 2
+  int agglomerateShare = 5; //?agglomerateShare must be a value between 1 and 10000 (100%)
+  int microPorosity = 5; //?
+  // modelo 3
+  int dentriticShare=5;//?
+  string smodelo = "_encrustrada_M" + to_string(modelo);
+  switch(modelo) {
+  case 1:
+    encrustracao.scalePercent(percentual); break;
+  case 2:
+    cout << "\nQual o valor de agglomerateShare( " << agglomerateShare << " ):";
+    cin >> agglomerateShare; cin.get();
+    agglomerateShare *= 100;
+    cout << "\nQual o valor de microPorosity( " << microPorosity << " ):";
+    cin >> microPorosity; cin.get();
+    microPorosity *= 100;
+    encrustracao.scaleAgglomeratePercentage(percentual, agglomerateShare, microPorosity); break;
+  case 3:
+    cout << "\nQual o valor de dentriticShare( " << dentriticShare << " ):";
+    cin >> dentriticShare; cin.get();
+    dentriticShare *= 100;
+    encrustracao.scaleDentriticPercentage(percentual, dentriticShare*100); break;
+  }
+  string nomeArquivoImagemEncrustrada = nomeArquivoImagem;
+  size_t pos = nomeArquivoImagemEncrustrada.find(".pm3");
+  if (pos != std::string::npos) {         // Substituindo a palavra
+    nomeArquivoImagemEncrustrada  = nomeArquivoImagemEncrustrada.substr(0,pos);
+    nomeArquivoImagemEncrustrada += smodelo+".pm3";
+  } else {
+    nomeArquivoImagemEncrustrada = nomeArquivoImagem + smodelo + ".pm3";
+    std::cout << "Extensão .pm3 não encontrada." << std::endl;
+  }
+  std::cout << "\nVai salvar no disco a imagem após encrustracao: " << nomeArquivoImagemEncrustrada << std::endl;
+  pimagem3D->Write(nomeArquivoImagemEncrustrada);
+  delete pimagem3D;			// deleta objeto
+  return 1;
+}
+
+bool CGrafoTest::EncrustracaoPermeabilidade (int modelo) {
+  // Entrada dados
+  string nomeArquivoImagem = SolicitarNomeImagem ();
+  TCImagem3D<int>* pimagem3D = new TCImagem3D<int>(nomeArquivoImagem);
+
+  cout << "\n===> Dados modelo encrustração: ";
+  modelo = SolicitarModeloEncrustracao ();
+  CEncrustracao encrustracao ( pimagem3D );
+  int percentual = 500; //=5%
+  cout << "\nQual o percentual inicial de incrustração (ex: para 5% digite 5):";
+  cin >> percentual; cin.get();
+  percentual = percentual * 100;
+  int percuntualAcrescimo = 500;
+  cout << "\nQual o percuntualAcrescimo de incrustração (ex: inicial 5 e acrescimo 5 =  5%->10%->15%):";
+  cin >> percuntualAcrescimo; cin.get();
+  percuntualAcrescimo = percuntualAcrescimo * 100;
+  // modelo 2
+  int agglomerateShare = 5; //?agglomerateShare must be a value between 1 and 10000 (100%)
+  int microPorosity = 5; //?
+  // modelo 3
+  int dentriticShare=5;//?
+  double permeabilidade =0.0;
+  string sModeloEncrustracao = "_Encrustrada_M";
+  switch(modelo) {
+  case 1:
+    sModeloEncrustracao += "Scale_";
+    break;
+  case 2:
+    sModeloEncrustracao += "AgglomerateShare_";
+    cout << "\nQual o valor de agglomerateShare( " << agglomerateShare << " ):";
+    cin >> agglomerateShare; cin.get();
+    agglomerateShare *= 100;
+    cout << "\nQual o valor de microPorosity( " << microPorosity << " ):";
+    cin >> microPorosity; cin.get();
+    microPorosity *= 100;
+    break;
+  case 3:
+    sModeloEncrustracao += "DentriticShare_";
+    cout << "\nQual o valor de dentriticShare( " << dentriticShare << " ):";
+    cin >> dentriticShare; cin.get();
+    dentriticShare *= 100;
+    break;
+  }
+  // Dados do modelo calculo permeabilidade
+  cout << "\n===> Dados modelo grafo usado no calculo da permeabilidade: ";
+  bool salvarGrafo = false;
+  cout << "\nVai gerar grafos de conexao serial, deseja salvar grafos parciais( " << salvarGrafo << " ) bool -> 0 ou 1 :";
+  cin >> salvarGrafo; cin.get();
+
+  int modeloGrafo = SolicitarModeloGrafo ();
+  int tipoSolver = 2; //1 ou 2 ou 3 com thread??
+  string nomeArquivoImagemEncrustrada = nomeArquivoImagem + "_Encrustrada_";
+
+  size_t pos = nomeArquivoImagem.find(".pm3");
+  string nomeArquivoResultadosPermeabilidade = nomeArquivoImagem.substr(0,pos) + sModeloEncrustracao + "Permeabilidades.dat";
+  ofstream valores_permeabilidade (nomeArquivoResultadosPermeabilidade);
+  valores_permeabilidade << "\nNomeImagem: "            << nomeArquivoImagem
+                         << "\nModelo encrustração: "   << modelo
+                         << "\nModelo grafo: "          << modeloGrafo
+                         << "\nTipo solver: "           << tipoSolver
+                         << "\nPorosidadeEncrustrada\tPermeabilidade" << endl;
+  // Looping de cálculo
+  do {
+    // Encrustracao
+    switch(modelo) {
+    case 1:
+      encrustracao.scalePercent(percentual); break;
+    case 2:
+      encrustracao.scaleAgglomeratePercentage(percentual, agglomerateShare, microPorosity); break;
+    case 3:
+      encrustracao.scaleDentriticPercentage(percentual, dentriticShare*100); break;
+    }
+    // Nome arquivo
+    if (pos != std::string::npos) {         // Substituindo a palavra
+      nomeArquivoImagemEncrustrada  = nomeArquivoImagem.substr(0,pos);
+      nomeArquivoImagemEncrustrada += sModeloEncrustracao + "_porosidade_" + to_string(percentual/100) + ".pm3";
+    } else {
+      nomeArquivoImagemEncrustrada = nomeArquivoImagem + "_encrustrada_M" + "_porosidade_" + to_string(percentual/100) + ".pm3";
+      std::cout << "Extensão .pm3 não encontrada." << std::endl;
+    }
+    std::cout << "\nVai salvar no disco a imagem após encrustracao: " << nomeArquivoImagemEncrustrada << std::endl;
+    pimagem3D->Write(nomeArquivoImagemEncrustrada);
+    // Calculo da permeabilidade
+    string nomeArquivoGrafo = nomeArquivoImagemEncrustrada; // vai adicionar _permeabilidade e salvar
+    double permeabilidade = PermeabilidadeImagem ( pimagem3D, modeloGrafo, nomeArquivoGrafo, salvarGrafo, tipoSolver );
+    valores_permeabilidade << percentual/100 << '\t' << permeabilidade << endl;
+    if(permeabilidade < 0.00001)
+      break; // evita cálculo de permeabilidade de imagens que já estão com k~0
+    // Avanço do percentual de incrustração
+    percentual = percentual + percuntualAcrescimo;
+  } while(percentual/100 <= 100 );
+  valores_permeabilidade.close();
+  delete pimagem3D;			// deleta objeto
+  string comando = "gnuplot << \"plot \"" << nomeArquivoResultadosPermeabilidade << "\"" << " using 1:2 with lp " << endl;
+  cout << comando << endl;
+  system(comando.c_str());
+  return 1;
+}
+
+int CGrafoTest::SolicitarModeloEncrustracao() {
+  cout << "\nQual o modelo de incrustração:"
+       << "\n1....scalePercent(percentual)"
+       << "\n2....scaleAgglomeratePercentage(percentual, agglomerateShare, microPorosity)"
+       << "\n3....scaleDentriticPercentage(percentual, dentriticShare): ";
+  int modelo = 1;
+  cin >> modelo; cin.get();
+  return modelo;
+}
+
+//Versao abaixo apagar: funciona mas foi a primeira tentativa, muito poluida
+// bool CGrafoTest::Encrustracao(int modelo) {
+//   // Solicita o nome do arquivo com a imagem
+//   string nomeArquivo = SolicitarNomeImagem ();
+//   // Cria matriz3D e lê imagem do disco
+//   TCMatriz3D<int>* pm3D { nullptr };
+//   pm3D = LerImagemDisco ( nomeArquivo );
+//   // Cria a imagem 3D como sendo cópia da matriz3D
+//   TCImagem3D<int>* pimagem3D = new TCImagem3D<int>(*pm3D);
+//   if(pm3D != nullptr)  delete pm3D;
+//   // Seta as propriedades
+//   // unsigned   int fatorAmplificacao = 2;
+//   int fatorAmplificacao = 2;
+//   double dimensaoPixel = 3.125e-06;//5.0e-6;
+//   LerPropriedadesImagemDoDisco ( fatorAmplificacao, dimensaoPixel, nomeArquivo );
+//   pimagem3D->FatorAmplificacao(fatorAmplificacao);
+//   pimagem3D->DimensaoPixel(dimensaoPixel);
+//   modelo = SolicitarModeloEncrustracao ();
+//   //Construtor: CEncrustracao(TCImagem3D<int>* _pmatrix);
+//   CEncrustracao encrustracao ( pimagem3D );
+//   int percentual = 500; //=5%
+//   cout << "\nQual o percentual de incrustração:";
+//   cin >> percentual; cin.get();
+//   percentual = percentual * 100;
+//   // modelo 2
+//   int agglomerateShare = 500; //?agglomerateShare must be a value between 1 and 10000 (100%)
+//   int microPorosity = 5; //?
+//   // modelo 3
+//   int dentriticShare=500;//?
+//   string smodelo = "_encrustrada_M" + to_string(modelo);
+//   cerr << "\nsmodelo="<<smodelo<< endl;
+//   switch(modelo) {
+//   case 1:     encrustracao.scalePercent(percentual); break;
+//   case 2:     encrustracao.scaleAgglomeratePercentage(percentual, agglomerateShare, microPorosity); break;
+//   case 3:     encrustracao.scaleDentriticPercentage(percentual, dentriticShare); break;
+//   }
+//   //RealizarEncrustracao ( encrustacao, pimagem3D, nomeArquivo );
+//   //SalvarImagem ( pimagem3D );
+//   //TCMatriz3D template< typename T >void TCMatriz3D<T>::SalvaDados (ofstream & fout)
+//   string nomeArquivoImagemEncrustrada = nomeArquivo;
+//   size_t pos = nomeArquivoImagemEncrustrada.find(".pm3");
+//   if (pos != std::string::npos) {         // Substituindo a palavra
+//     nomeArquivoImagemEncrustrada  = nomeArquivoImagemEncrustrada.substr(0,pos);
+//     nomeArquivoImagemEncrustrada += smodelo+".pm3";
+//   } else {
+//     nomeArquivoImagemEncrustrada = nomeArquivo + smodelo;
+//     std::cout << "Extensão .pm3 não encontrada." << std::endl;
+//   }
+//   std::cout << "\nVai salvar no disco a imagem após encrustracao: " << nomeArquivoImagemEncrustrada << std::endl;
+//   //ofstream fout(nomeArquivoImagemEncrustrada);
+//   //pimagem3D->SalvaDados(fout); // não salva o cabeçalho; Leandro adicionou dados de reconstrução...[retirar]
+//   //bool CBaseMatriz::Write(string nomeArquivo, int separado)
+//   pimagem3D->Write(nomeArquivoImagemEncrustrada);
+//   //delete encrustacao;			// deleta objeto
+//   delete pimagem3D;			// deleta objeto
+//   return 1;
+// }
+
+
+// string nomeArquivo = SolicitarNomeImagem ();
+// TCImagem3D<int>* pimagem3D = new TCImagem3D<int>(nomeArquivo);

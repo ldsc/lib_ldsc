@@ -36,28 +36,28 @@ Desenvolvido por:
  * que pode assumir um dos valores abaixo
  **/
 enum EImageType {
-	INVALID_IMAGE_TYPE,		// 0 - FORMATO INVÁLIDO
-	// Matriz 1D
-	V1_X_ASCII,						// 1 -VBM 1D ASCII
-	V2_X_GRAY_ASCII,			// 2 -VGM 1D ASCII
-	V3_X_COLOR_ASCII,			// 3 -VPM 1D ASCII
-	V4_X_BINARY,					// 4 -VBM 1D BINARY
-	V5_X_GRAY_BINARY,			// 5 -VGM 1D BINARY
-	V6_X_COLOR_BINARY,		// 6 -VPM 1D BINARY
-	// Matriz 2D
-	P1_X_Y_ASCII,					// 7 - PBM 2D ASCII
-	P2_X_Y_GRAY_ASCII,		// 8 - PGM 2D ASCII
-	P3_X_Y_COLOR_ASCII,		// 9 - PPM 2D ASCII
-	P4_X_Y_BINARY,				// 10 - PBM 2D BINARY
-	P5_X_Y_GRAY_BINARY,		// 11 - PGM 2D BINARY
-	P6_X_Y_COLOR_BINARY,	// 12 - PPM 2D BINARY
-	// Matriz 3D
-	D1_X_Y_Z_ASCII,				// 13 - DBM 3D ASCII
-	D2_X_Y_Z_GRAY_ASCII,	// 14 - DGM 3D ASCII
-	D3_X_Y_Z_COLOR_ASCII,	// 15 - DPM 3D ASCII
-	D4_X_Y_Z_BINARY,			// 16 -DBM 3D BINARY
-	D5_X_Y_Z_GRAY_BINARY,	// 17 -DGM 3D BINARY
-	D6_X_Y_Z_COLOR_BINARY	// 18 -DPM 3D BINARY
+  INVALID_IMAGE_TYPE,		// 0 - FORMATO INVÁLIDO
+  // Matriz 1D
+  V1_X_ASCII,				// 1 -VBM 1D ASCII
+  V2_X_GRAY_ASCII,			// 2 -VGM 1D ASCII
+  V3_X_COLOR_ASCII,			// 3 -VPM 1D ASCII
+  V4_X_BINARY,				// 4 -VBM 1D BINARY
+  V5_X_GRAY_BINARY,			// 5 -VGM 1D BINARY
+  V6_X_COLOR_BINARY,		// 6 -VPM 1D BINARY
+  // Matriz 2D
+  P1_X_Y_ASCII,				// 7 - PBM 2D ASCII
+  P2_X_Y_GRAY_ASCII,		// 8 - PGM 2D ASCII
+  P3_X_Y_COLOR_ASCII,		// 9 - PPM 2D ASCII
+  P4_X_Y_BINARY,			// 10 - PBM 2D BINARY
+  P5_X_Y_GRAY_BINARY,		// 11 - PGM 2D BINARY
+  P6_X_Y_COLOR_BINARY,	    // 12 - PPM 2D BINARY
+  // Matriz 3D
+  D1_X_Y_Z_ASCII,			// 13 - DBM 3D ASCII
+  D2_X_Y_Z_GRAY_ASCII,	    // 14 - DGM 3D ASCII
+  D3_X_Y_Z_COLOR_ASCII,	    // 15 - DPM 3D ASCII
+  D4_X_Y_Z_BINARY,			// 16 -DBM 3D BINARY
+  D5_X_Y_Z_GRAY_BINARY,	    // 17 -DGM 3D BINARY
+  D6_X_Y_Z_COLOR_BINARY	    // 18 -DPM 3D BINARY
 };
 
 const char CR = 13;
@@ -129,7 +129,7 @@ using namespace std;
  * Obs:
  * A funcao virtual void LeCabecalho(ifstream& fin)=0;
  * Será herdada e  serve para ler o cabecalho do arquivo de disco.
- * Éla chama a funcao LeEfetivamenteCabecalho desta classe.
+ * Ela chama a funcao LeEfetivamenteCabecalho desta classe.
  * Observe que é uma especie de truque.
  * A funcao desta classe, LeEfetivamenteCabecalho  precisa de alguns parametros
  * que esta classe não tem, mas que as classes herdeiras terão.
@@ -140,203 +140,203 @@ using namespace std;
 */
 class CBaseMatriz
 {
-		// --------------------------------------------------------------Atributos
-	protected:
-		/**
-	 * @brief Define como os dados serão salvos.
-	 * Quando realiza leitura do arquivo, verifica o formato.
-	*/
-		EImageType formatoImagem;
+  // --------------------------------------------------------------Atributos
+protected:
+  /**
+   * @brief Define como os dados serão salvos.
+   * Quando realiza leitura do arquivo, verifica o formato.
+   */
+  EImageType formatoImagem;
 
-		/**
-	 * @brief Define a faixa de tons de cinza ou de cores.
-	 * Quando realiza leitura do arquivo, verifica a faixa de tons.
-	*/
-		unsigned int numCores;
+  /**
+   * @brief Define a faixa de tons de cinza ou de cores.
+   * Quando realiza leitura do arquivo, verifica a faixa de tons.
+   */
+  unsigned int numCores;
 
-	public:
-		/**
-	* @brief largura do campo de salvamento dos dados em disco (default=2).
-	* Observe que se for um número como 255 precisa de uma largura = 4
-	*/
-		static int larguraCampo;
+public:
+  /**
+   * @brief largura do campo de salvamento dos dados em disco (default=2).
+   * Observe que se for um número como 255 precisa de uma largura = 4
+   */
+  static int larguraCampo;
 
-		/**
-	* @brief Ao salvar em disco no formato ASCII com dados separados,
-	* insere o número de espaços necessários para que os dados fiquem alinhados.
-	*	Útil na visualização do código do arquivo (default = false).
-	*/
-		bool salvarAlinhado;
-
-
-		/**
-	* @brief Path de salvamento dos dados em disco (default = ./).
-	*/
-		string path;
-
-		// -------------------------------------------------------------Construtor
-		/// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
-		CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./")
-			: formatoImagem (_formatoImagem), salvarAlinhado(false) , path(_path)
-		{
-		}
-		// --------------------------------------------------------------Destrutor
-		/// Destrutor
-		virtual ~ CBaseMatriz ()
-		{
-		}
-
-		// ----------------------------------------------------------------Métodos
-	protected:
-		// Funções de uso interno
-		/// Retorna menor valor
-		inline int Menor (int a, int b) const
-		{
-			return (a < b) ? a : b;
-		}
-
-		/// Retorna maior valor
-		inline int Maior (int a, int b) const
-		{
-			return (a < b) ? b : a;
-		}
-
-	public:
-		/**
-	 * @brief 	Salva dados do cabecalho.
-	 * Para salvar o arquivo em disco, primeiro salva o cabeçalho, depois os dados.
-	 */
-		virtual void SalvaCabecalho (std::ofstream & fout) const = 0;
-
-		/**
-	* @brief	Salva dados em formato binario
-	*/
-		virtual void SalvaDadosBinarios (std::ofstream & fout) const = 0;
-
-		/**
-	* @brief	Salva dados "colados" sem espaço 01100010101.
-	*/
-		virtual void SalvaDadosColados (std::ofstream & fout) const = 0;
-
-		/**
-	* @brief	Salva dados com um espaco " " 0 1 0 1 0 0 1
-	*/
-		virtual void SalvaDados (std::ofstream & fout) const = 0;
-
-		/**
-		* @brief	Lê os comentários do arquivo para avançar o ponteiro de leitura
-		*/
-		void LeComentarios( std::ifstream & fin);
+  /**
+   * @brief Ao salvar em disco no formato ASCII com dados separados,
+   * insere o número de espaços necessários para que os dados fiquem alinhados.
+   *	Útil na visualização do código do arquivo (default = false).
+   */
+  bool salvarAlinhado;
 
 
-		// Operacoes com arquivos
-		/**
-	 * @brief A funcao Write salva a matriz no disco.
-	 * Chama algumas funções virtuais definidas nas classes descendentes.
-	*/
-		bool Write (std::string nomeArquivo, int dadosSeparados = 1) const;
+  /**
+   * @brief Path de salvamento dos dados em disco (default = ./).
+   */
+  string path;
 
-		/**	@brief Grava em arquivo o número de cores da imagem. Deve ser chamada logo após SalvaCabecalho */
-		bool SalvaCores (std::ofstream & fout) const;
+  // -------------------------------------------------------------Construtor
+  /// Construtor, novo default WRITEFORM_ASCII_PI_N_GRAY_DATA
+  CBaseMatriz (EImageType _formatoImagem = P1_X_Y_ASCII, string _path="./")
+    : formatoImagem (_formatoImagem), salvarAlinhado(false) , path(_path)
+  {
+  }
+  // --------------------------------------------------------------Destrutor
+  /// Destrutor
+  virtual ~ CBaseMatriz ()
+  {
+  }
 
-		/**
-	 *  @brief Cada classe herdeira tem uma funcao Read que lê o arquivo de disco.
-	 * Esta funcao não é virtual porque é chamada pelo construtor.
-	 * A funcao Read chama as duas funcoes abaixo
-	*/
+  // ----------------------------------------------------------------Métodos
+protected:
+  // Funções de uso interno
+  /// Retorna menor valor
+  inline int Menor (int a, int b) const
+  {
+    return (a < b) ? a : b;
+  }
 
-		/**
-		@brief Abre o arquivo verifica o formato e reabre no formato
-		correto (ASCII ou Binário)
-		*/
-		bool AbreArquivo (std::ifstream & fin, std::string nomeArquivo);
+  /// Retorna maior valor
+  inline int Maior (int a, int b) const
+  {
+    return (a < b) ? b : a;
+  }
 
-		/**
-		@brief Verifica e retorna o formato de salvamento do arquivo. Recebe objeto do tipo std::ifstream
-		*/
-		EImageType VerificaFormato (std::ifstream & fin);
+public:
+  /**
+   * @brief 	Salva dados do cabecalho.
+   * Para salvar o arquivo em disco, primeiro salva o cabeçalho, depois os dados.
+   */
+  virtual void SalvaCabecalho (std::ofstream & fout) const = 0;
 
-		/**
-		@brief Verifica e retorna o formato de salvamento do arquivo. Recebe o nome do arquivo.
-		*/
-		EImageType VerificaFormato (std::string & filename);
+  /**
+   * @brief	Salva dados em formato binario
+   */
+  virtual void SalvaDadosBinarios (std::ofstream & fout) const = 0;
 
-		/**
-		@brief Retona o valor da variável de formato de salvamente (e leitura) de dados
-		*/
-		inline EImageType GetFormato () const { return formatoImagem; }
+  /**
+   * @brief	Salva dados "colados" sem espaço 01100010101.
+   */
+  virtual void SalvaDadosColados (std::ofstream & fout) const = 0;
 
-		/**
-		@brief Define a variável que informa o número de tons de cores ou de cinza
-		*/
-		void NumCores ( int _cores )
-		{
-			numCores = _cores;
-		}
+  /**
+   * @brief	Salva dados com um espaco " " 0 1 0 1 0 0 1
+   */
+  virtual void SalvaDados (std::ofstream & fout) const = 0;
 
-		/**
-		@brief Define o valor do path de salvamento da matriz
-		*/
-		void Path ( string _path )
-		{
-			path = _path;
-		}
-		/**
-		@brief Retorna o valor do path de salvamento da matriz
-		*/
-		string Path ( )
-		{
-			return path;
-		}
-		// -----------------------------------------------------------------------
-		// Metodos herdados virtuais
-		// -----------------------------------------------------------------------
-		// Alocacao, Desalocacao
-		/**
-		@brief Define a variável de formato de salvamente (e leitura) de dados
-		*/
-		virtual void SetFormato (EImageType _formato)= 0;
+  /**
+   * @brief	Lê os comentários do arquivo para avançar o ponteiro de leitura
+   */
+  void LeComentarios( std::ifstream & fin);
 
-		/**
-		@brief Funcoes virtuais de alocacao.
-		*/
-		virtual bool Aloca () = 0;
 
-		/**
-		@brief Desalocacao dos dados
-		*/
-		virtual bool Desaloca () = 0;
+  // Operacoes com arquivos
+  /**
+   * @brief A funcao Write salva a matriz no disco.
+   * Chama algumas funções virtuais definidas nas classes descendentes.
+   */
+  bool Write (std::string nomeArquivo, int dadosSeparados = 1) const;
 
-		/**
-		@brief Redimensiona a matriz ,virtual pura
-		*/
-		virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0) = 0;
+  /**	@brief Grava em arquivo o número de cores da imagem. Deve ser chamada logo após SalvaCabecalho */
+  bool SalvaCores (std::ofstream & fout) const;
 
-		/**
-		@brief Inverte valores (0)-->(1)  (>0) -->0
-		*/
-		virtual void Inverter () = 0;
+  /**
+   *  @brief Cada classe herdeira tem uma funcao Read que lê o arquivo de disco.
+   * Esta funcao não é virtual porque é chamada pelo construtor.
+   * A funcao Read chama as duas funcoes abaixo
+   */
 
-		/**
-		@brief Calcula e retorna a média
-		*/
-		virtual double Media () const = 0;
+  /**
+     @brief Abre o arquivo verifica o formato e reabre no formato
+     correto (ASCII ou Binário)
+  */
+  bool AbreArquivo (std::ifstream & fin, std::string nomeArquivo);
 
-		// --------------------------------------------------------------------Get
-		/**
-		@brief Retorna o número de tons de cores ou de cinza)
-		*/
-		inline int NumCores ( ) const { return numCores; }
+  /**
+     @brief Verifica e retorna o formato de salvamento do arquivo. Recebe objeto do tipo std::ifstream
+  */
+  EImageType VerificaFormato (std::ifstream & fin);
 
-		/**
-		@brief Retorna a dimensão da matriz
-		*/
-		virtual int DimensaoMatriz () const = 0;
+  /**
+     @brief Verifica e retorna o formato de salvamento do arquivo. Recebe o nome do arquivo.
+  */
+  EImageType VerificaFormato (std::string & filename);
 
-		// --------------------------------------------------------------------Set
-		// -----------------------------------------------------------------Friend
-		// friend ostream& operator<< (ostream& os, CBaseMatriz& obj);
-		// friend istream& operator>> (istream& is, CBaseMatriz& obj);
+  /**
+     @brief Retona o valor da variável de formato de salvamente (e leitura) de dados
+  */
+  inline EImageType GetFormato () const { return formatoImagem; }
+
+  /**
+     @brief Define a variável que informa o número de tons de cores ou de cinza
+  */
+  void NumCores ( int _cores )
+  {
+    numCores = _cores;
+  }
+
+  /**
+     @brief Define o valor do path de salvamento da matriz
+  */
+  void Path ( string _path )
+  {
+    path = _path;
+  }
+  /**
+     @brief Retorna o valor do path de salvamento da matriz
+  */
+  string Path ( )
+  {
+    return path;
+  }
+  // -----------------------------------------------------------------------
+  // Metodos herdados virtuais
+  // -----------------------------------------------------------------------
+  // Alocacao, Desalocacao
+  /**
+     @brief Define a variável de formato de salvamente (e leitura) de dados
+  */
+  virtual void SetFormato (EImageType _formato)= 0;
+
+  /**
+     @brief Funcoes virtuais de alocacao.
+  */
+  virtual bool Aloca () = 0;
+
+  /**
+     @brief Desalocacao dos dados
+  */
+  virtual bool Desaloca () = 0;
+
+  /**
+     @brief Redimensiona a matriz ,virtual pura
+  */
+  virtual bool Redimensiona (int NX, int NY = 0, int NZ = 0) = 0;
+
+  /**
+     @brief Inverte valores (0)-->(1)  (>0) -->0
+  */
+  virtual void Inverter () = 0;
+
+  /**
+     @brief Calcula e retorna a média
+  */
+  virtual double Media () const = 0;
+
+  // --------------------------------------------------------------------Get
+  /**
+     @brief Retorna o número de tons de cores ou de cinza)
+  */
+  inline int NumCores ( ) const { return numCores; }
+
+  /**
+     @brief Retorna a dimensão da matriz
+  */
+  virtual int DimensaoMatriz () const = 0;
+
+  // --------------------------------------------------------------------Set
+  // -----------------------------------------------------------------Friend
+  // friend ostream& operator<< (ostream& os, CBaseMatriz& obj);
+  // friend istream& operator>> (istream& is, CBaseMatriz& obj);
 };
 
 // ostream& operator<< (ostream& os, CBaseMatriz& obj);

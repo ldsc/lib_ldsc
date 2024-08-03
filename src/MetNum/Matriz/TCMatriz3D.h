@@ -6,7 +6,7 @@
 PROJETO:    Biblioteca LIB_LDSC
 						Assunto/Ramo: TCMatriz3D...
 ===============================================================================
-Desenvolvido por:	
+Desenvolvido por:
 						Laboratorio de Desenvolvimento de Software Cientifico
 						[LDSC].
 @author     André Duarte Bueno
@@ -37,9 +37,10 @@ Desenvolvido por:
 /**
  * @brief Representa uma matriz 3D.
  *
- * Permite criar e usar uma matriz .
- * A alocacao e feita dinamicamente
- * Tem tres construtores,
+ * Permite criar e usar uma matriz.
+ * A alocacao e feita dinamicamente.
+ * Tem tres construtores.
+
  * Para criar uma matriz toda nova use
  * Tmatriz3D(NX,NY,NZ),cria matriz, aloca data, zera valores
  *
@@ -57,6 +58,12 @@ Desenvolvido por:
  * Para acessar o conteudo da matriz use data3D
  * Tmatriz3D.data3D[i][j][k]=33;
  * int x=Tmatriz3D.data3D[i][j][k];
+ *
+ * int x = objeto[x,y,z]; // operator[x,y,z] - requer C++23
+ * int x = objeto(x,y,z); // operator(x,y,z)
+ * int x = objeto.data3d()[x][y][z]; // data3d atributo público
+ * int x = objeto.Data3d()[x][y][z]; // Data3d método
+
  * Posteriormente se for de interesse, acrescentar
  * soma,diminuicao, multiplicacao,..,inversao,..,transposta
  * @author 	André Duarte Bueno
@@ -83,7 +90,7 @@ class TCMatriz3D : public CBaseMatriz
 		/// Ponteiro para matriz 3D
 		vector<T>** data3D;
 
-		/// Alocal matriz 3D e retorna ponteiro int***
+		/// Alocal matriz 3D e retorna ponteiro int*** ??
 		bool AlocaMatriz3D (int _nx, int _ny, int _nz);
 
 		/// Desaloca matriz 3D
@@ -221,10 +228,16 @@ class TCMatriz3D : public CBaseMatriz
 
 		/// Sobrecarga operator[]
 		inline T &operator[] (int x) const {
-			return data3D[x][0][0];
+          return data3D[x][0][0]; // ?? não entendi Leandro
 		}
 
-		// --------------------------------------------------------------------Get
+		/// Sobrecarga operator[x,y,z] // C++2023 https://en.cppreference.com/w/cpp/language/operators
+  // inline T& operator[] (int x, int y, int z) const {
+  //           //assert(x < NX() and y < NY() and z < NZ());
+  //   		return data3D[x][y][z];
+  //   	}
+
+   // --------------------------------------------------------------------Get
 	public:
 		/// Retorna nx
 		inline int NX () const {
@@ -280,4 +293,3 @@ class TCMatriz3D : public CBaseMatriz
 #include <MetNum/Matriz/TCMatriz3D.cpp>
 
 #endif
-

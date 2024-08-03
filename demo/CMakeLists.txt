@@ -34,6 +34,7 @@ file(MAKE_DIRECTORY bin)
 #target_link_libraries(bin/Permeabilidade_GrafoConexaoSerial ldsc)
 
 #add_subdirectory(Amostra, AnaliseImagem, Base, Estatistica, EstruturaDados, Grafico, InteligenciaArtificial, MetNum, Tempo)
+
 add_subdirectory(AnaliseImagem)
 add_subdirectory(EstruturaDados)
 add_subdirectory(Grafico)

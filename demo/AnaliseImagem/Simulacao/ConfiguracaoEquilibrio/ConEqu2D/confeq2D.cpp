@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     {
         // Cria imagem 2D
         img2D = new TCMatriz2D<int>(argv[1]);
-        if (img2D == NULL)
+        if (img2D == nullptr)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
             return 0;
@@ -73,19 +73,19 @@ int main(int argc, char *argv[])
         getline(cin,nomeArquivo);
         // Cria imagem 2D
         img2D = new TCMatriz2D<int>(nomeArquivo);
-        if (img2D == NULL)
+        if (img2D == nullptr)
         {
             cerr << "\nFalha abertura arquivo: " << argv[1] << endl;
             return 0;
         }
     }
-    
+
 	// Cria arquivo de saída
     ofstream fout("confeq2D.out");
     // Cria objeto para determinação das configurações de equilíbrio
     CConfiguracoesEquilibrio2D *confeq { nullptr };
     confeq = new CConfiguracoesEquilibrio2D ( fout );
-    if (confeq == NULL)
+    if (confeq == nullptr)
     {
         cerr << "\nFalha criação confeq: saindo \n";
         return 0;
@@ -97,7 +97,17 @@ int main(int argc, char *argv[])
     cin >> resp;
     cin.get();
     if (resp == 's' || resp == 'S')
-    {
+      { // se responder sim vai gerar dezenas e dezenas de imagens parciais:
+        // 10-SolucaoFinal-Passo-0062.pgm
+        // wb1-ca0-2.1-imagemG-(corrigida)-62.dgm
+        // wb1-ca0-6-imagem-wbG__U_K(G,B0)-(0,8)-62.pgm
+        // wb1-ca0-7.0-imagem-wbG__U_KGB0B0-rotulada-62.pgm
+        // wb1-ca0-7.1-imagem-KwbG__U_KGB0B0-Omega-(0,8,9)-62.pgm
+        // wb1-ca0-7.2-imagem-Yi-(0,3)-62.pgm
+        // wb1-ca0-7.3-imagem-Yi+camaraSuperior-(0,3,5)-62.pgm
+        // wb1-ca0-8.1-imagem-Yi+A0-(0,3,5)-62.pgm
+        // wb1-ca0-8.2-imagem-Yi+B+A0-(0,3,4,5)-62.pgm
+        // wb1-ca0-9-imagem-K{WBxG__U_K(G,B0),B0}-caYi-62.pgm
         cout << "\n\nSalvarResultadosParciaisDisco (gera diversos arquivos com as camaras)? (0) não, (1) sim.";
         cin >> disco;
         cin.get();
@@ -134,4 +144,3 @@ int main(int argc, char *argv[])
     delete confeq;
     return EXIT_SUCCESS;
 }
-

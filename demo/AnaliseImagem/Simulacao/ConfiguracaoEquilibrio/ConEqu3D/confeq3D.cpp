@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-    
+
     // Cria arquivo de saída
     ofstream fout("confeq3D.out");
     // Cria objeto para determinação das configurações de equilíbrio
@@ -136,4 +136,3 @@ int main(int argc, char *argv[])
     delete confeq;
     return EXIT_SUCCESS;
 }
-

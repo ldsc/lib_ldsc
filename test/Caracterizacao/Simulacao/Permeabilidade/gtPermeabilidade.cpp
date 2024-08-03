@@ -5,10 +5,11 @@
 #include <AnaliseImagem/Simulacao/Permeabilidade/CPermeabilidadeIntrinsecaByRede.h>
 #include "../../../gtest_configure.h"
 
+// Cria objeto Gtestconfigure
 GtestConfigure gtc = GtestConfigure();
 
 TEST(TestPermeabilidade, IntrinsecaByGrafo) {
-	//carrega a imagem original
+	//Carrega a imagem original
 	TCImagem3D<int>* pm = new TCImagem3D<int>(gtc.original3D);
 
 	//Cria objeto rede

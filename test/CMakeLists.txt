@@ -9,8 +9,8 @@ file(MAKE_DIRECTORY bin)
 # Create executable
 #add_executable(bin/runGtest
 add_executable(runGtest
-   Caracterizacao/RedePercolacao/gtRedeDePercolacao.cpp
-   Caracterizacao/Simulacao/Permeabilidade/gtPermeabilidade.cpp
+   #Caracterizacao/RedePercolacao/gtRedeDePercolacao.cpp
+   #Caracterizacao/Simulacao/Permeabilidade/gtPermeabilidade.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIDFd3453D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMMIRA3D.cpp
    Filtro/FEspacial/FEMorfologiaMatematica/gtFEMM3D.cpp

@@ -31,9 +31,9 @@ Desenvolvido por:
 #include <MetNum/Matriz/TCMatriz3D.h>
 #endif
 
-// #ifndef CMatriz3D_h
-// #include <MetNum/Matriz/CMatriz3D.h>
-// #endif
+#ifndef TCImagem3D_h
+#include <MetNum/Matriz/TCImagem3D.h>
+#endif
 
 #ifndef CGrafoConexaoSerial_h
 #include <AnaliseImagem/Caracterizacao/GrafoConexaoSerial/CGrafoConexaoSerial.h>
@@ -51,6 +51,10 @@ Desenvolvido por:
 
 #ifndef CSimPermeabilidadeGrafo_h
 #include <AnaliseImagem/Simulacao/Permeabilidade/GrafoConexaoSerial/CSimPermeabilidadeGrafo.h>
+#endif
+
+#ifndef CEncrustracao_h
+#include <Encrustracao/CEncrustracao.h>
 #endif
 
 /**
@@ -84,6 +88,12 @@ public:
    /// Determinação da permeabilidade
    double Permeabilidade ( int tipoSolver = 2 );
 
+   /// Encrustração de uma imagem
+   bool Encrustracao(int modelo = 0);
+
+   /// Encrustração de uma imagem e cálculo permeabilidade
+   bool EncrustracaoPermeabilidade(int modelo=1);
+
    /// Determinação da Permeabilidade de uma lista de imagens
    bool ProcessarListaImagens ( unsigned int argc, char* argv[] );
 
@@ -97,12 +107,20 @@ private:
    /// Modelo do grafo
    int SolicitarModeloGrafo();
 
+   /// Modelo encrustracao
+   int SolicitarModeloEncrustracao();
+
    /// Le imagem do disco
    TCMatriz3D<int>* LerImagemDisco ( std::string nomeArquivo );
 
    /// Solicita dados da imagem
-   void SolicitarPropriedadesImagem ( int& fatorAmplificacao, double& dimensaoPixel,
+   // void SolicitarPropriedadesImagem ( int& fatorAmplificacao, double& dimensaoPixel,
+   //                                    std::string nomeArquivo );
+   void LerPropriedadesImagemDoDisco ( int& fatorAmplificacao, double& dimensaoPixel,
                                       std::string nomeArquivo );
+
+   /// Determinação da permeabilidade de uma imagem (normalmente foi encrustrada)
+  double PermeabilidadeImagem ( TCImagem3D<int>* img3D, int modeloGrafo, string nomeArquivoGrafo, bool salvarGrafo, int tipoSolver=2 );
 
    /// Cria um fluido
    CMFluido* CriarFluido();
@@ -112,13 +130,13 @@ private:
    // CSolverMatrizDiagonalDominante_Threads* CriarSolver();
 
    /// Cria o grafo
-   CGrafoConexaoSerial* CriarGrafo ( int modelo, std::string nomeArquivo );
+   CGrafoConexaoSerial* CriarGrafo ( int modelo, std::string nomeArquivo = "ArquivoGrafo.dat" );
 
    /// Determina o grafo a partir de imagem 3D (ponteiro para imagem 3D)
    void DeterminarGrafo ( CGrafoConexaoSerial* grafo, TCMatriz3D<int>* pm3D, std::string nomeArquivo );
 
    /// Determina o grafo a partir de um arquivo de disco com a imagem 3D
-   void DeterminarGrafo ( CGrafoConexaoSerial* grafo, std::string nomeArquivo );
+   void DeterminarGrafo ( CGrafoConexaoSerial* grafo, std::string nomeArquivo  = "ArquivoGrafo.dat");
 
    /// Determina o grafo
    void SalvarGrafo ( CGrafoConexaoSerial* grafo );

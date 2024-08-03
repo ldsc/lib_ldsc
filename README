@@ -6,22 +6,6 @@ Conteúdo:		Descreve o que é a libldsc e os arquivos de ajuda.
 Autor:			André Duarte Bueno
 
 ===============================================================================
-Outros arquivos de ajuda
-===============================================================================
-README		Descreve o que é a libldsc e os arquivos de ajuda.
-INSTALL		Descreve como instalar a libldsc.
-HOWTO		Descreve como utilizar a libldsc.
-NEWS		Descreve as novidades das últimas versões.
-ORGANIZATION	Descreve como modificar a libldsc 
-		(informações para desenvolvedores - programadores).
-TODO		Lista das tarefas a serem realizadas.
-BUGS		Lista de bugs relatados ou identificados.
-ChangeLog	Lista de modificações da biblioteca.
-COPYING		Descreve as condições para cópia e instalação da libldsc
-		e a licença pública da GNU (Versão 2).
-AUTHORS		Lista dos autores da libldsc.
-
-===============================================================================
 O que é a libldsc?
 ===============================================================================
 A libldsc tem um conjunto de objetos relacionados a análise de imagens de 
@@ -125,3 +109,18 @@ Desvantagens:
 devera criar mecanismos (quadros de diálogo, box de entrada de dados, entre
 outros) para manipulação dos objetos da libldsc.
 
+===============================================================================
+Outros arquivos de ajuda
+===============================================================================
+README		Descreve o que é a libldsc e os arquivos de ajuda.
+INSTALL		Descreve como instalar a libldsc.
+HOWTO		Descreve como utilizar a libldsc.
+NEWS		Descreve as novidades das últimas versões.
+ORGANIZATION	Descreve como modificar a libldsc
+		(informações para desenvolvedores - programadores).
+TODO		Lista das tarefas a serem realizadas.
+BUGS		Lista de bugs relatados ou identificados.
+ChangeLog	Lista de modificações da biblioteca.
+COPYING		Descreve as condições para cópia e instalação da libldsc
+		e a licença pública da GNU (Versão 2).
+AUTHORS		Lista dos autores da libldsc.

@@ -17,12 +17,12 @@ using namespace std;
 int main (int argc, char *argv[]) {
     cout  << "\n================================================================================"
           << "\n====================== Programa de teste da LIB_LDSC ==========================="
-          << "\n================================================================================" << endl;
+          << "\n================================================================================\n";
 
     cout  << "\n================================================================================"
           << "\nUSO:"
 					<< "\n./matriz3D"
-          << "\n================================================================================" << endl;
+          << "\n================================================================================\n";
 
     // Cria string com nome da imagem
     string nomeArquivo = "imagem-[P262_K70-2-45-50-lp-d6].pm3";
@@ -31,10 +31,10 @@ int main (int argc, char *argv[]) {
         nomeArquivo = argv[1];
 
     cout 	<< "\nSaída gerada pelo programa de demo: \n"
-          << "Carrega imagem " << nomeArquivo << " do disco" << endl;
+            << "Carrega imagem " << nomeArquivo << " do disco\n";
 
     // Cria imagem
-		TCMatriz3D<int> *pm3 = new TCMatriz3D<int> (nomeArquivo);
+    TCMatriz3D<int> *pm3 = new TCMatriz3D<int> (nomeArquivo);
 
     // Cria nova string com nome do arquivo de saída
     string fileOut = "out." + nomeArquivo;

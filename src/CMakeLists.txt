@@ -1,4 +1,4 @@
-#add_subdirectory(Base) add_subdirectory(ConEqu) add_subdirectory(Contorno) add_subdirectory(Correlacao) add_subdirectory(Estatistica) add_subdirectory(FFT) add_subdirectory(Filtro) add_subdirectory(Funcao) add_subdirectory(Geometria) add_subdirectory(Grafico) add_subdirectory(Grafo) add_subdirectory(Integral) add_subdirectory(Interpolacao) add_subdirectory(Mascara) add_subdirectory(Material) add_subdirectory(Matriz) add_subdirectory(Permeabilidade) add_subdirectory(Reconstrucao) add_subdirectory(Rotulador) add_subdirectory(SFuncao) add_subdirectory(SMatriz) add_subdirectory(Tempo)
+#add_subdirectory(Base) add_subdirectory(ConEqu) add_subdirectory(Contorno) add_subdirectory(Correlacao) add_subdirectory(Estatistica)  add_subdirectory(Estruturadados) add_subdirectory(Encrustacao)  add_subdirectory(FFT) add_subdirectory(Filtro) add_subdirectory(Funcao) add_subdirectory(Geometria) add_subdirectory(Grafico) add_subdirectory(Grafo) add_subdirectory(Integral) add_subdirectory(Interpolacao) add_subdirectory(Mascara) add_subdirectory(Material) add_subdirectory(Matriz) add_subdirectory(Permeabilidade) add_subdirectory(Reconstrucao) add_subdirectory(Rotulador) add_subdirectory(SFuncao) add_subdirectory(SMatriz) add_subdirectory(Tempo)
 
 #add_library (ldsc STATIC
 add_library (ldsc SHARED
@@ -234,6 +234,8 @@ add_library (ldsc SHARED
   EstruturaDados/CGrafo.cpp
   EstruturaDados/CRede.cpp
   EstruturaDados/CRedeContorno.cpp
+
+  Encrustracao/CEncrustracao.cpp
 
   Grafico/Gnuplot/CGnuplot.cpp
   

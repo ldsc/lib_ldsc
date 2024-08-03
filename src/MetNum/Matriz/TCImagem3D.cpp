@@ -22,7 +22,8 @@ email:            andreduartebueno@gmail.com
 // -----------------------------------------------------------------------
 // Bibliotecas LIB_LDSC
 // -----------------------------------------------------------------------
-#ifndef CImagem3D_h
+//#ifndef CImagem3D_h // bug -> TCImagem3D_h
+#ifndef TCImagem3D_h
 #include <MetNum/Matriz/TCImagem3D.h>
 #endif
 
@@ -93,7 +94,7 @@ Funcao:
 -------------------------------------------------------------------------
 @short  : Salva dados do cabecalho
 @author : Andre Duarte Bueno, modificada por: Leandro Puerari
- 
+
 @param  :
 @return :
 */
@@ -140,4 +141,3 @@ TCImagem3D<T>* TCImagem3D<T>::Crop (int startX, int endX, int startY, int endY, 
 	}
 	return pmtmp;
 }
-

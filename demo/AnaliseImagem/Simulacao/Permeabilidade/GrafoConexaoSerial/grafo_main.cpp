@@ -52,12 +52,13 @@ int main ( int argc, char* argv[] )
    cout <<   "=> Programa para cálculo:                                                               <="
         << "\n=> - do Grafo de Conexão Serial de imagens 3D (reconstruídas ou microtomográficas)      <="
         << "\n=> - da Permeabilidade de imagens 3D                                                    <="
-        << "\n=> - da Tortuosidade de imagens 3D                                                      <="
+        << "\n=> - da Tortuosidade   de imagens 3D                                                    <="
+        << "\n=> - da Encrustação    de imagens 3D                                                    <="
         << "\n=========================================================================================="
         << "\nUso:"
         << "\n./Permeabilidade_GrafoConexaoSerial [lista_img]"
-        << "\nonde lista_img é um arquivo ascii com endereço completo das imagens a serem processadas." 
-		  << "\nA palavra end finaliza a lista."
+        << "\nonde lista_img é um arquivo ascii com endereço completo das imagens a serem processadas."
+ 	    << "\nA palavra end finaliza a lista."
         << "\nSe a lista_img não for passada vai solicitar o nome da imagem e os dados da simulação."
         << "\n=========================================================================================="
         << endl;
@@ -81,5 +82,3 @@ int main ( int argc, char* argv[] )
    delete grafo_demo;
    return EXIT_SUCCESS;
 }
-
-

@@ -2,27 +2,27 @@
 libldsc
 ===============================================================================
 Nome deste arquivo: 	AUTHORS
-Conteúdo:		Documento que lista alguns bugs conhecidos da libldsc.
-Autor:			André Duarte Bueno
+ConteÃºdo:		Documento que lista alguns bugs conhecidos da libldsc.
+Autor:			AndrÃ© Duarte Bueno.
 
 ===============================================================================
 Outros arquivos de ajuda
 ===============================================================================
-README		Descreve o que é a libldsc e os arquivos de ajuda.
+README		Descreve o que Ã© a libldsc e os arquivos de ajuda.
 INSTALL		Descreve como instalar a libldsc.
 HOWTO		Descreve como utilizar a libldsc.
-NEWS		Descreve as novidades das últimas versões.
+NEWS		Descreve as novidades das Ãºltimas versÃµes.
 ORGANIZATION	Descreve como modificar a libldsc 
-		(informações para desenvolvedores - programadores).
+		(informaÃ§Ãµes para desenvolvedores - programadores).
 TODO		Lista das tarefas a serem realizadas.
 BUGS		Lista de bugs relatados ou identificados.
-ChangeLog	Lista de modificações da biblioteca.
-COPYING		Descreve as condições para cópia e instalação da libldsc
-		e a licença pública da GNU (Versão 2).
+ChangeLog	Lista de modificaÃ§Ãµes da biblioteca.
+COPYING		Descreve as condiÃ§Ãµes para cÃ³pia e instalaÃ§Ã£o da libldsc
+		e a licenÃ§a pÃºblica da GNU (VersÃ£o 2).
 AUTHORS		Lista dos autores da libldsc.
 
 ===============================================================================
-Nome:		André Duarte Bueno 
+Nome:		AndrÃ© Duarte Bueno 
 Fone: 		+55 22 2796-9751
 Celular:	+55 22 9954-2635
 E-mail:		andreduartebueno@gmail.com
